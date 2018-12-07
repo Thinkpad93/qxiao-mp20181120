@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h4>{{ msg }}</h4>
+    <div class="test"></div>
   </div>
 </template>
 
@@ -17,22 +17,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.hello {
-  display: flex;
-}
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.test {
+  width: 400px;
+  height: 200px;
+  background-color: #42b983;
 }
 </style>
