@@ -10,6 +10,18 @@ export const constantRouterMap = [{
 }, {
   path: '/home',
   component: () => import('@/views/home'),
+}, {
+  path: '/login',
+  component: () => import('@/views/login')
+}, {
+  path: '/fresh',
+  component: () => import('@/views/fresh/index')
+}, {
+  path: '/fresh/show',
+  component: () => import('@/views/fresh/show')
+}, {
+  path: '/notice',
+  component: () => import('@/views/notice/index')
 }]
 
 export default new Router({
