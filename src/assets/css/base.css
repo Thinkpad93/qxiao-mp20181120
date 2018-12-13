@@ -47,6 +47,9 @@ menu {
 
 p,
 h3,
+h4,
+h5,
+h6,
 ul,
 ol,
 figure {
@@ -84,6 +87,14 @@ img {
   vertical-align: top;
 }
 
+
+select[dir="rtl"] {
+  direction: rtl;
+}
+
+select[dir="ltl"] {
+  direction: ltl;
+}
 
 /* ::-webkit-scrollbar {
   opacity: 0;

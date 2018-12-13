@@ -31,7 +31,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .fresh {
   padding: 0 30px;
   margin-bottom: 30px;
