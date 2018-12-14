@@ -6,16 +6,19 @@
         <div class="text-ellipsis">{{ menu.name }}</div>
       </div>
     </nav>
+    <div class="release">
+      <img src="@/assets/image/release-icon.png" alt="">
+    </div>
     <main class="main">
       <section class="community">
-        <div class="box" v-for="(ity, index) in 1" :key="index">
+        <div class="box" v-for="(ity, index) in 6" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <img class="" src="http://iph.href.lu/48x48" alt="">
             </div>
             <div class="cell-bd">
-              <h5>李一花老师</h5>
-              <p>那么对于刚接触VBA的新手</p>
+              <h5 size-15>李一花老师</h5>
+              <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
               <div class="img-group">
                 <img class="" src="http://iph.href.lu/80x80" alt="">
                 <img class="" src="http://iph.href.lu/80x80" alt="">
@@ -27,14 +30,16 @@
                   <span class="del">删除</span>
                 </div>
                 <div class="right">
-
+                  <img src="@/assets/image/zan-active-icon.png" alt="">
+                  <img src="@/assets/image/comment-icon.png" alt="">
                 </div>
               </div>
               <div class="data">
-                <div class="zan-list">
+                <div class="zan-list" size-12>
+                  <img src="@/assets/image/zan-icon.png" alt="">
                   <span v-for="(zan, index) in 6" :key="index">黄飞鸿{{index}},</span>
                 </div>
-                <ul class="comment-list">
+                <ul class="comment-list" size-12>
                   <li>黄飞鸿: 没有人能在这首BGM下打赢我</li>
                   <li>赵天霸: 谁说的？我就打赢了，楼上是SB</li>
                 </ul>
@@ -48,6 +53,7 @@
   </div>
 </template>
 <script>
+import service from "@/api";
 import qxfooter from "@/components/footer";
 export default {
   name: "home",
@@ -58,7 +64,7 @@ export default {
     return {
       menuList: [
         {
-          name: "通知公告做一个好人",
+          name: "通知公告",
           url: "",
           icon: "./static/image/men-icon-7@2x.png"
         },
@@ -89,7 +95,7 @@ export default {
         },
         {
           name: "班级管理",
-          url: "",
+          url: "/class",
           icon: "./static/image/men-icon-1@2x.png"
         },
         {
@@ -105,11 +111,15 @@ export default {
       if (url) {
         this.$router.push({ path: `${url}` });
       }
+    },
+    //班级圈信息查询
+    async communityQuery(params = {}) {
+      let res = await service.communityQuery(params);
     }
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -141,18 +151,20 @@ export default {
     align-items: flex-start;
   }
   h5 {
-    font-size: 30px;
+    font-weight: bold;
+    color: #656895;
   }
   .cell-bd {
     flex: 1;
     padding-left: 20px;
     p {
-      font-size: 32px;
       margin: 20px 0;
     }
   }
   .cell-hd {
     img {
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
     }
   }
@@ -160,12 +172,14 @@ export default {
     color: #ff87b7;
   }
   .data {
-    background-color: #f2f2f2;
+    background-color: #f5f5f5;
   }
 }
 .img-group {
   font-size: 0;
   img {
+    width: 160px;
+    height: 160px;
     margin-right: 10px;
     margin-bottom: 10px;
   }
@@ -173,5 +187,17 @@ export default {
 .handle {
   display: flex;
   justify-content: space-between;
+}
+.zan-list {
+  padding: 10px;
+}
+.comment-list {
+  padding: 10px;
+}
+.release {
+  position: fixed;
+  right: 5%;
+  bottom: 10%;
+  z-index: 100;
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div class="page">
-    <div class="cells">
-      <a href="javascript:;" class="btn">录入老师信息</a>
+    <div class="page-hd">
+      <a href="javascript:;" class="btn btn-primary">录入老师信息</a>
       <div class="">
-        <a href="javascript:;">批量导入老师信息</a>
-        <a href="javascript:;">批量邀请老师</a>
+        <a href="javascript:;" style="color:#409eff;" size-14>批量导入老师信息</a>
+        <a href="javascript:;" style="color:#409eff;" size-14>批量邀请老师</a>
       </div>
     </div>
-    <div class="cells-title">老师列表</div>
+    <div class="cells-title">老师列表(5)</div>
     <div class="cells" v-for="(item, index) in 6" :key="index" @click="go(index)">
       <div class="cell">
         <div class="cell-hd">
@@ -15,10 +15,10 @@
         </div>
         <div class="cell-bd">
           <p>张一清</p>
-          <small class="and">小一班</small>
+          <small class="and" style="color:#bdbdbd;">小一班</small>
         </div>
         <div class="cell-ft">
-          <span class="status">未加入</span>
+          <span size-14 :class="index % 2 === 0 ? 'status': ''">未加入</span>
         </div>
       </div>
     </div>
@@ -38,6 +38,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.page-hd {
+  height: 214px;
+  background-color: #fff;
+  a {
+    width: 240px;
+  }
+}
 .cells-title {
   color: #808080;
   font-size: 30px;
@@ -45,7 +52,7 @@ export default {
   padding-left: 30px;
 }
 .cells {
-  font-size: 30px;
+  font-size: 34px;
   overflow: hidden;
   position: relative;
   background-color: #fff;
@@ -77,8 +84,8 @@ export default {
   padding-left: 20px;
 }
 .teacher-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 .status {

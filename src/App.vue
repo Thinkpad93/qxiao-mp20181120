@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <transition name="fade-transform" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -10,8 +12,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 @import "normalize.css/normalize.css";
-@import "./assets/css/base.css";
-@import "./assets/css/common.less";
+@import "./styles/base.less";
+@import "./styles/common.less";
+@import "./styles/size.less";
+@import "./styles/flex.less";
 </style>

@@ -11,11 +11,17 @@ export const constantRouterMap = [{
     path: '/home',
     component: () => import('@/views/home'),
   }, {
+    path: '/community',
+    component: () => import('@/views/community')
+  }, {
     path: '/my',
     component: () => import('@/views/my')
   }, {
     path: '/login',
     component: () => import('@/views/login')
+  }, {
+    path: '/createSchool',
+    component: () => import('@/views/createschool')
   }, {
     path: '/fresh',
     component: () => import('@/views/fresh')

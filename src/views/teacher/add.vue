@@ -65,7 +65,7 @@
       </div>      
     </div> 
     <div class="btn-area">
-      <a href="javascript:;" class="btn">提交</a>
+      <a href="javascript:;" class="btn btn-primary">提交</a>
     </div>
   </div>  
 </template>
@@ -86,7 +86,7 @@ export default {
   padding-left: 30px;
 }
 .cells {
-  font-size: 30px;
+  font-size: 34px;
   overflow: hidden;
   position: relative;
   background-color: #fff;
