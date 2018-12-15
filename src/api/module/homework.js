@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //作业列表查询
 export function homeworkQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/homework/homeworkQuery.do', params)

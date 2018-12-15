@@ -11,11 +11,20 @@ export const constantRouterMap = [{
     path: '/home',
     component: () => import('@/views/home'),
   }, {
+    path: '/baby',
+    component: () => import('@/views/baby'),
+  }, {
+    path: '/baby/add',
+    component: () => import('@/views/baby/add')
+  }, {
     path: '/community',
     component: () => import('@/views/community')
   }, {
     path: '/my',
     component: () => import('@/views/my')
+  }, {
+    path: '/parentMy',
+    component: () => import('@/views/my/parentMy')
   }, {
     path: '/login',
     component: () => import('@/views/login')

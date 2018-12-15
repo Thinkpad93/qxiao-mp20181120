@@ -7,18 +7,20 @@
         <a href="javascript:;" style="color:#409eff;" size-14>批量邀请老师</a>
       </div>
     </div>
-    <div class="cells-title">老师列表(5)</div>
-    <div class="cells" v-for="(item, index) in 6" :key="index" @click="go(index)">
-      <div class="cell">
-        <div class="cell-hd">
-          <img class="teacher-icon" src="http://iph.href.lu/690x298" alt="">
-        </div>
-        <div class="cell-bd">
-          <p>张一清</p>
-          <small class="and" style="color:#bdbdbd;">小一班</small>
-        </div>
-        <div class="cell-ft">
-          <span size-14 :class="index % 2 === 0 ? 'status': ''">未加入</span>
+    <div class="page-bd">
+      <div class="cells-title">老师列表(5)</div>
+      <div class="cells">
+        <div class="cell" v-for="(item, index) in 6" :key="index" @click="go(index)">
+          <div class="cell-hd">
+            <img class="teacher-icon" src="http://iph.href.lu/690x298" alt="">
+          </div>
+          <div class="cell-bd">
+            <p>张一清</p>
+            <small class="and" style="color:#bdbdbd;">小一班</small>
+          </div>
+          <div class="cell-ft">
+            <span size-14 :class="index % 2 === 0 ? 'status': ''">未加入</span>
+          </div>
         </div>
       </div>
     </div>

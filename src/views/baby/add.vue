@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells-title">基础信息</div>
       <div class="cells">
         <div class="cell">
           <div class="cell-hd">
@@ -16,12 +15,12 @@
         </div>
         <div class="cell">
           <div class="cell-hd">
-            <label class="label">姓名</label>
+            <label class="label">宝宝姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入老师姓名" maxlength="4">
+            <input class="input" placeholder="请输入宝宝姓名" maxlength="4">
           </div>
-        </div>
+        </div>   
         <div class="cell cell-select cell-select-after">
           <div class="cell-hd">
             <label for="" class="label">性别</label>
@@ -35,60 +34,52 @@
         </div>    
         <div class="cell">
           <div class="cell-hd">
-            <label class="label">手机号码</label>
+            <label class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" pattern="[0-9]*" placeholder="请输入手机号">
+            <input class="input" pattern="[0-9]*" placeholder="请输入家长手机号码">
           </div>
-        </div>        
-      </div> 
-      <div class="cells-title">职务信息</div>
-      <div class="cells">
+        </div>   
         <div class="cell cell-select cell-select-after">
           <div class="cell-hd">
-            <label class="label">职务类别</label>
+            <label class="label">与宝宝关系</label>
           </div>     
           <div class="cell-bd">
             <select class="select" name="" dir="rtl">
-              <option selected>老师</option>
+              <option selected>父</option>
+              <option >母</option>
             </select>          
           </div>   
-        </div>
+        </div>    
         <div class="cell cell-select cell-select-after">
           <div class="cell-hd">
-            <label class="label">任教班级</label>
+            <label class="label">宝宝所在班级</label>
           </div>     
           <div class="cell-bd">
             <select class="select" name="" dir="rtl">
-              <option selected>3班</option>
+              <option selected>父</option>
+              <option >母</option>
             </select>          
           </div>   
-        </div>      
-      </div> 
-    </div>
+        </div>                                  
+      </div>
+    </div>  
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary">提交</a>
       </div>
-    </div>
+    </div>       
   </div>  
 </template>
 <script>
 export default {
-  name: "teacherAdd",
-
+  name: "babyAdd",
   data() {
     return {};
   }
 };
 </script>
 <style lang="less" scoped>
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
-}
 .cells {
   font-size: 32px;
   overflow: hidden;
@@ -151,9 +142,5 @@ export default {
 }
 .cell-select-after {
   padding-left: 30px;
-}
-.teacher-icon {
-  width: 100px;
-  height: 100px;
 }
 </style>

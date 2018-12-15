@@ -8,18 +8,18 @@
             <label for="" class="label">幼儿园名称</label>
           </div>        
           <div class="cell-bd">
-            <input class="input" placeholder="请输入幼儿园名称">
+            <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="20">
           </div>        
         </div>
-        <div class="cell cell_select">
+        <div class="cell cell-select cell-select-after">
           <div class="cell-hd">
             <label for="" class="label">幼儿园类型</label>
           </div>  
           <div class="cell-bd">
-            <select class="select" name="" dir="rtl">
-              <option selected>公办</option>
-              <option>私立</option>
-              <option>民办</option>
+            <select class="select" name="" dir="rtl" v-model="form.type">
+              <option selected value="0">公办</option>
+              <option value="1">私立</option>
+              <option value="2">民办</option>
             </select>
           </div>                
         </div>
@@ -43,7 +43,7 @@
             <label for="" class="label">园长姓名</label>
           </div>        
           <div class="cell-bd">
-            <input class="input" placeholder="请输入园长姓名">
+            <input class="input" placeholder="请输入园长姓名" v-model="form.leadName">
           </div>             
         </div>
         <div class="cell">
@@ -51,15 +51,15 @@
             <label for="" class="label">园长手机号</label>
           </div>    
           <div class="cell-bd">
-            <input class="input" placeholder="请输入园长手机号">
+            <input class="input" placeholder="请输入园长手机号" v-model="form.tel">
           </div>                   
         </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">验证码</label>
-          </div>      
+        <div class="cell"> 
           <div class="cell-bd">
             <input class="input" placeholder="请输入验证码">
+          </div>
+          <div class="cell-ft">
+            <span>获取验证码</span>
           </div>                
         </div>
         <div class="cell">
@@ -67,14 +67,14 @@
             <label for="" class="label">密码</label>
           </div>    
           <div class="cell-bd">
-            <input class="input" placeholder="请设置6~16位字母或数字的密码">
+            <input type="password" class="input" placeholder="请设置6~16位字母或数字的密码" v-model="form.password">
           </div>                   
         </div>
       </div>
     </div>
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary">下一步</a>
+        <a href="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
       </div>
     </div>
   </div>  
@@ -83,7 +83,20 @@
 export default {
   name: "createSchool",
   data() {
-    return {};
+    return {
+      form: {
+        schoolName: "",
+        type: 0,
+        leadName: "",
+        tel: "",
+        password: "",
+        phone: "",
+        classes: []
+      }
+    };
+  },
+  methods: {
+    handleNextClick() {}
   }
 };
 </script>
@@ -126,5 +139,29 @@ export default {
 }
 .cell-bd {
   flex: 1;
+}
+.cell-select {
+  padding: 0;
+  .select {
+    padding: 0 60px;
+  }
+  .cell-bd {
+    &::after {
+      content: "";
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      border-width: 4px 4px 0 0;
+      border-color: #c8c8cd;
+      border-style: solid;
+      transform: rotate(45deg) translateY(-50%);
+      position: absolute;
+      top: 50%;
+      right: 30px;
+    }
+  }
+}
+.cell-select-after {
+  padding-left: 30px;
 }
 </style>

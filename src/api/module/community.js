@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //班级圈信息查询
 export function communityQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/community/communityQuery.do', params)

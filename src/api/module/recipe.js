@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //食谱列表查询
 export function recipeQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/recipe/recipeQuery.do', params)

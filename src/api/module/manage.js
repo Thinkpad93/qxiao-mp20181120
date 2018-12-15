@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //用户注册
 export function registerUser(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do', params)

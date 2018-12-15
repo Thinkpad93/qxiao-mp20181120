@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //公告通知列表查询
 export function noticeQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeQuery.do', params)

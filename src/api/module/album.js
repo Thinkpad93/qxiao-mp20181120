@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //查询相册所属班级
 export function albumClassQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumClassQuery.do', params)

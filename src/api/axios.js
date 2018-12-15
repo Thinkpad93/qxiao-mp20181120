@@ -5,3 +5,22 @@ const service = axios.create({
   timeout: 20000,
   withCredentials: true //允许携带cookie
 });
+
+
+service.interceptors.request.use(config => {
+  console.log(config);
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
+
+service.interceptors.response.use(config => {
+  console.log(config);
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
+
+export default service;

@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //速报列表查询
 export function freshQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/fresh/freshQuery.do', params)

@@ -15,6 +15,7 @@
     "cube-ui": "^1.12.6",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "mint-ui": "^2.2.13",
     "normalize.css": "^8.0.1",
     "postcss-aspect-ratio-mini": "0.0.2",
     "postcss-cssnext": "^3.1.0",
@@ -23,7 +24,8 @@
     "style-loader": "^0.23.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vux": "^2.9.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

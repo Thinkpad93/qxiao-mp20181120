@@ -1,28 +1,37 @@
 <template>
   <div class="page">
+    <div class="page-hd">
+      <img src="@/assets/image/baby_header_bg.png" alt="">
+      <div class="media-box media-box_appmsg flex">
+        <div class="media-box__hd">
+          <img class="media-box__thumb" src="http://iph.href.lu/60x60" alt="">
+        </div>
+        <div class="media-box__bd">
+          <h4 size-17 class="media-box__title">李明敏</h4>
+        </div>
+      </div>
+      <a class="switch-children">
+        <i></i>
+        切换孩子
+      </a>
+    </div>
     <div class="page-bd">
-      <div class="cells-title">基础信息</div>
       <div class="cells">
         <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">头像</label>
-          </div>
-          <div class="cell-bd">
-            
-          </div>
           <div class="cell-ft">
-            <img class="teacher-icon" src="http://iph.href.lu/50x50" alt="">
-          </div>
-        </div>
-        <div class="cell">
+            <img src="http://iph.href.lu/32x32" alt="">
+          </div>          
           <div class="cell-hd">
-            <label class="label">姓名</label>
+            <label for="" class="label">宝宝姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入老师姓名" maxlength="4">
+            <input class="input" value="李明敏" placeholder="请输入老师姓名" maxlength="4">
           </div>
         </div>
         <div class="cell cell-select cell-select-after">
+          <div class="cell-ft">
+            <img src="http://iph.href.lu/32x32" alt="">
+          </div>
           <div class="cell-hd">
             <label for="" class="label">性别</label>
           </div>
@@ -32,62 +41,79 @@
               <option>女</option>
             </select>
           </div>
-        </div>    
+        </div>   
         <div class="cell">
+          <div class="cell-ft">
+            <img src="http://iph.href.lu/32x32" alt="">
+          </div>          
           <div class="cell-hd">
-            <label class="label">手机号码</label>
+            <label for="" class="label">手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" pattern="[0-9]*" placeholder="请输入手机号">
+            <input class="input" value="15011977647" placeholder="请输入老师姓名" maxlength="4">
           </div>
-        </div>        
-      </div> 
-      <div class="cells-title">职务信息</div>
-      <div class="cells">
+        </div>  
         <div class="cell cell-select cell-select-after">
+          <div class="cell-ft">
+            <img src="http://iph.href.lu/32x32" alt="">
+          </div>
           <div class="cell-hd">
-            <label class="label">职务类别</label>
-          </div>     
+            <label for="" class="label">和宝宝关系</label>
+          </div>
           <div class="cell-bd">
             <select class="select" name="" dir="rtl">
-              <option selected>老师</option>
-            </select>          
-          </div>   
-        </div>
+              <option selected>男</option>
+              <option>女</option>
+            </select>
+          </div>
+        </div>  
         <div class="cell cell-select cell-select-after">
+          <div class="cell-ft">
+            <img src="http://iph.href.lu/32x32" alt="">
+          </div>
           <div class="cell-hd">
-            <label class="label">任教班级</label>
-          </div>     
+            <label for="" class="label">宝宝所在班级</label>
+          </div>
           <div class="cell-bd">
             <select class="select" name="" dir="rtl">
-              <option selected>3班</option>
-            </select>          
-          </div>   
-        </div>      
-      </div> 
-    </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary">提交</a>
+              <option selected>男</option>
+              <option>女</option>
+            </select>
+          </div>
+        </div>                               
       </div>
-    </div>
+    </div>  
+    <qxfooter></qxfooter>
   </div>  
 </template>
 <script>
+import qxfooter from "@/components/footer";
 export default {
-  name: "teacherAdd",
-
+  name: "parentMy",
+  components: {
+    qxfooter
+  },
   data() {
     return {};
   }
 };
 </script>
 <style lang="less" scoped>
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
+.media-box {
+  color: #fff;
+  font-size: 20px;
+  position: absolute;
+  z-index: auto;
+  top: 60px;
+  left: 40px;
+  border: none;
+  padding: 30px;
+}
+.media-box_appmsg {
+  align-items: center;
+}
+.media-box__thumb {
+  border-radius: 50%;
 }
 .cells {
   font-size: 32px;
@@ -119,6 +145,7 @@ export default {
 }
 .cell-hd {
   line-height: 90px;
+  padding-left: 20px;
 }
 .cell-bd {
   flex: 1;
@@ -151,9 +178,5 @@ export default {
 }
 .cell-select-after {
   padding-left: 30px;
-}
-.teacher-icon {
-  width: 100px;
-  height: 100px;
 }
 </style>

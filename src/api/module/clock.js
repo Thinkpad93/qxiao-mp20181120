@@ -1,3 +1,5 @@
+import ax from '../axios';
+
 //考勤打卡
 export function punchClock(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/punchClock.do', params)
