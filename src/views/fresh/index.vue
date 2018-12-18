@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <section class="section">
-      <figure class="fresh" v-for="(f, index) in 10" :key="index" @click="go">
+    <section class="page-bd">
+      <figure class="figure" v-for="(f, index) in 10" :key="index" @click="go">
         <h3>元素的内容应该与主内容相关</h3>
         <div>
           <time>09-22 10:15</time>
@@ -32,7 +32,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fresh {
+.figure {
   padding: 0 30px;
   margin-bottom: 30px;
   background-color: #fff;

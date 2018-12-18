@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="form" data-type="">
+      <form action="" ref="form" class="form">
         <div class="cells">
           <div class="top">
             <img src="@/assets/image/qlogocdr12.png" alt="">
@@ -17,7 +17,7 @@
               <input type="input" class="input text-left" pattern="[0-9]*" placeholder="请输入手机号" autofocus v-model="form.tel">
             </div>
             <div class="cell-ft">
-              <a v-if="!hidden" href="javascript:;" @click="handleSecond">获取验证码</a>
+              <a v-if="!hidden" href="javascript:;" style="color:#92cd36" @click="handleSecond">获取验证码</a>
               <span v-if="hidden">{{ second }}s</span>
             </div>
           </div>
@@ -35,7 +35,7 @@
         <div class="btn-area">
           <a href="javascript:;" class="btn btn-primary" @click="handleLogin">登陆</a>
         </div>
-      </div>
+      </form>
     </div>          
   </div>           
 </template>
@@ -102,8 +102,12 @@ export default {
   height: 100%;
 }
 .page-bd {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 86;
   width: 80%;
-  margin: 152px auto 0 auto;
+  transform: translate(-50%, -50%);
 }
 .form {
   background-color: #fff;

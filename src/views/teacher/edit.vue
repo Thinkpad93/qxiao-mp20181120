@@ -5,21 +5,10 @@
       <div class="cells">
         <div class="cell">
           <div class="cell-hd">
-            <label for="" class="label">头像</label>
-          </div>
-          <div class="cell-bd">
-            
-          </div>
-          <div class="cell-ft">
-            <img class="teacher-icon" src="http://iph.href.lu/50x50" alt="">
-          </div>
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
             <label class="label">姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入老师姓名" maxlength="4">
+            <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="form.teacherName">
           </div>
         </div>
         <div class="cell cell-select cell-select-after">
@@ -27,9 +16,8 @@
             <label for="" class="label">性别</label>
           </div>
           <div class="cell-bd">
-            <select class="select" name="" dir="rtl">
-              <option selected>男</option>
-              <option>女</option>
+            <select class="select" name="" dir="rtl" v-model="form.sex">
+              <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
             </select>
           </div>
         </div>    
@@ -38,7 +26,7 @@
             <label class="label">手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" pattern="[0-9]*" placeholder="请输入手机号">
+            <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
           </div>
         </div>        
       </div> 
@@ -49,8 +37,8 @@
             <label class="label">职务类别</label>
           </div>     
           <div class="cell-bd">
-            <select class="select" name="" dir="rtl">
-              <option selected>老师</option>
+            <select class="select" name="" dir="rtl" v-model="form.type">
+              <option  :value="option.id" v-for="(option,index) in typeList" :key="index">{{ option.name }}</option>
             </select>          
           </div>   
         </div>
@@ -59,30 +47,86 @@
             <label class="label">任教班级</label>
           </div>     
           <div class="cell-bd">
-            <select class="select" name="" dir="rtl">
-              <option selected>3班</option>
+            <select class="select" name="" dir="rtl" v-model="form.classId">
+              <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
             </select>          
           </div>   
         </div>      
       </div> 
     </div>
     <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary">提交</a>
+      <div class="btn-area flex">
+        <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
+        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
       </div>
     </div>
   </div>  
 </template>
 <script>
+import service from "@/api";
+import { type, sex } from "@/mixins/type";
 export default {
   name: "teacherAdd",
+  mixins: [type, sex],
   data() {
-    return {};
+    return {
+      schoolId: 1,
+      classList: [],
+      query: {
+        openId: "10086",
+        teacherId: this.$route.params.id
+      },
+      form: {}
+    };
+  },
+  methods: {
+    handleDel() {
+      if (this.$route.params.id) {
+        let confirmDom = this.$weui.confirm(
+          "确定要删除老师吗？",
+          () => {
+            this.teacherDelete(this.query);
+          },
+          { title: "提示" }
+        );
+      }
+    },
+    handleSubmit() {},
+    //老师删除
+    async teacherDelete(params = {}) {
+      let res = await service.teacherDelete(params);
+      if (res.errorCode === 0) {
+        this.$router.push({ path: "/teacher" });
+      }
+    },
+    //老师修改
+    async teacherUpdate(params = {}) {
+      let res = await service.teacherUpdate(params);
+      if (res.errorCode === 0) {
+        this.$router.push({ path: "/teacher" });
+      }
+    },
+    //老师信息查询
+    async teacherQuery(params = {}) {
+      let res = await service.teacherQuery(params);
+      if (res.errorCode === 0) {
+        this.form = res.data;
+      }
+    },
+    //查询对应学校的所有班级
+    async queryClass(schoolId) {
+      let res = await service.queryClass({ schoolId });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
+    }
   },
   mounted() {
-    console.log(this.$route);
+    this.queryClass(this.schoolId);
   },
-  activated() {}
+  activated() {
+    this.teacherQuery(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -159,5 +203,11 @@ export default {
 .teacher-icon {
   width: 100px;
   height: 100px;
+}
+.btn-area {
+  justify-content: space-between;
+  > a {
+    width: 200px;
+  }
 }
 </style>

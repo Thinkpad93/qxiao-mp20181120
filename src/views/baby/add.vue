@@ -76,6 +76,9 @@ export default {
   name: "babyAdd",
   data() {
     return {};
+  },
+  activated() {
+    console.log(this.$route);
   }
 };
 </script>

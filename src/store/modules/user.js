@@ -1,7 +1,8 @@
 export default {
   namespaced: true,
   state: {
-    roleType: ""
+    roleType: "",
+    openId: null
   },
   mutations: {},
   actions: {}

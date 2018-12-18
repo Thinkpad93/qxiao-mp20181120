@@ -2,105 +2,156 @@
   <div class="page">
     <div class="page-hd"></div>
     <div class="page-bd">
-      <div class="cells">
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">幼儿园名称</label>
-          </div>        
-          <div class="cell-bd">
-            <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="20">
-          </div>        
-        </div>
-        <div class="cell cell-select cell-select-after">
-          <div class="cell-hd">
-            <label for="" class="label">幼儿园类型</label>
-          </div>  
-          <div class="cell-bd">
-            <select class="select" name="" dir="rtl" v-model="form.type">
-              <option selected value="0">公办</option>
-              <option value="1">私立</option>
-              <option value="2">民办</option>
-            </select>
-          </div>                
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">地址</label>
-          </div>          
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">详细地址</label>
-          </div>   
-          <div class="cell-bd">
-            <input class="input" placeholder="请输入详细地址">
-          </div>                  
-        </div>
-      </div>  
-      <div class="cells">
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">园长姓名</label>
-          </div>        
-          <div class="cell-bd">
-            <input class="input" placeholder="请输入园长姓名" v-model="form.leadName">
-          </div>             
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">园长手机号</label>
-          </div>    
-          <div class="cell-bd">
-            <input class="input" placeholder="请输入园长手机号" v-model="form.tel">
-          </div>                   
-        </div>
-        <div class="cell"> 
-          <div class="cell-bd">
-            <input class="input" placeholder="请输入验证码">
+      <!-- 提交成功提示 -->
+      <form action="" ref="form">
+        <div class="cells" :style="{display: !views ? 'block': 'none'}">
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">幼儿园名称</label>
+            </div>        
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="20">
+            </div>        
           </div>
-          <div class="cell-ft">
-            <span>获取验证码</span>
-          </div>                
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">密码</label>
-          </div>    
-          <div class="cell-bd">
-            <input type="password" class="input" placeholder="请设置6~16位字母或数字的密码" v-model="form.password">
-          </div>                   
-        </div>
-      </div>
+          <div class="cell cell-select cell-select-after">
+            <div class="cell-hd">
+              <label for="" class="label">幼儿园类型</label>
+            </div>  
+            <div class="cell-bd">
+              <select class="select" name="" dir="rtl" v-model="form.type">
+                <option selected value="0">公办</option>
+                <option value="1">私立</option>
+                <option value="2">民办</option>
+              </select>
+            </div>                
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">详细地址</label>
+            </div>   
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入详细地址" maxlength="20">
+            </div>                  
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">园长姓名</label>
+            </div>        
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入园长姓名" v-model="form.leadName" maxlength="4">
+            </div>             
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">园长手机号</label>
+            </div>    
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入园长手机号" v-model="form.tel">
+            </div>                   
+          </div>
+          <div class="cell"> 
+            <div class="cell-bd">
+              <input class="input text-left" placeholder="请输入验证码" maxlength="6">
+            </div>
+            <div class="cell-ft">
+              <span style="color:#92cd36">获取验证码</span>
+            </div>                
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">密码</label>
+            </div>    
+            <div class="cell-bd">
+              <input type="password" class="input" placeholder="请设置6~16位字母或数字的密码" v-model="form.password" maxlength="20">
+            </div>                   
+          </div>
+        </div>  
+        <div class="cells" :style="{display: views ? 'block': 'none'}">
+          <div class="cell">
+            <div class="cell-bd">
+              <p class="p">请编辑班级信息<span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span></p>
+            </div>
+          </div> 
+          <div class="cell" v-for="(cla, index) in form.classes" :key="index">
+            <div class="cell-hd">
+              <label for="">班级{{index}}</label>
+            </div>
+            <div class="cell-bd">
+              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="20">
+            </div>   
+            <div class="cell-ft">
+              <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>
+            </div>          
+          </div>
+          <div class="cell">
+            <div class="cell-bd">
+              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="10">
+            </div>
+          </div>
+          <div class="cell">
+            <div class="cell-bd">
+              <p class="p">
+                <img src="@/assets/image/+.png" alt="" @click="handleAddClass">
+              </p>
+            </div>
+          </div>
+        </div> 
+      </form>
     </div>
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
+        <a v-if="!views" hclaref="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
+        <a v-if="views" hclaref="javascript:;" class="btn btn-primary" @click="handleSubmit">完成</a>
       </div>
     </div>
   </div>  
 </template>
 <script>
+import service from "@/api";
 export default {
   name: "createSchool",
   data() {
     return {
+      views: false,
+      className: "",
       form: {
         schoolName: "",
-        type: 0,
+        type: 1,
+        openId: "10086",
         leadName: "",
         tel: "",
         password: "",
-        phone: "",
         classes: []
       }
     };
   },
   methods: {
-    handleNextClick() {}
+    handleNextClick() {
+      this.views = true;
+    },
+    handleAddClass() {
+      this.form.classes.push({ className: this.className });
+      this.className = "";
+    },
+    handleDelClass(index) {
+      this.form.classes.splice(index, 1);
+    },
+    async handleSubmit() {
+      let res = await service.schoolAdd(this.form);
+      console.log(res);
+    }
   }
 };
 </script>
 <style lang="less" scoped>
+.getCenter {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  height: auto;
+  width: 100%;
+  z-index: 100;
+}
 .page-hd {
   margin-bottom: 20px;
   height: 172px;

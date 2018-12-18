@@ -6,11 +6,11 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label class="label">姓名</label>
+              <label class="label">学生姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="form.teacherName">
-            </div>
+              <input class="input" placeholder="请输入学生姓名" maxlength="4" v-model="form.studentName">
+            </div>            
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
@@ -18,80 +18,75 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+                <option selected value="1">男</option>
+                <option value="2">女</option>
               </select>
             </div>
-          </div>    
+          </div>   
           <div class="cell">
             <div class="cell-hd">
-              <label class="label">手机号码</label>
+              <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
               <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
             </div>
-          </div>        
-        </div> 
-        <div class="cells-title">职务信息</div>
-        <div class="cells">
+          </div>  
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label class="label">职务类别</label>
-            </div>     
+              <label for="" class="label">学生和家长关系</label>
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.type">
-                <option  :value="option.id" v-for="(option,index) in typeList" :key="index">{{ option.name }}</option>
-              </select>          
-            </div>   
-          </div>
+              <select class="select" name="" dir="rtl" v-model="form.relation">
+                <option selected value="1">妈妈</option>
+                <option value="2">爸爸</option>
+                <option value="3">爷爷</option>
+                <option value="4">奶奶</option>
+                <option value="5">外公</option>
+                <option value="6">外婆</option>
+              </select>
+            </div>
+          </div> 
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label class="label">任教班级</label>
-            </div>     
+              <label for="" class="label">学生所在班级</label>
+            </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select>          
-            </div>   
-          </div>      
-        </div> 
+              </select>
+            </div>
+          </div>                                        
+        </div>
       </form>
     </div>
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
       </div>
-    </div>
+    </div>    
   </div>  
 </template>
 <script>
 import service from "@/api";
-import { type, sex } from "@/mixins/type";
 export default {
-  name: "teacherAdd",
-  mixins: [type, sex],
+  name: "studentAdd",
   data() {
     return {
       schoolId: 1,
       classList: [],
       form: {
         openId: "10086",
-        teacherName: "",
+        studentName: "",
         sex: 1,
         tel: "",
-        type: 1,
-        classId: null
+        relation: 1,
+        classId: 3
       }
     };
   },
   methods: {
     handleSubmit() {
-      let classes = [];
-      let { classId, ...args } = this.form;
-      if (classId) {
-        classes.push({ classId });
-      }
-      let obj = Object.assign({}, args, { classes });
-      this.teacherAdd(obj);
+      this.studentAdd(this.form);
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {
@@ -100,11 +95,11 @@ export default {
         this.classList = res.data;
       }
     },
-    //老师新增
-    async teacherAdd(params = {}) {
-      let res = await service.teacherAdd(params);
+    //学生新增
+    async studentAdd(params = {}) {
+      let res = await service.studentAdd(params);
       if (res.errorCode === 0) {
-        this.$router.push({ path: "/teacher" });
+        this.$router.push({ path: "/student" });
       }
     }
   },

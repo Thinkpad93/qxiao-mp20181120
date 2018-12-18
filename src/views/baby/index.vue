@@ -14,7 +14,7 @@
     </div>  
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary">添加孩子</a>
+        <a href="javascript:;" class="btn btn-primary" @click="handleAddChild">添加孩子</a>
       </div>
     </div>    
   </div>  
@@ -24,6 +24,14 @@ export default {
   name: "boby",
   data() {
     return {};
+  },
+  methods: {
+    handleAddChild() {
+      this.$router.push({ path: "/baby/add" });
+    }
+  },
+  activated() {
+    console.log(this.$route);
   }
 };
 </script>

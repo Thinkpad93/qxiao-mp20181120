@@ -2,32 +2,74 @@
   <div class="page">
     <div class="page-bd">
       <div class="cells">
-        <div class="cell" v-for="(item, index) in 4" :key="index">
+        <div class="cell" v-for="(item, index) in classList" :key="index">
           <div class="cell-bd">
-            <p size-17>KA1班</p>
+            <p size-17 class="text-ellipsis">{{ item.className }}</p>
             <p>
-              <span class="t" size-12>带班老师5人</span>
-              <span class="s" size-12>关联学生234人</span>
+              <span class="t" size-12>带班老师{{ item.countTeacher }}人</span>
+              <span class="s" size-12>关联学生{{ item.countStudent }}人</span>
             </p>
           </div>
-          <div class="cell-ft">
-            <a href="javascript:;" class="btn btn-edit" size-12>编辑</a>
+          <div class="cell-ft flex">
+            <a href="javascript:;" class="btn btn-del" size-12 @click="handleDelClass(item.classId)">删除</a>
+            <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a>
           </div>
         </div> 
       </div>
     </div>
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javacript:;" class="btn btn-primary">添加班级</a>
+        <a href="javacript:;" class="btn btn-primary" @click="handleAddClass">添加班级</a>
       </div>
     </div>
   </div>  
 </template>
 <script>
+import service from "@/api";
+import weui from "weui.js";
 export default {
-  name: "",
+  name: "class",
   data() {
-    return {};
+    return {
+      query: {
+        schoolId: 1
+      },
+      classList: []
+    };
+  },
+  methods: {
+    handleAddClass() {},
+    handleDelClass(classId) {
+      let confirmDom = this.$weui.confirm(
+        "确定要删除班级吗？",
+        () => {
+          this.classDelete({ classId, openId: "10086" });
+        },
+        { title: "提示" }
+      );
+    },
+    handleEditClass(classId) {
+      this.$router.push({ path: `/class/edit/${classId}` });
+    },
+    //查询对应学校的所有班级
+    async queryClass(params = {}) {
+      let res = await service.queryClass(params);
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
+    },
+    //班级删除
+    async classDelete(params = {}) {
+      let res = await service.classDelete(params);
+      if (res.errorCode === 0) {
+        this.queryClass(this.query);
+      } else if (res.errorCode === -1) {
+        this.$weui.topTips(`${res.errorMsg}`);
+      }
+    }
+  },
+  activated() {
+    this.queryClass(this.query);
   }
 };
 </script>
@@ -43,7 +85,7 @@ export default {
   background-color: #fff;
 }
 .cell {
-  height: 140px;
+  height: 120px;
   padding: 0 30px;
   display: flex;
   align-items: center;
@@ -75,7 +117,14 @@ export default {
   width: 100px;
   height: 50px;
   line-height: 50px;
+  margin-left: 20px;
   background-color: #d1e0f6;
+}
+.btn-del {
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #ce3c39;
 }
 span.t {
   color: #409eff;

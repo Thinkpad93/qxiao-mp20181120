@@ -1,42 +1,44 @@
 <template>
   <div class="page">
-    <div class="cells">
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">幼儿园名称</label>
-        </div>        
+    <div class="page-bd">
+      <div class="cells">
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">幼儿园名称</label>
+          </div>        
+        </div>
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">幼儿园类型</label>
+          </div>        
+        </div>    
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">地址</label>
+          </div>        
+        </div>    
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">详细地址</label>
+          </div>        
+        </div>             
       </div>
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">幼儿园类型</label>
-        </div>        
-      </div>    
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">地址</label>
-        </div>        
-      </div>    
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">详细地址</label>
-        </div>        
-      </div>             
-    </div>
-    <div class="cells">
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">园长姓名</label>
-        </div>            
-      </div>
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">园长手机号</label>
-        </div>            
-      </div>
-      <div class="cell">
-        <div class="cell-hd">
-          <label for="" class="label">修改密码</label>
-        </div>            
+      <div class="cells">
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">园长姓名</label>
+          </div>            
+        </div>
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">园长手机号</label>
+          </div>            
+        </div>
+        <div class="cell">
+          <div class="cell-hd">
+            <label for="" class="label">修改密码</label>
+          </div>            
+        </div>
       </div>
     </div>
     <qxfooter></qxfooter>

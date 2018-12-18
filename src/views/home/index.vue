@@ -11,7 +11,7 @@
     </div>
     <main class="main">
       <section class="community">
-        <div class="box" v-for="(ity, index) in 6" :key="index">
+        <div class="box" v-for="(item, index) in 1" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <img class="" src="http://iph.href.lu/48x48" alt="">
@@ -62,6 +62,10 @@ export default {
   },
   data() {
     return {
+      query: {
+        openId: "10086",
+        classId: 10086
+      },
       menuList: [
         {
           name: "通知公告",
@@ -116,6 +120,9 @@ export default {
     async communityQuery(params = {}) {
       let res = await service.communityQuery(params);
     }
+  },
+  activated() {
+    //this.communityQuery(this.query);
   }
 };
 </script>
