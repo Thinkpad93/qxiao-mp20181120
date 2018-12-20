@@ -1,14 +1,21 @@
 <template>
-  <div class="page">
-    <div class="page-hd"></div>
+  <div class="pagea">
     <div class="page-bd">
       <form action="" ref="form" method="post" enctype="multipart/form-data">
         <div class="cells">
           <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">通知标题</label>
+            </div>
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入通知标题" v-model="form.title" maxlength="20">
+            </div>
+          </div>
+          <div class="cell">
             <div class="cell-bd">
               <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent"></textarea>
             </div>
-          </div>
+          </div>          
           <div class="cell">
             <div class="cell-bd">
               <ul class="uploader-files">
@@ -23,7 +30,7 @@
                 <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*">
               </div>
             </div>
-          </div>         
+          </div>      
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label for="" class="label">发送班级</label>
@@ -33,62 +40,67 @@
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select>
             </div>                      
-          </div>
+          </div>      
+          <div class="cell cell-switch">
+            <div class="cell-bd">
+              <label for="" class="label">是否需要确定</label>
+            </div>   
+            <div class="cell-ft">
+              <input type="checkbox" v-model="form.needConfirm" class="weui-switch">
+            </div>         
+          </div>   
+          <div class="cell cell-switch">
+            <div class="cell-bd">
+              <label for="" class="label">是否定时发送</label>
+            </div>   
+            <div class="cell-ft">
+              <input type="checkbox" v-model="form.clockType" class="weui-switch">
+            </div>         
+          </div>    
+          <template v-if="form.clockType">
+            <div class="cell">
+              <div class="cell-hd">
+                <label for="" class="label">发送时间</label>
+              </div>
+              <div class="cell-bd">
+                <input class="input" placeholder="请选择发送时间" readonly v-model="form.clockTime">
+              </div>
+            </div>  
+          </template>                            
         </div>
       </form>
-    </div>  
+    </div> 
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" id="btn-Submission">发布</a>
+        <a href="javascript:;" class="btn btn-primary">发布</a>
       </div>      
-    </div>
+    </div> 
   </div>  
 </template>
 <script>
 import service from "@/api";
 export default {
-  name: "community",
+  namae: "noticeAdd",
   data() {
     return {
       schoolId: 1,
       imagesList: [],
       classList: [],
       form: {
-        classId: 1,
-        contentType: null,
+        openId: "10086",
+        title: "",
         textContent: "",
         images: [],
-        video: ""
+        needConfirm: true,
+        senders: [],
+        clockType: true,
+        clockTime: ""
       }
     };
   },
   methods: {
-    handleDelImg(index) {
-      return this.imagesList.splice(index, 1);
-    },
-    handleChangeFile(e) {
-      let files = e.target.files;
-      if (!files.length) {
-        return;
-      }
-      this.handleShowImg(files);
-    },
-    handleShowImg(files) {
-      for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        var imageType = /^image\//;
-        if (!imageType.test(file.type)) {
-          continue;
-        }
-        let reader = new FileReader();
-        reader.onload = e => {
-          console.log(e);
-          this.imagesList.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-      console.log(this.imagesList);
-    },
+    handleDelImg() {},
+    handleChangeFile() {},
     //查询对应学校的所有班级
     async queryClass(schoolId) {
       let res = await service.queryClass({ schoolId });
@@ -103,9 +115,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.page-bd {
-  background-color: #fff;
-}
 .cells {
   font-size: 34px;
   overflow: hidden;
@@ -180,5 +189,12 @@ export default {
     z-index: 10;
   }
 }
-</style>
 
+.cell-switch {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .cell-ft {
+    font-size: 0;
+  }
+}
+</style>

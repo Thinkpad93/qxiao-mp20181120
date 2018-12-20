@@ -20,4 +20,5 @@ export default {
 @import "./styles/common.less";
 @import "./styles/size.less";
 @import "./styles/flex.less";
+@import "./styles/weui.less";
 </style>

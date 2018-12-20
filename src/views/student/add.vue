@@ -18,8 +18,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option selected value="1">男</option>
-                <option value="2">女</option>
+                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div>   
@@ -37,12 +36,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.relation">
-                <option selected value="1">妈妈</option>
-                <option value="2">爸爸</option>
-                <option value="3">爷爷</option>
-                <option value="4">奶奶</option>
-                <option value="5">外公</option>
-                <option value="6">外婆</option>
+                <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div> 
@@ -68,8 +62,10 @@
 </template>
 <script>
 import service from "@/api";
+import { sex, relation } from "@/mixins/type";
 export default {
   name: "studentAdd",
+  mixins: [sex, relation],
   data() {
     return {
       schoolId: 1,

@@ -1,5 +1,8 @@
 <template>
   <div class="page">
+    <div class="page-hd">
+      <a href="javacript:;" class="btn btn-primary" @click="handleAddClass">添加班级</a>
+    </div>
     <div class="page-bd">
       <div class="cells">
         <div class="cell" v-for="(item, index) in classList" :key="index">
@@ -17,16 +20,10 @@
         </div> 
       </div>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javacript:;" class="btn btn-primary" @click="handleAddClass">添加班级</a>
-      </div>
-    </div>
   </div>  
 </template>
 <script>
 import service from "@/api";
-import weui from "weui.js";
 export default {
   name: "class",
   data() {
@@ -38,7 +35,9 @@ export default {
     };
   },
   methods: {
-    handleAddClass() {},
+    handleAddClass() {
+      this.$router.push({ path: `/class/add` });
+    },
     handleDelClass(classId) {
       let confirmDom = this.$weui.confirm(
         "确定要删除班级吗？",
@@ -74,9 +73,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.page-ft {
-  a {
-    width: 500px;
+.page-hd {
+  margin-bottom: 20px;
+  height: 214px;
+  padding-top: 80px;
+  background-color: #fff;
+  > a {
+    width: 240px;
   }
 }
 .cells {

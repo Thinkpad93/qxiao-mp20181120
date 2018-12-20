@@ -14,7 +14,7 @@
               <img class="ignore" src="@/assets/image/phone-icon@2x.png" alt="">
             </div>
             <div class="cell-bd">
-              <input type="input" class="input text-left" pattern="[0-9]*" placeholder="请输入手机号" autofocus v-model="form.tel">
+              <input type="input" class="input text-left" pattern="[0-9]*" maxlength="11" placeholder="请输入手机号" autofocus v-model="form.tel">
             </div>
             <div class="cell-ft">
               <a v-if="!hidden" href="javascript:;" style="color:#92cd36" @click="handleSecond">获取验证码</a>
@@ -41,6 +41,7 @@
 </template>
 <script>
 import service from "@/api";
+import { isPhone } from "@/utils/validator";
 export default {
   name: "login",
   data() {
@@ -49,26 +50,49 @@ export default {
       timer: null,
       second: 60,
       form: {
-        tel: "13189680083",
-        verifyCode: "926663"
+        tel: "", //13189680083  15011977647
+        verifyCode: "" //926663
       }
     };
   },
   methods: {
     handleSecond() {
-      this.hidden = true;
-      this.timer = setInterval(() => {
-        if (this.second === 1) {
-          this.second = 60;
-          this.hidden = false;
-          clearInterval(this.timer);
-        }
-        this.second--;
-      }, 1000);
+      if (isPhone(this.form.tel)) {
+        this.hidden = true;
+        this.timer = setInterval(() => {
+          if (this.second === 1) {
+            this.second = 60;
+            this.hidden = false;
+            clearInterval(this.timer);
+          }
+          this.second--;
+        }, 1000);
+        this.telVeriftCode(this.form.tel);
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
     },
     handleLogin() {
-      this.$toast("加载中...");
-      //this.userTeleLogin(this.form);
+      if (this.form.tel === "") {
+        this.$weui.topTips("请填写手机号");
+        return false;
+      }
+      if (this.form.verifyCode === "") {
+        this.$weui.topTips("请填写手机验证码");
+        return false;
+      }
+      if (isPhone(this.form.tel)) {
+        this.userTeleLogin(this.form);
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
+    },
+    //获取验证码
+    async telVeriftCode(tel) {
+      let res = await service.telVeriftCode({ tel });
+      if (res.errorCode === 0) {
+        this.$weui.topTips(`验证码已经发送，请注意查收`);
+      }
     },
     //用户登录
     async userTeleLogin(params = {}) {
@@ -80,9 +104,14 @@ export default {
             this.$router.replace({ path: "/home" });
             break;
           case 4:
-            this.$router.replace({ path: "/createSchool" });
+            this.$router.replace({ path: "/schoolCreate" });
+            break;
+          case 5:
+            this.$router.replace({ path: "/schollJoin" });
             break;
         }
+      } else if (res.errorCode === -1) {
+        this.$weui.topTips(`${res.errorMsg}`);
       }
     }
   },

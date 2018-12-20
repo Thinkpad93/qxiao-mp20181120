@@ -2,6 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <form action="" ref="form">
+        <button type="reset" hidden id="reset">重置</button>
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -84,6 +85,11 @@ export default {
     };
   },
   methods: {
+    //表单重置
+    handleReset() {
+      const reset = document.getElementById("reset");
+      reset.click();
+    },
     handleSubmit() {
       let classes = [];
       let { classId, ...args } = this.form;
@@ -104,6 +110,7 @@ export default {
     async teacherAdd(params = {}) {
       let res = await service.teacherAdd(params);
       if (res.errorCode === 0) {
+        this.handleReset();
         this.$router.push({ path: "/teacher" });
       }
     }
@@ -155,6 +162,7 @@ export default {
   flex: 1;
 }
 .label {
+  position: relative;
   display: block;
   word-wrap: break-word;
   word-break: break-all;

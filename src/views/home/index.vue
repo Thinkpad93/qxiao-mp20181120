@@ -11,7 +11,7 @@
     </div>
     <main class="main">
       <section class="community">
-        <div class="box" v-for="(item, index) in 1" :key="index">
+        <div class="box" v-for="(item, index) in 10" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <img class="" src="http://iph.href.lu/48x48" alt="">
@@ -20,9 +20,9 @@
               <h5 size-15>李一花老师</h5>
               <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
               <div class="img-group">
-                <img class="" src="http://iph.href.lu/80x80" alt="">
-                <img class="" src="http://iph.href.lu/80x80" alt="">
-                <img class="" src="http://iph.href.lu/80x80" alt="">
+                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
+                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
+                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
               </div>
               <div class="handle">
                 <div class="left">
@@ -37,7 +37,7 @@
               <div class="data">
                 <div class="zan-list" size-12>
                   <img src="@/assets/image/zan-icon.png" alt="">
-                  <span v-for="(zan, index) in 6" :key="index">黄飞鸿{{index}},</span>
+                  <span v-for="(zan, index) in 2" :key="index">黄飞鸿{{index}},</span>
                 </div>
                 <ul class="comment-list" size-12>
                   <li>黄飞鸿: 没有人能在这首BGM下打赢我</li>
@@ -69,7 +69,7 @@ export default {
       menuList: [
         {
           name: "通知公告",
-          url: "",
+          url: "/notice",
           icon: "./static/image/men-icon-7@2x.png"
         },
         {

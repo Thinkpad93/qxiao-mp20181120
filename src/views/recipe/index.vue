@@ -1,16 +1,15 @@
 <template>
   <div class="page">
     <section class="page-bd">
-      <figure class="figure" v-for="(f, index) in 10" :key="index" @click="go">
-        <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
+      <figure class="figure" v-for="(f, index) in 1" :key="index" @click="go">
+        <h3 class="text-ellipsis">9月25日至9月30日食谱</h3>
         <div>
           <time>09-22 10:15</time>
         </div>
         <img src="http://iph.href.lu/690x298" alt="">
-        <p class="line-clamp">必须在描述并收藏数据的内容或特色，进而达成协助数据检索的目的。这种布局在移动端页面开发时候经常遇到</p>
+        <p class="line-clamp">星期二： 早餐【 肠粉】午餐【蒸白米饭 土豆焖鸡】</p>
         <div class="metedata">
           <span>73人阅读</span>
-          <span>留言8</span>
         </div>
       </figure>  
     </section>
@@ -18,7 +17,7 @@
 </template>
 <script>
 export default {
-  name: "fresh",
+  name: "recipe",
   data() {
     return {
       msg: "Hello"

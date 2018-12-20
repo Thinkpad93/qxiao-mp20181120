@@ -96,6 +96,12 @@ export function teacherDelete(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//老师信息完善
+export function teacherJoin(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/teacherJoin.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //学生信息完善
 export function studentSupply(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/studentSupply.do', params)
@@ -141,6 +147,18 @@ export function queryStudentList(params) {
 //查询对应学校的所有班级
 export function queryClass(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClass.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询园长信息
+export function queryInfo(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryInfo.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//根据学校Id码查询信息
+export function queryBySchoolCode(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryBySchoolCode.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

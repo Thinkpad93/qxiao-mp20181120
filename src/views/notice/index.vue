@@ -2,23 +2,31 @@
   <div class="page">
     <div class="page-hd">
       <div class="tab">
-        <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">通知消息</a>
-        <a href="javascript:;" @click="handleTabClick(2)" :class="[index === 2 ? 'curr': '']">发送记录</a>
+        <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">通知消息</a>
+        <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">发送记录</a>
       </div>
     </div>
     <div class="page-bd">
       <div class="cells">
-        <figure class="figure" v-for="(item, index) in 6" :key="index">
-          <h3>元素的内容应该与主内容相关</h3>
+        <figure class="figure" v-for="(item, index) in 1" :key="index" @click="go">
+          <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
           <div>
             <time>09-22 10:15</time>
           </div>        
           <img src="http://iph.href.lu/690x298" alt="">
           <p class="line-clamp">必须在描述并收藏数据的内容或特色，进而达成协助数据检索的目的。这种布局在移动端页面开发时候经常遇到</p>
-          <div class="metedata"></div>
+          <div class="metedata flex">
+            <span size-14>刘家明(园长)</span>
+            <span size-14>阅读人数: 82</span>
+          </div>
         </figure>
       </div>
     </div>  
+    <div class="page-ft">
+      <div class="btn-area">
+        <a href="javascript:;" class="btn btn-primary" @click="handleNoticeAdd">发布通知</a>
+      </div>
+    </div>
   </div>  
 </template>
 <script>
@@ -27,12 +35,23 @@ export default {
   name: "notice",
   data() {
     return {
-      index: 1
+      index: 0,
+      form: {
+        openId: "",
+        type: 0,
+        classId: 0
+      }
     };
   },
   methods: {
+    go() {
+      this.$router.push({ path: "/notice/show/1993" });
+    },
     handleTabClick(index) {
       this.index = index;
+    },
+    handleNoticeAdd() {
+      this.$router.push({ path: "/notice/add" });
     }
   }
 };
@@ -54,6 +73,7 @@ export default {
     position: relative;
   }
   .curr {
+    color: #92cd36;
     &::after {
       content: "";
       position: absolute;
@@ -61,7 +81,7 @@ export default {
       bottom: 0;
       display: block;
       width: 50%;
-      height: 6px;
+      height: 4px;
       background-color: #92cd36;
       transform: translateX(-50%);
     }
@@ -91,12 +111,17 @@ export default {
     padding: 0 30px;
     display: flex;
     height: 80px;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     border-top: 1px solid #f5f5f5;
-    span {
-      margin-right: 30px;
-    }
   }
+}
+.page-ft {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  background-color: #fff;
 }
 </style>

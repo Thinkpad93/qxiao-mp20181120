@@ -1,13 +1,10 @@
+
 <template>
-  <div class="page">
-    <div class="page-bd">
-        
-    </div>  
-  </div>    
+  <div class="page"></div>  
 </template>
 <script>
 export default {
-  name: "createSchoolSuccess",
+  name: "",
   data() {
     return {};
   }

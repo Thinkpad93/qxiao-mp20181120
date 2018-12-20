@@ -3,8 +3,8 @@
     <div class="page-hd">
       <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
       <div class="tab">
-        <a href="javascript:;" style="color:#409eff;" size-14 @click="handleTabClick(0)">关联的老师</a>
-        <a href="javascript:;" style="color:#409eff;" size-14 @click="handleTabClick(1)">关联的学生</a>
+        <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">关联的老师</a>
+        <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">关联的学生</a>
       </div>      
     </div>  
     <div class="page-bd">
@@ -134,21 +134,39 @@ export default {
 </script>
 <style lang="less" scoped>
 .page-hd {
-  height: 214px;
   padding-top: 40px;
   background-color: #fff;
   > a {
     width: 240px;
   }
   .tab {
-    margin-top: 30px;
-    text-align: center;
     display: flex;
+    font-size: 30px;
     a {
+      height: 100px;
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .curr {
+      color: #92cd36;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        display: block;
+        width: 50%;
+        height: 6px;
+        background-color: #92cd36;
+        transform: translateX(-50%);
+      }
     }
   }
 }
+
 .cells-title {
   color: #808080;
   font-size: 30px;

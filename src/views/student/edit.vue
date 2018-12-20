@@ -18,8 +18,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option selected value="1">男</option>
-                <option value="2">女</option>
+                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div>   
@@ -60,7 +59,8 @@
       </form>
     </div>
     <div class="page-ft">
-      <div class="btn-area">
+      <div class="btn-area flex">
+        <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
         <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
       </div>
     </div>      
@@ -68,8 +68,10 @@
 </template>
 <script>
 import service from "@/api";
+import { sex } from "@/mixins/type";
 export default {
   name: "studentEdit",
+  mixins: [sex],
   data() {
     return {
       query: {
@@ -82,6 +84,18 @@ export default {
     };
   },
   methods: {
+    handleDel() {
+      let { studentId, openId } = this.form;
+      if (studentId && openId) {
+        let confirmDom = this.$weui.confirm(
+          "确定要删除学生吗？",
+          () => {
+            this.studentDelete({ studentId, openId });
+          },
+          { title: "提示" }
+        );
+      }
+    },
     handleSubmit() {
       this.studentUpdate(this.form);
     },
@@ -102,6 +116,13 @@ export default {
     //学生修改
     async studentUpdate(params = {}) {
       let res = await service.studentUpdate(params);
+      if (res.errorCode === 0) {
+        this.$router.push({ path: "/student" });
+      }
+    },
+    //学生删除
+    async studentDelete(params = {}) {
+      let res = await service.studentDelete(params);
       if (res.errorCode === 0) {
         this.$router.push({ path: "/student" });
       }
@@ -188,5 +209,11 @@ export default {
 .teacher-icon {
   width: 100px;
   height: 100px;
+}
+.btn-area {
+  justify-content: space-between;
+  > a {
+    width: 200px;
+  }
 }
 </style>

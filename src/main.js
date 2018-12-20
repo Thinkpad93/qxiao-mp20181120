@@ -7,13 +7,14 @@ import router from './router'
 
 
 import weui from 'weui.js';
+Vue.prototype.$weui = weui;
 
 //import MintUI from 'mint-ui';
 //import 'mint-ui/lib/style.css';
 
 //Vue.use(MintUI);
 
-Vue.prototype.$weui = weui;
+
 
 Vue.config.productionTip = false
 

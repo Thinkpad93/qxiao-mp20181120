@@ -19,9 +19,7 @@
             </div>  
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.type">
-                <option selected value="0">公办</option>
-                <option value="1">私立</option>
-                <option value="2">民办</option>
+                <option  :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
               </select>
             </div>                
           </div>
@@ -46,7 +44,7 @@
               <label for="" class="label">园长手机号</label>
             </div>    
             <div class="cell-bd">
-              <input class="input" placeholder="请输入园长手机号" v-model="form.tel">
+              <input class="input" placeholder="请输入园长手机号" v-model="form.tel" maxlength="11">
             </div>                   
           </div>
           <div class="cell"> 
@@ -54,17 +52,17 @@
               <input class="input text-left" placeholder="请输入验证码" maxlength="6">
             </div>
             <div class="cell-ft">
-              <span style="color:#92cd36">获取验证码</span>
+              <span style="color:#92cd36" @click="handleSecond">获取验证码</span>
             </div>                
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">密码</label>
             </div>    
             <div class="cell-bd">
               <input type="password" class="input" placeholder="请设置6~16位字母或数字的密码" v-model="form.password" maxlength="20">
             </div>                   
-          </div>
+          </div> -->
         </div>  
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell">
@@ -74,10 +72,10 @@
           </div> 
           <div class="cell" v-for="(cla, index) in form.classes" :key="index">
             <div class="cell-hd">
-              <label for="">班级{{index}}</label>
+              <label for="">班级名称:</label>
             </div>
             <div class="cell-bd">
-              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="20">
+              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="10">
             </div>   
             <div class="cell-ft">
               <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>
@@ -104,12 +102,14 @@
         <a v-if="views" hclaref="javascript:;" class="btn btn-primary" @click="handleSubmit">完成</a>
       </div>
     </div>
-  </div>  
+  </div>     
 </template>
 <script>
 import service from "@/api";
+import { schoolType } from "@/mixins/type";
 export default {
-  name: "createSchool",
+  name: "schoolCreate",
+  mixins: [schoolType],
   data() {
     return {
       views: false,
@@ -120,7 +120,6 @@ export default {
         openId: "10086",
         leadName: "",
         tel: "",
-        password: "",
         classes: []
       }
     };
@@ -136,9 +135,19 @@ export default {
     handleDelClass(index) {
       this.form.classes.splice(index, 1);
     },
+    handleSecond() {},
     async handleSubmit() {
       let res = await service.schoolAdd(this.form);
-      console.log(res);
+      if (res.errorCode === 0) {
+        this.$router.push({ path: "/home" });
+      }
+    },
+    //获取验证码
+    async telVeriftCode(tel) {
+      let res = await service.telVeriftCode({ tel });
+      if (res.errorCode === 0) {
+        this.$weui.topTips(`验证码已经发送，请注意查收`);
+      }
     }
   }
 };

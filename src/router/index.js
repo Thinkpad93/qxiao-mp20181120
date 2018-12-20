@@ -29,12 +29,18 @@ export const constantRouterMap = [{
     path: '/login',
     component: () => import('@/views/login')
   }, {
-    path: '/createSchool',
-    component: () => import('@/views/createschool')
+    path: '/schoolCreate',
+    component: () => import('@/views/school/create')
+  }, {
+    path: '/schoolJoin',
+    component: () => import('@/views/school/join')
   }, {
     path: '/notice',
     component: () => import('@/views/notice')
-  },{
+  }, {
+    path: '/recipe',
+    component: () => import('@/views/recipe')
+  }, {
     path: '/fresh',
     component: () => import('@/views/fresh')
   }, {
@@ -43,6 +49,12 @@ export const constantRouterMap = [{
   }, {
     path: '/notice',
     component: () => import('@/views/notice')
+  }, {
+    path: '/notice/add',
+    component: () => import('@/views/notice/add')
+  }, {
+    path: '/notice/show/:id',
+    component: () => import('@/views/notice/show')
   }, {
     path: '/teacher',
     component: () => import('@/views/teacher')
@@ -56,6 +68,10 @@ export const constantRouterMap = [{
   {
     path: '/class',
     component: () => import('@/views/class')
+  },
+  {
+    path: '/class/add',
+    component: () => import('@/views/class/add')
   },
   {
     path: '/class/edit/:id',

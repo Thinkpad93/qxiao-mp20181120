@@ -15,7 +15,10 @@
             <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
           </div>
           <div class="cell-bd">
-            <p>{{ teacher.teacherName }}</p>
+            <p>
+              {{ teacher.teacherName }}
+              <span size-14 v-if="!teacher.openId" style="color: rgb(64, 158, 255);">微信邀请</span>
+            </p>
             <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">
               {{ cla.className }}
             </small>
