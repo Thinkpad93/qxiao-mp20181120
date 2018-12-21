@@ -10,14 +10,19 @@
       <img src="@/assets/image/release-icon.png" alt="">
     </div>
     <main class="main">
+      <section class="classId">
+        <!-- <select class="select classId">
+          <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+        </select> -->
+      </section>
       <section class="community">
-        <div class="box" v-for="(item, index) in 10" :key="index">
+        <div class="box" v-for="(item, index) in 1" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <img class="" src="http://iph.href.lu/48x48" alt="">
             </div>
             <div class="cell-bd">
-              <h5 size-15>李一花老师</h5>
+              <h5 size-15>李一花老师 {{ roleType }} </h5>
               <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
               <div class="img-group">
                 <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
@@ -55,6 +60,7 @@
 <script>
 import service from "@/api";
 import qxfooter from "@/components/footer";
+import { mapState } from "vuex";
 export default {
   name: "home",
   components: {
@@ -66,6 +72,7 @@ export default {
         openId: "10086",
         classId: 10086
       },
+      classList: [],
       menuList: [
         {
           name: "通知公告",
@@ -84,7 +91,7 @@ export default {
         },
         {
           name: "考勤记录",
-          url: "",
+          url: "/clock",
           icon: "./static/image/men-icon-3@2x.png"
         },
         {
@@ -110,10 +117,20 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapState("user", ["roleType"])
+  },
   methods: {
     go(url) {
       if (url) {
         this.$router.push({ path: `${url}` });
+      }
+    },
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
+      if (res.errorCode === 0) {
+        this.classList = res.data;
       }
     },
     //班级圈信息查询
@@ -122,6 +139,7 @@ export default {
     }
   },
   activated() {
+    this.queryClassId({ id: 1, roleType: 1 });
     //this.communityQuery(this.query);
   }
 };

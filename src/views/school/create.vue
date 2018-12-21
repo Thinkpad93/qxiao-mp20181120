@@ -1,6 +1,19 @@
 <template>
   <div class="page">
-    <div class="page-hd"></div>
+    <div class="page-hd">
+      <div class="setp flex">
+        <div class="circle on">1</div>
+        <div class="line flex">
+          <span class="on"></span>
+          <span></span>
+        </div>
+        <div class="circle">2</div>
+      </div>
+      <div class="stepwz flex">
+        <div class="s-green on">创建幼儿园</div>
+        <div class="s-gray">创建班级</div>
+      </div>
+    </div>
     <div class="page-bd">
       <!-- 提交成功提示 -->
       <form action="" ref="form">
@@ -28,7 +41,7 @@
               <label for="" class="label">详细地址</label>
             </div>   
             <div class="cell-bd">
-              <input class="input" placeholder="请输入详细地址" maxlength="20">
+              <input class="input" placeholder="请输入详细地址" maxlength="120" v-model="form.location">
             </div>                  
           </div>
           <div class="cell">
@@ -44,25 +57,9 @@
               <label for="" class="label">园长手机号</label>
             </div>    
             <div class="cell-bd">
-              <input class="input" placeholder="请输入园长手机号" v-model="form.tel" maxlength="11">
+              <input type="number" class="input" placeholder="请输入园长手机号" readonly v-model="form.tel">
             </div>                   
           </div>
-          <div class="cell"> 
-            <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入验证码" maxlength="6">
-            </div>
-            <div class="cell-ft">
-              <span style="color:#92cd36" @click="handleSecond">获取验证码</span>
-            </div>                
-          </div>
-          <!-- <div class="cell">
-            <div class="cell-hd">
-              <label for="" class="label">密码</label>
-            </div>    
-            <div class="cell-bd">
-              <input type="password" class="input" placeholder="请设置6~16位字母或数字的密码" v-model="form.password" maxlength="20">
-            </div>                   
-          </div> -->
         </div>  
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell">
@@ -107,6 +104,8 @@
 <script>
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
+import { isPhone } from "@/utils/validator";
+import { mapGetters } from "vuex";
 export default {
   name: "schoolCreate",
   mixins: [schoolType],
@@ -116,6 +115,7 @@ export default {
       className: "",
       form: {
         schoolName: "",
+        location: "",
         type: 1,
         openId: "10086",
         leadName: "",
@@ -124,32 +124,53 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(["tel"])
+  },
   methods: {
     handleNextClick() {
-      this.views = true;
+      let { schoolName, location, leadName, tel } = this.form;
+      if (schoolName == "" || !schoolName.length) {
+        this.$weui.topTips("请输入幼儿园名称");
+        return false;
+      }
+      if (location == "" || !location.length) {
+        this.$weui.topTips("请输入详细地址");
+        return false;
+      }
+      if (leadName == "" || !leadName.length) {
+        this.$weui.topTips("请输入园长姓名");
+        return false;
+      }
+      if (isPhone(tel)) {
+        this.views = true;
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
     },
     handleAddClass() {
-      this.form.classes.push({ className: this.className });
-      this.className = "";
+      if (this.className) {
+        this.form.classes.push({ className: this.className });
+        this.className = "";
+      }
     },
     handleDelClass(index) {
       this.form.classes.splice(index, 1);
     },
-    handleSecond() {},
     async handleSubmit() {
       let res = await service.schoolAdd(this.form);
       if (res.errorCode === 0) {
+        let { schoolCode, schoolId } = res.data;
+        this.$store.commit("user/SET_SCHOOLCODE", schoolCode);
+        this.$store.commit("user/SET_SCHOOLID", schoolId);
         this.$router.push({ path: "/home" });
       }
-    },
-    //获取验证码
-    async telVeriftCode(tel) {
-      let res = await service.telVeriftCode({ tel });
-      if (res.errorCode === 0) {
-        this.$weui.topTips(`验证码已经发送，请注意查收`);
-      }
     }
-  }
+  },
+  mounted() {
+    this.form.tel = this.tel;
+  },
+  activated() {}
 };
 </script>
 <style lang="less" scoped>
@@ -223,5 +244,45 @@ export default {
 }
 .cell-select-after {
   padding-left: 30px;
+}
+
+.setp {
+  align-items: center;
+  width: 380px;
+  margin: 0 auto;
+  padding-top: 40px;
+  .circle {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #e7e7e7;
+    &.on {
+      background-color: #9cd248;
+    }
+  }
+  .line {
+    flex: 1;
+    span {
+      display: inline-block;
+      flex: 1;
+      height: 4px;
+      background-color: #e7e7e7;
+      &.on {
+        background-color: #9cd248;
+      }
+    }
+  }
+}
+.stepwz {
+  width: 460px;
+  margin: 10px auto 0 auto;
+  color: #d7d7d7;
+  justify-content: space-between;
+  .on {
+    color: #9cd248;
+  }
 }
 </style>

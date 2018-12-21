@@ -14,11 +14,11 @@
               <img class="ignore" src="@/assets/image/phone-icon@2x.png" alt="">
             </div>
             <div class="cell-bd">
-              <input type="input" class="input text-left" pattern="[0-9]*" maxlength="11" placeholder="请输入手机号" autofocus v-model="form.tel">
+              <input type="number" class="input text-left" pattern="[0-9]*" placeholder="请输入手机号" autofocus v-model="form.tel">
             </div>
             <div class="cell-ft">
-              <a v-if="!hidden" href="javascript:;" style="color:#92cd36" @click="handleSecond">获取验证码</a>
-              <span v-if="hidden">{{ second }}s</span>
+              <a v-if="!hidden" href="javasrcript:;" style="color:#92cd36" @click="handleSecond">获取验证码</a>
+              <span v-if="hidden" style="color:#8d8d8d;">{{ second }}s</span>
             </div>
           </div>
         </div>
@@ -96,23 +96,32 @@ export default {
     },
     //用户登录
     async userTeleLogin(params = {}) {
-      let res = await service.userTeleLogin(params);
-      if (res.errorCode === 0) {
-        let { roleType } = res.data;
-        switch (roleType) {
-          case 1:
-            this.$router.replace({ path: "/home" });
-            break;
-          case 4:
-            this.$router.replace({ path: "/schoolCreate" });
-            break;
-          case 5:
-            this.$router.replace({ path: "/schollJoin" });
-            break;
+      this.$store.dispatch("user/userTeleLogin", params).then(res => {
+        if (res.errorCode === 0) {
+          let { roleType } = res.data;
+          switch (roleType) {
+            //直接进入首页
+            case 1:
+              this.$router.push({
+                path: "/home"
+              });
+              break;
+            case 4:
+              this.$store.commit("user/SET_TEL", params.tel);
+              this.$router.push({
+                path: "/schoolCreate"
+              });
+              break;
+            case 5:
+              this.$router.push({
+                path: "/schollJoin"
+              });
+              break;
+          }
+        } else if (res.errorCode === -1) {
+          this.$weui.topTips(`${res.errorMsg}`);
         }
-      } else if (res.errorCode === -1) {
-        this.$weui.topTips(`${res.errorMsg}`);
-      }
+      });
     }
   },
   mounted() {}

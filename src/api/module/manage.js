@@ -162,3 +162,9 @@ export function queryBySchoolCode(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//根据类型查询相关班级
+export function queryClassId(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassId.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

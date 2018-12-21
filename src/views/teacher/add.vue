@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <form action="" ref="form">
-        <button type="reset" hidden id="reset">重置</button>
+        <!-- <button type="reset" hidden id="reset">重置</button> -->
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -67,6 +67,7 @@
 <script>
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
+import { isPhone } from "@/utils/validator";
 export default {
   name: "teacherAdd",
   mixins: [type, sex],
@@ -91,13 +92,21 @@ export default {
       reset.click();
     },
     handleSubmit() {
+      let { teacherName, tel, classId, ...args } = this.form;
       let classes = [];
-      let { classId, ...args } = this.form;
-      if (classId) {
-        classes.push({ classId });
+      if (teacherName == "" || !teacherName.length) {
+        this.$weui.topTips("请输入老师姓名");
+        return false;
       }
-      let obj = Object.assign({}, args, { classes });
-      this.teacherAdd(obj);
+      if (isPhone(tel)) {
+        if (classId) {
+          classes.push({ classId });
+        }
+        let obj = Object.assign({}, args, { teacherName, tel, classes });
+        this.teacherAdd(obj);
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {
@@ -110,8 +119,12 @@ export default {
     async teacherAdd(params = {}) {
       let res = await service.teacherAdd(params);
       if (res.errorCode === 0) {
-        this.handleReset();
-        this.$router.push({ path: "/teacher" });
+        this.$weui.alert("新增成功", () => {
+          this.$refs.form.reset();
+          this.$router.push({ path: "/teacher" });
+        });
+        //this.handleReset();
+        //this.$router.push({ path: "/teacher" });
       }
     }
   },

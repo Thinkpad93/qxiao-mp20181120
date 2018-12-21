@@ -69,6 +69,7 @@
 <script>
 import service from "@/api";
 import { sex } from "@/mixins/type";
+import { isPhone } from "@/utils/validator";
 export default {
   name: "studentEdit",
   mixins: [sex],
@@ -97,7 +98,16 @@ export default {
       }
     },
     handleSubmit() {
-      this.studentUpdate(this.form);
+      let { studentName, tel } = this.form;
+      if (studentName == "" || !studentName.length) {
+        this.$weui.topTips("请输入学生姓名");
+        return false;
+      }
+      if (isPhone(tel)) {
+        this.studentUpdate(this.form);
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {
@@ -110,7 +120,7 @@ export default {
     async studentQuery(params = {}) {
       let res = await service.studentQuery(params);
       if (res.errorCode === 0) {
-        this.form = res.data;
+        this.form = res.data[0];
       }
     },
     //学生修改

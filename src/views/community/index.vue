@@ -2,7 +2,8 @@
   <div class="page">
     <div class="page-hd"></div>
     <div class="page-bd">
-      <form action="" ref="form" method="post" enctype="multipart/form-data">
+      <form action="" ref="form" method="post" enctype="multipart/form-data" @submit.prevent="handleOnSubmit">
+        <input type="submit" id="submission" hidden>
         <div class="cells">
           <div class="cell">
             <div class="cell-bd">
@@ -13,7 +14,7 @@
             <div class="cell-bd">
               <ul class="uploader-files">
                 <li class="uploader-file" 
-                  v-for="(file, index) in imagesList" 
+                  v-for="(file, index) in form.images" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
                   <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)">
@@ -39,7 +40,7 @@
     </div>  
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" id="btn-Submission">发布</a>
+        <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
       </div>      
     </div>
   </div>  
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     handleDelImg(index) {
-      return this.imagesList.splice(index, 1);
+      return this.form.images.splice(index, 1);
     },
     handleChangeFile(e) {
       let files = e.target.files;
@@ -82,12 +83,22 @@ export default {
         }
         let reader = new FileReader();
         reader.onload = e => {
-          console.log(e);
-          this.imagesList.push(e.target.result);
+          this.form.images.push(e.target.result);
         };
         reader.readAsDataURL(file);
       }
-      console.log(this.imagesList);
+    },
+    handleOnSubmit() {
+      console.log("过来了");
+    },
+    handleSubmit() {
+      document.getElementById("submission").click();
+    },
+    async communityAdd(params = {}) {
+      let res = await service.communityAdd(params, {
+        headers: { "Content-Type": "application/json" }
+      });
+      console.log(res);
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {

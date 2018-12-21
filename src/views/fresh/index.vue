@@ -17,6 +17,7 @@
   </div>  
 </template>
 <script>
+import service from "@/api";
 export default {
   name: "fresh",
   data() {
@@ -27,8 +28,13 @@ export default {
   methods: {
     go() {
       this.$router.push({ path: "/fresh/show" });
+    },
+    //速报列表查询
+    async freshQuery(params = {}) {
+      let res = await service.freshQuery(params);
     }
-  }
+  },
+  activated() {}
 };
 </script>
 <style lang="less" scoped>

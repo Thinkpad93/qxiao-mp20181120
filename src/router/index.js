@@ -41,6 +41,12 @@ export const constantRouterMap = [{
     path: '/recipe',
     component: () => import('@/views/recipe')
   }, {
+    path: '/clock',
+    component: () => import('@/views/clock')
+  }, {
+    path: '/clock/show/:id',
+    component: () => import('@/views/clock/show')
+  }, {
     path: '/fresh',
     component: () => import('@/views/fresh')
   }, {

@@ -2,7 +2,7 @@
 
 #app {
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -167,16 +167,20 @@
   opacity: 0;
 }
 
+.classId {
+  background-color: #9acb4d;
+}
+
 /*fade-transform*/
-.fade-transform-leave-active,
-.fade-transform-enter-active {
-  transition: all .2s;
-}
-.fade-transform-enter {
-  opacity: 0.8;
-  transform: translateX(10px);
-}
-.fade-transform-leave-to {
-  opacity: 0;
-  transform: translateX(-10px);
-}
+// .fade-transform-leave-active,
+// .fade-transform-enter-active {
+//   transition: all .4s;
+// }
+// .fade-transform-enter {
+//   opacity: 0.8;
+//   transform: translateX(100%);
+// }
+// .fade-transform-leave-to {
+//   opacity: 0;
+//   transform: translateX(-100%);
+// }

@@ -5,39 +5,46 @@
         <div class="cell">
           <div class="cell-hd">
             <label for="" class="label">幼儿园名称</label>
-          </div>        
+          </div>      
+          <div class="cell-bd">
+            <input class="input" readonly maxlength="4" v-model="info.schoolName">
+          </div>  
         </div>
         <div class="cell">
           <div class="cell-hd">
             <label for="" class="label">幼儿园类型</label>
-          </div>        
-        </div>    
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">地址</label>
-          </div>        
-        </div>    
+          </div> 
+          <div class="cell-bd">  
+            <select class="select" name="" dir="rtl" v-model="info.type">
+              <option  :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
+            </select> 
+          </div>              
+        </div>       
         <div class="cell">
           <div class="cell-hd">
             <label for="" class="label">详细地址</label>
-          </div>        
+          </div>    
+          <div class="cell-bd">
+            <input class="input" readonly maxlength="4" v-model="info.location">
+          </div>                 
         </div>             
       </div>
       <div class="cells">
         <div class="cell">
           <div class="cell-hd">
             <label for="" class="label">园长姓名</label>
-          </div>            
+          </div>  
+          <div class="cell-bd">
+            <input class="input" readonly maxlength="4" v-model="info.leaderName">
+          </div>                      
         </div>
         <div class="cell">
           <div class="cell-hd">
             <label for="" class="label">园长手机号</label>
-          </div>            
-        </div>
-        <div class="cell">
-          <div class="cell-hd">
-            <label for="" class="label">修改密码</label>
-          </div>            
+          </div>        
+          <div class="cell-bd">
+            <input class="input" readonly maxlength="4" v-model="info.tel">
+          </div>                
         </div>
       </div>
     </div>
@@ -45,14 +52,35 @@
   </div>  
 </template>
 <script>
+import service from "@/api";
 import qxfooter from "@/components/footer";
+import { mapGetters } from "vuex";
+import { schoolType } from "@/mixins/type";
 export default {
   name: "my",
+  mixins: [schoolType],
   components: {
     qxfooter
   },
   data() {
-    return {};
+    return {
+      info: {}
+    };
+  },
+  computed: {
+    //...mapState("user", ["openId"])
+    ...mapGetters(["openId"])
+  },
+  methods: {
+    async queryInfo(openId) {
+      let res = await service.queryInfo({ openId });
+      if (res.errorCode === 0) {
+        this.info = res.data;
+      }
+    }
+  },
+  activated() {
+    this.queryInfo(this.openId);
   }
 };
 </script>

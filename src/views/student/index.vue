@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="page-bd">
-      <div class="cells-title">学生列表({{ studentList.length }})</div>
+      <div class="cells-title">学生家长列表({{ studentList.length }})</div>
       <div class="cells">
         <div class="cell" v-for="(student, index) in studentList" :key="index" @click="handleEditStudent(student)">
           <div class="cell-hd">

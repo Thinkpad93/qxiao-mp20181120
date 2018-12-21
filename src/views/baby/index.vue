@@ -1,15 +1,19 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells">
-        <div class="cell babyItem" v-for="(item, index) in 2" :key="index">
+      <div class="cells weui-cells_checkbox" v-for="(item, index) in babyList" :key="index">
+        <label class="cell babyItem weui-check__label" :for="index">
           <div class="cell-hd">
             <img class="teacher-icon" src="http://iph.href.lu/40x40" alt="">
           </div>
           <div class="cell-bd">
-            <p>李小龙</p>
+            <p>{{ item.name }}</p>
           </div>
-        </div>
+          <div class="cell-ft">
+            <input @change="handleChange" v-model="item.checked" type="radio" name="radio1" :value="index" class="weui-check" :id="index">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
       </div>
     </div>  
     <div class="page-ft">
@@ -23,11 +27,19 @@
 export default {
   name: "boby",
   data() {
-    return {};
+    return {
+      babyList: [
+        { name: "小东北", checked: "0" },
+        { name: "大西南", checked: "" }
+      ]
+    };
   },
   methods: {
     handleAddChild() {
       this.$router.push({ path: "/baby/add" });
+    },
+    handleChange() {
+      console.log(this.babyList);
     }
   },
   activated() {

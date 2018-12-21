@@ -75,7 +75,7 @@ export default {
       let obj = Object.assign({}, { classId, studentId, openId });
       if (classId && studentId) {
         let confirmDom = this.$weui.confirm(
-          "确定要删除学生吗？",
+          "确定要移除学生吗？",
           () => {
             this.classMoveStudent(obj);
           },
@@ -89,7 +89,7 @@ export default {
       let obj = Object.assign({}, { classId, teacherId, openId });
       if (classId && teacherId) {
         let confirmDom = this.$weui.confirm(
-          "确定要删除老师吗？",
+          "确定要移除老师吗？",
           () => {
             this.classMoveTeacher(obj);
           },

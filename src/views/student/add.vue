@@ -27,7 +27,7 @@
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
             </div>
           </div>  
           <div class="cell cell-select cell-select-after">
@@ -63,6 +63,7 @@
 <script>
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
+import { isPhone } from "@/utils/validator";
 export default {
   name: "studentAdd",
   mixins: [sex, relation],
@@ -82,7 +83,16 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.studentAdd(this.form);
+      let { studentName, tel } = this.form;
+      if (studentName == "" || !studentName.length) {
+        this.$weui.topTips("请输入学生姓名");
+        return false;
+      }
+      if (isPhone(tel)) {
+        this.studentAdd(this.form);
+      } else {
+        this.$weui.topTips("请正确填写手机号");
+      }
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {
@@ -95,7 +105,10 @@ export default {
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
       if (res.errorCode === 0) {
-        this.$router.push({ path: "/student" });
+        this.$weui.alert("新增成功", () => {
+          this.$refs.form.reset();
+          this.$router.push({ path: "/student" });
+        });
       }
     }
   },
