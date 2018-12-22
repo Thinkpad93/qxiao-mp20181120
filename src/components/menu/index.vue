@@ -13,6 +13,7 @@ export default {
   name: "qmenu",
   data() {
     return {
+      //做一个好人
       menuList: [
         {
           name: "通知公告",
