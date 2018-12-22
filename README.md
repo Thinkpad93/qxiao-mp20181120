@@ -1,5 +1,3 @@
-## 技术
-
 ## 项目目录介绍
 
 - bulid webpack 编辑打包配置目录
@@ -9,7 +7,6 @@
   - assets 资源目录
   - components 组件目录
   - router 路由目录
-  - style css 样式文件
   - App.vue 根组件
   - main.js 项目启动文件（入口）
 - static 静态资源目录
