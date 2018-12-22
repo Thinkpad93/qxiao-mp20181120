@@ -19,9 +19,7 @@
               {{ teacher.teacherName }}
               <span size-14 v-if="!teacher.openId" style="color: rgb(64, 158, 255);">微信邀请</span>
             </p>
-            <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">
-              {{ cla.className }}
-            </small>
+            <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">{{ cla.className }}</small>
           </div>
           <div class="cell-ft flex">
             <!-- <span size-14>删除</span> -->
@@ -37,15 +35,16 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "teacher",
   data() {
     return {
-      query: {
-        schoolId: 1
-      },
       teacherList: []
     };
+  },
+  computed: {
+    ...mapGetters(["schoolId"])
   },
   methods: {
     handleEditTeacher(teacher) {
@@ -55,15 +54,15 @@ export default {
     handleAddTeacher() {
       this.$router.push({ path: `/teacher/add` });
     },
-    async queryTeacher(params = {}) {
-      let res = await service.queryTeacher(params);
+    async queryTeacher(schoolId) {
+      let res = await service.queryTeacher({ schoolId });
       if (res.errorCode === 0) {
         this.teacherList = res.data;
       }
     }
   },
   activated() {
-    this.queryTeacher(this.query);
+    this.queryTeacher(this.schoolId);
   }
 };
 </script>

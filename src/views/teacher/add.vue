@@ -86,11 +86,6 @@ export default {
     };
   },
   methods: {
-    //表单重置
-    handleReset() {
-      const reset = document.getElementById("reset");
-      reset.click();
-    },
     handleSubmit() {
       let { teacherName, tel, classId, ...args } = this.form;
       let classes = [];
@@ -119,12 +114,16 @@ export default {
     async teacherAdd(params = {}) {
       let res = await service.teacherAdd(params);
       if (res.errorCode === 0) {
-        this.$weui.alert("新增成功", () => {
-          this.$refs.form.reset();
-          this.$router.push({ path: "/teacher" });
-        });
-        //this.handleReset();
-        //this.$router.push({ path: "/teacher" });
+        this.$weui.alert(
+          "老师新增成功",
+          () => {
+            this.$refs.form.reset();
+            this.$router.push({ path: "/teacher" });
+          },
+          {
+            title: "提示"
+          }
+        );
       }
     }
   },

@@ -30,3 +30,9 @@ export function classClockQuery(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//考勤统计详情
+export function queryAttendance(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/queryAttendance.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

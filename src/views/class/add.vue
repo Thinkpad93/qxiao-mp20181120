@@ -43,7 +43,16 @@ export default {
     async classAdd(params = {}) {
       let res = await service.classAdd(params);
       if (res.errorCode === 0) {
-        this.$router.push({ path: "/class" });
+        this.$weui.alert(
+          "班级创建成功",
+          () => {
+            this.$refs.form.reset();
+            this.$router.push({ path: "/class" });
+          },
+          {
+            title: "提示"
+          }
+        );
       }
     }
   }

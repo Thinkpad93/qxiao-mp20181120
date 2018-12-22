@@ -98,10 +98,27 @@ export default {
     async userTeleLogin(params = {}) {
       this.$store.dispatch("user/userTeleLogin", params).then(res => {
         if (res.errorCode === 0) {
+          this.form.tel = "";
+          this.form.verifyCode = "";
           let { roleType } = res.data;
           switch (roleType) {
             //直接进入首页
+            case 0:
+              this.$weui.alert("此手机号码还没有录入", () => {}, {
+                title: "提示"
+              });
+              break;
             case 1:
+              this.$router.push({
+                path: "/home"
+              });
+              break;
+            case 2:
+              this.$router.push({
+                path: "/home"
+              });
+              break;
+            case 3:
               this.$router.push({
                 path: "/home"
               });
@@ -114,12 +131,21 @@ export default {
               break;
             case 5:
               this.$router.push({
-                path: "/schollJoin"
+                path: "/schoolJoin"
+              });
+              break;
+            case 6:
+              this.$store.commit("user/SET_TEL", params.tel);
+              this.$router.push({
+                path: "/baby/supply"
               });
               break;
           }
+          //表单重置
         } else if (res.errorCode === -1) {
-          this.$weui.topTips(`${res.errorMsg}`);
+          this.$weui.alert(`${res.errorMsg}`, () => {}, {
+            title: "提示"
+          });
         }
       });
     }
@@ -144,7 +170,7 @@ export default {
   left: 50%;
   top: 50%;
   z-index: 86;
-  width: 80%;
+  width: 90%;
   transform: translate(-50%, -50%);
 }
 .form {
@@ -153,7 +179,6 @@ export default {
   min-height: 600px;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.12), 0 0 12px 0 rgba(0, 0, 0, 0.04);
 }
 .top {
   display: flex;

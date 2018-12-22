@@ -11,7 +11,7 @@
             <div class="cell-bd">
               <input class="input" placeholder="请输入学生姓名" maxlength="4" v-model="form.studentName">
             </div>            
-          </div>
+          </div>    
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label for="" class="label">性别</label>
@@ -21,15 +21,15 @@
                 <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
-          </div>   
+          </div>  
           <div class="cell">
             <div class="cell-hd">
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="form.tel">
             </div>
-          </div>  
+          </div> 
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label for="" class="label">学生和家长关系</label>
@@ -39,47 +39,52 @@
                 <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
               </select>
             </div>
-          </div> 
-          <div class="cell cell-select cell-select-after">
+          </div>
+          <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">学生所在班级</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.classId">
+              <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select>
+              </select> -->
             </div>
-          </div>                                        
+            <div class="cell-ft">
+              <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span>
+            </div>
+          </div>                                                   
         </div>
-      </form>
-    </div>
+      </form>  
+    </div>  
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
       </div>
-    </div>    
+    </div>       
   </div>  
 </template>
 <script>
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import { mapGetters } from "vuex";
 export default {
-  name: "studentAdd",
+  name: "bobySupply",
   mixins: [sex, relation],
   data() {
     return {
-      schoolId: 1,
       classList: [],
       form: {
         openId: "10086",
         studentName: "",
         sex: 1,
         tel: "",
-        relation: 1,
-        classId: 3
+        relation: 1
       }
     };
+  },
+  computed: {
+    ...mapGetters(["tel"])
   },
   methods: {
     handleSubmit() {
@@ -89,37 +94,30 @@ export default {
         return false;
       }
       if (isPhone(tel)) {
-        this.studentAdd(this.form);
+        this.studentSupply(this.form);
       } else {
         this.$weui.topTips("请正确填写手机号");
       }
     },
-    //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
+    //根据家长手机号查询相关班级
+    async queryClassByTel(tel) {
+      let res = await service.queryClassByTel({ tel });
       if (res.errorCode === 0) {
         this.classList = res.data;
       }
     },
-    //学生新增
-    async studentAdd(params = {}) {
-      let res = await service.studentAdd(params);
+    //学生信息完善
+    async studentSupply(params = {}) {
+      let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
-        this.$weui.alert(
-          "新增学生成功",
-          () => {
-            this.$refs.form.reset();
-            this.$router.push({ path: "/student" });
-          },
-          {
-            title: "提示"
-          }
-        );
+        this.$refs.form.reset();
+        this.$router.push({ path: "/home" });
       }
     }
   },
   mounted() {
-    this.queryClass(this.schoolId);
+    this.form.tel = this.tel;
+    this.queryClassByTel(this.form.tel);
   }
 };
 </script>

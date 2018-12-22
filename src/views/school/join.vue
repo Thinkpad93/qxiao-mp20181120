@@ -1,18 +1,18 @@
 <template>
   <div class="page">
-    <div class="page-hd text-center">
+    <div class="page-hd">
       <template v-if="views">
-        <h2 size-18 class="text-ellipsis">
-          广州市天河区黄村幼儿园
-          <small>(ID码: 105239)</small>
+        <h2 size-18 class="text-ellipsis text-center">
+          {{ info.schoolName }}
+          <small>(ID码: {{ info.schoolCode }})</small>
         </h2>
         <div class="address flex text-ellipsis">
           <img src="@/assets/image/map.png" alt="">
-          <span>广东省广州市天河区东圃大马路</span>
+          <span>{{ info.location }}</span>
         </div>        
       </template>
       <template v-else>
-        <h2 size-18 class="text-ellipsis">请输入要加入的学校ID码</h2>
+        <!-- <h2 size-18 class="text-ellipsis text-center">请输入学校ID码</h2> -->
       </template>
     </div>
     <div class="page-bd">
@@ -41,12 +41,12 @@
               <label class="label">手机号码</label>
             </div>
             <div class="cell-bd">
-              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel" maxlength="11">
+              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
             </div>
           </div>  
           <div class="cell"> 
             <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入验证码" v-model="form.veriftcode" maxlength="6">
+              <input class="input text-left" placeholder="请输入验证码" v-model="form.veriftCode" maxlength="6">
             </div>
             <div class="cell-ft">
               <span style="color:#92cd36" @click="handleGetVeriftCode">获取验证码</span>
@@ -58,7 +58,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入ID码" maxlength="4" v-model="schoolCode">
+              <input type="number" class="input" placeholder="请输入6位数学校ID码" maxlength="4" v-model="schoolCode">
             </div>            
           </div>
         </div>
@@ -87,30 +87,72 @@ export default {
     return {
       views: false,
       schoolCode: "",
+      info: {},
       form: {
         openId: "10086",
         teacherName: "",
         schoolId: 1,
         sex: 1,
         tel: "",
-        veriftcode: ""
+        veriftCode: ""
       }
     };
   },
   methods: {
-    handleNext() {},
-    handleSubmit() {},
-    handleGetVeriftCode() {},
-    //根据学校Id码查询信息
-    async queryBySchoolCode(schoolCode) {
-      let res = await service.queryBySchoolCode({ schoolCode });
+    handleNext() {
+      if (this.schoolCode == "") {
+        this.$weui.alert("请输入学校ID码", () => {}, { title: "提示" });
+      } else {
+        this.querySchoolInfo(this.schoolCode);
+      }
+    },
+    handleSubmit() {
+      let { teacherName, tel } = this.form;
+      if (teacherName == "" || !teacherName.length) {
+        this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
+        return false;
+      }
+      if (isPhone(tel)) {
+        this.teacherJoin(this.form);
+      } else {
+        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
+      }
+    },
+    handleGetVeriftCode() {
+      this.telVeriftCode(this.form.tel);
+    },
+    //获取验证码
+    async telVeriftCode(tel) {
+      let res = await service.telVeriftCode({ tel });
       if (res.errorCode === 0) {
+        this.$weui.topTips(`验证码已经发送，请注意查收`);
+      }
+    },
+    //根据学校Id码查询信息
+    async querySchoolInfo(schoolCode) {
+      let res = await service.querySchoolInfo({ schoolCode });
+      if (res.errorCode === 0) {
+        let { schoolId, ...args } = res.data;
+        this.views = true;
+        this.form.schoolId = schoolId;
+        this.info = { ...args };
+      } else if (res.errorCode === -1) {
+        this.$weui.alert("学校ID码有错，请联系园长", () => {}, {
+          title: "提示"
+        });
       }
     },
     //老师信息完善
     async teacherJoin(params = {}) {
       let res = await service.teacherJoin(params);
       if (res.errorCode === 0) {
+        this.$router.push({
+          path: "/home"
+        });
+      } else if (res.errorCode === -1) {
+        this.$weui.alert(`${res.errorMsg}`, () => {}, {
+          title: "提示"
+        });
       }
     }
   }
@@ -144,13 +186,10 @@ export default {
   }
 }
 .cells {
-  width: 80%;
   height: auto;
-  margin: 0 auto;
   font-size: 32px;
   overflow: hidden;
   position: relative;
-  border-radius: 10px;
   background-color: #fff;
 }
 .cell {

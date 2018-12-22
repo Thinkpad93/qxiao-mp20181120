@@ -162,9 +162,21 @@ export function queryBySchoolCode(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//根据学校Id码查询信息
+export function querySchoolInfo(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/querySchoolInfo.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //根据类型查询相关班级
 export function queryClassId(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassId.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//根据家长手机号查询相关班级
+export function queryClassByTel(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassByTel.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

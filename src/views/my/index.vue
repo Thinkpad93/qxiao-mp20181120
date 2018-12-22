@@ -48,7 +48,9 @@
         </div>
       </div>
     </div>
-    <qxfooter></qxfooter>
+    <div class="page-ft">
+      <qxfooter></qxfooter>
+    </div>
   </div>  
 </template>
 <script>

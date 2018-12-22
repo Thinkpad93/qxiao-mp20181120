@@ -4,7 +4,7 @@
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="handleShowDatePicker">
           <span id="data1">{{ query.date }}</span>
-          <span class="triangle_border_down_green"></span>
+          <!-- <span class="triangle_border_down_green"></span> -->
         </a>
       </div>
     </div>
@@ -56,6 +56,7 @@ export default {
         onConfirm: result => {
           this.query.date =
             result[0].value + "-" + result[1].value + "-" + result[2].value;
+          this.clockStat(this.query);
         }
       });
     },

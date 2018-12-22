@@ -2,9 +2,21 @@
 
 #app {
   height: 100%;
-  overflow-y: auto;
+  // overflow-y: auto;
   position: relative;
 }
+
+.page {
+  // height: 100%;
+  // display: flex;
+  // // flex-direction: column;
+}
+.page-bd {
+  // flex-grow: 1;
+  // overflow-y: scroll;
+  // -webkit-overflow-scrolling: touch;
+}
+
 
 .text-ellipsis {
   white-space: nowrap;
@@ -172,15 +184,15 @@
 }
 
 /*fade-transform*/
-// .fade-transform-leave-active,
-// .fade-transform-enter-active {
-//   transition: all .4s;
-// }
-// .fade-transform-enter {
-//   opacity: 0.8;
-//   transform: translateX(100%);
-// }
-// .fade-transform-leave-to {
-//   opacity: 0;
-//   transform: translateX(-100%);
-// }
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .4s ease;
+}
+.fade-transform-enter {
+  opacity: 0.8;
+  transform: translateX(50%);
+}
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(-50%);
+}

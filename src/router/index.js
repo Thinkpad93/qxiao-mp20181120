@@ -14,6 +14,9 @@ export const constantRouterMap = [{
     path: '/baby',
     component: () => import('@/views/baby'),
   }, {
+    path: '/baby/supply',
+    component: () => import('@/views/baby/supply'),
+  }, {
     path: '/baby/add',
     component: () => import('@/views/baby/add')
   }, {

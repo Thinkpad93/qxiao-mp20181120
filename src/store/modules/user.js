@@ -1,22 +1,19 @@
 import service from "@/api";
-import router from '@/router';
 
 export default {
   namespaced: true,
   state: {
     tel: "", //用户输入的手机号
-    id: null, //有可能是家长ID 老师ID  园长ID
     roleType: null, //角色类型
     openId: null, //微信 openId
     schoolCode: null, //学校ID码
-    schoolId: null //学校ID
+    schoolId: null, //学校ID
+    teacherId: null, //老师ID
+    patroarchId: null //家长ID
   },
   mutations: {
     SET_TEL: (state, tel) => {
       state.tel = tel;
-    },
-    SET_ID: (state, id) => {
-      state.id = id;
     },
     SET_ROLETYPE: (state, roleType) => {
       state.roleType = roleType;
@@ -29,6 +26,12 @@ export default {
     },
     SET_SCHOOLID: (state, schoolId) => {
       state.schoolId = schoolId;
+    },
+    SET_TEACHERID: (state, teacherId) => {
+      state.teacherId = teacherId;
+    },
+    SET_PATROARCHID: (state, patroarchId) => {
+      state.patroarchId = patroarchId;
     }
   },
   actions: {
@@ -41,12 +44,19 @@ export default {
           if (res.errorCode === 0) {
             let {
               roleType,
-              id,
               openId
             } = res.data;
-            commit('SET_ID', id);
             commit('SET_ROLETYPE', roleType);
             commit('SET_OPENID', openId);
+            switch (roleType) {
+              case 1:
+                commit('SET_SCHOOLID', res.data.schoolId);
+              case 2:
+                commit('SET_TEACHERID', res.data.teacherId);
+                break;
+              case 3:
+                commit('SET_PATROARCHID', res.data.patroarchId);
+            }
             resolve(res);
           } else if (res.errorCode === -1) {
             resolve(res);

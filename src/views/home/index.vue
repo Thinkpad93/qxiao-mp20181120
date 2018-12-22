@@ -1,70 +1,70 @@
 <template>
   <div class="page">
-    <nav class="nav">
-      <div class="nav-item" v-for="(menu, index) in menuList" :key="index" @click="go(menu.url)">
-        <img :src="menu.icon" alt="">
-        <div class="text-ellipsis">{{ menu.name }}</div>
-      </div>
-    </nav>
-    <div class="release">
-      <img src="@/assets/image/release-icon.png" alt="">
+    <div class="page-hd">
+      <qxmenu @change="go"></qxmenu>
     </div>
-    <main class="main">
-      <section class="classId">
-        <!-- <select class="select classId">
-          <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-        </select> -->
-      </section>
-      <section class="community">
-        <div class="box" v-for="(item, index) in 1" :key="index">
-          <div class="cell">
-            <div class="cell-hd">
-              <img class="" src="http://iph.href.lu/48x48" alt="">
-            </div>
-            <div class="cell-bd">
-              <h5 size-15>李一花老师 {{ roleType }} </h5>
-              <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
-              <div class="img-group">
-                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
-                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
-                <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
+    <div class="page-bd">
+      <div class="release">
+        <img src="@/assets/image/release-icon.png" alt="">
+      </div>
+      <main class="main">
+        <section class="classId">
+        </section>
+        <section class="community">
+          <div class="box" v-for="(item, index) in 10" :key="index">
+            <div class="cell">
+              <div class="cell-hd">
+                <img class="" src="http://iph.href.lu/48x48" alt="">
               </div>
-              <div class="handle">
-                <div class="left">
-                  <time>2分钟</time>
-                  <span class="del">删除</span>
+              <div class="cell-bd">
+                <h5 size-15>李一花老师 {{ roleType }} </h5>
+                <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
+                <div class="img-group">
+                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
+                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
+                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
                 </div>
-                <div class="right">
-                  <img src="@/assets/image/zan-active-icon.png" alt="">
-                  <img src="@/assets/image/comment-icon.png" alt="">
+                <div class="handle">
+                  <div class="left">
+                    <time>2分钟</time>
+                    <span class="del">删除</span>
+                  </div>
+                  <div class="right">
+                    <img src="@/assets/image/zan-active-icon.png" alt="">
+                    <img src="@/assets/image/comment-icon.png" alt="">
+                  </div>
                 </div>
-              </div>
-              <div class="data">
-                <div class="zan-list" size-12>
-                  <img src="@/assets/image/zan-icon.png" alt="">
-                  <span v-for="(zan, index) in 2" :key="index">黄飞鸿{{index}},</span>
+                <div class="data">
+                  <div class="zan-list" size-12>
+                    <img src="@/assets/image/zan-icon.png" alt="">
+                    <span v-for="(zan, index) in 2" :key="index">黄飞鸿{{index}},</span>
+                  </div>
+                  <ul class="comment-list" size-12>
+                    <li>黄飞鸿: 没有人能在这首BGM下打赢我</li>
+                    <li>赵天霸: 谁说的？我就打赢了，楼上是SB</li>
+                  </ul>
                 </div>
-                <ul class="comment-list" size-12>
-                  <li>黄飞鸿: 没有人能在这首BGM下打赢我</li>
-                  <li>赵天霸: 谁说的？我就打赢了，楼上是SB</li>
-                </ul>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
-    <qxfooter></qxfooter>
+        </section>
+      </main>      
+    </div>
+    <div class="page-ft">
+      <qxfooter></qxfooter>
+    </div>    
   </div>
 </template>
 <script>
 import service from "@/api";
 import qxfooter from "@/components/footer";
+import qxmenu from "@/components/menu";
 import { mapState } from "vuex";
 export default {
   name: "home",
   components: {
-    qxfooter
+    qxfooter,
+    qxmenu
   },
   data() {
     return {
@@ -72,49 +72,7 @@ export default {
         openId: "10086",
         classId: 10086
       },
-      classList: [],
-      menuList: [
-        {
-          name: "通知公告",
-          url: "/notice",
-          icon: "./static/image/men-icon-7@2x.png"
-        },
-        {
-          name: "营养食谱",
-          url: "",
-          icon: "./static/image/men-icon-9@2x.png"
-        },
-        {
-          name: "亲子作业",
-          url: "",
-          icon: "./static/image/men-icon-5@2x.png"
-        },
-        {
-          name: "考勤记录",
-          url: "/clock",
-          icon: "./static/image/men-icon-3@2x.png"
-        },
-        {
-          name: "新鲜速报",
-          url: "/fresh",
-          icon: "./static/image/men-icon-8@2x.png"
-        },
-        {
-          name: "班级相册",
-          url: "",
-          icon: "./static/image/men-icon-2@2x.png"
-        },
-        {
-          name: "班级管理",
-          url: "/class",
-          icon: "./static/image/men-icon-1@2x.png"
-        },
-        {
-          name: "老师管理",
-          url: "/teacher",
-          icon: "./static/image/men-icon-4@2x.png"
-        }
-      ]
+      classList: []
     };
   },
   computed: {
@@ -145,24 +103,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  background-color: #fff;
-  &-item {
-    width: 25%;
-    min-width: 0; /*解决方案*/
-    height: 168px;
-    text-align: center;
-    &:active {
-      background-color: #f2f2f2;
-    }
-    img {
-      width: 114px;
-      height: 114px;
-    }
-  }
-}
 .community {
   margin: 30px 0;
   background-color: #fff;
