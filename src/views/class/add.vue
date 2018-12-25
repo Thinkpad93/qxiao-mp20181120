@@ -9,7 +9,7 @@
               <label class="label">班级名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称" maxlength="4" v-model="form.className">
+              <input class="input" placeholder="请输入班级名称" maxlength="4" v-model="className">
             </div>            
           </div>          
         </div>
@@ -24,20 +24,25 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "classAdd",
   data() {
     return {
-      form: {
-        openId: "10086",
-        schoolId: 1,
-        className: ""
-      }
+      className: ""
     };
+  },
+  computed: {
+    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleSubmit() {
-      this.classAdd(this.form);
+      let obj = {
+        className: this.className,
+        openId: this.openId,
+        schoolId: this.schoolId
+      };
+      this.classAdd(obj);
     },
     //班级创建
     async classAdd(params = {}) {

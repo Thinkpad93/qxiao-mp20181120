@@ -11,14 +11,14 @@
         <section class="classId">
         </section>
         <section class="community">
-          <div class="box" v-for="(item, index) in 10" :key="index">
+          <div class="box" v-for="(item, index) in 1" :key="index">
             <div class="cell">
               <div class="cell-hd">
                 <img class="" src="http://iph.href.lu/48x48" alt="">
               </div>
               <div class="cell-bd">
-                <h5 size-15>李一花老师 {{ roleType }} </h5>
-                <p size-17 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
+                <h5 size-15>李一花老师</h5>
+                <p size-15 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
                 <div class="img-group">
                   <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
                   <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="handle">
                   <div class="left">
-                    <time>2分钟</time>
+                    <time>2018年12月10号 08:00</time>
                     <span class="del">删除</span>
                   </div>
                   <div class="right">
@@ -40,7 +40,7 @@
                     <span v-for="(zan, index) in 2" :key="index">黄飞鸿{{index}},</span>
                   </div>
                   <ul class="comment-list" size-12>
-                    <li>黄飞鸿: 没有人能在这首BGM下打赢我</li>
+                    <li>黄飞鸿: 没有人能在这首BGM下打赢我，做一个好人吧，跟我说一下志</li>
                     <li>赵天霸: 谁说的？我就打赢了，楼上是SB</li>
                   </ul>
                 </div>
@@ -59,7 +59,7 @@
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
@@ -76,7 +76,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("user", ["roleType"])
+    ...mapGetters(["roleType", "openId"])
   },
   methods: {
     go(url) {
@@ -99,6 +99,9 @@ export default {
   activated() {
     this.queryClassId({ id: 1, roleType: 1 });
     //this.communityQuery(this.query);
+  },
+  mounted() {
+    console.log(this.roleType);
   }
 };
 </script>
@@ -116,14 +119,15 @@ export default {
     align-items: flex-start;
   }
   h5 {
-    font-weight: bold;
     color: #656895;
   }
   .cell-bd {
     flex: 1;
     padding-left: 20px;
     p {
-      margin: 20px 0;
+      line-height: 1.4;
+      margin-top: 5px;
+      margin-bottom: 20px;
     }
   }
   .cell-hd {
@@ -135,6 +139,7 @@ export default {
   }
   .del {
     color: #ff87b7;
+    margin-left: 20px;
   }
   .data {
     background-color: #f5f5f5;
@@ -154,10 +159,21 @@ export default {
   justify-content: space-between;
 }
 .zan-list {
-  padding: 10px;
+  color: #9aa4cb;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  img {
+    margin-right: 20px;
+  }
 }
 .comment-list {
-  padding: 10px;
+  color: #9aa4cb;
+  border-top: 2px solid #e7e7e7;
+  li {
+    padding: 10px 20px;
+  }
 }
 .release {
   position: fixed;

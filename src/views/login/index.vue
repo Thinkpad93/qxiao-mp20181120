@@ -50,11 +50,12 @@ export default {
       timer: null,
       second: 60,
       form: {
-        tel: "", //13189680083  15011977647
-        verifyCode: "" //926663
+        tel: "",
+        verifyCode: ""
       }
     };
   },
+  computed: {},
   methods: {
     handleSecond() {
       if (isPhone(this.form.tel)) {
@@ -96,35 +97,27 @@ export default {
     },
     //用户登录
     async userTeleLogin(params = {}) {
-      this.$store.dispatch("user/userTeleLogin", params).then(res => {
+      this.$store.dispatch("account/userTeleLogin", params).then(res => {
         if (res.errorCode === 0) {
           this.form.tel = "";
           this.form.verifyCode = "";
           let { roleType } = res.data;
           switch (roleType) {
-            //直接进入首页
             case 0:
               this.$weui.alert("此手机号码还没有录入", () => {}, {
                 title: "提示"
               });
               break;
             case 1:
-              this.$router.push({
-                path: "/home"
-              });
+              this.$router.push({ path: "/home" });
               break;
             case 2:
-              this.$router.push({
-                path: "/home"
-              });
+              this.$router.push({ path: "/home" });
               break;
             case 3:
-              this.$router.push({
-                path: "/home"
-              });
+              this.$router.push({ path: "/home" });
               break;
             case 4:
-              this.$store.commit("user/SET_TEL", params.tel);
               this.$router.push({
                 path: "/schoolCreate"
               });
@@ -135,13 +128,11 @@ export default {
               });
               break;
             case 6:
-              this.$store.commit("user/SET_TEL", params.tel);
               this.$router.push({
                 path: "/baby/supply"
               });
               break;
           }
-          //表单重置
         } else if (res.errorCode === -1) {
           this.$weui.alert(`${res.errorMsg}`, () => {}, {
             title: "提示"

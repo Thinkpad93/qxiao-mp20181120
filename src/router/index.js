@@ -97,6 +97,9 @@ export const constantRouterMap = [{
   {
     path: '/student/edit/:id',
     component: () => import('@/views/student/edit')
+  }, {
+    path: '/album',
+    component: () => import('@/views/album')
   }
 ]
 

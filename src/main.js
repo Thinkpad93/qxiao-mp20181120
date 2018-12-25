@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
+import Vue from 'vue';
+import App from './App';
 import store from './store';
 import router from './router'
 
@@ -16,15 +16,26 @@ Vue.prototype.$weui = weui;
 
 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  console.log(from);
+  next();
+});
+
+
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
   store,
   router,
   components: {
     App
   },
-  template: '<App/>'
-})
+  template: '<App/>',
+  mounted() {
+    this.$store.dispatch('account/load');
+  }
+}).$mount('#app');

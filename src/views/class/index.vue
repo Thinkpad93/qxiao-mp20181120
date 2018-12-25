@@ -14,7 +14,7 @@
             </p>
           </div>
           <div class="cell-ft flex">
-            <a href="javascript:;" class="btn btn-del" size-12 @click="handleDelClass(item.classId)">删除</a>
+            <a href="javascript:;" class="btn btn-del" size-12 @click="handleDelClass(item)">删除</a>
             <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a>
           </div>
         </div> 
@@ -24,25 +24,33 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "class",
   data() {
     return {
-      query: {
-        schoolId: 1
-      },
       classList: []
     };
+  },
+  computed: {
+    ...mapGetters(["schoolId", "openId"])
   },
   methods: {
     handleAddClass() {
       this.$router.push({ path: `/class/add` });
     },
-    handleDelClass(classId) {
+    handleDelClass(params) {
+      let { classId, countStudent, countTeacher } = params;
+      if (countStudent > 0 || countTeacher > 0) {
+        this.$weui.alert("班级还有关联学生或者老师不能删除班级", () => {}, {
+          title: "提示"
+        });
+        return;
+      }
       let confirmDom = this.$weui.confirm(
         "确定要删除班级吗？",
         () => {
-          this.classDelete({ classId, openId: "10086" });
+          this.classDelete({ classId, openId: this.openId });
         },
         { title: "提示" }
       );
@@ -51,8 +59,8 @@ export default {
       this.$router.push({ path: `/class/edit/${classId}` });
     },
     //查询对应学校的所有班级
-    async queryClass(params = {}) {
-      let res = await service.queryClass(params);
+    async queryClass(schoolId) {
+      let res = await service.queryClass({ schoolId });
       if (res.errorCode === 0) {
         this.classList = res.data;
       }
@@ -61,22 +69,21 @@ export default {
     async classDelete(params = {}) {
       let res = await service.classDelete(params);
       if (res.errorCode === 0) {
-        this.queryClass(this.query);
+        this.queryClass(this.schoolId);
       } else if (res.errorCode === -1) {
         this.$weui.topTips(`${res.errorMsg}`);
       }
     }
   },
   activated() {
-    this.queryClass(this.query);
+    this.queryClass(this.schoolId);
   }
 };
 </script>
 <style lang="less" scoped>
 .page-hd {
   margin-bottom: 20px;
-  height: 214px;
-  padding-top: 80px;
+  padding: 40px 0;
   background-color: #fff;
   > a {
     width: 240px;
@@ -113,6 +120,7 @@ export default {
 .cell-bd {
   flex: 1;
   p {
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 }

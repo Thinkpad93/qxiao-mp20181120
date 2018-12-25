@@ -4,6 +4,14 @@
       <div class="cells">
         <div class="cell">
           <div class="cell-hd">
+            <label for="" class="label">幼儿园ID码</label>
+          </div>      
+          <div class="cell-bd">
+            <input class="input" readonly maxlength="4" v-model="info.schoolCode">
+          </div>  
+        </div>        
+        <div class="cell">
+          <div class="cell-hd">
             <label for="" class="label">幼儿园名称</label>
           </div>      
           <div class="cell-bd">
@@ -49,6 +57,9 @@
       </div>
     </div>
     <div class="page-ft">
+      <div class="btn-area">
+        <a href="javascript:;" class="btn btn-primary">退出</a>
+      </div>      
       <qxfooter></qxfooter>
     </div>
   </div>  
@@ -70,7 +81,6 @@ export default {
     };
   },
   computed: {
-    //...mapState("user", ["openId"])
     ...mapGetters(["openId"])
   },
   methods: {

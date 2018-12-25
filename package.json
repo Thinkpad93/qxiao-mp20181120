@@ -13,6 +13,7 @@
     "axios": "^0.18.0",
     "cssnano": "^4.1.7",
     "cube-ui": "^1.12.6",
+    "js-cookie": "^2.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",

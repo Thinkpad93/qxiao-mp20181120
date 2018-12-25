@@ -70,19 +70,18 @@
 import service from "@/api";
 import { sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import { mapGetters } from "vuex";
 export default {
   name: "studentEdit",
   mixins: [sex],
   data() {
     return {
-      query: {
-        openId: "10086",
-        tel: this.$route.params.id
-      },
-      schoolId: 1,
       classList: [],
       form: {}
     };
+  },
+  computed: {
+    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleDel() {
@@ -142,7 +141,11 @@ export default {
     this.queryClass(this.schoolId);
   },
   activated() {
-    this.studentQuery(this.query);
+    let obj = {
+      openId: this.openId,
+      tel: this.$route.params.id
+    };
+    this.studentQuery(obj);
   }
 };
 </script>

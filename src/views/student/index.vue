@@ -42,15 +42,16 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "student",
   data() {
     return {
-      query: {
-        classId: 5
-      },
       studentList: []
     };
+  },
+  computed: {
+    ...mapGetters(["teacherId"])
   },
   methods: {
     handleEditStudent(student) {
@@ -61,15 +62,15 @@ export default {
       this.$router.push({ path: `/student/add` });
     },
     //学生列表
-    async queryStudentList(params = {}) {
-      let res = await service.queryStudentList(params);
+    async queryStudentList(teacherId) {
+      let res = await service.queryStudentList({ teacherId });
       if (res.errorCode === 0) {
         this.studentList = res.data;
       }
     }
   },
   activated() {
-    this.queryStudentList(this.query);
+    this.queryStudentList(this.teacherId);
   }
 };
 </script>

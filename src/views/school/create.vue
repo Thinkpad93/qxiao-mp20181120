@@ -117,7 +117,6 @@ export default {
         schoolName: "",
         location: "",
         type: 1,
-        openId: "10086",
         leadName: "",
         tel: "",
         classes: []
@@ -125,7 +124,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["tel"])
+    ...mapGetters(["openId", "tel"])
   },
   methods: {
     handleNextClick() {
@@ -161,7 +160,6 @@ export default {
       let res = await service.schoolAdd(this.form);
       if (res.errorCode === 0) {
         let { schoolCode, schoolId } = res.data;
-        this.$store.commit("user/SET_SCHOOLCODE", schoolCode);
         this.$store.commit("user/SET_SCHOOLID", schoolId);
         this.$router.push({ path: "/home" });
       }

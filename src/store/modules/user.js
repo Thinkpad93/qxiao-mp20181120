@@ -1,4 +1,5 @@
-import service from "@/api";
+import Cookies from 'js-cookie';
+
 
 export default {
   namespaced: true,
@@ -35,36 +36,40 @@ export default {
     }
   },
   actions: {
-    //用户名登录
-    userTeleLogin({
-      commit
-    }, params) {
+    set({
+      commit,
+      dispatch
+    }, info) {
       return new Promise((resolve, reject) => {
-        service.userTeleLogin(params).then(res => {
-          if (res.errorCode === 0) {
-            let {
-              roleType,
-              openId
-            } = res.data;
-            commit('SET_ROLETYPE', roleType);
-            commit('SET_OPENID', openId);
-            switch (roleType) {
-              case 1:
-                commit('SET_SCHOOLID', res.data.schoolId);
-              case 2:
-                commit('SET_TEACHERID', res.data.teacherId);
-                break;
-              case 3:
-                commit('SET_PATROARCHID', res.data.patroarchId);
-            }
-            resolve(res);
-          } else if (res.errorCode === -1) {
-            resolve(res);
-          }
-        }).catch(error => {
-          reject(error);
-        })
+        let {
+          roleType,
+          openId,
+          tel,
+          ...args
+        } = info;
+        Cookies.set('qx', info);
+        commit('SET_ROLETYPE', roleType);
+        commit('SET_OPENID', openId);
+        commit('SET_TEL', tel);
+        resolve();
       })
+    },
+    get({
+      commit
+    }) {
+      return new Promise(resolve => {
+        let qx = Cookies.getJSON('qx');
+        commit('SET_ROLETYPE', qx.roleType);
+        commit('SET_OPENID', qx.openId);
+        commit('SET_SCHOOLID', qx.schoolId);
+        resolve();
+      });
+    },
+    load({
+      state,
+      dispatch
+    }) {
+      return dispatch('get');
     }
   }
 }

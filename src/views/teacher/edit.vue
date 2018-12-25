@@ -65,19 +65,18 @@
 <script>
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
+import { mapGetters } from "vuex";
 export default {
   name: "teacherAdd",
   mixins: [type, sex],
   data() {
     return {
-      schoolId: 1,
       classList: [],
-      query: {
-        openId: "10086",
-        teacherId: this.$route.params.id
-      },
       form: {}
     };
+  },
+  computed: {
+    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleDel() {
@@ -85,13 +84,20 @@ export default {
         let confirmDom = this.$weui.confirm(
           "确定要删除老师吗？",
           () => {
-            this.teacherDelete(this.query);
+            let obj = {
+              openId: this.openId,
+              teacherId: this.$route.params.id
+            };
+            this.teacherDelete(obj);
           },
           { title: "提示" }
         );
       }
     },
-    handleSubmit() {},
+    handleSubmit() {
+      let obj = Object.assign({}, this.form, { openId: this.openId });
+      this.teacherUpdate(obj);
+    },
     //老师删除
     async teacherDelete(params = {}) {
       let res = await service.teacherDelete(params);
@@ -103,7 +109,13 @@ export default {
     async teacherUpdate(params = {}) {
       let res = await service.teacherUpdate(params);
       if (res.errorCode === 0) {
-        this.$router.push({ path: "/teacher" });
+        let confirmDom = this.$weui.confirm(
+          "修改成功",
+          () => {
+            this.$router.push({ path: "/teacher" });
+          },
+          { title: "提示" }
+        );
       }
     },
     //老师信息查询
@@ -125,7 +137,11 @@ export default {
     this.queryClass(this.schoolId);
   },
   activated() {
-    this.teacherQuery(this.query);
+    let obj = {
+      openId: this.openId,
+      teacherId: this.$route.params.id
+    };
+    this.teacherQuery(obj);
   }
 };
 </script>

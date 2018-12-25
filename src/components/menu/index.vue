@@ -1,9 +1,8 @@
 <template>
-  <nav class="nav">
+  <nav class="nav">       
     <div class="nav-item" v-for="(menu, index) in menuList" :key="index" @click="handleMenuClick(menu.url)">
-      <template></template>
-        <img :src="menu.icon" :alt="roleType" :data-schoolId="schoolId">
-        <div class="text-ellipsis">{{ menu.name }}</div>
+      <img :src="menu.icon" :alt="roleType">
+      <div class="text-ellipsis">{{ menu.name }}</div>
     </div>
   </nav>  
 </template>
@@ -42,8 +41,13 @@ export default {
         },
         {
           name: "班级相册",
-          url: "",
+          url: "/album",
           icon: "./static/image/men-icon-2@2x.png"
+        },
+        {
+          name: "学生管理",
+          url: "/student",
+          icon: "./static/image/men-icon-10@2x.png"
         },
         {
           name: "班级管理",
@@ -59,7 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["roleType", "schoolId"])
+    ...mapGetters(["roleType"])
   },
   methods: {
     handleMenuClick(url) {

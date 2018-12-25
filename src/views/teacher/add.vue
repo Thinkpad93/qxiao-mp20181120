@@ -68,15 +68,14 @@
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import { mapGetters } from "vuex";
 export default {
   name: "teacherAdd",
   mixins: [type, sex],
   data() {
     return {
-      schoolId: 1,
       classList: [],
       form: {
-        openId: "10086",
         teacherName: "",
         sex: 1,
         tel: "",
@@ -84,6 +83,9 @@ export default {
         classId: null
       }
     };
+  },
+  computed: {
+    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleSubmit() {
@@ -97,7 +99,12 @@ export default {
         if (classId) {
           classes.push({ classId });
         }
-        let obj = Object.assign({}, args, { teacherName, tel, classes });
+        let obj = Object.assign({}, args, {
+          teacherName,
+          tel,
+          classes,
+          openId: this.openId
+        });
         this.teacherAdd(obj);
       } else {
         this.$weui.topTips("请正确填写手机号");

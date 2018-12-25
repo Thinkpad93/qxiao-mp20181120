@@ -4,9 +4,15 @@
 - config 项目配置
 - node_modules npm 包
 - src 开发需要的目录
+  - api 后端接口地址
   - assets 资源目录
   - components 组件目录
-  - router 路由目录
+  - router 路由文件
+  - mock 模拟数据
+  - router vue 路由配置文件
+  - store vuex 文件
+  - style 样式文件
+  - views 页面
   - App.vue 根组件
   - main.js 项目启动文件（入口）
 - static 静态资源目录
