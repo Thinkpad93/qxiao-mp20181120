@@ -47,11 +47,15 @@ export default {
           tel,
           ...args
         } = info;
-        Cookies.set('qx', info);
-        commit('SET_ROLETYPE', roleType);
-        commit('SET_OPENID', openId);
-        commit('SET_TEL', tel);
-        resolve();
+        if (roleType !== 0) {
+          Cookies.set('qx', info);
+          commit('SET_ROLETYPE', roleType);
+          commit('SET_OPENID', openId);
+          commit('SET_TEL', tel);
+          resolve();
+        } else {
+          resolve();
+        }
       })
     },
     get({

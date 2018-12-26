@@ -4,30 +4,31 @@
       <qxmenu @change="go"></qxmenu>
     </div>
     <div class="page-bd">
-      <div class="release">
+      <router-link to="/community" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
-      </div>
+      </router-link>
       <main class="main">
         <section class="classId">
+          <span @click="handleSelectClass">{{ className }}</span>
         </section>
         <section class="community">
-          <div class="box" v-for="(item, index) in 1" :key="index">
+          <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
               <div class="cell-hd">
-                <img class="" src="http://iph.href.lu/48x48" alt="">
+                <img v-if="community.photo" src="http://iph.href.lu/48x48" alt="">
               </div>
               <div class="cell-bd">
-                <h5 size-15>李一花老师</h5>
-                <p size-15 class="line-clamp">那么对于刚接触VBA的新手,没有人能在这首BGM下打赢我,谁说的？我就打赢了，楼上是SB</p>
-                <div class="img-group">
-                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
-                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
-                  <img class="" src="@/assets/image/109951163721592032.jpg" alt="">
-                </div>
+                <h5 size-15>{{ community.name }}</h5>
+                <p size-15 class="line-clamp">{{ community.textContent }}</p>
+                <template>
+                  <div class="img-group">
+                    <img v-for="(img, index) in community.images" :key="index" :src="img.imageUrl" alt="">
+                  </div>
+                </template>
                 <div class="handle">
                   <div class="left">
-                    <time>2018年12月10号 08:00</time>
-                    <span class="del">删除</span>
+                    <time>{{ community.postTime }}</time>
+                    <span class="del" @click="handleCommunityDelete(community)">删除</span>
                   </div>
                   <div class="right">
                     <img src="@/assets/image/zan-active-icon.png" alt="">
@@ -37,11 +38,10 @@
                 <div class="data">
                   <div class="zan-list" size-12>
                     <img src="@/assets/image/zan-icon.png" alt="">
-                    <span v-for="(zan, index) in 2" :key="index">黄飞鸿{{index}},</span>
+                    <span v-for="(zan, index) in 2" :key="index"></span>
                   </div>
                   <ul class="comment-list" size-12>
-                    <li>黄飞鸿: 没有人能在这首BGM下打赢我，做一个好人吧，跟我说一下志</li>
-                    <li>赵天霸: 谁说的？我就打赢了，楼上是SB</li>
+                    <li v-for="(commen, index) in community.commentList" :key="index">{{ commen.textContent }}</li>
                   </ul>
                 </div>
               </div>
@@ -59,7 +59,6 @@
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
-import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
@@ -69,14 +68,13 @@ export default {
   data() {
     return {
       query: {
-        openId: "10086",
-        classId: 10086
+        openId: this.$store.getters.openId,
+        classId: null
       },
-      classList: []
+      className: null,
+      classList: [],
+      communityData: []
     };
-  },
-  computed: {
-    ...mapGetters(["roleType", "openId"])
   },
   methods: {
     go(url) {
@@ -84,33 +82,90 @@ export default {
         this.$router.push({ path: `${url}` });
       }
     },
+    handleSelectClass() {
+      let classMap = this.classList.map(item => {
+        return {
+          label: item.className,
+          value: item.classId
+        };
+      });
+      this.$weui.picker(classMap, {
+        defaultValue: [this.query.classId],
+        onConfirm: result => {
+          let value = result[0].value; //取第一个元素
+          let label = result[0].label;
+          this.className = label;
+          this.query.classId = value;
+          this.communityQuery(this.query);
+        }
+      });
+    },
+    handleCommunityDelete(community) {
+      let { openId, communityId } = community;
+      if (openId && communityId) {
+        this.$weui.confirm(
+          "确实要删除该条班级较圈吗",
+          () => {
+            this.communityDelete({ openId, communityId });
+          },
+          { title: "提示" }
+        );
+      }
+    },
     //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
+    async queryClassId() {
+      let roleType = this.$store.getters.roleType;
+      let obj = {
+        id: null,
+        roleType
+      };
+      switch (roleType) {
+        case 1:
+          obj.id = this.$store.getters.schoolId;
+          break;
+        case 2:
+          obj.id = this.$store.getters.teacherId;
+        default:
+      }
+      let res = await service.queryClassId(obj);
       if (res.errorCode === 0) {
         this.classList = res.data;
+        let copy = this.classList.slice(0, 1);
+        this.className = copy[0].className;
+        this.query.classId = copy[0].classId;
+        await service.communityQuery(this.query);
       }
     },
     //班级圈信息查询
     async communityQuery(params = {}) {
       let res = await service.communityQuery(params);
+      if (res.errorCode === 0) {
+        this.communityData = res.data;
+      }
+    },
+    //班级圈删除
+    async communityDelete(params = {}) {
+      let res = await service.communityDelete(params);
+      if (res.errorCode === 0) {
+      }
+    },
+    //班级圈点赞
+    async communityPraise(params = {}) {
+      let res = await service.communityPraise(params);
+      if (res.errorCode === 0) {
+      }
     }
   },
   activated() {
-    this.queryClassId({ id: 1, roleType: 1 });
-    //this.communityQuery(this.query);
-  },
-  mounted() {
-    console.log(this.roleType);
+    this.queryClassId();
   }
 };
 </script>
 <style lang="less" scoped>
 .community {
-  margin: 30px 0;
-  background-color: #fff;
   .box {
-    padding: 40px 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
   .cell {
     padding: 0 30px;
@@ -176,6 +231,7 @@ export default {
   }
 }
 .release {
+  display: block;
   position: fixed;
   right: 5%;
   bottom: 10%;

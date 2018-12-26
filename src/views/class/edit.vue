@@ -47,34 +47,33 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "classEdit",
   data() {
     return {
       index: 0,
+      query: {
+        classId: this.$route.params.id,
+        openId: this.$store.getters.openId
+      },
       className: "",
       teacherList: [],
       studentList: []
     };
   },
-  computed: {
-    ...mapGetters(["openId"])
-  },
   methods: {
     handleTabClick(index) {
       this.index = index;
-      let obj = {
-        classId: this.$route.params.id,
-        openId: this.openId
-      };
       return index === 0
-        ? this.classQueryTeacher(obj)
-        : this.classQueryStudent(obj);
+        ? this.classQueryTeacher(this.query)
+        : this.classQueryStudent(this.query);
     },
     handleMoveStudent(student) {
       let { classId, studentId } = student;
-      let obj = Object.assign({}, { classId, studentId, openId: this.openId });
+      let obj = Object.assign(
+        {},
+        { classId, studentId, openId: this.query.openId }
+      );
       if (classId && studentId) {
         let confirmDom = this.$weui.confirm(
           "确定要移除学生吗？",
@@ -87,7 +86,10 @@ export default {
     },
     handleMoveTeacher(teacher) {
       let { classId, teacherId } = teacher;
-      let obj = Object.assign({}, { classId, teacherId, openId: this.openId });
+      let obj = Object.assign(
+        {},
+        { classId, teacherId, openId: this.query.openId }
+      );
       if (classId && teacherId) {
         let confirmDom = this.$weui.confirm(
           "确定要移除老师吗？",
@@ -102,11 +104,7 @@ export default {
     async classMoveTeacher(params = {}) {
       let res = await service.classMoveTeacher(params);
       if (res.errorCode === 0) {
-        let obj = {
-          classId: this.$route.params.id,
-          openId: this.openId
-        };
-        this.classQueryTeacher(obj);
+        this.classQueryTeacher(this.query);
       }
     },
     //查询班级对应的老师
@@ -121,11 +119,7 @@ export default {
     async classMoveStudent(params = {}) {
       let res = await service.classMoveStudent(params);
       if (res.errorCode === 0) {
-        let obj = {
-          classId: this.$route.params.id,
-          openId: this.openId
-        };
-        this.classQueryStudent(obj);
+        this.classQueryStudent(this.query);
       }
     },
     //查询班级对应的学生
@@ -137,10 +131,7 @@ export default {
     }
   },
   activated() {
-    this.classQueryTeacher({
-      classId: this.$route.params.id,
-      openId: this.openId
-    });
+    this.classQueryTeacher(this.query);
   }
 };
 </script>

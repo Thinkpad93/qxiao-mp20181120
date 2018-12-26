@@ -99,9 +99,11 @@ export default {
     async userTeleLogin(params = {}) {
       this.$store.dispatch("account/userTeleLogin", params).then(res => {
         if (res.errorCode === 0) {
-          this.form.tel = "";
-          this.form.verifyCode = "";
           let { roleType } = res.data;
+          if (roleType !== 0) {
+            this.form.tel = "";
+            this.form.verifyCode = "";
+          }
           switch (roleType) {
             case 0:
               this.$weui.alert("此手机号码还没有录入", () => {}, {

@@ -58,7 +58,7 @@
     </div>
     <div class="page-ft">
       <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary">退出</a>
+        <a href="javascript:;" class="btn btn-primary" @click="handleOut">退出</a>
       </div>      
       <qxfooter></qxfooter>
     </div>
@@ -67,7 +67,6 @@
 <script>
 import service from "@/api";
 import qxfooter from "@/components/footer";
-import { mapGetters } from "vuex";
 import { schoolType } from "@/mixins/type";
 export default {
   name: "my",
@@ -77,13 +76,21 @@ export default {
   },
   data() {
     return {
-      info: {}
+      info: {},
+      openId: this.$store.getters.openId
     };
   },
-  computed: {
-    ...mapGetters(["openId"])
-  },
   methods: {
+    //退出登陆
+    handleOut() {
+      let confirmDom = this.$weui.confirm(
+        "确定要退出登陆吗？",
+        () => {
+          console.log(true);
+        },
+        { title: "提示" }
+      );
+    },
     async queryInfo(openId) {
       let res = await service.queryInfo({ openId });
       if (res.errorCode === 0) {
@@ -91,7 +98,7 @@ export default {
       }
     }
   },
-  activated() {
+  mounted() {
     this.queryInfo(this.openId);
   }
 };

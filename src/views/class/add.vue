@@ -9,7 +9,7 @@
               <label class="label">班级名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称" maxlength="4" v-model="className">
+              <input class="input" placeholder="请输入班级名称" maxlength="10" v-model="form.className">
             </div>            
           </div>          
         </div>
@@ -24,25 +24,24 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "classAdd",
   data() {
     return {
-      className: ""
+      form: {
+        className: "",
+        openId: this.$store.getters.openId,
+        schoolId: this.$store.getters.schoolId
+      }
     };
-  },
-  computed: {
-    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleSubmit() {
-      let obj = {
-        className: this.className,
-        openId: this.openId,
-        schoolId: this.schoolId
-      };
-      this.classAdd(obj);
+      if (this.form.className == "") {
+        this.$weui.alert("请输入班级名称", () => {}, { title: "提示" });
+      } else {
+        this.classAdd(this.form);
+      }
     },
     //班级创建
     async classAdd(params = {}) {
@@ -52,7 +51,7 @@ export default {
           "班级创建成功",
           () => {
             this.$refs.form.reset();
-            this.$router.push({ path: "/class" });
+            this.$router.go(-1);
           },
           {
             title: "提示"

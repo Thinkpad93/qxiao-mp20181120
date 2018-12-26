@@ -3,26 +3,37 @@
 import Vue from 'vue';
 import App from './App';
 import store from './store';
-import router from './router'
-
+import router from './router';
+import Cookies from 'js-cookie';
 
 import weui from 'weui.js';
 Vue.prototype.$weui = weui;
 
-//import MintUI from 'mint-ui';
-//import 'mint-ui/lib/style.css';
-
-//Vue.use(MintUI);
-
-
 
 Vue.config.productionTip = false;
 
+const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  console.log(to);
-  console.log(from);
-  next();
+  let qx = Cookies.getJSON('qx');
+  if (qx) {
+    if (to.path === '/login') {
+      next(`${from.path}`);
+    } else {
+      if (!store.getters.roleType && !store.getters.openId) {
+        store.dispatch('account/load');
+        next();
+      } else {
+        next();
+      }
+    }
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next()
+    } else {
+      next(`/login?redirect`);
+    }
+  }
 });
 
 
@@ -36,6 +47,6 @@ new Vue({
   },
   template: '<App/>',
   mounted() {
-    this.$store.dispatch('account/load');
+    //this.$store.dispatch('account/load');
   }
 }).$mount('#app');

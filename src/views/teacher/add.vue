@@ -68,14 +68,15 @@
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import { mapGetters } from "vuex";
 export default {
   name: "teacherAdd",
   mixins: [type, sex],
   data() {
     return {
       classList: [],
+      schoolId: this.$store.getters.schoolId,
       form: {
+        openId: this.$store.getters.openId,
         teacherName: "",
         sex: 1,
         tel: "",
@@ -83,9 +84,6 @@ export default {
         classId: null
       }
     };
-  },
-  computed: {
-    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleSubmit() {
@@ -102,8 +100,7 @@ export default {
         let obj = Object.assign({}, args, {
           teacherName,
           tel,
-          classes,
-          openId: this.openId
+          classes
         });
         this.teacherAdd(obj);
       } else {
@@ -125,7 +122,7 @@ export default {
           "老师新增成功",
           () => {
             this.$refs.form.reset();
-            this.$router.push({ path: "/teacher" });
+            this.$router.go(-1);
           },
           {
             title: "提示"

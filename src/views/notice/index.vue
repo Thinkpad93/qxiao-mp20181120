@@ -8,7 +8,7 @@
     </div>
     <div class="page-bd">
       <div class="cells">
-        <figure class="figure" v-for="(item, index) in 1" :key="index" @click="go">
+        <figure class="figure" v-for="(item, index) in noticeData" :key="index" @click="go">
           <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
           <div>
             <time>09-22 10:15</time>
@@ -36,11 +36,12 @@ export default {
   data() {
     return {
       index: 0,
-      form: {
-        openId: "",
+      query: {
+        openId: this.$store.getters.openId,
         type: 0,
-        classId: 0
-      }
+        classId: 2
+      },
+      noticeData: []
     };
   },
   methods: {
@@ -52,7 +53,17 @@ export default {
     },
     handleNoticeAdd() {
       this.$router.push({ path: "/notice/add" });
+    },
+    //公告通知列表查询
+    async noticeQuery(params = {}) {
+      let res = await service.noticeQuery(params);
+      if (res.errorCode === 0) {
+        this.noticeData = res.data;
+      }
     }
+  },
+  activated() {
+    this.noticeQuery(this.query);
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <a href="javacript:;" class="btn btn-primary" @click="handleAddClass">添加班级</a>
+      <router-link to="/class/add" class="btn btn-primary">添加班级</router-link>
     </div>
     <div class="page-bd">
       <div class="cells">
@@ -24,16 +24,14 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "class",
   data() {
     return {
+      schoolId: this.$store.getters.schoolId,
+      openId: this.$store.getters.openId,
       classList: []
     };
-  },
-  computed: {
-    ...mapGetters(["schoolId", "openId"])
   },
   methods: {
     handleAddClass() {

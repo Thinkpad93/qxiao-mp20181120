@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <a href="javascript:;" class="btn btn-primary" @click="handleAddTeacher">录入老师信息</a>
+      <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
       <div class="tab">
         <a href="javascript:;" style="color:#409eff;" size-14>批量导入老师信息</a>
         <a href="javascript:;" style="color:#409eff;" size-14>批量邀请老师</a>
@@ -35,24 +35,17 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "teacher",
   data() {
     return {
+      schoolId: this.$store.getters.schoolId,
       teacherList: []
     };
   },
-  computed: {
-    ...mapGetters(["schoolId"])
-  },
   methods: {
     handleEditTeacher(teacher) {
-      let { teacherId } = teacher;
-      this.$router.push({ path: `/teacher/edit/${teacherId}` });
-    },
-    handleAddTeacher() {
-      this.$router.push({ path: `/teacher/add` });
+      this.$router.push({ path: `/teacher/edit/${teacher.teacherId}` });
     },
     async queryTeacher(schoolId) {
       let res = await service.queryTeacher({ schoolId });

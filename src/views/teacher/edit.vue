@@ -112,7 +112,7 @@ export default {
         let confirmDom = this.$weui.confirm(
           "修改成功",
           () => {
-            this.$router.push({ path: "/teacher" });
+            this.$router.go(-1);
           },
           { title: "提示" }
         );

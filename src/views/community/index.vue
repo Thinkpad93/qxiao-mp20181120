@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-hd"></div>
     <div class="page-bd">
-      <form action="" ref="form" method="post" enctype="multipart/form-data" @submit.prevent="handleOnSubmit">
+      <form action="" ref="form" method="post" enctype="multipart/form-data">
         <input type="submit" id="submission" hidden>
         <div class="cells">
           <div class="cell">
@@ -25,14 +25,15 @@
               </div>
             </div>
           </div>         
-          <div class="cell cell-select cell-select-after">
+          <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">发送班级</label>
             </div>  
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.classId">
+              <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="form.classId">
+              <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select>
+              </select> -->
             </div>                      
           </div>
         </div>
@@ -51,12 +52,13 @@ export default {
   name: "community",
   data() {
     return {
-      schoolId: 1,
       imagesList: [],
       classList: [],
+      schoolId: this.$store.getters.schoolId,
       form: {
-        classId: 1,
-        contentType: null,
+        openId: this.$store.getters.openId,
+        classId: null,
+        contentType: 0,
         textContent: "",
         images: [],
         video: ""
@@ -64,6 +66,17 @@ export default {
     };
   },
   methods: {
+    handleSelectClass() {
+      let classMap = this.classList.map(item => {
+        return {
+          label: item.className,
+          value: item.classId
+        };
+      });
+      this.$weui.picker(classMap, {
+        onConfirm: result => {}
+      });
+    },
     handleDelImg(index) {
       return this.form.images.splice(index, 1);
     },
@@ -88,17 +101,21 @@ export default {
         reader.readAsDataURL(file);
       }
     },
-    handleOnSubmit() {
-      console.log("过来了");
-    },
     handleSubmit() {
-      document.getElementById("submission").click();
+      this.communityAdd(this.form);
+      //document.getElementById("submission").click();
     },
     async communityAdd(params = {}) {
-      let res = await service.communityAdd(params, {
-        headers: { "Content-Type": "application/json" }
-      });
-      console.log(res);
+      let res = await service.communityAdd(params);
+      if (res.errorCode === 0) {
+        this.$weui.alert(
+          "发布成功",
+          () => {
+            this.$router.go(-1);
+          },
+          { title: "提示" }
+        );
+      }
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {

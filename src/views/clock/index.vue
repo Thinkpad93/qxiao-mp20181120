@@ -3,7 +3,7 @@
     <div class="page-hd">
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="handleShowDatePicker">
-          <span id="data1">{{ query.date }}</span>
+          <span id="data1">{{ date }}</span>
           <!-- <span class="triangle_border_down_green"></span> -->
         </a>
       </div>
@@ -37,20 +37,21 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "clock",
   data() {
     return {
       clockList: [],
-      query: {
-        openId: "10086",
-        date: "2018-12-18"
-      }
+      date: "2018-12-25"
     };
+  },
+  computed: {
+    ...mapGetters(["openId"])
   },
   methods: {
     handleShowDatePicker() {
-      this.$weui.datePicker({
+      let t = this.$weui.datePicker({
         start: 1990,
         end: new Date().getFullYear(),
         onConfirm: result => {
@@ -72,7 +73,11 @@ export default {
     }
   },
   activated() {
-    this.clockStat(this.query);
+    let obj = {
+      openId: this.openId,
+      date: this.date
+    };
+    this.clockStat(obj);
   }
 };
 </script>
