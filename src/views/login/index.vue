@@ -120,16 +120,19 @@ export default {
               this.$router.push({ path: "/home" });
               break;
             case 4:
+              //园长进入注册幼儿园页面
               this.$router.push({
                 path: "/schoolCreate"
               });
               break;
             case 5:
+              //老师进入绑定幼儿园页面
               this.$router.push({
                 path: "/schoolJoin"
               });
               break;
             case 6:
+              //学生进入完善信息页面
               this.$router.push({
                 path: "/baby/supply"
               });

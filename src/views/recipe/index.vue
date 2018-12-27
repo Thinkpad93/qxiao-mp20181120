@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <section class="page-bd">
+    <div class="page-bd">
       <figure class="figure" v-for="(f, index) in 1" :key="index" @click="go">
         <h3 class="text-ellipsis">9月25日至9月30日食谱</h3>
         <div>
@@ -12,21 +12,31 @@
           <span>73人阅读</span>
         </div>
       </figure>  
-    </section>
+    </div>
   </div>  
 </template>
 <script>
+import service from "@/api";
 export default {
   name: "recipe",
   data() {
     return {
-      msg: "Hello"
+      query: {
+        openId: this.$store.getters.openId
+      }
     };
   },
   methods: {
     go() {
       this.$router.push({ path: "/fresh/show" });
+    },
+    //食谱列表查询
+    async recipeQuery(params = {}) {
+      let res = await service.recipeQuery(params);
     }
+  },
+  activated() {
+    this.recipeQuery(this.query);
   }
 };
 </script>

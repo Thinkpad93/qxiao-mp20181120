@@ -1,10 +1,9 @@
-
 <template>
-  <div class="page"></div>  
+  <div class="pages"></div>  
 </template>
 <script>
 export default {
-  name: "homeWork",
+  name: "homeWorkAdd",
   data() {
     return {};
   }

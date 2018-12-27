@@ -15,11 +15,11 @@
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
               <div class="cell-hd">
-                <img v-if="community.photo" src="http://iph.href.lu/48x48" alt="">
+                <img v-if="community.photo" :src="community.photo" alt="">
               </div>
               <div class="cell-bd">
-                <h5 size-15>{{ community.name }}</h5>
-                <p size-15 class="line-clamp">{{ community.textContent }}</p>
+                <h5 size-15>这是一个名称显示{{ community.name }}</h5>
+                <p size-15>{{ community.textContent }}</p>
                 <template>
                   <div class="img-group">
                     <img v-for="(img, index) in community.images" :key="index" :src="img.imageUrl" alt="">
@@ -28,21 +28,25 @@
                 <div class="handle">
                   <div class="left">
                     <time>{{ community.postTime }}</time>
-                    <span class="del" @click="handleCommunityDelete(community)">删除</span>
+                    <span class="del" @click="handleCommunityDelete(community, index)">删除</span>
                   </div>
                   <div class="right">
-                    <img src="@/assets/image/zan-active-icon.png" alt="">
+                    <img src="@/assets/image/zan-active-icon.png" alt="" @click="handlePraise(community)">
                     <img src="@/assets/image/comment-icon.png" alt="">
                   </div>
                 </div>
                 <div class="data">
-                  <div class="zan-list" size-12>
-                    <img src="@/assets/image/zan-icon.png" alt="">
-                    <span v-for="(zan, index) in 2" :key="index"></span>
-                  </div>
-                  <ul class="comment-list" size-12>
-                    <li v-for="(commen, index) in community.commentList" :key="index">{{ commen.textContent }}</li>
-                  </ul>
+                  <template v-if="community.praiseList">
+                    <div class="zan-list" size-12>
+                      <img src="@/assets/image/zan-icon.png" alt="">
+                      <span v-for="(praise, index) in community.praiseList" :key="index">{{ praise.studentName }}</span>
+                    </div>
+                  </template>
+                  <template v-if="community.commentList">
+                    <ul class="comment-list" size-12>
+                      <li v-for="(commen, index) in community.commentList" :key="index">{{ commen.textContent }}</li>
+                    </ul>
+                  </template>
                 </div>
               </div>
             </div>
@@ -59,6 +63,7 @@
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
+import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
@@ -67,14 +72,16 @@ export default {
   },
   data() {
     return {
+      className: this.$store.getters.className,
       query: {
         openId: this.$store.getters.openId,
-        classId: null
+        classId: this.$store.getters.classId
       },
-      className: null,
-      classList: [],
       communityData: []
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     go(url) {
@@ -83,13 +90,7 @@ export default {
       }
     },
     handleSelectClass() {
-      let classMap = this.classList.map(item => {
-        return {
-          label: item.className,
-          value: item.classId
-        };
-      });
-      this.$weui.picker(classMap, {
+      this.$weui.picker(this.classList, {
         defaultValue: [this.query.classId],
         onConfirm: result => {
           let value = result[0].value; //取第一个元素
@@ -100,40 +101,25 @@ export default {
         }
       });
     },
-    handleCommunityDelete(community) {
+    handlePraise(community) {
+      let { openId, communityId, praiseCount } = community;
+      if (praiseCount !== 0) {
+        return;
+      } else {
+        this.communityPraise({ openId, communityId });
+      }
+    },
+    handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
       if (openId && communityId) {
         this.$weui.confirm(
           "确实要删除该条班级较圈吗",
           () => {
+            this.communityData.splice(index, 1);
             this.communityDelete({ openId, communityId });
           },
           { title: "提示" }
         );
-      }
-    },
-    //根据类型查询相关班级
-    async queryClassId() {
-      let roleType = this.$store.getters.roleType;
-      let obj = {
-        id: null,
-        roleType
-      };
-      switch (roleType) {
-        case 1:
-          obj.id = this.$store.getters.schoolId;
-          break;
-        case 2:
-          obj.id = this.$store.getters.teacherId;
-        default:
-      }
-      let res = await service.queryClassId(obj);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-        let copy = this.classList.slice(0, 1);
-        this.className = copy[0].className;
-        this.query.classId = copy[0].classId;
-        await service.communityQuery(this.query);
       }
     },
     //班级圈信息查询
@@ -146,24 +132,27 @@ export default {
     //班级圈删除
     async communityDelete(params = {}) {
       let res = await service.communityDelete(params);
-      if (res.errorCode === 0) {
-      }
     },
     //班级圈点赞
     async communityPraise(params = {}) {
       let res = await service.communityPraise(params);
       if (res.errorCode === 0) {
+        this.communityQuery(this.query);
       }
     }
   },
   activated() {
-    this.queryClassId();
+    this.communityQuery(this.query);
   }
 };
 </script>
 <style lang="less" scoped>
+.page-ft {
+  padding-top: 130px;
+}
 .community {
   .box {
+    border-top: 1px solid #f2f2f2;
     padding-top: 40px;
     padding-bottom: 40px;
   }
@@ -183,6 +172,9 @@ export default {
       line-height: 1.4;
       margin-top: 5px;
       margin-bottom: 20px;
+      text-align: justify;
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
   .cell-hd {
@@ -212,6 +204,11 @@ export default {
 .handle {
   display: flex;
   justify-content: space-between;
+  .right {
+    img {
+      margin-left: 20px;
+    }
+  }
 }
 .zan-list {
   color: #9aa4cb;
@@ -221,6 +218,9 @@ export default {
   margin-top: 10px;
   img {
     margin-right: 20px;
+  }
+  span {
+    margin-right: 5px;
   }
 }
 .comment-list {

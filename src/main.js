@@ -15,17 +15,23 @@ Vue.config.productionTip = false;
 const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title; //写入标题
   let qx = Cookies.getJSON('qx');
+  //是否有Cookie存在
   if (qx) {
+    //如果手动输入/login地址，则不跳转
     if (to.path === '/login') {
+      next(`${from.path}`);
+    } else if (to.path === '/schoolJoin' && store.getters.roleType === 1) {
+      next(`${from.path}`);
+    } else if (to.path === '/schoolCreate' && store.getters.schoolId) {
       next(`${from.path}`);
     } else {
       if (!store.getters.roleType && !store.getters.openId) {
         store.dispatch('account/load');
         next();
-      } else {
-        next();
       }
+      next();
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
@@ -46,7 +52,5 @@ new Vue({
     App
   },
   template: '<App/>',
-  mounted() {
-    //this.$store.dispatch('account/load');
-  }
+  mounted() {}
 }).$mount('#app');

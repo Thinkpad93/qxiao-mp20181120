@@ -9,6 +9,9 @@ export const constantRouterMap = [{
   }, {
     path: '/home',
     component: () => import('@/views/home'),
+    meta: {
+      title: '首页'
+    }
   }, {
     path: '/baby',
     component: () => import('@/views/baby'),
@@ -20,78 +23,141 @@ export const constantRouterMap = [{
     component: () => import('@/views/baby/add')
   }, {
     path: '/community',
-    component: () => import('@/views/community')
+    component: () => import('@/views/community'),
+    meta: {
+      title: '班级圈发布'
+    }
   }, {
     path: '/my',
-    component: () => import('@/views/my')
+    component: () => import('@/views/my'),
+    meta: {
+      title: '我的'
+    }
   }, {
     path: '/parentMy',
     component: () => import('@/views/my/parentMy')
   }, {
     path: '/login',
-    component: () => import('@/views/login')
+    component: () => import('@/views/login'),
+    meta: {
+      title: '登陆'
+    }
   }, {
     path: '/schoolCreate',
-    component: () => import('@/views/school/create')
+    component: () => import('@/views/school/create'),
+    meta: {
+      title: '创建学校'
+    }
   }, {
     path: '/schoolJoin',
-    component: () => import('@/views/school/join')
-  }, {
-    path: '/notice',
-    component: () => import('@/views/notice')
+    component: () => import('@/views/school/join'),
+    meta: {
+      title: '学校加入'
+    }
   }, {
     path: '/recipe',
-    component: () => import('@/views/recipe')
+    component: () => import('@/views/recipe'),
+    meta: {
+      title: '营养食谱'
+    }
   }, {
     path: '/clock',
-    component: () => import('@/views/clock')
+    component: () => import('@/views/clock'),
+    meta: {
+      title: '考勤管理'
+    }
   }, {
     path: '/clock/show/:id',
     component: () => import('@/views/clock/show')
   }, {
     path: '/fresh',
-    component: () => import('@/views/fresh')
+    component: () => import('@/views/fresh'),
+    meta: {
+      title: '新鲜速报'
+    }
+  }, {
+    path: '/fresh/add',
+    component: () => import('@/views/fresh/add'),
+    meta: {
+      title: '新鲜速报发布'
+    }
   }, {
     path: '/fresh/show',
-    component: () => import('@/views/fresh/show')
+    component: () => import('@/views/fresh/show'),
+    meta: {
+      title: '新鲜速报详情'
+    }
   }, {
     path: '/notice',
-    component: () => import('@/views/notice')
+    component: () => import('@/views/notice'),
+    meta: {
+      title: '通知公告'
+    }
   }, {
     path: '/notice/add',
-    component: () => import('@/views/notice/add')
+    component: () => import('@/views/notice/add'),
+    meta: {
+      title: '公告发布'
+    }
   }, {
     path: '/notice/show/:id',
-    component: () => import('@/views/notice/show')
+    component: () => import('@/views/notice/show'),
+    meta: {
+      title: '公告详情'
+    }
   }, {
     path: '/teacher',
-    component: () => import('@/views/teacher')
+    component: () => import('@/views/teacher'),
+    meta: {
+      title: '老师管理'
+    }
   }, {
     path: '/teacher/add',
-    component: () => import('@/views/teacher/add')
+    component: () => import('@/views/teacher/add'),
+    meta: {
+      title: '老师添加'
+    }
   }, {
     path: '/teacher/edit/:id',
-    component: () => import('@/views/teacher/edit')
+    component: () => import('@/views/teacher/edit'),
+    meta: {
+      title: '老师编辑'
+    }
   },
   {
     path: '/class',
-    component: () => import('@/views/class')
+    component: () => import('@/views/class'),
+    meta: {
+      title: '班级管理'
+    }
   },
   {
     path: '/class/add',
-    component: () => import('@/views/class/add')
+    component: () => import('@/views/class/add'),
+    meta: {
+      title: '班级添加'
+    }
   },
   {
     path: '/class/edit/:id',
-    component: () => import('@/views/class/edit')
+    component: () => import('@/views/class/edit'),
+    meta: {
+      title: '班级编辑'
+    }
   },
   {
     path: '/student',
-    component: () => import('@/views/student')
+    component: () => import('@/views/student'),
+    meta: {
+      title: '学生管理'
+    }
   },
   {
     path: '/student/add',
-    component: () => import('@/views/student/add')
+    component: () => import('@/views/student/add'),
+    meta: {
+      title: '学生添加'
+    }
   },
   {
     path: '/student/edit/:id',

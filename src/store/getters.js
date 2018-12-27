@@ -1,4 +1,7 @@
 export default {
+  classList: state => state.user.classList,
+  className: state => state.user.className,
+  classId: state => state.user.classId,
   tel: state => state.user.tel,
   roleType: state => state.user.roleType,
   openId: state => state.user.openId,

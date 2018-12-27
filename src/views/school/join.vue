@@ -58,7 +58,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-bd">
-              <input type="number" class="input" placeholder="请输入6位数学校ID码" maxlength="4" v-model="schoolCode">
+              <input type="number" class="input" placeholder="请输入6位数学校ID码" maxlength="6" v-model="schoolCode">
             </div>            
           </div>
         </div>
@@ -89,7 +89,7 @@ export default {
       schoolCode: "",
       info: {},
       form: {
-        openId: "10086",
+        openId: this.$store.getters.openId,
         teacherName: "",
         schoolId: 1,
         sex: 1,

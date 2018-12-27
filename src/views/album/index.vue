@@ -33,6 +33,7 @@ export default {
   padding: 30px 30px 0 30px;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #fff;
 }
 .cell {
   margin-bottom: 30px;

@@ -83,35 +83,27 @@ export default {
   namae: "noticeAdd",
   data() {
     return {
-      schoolId: 1,
       imagesList: [],
       classList: [],
       form: {
-        openId: "10086",
-        title: "",
-        textContent: "",
-        images: [],
-        needConfirm: true,
-        senders: [],
-        clockType: true,
-        clockTime: ""
+        openId: this.$store.getters.openId, //用户openid
+        title: "", //通知标题
+        textContent: "", //通知内容
+        images: [], //图片
+        needConfirm: true, //是否需要确认
+        senders: [], //发送对象
+        sendType: 2, //发送类型 2-老师，1-班级
+        senderId: null, //老师Id ,班级Id
+        clockType: true, //定时发送标志 0-即时发送 1-定时发送
+        clockTime: "" //定时发送时间
       }
     };
   },
   methods: {
     handleDelImg() {},
-    handleChangeFile() {},
-    //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    }
+    handleChangeFile() {}
   },
-  mounted() {
-    this.queryClass(this.schoolId);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

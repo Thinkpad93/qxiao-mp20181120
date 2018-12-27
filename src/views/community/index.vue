@@ -30,7 +30,7 @@
               <label for="" class="label">发送班级</label>
             </div>  
             <div class="cell-bd">
-              <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="form.classId">
+              <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className">
               <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select> -->
@@ -48,16 +48,17 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "community",
   data() {
     return {
+      className: "",
       imagesList: [],
-      classList: [],
       schoolId: this.$store.getters.schoolId,
       form: {
         openId: this.$store.getters.openId,
-        classId: null,
+        classId: this.$store.getters.classId,
         contentType: 0,
         textContent: "",
         images: [],
@@ -65,16 +66,17 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(["classList"])
+  },
   methods: {
     handleSelectClass() {
-      let classMap = this.classList.map(item => {
-        return {
-          label: item.className,
-          value: item.classId
-        };
-      });
-      this.$weui.picker(classMap, {
-        onConfirm: result => {}
+      this.$weui.picker(this.classList, {
+        defaultValue: [this.form.classId],
+        onConfirm: result => {
+          this.className = result[0].label;
+          this.form.classId = result[0].value;
+        }
       });
     },
     handleDelImg(index) {
@@ -102,6 +104,15 @@ export default {
       }
     },
     handleSubmit() {
+      let { textContent, classId } = this.form;
+      if (textContent == "") {
+        this.$weui.alert("请输入内容", () => {}, { title: "提示" });
+        return;
+      }
+      if (classId == null || this.className == "") {
+        this.$weui.alert("请选择发送的班级", () => {}, { title: "提示" });
+        return;
+      }
       this.communityAdd(this.form);
       //document.getElementById("submission").click();
     },
@@ -116,18 +127,9 @@ export default {
           { title: "提示" }
         );
       }
-    },
-    //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
     }
   },
-  mounted() {
-    this.queryClass(this.schoolId);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

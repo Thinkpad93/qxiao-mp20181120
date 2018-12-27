@@ -87,6 +87,9 @@ export default {
         "确定要退出登陆吗？",
         () => {
           console.log(true);
+          this.$store.dispatch("account/logout").then(res => {
+            location.reload();
+          });
         },
         { title: "提示" }
       );

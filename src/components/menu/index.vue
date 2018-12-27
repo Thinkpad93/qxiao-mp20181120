@@ -21,12 +21,12 @@ export default {
         },
         {
           name: "营养食谱",
-          url: "",
+          url: "/recipe",
           icon: "./static/image/men-icon-9@2x.png"
         },
         {
           name: "亲子作业",
-          url: "",
+          url: "/homework",
           icon: "./static/image/men-icon-5@2x.png"
         },
         {

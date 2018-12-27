@@ -1,5 +1,7 @@
 import service from "@/api";
-
+import {
+  clearAllCookie
+} from "@/utils/cookies";
 export default {
   namespaced: true,
   actions: {
@@ -11,9 +13,33 @@ export default {
       return new Promise((resolve, reject) => {
         service.userTeleLogin(params).then(async res => {
           if (res.errorCode === 0) {
+            let {
+              roleType
+            } = res.data;
+            let obj = {
+              id: null,
+              roleType
+            }
+            switch (roleType) {
+              case 1:
+                obj.id = res.data.schoolId;
+                break;
+              case 2:
+                obj.id = res.data.teacherId;
+              case 4:
+                obj.id = res.data.schoolId;
+                break;
+              case 5:
+                obj.id = res.data.teacherId;
+                break;
+              default:
+            }
             await dispatch('user/set', res.data, {
               root: true
             });
+            await dispatch('user/queryClassId', obj, {
+              root: true
+            })
           }
           resolve(res);
         }).catch(error => {
@@ -23,10 +49,12 @@ export default {
     },
     //用户退出
     logout() {
-
+      return new Promise(resolve => {
+        clearAllCookie(); //清队Cookie 
+        resolve();
+      })
     },
     load({
-      commit,
       dispatch
     }) {
       return new Promise(async resolve => {

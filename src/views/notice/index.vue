@@ -7,10 +7,13 @@
       </div>
     </div>
     <div class="page-bd">
+      <router-link to="/notice/add" class="release">
+        <img src="@/assets/image/release-icon.png" alt="">
+      </router-link>      
       <div class="cells">
-        <figure class="figure" v-for="(item, index) in noticeData" :key="index" @click="go">
+        <figure class="figure" v-for="(item, index) in 1" :key="index">
           <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
-          <div>
+          <div style="color:#8d8d8d;">
             <time>09-22 10:15</time>
           </div>        
           <img src="http://iph.href.lu/690x298" alt="">
@@ -22,11 +25,6 @@
         </figure>
       </div>
     </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleNoticeAdd">发布通知</a>
-      </div>
-    </div>
   </div>  
 </template>
 <script>
@@ -107,7 +105,7 @@ export default {
   }
   h3 {
     font-size: 36px;
-    padding: 20px 0;
+    padding: 20px 0 0 0;
   }
   p {
     font-size: 28px;
@@ -118,6 +116,7 @@ export default {
     margin: 20px 0;
   }
   .metedata {
+    color: #8d8d8d;
     margin: 20px -30px 0 -30px;
     padding: 0 30px;
     display: flex;
@@ -127,12 +126,11 @@ export default {
     border-top: 1px solid #f5f5f5;
   }
 }
-.page-ft {
+.release {
+  display: block;
   position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  background-color: #fff;
+  right: 5%;
+  bottom: 10%;
+  z-index: 100;
 }
 </style>
