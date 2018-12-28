@@ -22,15 +22,9 @@ router.beforeEach((to, from, next) => {
     //如果手动输入/login地址，则不跳转
     if (to.path === '/login') {
       next(`${from.path}`);
-    } else if (to.path === '/schoolJoin' && store.getters.roleType === 1) {
-      next(`${from.path}`);
-    } else if (to.path === '/schoolCreate' && store.getters.schoolId) {
-      next(`${from.path}`);
     } else {
       if (!store.getters.roleType && !store.getters.openId) {
-        store.dispatch('user/get').then(res => {
-          console.log(res);
-        });
+        store.dispatch('user/get');
         next();
       }
       next();

@@ -48,14 +48,17 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "community",
   data() {
     return {
-      className: "",
+      className: this.$store.getters.className,
       imagesList: [],
-      schoolId: this.$store.getters.schoolId,
+      classList: [],
+      query: {
+        id: this.$store.getters.id,
+        roleType: this.$store.getters.roleType
+      },
       form: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
@@ -65,9 +68,6 @@ export default {
         video: ""
       }
     };
-  },
-  computed: {
-    ...mapGetters(["classList"])
   },
   methods: {
     handleSelectClass() {
@@ -116,6 +116,20 @@ export default {
       this.communityAdd(this.form);
       //document.getElementById("submission").click();
     },
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
+      if (res.errorCode === 0) {
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
+      }
+    },
+    //发布班级圈
     async communityAdd(params = {}) {
       let res = await service.communityAdd(params);
       if (res.errorCode === 0) {
@@ -129,7 +143,9 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryClassId(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>

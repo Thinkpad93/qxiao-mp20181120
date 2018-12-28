@@ -50,7 +50,7 @@
             </div>     
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+                <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
               </select>          
             </div>   
           </div>      
@@ -74,7 +74,10 @@ export default {
   data() {
     return {
       classList: [],
-      schoolId: this.$store.getters.schoolId,
+      query: {
+        id: this.$store.getters.id,
+        roleType: this.$store.getters.roleType
+      },
       form: {
         openId: this.$store.getters.openId,
         teacherName: "",
@@ -107,11 +110,17 @@ export default {
         this.$weui.topTips("请正确填写手机号");
       }
     },
-    //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        this.classList = res.data;
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
       }
     },
     //老师新增
@@ -132,7 +141,7 @@ export default {
     }
   },
   mounted() {
-    this.queryClass(this.schoolId);
+    this.queryClassId(this.query);
   }
 };
 </script>

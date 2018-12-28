@@ -111,6 +111,7 @@ export default {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
+        this.$store.dispatch("user/queryClassId", res.data);
         this.$router.push({ path: "/home" });
       }
     }

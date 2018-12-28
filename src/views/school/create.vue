@@ -159,8 +159,8 @@ export default {
     async handleSubmit() {
       let res = await service.schoolAdd(this.form);
       if (res.errorCode === 0) {
-        let { schoolCode, schoolId } = res.data;
-        this.$store.commit("user/SET_SCHOOLID", schoolId);
+        let { schoolCode, ...args } = res.data;
+        this.$store.dispatch("user/queryClassId", args);
         this.$router.push({ path: "/home" });
       }
     }

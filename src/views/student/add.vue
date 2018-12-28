@@ -46,7 +46,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
+                <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
               </select>
             </div>
           </div>                                        
@@ -64,13 +64,18 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import { mapGetters } from "vuex";
 export default {
   name: "studentAdd",
   mixins: [sex, relation],
   data() {
     return {
+      classList: [],
+      query: {
+        id: this.$store.getters.id,
+        roleType: this.$store.getters.roleType
+      },
       form: {
+        openId: this.$store.getters.openId,
         studentName: "",
         sex: 1,
         tel: "",
@@ -78,9 +83,6 @@ export default {
         classId: null
       }
     };
-  },
-  computed: {
-    ...mapGetters(["openId", "schoolId", "classList"])
   },
   methods: {
     handleSubmit() {
@@ -96,13 +98,19 @@ export default {
         this.$weui.topTips("请正确填写手机号");
       }
     },
-    //查询对应学校的所有班级
-    // async queryClass(schoolId) {
-    //   let res = await service.queryClass({ schoolId });
-    //   if (res.errorCode === 0) {
-    //     this.classList = res.data;
-    //   }
-    // },
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
+      if (res.errorCode === 0) {
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
+      }
+    },
     //学生新增
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
@@ -111,7 +119,7 @@ export default {
           "新增学生成功",
           () => {
             this.$refs.form.reset();
-            this.$router.push({ path: "/student" });
+            this.$router.go(-1);
           },
           {
             title: "提示"
@@ -120,13 +128,10 @@ export default {
       }
     }
   },
-  activated() {
-    console.log(this.classList);
+  activated() {},
+  mounted() {
+    this.queryClassId(this.query);
   }
-  // mounted() {
-
-  //   //this.queryClass(this.schoolId);
-  // }
 };
 </script>
 <style lang="less" scoped>

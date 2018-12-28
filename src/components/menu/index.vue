@@ -75,6 +75,8 @@ export default {
         return this.menuList.concat(this.patroarList);
       } else if (this.roleType === 2 || this.roleType === 5) {
         return this.menuList.concat(this.teacherList);
+      } else if (this.roleType === 3 || this.roleType === 6) {
+        return this.menuList;
       }
     }
   },

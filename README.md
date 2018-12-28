@@ -14,6 +14,10 @@ npm run build
 
 ```
 
+### 技术
+
+vue2.x + vuex + vueRoute + axios + weuijs
+
 ## 项目目录介绍
 
 - bulid webpack 编辑打包配置目录

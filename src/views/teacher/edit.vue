@@ -48,7 +48,7 @@
           </div>     
           <div class="cell-bd">
             <select class="select" name="" dir="rtl" v-model="form.classId">
-              <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+              <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
             </select>          
           </div>   
         </div>      
@@ -65,18 +65,22 @@
 <script>
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
-import { mapGetters } from "vuex";
 export default {
   name: "teacherAdd",
   mixins: [type, sex],
   data() {
     return {
       classList: [],
+      querys: {
+        openId: this.$store.getters.openId,
+        teacherId: this.$route.params.id
+      },
+      query: {
+        id: this.$store.getters.id,
+        roleType: this.$store.getters.roleType
+      },
       form: {}
     };
-  },
-  computed: {
-    ...mapGetters(["openId", "schoolId"])
   },
   methods: {
     handleDel() {
@@ -85,7 +89,7 @@ export default {
           "确定要删除老师吗？",
           () => {
             let obj = {
-              openId: this.openId,
+              openId: this.$store.getters.openId,
               teacherId: this.$route.params.id
             };
             this.teacherDelete(obj);
@@ -95,14 +99,22 @@ export default {
       }
     },
     handleSubmit() {
-      let obj = Object.assign({}, this.form, { openId: this.openId });
+      let obj = Object.assign({}, this.form, {
+        openId: this.$store.getters.openId
+      });
       this.teacherUpdate(obj);
     },
     //老师删除
     async teacherDelete(params = {}) {
       let res = await service.teacherDelete(params);
       if (res.errorCode === 0) {
-        this.$router.push({ path: "/teacher" });
+        let confirmDom = this.$weui.confirm(
+          "删除成功",
+          () => {
+            this.$router.go(-1);
+          },
+          { title: "提示" }
+        );
       }
     },
     //老师修改
@@ -125,23 +137,23 @@ export default {
         this.form = res.data;
       }
     },
-    //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        this.classList = res.data;
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
       }
     }
   },
   mounted() {
-    this.queryClass(this.schoolId);
-  },
-  activated() {
-    let obj = {
-      openId: this.openId,
-      teacherId: this.$route.params.id
-    };
-    this.teacherQuery(obj);
+    this.queryClassId(this.query);
+    this.teacherQuery(this.querys);
   }
 };
 </script>

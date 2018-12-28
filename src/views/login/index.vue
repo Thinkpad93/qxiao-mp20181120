@@ -137,6 +137,8 @@ export default {
               path: "/baby/supply"
             });
             break;
+          default:
+            console.log("default");
         }
       } else if (res.errorCode === -1) {
         this.$weui.alert(`${res.errorMsg}`, () => {}, {

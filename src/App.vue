@@ -17,8 +17,4 @@ export default {
 <style lang="less">
 @import "normalize.css/normalize.css";
 @import "./styles/site.less";
-// @import "./styles/common.less";
-// @import "./styles/size.less";
-// @import "./styles/flex.less";
-// @import "./styles/weui.less";
 </style>

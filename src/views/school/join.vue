@@ -146,6 +146,7 @@ export default {
     async teacherJoin(params = {}) {
       let res = await service.teacherJoin(params);
       if (res.errorCode === 0) {
+        this.$store.dispatch("user/queryClassId", res.data);
         this.$router.push({
           path: "/home"
         });

@@ -31,7 +31,7 @@ export default {
       form: {
         className: "",
         openId: this.$store.getters.openId,
-        schoolId: this.$store.getters.schoolId
+        schoolId: this.$store.getters.id
       }
     };
   },

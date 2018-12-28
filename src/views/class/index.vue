@@ -28,7 +28,7 @@ export default {
   name: "class",
   data() {
     return {
-      schoolId: this.$store.getters.schoolId,
+      schoolId: this.$store.getters.id,
       openId: this.$store.getters.openId,
       classList: []
     };

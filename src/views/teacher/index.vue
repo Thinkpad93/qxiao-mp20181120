@@ -39,7 +39,7 @@ export default {
   name: "teacher",
   data() {
     return {
-      schoolId: this.$store.getters.schoolId,
+      schoolId: this.$store.getters.id,
       teacherList: []
     };
   },

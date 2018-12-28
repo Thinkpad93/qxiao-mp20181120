@@ -42,16 +42,13 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "student",
   data() {
     return {
+      teacherId: this.$store.getters.id,
       studentList: []
     };
-  },
-  computed: {
-    ...mapGetters(["teacherId"])
   },
   methods: {
     handleEditStudent(student) {
