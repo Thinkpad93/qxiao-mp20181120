@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     classList: [], //相关班级
+    id: null,
     className: "", //默认显示第一个班级名称
     classId: null, //默认显示第一个班级ID
     tel: "", //用户输入的手机号
@@ -19,8 +20,10 @@ export default {
     SET_CLASSLIST: (state, classList) => {
       state.classList = classList;
     },
+    SET_ID: (state, id) => {
+      state.id = id;
+    },
     SET_CLASSNAME: (state, className) => {
-      console.log(className);
       state.className = className;
     },
     SET_CLASSID: (state, classId) => {
@@ -49,11 +52,10 @@ export default {
     }
   },
   actions: {
-    set({
-      commit,
-      dispatch
+    async set({
+      commit
     }, params) {
-      return new Promise((resolve, reject) => {
+      return new Promise(async resolve => {
         let {
           roleType,
           openId,
@@ -78,67 +80,70 @@ export default {
             commit('SET_PATROARCHID', args.patroarchId);
           }
           resolve();
-        } else {
-          resolve();
         }
       })
     },
-    get({
+    async get({
       commit,
       dispatch
     }) {
       return new Promise(async resolve => {
-        console.log("重新load");
         let qx = Cookies.getJSON('qx');
-        let obj = {
-          id: null,
-          roleType: qx.roleType
-        }
-        switch (qx.roleType) {
-          case 1:
-            commit('SET_SCHOOLID', qx.schoolId);
-            obj.id = qx.schoolId;
-            break;
-          case 2:
-            commit('SET_TEACHERID', qx.teacherId);
-            obj.id = qx.teacherId;
-            break;
-          case 4:
-            commit('SET_SCHOOLID', qx.schoolId);
-            obj.id = qx.schoolId;
-            break;
-          case 5:
-            commit('SET_TEACHERID', qx.teacherId);
-            obj.id = qx.teacherId;
-            break;
-        }
+        let classId = Cookies.get('classId');
+        let className = Cookies.get('className');
+        let id = Cookies.get('id');
+        // let obj = {
+        //   id: null,
+        //   roleType: qx.roleType
+        // }
+        // switch (qx.roleType) {
+        //   case 1:
+        //     commit('SET_SCHOOLID', qx.schoolId);
+        //     obj.id = qx.schoolId;
+        //     break;
+        //   case 2:
+        //     commit('SET_TEACHERID', qx.teacherId);
+        //     obj.id = qx.teacherId;
+        //     break;
+        //   case 4:
+        //     commit('SET_SCHOOLID', qx.schoolId);
+        //     obj.id = qx.schoolId;
+        //     break;
+        //   case 5:
+        //     commit('SET_TEACHERID', qx.teacherId);
+        //     obj.id = qx.teacherId;
+        //     break;
+        // }
         commit('SET_ROLETYPE', qx.roleType);
         commit('SET_OPENID', qx.openId);
-        await dispatch('queryClassId', obj);
+        commit('SET_ID', id);
+        commit('SET_CLASSID', classId);
+        commit('SET_CLASSNAME', className);
         resolve();
       });
     },
     //根据类型查询相关班级
-    queryClassId({
+    async queryClassId({
       commit
     }, params) {
       return new Promise(async resolve => {
-        service.queryClassId(params).then(async res => {
-          if (res.errorCode === 0) {
-            let classMap = res.data.map(item => {
-              return {
-                label: item.className,
-                value: item.classId
-              };
-            });
-            let copy = classMap.slice(0, 1);
-            console.log(copy);
-            commit('SET_CLASSNAME', copy[0].label);
-            commit('SET_CLASSID', copy[0].value);
-            commit('SET_CLASSLIST', classMap);
-            resolve();
-          }
-        });
+        let res = await service.queryClassId(params);
+        if (res.errorCode === 0) {
+          let classMap = res.data.map(item => {
+            return {
+              label: item.className,
+              value: item.classId
+            }
+          });
+          let copy = classMap.slice(0, 1);
+          commit('SET_CLASSLIST', classMap);
+          commit('SET_CLASSNAME', copy[0].label);
+          commit('SET_CLASSID', copy[0].value);
+          Cookies.set('id', params.id);
+          Cookies.set('classId', copy[0].value);
+          Cookies.set('className', copy[0].label);
+          resolve();
+        }
       });
     },
     load({

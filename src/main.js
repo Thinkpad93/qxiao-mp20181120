@@ -28,7 +28,9 @@ router.beforeEach((to, from, next) => {
       next(`${from.path}`);
     } else {
       if (!store.getters.roleType && !store.getters.openId) {
-        store.dispatch('account/load');
+        store.dispatch('user/get').then(res => {
+          console.log(res);
+        });
         next();
       }
       next();
@@ -42,7 +44,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-
+router.afterEach((to, from, next) => {});
 
 /* eslint-disable no-new */
 new Vue({

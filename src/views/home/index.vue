@@ -18,7 +18,7 @@
                 <img v-if="community.photo" :src="community.photo" alt="">
               </div>
               <div class="cell-bd">
-                <h5 size-15>这是一个名称显示{{ community.name }}</h5>
+                <h5 size-15>{{ community.name }}</h5>
                 <p size-15>{{ community.textContent }}</p>
                 <template>
                   <div class="img-group">
@@ -77,11 +77,12 @@ export default {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId
       },
+      classList: this.$store.getters.classList,
       communityData: []
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapGetters(["id", "roleType"])
   },
   methods: {
     go(url) {
@@ -122,6 +123,19 @@ export default {
         );
       }
     },
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
+      if (res.errorCode === 0) {
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
+      }
+    },
     //班级圈信息查询
     async communityQuery(params = {}) {
       let res = await service.communityQuery(params);
@@ -139,6 +153,11 @@ export default {
       if (res.errorCode === 0) {
         this.communityQuery(this.query);
       }
+    }
+  },
+  mounted() {
+    if (this.id) {
+      this.queryClassId({ id: this.id, roleType: this.roleType });
     }
   },
   activated() {

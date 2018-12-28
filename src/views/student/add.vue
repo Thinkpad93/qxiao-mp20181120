@@ -46,7 +46,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
               </select>
             </div>
           </div>                                        
@@ -70,19 +70,17 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
-      schoolId: 1,
-      classList: [],
       form: {
         studentName: "",
         sex: 1,
         tel: "",
         relation: 1,
-        classId: 3
+        classId: null
       }
     };
   },
   computed: {
-    ...mapGetters(["openId", "schoolId"])
+    ...mapGetters(["openId", "schoolId", "classList"])
   },
   methods: {
     handleSubmit() {
@@ -99,12 +97,12 @@ export default {
       }
     },
     //查询对应学校的所有班级
-    async queryClass(schoolId) {
-      let res = await service.queryClass({ schoolId });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    },
+    // async queryClass(schoolId) {
+    //   let res = await service.queryClass({ schoolId });
+    //   if (res.errorCode === 0) {
+    //     this.classList = res.data;
+    //   }
+    // },
     //学生新增
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
@@ -122,9 +120,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.queryClass(this.schoolId);
+  activated() {
+    console.log(this.classList);
   }
+  // mounted() {
+
+  //   //this.queryClass(this.schoolId);
+  // }
 };
 </script>
 <style lang="less" scoped>

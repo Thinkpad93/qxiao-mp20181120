@@ -97,53 +97,52 @@ export default {
     },
     //用户登录
     async userTeleLogin(params = {}) {
-      this.$store.dispatch("account/userTeleLogin", params).then(res => {
-        if (res.errorCode === 0) {
-          let { roleType } = res.data;
-          if (roleType !== 0) {
-            this.form.tel = "";
-            this.form.verifyCode = "";
-          }
-          switch (roleType) {
-            case 0:
-              this.$weui.alert("此手机号码还没有录入", () => {}, {
-                title: "提示"
-              });
-              break;
-            case 1:
-              this.$router.push({ path: "/home" });
-              break;
-            case 2:
-              this.$router.push({ path: "/home" });
-              break;
-            case 3:
-              this.$router.push({ path: "/home" });
-              break;
-            case 4:
-              //园长进入注册幼儿园页面
-              this.$router.push({
-                path: "/schoolCreate"
-              });
-              break;
-            case 5:
-              //老师进入绑定幼儿园页面
-              this.$router.push({
-                path: "/schoolJoin"
-              });
-              break;
-            case 6:
-              //学生进入完善信息页面
-              this.$router.push({
-                path: "/baby/supply"
-              });
-              break;
-          }
-        } else if (res.errorCode === -1) {
-          this.$weui.alert(`${res.errorMsg}`, () => {}, {
-            title: "提示"
-          });
+      let res = await this.$store.dispatch("account/userTeleLogin", params);
+      if (res.errorCode === 0) {
+        let { roleType } = res.data;
+        if (roleType !== 0) {
+          this.form.tel = "";
+          this.form.verifyCode = "";
         }
-      });
+        switch (roleType) {
+          case 0:
+            this.$weui.alert("此手机号码还没有录入", () => {}, {
+              title: "提示"
+            });
+            break;
+          case 1:
+            this.$router.push({ path: "/home" });
+            break;
+          case 2:
+            this.$router.push({ path: "/home" });
+            break;
+          case 3:
+            this.$router.push({ path: "/home" });
+            break;
+          case 4:
+            //园长进入注册幼儿园页面
+            this.$router.push({
+              path: "/schoolCreate"
+            });
+            break;
+          case 5:
+            //老师进入绑定幼儿园页面
+            this.$router.push({
+              path: "/schoolJoin"
+            });
+            break;
+          case 6:
+            //学生进入完善信息页面
+            this.$router.push({
+              path: "/baby/supply"
+            });
+            break;
+        }
+      } else if (res.errorCode === -1) {
+        this.$weui.alert(`${res.errorMsg}`, () => {}, {
+          title: "提示"
+        });
+      }
     }
   },
   mounted() {}
