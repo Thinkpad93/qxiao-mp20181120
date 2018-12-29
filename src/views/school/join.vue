@@ -1,15 +1,17 @@
 <template>
-  <div class="page">
-    <div class="page-hd">
+  <div class="page page-join">
+    <div class="page-hd" style="background-color: transparent;">
       <template v-if="views">
-        <h2 size-18 class="text-ellipsis text-center">
-          {{ info.schoolName }}
-          <small>(ID码: {{ info.schoolCode }})</small>
-        </h2>
-        <div class="address flex text-ellipsis">
-          <img src="@/assets/image/map.png" alt="">
-          <span>{{ info.location }}</span>
-        </div>        
+        <div class="join-head">
+          <h2 size-18 class="text-ellipsis text-center">
+            {{ info.schoolName }}
+            <small>(ID码: {{ info.schoolCode }})</small>
+          </h2>
+          <div class="address flex text-ellipsis">
+            <img src="@/assets/image/map.png" alt="">
+            <span>{{ info.location }}</span>
+          </div>   
+        </div>     
       </template>
       <template v-else>
         <!-- <h2 size-18 class="text-ellipsis text-center">请输入学校ID码</h2> -->
@@ -159,8 +161,8 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.page {
+<style lang="less">
+.page-join {
   background-image: url("../../../static/image/login-bg@2x.png");
   background-repeat: no-repeat;
   background-size: 100%;
@@ -171,10 +173,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-.page-hd {
+.join-head {
   padding-top: 75px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .address {
   margin-top: 20px;
@@ -185,75 +187,6 @@ export default {
   span {
     margin-left: 10px;
   }
-}
-.cells {
-  height: auto;
-  font-size: 32px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.label {
-  position: relative;
-  display: block;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-.cell-select {
-  padding: 0;
-  .select {
-    padding: 0 60px;
-  }
-  .cell-bd {
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      border-width: 4px 4px 0 0;
-      border-color: #c8c8cd;
-      border-style: solid;
-      transform: rotate(45deg) translateY(-50%);
-      position: absolute;
-      top: 50%;
-      right: 30px;
-    }
-  }
-}
-.cell-select-after {
-  padding-left: 30px;
-}
-.teacher-icon {
-  width: 100px;
-  height: 100px;
 }
 .page-ft {
   a {

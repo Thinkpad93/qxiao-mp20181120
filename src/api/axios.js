@@ -18,7 +18,8 @@ service.interceptors.request.use(config => {
 
 
 service.interceptors.response.use(config => {
-  console.log(config);
+  console.log(config.data);
+  if (config.data.errorCode === 0) {} else {}
   return config;
 }, error => {
   return Promise.reject(error);

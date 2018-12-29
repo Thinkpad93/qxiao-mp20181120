@@ -1,17 +1,19 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <div class="setp flex">
-        <div class="circle on">1</div>
-        <div class="line flex">
-          <span class="on"></span>
-          <span></span>
+      <div class="school-head">
+        <div class="setp flex">
+          <div class="circle on">1</div>
+          <div class="line flex">
+            <span class="on"></span>
+            <span></span>
+          </div>
+          <div class="circle">2</div>
         </div>
-        <div class="circle">2</div>
-      </div>
-      <div class="stepwz flex">
-        <div class="s-green on">创建幼儿园</div>
-        <div class="s-gray">创建班级</div>
+        <div class="stepwz flex">
+          <div class="s-green on">创建幼儿园</div>
+          <div class="s-gray">创建班级</div>
+        </div>
       </div>
     </div>
     <div class="page-bd">
@@ -171,7 +173,7 @@ export default {
   activated() {}
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .getCenter {
   position: fixed;
   left: 0;
@@ -180,70 +182,9 @@ export default {
   width: 100%;
   z-index: 100;
 }
-.page-hd {
-  margin-bottom: 20px;
+.school-head {
   height: 172px;
-  background-color: #fff;
 }
-.cells {
-  font-size: 34px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.cell-select {
-  padding: 0;
-  .select {
-    padding: 0 60px;
-  }
-  .cell-bd {
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      border-width: 4px 4px 0 0;
-      border-color: #c8c8cd;
-      border-style: solid;
-      transform: rotate(45deg) translateY(-50%);
-      position: absolute;
-      top: 50%;
-      right: 30px;
-    }
-  }
-}
-.cell-select-after {
-  padding-left: 30px;
-}
-
 .setp {
   align-items: center;
   width: 380px;

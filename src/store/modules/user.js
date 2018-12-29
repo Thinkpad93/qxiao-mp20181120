@@ -88,8 +88,7 @@ export default {
       })
     },
     async get({
-      commit,
-      dispatch
+      commit
     }) {
       return new Promise(async resolve => {
         let qx = Cookies.getJSON('qx');
@@ -97,9 +96,10 @@ export default {
         let className = Cookies.get('className');
         let id = Cookies.get('id');
         commit('SET_ROLETYPE', qx.roleType);
+        commit('SET_TEL', qx.tel);
         commit('SET_OPENID', qx.openId);
-        commit('SET_ID', id);
-        commit('SET_CLASSID', classId);
+        commit('SET_ID', parseInt(id));
+        commit('SET_CLASSID', parseInt(classId));
         commit('SET_CLASSNAME', className);
         resolve();
       });

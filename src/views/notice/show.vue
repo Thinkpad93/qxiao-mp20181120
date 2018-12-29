@@ -42,7 +42,7 @@
         </div>
         <div class="tab-content">
           <div class="item">
-            <div class="cell" v-for="(t, index) in 14" :key="index">
+            <div class="cell" v-for="(t, index) in 4" :key="index">
               <div class="cell-hd">
                 <img class="icon" src="@/assets/image/109951163721579973.jpg" alt="">
               </div>
@@ -54,6 +54,7 @@
               </div>
             </div>
           </div>
+          <div class="item"></div>
         </div>
       </div>
     </div>  
@@ -70,7 +71,7 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .article {
   padding: 30px 30px 10px 30px;
   word-wrap: break-word;
@@ -100,50 +101,10 @@ export default {
     max-width: 100%;
   }
 }
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
-}
-.cells {
-  font-size: 30px;
-  position: relative;
-  overflow: hidden;
-  background-color: #fff;
-}
-.cell {
-  padding: 20px 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-  .cell-bd {
-    flex: 1;
-  }
-  .cell-hd {
-    margin-right: 20px;
-  }
-  .icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-  }
+.icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 .tab {
   display: flex;
@@ -170,6 +131,12 @@ export default {
       background-color: #92cd36;
       transform: translateX(-50%);
     }
+  }
+}
+.tab-content {
+  .cell {
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="page-hd">
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;">
-          <span>KC3班</span>
+          <span>{{ className }}</span>
         </a>
       </div>
     </div>
@@ -32,6 +32,7 @@ export default {
   name: "fresh",
   data() {
     return {
+      className: this.$store.getters.className,
       query: {
         openId: this.$store.getters.openId,
         classId: null
@@ -70,7 +71,7 @@ export default {
   }
   h3 {
     font-size: 36px;
-    padding: 20px 0 0 0;
+    padding: 20px 0;
   }
   p {
     font-size: 28px;

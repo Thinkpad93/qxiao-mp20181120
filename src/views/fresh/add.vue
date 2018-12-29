@@ -12,12 +12,12 @@
             </div>
           </div> 
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <textarea class="textarea" placeholder="请输入速报内容...~" rows="6" v-model="form.textContent"></textarea>
             </div>
           </div>   
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
                 <li class="uploader-file" 
                   v-for="(file, index) in imagesList" 
@@ -62,39 +62,5 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.cells {
-  font-size: 34px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
+<style lang="less">
 </style>

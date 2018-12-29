@@ -74,6 +74,7 @@ export default {
   display: flex;
   font-size: 32px;
   a {
+    color: #d7d7d7;
     height: 100px;
     flex: 1;
     display: flex;
@@ -105,7 +106,7 @@ export default {
   }
   h3 {
     font-size: 36px;
-    padding: 20px 0 0 0;
+    padding: 20px 0;
   }
   p {
     font-size: 28px;

@@ -1,11 +1,13 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <router-link to="/class/add" class="btn btn-primary">添加班级</router-link>
+      <div class="class-head">
+        <router-link to="/class/add" class="btn btn-primary">添加班级</router-link>
+      </div>
     </div>
     <div class="page-bd">
       <div class="cells">
-        <div class="cell" v-for="(item, index) in classList" :key="index">
+        <div class="cell class-box" v-for="(item, index) in classList" :key="index">
           <div class="cell-bd">
             <p size-17 class="text-ellipsis">{{ item.className }}</p>
             <p>
@@ -78,48 +80,18 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.page-hd {
-  margin-bottom: 20px;
-  padding: 40px 0;
-  background-color: #fff;
+<style lang="less">
+.class-head {
+  padding: 30px 0;
   > a {
     width: 240px;
   }
 }
-.cells {
-  overflow: hidden;
-  background-color: #fff;
-  background-color: #fff;
-}
-.cell {
-  height: 120px;
-  padding: 0 30px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-bd {
-  flex: 1;
-  p {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.class-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .cell-bd {
+    padding-left: 0;
   }
 }
 .btn-edit {

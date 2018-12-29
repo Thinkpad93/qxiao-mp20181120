@@ -1,16 +1,18 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
-      <div class="tab">
-        <a href="javascript:;" style="color:#409eff;" size-14>批量导入学生信息</a>
-        <a href="javascript:;" style="color:#409eff;" size-14>批量邀请学生学长</a>
+      <div class="student-head">
+        <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
+        <div class="tab">
+          <a href="javascript:;" style="color:#409eff;" size-14>批量导入学生信息</a>
+          <a href="javascript:;" style="color:#409eff;" size-14>批量邀请学生学长</a>
+        </div>
       </div>
     </div>
     <div class="page-bd">
       <div class="cells-title">学生家长列表({{ studentList.length }})</div>
       <div class="cells">
-        <div class="cell" v-for="(student, index) in studentList" :key="index" @click="handleEditStudent(student)">
+        <div class="cell student-box" v-for="(student, index) in studentList" :key="index" @click="handleEditStudent(student)">
           <div class="cell-hd">
             <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
           </div>  
@@ -71,11 +73,9 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.page-hd {
-  height: 214px;
-  padding-top: 40px;
-  background-color: #fff;
+<style lang="less">
+.student-head {
+  padding: 30px 0;
   > a {
     width: 240px;
   }
@@ -88,43 +88,9 @@ export default {
     }
   }
 }
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
-}
-.cells {
-  font-size: 34px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 20px 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-bd {
-  flex: 1;
-  padding-left: 20px;
+.student-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .teacher-icon {
   width: 80px;

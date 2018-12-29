@@ -12,12 +12,12 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent"></textarea>
             </div>
           </div>          
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
                 <li class="uploader-file" 
                   v-for="(file, index) in imagesList" 
@@ -42,7 +42,7 @@
             </div>                      
           </div>      
           <div class="cell cell-switch">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <label for="" class="label">是否需要确定</label>
             </div>   
             <div class="cell-ft">
@@ -50,7 +50,7 @@
             </div>         
           </div>   
           <div class="cell cell-switch">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <label for="" class="label">是否定时发送</label>
             </div>   
             <div class="cell-ft">
@@ -106,65 +106,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="less" scoped>
-.cells {
-  font-size: 34px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.cell-select {
-  padding: 0;
-  .select {
-    padding: 0 60px;
-  }
-  .cell-bd {
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      border-width: 4px 4px 0 0;
-      border-color: #c8c8cd;
-      border-style: solid;
-      transform: rotate(45deg) translateY(-50%);
-      position: absolute;
-      top: 50%;
-      right: 30px;
-    }
-  }
-}
-.cell-select-after {
-  padding-left: 30px;
-}
+<style lang="less">
 .uploader-file {
   float: left;
   width: 140px;
@@ -179,14 +121,6 @@ export default {
     top: -10%;
     right: -10%;
     z-index: 10;
-  }
-}
-
-.cell-switch {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  .cell-ft {
-    font-size: 0;
   }
 }
 </style>

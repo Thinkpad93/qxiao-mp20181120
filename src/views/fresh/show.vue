@@ -12,7 +12,6 @@
           </div>
         </div>
         <section size-16 class="article-content">
-          <p>活动目标</p>
           <p>
             <img src="http://iph.href.lu/690x298" alt="">
           </p>
@@ -83,11 +82,14 @@ export default {
   padding: 30px;
   word-wrap: break-word;
   background-color: #fff;
+  h1 {
+    margin-bottom: 20px;
+  }
 }
 .article-content {
   text-align: justify;
   p {
-    margin: 10px 0;
+    margin: 20px 0;
     line-height: 1.4;
   }
   img {
@@ -108,6 +110,10 @@ export default {
     justify-content: space-between;
   }
   &-bd {
+    .cell {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
     p {
       margin-top: 10px;
     }
@@ -117,31 +123,5 @@ export default {
       border-radius: 50%;
     }
   }
-}
-.cell {
-  padding: 30px;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-bd {
-  flex: 1;
-  padding-left: 20px;
 }
 </style>

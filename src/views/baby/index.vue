@@ -54,7 +54,7 @@ export default {
   }
 }
 .cells {
-  font-size: 36px;
+  font-size: 32px;
   overflow: hidden;
   position: relative;
   background-color: #fff;

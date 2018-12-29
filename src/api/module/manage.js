@@ -180,3 +180,9 @@ export function queryClassByTel(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//老师信息查询-我的
+export function queryTeacherInfo(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryTeacherInfo.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

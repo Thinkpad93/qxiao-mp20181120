@@ -1,18 +1,20 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
-      <div class="tab">
-        <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">关联的老师</a>
-        <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">关联的学生</a>
-      </div>      
+      <div class="class-edit-head">
+        <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
+        <div class="tab">
+          <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">关联的老师</a>
+          <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">关联的学生</a>
+        </div> 
+      </div>     
     </div>  
     <div class="page-bd">
       <div class="tab">
         <div class="tab-item" :class="[index === 0 ? 'on': '']">
           <div class="cells-title">老师列表({{ teacherList.length }})</div>
           <div class="cells">
-            <div class="cell" v-for="(teacher, index) in teacherList" :key="index">
+            <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
               <div class="cell-hd">
                 <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
               </div> 
@@ -28,7 +30,7 @@
         <div class="tab-item" :class="[index === 1 ? 'on': '']">
           <div class="cells-title">学生列表({{ studentList.length }})</div>
           <div class="cells">
-            <div class="cell" v-for="(student, index) in studentList" :key="index">
+            <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
               <div class="cell-hd">
                 <img class="teacher-icon" src="@/assets/image/109951163721592032.jpg" alt="">
               </div>   
@@ -135,10 +137,9 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.page-hd {
+<style lang="less">
+.class-edit-head {
   padding-top: 40px;
-  background-color: #fff;
   > a {
     width: 240px;
   }
@@ -169,44 +170,9 @@ export default {
     }
   }
 }
-
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
-}
-.cells {
-  font-size: 32px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 20px 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-bd {
-  flex: 1;
-  padding-left: 20px;
+.student-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .teacher-icon {
   width: 80px;

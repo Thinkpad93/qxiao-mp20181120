@@ -106,6 +106,12 @@ export const constantRouterMap = [{
       title: '公告详情'
     }
   }, {
+    path: '/notice/change',
+    component: () => import('@/views/notice/change'),
+    meta: {
+      title: '发送对象'
+    }
+  }, {
     path: '/teacher',
     component: () => import('@/views/teacher'),
     meta: {
