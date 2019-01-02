@@ -128,7 +128,6 @@ export default {
       }
     }
   },
-  activated() {},
   mounted() {
     this.queryClassId(this.query);
   }

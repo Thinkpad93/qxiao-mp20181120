@@ -180,6 +180,9 @@ export default {
     display: flex;
     position: relative;
     align-items: flex-start;
+    &::before {
+      display: none;
+    }
   }
   h5 {
     color: #656895;
@@ -248,12 +251,5 @@ export default {
   li {
     padding: 10px 20px;
   }
-}
-.release {
-  display: block;
-  position: fixed;
-  right: 5%;
-  bottom: 10%;
-  z-index: 100;
 }
 </style>

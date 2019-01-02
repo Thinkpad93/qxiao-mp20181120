@@ -51,7 +51,7 @@ export default {
   activated() {}
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .page-hd {
   margin-bottom: 20px;
   background-color: #fff;
@@ -90,12 +90,5 @@ export default {
     align-items: center;
     border-top: 1px solid #f5f5f5;
   }
-}
-.release {
-  display: block;
-  position: fixed;
-  right: 5%;
-  bottom: 10%;
-  z-index: 100;
 }
 </style>

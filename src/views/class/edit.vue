@@ -10,8 +10,8 @@
       </div>     
     </div>  
     <div class="page-bd">
-      <div class="tab">
-        <div class="tab-item" :class="[index === 0 ? 'on': '']">
+      <div class="people-list">
+        <div class="item" :class="[index === 0 ? 'on': '']">
           <div class="cells-title">老师列表({{ teacherList.length }})</div>
           <div class="cells">
             <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div class="tab-item" :class="[index === 1 ? 'on': '']">
+        <div class="item" :class="[index === 1 ? 'on': '']">
           <div class="cells-title">学生列表({{ studentList.length }})</div>
           <div class="cells">
             <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
@@ -66,9 +66,9 @@ export default {
   methods: {
     handleTabClick(index) {
       this.index = index;
-      return index === 0
-        ? this.classQueryTeacher(this.query)
-        : this.classQueryStudent(this.query);
+      // return index === 0
+      //   ? this.classQueryTeacher(this.query)
+      //   : this.classQueryStudent(this.query);
     },
     handleMoveStudent(student) {
       let { classId, studentId } = student;
@@ -134,6 +134,7 @@ export default {
   },
   activated() {
     this.classQueryTeacher(this.query);
+    this.classQueryStudent(this.query);
   }
 };
 </script>
@@ -179,8 +180,8 @@ export default {
   height: 80px;
   border-radius: 50%;
 }
-.tab {
-  &-item {
+.people-list {
+  .item {
     display: none;
   }
   .on {

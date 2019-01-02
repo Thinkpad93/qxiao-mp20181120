@@ -1,17 +1,16 @@
 <template>
   <div class="page">
-    <div class="page-hd"></div>
     <div class="page-bd">
       <form action="" ref="form" method="post" enctype="multipart/form-data">
         <input type="submit" id="submission" hidden>
         <div class="cells">
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent"></textarea>
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
                 <li class="uploader-file" 
                   v-for="(file, index) in form.images" 
@@ -29,7 +28,7 @@
             <div class="cell-hd">
               <label for="" class="label">发送班级</label>
             </div>  
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className">
               <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>

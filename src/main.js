@@ -1,10 +1,9 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
 import store from './store';
 import router from './router';
 import Cookies from 'js-cookie';
+import role from './directive'; //注册全局指令
 
 import weui from 'weui.js';
 Vue.prototype.$weui = weui;

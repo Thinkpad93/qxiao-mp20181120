@@ -62,7 +62,7 @@ export default {
           if (this.second === 1) {
             this.second = 60;
             this.hidden = false;
-            clearInterval(this.timer);
+            window.clearInterval(this.timer);
           }
           this.second--;
         }, 1000);
@@ -96,7 +96,12 @@ export default {
     //用户登录
     async userTeleLogin(params = {}) {
       let res = await this.$store.dispatch("account/userTeleLogin", params);
+      console.log("我叫林场");
       if (res.errorCode === 0) {
+        //定时器清除
+        this.second = 60;
+        this.hidden = false;
+        window.clearInterval(this.timer);
         let { roleType } = res.data;
         if (roleType !== 0) {
           this.form.tel = "";

@@ -63,6 +63,7 @@ export default {
           tel,
           ...args
         } = params;
+        //如果后端返回 roleType 为 0 则不写入Cookie
         if (roleType !== 0) {
           Cookies.set('qx', params);
           commit('SET_ROLETYPE', roleType);
@@ -83,6 +84,8 @@ export default {
             Cookies.set('id', args.patroarchId);
             commit('SET_ID', args.patroarchId);
           }
+          resolve();
+        } else {
           resolve();
         }
       })

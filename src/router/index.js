@@ -61,6 +61,24 @@ export const constantRouterMap = [{
       title: '营养食谱'
     }
   }, {
+    path: '/homework',
+    component: () => import('@/views/homework'),
+    meta: {
+      title: "亲子作业"
+    }
+  }, {
+    path: '/homework/show',
+    component: () => import('@/views/homework/show'),
+    meta: {
+      title: "作业详情查看"
+    }
+  }, {
+    path: '/homework/add',
+    component: () => import('@/views/homework/add'),
+    meta: {
+      title: "布置作业"
+    }
+  }, {
     path: '/clock',
     component: () => import('@/views/clock'),
     meta: {

@@ -12,6 +12,7 @@ export default {
     }, params) {
       return new Promise(async resolve => {
         let res = await service.userTeleLogin(params);
+
         if (res.errorCode === 0) {
           let {
             roleType
@@ -21,6 +22,9 @@ export default {
             roleType
           };
           switch (roleType) {
+            case 0:
+              obj.id = res.data.id;
+              break;
             case 1:
               obj.id = res.data.schoolId;
               break;
