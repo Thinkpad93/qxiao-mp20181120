@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-hd">
       <div class="button-sp-area flex" size-17>
-        <a href="javascript:;">
+        <a href="javascript:void(0);" @click="handleSelectClass">
           <span>{{ className }}</span>
         </a>
       </div>
@@ -11,16 +11,16 @@
       <router-link to="/fresh/add" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>
-      <figure class="figure" v-for="(f, index) in 1" :key="index" @click="go">
-        <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
+      <figure class="figure" v-for="(f, index) in freshData" :key="index" @click="handleRouteGo">
+        <h3 class="text-ellipsis">{{ f.title }}</h3>
         <div style="color:#8d8d8d;">
-          <time>09-22 10:15</time>
+          <time>{{ f.postTime }}</time>
         </div>
         <img src="http://iph.href.lu/690x298" alt="">
-        <p class="line-clamp">必须在描述并收藏数据的内容或特色，进而达成协助数据检索的目的。这种布局在移动端页面开发时候经常遇到</p>
+        <p class="line-clamp">{{ f.textContent }}</p>
         <div class="metedata" style="color:#8d8d8d;">
-          <span>73人阅读</span>
-          <span>留言8</span>
+          <span>{{ f.classReadCount }}人阅读</span>
+          <span>留言{{ f.classCommentCount }}</span>
         </div>
       </figure>  
     </div>
@@ -32,23 +32,59 @@ export default {
   name: "fresh",
   data() {
     return {
-      className: this.$store.getters.className,
+      className: "选择班级查看",
+      classList: [],
       query: {
         openId: this.$store.getters.openId,
-        classId: null
-      }
+        classId: 0
+      },
+      queryClass: {
+        id: this.$store.getters.id,
+        roleType: this.$store.getters.roleType
+      },
+      freshData: []
     };
   },
   methods: {
-    go() {
-      this.$router.push({ path: "/fresh/show" });
+    handleRouteGo() {
+      //this.$router.push({ path: "/fresh/show" });
+    },
+    handleSelectClass() {
+      this.$weui.picker(this.classList, {
+        defaultValue: [this.query.classId],
+        onConfirm: result => {
+          let value = result[0].value; //取第一个元素
+          let label = result[0].label;
+        }
+      });
+    },
+    //根据类型查询相关班级
+    async queryClassId(params = {}) {
+      let res = await service.queryClassId(params);
+      if (res.errorCode === 0) {
+        let classMap = res.data.map(item => {
+          return {
+            label: item.className,
+            value: item.classId
+          };
+        });
+        this.classList = classMap;
+      }
     },
     //速报列表查询
     async freshQuery(params = {}) {
       let res = await service.freshQuery(params);
+      if (res.errorCode === 0) {
+        this.freshData = res.data;
+      }
     }
   },
-  activated() {}
+  mounted() {
+    this.queryClassId(this.queryClass);
+  },
+  activated() {
+    this.freshQuery(this.query);
+  }
 };
 </script>
 <style lang="less">

@@ -12,9 +12,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://192.168.18.113:8081', //目标接口域名
+        target: 'https://open.weixin.qq.com/', //目标接口域名
         changeOrigin: true, //是否跨域
-        secure: false, //允许https请求
+        secure: true, //允许https请求
         pathRewrite: {
           '^/': ''
         }
@@ -52,7 +52,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

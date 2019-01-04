@@ -102,13 +102,11 @@ export default {
         }
       });
     },
+    //点赞
     handlePraise(community) {
-      let { openId, communityId, praiseCount } = community;
-      if (praiseCount !== 0) {
-        return;
-      } else {
-        this.communityPraise({ openId, communityId });
-      }
+      let openId = this.$store.getters.openId;
+      let { communityId } = community;
+      this.communityPraise({ openId, communityId });
     },
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
@@ -146,6 +144,9 @@ export default {
     //班级圈删除
     async communityDelete(params = {}) {
       let res = await service.communityDelete(params);
+      if (res.errorCode === 0) {
+        //...
+      }
     },
     //班级圈点赞
     async communityPraise(params = {}) {
@@ -165,7 +166,7 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .page-ft {
   padding-top: 130px;
 }
@@ -226,6 +227,7 @@ export default {
 .handle {
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
   .right {
     img {
       margin-left: 20px;
@@ -237,7 +239,7 @@ export default {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 20px;
   img {
     margin-right: 20px;
   }

@@ -33,10 +33,11 @@
           </div>           
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">发送班级 {{ form.senders }}</label>
+              <label for="" class="label">发送班级</label>
             </div>  
             <div class="cell-bd">
-              <select class="select" name="select" dir="rtl" v-model="form.senders" multiple size="1">
+              <select class="select" name="select" dir="rtl" v-model="selected" multiple size="1">
+                <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select>
@@ -62,15 +63,14 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "homeWorkAdd",
   data() {
     return {
       imagesList: [],
-      classList: [
-        { classId: 1, className: "CS1" },
-        { classId: 2, className: "CS8" }
-      ],
+      classList: [],
+      selected: [],
       needSwitch: false,
       form: {
         openId: this.$store.getters.openId,
@@ -88,6 +88,9 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(["id", "roleType"])
+  },
   methods: {
     handleDelImg() {},
     handleChangeFile() {},
@@ -97,9 +100,20 @@ export default {
         this.$weui.alert("请输入作业标题", () => {}, { title: "提示" });
         return;
       }
+      if (title == "") {
+        this.$weui.alert("请输入作业内容", () => {}, { title: "提示" });
+        return;
+      }
+      if (!this.selected.length) {
+        this.$weui.alert("请选择发送班级", () => {}, { title: "提示" });
+        return;
+      }
       if (this.needSwitch) {
         this.form.needConfirm = 1;
       }
+      this.form.senders = this.selected.map(item => {
+        return { classId: item };
+      });
       console.log(this.form);
       //this.homeworkAdd(this.form);
     },
@@ -107,13 +121,7 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
+        this.classList = res.data;
       }
     },
     //作业发布
@@ -129,6 +137,9 @@ export default {
         );
       }
     }
+  },
+  mounted() {
+    this.queryClassId({ id: this.id, roleType: this.roleType });
   }
 };
 </script>

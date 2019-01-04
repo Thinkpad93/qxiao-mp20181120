@@ -7,6 +7,7 @@ import * as manage from './module/manage';
 import * as notice from './module/notice';
 import * as recipe from './module/recipe';
 import * as user from './module/user';
+import * as classes from './module/classes';
 
 export default {
   ...album,
@@ -18,4 +19,5 @@ export default {
   ...notice,
   ...recipe,
   ...user,
+  ...classes
 }

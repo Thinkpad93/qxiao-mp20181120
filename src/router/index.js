@@ -18,6 +18,9 @@ export const constantRouterMap = [{
   }, {
     path: '/baby/supply',
     component: () => import('@/views/baby/supply'),
+    meta: {
+      title: '完善学生信息'
+    }
   }, {
     path: '/baby/add',
     component: () => import('@/views/baby/add')
@@ -41,6 +44,12 @@ export const constantRouterMap = [{
     component: () => import('@/views/login'),
     meta: {
       title: '登陆'
+    }
+  }, {
+    path: '/author',
+    component: () => import('@/views/author'),
+    meta: {
+      title: '授权'
     }
   }, {
     path: '/schoolCreate',
@@ -193,5 +202,6 @@ export const constantRouterMap = [{
 ]
 
 export default new Router({
+  //mode: 'history',
   routes: constantRouterMap
 })

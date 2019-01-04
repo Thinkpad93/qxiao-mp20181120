@@ -10,17 +10,17 @@
       <router-link to="/notice/add" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>      
-      <div class="cells">
-        <figure class="figure" v-for="(item, index) in 1" :key="index">
-          <h3 class="text-ellipsis">元素的内容应该与主内容相关</h3>
+      <div class="cells" style="background-color:transparent;">
+        <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
+          <h3 class="text-ellipsis">{{ notice.title }}</h3>
           <div style="color:#8d8d8d;">
-            <time>09-22 10:15</time>
+            <time>{{ notice.postTime }}</time>
           </div>        
           <img src="http://iph.href.lu/690x298" alt="">
-          <p class="line-clamp">必须在描述并收藏数据的内容或特色，进而达成协助数据检索的目的。这种布局在移动端页面开发时候经常遇到</p>
+          <p class="line-clamp">{{ notice.textContent }}</p>
           <div class="metedata flex">
-            <span size-14>刘家明(园长)</span>
-            <span size-14>阅读人数: 82</span>
+            <span size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template></span>
+            <span size-14>阅读人数: {{ notice.classReadCount }}</span>
           </div>
         </figure>
       </div>
@@ -37,17 +37,19 @@ export default {
       query: {
         openId: this.$store.getters.openId,
         type: 0,
-        classId: 2
+        classId: 0
       },
       noticeData: []
     };
   },
   methods: {
-    go() {
-      this.$router.push({ path: "/notice/show/1993" });
+    handleRouteGo() {
+      //this.$router.push({ path: "/notice/show/1993" });
     },
     handleTabClick(index) {
       this.index = index;
+      this.query.type = index;
+      this.noticeQuery(this.query);
     },
     handleNoticeAdd() {
       this.$router.push({ path: "/notice/add" });

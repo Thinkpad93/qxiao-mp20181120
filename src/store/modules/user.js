@@ -42,7 +42,6 @@ export default {
       state.schoolCode = schoolCode;
     },
     SET_SCHOOLID: (state, schoolId) => {
-      console.log("林林要");
       state.schoolId = schoolId;
     },
     SET_TEACHERID: (state, teacherId) => {
@@ -59,31 +58,57 @@ export default {
       return new Promise(async resolve => {
         let {
           roleType,
-          openId,
-          tel,
           ...args
         } = params;
-        //如果后端返回 roleType 为 0 则不写入Cookie
         if (roleType !== 0) {
-          Cookies.set('qx', params);
-          commit('SET_ROLETYPE', roleType);
-          commit('SET_OPENID', openId);
-          commit('SET_TEL', tel);
           //如果是园长登陆成功
           if ('schoolId' in args) {
             Cookies.set('id', args.schoolId);
             commit('SET_ID', args.schoolId);
-          }
-          //如果是老师登陆成功
-          if ('teacherId' in args) {
+            //如果是老师登陆成功
+          } else if ('teacherId' in args) {
             Cookies.set('id', args.teacherId);
             commit('SET_ID', args.teacherId);
-          }
-          //如果是家长登陆成功
-          if ('patroarchId' in args) {
+            //如果是家长登陆成功
+          } else if ('patroarchId' in args) {
             Cookies.set('id', args.patroarchId);
             commit('SET_ID', args.patroarchId);
           }
+          //写入Cookie
+          Cookies.set('roleType', roleType);
+          Cookies.set('openId', args.openId);
+          Cookies.set('tel', args.tel);
+          //提交commit
+          commit('SET_ROLETYPE', roleType);
+          commit('SET_OPENID', args.openId);
+          commit('SET_TEL', args.tel);
+          // let {
+          //   roleType,
+          //   openId,
+          //   tel,
+          //   ...args
+          // } = params;
+          // //如果后端返回 roleType 为 0 则不写入Cookie
+          // if (roleType !== 0) {
+          //   Cookies.set('qx', params);
+          //   commit('SET_ROLETYPE', roleType);
+          //   commit('SET_OPENID', openId);
+          //   commit('SET_TEL', tel);
+          //   //如果是园长登陆成功
+          //   if ('schoolId' in args) {
+          //     Cookies.set('id', args.schoolId);
+          //     commit('SET_ID', args.schoolId);
+          //   }
+          //   //如果是老师登陆成功
+          //   if ('teacherId' in args) {
+          //     Cookies.set('id', args.teacherId);
+          //     commit('SET_ID', args.teacherId);
+          //   }
+          //   //如果是家长登陆成功
+          //   if ('patroarchId' in args) {
+          //     Cookies.set('id', args.patroarchId);
+          //     commit('SET_ID', args.patroarchId);
+          //   }
           resolve();
         } else {
           resolve();
@@ -94,15 +119,18 @@ export default {
       commit
     }) {
       return new Promise(async resolve => {
-        let qx = Cookies.getJSON('qx');
-        let classId = Cookies.get('classId');
+        //let qx = Cookies.getJSON('qx');
+        let roleType = parseInt(Cookies.get('roleType'));
+        let openId = Cookies.get('openId');
+        let tel = Cookies.get('tel');
+        let classId = parseInt(Cookies.get('classId'));
         let className = Cookies.get('className');
-        let id = Cookies.get('id');
-        commit('SET_ROLETYPE', qx.roleType);
-        commit('SET_TEL', qx.tel);
-        commit('SET_OPENID', qx.openId);
-        commit('SET_ID', parseInt(id));
-        commit('SET_CLASSID', parseInt(classId));
+        let id = parseInt(Cookies.get('id'));
+        commit('SET_ROLETYPE', roleType);
+        commit('SET_TEL', tel);
+        commit('SET_OPENID', openId);
+        commit('SET_ID', id);
+        commit('SET_CLASSID', classId);
         commit('SET_CLASSNAME', className);
         resolve();
       });

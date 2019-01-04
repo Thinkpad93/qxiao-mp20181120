@@ -19,8 +19,8 @@ module.exports = {
       mediaQuery: false // 允许在媒体查询中转换`px`
     },
     "cssnano": {
-      preset: "advanced",
-      autoprefixer: false,
+      "preset": "advanced",
+      "autoprefixer": false,
       "postcss-zindex": false
     },
     // to edit target browsers: use "browserslist" field in package.json

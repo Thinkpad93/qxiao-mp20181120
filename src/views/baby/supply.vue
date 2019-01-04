@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <form action="" ref="form">
-        <div class="cells-title">基础信息</div>
+        <div class="cells-title">完善学生信息</div>
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -45,6 +45,7 @@
               <label for="" class="label">学生所在班级</label>
             </div>
             <div class="cell-bd">
+              <!-- <input class="input" placeholder="学生所在班级" readonly v-model="form.className"> -->
               <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
                 <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select> -->
@@ -75,7 +76,7 @@ export default {
     return {
       classList: [],
       form: {
-        openId: "10086",
+        openId: this.$store.getters.openId,
         studentName: "",
         sex: 1,
         tel: "",
@@ -90,13 +91,18 @@ export default {
     handleSubmit() {
       let { studentName, tel } = this.form;
       if (studentName == "" || !studentName.length) {
-        this.$weui.topTips("请输入学生姓名");
+        this.$weui.alert("请输入学生姓名", () => {}, {
+          title: "提示"
+        });
         return false;
       }
       if (isPhone(tel)) {
+        console.log(this.form);
         this.studentSupply(this.form);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        this.$weui.alert("请正确填写手机号", () => {}, {
+          title: "提示"
+        });
       }
     },
     //根据家长手机号查询相关班级

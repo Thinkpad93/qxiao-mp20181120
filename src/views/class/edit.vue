@@ -164,7 +164,7 @@ export default {
         bottom: 0;
         display: block;
         width: 50%;
-        height: 6px;
+        height: 4px;
         background-color: #92cd36;
         transform: translateX(-50%);
       }

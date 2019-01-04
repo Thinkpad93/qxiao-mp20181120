@@ -61,13 +61,26 @@
   </div>  
 </template>
 <script>
+import service from "@/api";
 export default {
-  name: "",
+  name: "noticeShow",
   data() {
-    return {};
+    return {
+      query: {
+        openId: null,
+        noticeId: null,
+        classId: null
+      }
+    };
   },
   methods: {
-    handleTabClick() {}
+    handleTabClick() {},
+    //公告通知详情
+    async noticeDetail(params = {}) {
+      let res = service.noticeDetail(params);
+      if (res.errorCode === 0) {
+      }
+    }
   }
 };
 </script>

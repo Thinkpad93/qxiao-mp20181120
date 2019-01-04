@@ -12,7 +12,6 @@ export default {
     }, params) {
       return new Promise(async resolve => {
         let res = await service.userTeleLogin(params);
-
         if (res.errorCode === 0) {
           let {
             roleType

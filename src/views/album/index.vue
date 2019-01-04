@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells">
+      <div class="album">
         <div class="cell" v-for="(album, index) in 3" :key="index">
           <figure class="figure">
             <div class="place"></div>
@@ -27,8 +27,8 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.cells {
+<style lang="less">
+.album {
   display: flex;
   padding: 30px 30px 0 30px;
   flex-wrap: wrap;

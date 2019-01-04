@@ -63,6 +63,7 @@ export default {
   data() {
     return {
       query: {
+        openId: this.$store.getters.openId,
         freshId: null,
         classId: null
       }

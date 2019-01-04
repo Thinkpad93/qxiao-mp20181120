@@ -63,7 +63,28 @@ export default {
         classId: this.$store.getters.classId,
         contentType: 0,
         textContent: "",
-        images: [],
+        images: [
+          // {
+          //   imageUrl:
+          //     "https://p1.music.126.net/y9bfATQX8TYuWwMkh5r6cw==/109951163763298525.jpg?param=110y110&quality=100"
+          // },
+          // {
+          //   imageUrl:
+          //     "https://p1.music.126.net/uwireUjhOd3a96SfR7V52Q==/109951163763287846.jpg?param=110y110&quality=100"
+          // },
+          // {
+          //   imageUrl:
+          //     "https://p1.music.126.net/SvxmZvlCm9x7ZLc66wcFBg==/109951163763296604.jpg?param=110y110&quality=100"
+          // },
+          // {
+          //   imageUrl:
+          //     "https://p1.music.126.net/ukIR2-DR83nr6iCaf_FTEA==/109951163763293712.jpg?param=110y110&quality=100"
+          // },
+          // {
+          //   imageUrl:
+          //     "https://p1.music.126.net/veGQT42Cso_TIfzV0htXIg==/109951163763296639.jpg?param=110y110&quality=100"
+          // }
+        ],
         video: ""
       }
     };
