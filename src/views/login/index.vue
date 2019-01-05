@@ -150,6 +150,9 @@ export default {
       }
     }
   },
+  created() {
+    console.log(this.$route.query);
+  },
   mounted() {}
 };
 </script>

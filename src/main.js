@@ -81,43 +81,60 @@ const whiteList = ['/login'] // no redirect whitelist
 //     }
 //   }
 // });
+
 // router.beforeEach((to, from, next) => {
 //   document.title = to.meta.title;
 //   let openId = Cookies.get('openId');
-//   if (!store.getters.openId && to.path != '/author') {
-//     next("/author");
-//     return false;
-//   } else if (!openId && !store.getters.openId) {
+//   if (!openId && !store.getters.openId) {
+//     // 第一次访问
+//     console.log('授权登录');
+//     window.location.href =
+//       "http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do";
+//   } else if (!store.getters.openId) {
+//     console.log('cookie生效期内登录');
 //     store.dispatch('user/get');
 //     next();
-//     return false;
+//   } else {
+//     console.log('已登录');
+//     next();
 //   }
+// if (!store.getters.openId && to.path != '/author') {
+//   next('/author');
+//   return false
+// }
+// next();
+// let openId = Cookies.get('openId');
+// if (!openId && !store.getters.openId) {
+//   // 第一次访问
+//   // service.registerUser().then(res => {
+//   //   if (res.errorCode === 0) {
+//   //     Cookies.set('openId', res.data.openId);
+//   //     next(`/login?redirect`);
+//   //   }
+//   // }).catch(error => {
+//   //   console.log("error");
+//   //   console.log(error);
+//   // })
+//   next(`/login?redirect`);
+// } else if (!store.getters.openId) {
+//   store.dispatch('user/get');
 //   next();
+// } else {
+//   next(`/login?redirect`);
+// }
 // });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  let openId = Cookies.get('openId');
-  if (!openId && !store.getters.openId) {
-    // 第一次访问
-    service.registerUser().then(res => {
-      if (res.errorCode === 0) {
-        Cookies.set('openId', res.data.openId);
-        next(`/login?redirect`);
-      }
-    }).catch(error => {
-      console.log("error");
-      console.log(error);
-    })
-    //next(`/login?redirect`);
-  } else if (!store.getters.openId) {
-    store.dispatch('user/get');
-    next();
-  } else {
-    next(`/login?redirect`);
+  console.log(to);
+  console.log(from);
+  if (!store.getters.openId && to.path != '/author') {
+    // 第一次进入项目
+    Cookies.set('beforeLoginUrl', to.fullPath) // 保存用户进入的url
+    next('/author');
+    return false;
   }
+  next();
 });
-
 router.afterEach((to, from, next) => {});
 
 /* eslint-disable no-new */

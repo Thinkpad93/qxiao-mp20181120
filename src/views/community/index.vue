@@ -41,6 +41,7 @@
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
+        <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleChooseImage">发布</a>
       </div>      
     </div>
   </div>  
@@ -90,6 +91,17 @@ export default {
     };
   },
   methods: {
+    handleChooseImage() {
+      wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          console.log(localIds);
+        }
+      });
+    },
     handleSelectClass() {
       this.$weui.picker(this.classList, {
         defaultValue: [this.form.classId],

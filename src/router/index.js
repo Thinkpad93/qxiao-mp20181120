@@ -5,7 +5,7 @@ Vue.use(Router);
 
 export const constantRouterMap = [{
     path: '/',
-    redirect: '/home'
+    redirect: '/author'
   }, {
     path: '/home',
     component: () => import('@/views/home'),
