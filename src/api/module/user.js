@@ -6,8 +6,8 @@ import ax from '../axios';
 //     .then(res => res.data)
 //     .catch(e => console.log(e));
 // }
-export function registerUser(params = {}) {
-  return ax.get('/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do', params)
+export function registerUser(params = {}, config) {
+  return ax.get('http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

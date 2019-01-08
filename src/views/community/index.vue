@@ -13,14 +13,15 @@
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
                 <li class="uploader-file" 
-                  v-for="(file, index) in form.images" 
+                  @click="handlePreviewImage(item)"
+                  v-for="(item, index) in imagesList" 
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}">
-                  <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)">
+                  :style="{backgroundImage: `url(${item})`}">
+                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
                 </li>
               </ul>
-              <div class="uploader-input_box">
-                <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*">
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <!-- <input name="file" type="file" class="uploader-input" @change="handleChooseImage" multiple="multiple" accept="image/*"> -->
               </div>
             </div>
           </div>         
@@ -30,9 +31,6 @@
             </div>  
             <div class="cell-bd" style="padding-left:0">
               <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className">
-              <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select> -->
             </div>                      
           </div>
         </div>
@@ -41,7 +39,6 @@
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
-        <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleChooseImage">发布</a>
       </div>      
     </div>
   </div>  
@@ -54,6 +51,7 @@ export default {
     return {
       className: this.$store.getters.className,
       imagesList: [],
+      serverId: [], //微信图片ID
       classList: [],
       query: {
         id: this.$store.getters.id,
@@ -64,43 +62,101 @@ export default {
         classId: this.$store.getters.classId,
         contentType: 0,
         textContent: "",
-        images: [
-          // {
-          //   imageUrl:
-          //     "https://p1.music.126.net/y9bfATQX8TYuWwMkh5r6cw==/109951163763298525.jpg?param=110y110&quality=100"
-          // },
-          // {
-          //   imageUrl:
-          //     "https://p1.music.126.net/uwireUjhOd3a96SfR7V52Q==/109951163763287846.jpg?param=110y110&quality=100"
-          // },
-          // {
-          //   imageUrl:
-          //     "https://p1.music.126.net/SvxmZvlCm9x7ZLc66wcFBg==/109951163763296604.jpg?param=110y110&quality=100"
-          // },
-          // {
-          //   imageUrl:
-          //     "https://p1.music.126.net/ukIR2-DR83nr6iCaf_FTEA==/109951163763293712.jpg?param=110y110&quality=100"
-          // },
-          // {
-          //   imageUrl:
-          //     "https://p1.music.126.net/veGQT42Cso_TIfzV0htXIg==/109951163763296639.jpg?param=110y110&quality=100"
-          // }
-        ],
+        images: [],
         video: ""
       }
     };
   },
   methods: {
+    //选图
     handleChooseImage() {
       wx.chooseImage({
-        count: 1, // 默认9
-        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        count: 9,
+        sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
+        success: res => {
+          alert(res);
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-          console.log(localIds);
+          // 判断 ios
+          if (window.__wxjs_is_wkwebview) {
+            this.handleLocalImgData(localIds);
+          } else {
+            localIds.forEach(element => {
+              this.imagesList.push(element);
+            });
+          }
+          this.handleUploadImage(localIds);
+        },
+        fail: res => {
+          alert("失败");
         }
       });
+    },
+    //预览图片
+    handlePreviewImage(item) {
+      wx.previewImage({
+        current: item,
+        urls: this.imagesList
+      });
+    },
+    //上传图片
+    handleUploadImage(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        let loacId = localIds[i];
+        if (window.__wxjs_is_wkwebview) {
+          if (loacId.indexOf("wxlocalresource") != -1) {
+            loacId = loacId.replace("wxlocalresource", "wxLocalResource");
+          }
+        }
+        wx.uploadImage({
+          localId: loacId, // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: res => {
+            let serverId = res.serverId; // 返回图片的服务器端ID
+            this.serverId.push(serverId);
+            i++;
+            i < length && upload();
+            //后端接收
+            alert(this.serverId);
+            alert("后端接收");
+            service
+              .imgIds({
+                openId: this.$store.getters.openId,
+                imgIds: this.serverId
+              })
+              .then(res => {
+                if (res.errorCode === 0) {
+                  alert(res.data);
+                  this.form.images = res.data.paths;
+                }
+              });
+          },
+          fail: res => {
+            alert("失败");
+          }
+        });
+      };
+      upload();
+    },
+    //ios 图片读取
+    handleLocalImgData(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        wx.getLocalImgData({
+          localId: localIds[i], // 图片的localID
+          success: res => {
+            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+            localData = localData.replace("jgp", "jpeg");
+            this.imagesList.push(localData);
+            i++;
+            i < length && upload();
+          }
+        });
+      };
+      upload();
     },
     handleSelectClass() {
       this.$weui.picker(this.classList, {
@@ -114,27 +170,6 @@ export default {
     handleDelImg(index) {
       return this.form.images.splice(index, 1);
     },
-    handleChangeFile(e) {
-      let files = e.target.files;
-      if (!files.length) {
-        return;
-      }
-      this.handleShowImg(files);
-    },
-    handleShowImg(files) {
-      for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        var imageType = /^image\//;
-        if (!imageType.test(file.type)) {
-          continue;
-        }
-        let reader = new FileReader();
-        reader.onload = e => {
-          this.form.images.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    },
     handleSubmit() {
       let { textContent, classId } = this.form;
       if (textContent == "") {
@@ -146,7 +181,6 @@ export default {
         return;
       }
       this.communityAdd(this.form);
-      //document.getElementById("submission").click();
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -173,74 +207,55 @@ export default {
           { title: "提示" }
         );
       }
+    },
+    //将微信上传成功的图片传给后端 serverId
+    async imgIds(params = {}) {
+      let res = await service.imgIds(params);
+      if (res.errorCode === 0) {
+        console.log(res);
+      }
+    },
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: [
+            "chooseImage",
+            "previewImage",
+            "uploadImage",
+            "downloadImage",
+            "getLocalImgData"
+          ] // 必填，需要使用的JS接口列表
+        });
+        wx.ready(() => {
+          wx.checkJsApi({
+            jsApiList: ["chooseImage", "getLocalImgData"],
+            success: res => {
+              console.log(res);
+            }
+          });
+        });
+      });
     }
+  },
+  created() {
+    //请求配置
+    this.getWxConfig();
   },
   mounted() {
     this.queryClassId(this.query);
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .page-bd {
   background-color: #fff;
-}
-.cells {
-  font-size: 34px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.cell-select {
-  padding: 0;
-  .select {
-    padding: 0 60px;
-  }
-  .cell-bd {
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      border-width: 4px 4px 0 0;
-      border-color: #c8c8cd;
-      border-style: solid;
-      transform: rotate(45deg) translateY(-50%);
-      position: absolute;
-      top: 50%;
-      right: 30px;
-    }
-  }
-}
-.cell-select-after {
-  padding-left: 30px;
 }
 .uploader-file {
   float: left;

@@ -6,10 +6,19 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
+              <label for="" class="label">用户头像</label>
+            </div>
+            <div class="cell-bd"></div>
+            <div class="cell-ft">
+              <img class="user-icon" :src="photo" alt="">
+            </div>
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
               <label for="" class="label">学校ID码</label>
             </div> 
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.schoolCode">
+              <p class="cell-p">{{ leaderInfo.schoolCode }}</p>
             </div>                          
           </div>
           <div class="cell">
@@ -17,7 +26,7 @@
               <label for="" class="label">学校名称</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.schoolName">
+              <p class="cell-p">{{ leaderInfo.schoolName }}</p>
             </div>                          
           </div>   
           <div class="cell">
@@ -25,7 +34,11 @@
               <label for="" class="label">学校类型</label>
             </div>    
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.schoolName">
+              <p class="cell-p">
+                <template v-if="leaderInfo.type === 0">公办</template>
+                <template v-else-if="leaderInfo.type === 1">私立</template>
+                <template v-else>民办</template>
+              </p>
             </div>     
           </div>   
           <div class="cell">
@@ -33,7 +46,7 @@
               <label for="" class="label">详细地址</label>
             </div>    
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.location">
+              <p class="cell-p">{{ leaderInfo.location }}</p>
             </div>                        
           </div>                          
         </div>
@@ -43,7 +56,7 @@
               <label for="" class="label">园长姓名</label>
             </div>   
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.leaderName">
+              <p class="cell-p">{{ leaderInfo.leaderName }}</p>
             </div>                          
           </div>   
           <div class="cell">
@@ -51,7 +64,7 @@
               <label for="" class="label">园长手机号</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="leaderInfo.tel">
+              <p class="cell-p">{{ leaderInfo.tel }}</p>
             </div>                           
           </div>                       
         </div>
@@ -61,10 +74,21 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
+              <label for="" class="label">用户头像</label>
+            </div>
+            <div class="cell-bd"></div>
+            <div class="cell-ft">
+              <p class="cell-p">
+                <img class="user-icon" :src="photo" alt="">
+              </p>
+            </div>
+          </div>          
+          <div class="cell">
+            <div class="cell-hd">
               <label for="" class="label">姓名</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.teacherName">
+              <p class="cell-p">{{ teacherInfo.teacherName }}</p>
             </div>               
           </div>
           <div class="cell">
@@ -72,7 +96,10 @@
               <label for="" class="label">性别</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.sex">
+              <p class="cell-p">
+                <template v-if="teacherInfo.sex === 1">男</template>
+                <template v-else>女</template>
+              </p>
             </div>               
           </div>
           <div class="cell">
@@ -80,7 +107,7 @@
               <label for="" class="label">手机号</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.tel">
+              <p class="cell-p">{{ teacherInfo.tel }}</p>
             </div>              
           </div>          
         </div>
@@ -90,7 +117,7 @@
               <label for="" class="label">学校名称</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.schoolName">
+              <p class="cell-p">{{ teacherInfo.schoolName }}</p>
             </div>              
           </div>
           <div class="cell">
@@ -98,7 +125,7 @@
               <label for="" class="label">学校ID码</label>
             </div> 
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.schoolCode">
+              <p class="cell-p">{{ teacherInfo.schoolCode }}</p>
             </div>               
           </div>
           <div class="cell">
@@ -106,16 +133,13 @@
               <label for="" class="label">学校地址</label>
             </div>    
             <div class="cell-bd">
-              <input class="input" readonly maxlength="4" v-model="teacherInfo.location">
+              <p class="cell-p">{{ teacherInfo.location }}</p>
             </div>              
           </div>
         </div>
       </template>
     </div>
     <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleOut">退出</a>
-      </div>      
       <qxfooter></qxfooter>
     </div>
   </div>  
@@ -135,7 +159,8 @@ export default {
     return {
       leaderInfo: {},
       teacherInfo: {},
-      openId: this.$store.getters.openId
+      openId: this.$store.getters.openId,
+      photo: this.$store.getters.photo
     };
   },
   computed: {
@@ -171,13 +196,19 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType === 1) {
+    if (this.roleType === 1 || this.roleType === 4) {
       this.queryInfo(this.openId);
-    } else if (this.roleType === 2) {
+    } else if (this.roleType === 2 || this.roleType === 5) {
       this.queryTeacherInfo(this.openId);
     }
   }
 };
 </script>
 <style lang="less">
+.user-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 10px 0;
+}
 </style>

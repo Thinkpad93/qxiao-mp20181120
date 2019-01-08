@@ -4,9 +4,11 @@
       <qxmenu @change="go"></qxmenu>
     </div>
     <div class="page-bd">
-      <router-link to="/community" class="release">
-        <img src="@/assets/image/release-icon.png" alt="">
-      </router-link>
+      <template v-if="roleType === 2 || roleType === 3">
+        <router-link to="/community" class="release">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </router-link>
+      </template>
       <main class="main">
         <section class="classId">
           <span @click="handleSelectClass">{{ className }}</span>

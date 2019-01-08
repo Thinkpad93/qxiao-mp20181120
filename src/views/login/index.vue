@@ -96,7 +96,6 @@ export default {
     //用户登录
     async userTeleLogin(params = {}) {
       let res = await this.$store.dispatch("account/userTeleLogin", params);
-      console.log("我叫林场");
       if (res.errorCode === 0) {
         //定时器清除
         this.second = 60;
@@ -151,8 +150,9 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query);
+    console.log(this.$store.getters);
   },
+  activated() {},
   mounted() {}
 };
 </script>

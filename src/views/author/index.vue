@@ -1,35 +1,35 @@
 <template>
-  <div class="page">
-    授权中获取OpenId...  
-  </div> 
+  <div class="page"></div> 
 </template>
 <script>
 import Cookies from "js-cookie";
 export default {
   data() {
     return {
-      openId: null
+      pageLoading: null
     };
   },
   methods: {
     login() {
-      setTimeout(() => {
-        // 页面恢复(进入用户一开始请求的页面)
-      }, 2000);
+      //this.goBeforeLoginUrl(); // 页面恢复(进入用户一开始请求的页面)
+      this.$router.push({ path: "/login" });
     }
   },
+  activated() {},
   created() {
-    console.log(this.$route.query);
-    console.log("执行次数");
-    if (!Cookies.get("openId")) {
+    let { openId, photo } = this.$route.query;
+    if (!openId && !photo) {
       let ua = window.navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         console.log("跳转到微信授权页面");
-        // 跳转到微信授权页面
         window.location.href =
           "http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do";
       }
     } else {
+      Cookies.set("openId", this.$route.query.openId);
+      Cookies.set("photo", this.$route.query.photo);
+      this.$store.commit("user/SET_OPENID", openId);
+      this.$store.commit("user/SET_PHOTO", photo);
       this.login();
     }
   }

@@ -8,6 +8,7 @@ import * as notice from './module/notice';
 import * as recipe from './module/recipe';
 import * as user from './module/user';
 import * as classes from './module/classes';
+import * as wx from './module/wx';
 
 export default {
   ...album,
@@ -19,5 +20,6 @@ export default {
   ...notice,
   ...recipe,
   ...user,
-  ...classes
+  ...classes,
+  ...wx
 }

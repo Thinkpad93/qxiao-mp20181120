@@ -5,36 +5,49 @@ Vue.use(Router);
 
 export const constantRouterMap = [{
     path: '/',
-    redirect: '/author'
+    redirect: '/login'
+  }, {
+    path: '/author',
+    component: () => import('@/views/author'),
+    roles: ['admin', 'teacher', 'patroarch']
   }, {
     path: '/home',
     component: () => import('@/views/home'),
     meta: {
-      title: '首页'
+      title: '首页',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   }, {
     path: '/baby',
     component: () => import('@/views/baby'),
+    roles: ['patroarch']
   }, {
     path: '/baby/supply',
     component: () => import('@/views/baby/supply'),
     meta: {
-      title: '完善学生信息'
+      title: '完善学生信息',
+      roles: ['patroarch']
     }
   }, {
     path: '/baby/add',
-    component: () => import('@/views/baby/add')
+    component: () => import('@/views/baby/add'),
+    meta: {
+      title: '学生添加',
+      roles: ['patroarch']
+    }
   }, {
     path: '/community',
     component: () => import('@/views/community'),
     meta: {
-      title: '班级圈发布'
+      title: '班级圈发布',
+      roles: ['teacher', 'patroarch']
     }
   }, {
     path: '/my',
     component: () => import('@/views/my'),
     meta: {
-      title: '我的'
+      title: '我的',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   }, {
     path: '/parentMy',
@@ -43,43 +56,46 @@ export const constantRouterMap = [{
     path: '/login',
     component: () => import('@/views/login'),
     meta: {
-      title: '登陆'
+      title: '登陆',
     }
   }, {
     path: '/author',
     component: () => import('@/views/author'),
     meta: {
-      title: '授权'
+      title: '授权',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   }, {
     path: '/schoolCreate',
     component: () => import('@/views/school/create'),
     meta: {
-      title: '创建学校'
+      title: '创建学校',
+      roles: ['admin']
     }
   }, {
     path: '/schoolJoin',
     component: () => import('@/views/school/join'),
     meta: {
-      title: '学校加入'
+      title: '学校加入',
+      roles: ['teacher']
     }
   }, {
     path: '/recipe',
     component: () => import('@/views/recipe'),
     meta: {
-      title: '营养食谱'
+      title: '营养食谱',
     }
   }, {
     path: '/homework',
     component: () => import('@/views/homework'),
     meta: {
-      title: "亲子作业"
+      title: "亲子作业",
     }
   }, {
     path: '/homework/show',
     component: () => import('@/views/homework/show'),
     meta: {
-      title: "作业详情查看"
+      title: "作业详情查看",
     }
   }, {
     path: '/homework/add',
@@ -142,7 +158,8 @@ export const constantRouterMap = [{
     path: '/teacher',
     component: () => import('@/views/teacher'),
     meta: {
-      title: '老师管理'
+      title: '老师管理',
+      roles: ['admin']
     }
   }, {
     path: '/teacher/add',
@@ -162,7 +179,8 @@ export const constantRouterMap = [{
     component: () => import('@/views/class'),
     meta: {
       title: '班级管理'
-    }
+    },
+    roles: ['admin']
   },
   {
     path: '/class/add',
@@ -183,7 +201,8 @@ export const constantRouterMap = [{
     component: () => import('@/views/student'),
     meta: {
       title: '学生管理'
-    }
+    },
+    roles: ['teacher']
   },
   {
     path: '/student/add',

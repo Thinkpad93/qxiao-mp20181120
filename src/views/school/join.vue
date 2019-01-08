@@ -43,7 +43,7 @@
               <label class="label">手机号码</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="form.tel">
             </div>
           </div>  
           <div class="cell"> 
@@ -95,7 +95,7 @@ export default {
         teacherName: "",
         schoolId: 1,
         sex: 1,
-        tel: "",
+        tel: this.$store.getters.tel,
         veriftCode: ""
       }
     };

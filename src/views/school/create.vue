@@ -104,6 +104,7 @@
   </div>     
 </template>
 <script>
+import Cookies from 'js-cookie';
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -121,6 +122,7 @@ export default {
         type: 1,
         leadName: "",
         tel: "",
+        openId: this.$store.getters.openId,
         classes: []
       }
     };
@@ -162,6 +164,7 @@ export default {
       let res = await service.schoolAdd(this.form);
       if (res.errorCode === 0) {
         let { schoolCode, ...args } = res.data;
+        Cookies.set('id', args.id);
         this.$store.dispatch("user/queryClassId", args);
         this.$router.push({ path: "/home" });
       }

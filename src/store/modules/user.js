@@ -11,6 +11,7 @@ export default {
     tel: "", //用户输入的手机号
     roleType: null, //角色类型
     openId: null, //微信 openId
+    photo: "", //微信头像
     schoolCode: null, //学校ID码
     schoolId: null, //学校ID
     teacherId: null, //老师ID
@@ -34,6 +35,9 @@ export default {
     },
     SET_ROLETYPE: (state, roleType) => {
       state.roleType = roleType;
+    },
+    SET_PHOTO: (state, photo) => {
+      state.photo = photo;
     },
     SET_OPENID: (state, openId) => {
       state.openId = openId;
@@ -76,39 +80,12 @@ export default {
           }
           //写入Cookie
           Cookies.set('roleType', roleType);
-          Cookies.set('openId', args.openId);
+          //Cookies.set('openId', args.openId);
           Cookies.set('tel', args.tel);
           //提交commit
           commit('SET_ROLETYPE', roleType);
-          commit('SET_OPENID', args.openId);
+          //commit('SET_OPENID', args.openId);
           commit('SET_TEL', args.tel);
-          // let {
-          //   roleType,
-          //   openId,
-          //   tel,
-          //   ...args
-          // } = params;
-          // //如果后端返回 roleType 为 0 则不写入Cookie
-          // if (roleType !== 0) {
-          //   Cookies.set('qx', params);
-          //   commit('SET_ROLETYPE', roleType);
-          //   commit('SET_OPENID', openId);
-          //   commit('SET_TEL', tel);
-          //   //如果是园长登陆成功
-          //   if ('schoolId' in args) {
-          //     Cookies.set('id', args.schoolId);
-          //     commit('SET_ID', args.schoolId);
-          //   }
-          //   //如果是老师登陆成功
-          //   if ('teacherId' in args) {
-          //     Cookies.set('id', args.teacherId);
-          //     commit('SET_ID', args.teacherId);
-          //   }
-          //   //如果是家长登陆成功
-          //   if ('patroarchId' in args) {
-          //     Cookies.set('id', args.patroarchId);
-          //     commit('SET_ID', args.patroarchId);
-          //   }
           resolve();
         } else {
           resolve();
@@ -119,15 +96,16 @@ export default {
       commit
     }) {
       return new Promise(async resolve => {
-        //let qx = Cookies.getJSON('qx');
         let roleType = parseInt(Cookies.get('roleType'));
         let openId = Cookies.get('openId');
+        let photo = Cookies.get('photo');
         let tel = Cookies.get('tel');
         let classId = parseInt(Cookies.get('classId'));
         let className = Cookies.get('className');
         let id = parseInt(Cookies.get('id'));
         commit('SET_ROLETYPE', roleType);
         commit('SET_TEL', tel);
+        commit('SET_PHOTO', photo);
         commit('SET_OPENID', openId);
         commit('SET_ID', id);
         commit('SET_CLASSID', classId);

@@ -5,7 +5,7 @@
     </div>
     <div class="item">
       <template v-if="roleType === 1 || roleType === 4">
-        <router-link :to="{path: '/my', query: {role: 'leader'}}">我的</router-link>
+        <router-link :to="{path: '/my', query: {role: 'admin'}}">我的</router-link>
       </template>
       <template v-else-if="roleType === 2 || roleType === 5">
         <router-link :to="{path: '/my', query: {role: 'teacher'}}">我的</router-link>
