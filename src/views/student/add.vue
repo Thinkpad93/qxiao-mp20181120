@@ -46,7 +46,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
+                <option :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
               </select>
             </div>
           </div>                                        
@@ -88,14 +88,14 @@ export default {
     handleSubmit() {
       let { studentName, tel } = this.form;
       if (studentName == "" || !studentName.length) {
-        this.$weui.topTips("请输入学生姓名");
+        this.$weui.alert("请输入学生姓名", () => {}, { title: "提示" });
         return false;
       }
       if (isPhone(tel)) {
         let obj = Object.assign({}, this.form, { openId: this.openId });
         this.studentAdd(this.form);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
       }
     },
     //根据类型查询相关班级
@@ -115,10 +115,12 @@ export default {
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
       if (res.errorCode === 0) {
+        //this.$refs.form.reset();
+        this.form.studentName = "";
+        this.form.tel = "";
         this.$weui.alert(
           "新增学生成功",
           () => {
-            this.$refs.form.reset();
             this.$router.go(-1);
           },
           {

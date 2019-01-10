@@ -11,12 +11,14 @@
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>      
       <div class="cells" style="background-color:transparent;">
-        <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
+        <figure class="figure" v-for="(notice, index) in noticeData" :key="index" @click="handleRouteGo(notice.noticeId)">
           <h3 class="text-ellipsis">{{ notice.title }}</h3>
-          <div style="color:#8d8d8d;">
+          <div class="nocice-time" style="color:#8d8d8d;">
             <time>{{ notice.postTime }}</time>
           </div>        
-          <img src="http://iph.href.lu/690x298" alt="">
+          <template v-if="notice.topImage">
+            <img :src="notice.topImage">
+          </template>
           <p class="line-clamp">{{ notice.textContent }}</p>
           <div class="metedata flex">
             <span size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template></span>
@@ -42,9 +44,12 @@ export default {
       noticeData: []
     };
   },
+  watch: {
+    $route(to, from) {}
+  },
   methods: {
-    handleRouteGo() {
-      //this.$router.push({ path: "/notice/show/1993" });
+    handleRouteGo(noticeId) {
+      this.$router.push({ path: `/notice/show/${noticeId}` });
     },
     handleTabClick(index) {
       this.index = index;
@@ -62,6 +67,7 @@ export default {
       }
     }
   },
+  mounted() {},
   activated() {
     this.noticeQuery(this.query);
   }
@@ -107,11 +113,14 @@ export default {
     background-color: #f2f2f2;
   }
   h3 {
+    font-weight: bold;
     font-size: 36px;
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
   }
   p {
-    font-size: 28px;
+    font-size: 30px;
+    margin: 10px 0 20px 0;
+    line-height: 1.5;
   }
   img {
     width: 690px;
@@ -127,6 +136,9 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #f5f5f5;
+  }
+  .nocice-time {
+    font-size: 28px;
   }
 }
 </style>

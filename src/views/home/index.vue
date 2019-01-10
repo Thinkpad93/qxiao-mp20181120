@@ -4,7 +4,7 @@
       <qxmenu @change="go"></qxmenu>
     </div>
     <div class="page-bd">
-      <template v-if="roleType === 2 || roleType === 3">
+      <template v-if="(roleType === 2) || (roleType === 3)">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
         </router-link>
@@ -24,7 +24,10 @@
                 <p size-15>{{ community.textContent }}</p>
                 <template>
                   <div class="img-group">
-                    <img v-for="(img, index) in community.images" :key="index" :src="img.imageUrl" alt="">
+                    <img 
+                      @click="handlePreviewImage(img.imageUrl, community.images)"
+                      v-for="(img, index) in community.images" 
+                      :key="index" :src="img.imageUrl" alt="">
                   </div>
                 </template>
                 <div class="handle">
@@ -104,6 +107,18 @@ export default {
         }
       });
     },
+    //预览图片
+    handlePreviewImage(url, images) {
+      let imgArray = [];
+      images.forEach(element => {
+        imgArray.push(element.imageUrl);
+      });
+      //华为手机 encodeURI
+      wx.previewImage({
+        current: encodeURI(url),
+        urls: imgArray
+      });
+    },
     //点赞
     handlePraise(community) {
       let openId = this.$store.getters.openId;
@@ -156,7 +171,24 @@ export default {
       if (res.errorCode === 0) {
         this.communityQuery(this.query);
       }
+    },
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: ["previewImage"] // 必填，需要使用的JS接口列表
+        });
+      });
     }
+  },
+  created() {
+    this.getWxConfig();
   },
   mounted() {
     if (this.id) {

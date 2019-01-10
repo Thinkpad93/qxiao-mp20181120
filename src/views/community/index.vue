@@ -1,12 +1,11 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <form action="" ref="form" method="post" enctype="multipart/form-data">
-        <input type="submit" id="submission" hidden>
+      <form action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent"></textarea>
+              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="10" v-model="form.textContent"></textarea>
             </div>
           </div>
           <div class="cell">
@@ -25,7 +24,7 @@
               </div>
             </div>
           </div>         
-          <div class="cell">
+          <div class="cell cell-input cell-input-after">
             <div class="cell-hd">
               <label for="" class="label">发送班级</label>
             </div>  
@@ -36,11 +35,9 @@
         </div>
       </form>
     </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
-      </div>      
-    </div>
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
+    </div>      
   </div>  
 </template>
 <script>
@@ -75,7 +72,6 @@ export default {
         sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: res => {
-          alert(res);
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
           // 判断 ios
           if (window.__wxjs_is_wkwebview) {
@@ -118,20 +114,6 @@ export default {
             this.serverId.push(serverId);
             i++;
             i < length && upload();
-            //后端接收
-            alert(this.serverId);
-            alert("后端接收");
-            service
-              .imgIds({
-                openId: this.$store.getters.openId,
-                imgIds: this.serverId
-              })
-              .then(res => {
-                if (res.errorCode === 0) {
-                  alert(res.data);
-                  this.form.images = res.data.paths;
-                }
-              });
           },
           fail: res => {
             alert("失败");
@@ -171,16 +153,29 @@ export default {
       return this.form.images.splice(index, 1);
     },
     handleSubmit() {
+      let obj = {
+        openId: this.$store.getters.openId,
+        imgIds: this.serverId
+      };
       let { textContent, classId } = this.form;
-      if (textContent == "") {
-        this.$weui.alert("请输入内容", () => {}, { title: "提示" });
+      if (textContent == "" || !this.serverId.length) {
+        this.$weui.alert("请输入内容或者上传图片", () => {}, { title: "提示" });
         return;
       }
-      if (classId == null || this.className == "") {
-        this.$weui.alert("请选择发送的班级", () => {}, { title: "提示" });
-        return;
-      }
-      this.communityAdd(this.form);
+      //先上传图片ID给后端去下载图片
+      service.imgIds(obj).then(res => {
+        if (res.errorCode === 0) {
+          let loading = this.$weui.loading("正在发布中");
+          this.form.images = res.data.paths;
+          //在发布班级圈
+          service.communityAdd(this.form).then(res => {
+            if (res.errorCode === 0) {
+              loading.hide();
+              this.$router.go(-1);
+            }
+          });
+        }
+      });
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -208,13 +203,6 @@ export default {
         );
       }
     },
-    //将微信上传成功的图片传给后端 serverId
-    async imgIds(params = {}) {
-      let res = await service.imgIds(params);
-      if (res.errorCode === 0) {
-        console.log(res);
-      }
-    },
     //通过config接口注入权限验证配置
     getWxConfig() {
       let url = window.location.href.split("#")[0];
@@ -232,14 +220,6 @@ export default {
             "downloadImage",
             "getLocalImgData"
           ] // 必填，需要使用的JS接口列表
-        });
-        wx.ready(() => {
-          wx.checkJsApi({
-            jsApiList: ["chooseImage", "getLocalImgData"],
-            success: res => {
-              console.log(res);
-            }
-          });
         });
       });
     }

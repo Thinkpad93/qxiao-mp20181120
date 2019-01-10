@@ -13,7 +13,7 @@
           </div> 
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" placeholder="请输入速报内容...~" rows="6" v-model="form.textContent"></textarea>
+              <textarea class="textarea" placeholder="请输入速报内容..." rows="6" v-model="form.textContent"></textarea>
             </div>
           </div>   
           <div class="cell">
@@ -23,15 +23,15 @@
                   v-for="(file, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
-                  <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)">
+                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
                 </li>
               </ul>
-              <div class="uploader-input_box">
-                <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*">
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <!-- <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*"> -->
               </div>
             </div>
           </div>    
-          <div class="cell">
+          <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label for="" class="label">发送班级</label>
             </div>  
@@ -46,11 +46,9 @@
         </div>
       </form>  
     </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
-      </div>      
-    </div>     
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+    </div>         
   </div>  
 </template>
 <script>
@@ -60,6 +58,7 @@ export default {
   name: "freshAdd",
   data() {
     return {
+      serverId: [], //微信图片ID
       imagesList: [],
       classList: [],
       selected: [],
@@ -67,8 +66,7 @@ export default {
         openId: this.$store.getters.openId,
         title: "",
         textContent: "",
-        images: [],
-        senders: []
+        images: []
       }
     };
   },
@@ -76,10 +74,128 @@ export default {
     ...mapGetters(["id", "roleType"])
   },
   methods: {
-    handleChangeFile() {},
-    handleSelectClass() {},
+    //选图
+    handleChooseImage() {
+      wx.chooseImage({
+        count: 9,
+        sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: res => {
+          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          // 判断 ios
+          if (window.__wxjs_is_wkwebview) {
+            this.handleLocalImgData(localIds);
+          } else {
+            localIds.forEach(element => {
+              this.imagesList.push(element);
+            });
+          }
+          this.handleUploadImage(localIds);
+        },
+        fail: res => {
+          alert("失败");
+        }
+      });
+    },
+    //预览图片
+    handlePreviewImage(item) {
+      wx.previewImage({
+        current: item,
+        urls: this.imagesList
+      });
+    },
+    //上传图片
+    handleUploadImage(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        let loacId = localIds[i];
+        if (window.__wxjs_is_wkwebview) {
+          if (loacId.indexOf("wxlocalresource") != -1) {
+            loacId = loacId.replace("wxlocalresource", "wxLocalResource");
+          }
+        }
+        wx.uploadImage({
+          localId: loacId, // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: res => {
+            let serverId = res.serverId; // 返回图片的服务器端ID
+            this.serverId.push(serverId);
+            i++;
+            i < length && upload();
+          },
+          fail: res => {
+            alert("失败");
+          }
+        });
+      };
+      upload();
+    },
+    //ios 图片读取
+    handleLocalImgData(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        wx.getLocalImgData({
+          localId: localIds[i], // 图片的localID
+          success: res => {
+            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+            localData = localData.replace("jgp", "jpeg");
+            this.imagesList.push(localData);
+            i++;
+            i < length && upload();
+          }
+        });
+      };
+      upload();
+    },
     handleSubmit() {
-
+      let { title, textContent, ...args } = this.form;
+      if (title === "") {
+        this.$weui.alert("请输入速报标题", () => {}, {
+          title: "提示"
+        });
+        return;
+      }
+      if (textContent === "") {
+        this.$weui.alert("请输入速报内容", () => {}, {
+          title: "提示"
+        });
+        return;
+      }
+      if (!this.selected.length) {
+        this.$weui.alert("请选择发送班级", () => {}, {
+          title: "提示"
+        });
+        return;
+      }
+      let senders = this.selected.map(item => {
+        return { classId: item };
+      });
+      let params = {
+        openId: this.form.openId,
+        imgIds: this.serverId
+      };
+      let obj = Object.assign({}, this.form, { senders });
+      //如果有上传图片
+      if (this.serverId.length) {
+        service.imgIds(params).then(res => {
+          if (res.errorCode === 0) {
+            let loading = this.$weui.loading("正在发布中");
+            this.form.images = res.data.paths;
+            //发布速报
+            service.freshAdd(obj).then(res => {
+              if (res.errorCode === 0) {
+                loading.hide();
+                this.$refs.form.reset();
+                this.$router.go(-1);
+              }
+            });
+          }
+        });
+      } else {
+        this.freshAdd(obj);
+      }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -87,18 +203,64 @@ export default {
       if (res.errorCode === 0) {
         this.classList = res.data;
       }
-    },    
+    },
     async freshAdd(params = {}) {
       let res = await service.freshAdd(params);
       if (res.errorCode === 0) {
-        
+        this.$refs.form.reset();
+        this.$weui.alert(
+          "发布成功",
+          () => {
+            this.$router.go(-1);
+          },
+          { title: "提示" }
+        );
       }
+    },
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: [
+            "chooseImage",
+            "previewImage",
+            "uploadImage",
+            "downloadImage",
+            "getLocalImgData"
+          ] // 必填，需要使用的JS接口列表
+        });
+      });
     }
+  },
+  created() {
+    this.getWxConfig();
   },
   mounted() {
     this.queryClassId({ id: this.id, roleType: this.roleType });
-  }  
+  }
 };
 </script>
 <style lang="less">
+.uploader-file {
+  float: left;
+  width: 140px;
+  height: 140px;
+  position: relative;
+  background-size: cover;
+  margin: 20px 0 0 0;
+  border-radius: 4px;
+  margin-right: 20px;
+  img {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    z-index: 10;
+  }
+}
 </style>

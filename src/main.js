@@ -11,35 +11,45 @@ Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
+const whiteList = ['/login'] // no redirect whitelist
+
+
 // 登录后跳转方法
 Vue.prototype.goBeforeLoginUrl = () => {
-  let url = Cookies.get('beforeLoginUrl')
+  let url = Cookies.get('beforeLoginUrl');
   if (!url || url.indexOf('/author') != -1) {
-    router.push('/login')
+    router.push('/login');
   } else {
     if (url == '/') {
-      url = '/login';
+      url = '/login'
     }
-    router.push(url)
-    Cookies.set('beforeLoginUrl', '')
+    router.push(url);
+    Cookies.set('beforeLoginUrl', '');
   }
 }
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
   if (!Cookies.get('openId') && to.path != '/author') {
-    // 保存用户进入的url
-    //Cookies.set('beforeLoginUrl', to.fullPath);
+    // 第一次进入项目
+    Cookies.set('beforeLoginUrl', to.fullPath) // 保存用户进入的url
     next('/author');
-  } else if (!store.getters.openId && Cookies.get('openId')) {
-    // 刷新页面获取数据存入vuex
+    return false;
+  }
+  if (to.path == '/author' && Cookies.get('openId')) {
+    if (Cookies.get('roleType')) {
+      next('/home');
+    } else {
+      next('/login');
+    }
+    return false;
+  }
+  if (!store.getters.openId && Cookies.get('openId')) {
     store.dispatch('user/get');
     next();
-  } else if (to.path == '/author' && store.getters.openId) {
-    next('/login');
   }
   next();
 });
+
 /* eslint-disable no-new */
 new Vue({
   store,

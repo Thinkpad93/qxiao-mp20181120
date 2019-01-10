@@ -14,7 +14,12 @@
       <div class="cells">
         <div class="cell student-box" v-for="(student, index) in studentList" :key="index" @click="handleEditStudent(student)">
           <div class="cell-hd">
-            <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
+            <template v-if="student.photo">
+              <img class="student-icon" :src="student.photo" alt="">
+            </template>
+            <template v-else>
+              <div class="icon-d"></div>
+            </template>
           </div>  
           <div class="cell-bd">
             <p>
@@ -92,9 +97,15 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.teacher-icon {
+.student-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+}
+.icon-d {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgb(69, 135, 166);
 }
 </style>

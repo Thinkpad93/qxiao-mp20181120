@@ -104,7 +104,7 @@
   </div>     
 </template>
 <script>
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -161,12 +161,16 @@ export default {
       this.form.classes.splice(index, 1);
     },
     async handleSubmit() {
-      let res = await service.schoolAdd(this.form);
-      if (res.errorCode === 0) {
-        let { schoolCode, ...args } = res.data;
-        Cookies.set('id', args.id);
-        this.$store.dispatch("user/queryClassId", args);
-        this.$router.push({ path: "/home" });
+      if (!this.form.classes.length) {
+        this.$weui.alert("请至少添加一个班级", () => {}, { title: "提示" });
+      } else {
+        let res = await service.schoolAdd(this.form);
+        if (res.errorCode === 0) {
+          let { schoolCode, ...args } = res.data;
+          Cookies.set("id", args.id);
+          this.$store.dispatch("user/queryClassId", args);
+          this.$router.push({ path: "/home" });
+        }
       }
     }
   },

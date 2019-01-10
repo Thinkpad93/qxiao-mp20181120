@@ -64,18 +64,30 @@ export default {
     return {
       query: {
         openId: this.$store.getters.openId,
-        freshId: null,
-        classId: null
-      }
+        freshId: this.$route.params.id,
+        classId: 0
+      },
+      info: {}
     };
   },
   methods: {
     //速报详情
     async freshDetail(params = {}) {
       let res = await service.freshDetail(params);
+      if (res.errorCode === 0) {
+        this.ifno = res.data;
+      }
+    },
+    //速报评论发表
+    async freshCommentAdd(params = {}) {
+      let res = await service.freshDetail(params);
+      if (res.errorCode === 0) {
+      }
     }
   },
-  mounted() {}
+  activated() {
+    this.freshDetail(this.query);
+  }
 };
 </script>
 <style lang="less">

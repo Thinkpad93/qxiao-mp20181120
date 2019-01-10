@@ -6,7 +6,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">用户头像</label>
+              <label for="" class="label">头像</label>
             </div>
             <div class="cell-bd"></div>
             <div class="cell-ft">
@@ -74,7 +74,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">用户头像</label>
+              <label for="" class="label">头像</label>
             </div>
             <div class="cell-bd"></div>
             <div class="cell-ft">

@@ -2,7 +2,6 @@
   <div class="page">
     <div class="page-bd">
       <form action="" ref="form">
-        <!-- <button type="reset" hidden id="reset">重置</button> -->
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -49,18 +48,18 @@
               <label class="label">任教班级</label>
             </div>     
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
+              <select class="select" name="" dir="rtl" v-model="selected" multiple size="1">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>                
+                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select>          
             </div>   
           </div>      
         </div> 
       </form>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-      </div>
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
     </div>
   </div>  
 </template>
@@ -73,6 +72,7 @@ export default {
   mixins: [type, sex],
   data() {
     return {
+      selected: [],
       classList: [],
       query: {
         id: this.$store.getters.id,
@@ -84,7 +84,7 @@ export default {
         sex: 1,
         tel: "",
         type: 1,
-        classId: null
+        classes: []
       }
     };
   },
@@ -93,44 +93,45 @@ export default {
       let { teacherName, tel, classId, ...args } = this.form;
       let classes = [];
       if (teacherName == "" || !teacherName.length) {
-        this.$weui.topTips("请输入老师姓名");
+        this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
+        return false;
+      }
+      if (!this.selected.length) {
+        this.$weui.alert("请选择任教班级，支持多选", () => {}, {
+          title: "提示"
+        });
         return false;
       }
       if (isPhone(tel)) {
-        if (classId) {
-          classes.push({ classId });
-        }
-        let obj = Object.assign({}, args, {
-          teacherName,
-          tel,
-          classes
+        this.form.classes = this.selected.map(item => {
+          return { classId: item };
         });
-        this.teacherAdd(obj);
+        this.teacherAdd(this.form);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
       }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
+        // let classMap = res.data.map(item => {
+        //   return {
+        //     label: item.className,
+        //     value: item.classId
+        //   };
+        // });
+        this.classList = res.data;
       }
     },
     //老师新增
     async teacherAdd(params = {}) {
       let res = await service.teacherAdd(params);
       if (res.errorCode === 0) {
+        this.$refs.form.reset();
         this.$weui.alert(
           "老师新增成功",
           () => {
-            this.$refs.form.reset();
             this.$router.go(-1);
           },
           {

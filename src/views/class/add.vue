@@ -15,11 +15,9 @@
         </div>
       </form>
     </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-      </div>
-    </div>     
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+    </div>  
   </div>  
 </template>
 <script>
@@ -47,10 +45,10 @@ export default {
     async classAdd(params = {}) {
       let res = await service.classAdd(params);
       if (res.errorCode === 0) {
+        this.$refs.form.reset();
         this.$weui.alert(
           "班级创建成功",
           () => {
-            this.$refs.form.reset();
             this.$router.go(-1);
           },
           {

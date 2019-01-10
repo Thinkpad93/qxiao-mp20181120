@@ -11,16 +11,18 @@
       <router-link to="/fresh/add" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>
-      <figure class="figure" v-for="(f, index) in freshData" :key="index" @click="handleRouteGo">
-        <h3 class="text-ellipsis">{{ f.title }}</h3>
+      <figure class="figure" v-for="(fresh, index) in freshData" :key="index" @click="handleRouteGo">
+        <h3 class="text-ellipsis">{{ fresh.title }}</h3>
         <div style="color:#8d8d8d;">
-          <time>{{ f.postTime }}</time>
+          <time>{{ fresh.postTime }}</time>
         </div>
-        <img src="http://iph.href.lu/690x298" alt="">
-        <p class="line-clamp">{{ f.textContent }}</p>
+        <template v-if="fresh.topImage">
+          <img :src="fresh.topImage" alt="">
+        </template>
+        <p class="line-clamp">{{ fresh.textContent }}</p>
         <div class="metedata" style="color:#8d8d8d;">
-          <span>{{ f.classReadCount }}人阅读</span>
-          <span>留言{{ f.classCommentCount }}</span>
+          <span>{{ fresh.classReadCount }}人阅读</span>
+          <span>留言{{ fresh.classCommentCount }}</span>
         </div>
       </figure>  
     </div>
@@ -32,11 +34,11 @@ export default {
   name: "fresh",
   data() {
     return {
-      className: "选择班级查看",
+      className: this.$store.getters.className,
       classList: [],
       query: {
         openId: this.$store.getters.openId,
-        classId: 0
+        classId: 1
       },
       queryClass: {
         id: this.$store.getters.id,
@@ -55,6 +57,9 @@ export default {
         onConfirm: result => {
           let value = result[0].value; //取第一个元素
           let label = result[0].label;
+          this.className = label;
+          this.query.classId = value;
+          this.freshQuery(this.query);
         }
       });
     },
@@ -106,11 +111,14 @@ export default {
     background-color: #f2f2f2;
   }
   h3 {
+    font-weight: bold;
     font-size: 36px;
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
   }
   p {
-    font-size: 28px;
+    font-size: 30px;
+    margin: 10px 0 20px 0;
+    line-height: 1.5;
   }
   img {
     width: 690px;

@@ -38,8 +38,10 @@
   </div>           
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
+import { mapGetters } from "vuex";
 export default {
   name: "login",
   data() {
@@ -53,7 +55,9 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["roleType"])
+  },
   methods: {
     handleSecond() {
       if (isPhone(this.form.tel)) {
@@ -149,11 +153,7 @@ export default {
       }
     }
   },
-  created() {
-    console.log(this.$store.getters);
-  },
-  activated() {},
-  mounted() {}
+  created() {}
 };
 </script>
 <style lang="less">

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="album">
+      <!-- <div class="album">
         <div class="cell" v-for="(album, index) in 3" :key="index">
           <figure class="figure">
             <div class="place"></div>
@@ -15,7 +15,7 @@
             </figcaption>
           </figure>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>  
 </template>

@@ -14,7 +14,12 @@
       <div class="cells">
         <div class="cell teacher-box" v-for="(teacher, index) in teacherList" :key="index" @click="handleEditTeacher(teacher)">
           <div class="cell-hd">
-            <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
+            <template v-if="teacher.photo">
+              <img class="teacher-icon" :src="teacher.photo" alt="">
+            </template>
+            <template v-else>
+              <div class="icon-d"></div>
+            </template>
           </div>
           <div class="cell-bd">
             <p>
@@ -84,6 +89,12 @@ export default {
   height: 80px;
   border-radius: 50%;
 }
+.icon-d {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgb(69, 135, 166);
+}
 .status {
   color: #ff87b7;
 }
@@ -92,5 +103,8 @@ export default {
   height: 50px;
   line-height: 50px;
   background-color: #ce3c39;
+}
+.and {
+  margin-right: 10px;
 }
 </style>

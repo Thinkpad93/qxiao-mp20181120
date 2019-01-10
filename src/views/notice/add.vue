@@ -60,7 +60,7 @@
       </div>
     </div>    
     <div class="page-bd">
-      <form action="" ref="form" method="post" enctype="multipart/form-data">
+      <form id="form" action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -72,7 +72,7 @@
           </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent"></textarea>
+              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent" maxlength="1000"></textarea>
             </div>
           </div>          
           <div class="cell">
@@ -82,20 +82,21 @@
                   v-for="(file, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
-                  <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)">
+                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
                 </li>
               </ul>
-              <div class="uploader-input_box">
-                <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*">
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <!-- <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*"> -->
               </div>
             </div>
           </div>      
-          <div class="cell">
+          <div class="cell cell-input cell-input-after">
             <div class="cell-hd">
               <label for="" class="label">发送对象</label>
             </div>  
             <div class="cell-bd">
-              <input class="input" placeholder="请选择发送对象" readonly @click="handleChangeSenders">
+              <p class="cell-p" @click="handleChangeSenders">请选择发送对象</p>
+              <!-- <input class="input" placeholder="请选择发送对象" readonly @click="handleChangeSenders"> -->
             </div>                      
           </div>      
           <div class="cell cell-switch">
@@ -127,19 +128,19 @@
         </div>
       </form>
     </div> 
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
-      </div>      
-    </div> 
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+    </div>      
   </div>  
 </template>
 <script>
 import service from "@/api";
+import wxConfig from "@/config/wxsdk";
 export default {
   namae: "noticeAdd",
   data() {
     return {
+      serverId: [], //微信图片ID
       tabIndex: 0,
       isActive: false,
       checked: false, //全选框
@@ -153,12 +154,7 @@ export default {
         openId: this.$store.getters.openId, //用户openid
         title: "", //通知标题
         textContent: "", //通知内容
-        images: [
-          {
-            imageUrl:
-              "http://p1.music.126.net/1xTxz-pCWqj3otOVu1nlGQ==/109951163763252770.jpg?param=338y189"
-          }
-        ], //图片
+        images: [], //图片
         needConfirm: true, //是否需要确认
         senders: [], //发送对象
         sendType: 2, //发送类型 2-老师，1-班级
@@ -167,8 +163,82 @@ export default {
       }
     };
   },
-  watch: {},
   methods: {
+    //选图
+    handleChooseImage() {
+      wx.chooseImage({
+        count: 9,
+        sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: res => {
+          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          // 判断 ios
+          if (window.__wxjs_is_wkwebview) {
+            this.handleLocalImgData(localIds);
+          } else {
+            localIds.forEach(element => {
+              this.imagesList.push(element);
+            });
+          }
+          this.handleUploadImage(localIds);
+        },
+        fail: res => {
+          alert("失败");
+        }
+      });
+    },
+    //预览图片
+    handlePreviewImage(item) {
+      wx.previewImage({
+        current: item,
+        urls: this.imagesList
+      });
+    },
+    //上传图片
+    handleUploadImage(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        let loacId = localIds[i];
+        if (window.__wxjs_is_wkwebview) {
+          if (loacId.indexOf("wxlocalresource") != -1) {
+            loacId = loacId.replace("wxlocalresource", "wxLocalResource");
+          }
+        }
+        wx.uploadImage({
+          localId: loacId, // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: res => {
+            let serverId = res.serverId; // 返回图片的服务器端ID
+            this.serverId.push(serverId);
+            i++;
+            i < length && upload();
+          },
+          fail: res => {
+            alert("失败");
+          }
+        });
+      };
+      upload();
+    },
+    //ios 图片读取
+    handleLocalImgData(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        wx.getLocalImgData({
+          localId: localIds[i], // 图片的localID
+          success: res => {
+            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+            localData = localData.replace("jgp", "jpeg");
+            this.imagesList.push(localData);
+            i++;
+            i < length && upload();
+          }
+        });
+      };
+      upload();
+    },
     handleTabClick(index) {
       this.tabIndex = index;
       if (index === 0) {
@@ -184,8 +254,6 @@ export default {
     handleChangeSenders() {
       this.isActive = true;
     },
-    handleDelImg() {},
-    handleChangeFile() {},
     //选择定时发送时间
     handleShowDatePicker() {
       this.$weui.datePicker({
@@ -264,7 +332,7 @@ export default {
         });
         return;
       }
-      if (title === "") {
+      if (textContent === "") {
         this.$weui.alert("请输入通知内容", () => {}, {
           title: "提示"
         });
@@ -285,8 +353,43 @@ export default {
         clockType,
         needConfirm
       });
-      console.log(obj);
-      this.noticeAdd(obj);
+      let params = {
+        openId: this.openId,
+        imgIds: this.serverId
+      };
+      //如果有上传图片
+      if (this.serverId.length) {
+        service.imgIds(params).then(res => {
+          if (res.errorCode === 0) {
+            let loading = this.$weui.loading("正在发布中");
+            obj.images = res.data.paths;
+            //发布公告
+            service.noticeAdd(obj).then(res => {
+              if (res.errorCode === 0) {
+                loading.hide();
+                this.$refs.form.reset();
+                this.$router.go(-1);
+              }
+            });
+          }
+        });
+      } else {
+        this.noticeAdd(obj);
+      }
+    },
+    //公告发送
+    async noticeAdd(params = {}) {
+      let res = await service.noticeAdd(params);
+      if (res.errorCode === 0) {
+        this.$refs.form.reset();
+        this.$weui.alert(
+          "发布成功",
+          () => {
+            this.$router.go(-1);
+          },
+          { title: "提示" }
+        );
+      }
     },
     //根据OpenId获取学校的班级信息
     async classInfo(openId) {
@@ -302,19 +405,30 @@ export default {
         this.teacherList = res.data;
       }
     },
-    //公告发送
-    async noticeAdd(params = {}) {
-      let res = await service.noticeAdd(params);
-      if (res.errorCode === 0) {
-        this.$weui.alert(
-          "发布成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
-      }
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: [
+            "chooseImage",
+            "previewImage",
+            "uploadImage",
+            "downloadImage",
+            "getLocalImgData"
+          ] // 必填，需要使用的JS接口列表
+        });
+      });
     }
+  },
+  created() {
+    //请求配置
+    this.getWxConfig();
   },
   mounted() {
     this.classInfo();

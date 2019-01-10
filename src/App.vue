@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <transition name="fade-transform" mode="out-in">
-      <keep-alive>
+      <!-- 这里是会被缓存的视图组件，比如 Home！ -->
+      <keep-alive v-if="$route.meta.keepAlive">
         <router-view :key="$route.fullPath"></router-view>
       </keep-alive>
+      <!-- 这里是不被缓存的视图组件，比如 Edit！ -->
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
   </div>
 </template>
