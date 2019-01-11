@@ -40,7 +40,7 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .figure {
   padding: 0 30px;
   margin-bottom: 30px;

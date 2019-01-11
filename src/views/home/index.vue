@@ -13,6 +13,14 @@
         <section class="classId">
           <span @click="handleSelectClass">{{ className }}</span>
         </section>
+        <!-- 班级圈评论键盘 -->
+        <section class="keyboard">
+          <form action="#">
+            <label for="keyWord" ref="keys">
+              <input type="text" id="keyWord" v-model="commForm.textContent">
+            </label>
+          </form>
+        </section>
         <section class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
@@ -24,10 +32,11 @@
                 <p size-15>{{ community.textContent }}</p>
                 <template>
                   <div class="img-group">
-                    <img 
-                      @click="handlePreviewImage(img.imageUrl, community.images)"
-                      v-for="(img, index) in community.images" 
-                      :key="index" :src="img.imageUrl" alt="">
+                    <div
+                      class="item"
+                      :style="{backgroundImage: `url(${img.imageUrl})`}" 
+                      v-for="(img, index) in community.images" :key="index"
+                      @click="handlePreviewImage(img.imageUrl, community.images)"></div>
                   </div>
                 </template>
                 <div class="handle">
@@ -37,7 +46,7 @@
                   </div>
                   <div class="right">
                     <img src="@/assets/image/zan-active-icon.png" alt="" @click="handlePraise(community)">
-                    <img src="@/assets/image/comment-icon.png" alt="">
+                    <img src="@/assets/image/comment-icon.png" alt="" @click="handleComment(community.communityId)">
                   </div>
                 </div>
                 <div class="data">
@@ -83,7 +92,12 @@ export default {
         classId: this.$store.getters.classId
       },
       classList: this.$store.getters.classList,
-      communityData: []
+      communityData: [],
+      commForm: {
+        openId: this.$store.getters.openId,
+        communityId: null,
+        textContent: ""
+      }
     };
   },
   computed: {
@@ -124,6 +138,12 @@ export default {
       let openId = this.$store.getters.openId;
       let { communityId } = community;
       this.communityPraise({ openId, communityId });
+    },
+    //班级圈评论
+    handleComment(communityId) {
+      this.commForm.communityId = communityId;
+      this.$refs.keys.click();
+      alert(communityId);
     },
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
@@ -170,6 +190,12 @@ export default {
       let res = await service.communityPraise(params);
       if (res.errorCode === 0) {
         this.communityQuery(this.query);
+      }
+    },
+    //班级圈评论
+    async communityComment(params) {
+      let res = await service.communityComment(params);
+      if (res.errorCode === 0) {
       }
     },
     //通过config接口注入权限验证配置
@@ -220,6 +246,7 @@ export default {
     }
   }
   h5 {
+    font-weight: bold;
     color: #656895;
   }
   .cell-bd {
@@ -251,11 +278,14 @@ export default {
 }
 .img-group {
   font-size: 0;
-  img {
+  .item {
+    display: inline-block;
     width: 160px;
     height: 160px;
     margin-right: 10px;
     margin-bottom: 10px;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
 }
 .handle {
@@ -287,5 +317,12 @@ export default {
   li {
     padding: 10px 20px;
   }
+}
+.keyboard {
+  position: absolute;
+  z-index: -1;
+  left: -1000px;
+  top: 0px;
+  display: block;
 }
 </style>

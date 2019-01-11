@@ -4,13 +4,15 @@
       <router-link to="/home">首页</router-link>
     </div>
     <div class="item">
-      <template v-if="roleType === 1 || roleType === 4">
+      <template v-if="roleType === 1">
         <router-link :to="{path: '/my', query: {role: 'admin'}}">我的</router-link>
       </template>
-      <template v-else-if="roleType === 2 || roleType === 5">
+      <template v-else-if="roleType === 2">
         <router-link :to="{path: '/my', query: {role: 'teacher'}}">我的</router-link>
       </template>
-      <template v-else></template>
+      <template v-else>
+        <router-link :to="{path: '/my', query: {role: 'patroarch'}}">我的</router-link>
+      </template>
     </div>
   </footer>   
 </template>

@@ -51,7 +51,9 @@
               </select> -->
             </div>
             <div class="cell-ft">
-              <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span>
+              <p class="cell-p">
+                <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span>
+              </p>
             </div>
           </div>                                                   
         </div>
@@ -65,10 +67,10 @@
   </div>  
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import { mapGetters } from "vuex";
 export default {
   name: "bobySupply",
   mixins: [sex, relation],
@@ -79,13 +81,10 @@ export default {
         openId: this.$store.getters.openId,
         studentName: "",
         sex: 1,
-        tel: "",
+        tel: this.$store.getters.tel,
         relation: 1
       }
     };
-  },
-  computed: {
-    ...mapGetters(["tel"])
   },
   methods: {
     handleSubmit() {
@@ -116,88 +115,21 @@ export default {
     async studentSupply(params = {}) {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
+        //当家长加入成功后，重新设置 roleType值
         this.$refs.form.reset();
+        Cookies.set("roleType", res.data.roleType);
         this.$store.dispatch("user/queryClassId", res.data);
+        this.$store.commit("user/SET_ROLETYPE", res.data.roleType);
         this.$router.push({ path: "/home" });
       }
     }
   },
   mounted() {
-    this.form.tel = this.tel;
     this.queryClassByTel(this.form.tel);
   }
 };
 </script>
-<style lang="less" scoped>
-.cells-title {
-  color: #808080;
-  font-size: 30px;
-  margin: 20px 0;
-  padding-left: 30px;
-}
-.cells {
-  font-size: 32px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.label {
-  display: block;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-.cell-select {
-  padding: 0;
-  .select {
-    padding: 0 60px;
-  }
-  .cell-bd {
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      border-width: 4px 4px 0 0;
-      border-color: #c8c8cd;
-      border-style: solid;
-      transform: rotate(45deg) translateY(-50%);
-      position: absolute;
-      top: 50%;
-      right: 30px;
-    }
-  }
-}
-.cell-select-after {
-  padding-left: 30px;
-}
+<style lang="less">
 .teacher-icon {
   width: 100px;
   height: 100px;

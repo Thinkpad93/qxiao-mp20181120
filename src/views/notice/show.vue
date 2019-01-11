@@ -22,7 +22,7 @@
         </section>
       </article>
       <div class="cells-title">班级阅读情况</div>
-      <div class="cells">
+      <!-- <div class="cells">
         <div class="tab">
           <a href="javascript:;" class="curr" @click="handleTabClick(0)">已读</a>
           <a href="javascript:;" @click="handleTabClick(1)">未读</a>
@@ -43,7 +43,7 @@
           </div>
           <div class="item"></div>
         </div>
-      </div>
+      </div> -->
     </div>  
   </div>  
 </template>

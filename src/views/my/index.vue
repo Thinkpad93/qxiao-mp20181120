@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <!-- 园长 -->
-      <template v-if="roleType === 1 || roleType === 4">
+      <template v-if="roleType === 1">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -70,7 +70,7 @@
         </div>
       </template>
       <!-- 老师 -->
-      <template v-if="roleType === 2 || roleType === 5">
+      <template v-if="roleType === 2">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -138,6 +138,61 @@
           </div>
         </div>
       </template>
+      <!-- 家长 -->
+      <template v-if="roleType === 3">
+        <div class="cells">
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">宝宝姓名</label>
+            </div>
+            <div class="cell-bd">
+              <p class="cell-p">{{ patroarch.studentName }}</p>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">性别</label>
+            </div>
+            <div class="cell-bd">
+              <p class="cell-p">
+                <template v-if="patroarch.sex === 1">男</template>
+                <template v-else>女</template>                
+              </p>
+            </div>            
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">手机号码</label>
+            </div>
+            <div class="cell-bd">
+              <p class="cell-p">{{ patroarch.tel }}</p>
+            </div>            
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">和宝宝关系</label>
+            </div>
+            <div class="cell-bd">
+              <p class="cell-p">
+                <template v-if="patroarch.relation === 1">妈妈</template>
+                <template v-else-if="patroarch.relation === 2">爸爸</template>
+                <template v-else-if="patroarch.relation === 3">爷爷</template>
+                <template v-else-if="patroarch.relation === 4">奶奶</template>
+                <template v-else-if="patroarch.relation === 5">外公</template>
+                <template v-else>外婆</template>
+              </p>
+            </div>            
+          </div>
+          <div class="cell">
+            <div class="cell-hd">
+              <label for="" class="label">所在班级</label>
+            </div>
+            <div class="cell-bd">
+              <p class="cell-p">{{ patroarch.className }}</p>
+            </div>            
+          </div>          
+        </div>
+      </template>
     </div>
     <div class="page-ft">
       <qxfooter></qxfooter>
@@ -159,6 +214,7 @@ export default {
     return {
       leaderInfo: {},
       teacherInfo: {},
+      patroarch: {},
       openId: this.$store.getters.openId,
       photo: this.$store.getters.photo
     };
@@ -180,6 +236,13 @@ export default {
         { title: "提示" }
       );
     },
+    //学生信息查询
+    async studentQuery(openId) {
+      let res = await service.studentQuery({ openId });
+      if (res.errorCode === 0) {
+        this.patroarch = res.data[0];
+      }
+    },
     //查询老师信息-我的
     async queryTeacherInfo(openId) {
       let res = await service.queryTeacherInfo({ openId });
@@ -196,10 +259,12 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType === 1 || this.roleType === 4) {
+    if (this.roleType === 1) {
       this.queryInfo(this.openId);
-    } else if (this.roleType === 2 || this.roleType === 5) {
+    } else if (this.roleType === 2) {
       this.queryTeacherInfo(this.openId);
+    } else {
+      this.studentQuery(this.openId);
     }
   }
 };

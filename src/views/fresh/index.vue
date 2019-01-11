@@ -11,13 +11,13 @@
       <router-link to="/fresh/add" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>
-      <figure class="figure" v-for="(fresh, index) in freshData" :key="index" @click="handleRouteGo">
+      <figure class="figure" v-for="(fresh, index) in freshData" :key="index" @click="handleRouteGo(fresh)">
         <h3 class="text-ellipsis">{{ fresh.title }}</h3>
         <div style="color:#8d8d8d;">
           <time>{{ fresh.postTime }}</time>
         </div>
         <template v-if="fresh.topImage">
-          <img :src="fresh.topImage" alt="">
+          <div class="pic" :style="{backgroundImage: `url(${fresh.topImage})`}"></div>
         </template>
         <p class="line-clamp">{{ fresh.textContent }}</p>
         <div class="metedata" style="color:#8d8d8d;">
@@ -38,7 +38,7 @@ export default {
       classList: [],
       query: {
         openId: this.$store.getters.openId,
-        classId: 1
+        classId: this.$store.getters.classId
       },
       queryClass: {
         id: this.$store.getters.id,
@@ -48,8 +48,11 @@ export default {
     };
   },
   methods: {
-    handleRouteGo() {
-      //this.$router.push({ path: "/fresh/show" });
+    handleRouteGo(fresh) {
+      this.$router.push({
+        path: `/fresh/show/`,
+        query: { freshId: `${fresh.freshId}`, classId: `${fresh.classId}` }
+      });
     },
     handleSelectClass() {
       this.$weui.picker(this.classList, {
@@ -120,10 +123,12 @@ export default {
     margin: 10px 0 20px 0;
     line-height: 1.5;
   }
-  img {
+  .pic {
     width: 690px;
     height: 298px;
     margin: 20px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
   .metedata {
     margin: 20px -30px 0 -30px;

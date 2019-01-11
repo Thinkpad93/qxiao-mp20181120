@@ -1,7 +1,7 @@
 <template>
   <div class="pages">
     <div class="page-bd">
-      <form action="" ref="form" method="post" enctype="multipart/form-data">
+      <form action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -13,7 +13,7 @@
           </div> 
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <div id="contenteditable" contenteditable v-html="form.textContent"></div>
+              <textarea class="textarea" rows="6" v-model="form.textContent"></textarea>
             </div>
           </div>  
           <div class="cell">
@@ -23,11 +23,9 @@
                   v-for="(file, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
-                  <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)">
                 </li>
               </ul>
-              <div class="uploader-input_box">
-                <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*">
+              <div class="uploader-input_box" @click="handleChooseImage">
               </div>
             </div>
           </div>           
@@ -39,7 +37,7 @@
               <select class="select" name="select" dir="rtl" v-model="selected" multiple size="1">
                 <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+                <option :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
               </select>
             </div>                      
           </div>             
@@ -54,11 +52,9 @@
         </div>
       </form>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
-      </div>        
-    </div>
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+    </div>        
   </div>  
 </template>
 <script>
@@ -68,6 +64,7 @@ export default {
   name: "homeWorkAdd",
   data() {
     return {
+      serverId: [], //微信图片ID
       imagesList: [],
       classList: [],
       selected: [],
@@ -75,14 +72,8 @@ export default {
       form: {
         openId: this.$store.getters.openId,
         title: "",
-        textContent:
-          "1963年4月26日生于北京市，华语影视男演员、导演、制作人 、武术运动员、商人。",
-        images: [
-          {
-            imageUrl:
-              "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1604641827,2225865630&fm=58&bpow=400&bpoh=565"
-          }
-        ],
+        textContent: "",
+        images: [],
         needConfirm: 0, //0-无需确认 1-需要确认
         senders: []
       }
@@ -92,8 +83,81 @@ export default {
     ...mapGetters(["id", "roleType"])
   },
   methods: {
-    handleDelImg() {},
-    handleChangeFile() {},
+    //选图
+    handleChooseImage() {
+      wx.chooseImage({
+        count: 9,
+        sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: res => {
+          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          // 判断 ios
+          if (window.__wxjs_is_wkwebview) {
+            this.handleLocalImgData(localIds);
+          } else {
+            localIds.forEach(element => {
+              this.imagesList.push(element);
+            });
+          }
+          this.handleUploadImage(localIds);
+        },
+        fail: res => {
+          alert("失败");
+        }
+      });
+    },
+    //预览图片
+    handlePreviewImage(item) {
+      wx.previewImage({
+        current: item,
+        urls: this.imagesList
+      });
+    },
+    //上传图片
+    handleUploadImage(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        let loacId = localIds[i];
+        if (window.__wxjs_is_wkwebview) {
+          if (loacId.indexOf("wxlocalresource") != -1) {
+            loacId = loacId.replace("wxlocalresource", "wxLocalResource");
+          }
+        }
+        wx.uploadImage({
+          localId: loacId, // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: res => {
+            let serverId = res.serverId; // 返回图片的服务器端ID
+            this.serverId.push(serverId);
+            i++;
+            i < length && upload();
+          },
+          fail: res => {
+            alert("失败");
+          }
+        });
+      };
+      upload();
+    },
+    //ios 图片读取
+    handleLocalImgData(localIds) {
+      let i = 0;
+      let length = localIds.length;
+      let upload = () => {
+        wx.getLocalImgData({
+          localId: localIds[i], // 图片的localID
+          success: res => {
+            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+            localData = localData.replace("jgp", "jpeg");
+            this.imagesList.push(localData);
+            i++;
+            i < length && upload();
+          }
+        });
+      };
+      upload();
+    },
     handleSubmit() {
       let { title, textContent } = this.form;
       if (title == "") {
@@ -114,8 +178,11 @@ export default {
       this.form.senders = this.selected.map(item => {
         return { classId: item };
       });
-      console.log(this.form);
-      //this.homeworkAdd(this.form);
+      //如果有上传图片
+      if (this.serverId.length) {
+      } else {
+        this.homeworkAdd(this.form);
+      }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -136,7 +203,30 @@ export default {
           { title: "提示" }
         );
       }
+    },
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: [
+            "chooseImage",
+            "previewImage",
+            "uploadImage",
+            "downloadImage",
+            "getLocalImgData"
+          ] // 必填，需要使用的JS接口列表
+        });
+      });
     }
+  },
+  created() {
+    this.getWxConfig();
   },
   mounted() {
     this.queryClassId({ id: this.id, roleType: this.roleType });

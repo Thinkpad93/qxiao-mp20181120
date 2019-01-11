@@ -12,15 +12,17 @@
       <router-link to="/homework/add" class="release">
         <img src="@/assets/image/release-icon.png" alt="">
       </router-link>
-      <figure class="figure" v-for="(h, index) in homeworkData" :key="index" @click="handleRouteGo(h)">
-        <h3 class="text-ellipsis">{{ h.title }}</h3>
+      <figure class="figure" v-for="(homework, index) in homeworkData" :key="index" @click="handleRouteGo(homework)">
+        <h3 class="text-ellipsis">{{ homework.title }}</h3>
         <div style="color:#8d8d8d;">
-          <time>{{ h.postTime }}</time>
-        </div>       
-        <img src="http://iph.href.lu/690x298" alt=""> 
-        <p class="line-clamp">{{ h.textContent }}</p>
+          <time>{{ homework.postTime }}</time>
+        </div> 
+        <template>
+          <img src="http://iph.href.lu/690x298" alt=""> 
+        </template>      
+        <p class="line-clamp">{{ homework.textContent }}</p>
         <div class="metedata" style="color:#8d8d8d;">
-          <span>{{ h.classReadCount }}人阅读</span>
+          <span>{{ homework.classReadCount }}人阅读</span>
         </div>        
       </figure>      
     </div>
@@ -46,10 +48,10 @@ export default {
     };
   },
   methods: {
-    handleRouteGo(h) {
+    handleRouteGo(homework) {
       this.$router.push({
         path: `/homework/show`,
-        query: { classId: `${h.classId}`, homeId: `${h.homeId}` }
+        query: { classId: `${homework.classId}`, homeId: `${homework.homeId}` }
       });
     },
     //选择班级

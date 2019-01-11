@@ -7,9 +7,11 @@
       </div>
     </div>
     <div class="page-bd">
-      <router-link to="/notice/add" class="release">
-        <img src="@/assets/image/release-icon.png" alt="">
-      </router-link>      
+      <template v-if="roleType === 1">
+        <router-link to="/notice/add" class="release">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </router-link> 
+      </template>     
       <div class="cells" style="background-color:transparent;">
         <figure class="figure" v-for="(notice, index) in noticeData" :key="index" @click="handleRouteGo(notice.noticeId)">
           <h3 class="text-ellipsis">{{ notice.title }}</h3>
@@ -17,7 +19,7 @@
             <time>{{ notice.postTime }}</time>
           </div>        
           <template v-if="notice.topImage">
-            <img :src="notice.topImage">
+            <div class="pic" :style="{backgroundImage: `url(${notice.topImage})`}"></div>
           </template>
           <p class="line-clamp">{{ notice.textContent }}</p>
           <div class="metedata flex">
@@ -31,6 +33,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "notice",
   data() {
@@ -43,6 +46,9 @@ export default {
       },
       noticeData: []
     };
+  },
+  computed: {
+    ...mapGetters(["roleType"])
   },
   watch: {
     $route(to, from) {}
@@ -67,7 +73,6 @@ export default {
       }
     }
   },
-  mounted() {},
   activated() {
     this.noticeQuery(this.query);
   }
@@ -122,10 +127,12 @@ export default {
     margin: 10px 0 20px 0;
     line-height: 1.5;
   }
-  img {
+  .pic {
     width: 690px;
     height: 298px;
     margin: 20px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
   .metedata {
     color: #8d8d8d;

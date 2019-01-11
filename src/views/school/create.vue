@@ -108,7 +108,6 @@ import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import { mapGetters } from "vuex";
 export default {
   name: "schoolCreate",
   mixins: [schoolType],
@@ -121,14 +120,11 @@ export default {
         location: "",
         type: 1,
         leadName: "",
-        tel: "",
+        tel: this.$store.getters.tel,
         openId: this.$store.getters.openId,
         classes: []
       }
     };
-  },
-  computed: {
-    ...mapGetters(["openId", "tel"])
   },
   methods: {
     handleNextClick() {
@@ -162,22 +158,24 @@ export default {
     },
     async handleSubmit() {
       if (!this.form.classes.length) {
-        this.$weui.alert("请至少添加一个班级", () => {}, { title: "提示" });
+        this.$weui.alert("请至少添加一个班级，谢谢", () => {}, {
+          title: "提示"
+        });
       } else {
         let res = await service.schoolAdd(this.form);
         if (res.errorCode === 0) {
+          //当学校创建成功后，重新设置 roleType值
           let { schoolCode, ...args } = res.data;
           Cookies.set("id", args.id);
+          Cookies.set("roleType", args.roleType);
           this.$store.dispatch("user/queryClassId", args);
+          this.$store.commit("user/SET_ROLETYPE", args.roleType);
           this.$router.push({ path: "/home" });
         }
       }
     }
   },
-  mounted() {
-    this.form.tel = this.tel;
-  },
-  activated() {}
+  mounted() {}
 };
 </script>
 <style lang="less">

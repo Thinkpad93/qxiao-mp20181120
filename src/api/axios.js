@@ -27,6 +27,7 @@ service.interceptors.response.use(config => {
   }
   return config;
 }, error => {
+  loading.hide();
   return Promise.reject(error);
 });
 

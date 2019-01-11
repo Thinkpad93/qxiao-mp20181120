@@ -42,7 +42,7 @@ export default {
     handleDelClass(params) {
       let { classId, countStudent, countTeacher } = params;
       if (countStudent > 0 || countTeacher > 0) {
-        this.$weui.alert("班级还有关联学生或者老师不能删除班级", () => {}, {
+        this.$weui.alert("班级还有关联学生和老师，不能删除班级", () => {}, {
           title: "提示"
         });
         return;
@@ -90,6 +90,7 @@ export default {
 .class-box {
   padding-top: 20px;
   padding-bottom: 20px;
+  margin-bottom: 0;
   .cell-bd {
     padding-left: 0;
   }

@@ -154,7 +154,7 @@ export const constantRouterMap = [{
       roles: ['admin']
     }
   }, {
-    path: '/fresh/show/:id',
+    path: '/fresh/show',
     component: () => import('@/views/fresh/show'),
     meta: {
       keepAlive: true,

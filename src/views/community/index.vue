@@ -19,9 +19,7 @@
                   <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-                <!-- <input name="file" type="file" class="uploader-input" @change="handleChooseImage" multiple="multiple" accept="image/*"> -->
-              </div>
+              <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
           </div>         
           <div class="cell cell-input cell-input-after">
