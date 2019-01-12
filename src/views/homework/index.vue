@@ -9,16 +9,18 @@
       </div>      
     </div>
     <div class="page-bd">
-      <router-link to="/homework/add" class="release">
-        <img src="@/assets/image/release-icon.png" alt="">
-      </router-link>
+      <template v-if="roleType === 2">
+        <router-link to="/homework/add" class="release">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </router-link>
+      </template>
       <figure class="figure" v-for="(homework, index) in homeworkData" :key="index" @click="handleRouteGo(homework)">
         <h3 class="text-ellipsis">{{ homework.title }}</h3>
         <div style="color:#8d8d8d;">
           <time>{{ homework.postTime }}</time>
         </div> 
-        <template>
-          <img src="http://iph.href.lu/690x298" alt=""> 
+        <template v-if="homework.topImage">
+          <div class="pic" :style="{backgroundImage: `url(${homework.topImage})`}"></div>
         </template>      
         <p class="line-clamp">{{ homework.textContent }}</p>
         <div class="metedata" style="color:#8d8d8d;">
@@ -30,6 +32,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "homeWork",
   data() {
@@ -46,6 +49,9 @@ export default {
       },
       homeworkData: []
     };
+  },
+  computed: {
+    ...mapGetters(["roleType"])
   },
   methods: {
     handleRouteGo(homework) {
@@ -111,16 +117,21 @@ export default {
     background-color: #f2f2f2;
   }
   h3 {
+    font-weight: bold;
     font-size: 36px;
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
   }
   p {
-    font-size: 28px;
+    font-size: 30px;
+    margin: 10px 0 20px 0;
+    line-height: 1.5;
   }
-  img {
+  .pic {
     width: 690px;
     height: 298px;
     margin: 20px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
   .metedata {
     margin: 20px -30px 0 -30px;

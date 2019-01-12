@@ -25,8 +25,7 @@
                   :style="{backgroundImage: `url(${file})`}">
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-              </div>
+              <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
           </div>           
           <div class="cell cell-select cell-select-after">
@@ -87,9 +86,10 @@ export default {
     handleChooseImage() {
       wx.chooseImage({
         count: 9,
-        sizeType: ["original"], // 可以指定是原图还是压缩图，默认二者都有
+        sizeType: ["compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: res => {
+          console.log(res);
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
           // 判断 ios
           if (window.__wxjs_is_wkwebview) {
@@ -178,8 +178,25 @@ export default {
       this.form.senders = this.selected.map(item => {
         return { classId: item };
       });
+      let params = {
+        openId: this.form.openId,
+        imgIds: this.serverId
+      };
       //如果有上传图片
       if (this.serverId.length) {
+        service.imgIds(params).then(res => {
+          if (res.errorCode === 0) {
+            let loading = this.$weui.loading("正在发布中");
+            this.form.images = res.data.paths;
+            //发布亲子作业
+            service.homeworkAdd(this.form).then(res => {
+              alert(this.form);
+              loading.hide();
+              this.$refs.form.reset();
+              this.$router.go(-1);
+            });
+          }
+        });
       } else {
         this.homeworkAdd(this.form);
       }

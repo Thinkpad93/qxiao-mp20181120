@@ -61,3 +61,5 @@ vue2.x + vuex + vueRoute + axios + weuijs
 - .eslint eslint 配置文件
 - .postcssrc webpack 处理 css 插件配置
 - .package npm 配置信息
+
+## 微信公众号

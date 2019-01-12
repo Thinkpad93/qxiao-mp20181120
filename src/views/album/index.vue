@@ -28,43 +28,43 @@ export default {
 };
 </script>
 <style lang="less">
-.album {
-  display: flex;
-  padding: 30px 30px 0 30px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background-color: #fff;
-}
-.cell {
-  margin-bottom: 30px;
-}
-.figure {
-  width: 312px;
-  height: 312px;
-  overflow: hidden;
-  position: relative;
-  .place {
-    width: 100%;
-    padding-top: 125%;
-  }
-  figcaption {
-    padding: 40px 0;
-    text-align: center;
-    font-size: 36px;
-    color: #fff;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    transform: translateY(-50%);
-  }
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
+// .album {
+//   display: flex;
+//   padding: 30px 30px 0 30px;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+//   background-color: #fff;
+// }
+// .cell {
+//   margin-bottom: 30px;
+// }
+// .figure {
+//   width: 312px;
+//   height: 312px;
+//   overflow: hidden;
+//   position: relative;
+//   .place {
+//     width: 100%;
+//     padding-top: 125%;
+//   }
+//   figcaption {
+//     padding: 40px 0;
+//     text-align: center;
+//     font-size: 36px;
+//     color: #fff;
+//     left: 0;
+//     top: 50%;
+//     width: 100%;
+//     position: absolute;
+//     background-color: rgba(0, 0, 0, 0.5);
+//     transform: translateY(-50%);
+//   }
+//   img {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//   }
+// }
 </style>

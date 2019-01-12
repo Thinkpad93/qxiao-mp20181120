@@ -47,6 +47,10 @@ router.beforeEach((to, from, next) => {
     store.dispatch('user/get');
     next();
   }
+  // if (to.path === '/login' && Cookies.get('openId') && store.getters.openId) {
+  //   next(`${from.path}`);
+  //   return false;
+  // }
   next();
 });
 

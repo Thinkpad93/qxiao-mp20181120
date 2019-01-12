@@ -21,25 +21,24 @@
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
-          <span class="zan">人点赞</span>
+          <span class="zan">{{ info.classCommentCount }}人评论</span>
         </div>
       </article>
       <div class="comment">
         <div class="comment-hd flex">
-          <span>留言(1)</span>
+          <span>留言({{ commentList.length }})</span>
           <a href="javascript:;" style="color:#44649f;">写留言</a>
         </div>
         <div class="comment-bd">
           <div class="cells">
-            <div class="cell">
+            <div class="cell" 
+              v-for="(comm, index) in commentList" :key="index">
               <div class="cell-hd">
-                <img class="icon" src="@/assets/image/109951163721579973.jpg" alt="">
+                <!-- <img class="icon" src="@/assets/image/109951163721579973.jpg" alt=""> -->
               </div>   
               <div class="cell-bd">
-                <span style="color:#44649f;">刘家明(园长)</span>
-                <p>
-                  周星驰中学就读于香港圣玛利奥英文书院
-                </p>
+                <span style="color:#44649f;">{{ comm.name }}</span>
+                <p></p>
               </div>           
             </div>
           </div>
@@ -73,18 +72,20 @@ export default {
     },
     //速报评论发表
     async freshCommentAdd(params = {}) {
-      let res = await service.freshDetail(params);
+      let res = await service.freshCommentAdd(params);
       if (res.errorCode === 0) {
       }
     },
     //速报评论人员列表
     async freshCommentQuery(params = {}) {
-      let res = await service.freshDetail(params);
+      let res = await service.freshCommentQuery(params);
       if (res.errorCode === 0) {
+        this.commentList = res.data.contents;
       }
     }
   },
   activated() {
+    //this.freshCommentQuery(this.query);
     this.freshDetail(this.query);
   }
 };
