@@ -143,6 +143,15 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
+              <label for="" class="label">头像</label>
+            </div>
+            <div class="cell-bd"></div>
+            <div class="cell-ft">
+              <img class="user-icon" :src="photo" alt="">
+            </div>
+          </div>          
+          <div class="cell">
+            <div class="cell-hd">
               <label for="" class="label">宝宝姓名</label>
             </div>
             <div class="cell-bd">

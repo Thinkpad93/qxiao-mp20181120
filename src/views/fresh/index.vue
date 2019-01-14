@@ -4,13 +4,16 @@
       <div class="button-sp-area flex" size-17>
         <a href="javascript:void(0);" @click="handleSelectClass">
           <span>{{ className }}</span>
+          <i class="iconfont icon-xiangxia1"></i>
         </a>
       </div>
     </div>
     <div class="page-bd">
-      <router-link to="/fresh/add" class="release">
-        <img src="@/assets/image/release-icon.png" alt="">
-      </router-link>
+      <template>
+        <router-link to="/fresh/add" class="release">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </router-link>
+      </template>
       <figure class="figure" v-for="(fresh, index) in freshData" :key="index" @click="handleRouteGo(fresh)">
         <h3 class="text-ellipsis">{{ fresh.title }}</h3>
         <div style="color:#8d8d8d;">
@@ -30,6 +33,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "fresh",
   data() {
@@ -46,6 +50,9 @@ export default {
       },
       freshData: []
     };
+  },
+  computed: {
+    ...mapGetters(["roleType"])
   },
   methods: {
     handleRouteGo(fresh) {

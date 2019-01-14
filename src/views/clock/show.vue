@@ -67,7 +67,7 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .page-hd {
   margin-bottom: 20px;
   background-color: #fff;
@@ -92,47 +92,7 @@ export default {
   border-color: #9cd248 transparent transparent;
   transform: translateY(-50%);
 }
-.cells {
-  font-size: 32px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 34px 30px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-  line-height: 90px;
-}
-.cell-bd {
-  flex: 1;
-}
-.cell-ft {
-  color: #808080;
-  span {
-    margin-left: 20px;
-  }
-}
+
 .tab {
   display: flex;
   font-size: 30px;

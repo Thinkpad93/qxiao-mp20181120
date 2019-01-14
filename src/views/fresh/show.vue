@@ -12,12 +12,12 @@
           </div>
         </div>
         <section size-16 class="article-content">
-          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>          
+          </template>              
+          <p>{{ info.textContent }}</p>      
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -26,19 +26,22 @@
       </article>
       <div class="comment">
         <div class="comment-hd flex">
-          <span>留言({{ commentList.length }})</span>
-          <a href="javascript:;" style="color:#44649f;">写留言</a>
+          <span>留言({{ commentLen }})</span>
+          <!-- 只有家长能够评论 -->
+          <template v-if="roleType === 3">
+            <a href="javascript:void(0);" style="color:#44649f;">写留言</a>
+          </template>
         </div>
         <div class="comment-bd">
           <div class="cells">
             <div class="cell" 
-              v-for="(comm, index) in commentList" :key="index">
+              v-for="(comment, index) in info.commentList" :key="index">
               <div class="cell-hd">
-                <!-- <img class="icon" src="@/assets/image/109951163721579973.jpg" alt=""> -->
+                <img class="icon" :src="comment.photo" alt="">
               </div>   
               <div class="cell-bd">
-                <span style="color:#44649f;">{{ comm.name }}</span>
-                <p></p>
+                <span style="color:#44649f;">{{ comment.name }}</span>
+                <p>{{ comment.textContent }}</p>
               </div>           
             </div>
           </div>
@@ -49,6 +52,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "freshShow",
   data() {
@@ -58,9 +62,12 @@ export default {
         freshId: parseInt(this.$route.query.freshId),
         classId: parseInt(this.$route.query.classId)
       },
-      info: {},
-      commentList: []
+      commentLen: 0,
+      info: {} //速报详情
     };
+  },
+  computed: {
+    ...mapGetters(["roleType"])
   },
   methods: {
     //速报详情
@@ -68,6 +75,7 @@ export default {
       let res = await service.freshDetail(params);
       if (res.errorCode === 0) {
         this.info = res.data;
+        this.commentLen = res.data.commentList.length;
       }
     },
     //速报评论发表
@@ -75,17 +83,9 @@ export default {
       let res = await service.freshCommentAdd(params);
       if (res.errorCode === 0) {
       }
-    },
-    //速报评论人员列表
-    async freshCommentQuery(params = {}) {
-      let res = await service.freshCommentQuery(params);
-      if (res.errorCode === 0) {
-        this.commentList = res.data.contents;
-      }
     }
   },
   activated() {
-    //this.freshCommentQuery(this.query);
     this.freshDetail(this.query);
   }
 };

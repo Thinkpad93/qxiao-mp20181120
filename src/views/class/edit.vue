@@ -16,13 +16,13 @@
           <div class="cells">
             <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" src="@/assets/image/109951163721579973.jpg" alt="">
+                <img class="teacher-icon" :src="teacher.photo" alt="">
               </div> 
               <div class="cell-bd">
                 <p>{{ teacher.teacherName }}</p>
               </div> 
               <div class="cell-ft">
-                <span size-14 style="color:#ce3c39" @click="handleMoveTeacher(teacher)">移除</span>
+                <span size-14 style="color:#92cd36" @click="handleMoveTeacher(teacher)">移除</span>
               </div>                                  
             </div>
           </div>
@@ -32,7 +32,7 @@
           <div class="cells">
             <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" src="@/assets/image/109951163721592032.jpg" alt="">
+                <img class="teacher-icon" :src="student.photo" alt="">
               </div>   
               <div class="cell-bd">
                 <p>{{ student.studentName }}</p>
@@ -66,9 +66,9 @@ export default {
   methods: {
     handleTabClick(index) {
       this.index = index;
-      // return index === 0
-      //   ? this.classQueryTeacher(this.query)
-      //   : this.classQueryStudent(this.query);
+      return index === 0
+        ? this.classQueryTeacher(this.query)
+        : this.classQueryStudent(this.query);
     },
     handleMoveStudent(student) {
       let { classId, studentId } = student;
@@ -134,7 +134,7 @@ export default {
   },
   activated() {
     this.classQueryTeacher(this.query);
-    this.classQueryStudent(this.query);
+    //this.classQueryStudent(this.query);
   }
 };
 </script>

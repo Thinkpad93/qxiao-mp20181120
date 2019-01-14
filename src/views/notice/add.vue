@@ -96,7 +96,6 @@
             </div>  
             <div class="cell-bd">
               <p class="cell-p" @click="handleChangeSenders">请选择发送对象</p>
-              <!-- <input class="input" placeholder="请选择发送对象" readonly @click="handleChangeSenders"> -->
             </div>                      
           </div>      
           <div class="cell cell-switch">
@@ -286,6 +285,7 @@ export default {
           this.classChenkList = [];
         }
       }
+      alert(this.checked);
     },
     //保存选择后的数据
     handleSave() {

@@ -11,7 +11,10 @@
       </template>
       <main class="main">
         <section class="classId">
-          <span @click="handleSelectClass">{{ className }}</span>
+          <span @click="handleSelectClass">
+            {{ className }}
+            <i class="iconfont icon-xiangxia1"></i>
+          </span>
         </section>
         <!-- 班级圈评论键盘 -->
         <section class="keyboard">
@@ -42,17 +45,20 @@
                 <div class="handle">
                   <div class="left">
                     <time>{{ community.postTime }}</time>
-                    <span class="del" @click="handleCommunityDelete(community, index)">删除</span>
+                    <!-- 园长和老师才能删除 -->
+                    <template v-if="roleType === 1 || roleType === 2">
+                      <span class="del" @click="handleCommunityDelete(community, index)">删除</span>
+                    </template>
                   </div>
                   <div class="right">
-                    <img src="@/assets/image/zan-active-icon.png" alt="" @click="handlePraise(community)">
-                    <img src="@/assets/image/comment-icon.png" alt="" @click="handleComment(community.communityId)">
+                    <i class="iconfont icon-zantongfill" @click="handlePraise(community)"></i>
+                    <i class="iconfont icon-liuyanfill"></i>
                   </div>
                 </div>
                 <div class="data">
                   <template v-if="community.praiseList">
                     <div class="zan-list" size-12>
-                      <img src="@/assets/image/zan-icon.png" alt="">
+                      <i class="iconfont icon-zantong"></i>
                       <span v-for="(praise, index) in community.praiseList" :key="index">{{ praise.studentName }}</span>
                     </div>
                   </template>
@@ -290,10 +296,15 @@ export default {
 }
 .handle {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-top: 10px;
   .right {
-    img {
+    font-size: 0;
+    i {
+      font-size: 36px;
+      color: #9aa4cb;
+      display: inline-block;
       margin-left: 20px;
     }
   }
@@ -304,8 +315,10 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 20px;
-  img {
-    margin-right: 20px;
+  i {
+    font-size: 30px;
+    color: #9aa4cb;
+    margin-right: 10px;
   }
   span {
     margin-right: 5px;

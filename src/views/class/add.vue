@@ -9,7 +9,8 @@
               <label class="label">班级名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称" maxlength="10" v-model="form.className">
+              <!-- 班级名称限制长度 -->
+              <input class="input" placeholder="请输入班级名称" maxlength="6" v-model="form.className">
             </div>            
           </div>          
         </div>

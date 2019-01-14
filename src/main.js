@@ -11,6 +11,8 @@ Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
+import './assets/iconfont/iconfont.css';
+
 const whiteList = ['/login'] // no redirect whitelist
 
 

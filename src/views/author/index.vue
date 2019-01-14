@@ -1,5 +1,9 @@
 <template>
-  <div class="page"></div> 
+  <div class="page">
+    <div class="page-bd">
+      <i class="iconfont iconfont icon-jiazai"></i>
+    </div>
+  </div> 
 </template>
 <script>
 import Cookies from "js-cookie";

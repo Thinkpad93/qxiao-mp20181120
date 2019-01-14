@@ -46,14 +46,14 @@
               <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="form.tel">
             </div>
           </div>  
-          <div class="cell"> 
+          <!-- <div class="cell"> 
             <div class="cell-bd">
               <input class="input text-left" placeholder="请输入验证码" v-model="form.veriftCode" maxlength="6">
             </div>
             <div class="cell-ft">
               <span style="color:#92cd36" @click="handleGetVeriftCode">获取验证码</span>
             </div>                
-          </div>                         
+          </div>                          -->
         </div>
       </template>
       <template v-else>
@@ -96,8 +96,8 @@ export default {
         teacherName: "",
         schoolId: 1,
         sex: 1,
-        tel: this.$store.getters.tel,
-        veriftCode: ""
+        tel: this.$store.getters.tel
+        //veriftCode: ""
       }
     };
   },
@@ -121,16 +121,16 @@ export default {
         this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
       }
     },
-    handleGetVeriftCode() {
-      this.telVeriftCode(this.form.tel);
-    },
+    // handleGetVeriftCode() {
+    //   this.telVeriftCode(this.form.tel);
+    // },
     //获取验证码
-    async telVeriftCode(tel) {
-      let res = await service.telVeriftCode({ tel });
-      if (res.errorCode === 0) {
-        this.$weui.topTips(`验证码已经发送，请注意查收`);
-      }
-    },
+    // async telVeriftCode(tel) {
+    //   let res = await service.telVeriftCode({ tel });
+    //   if (res.errorCode === 0) {
+    //     this.$weui.topTips(`验证码已经发送，请注意查收`);
+    //   }
+    // },
     //根据学校Id码查询信息
     async querySchoolInfo(schoolCode) {
       let res = await service.querySchoolInfo({ schoolCode });

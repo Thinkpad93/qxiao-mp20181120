@@ -16,6 +16,7 @@
                   v-for="(item, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${item})`}">
+                  <i class="iconfont icon-guanbi2fill" @click="handleDelImg"></i>
                   <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
                 </li>
               </ul>
@@ -47,7 +48,7 @@ export default {
       className: this.$store.getters.className,
       imagesList: [],
       serverId: [], //微信图片ID
-      classList: [],
+      classList: [], // "https://p2.music.126.net/AZTKGLBZTEtFkLHbCjNDDw==/109951163784053467.jpg?param=110y110&quality=100"
       query: {
         id: this.$store.getters.id,
         roleType: this.$store.getters.roleType
@@ -244,7 +245,8 @@ export default {
   margin: 20px 0 0 0;
   border-radius: 4px;
   margin-right: 20px;
-  img {
+  i {
+    font-size: 36px;
     position: absolute;
     top: -10%;
     right: -10%;

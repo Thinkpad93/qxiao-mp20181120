@@ -47,45 +47,10 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .babyItem {
   img {
     border-radius: 50%;
   }
-}
-.cells {
-  font-size: 32px;
-  overflow: hidden;
-  position: relative;
-  background-color: #fff;
-}
-.cell {
-  padding: 0 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 120px;
-  &::before {
-    content: " ";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    left: 15px;
-    z-index: 2;
-  }
-}
-.cell-hd {
-}
-.cell-bd {
-  flex: 1;
-  padding-left: 20px;
 }
 </style>

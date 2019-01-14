@@ -23,8 +23,13 @@
           </template>
           <p class="line-clamp">{{ notice.textContent }}</p>
           <div class="metedata flex">
-            <span size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template></span>
-            <span size-14>阅读人数: {{ notice.classReadCount }}</span>
+            <div size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template>
+            </div>
+            <div size-14 class="metedata-count">
+              <span style="color:#ff87b7">{{ notice.classReadCount }}人阅读</span>
+              <span style="color:#92cd36">{{ notice.classConfirmCount }}人确定</span>
+              <span style="color:#8d8d8d">{{ notice.classUnreadCount }}人未读</span>
+            </div>
           </div>
         </figure>
       </div>
@@ -143,6 +148,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #f5f5f5;
+  }
+  .metedata-count {
+    font-size: 0;
+    span {
+      font-size: 28px;
+      display: inline-block;
+      margin-left: 10px;
+    }
   }
   .nocice-time {
     font-size: 28px;

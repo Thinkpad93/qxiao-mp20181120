@@ -12,12 +12,12 @@
           </div>
         </div>    
         <section size-16 class="article-content">
-          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>          
+          </template>               
+          <p>{{ info.textContent }}</p>     
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -28,8 +28,8 @@
         <div class="tab-warp">
           <div class="tab">
             <div class="tab-head">
-              <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readList.length }})</a>
-              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unreadList.length }})</a>
+              <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
+              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unreadCount }})</a>
             </div>
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
@@ -103,7 +103,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["roleType"])
+    ...mapGetters(["roleType"]),
+    readCount() {
+      return this.readList.length;
+    },
+    unreadCount() {
+      return this.unreadList.length;
+    }
   },
   methods: {
     handleTabClick(index) {
@@ -135,9 +141,9 @@ export default {
       let res = await service.homeworkReaders(obj);
       if (res.errorCode === 0) {
         if (this.readFlag) {
-          this.unreadList = res.data.readers;
+          this.unreadList = res.data.readers || []; //后端有可能返回null
         } else {
-          this.readList = res.data.readers;
+          this.readList = res.data.readers || []; //后端有可能返回null
         }
       }
     }
@@ -170,48 +176,48 @@ export default {
 .tab-warp {
   margin-top: 30px;
   margin-bottom: 30px;
-}
-.tab {
-  font-size: 30px;
-  background-color: #fff;
-  a {
-    width: 200px;
-    height: 100px;
+  .tab-head {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
   }
-  .curr {
-    color: #92cd36;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 0;
+  .tab-content {
+    .item {
+      position: relative;
+      display: none;
+    }
+    .currs {
       display: block;
-      width: 70%;
-      height: 4px;
-      background-color: #92cd36;
-      transform: translateX(-50%);
+    }
+    .cell {
+      color: #252525;
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
   }
-}
-.tab-head {
-  display: flex;
-}
-.tab-content {
-  .item {
-    position: relative;
-    display: none;
-  }
-  .currs {
-    display: block;
-  }
-  .cell {
-    color: #252525;
-    padding-top: 40px;
-    padding-bottom: 40px;
+  .tab {
+    font-size: 30px;
+    background-color: #fff;
+    a {
+      width: 200px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .curr {
+      color: #92cd36;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        display: block;
+        width: 70%;
+        height: 4px;
+        background-color: #92cd36;
+        transform: translateX(-50%);
+      }
+    }
   }
 }
 </style>

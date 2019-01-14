@@ -13,37 +13,34 @@
           </div>
         </div>
         <section size-16 class="article-content">
-          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>
+          </template>          
+          <p>{{ info.textContent }}</p>
         </section>
+        <div class="class flex" style="color:#8d8d8d;">
+          <span class="read">{{ info.classReadCount }}人阅读</span>
+        </div>
       </article>
       <div class="cells-title">班级阅读情况</div>
-      <!-- <div class="cells">
+      <div class="tab-warp">
         <div class="tab">
-          <a href="javascript:;" class="curr" @click="handleTabClick(0)">已读</a>
-          <a href="javascript:;" @click="handleTabClick(1)">未读</a>
-        </div>
-        <div class="tab-content">
-          <div class="item">
-            <div class="cell" v-for="(t, index) in 4" :key="index">
-              <div class="cell-hd">
-                <img class="icon" src="@/assets/image/109951163721579973.jpg" alt="">
-              </div>
-              <div class="cell-bd">
-                <p>李明敏</p>
-              </div>
-              <div class="cell-ft">
-                <span :style="{ color: index % 2 === 0 ? '#92cd36': '#ff87b7'}">未确认通知</span>
-              </div>
+          <div class="tab-head">
+            <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
+            <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unreadCount }})</a>
+          </div>
+          <div class="tab-content">
+            <div class="item">
+              <div class="cell"></div>
+            </div>
+            <div class="item">
+              <div class="cell"></div>
             </div>
           </div>
-          <div class="item"></div>
         </div>
-      </div> -->
+      </div>
     </div>  
   </div>  
 </template>
@@ -53,26 +50,29 @@ export default {
   name: "noticeShow",
   data() {
     return {
+      readFlag: 0,
       query: {
         openId: this.$store.getters.openId, //用户openid
         noticeId: this.$route.params.id,
         classId: 0
       },
-      read: {
-        openId: this.$store.getters.openId, //用户openid
-        noticeId: this.$route.params.id,
-        classId: 0,
-        readFlag: 0
-      },
       readList: [],
+      unreadList: [],
       info: {
         title: ""
       }
     };
   },
+  readCount() {
+    return this.readList.length;
+  },
+  unreadCount() {
+    return this.unreadList.length;
+  },
   methods: {
     handleTabClick(index) {
-      this.read.readFlag = index;
+      this.readFlag = index;
+      this.homeworkReaders();
     },
     //公告通知详情
     async noticeDetail(params = {}) {
@@ -84,22 +84,27 @@ export default {
       }
     },
     //公告阅读人员查询
-    async noticeReaders(params = {}) {
-      let res = await service.noticeReaders(params);
+    async noticeReaders() {
+      let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
+      let res = await service.noticeReaders(obj);
       if (res.errorCode === 0) {
-        this.readList = res.data;
+        if (this.readFlag) {
+          this.unreadList = res.data.readers || []; //后端有可能返回null
+        } else {
+          this.readList = res.data.readers || []; //后端有可能返回null
+        }
       }
     }
   },
   activated() {
     this.noticeDetail(this.query);
-    this.noticeReaders(this.read);
+    this.noticeReaders();
   }
 };
 </script>
 <style lang="less">
 .article {
-  padding: 30px 30px 10px 30px;
+  padding: 30px;
   word-wrap: break-word;
   background-color: #fff;
   h1 {
@@ -132,37 +137,51 @@ export default {
   height: 80px;
   border-radius: 50%;
 }
-.tab {
-  display: flex;
-  font-size: 30px;
-  background-color: #fff;
-  a {
-    height: 100px;
-    flex: 1;
+.tab-warp {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  .tab-head {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
   }
-  .curr {
-    color: #92cd36;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 0;
+  .tab-content {
+    .item {
+      position: relative;
+      display: none;
+    }
+    .currs {
       display: block;
-      width: 50%;
-      height: 4px;
-      background-color: #92cd36;
-      transform: translateX(-50%);
+    }
+    .cell {
+      color: #252525;
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
   }
-}
-.tab-content {
-  .cell {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  .tab {
+    font-size: 30px;
+    background-color: #fff;
+    a {
+      width: 200px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .curr {
+      color: #92cd36;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        display: block;
+        width: 70%;
+        height: 4px;
+        background-color: #92cd36;
+        transform: translateX(-50%);
+      }
+    }
   }
 }
 </style>
