@@ -23,12 +23,10 @@
                   v-for="(file, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
-                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
+                  <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-                <!-- <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*"> -->
-              </div>
+              <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
           </div>    
           <div class="cell cell-select cell-select-after">
@@ -47,7 +45,7 @@
       </form>  
     </div>  
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
     </div>         
   </div>  
 </template>
@@ -148,6 +146,10 @@ export default {
         });
       };
       upload();
+    },
+    handleDelImg(index) {
+      this.imagesList.splice(index, 1); //移除图片显示
+      this.serverId.splice(index, 1); //移除微信图片ID
     },
     handleSubmit() {
       let { title, textContent, ...args } = this.form;
@@ -258,9 +260,11 @@ export default {
   margin: 20px 0 0 0;
   border-radius: 4px;
   margin-right: 20px;
-  img {
+  i {
+    color: #8d8d8d;
+    font-size: 48px;
     position: absolute;
-    top: -10%;
+    top: -14%;
     right: -10%;
     z-index: 10;
   }

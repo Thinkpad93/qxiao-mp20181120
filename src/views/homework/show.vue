@@ -23,7 +23,6 @@
           <span class="read">{{ info.classReadCount }}人阅读</span>
         </div>                    
       </article>
-      <!-- 家长不能查看 -->
       <template v-if="roleType === 1 || roleType === 2">
         <div class="tab-warp">
           <div class="tab">
@@ -34,8 +33,10 @@
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
                 <div class="cell" v-for="(read, index) in readList" :key="index">
-                  <div class="cell-hd"></div>
-                  <div class="cell-bd" style="padding-left:0">
+                  <div class="cell-hd">
+                    <img :src="read.photo" :alt="read.studentName">
+                  </div>
+                  <div class="cell-bd">
                     <p class="">
                       {{ read.studentName }}
                       <template v-if="read.relation === 1">(妈妈)</template>
@@ -54,7 +55,10 @@
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
                 <div class="cell" v-for="(unread, index) in unreadList" :key="index">
-                  <div class="cell-bd" style="padding-left:0">
+                  <div class="cell-hd">
+                    <img :src="unread.photo" :alt="unread.studentName">
+                  </div>                  
+                  <div class="cell-bd">
                     <p class="">
                       {{ unread.studentName }}
                       <template v-if="unread.relation === 1">(妈妈)</template>
@@ -91,7 +95,7 @@ export default {
   name: "homeWorkShow",
   data() {
     return {
-      readFlag: 0,
+      readFlag: 0, //0-已读 1-未读
       query: {
         openId: this.$store.getters.openId,
         homeId: parseInt(this.$route.query.homeId),
@@ -119,14 +123,16 @@ export default {
     },
     handleConfirmFlag() {
       if (!this.info.confirmFlag) {
-        //this.homeWorkConfirm(this.query);
+        this.homeWorkConfirm(this.query);
       }
     },
     //作业阅读确认
     async homeWorkConfirm(params = {}) {
-      let res = await service.homeWorkConfirm(params);
-      if (res.errorCode === 0) {
-        this.$weui.alert("作业确认成功", () => {}, { title: "提示" });
+      if (this.roleType === 3) {
+        let res = await service.homeWorkConfirm(params);
+        if (res.errorCode === 0) {
+          this.$weui.alert("作业确认成功", () => {}, { title: "提示" });
+        }
       }
     },
     //作业详情查询
@@ -136,14 +142,17 @@ export default {
         this.info = res.data;
       }
     },
+    //作业阅读人员查询
     async homeworkReaders() {
-      let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
-      let res = await service.homeworkReaders(obj);
-      if (res.errorCode === 0) {
-        if (this.readFlag) {
-          this.unreadList = res.data.readers || []; //后端有可能返回null
-        } else {
-          this.readList = res.data.readers || []; //后端有可能返回null
+      if (this.roleType === 1 || this.roleType === 2) {
+        let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
+        let res = await service.homeworkReaders(obj);
+        if (res.errorCode === 0) {
+          if (this.readFlag) {
+            this.unreadList = res.data.readers || []; //后端有可能返回null
+          } else {
+            this.readList = res.data.readers || []; //后端有可能返回null
+          }
         }
       }
     }
@@ -174,7 +183,7 @@ export default {
   }
 }
 .tab-warp {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 30px;
   .tab-head {
     display: flex;
@@ -189,11 +198,17 @@ export default {
     }
     .cell {
       color: #252525;
-      padding-top: 40px;
-      padding-bottom: 40px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
     }
   }
   .tab {
+    display: block;
     font-size: 30px;
     background-color: #fff;
     a {

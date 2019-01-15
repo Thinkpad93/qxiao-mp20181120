@@ -446,9 +446,11 @@ export default {
   margin: 20px 0 0 0;
   border-radius: 4px;
   margin-right: 20px;
-  img {
+  i {
+    color: #8d8d8d;
+    font-size: 48px;
     position: absolute;
-    top: -10%;
+    top: -14%;
     right: -10%;
     z-index: 10;
   }

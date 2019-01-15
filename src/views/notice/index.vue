@@ -1,11 +1,14 @@
 <template>
   <div class="page">
-    <div class="page-hd">
-      <div class="tab">
-        <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">通知消息</a>
-        <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">发送记录</a>
+    <!-- 只有园长才有这个功能 -->
+    <template v-if="roleType === 1">
+      <div class="page-hd">
+        <div class="tab">
+          <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">通知消息</a>
+          <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">发送记录</a>
+        </div>
       </div>
-    </div>
+    </template>
     <div class="page-bd">
       <template v-if="roleType === 1">
         <router-link to="/notice/add" class="release">
@@ -46,8 +49,7 @@ export default {
       index: 0,
       query: {
         openId: this.$store.getters.openId,
-        type: 0,
-        classId: 0
+        type: 0
       },
       noticeData: []
     };
@@ -71,15 +73,22 @@ export default {
       this.$router.push({ path: "/notice/add" });
     },
     //公告通知列表查询
-    async noticeQuery(params = {}) {
-      let res = await service.noticeQuery(params);
+    async noticeQuery() {
+      let classId = null;
+      if (this.roleType === 1) {
+        classId = 0;
+      } else {
+        classId = this.$store.getters.classId;
+      }
+      let obj = Object.assign({}, this.query, { classId });
+      let res = await service.noticeQuery(obj);
       if (res.errorCode === 0) {
         this.noticeData = res.data;
       }
     }
   },
   activated() {
-    this.noticeQuery(this.query);
+    this.noticeQuery();
   }
 };
 </script>
@@ -91,7 +100,7 @@ export default {
 .tab {
   display: flex;
   font-size: 32px;
-  a {
+  > a {
     color: #d7d7d7;
     height: 100px;
     flex: 1;

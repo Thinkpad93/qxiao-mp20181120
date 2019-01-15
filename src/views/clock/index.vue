@@ -9,26 +9,32 @@
       </div>
     </div>
     <div class="page-bd">
-      <div class="tab flex" size-17>
-        <a href="javascript:;">班级</a>
-        <a href="javascript:;">应到人数</a>
-        <a href="javascript:;">实到人数</a>
-        <a href="javascript:;">出勤率</a>
+      <div class="clock-table">
+        <div class="cells">
+          <div class="cell" size-17>
+            <div class="cell-bd">班级</div>
+            <div class="cell-bd">应到人数</div>
+            <div class="cell-bd">实到人数</div>
+            <div class="cell-bd">出勤率</div>
+          </div>
+        </div>
       </div>
-      <div class="cells">
-        <div class="cell" v-for="(clock, index) in clockList" :key="index" @click="handleQueryClock(clock)">
-          <div class="cell-bd">
-            <p>{{ clock.className }}</p>
-          </div>
-          <div class="cell-bd">
-            <p>{{ clock.classCount }}</p>
-          </div>
-          <div class="cell-bd">
-            <p>{{ clock.clockCount }}</p>
-          </div>
-          <div class="cell-bd">
-            <!-- <canvas id="mc3" class="canvas"></canvas> -->
-            <p style="color:#9cd248">{{ clock.clockRate }}</p>
+      <div class="clock-table">
+        <div class="cells">
+          <div class="cell" v-for="(clock, index) in clockList" :key="index" @click="handleQueryClock(clock)">
+            <div class="cell-bd">
+              <p class="">{{ clock.className }}</p>
+            </div>
+            <div class="cell-bd">
+              <p class="">{{ clock.classCount }}</p>
+            </div>
+            <div class="cell-bd">
+              <p class="">{{ clock.clockCount }}</p>
+            </div>
+            <div class="cell-bd">
+              <!-- <canvas id="mc3" class="canvas"></canvas> -->
+              <p style="color:#9cd248">{{ clock.clockRate }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -106,16 +112,15 @@ export default {
   border-color: #9cd248 transparent transparent;
   transform: translateY(-50%);
 }
-.canvas {
-}
-.tab {
-  height: 100px;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  a {
-    flex: 1;
+
+.clock-table {
+  .cell {
+    padding: 0 0;
+    height: 100px;
+  }
+  .cell-bd {
     text-align: center;
+    padding-left: 0;
   }
 }
 </style>

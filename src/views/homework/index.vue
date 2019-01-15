@@ -1,13 +1,15 @@
 
 <template>
   <div class="page">
-    <div class="page-hd">
-      <div class="button-sp-area flex" size-17>
-        <a href="javascript:;" @click="handleSelectClass">
-          <span>{{ className }}</span>
-        </a>
-      </div>      
-    </div>
+    <template v-if="roleType === 1 || roleType === 2">
+      <div class="page-hd">
+        <div class="button-sp-area flex" size-17>
+          <a href="javascript:;" @click="handleSelectClass">
+            <span>{{ className }}</span>
+          </a>
+        </div>      
+      </div>
+    </template>
     <div class="page-bd">
       <template v-if="roleType === 2">
         <router-link to="/homework/add" class="release">

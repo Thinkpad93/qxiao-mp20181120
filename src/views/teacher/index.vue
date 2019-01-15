@@ -4,8 +4,8 @@
       <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
-          <a href="javascript:;" style="color:#409eff;" size-14>批量导入老师信息</a>
-          <a href="javascript:;" style="color:#409eff;" size-14>批量邀请老师</a>
+          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量导入老师信息</a>
+          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量邀请老师</a>
         </div>
       </div>
     </div>
@@ -22,9 +22,7 @@
             </template>
           </div>
           <div class="cell-bd">
-            <p>
-              {{ teacher.teacherName }}
-              <span size-14 v-if="!teacher.openId" style="color: rgb(64, 158, 255);">微信邀请</span>
+            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" style="color: rgb(64, 158, 255);">微信邀请</span>
             </p>
             <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">{{ cla.className }}</small>
           </div>

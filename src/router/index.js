@@ -63,13 +63,6 @@ export const constantRouterMap = [{
       roles: ['admin', 'teacher', 'patroarch']
     }
   }, {
-    path: '/parentMy',
-    component: () => import('@/views/my/parentMy'),
-    meta: {
-      keepAlive: true,
-      title: '我的'
-    }
-  }, {
     path: '/login',
     component: () => import('@/views/login'),
     meta: {

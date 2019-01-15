@@ -16,8 +16,7 @@
                   v-for="(item, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${item})`}">
-                  <i class="iconfont icon-guanbi2fill" @click="handleDelImg"></i>
-                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
+                  <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage"></div>
@@ -28,7 +27,10 @@
               <label for="" class="label">发送班级</label>
             </div>  
             <div class="cell-bd" style="padding-left:0">
-              <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className">
+              <select class="select" name="select" dir="rtl" v-model="form.classId">
+                <option :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>                
+              </select>
+              <!-- <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className"> -->
             </div>                      
           </div>
         </div>
@@ -48,7 +50,7 @@ export default {
       className: this.$store.getters.className,
       imagesList: [],
       serverId: [], //微信图片ID
-      classList: [], // "https://p2.music.126.net/AZTKGLBZTEtFkLHbCjNDDw==/109951163784053467.jpg?param=110y110&quality=100"
+      classList: [], //
       query: {
         id: this.$store.getters.id,
         roleType: this.$store.getters.roleType
@@ -139,17 +141,9 @@ export default {
       };
       upload();
     },
-    handleSelectClass() {
-      this.$weui.picker(this.classList, {
-        defaultValue: [this.form.classId],
-        onConfirm: result => {
-          this.className = result[0].label;
-          this.form.classId = result[0].value;
-        }
-      });
-    },
     handleDelImg(index) {
-      return this.form.images.splice(index, 1);
+      this.imagesList.splice(index, 1); //移除图片显示
+      this.serverId.splice(index, 1); //移除微信图片ID
     },
     handleSubmit() {
       let obj = {
@@ -180,13 +174,7 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
+        this.classList = res.data;
       }
     },
     //发布班级圈
@@ -246,9 +234,10 @@ export default {
   border-radius: 4px;
   margin-right: 20px;
   i {
-    font-size: 36px;
+    color: #8d8d8d;
+    font-size: 48px;
     position: absolute;
-    top: -10%;
+    top: -14%;
     right: -10%;
     z-index: 10;
   }

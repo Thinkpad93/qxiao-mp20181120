@@ -1,5 +1,22 @@
 <template>
   <div class="page">
+    <template v-if="roleType === 3">
+      <div class="page-hd" style="margin-bottom:0;">
+        <img src="@/assets/image/baby_header_bg.png" alt="">
+        <div class="media-box media-box_appmsg flex">
+          <div class="media-box__hd">
+            <img class="media-box__thumb" :src="photo" :alt="patroarch.studentName">
+          </div>
+          <div class="media-box__bd">
+            <h4 size-17 class="media-box__title">{{ patroarch.studentName }}</h4>
+          </div>
+        </div>
+        <!-- <a class="switch-children">
+          <i></i>
+          切换孩子
+        </a>         -->
+      </div>
+    </template>
     <div class="page-bd">
       <!-- 园长 -->
       <template v-if="roleType === 1">
@@ -140,16 +157,7 @@
       </template>
       <!-- 家长 -->
       <template v-if="roleType === 3">
-        <div class="cells">
-          <div class="cell">
-            <div class="cell-hd">
-              <label for="" class="label">头像</label>
-            </div>
-            <div class="cell-bd"></div>
-            <div class="cell-ft">
-              <img class="user-icon" :src="photo" alt="">
-            </div>
-          </div>          
+        <div class="cells">        
           <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">宝宝姓名</label>
@@ -246,8 +254,8 @@ export default {
       );
     },
     //学生信息查询
-    async studentQuery(openId) {
-      let res = await service.studentQuery({ openId });
+    async studentQuery(params) {
+      let res = await service.studentQuery(params);
       if (res.errorCode === 0) {
         this.patroarch = res.data[0];
       }
@@ -273,7 +281,7 @@ export default {
     } else if (this.roleType === 2) {
       this.queryTeacherInfo(this.openId);
     } else {
-      this.studentQuery(this.openId);
+      this.studentQuery({ openId: this.openId, tel: "" });
     }
   }
 };
@@ -284,5 +292,25 @@ export default {
   height: 100px;
   border-radius: 50%;
   margin: 10px 0;
+}
+.media-box {
+  color: #fff;
+  font-size: 20px;
+  position: absolute;
+  z-index: auto;
+  top: 60px;
+  left: 40px;
+  border: none;
+}
+.media-box_appmsg {
+  align-items: center;
+}
+.media-box__thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.media-box__title {
+  margin-left: 20px;
 }
 </style>

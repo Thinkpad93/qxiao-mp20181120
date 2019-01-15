@@ -36,13 +36,8 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.relation">
-                <option selected value="1">妈妈</option>
-                <option value="2">爸爸</option>
-                <option value="3">爷爷</option>
-                <option value="4">奶奶</option>
-                <option value="5">外公</option>
-                <option value="6">外婆</option>
-              </select>
+                <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
+              </select>              
             </div>
           </div> 
           <div class="cell cell-select cell-select-after">
@@ -68,11 +63,11 @@
 </template>
 <script>
 import service from "@/api";
-import { sex } from "@/mixins/type";
+import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "studentEdit",
-  mixins: [sex],
+  mixins: [sex, relation],
   data() {
     return {
       classList: [],

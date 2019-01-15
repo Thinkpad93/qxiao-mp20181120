@@ -17,13 +17,13 @@
           </span>
         </section>
         <!-- 班级圈评论键盘 -->
-        <section class="keyboard">
+        <!-- <section class="keyboard">
           <form action="#">
             <label for="keyWord" ref="keys">
               <input type="text" id="keyWord" v-model="commForm.textContent">
             </label>
           </form>
-        </section>
+        </section> -->
         <section class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
@@ -52,7 +52,7 @@
                   </div>
                   <div class="right">
                     <i class="iconfont icon-zantongfill" @click="handlePraise(community)"></i>
-                    <i class="iconfont icon-liuyanfill"></i>
+                    <i class="iconfont icon-liuyanfill" @click="handleComment(community)"></i>
                   </div>
                 </div>
                 <div class="data">
@@ -64,7 +64,9 @@
                   </template>
                   <template v-if="community.commentList">
                     <ul class="comment-list" size-12>
-                      <li v-for="(commen, index) in community.commentList" :key="index">{{ commen.textContent }}</li>
+                      <li v-for="(commen, index) in community.commentList" :key="index">
+                        {{ commen.studentName }}:{{ commen.textContent }}
+                      </li>
                     </ul>
                   </template>
                 </div>
@@ -72,7 +74,26 @@
             </div>
           </div>
         </section>
-      </main>      
+      </main>   
+      <div class="weui-mask" v-show="dialogVisible"></div>
+      <!-- 评论 -->
+      <QXDialog title="班级圈评论" :visible.sync="dialogVisible">
+        <div class="comment-form">
+          <form action="" method="post">
+            <div class="cells">
+              <div class="cell">
+                <div class="cell-bd" style="padding-left:0">
+                  <textarea class="textarea" placeholder="请输入评论内容..." rows="6" v-model="form.textContent"></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div slot="footer" class="dialog-ft">
+          <a href="javascript:void(0);" class="dialog-btn-default" @click="dialogVisible = false">取消</a>
+          <a href="javascript:void(0);" class="dialog-btn-primary" @click="handleSubmit">提交</a>
+        </div>
+      </QXDialog>         
     </div>
     <div class="page-ft">
       <qxfooter></qxfooter>
@@ -83,15 +104,18 @@
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
+import QXDialog from "@/components/dialog";
 import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
     qxfooter,
-    qxmenu
+    qxmenu,
+    QXDialog
   },
   data() {
     return {
+      dialogVisible: false,
       className: this.$store.getters.className,
       query: {
         openId: this.$store.getters.openId,
@@ -99,7 +123,7 @@ export default {
       },
       classList: this.$store.getters.classList,
       communityData: [],
-      commForm: {
+      form: {
         openId: this.$store.getters.openId,
         communityId: null,
         textContent: ""
@@ -146,10 +170,19 @@ export default {
       this.communityPraise({ openId, communityId });
     },
     //班级圈评论
-    handleComment(communityId) {
-      this.commForm.communityId = communityId;
-      this.$refs.keys.click();
-      alert(communityId);
+    handleComment(community) {
+      console.log(community);
+      let { communityId } = community;
+      if (communityId) {
+        this.dialogVisible = true;
+        this.form.communityId = communityId;
+      }
+      //this.commForm.communityId = communityId;
+      //this.$refs.keys.click();
+      //alert(communityId);
+    },
+    handleSubmit() {
+      this.communityComment(this.form);
     },
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
@@ -202,6 +235,8 @@ export default {
     async communityComment(params) {
       let res = await service.communityComment(params);
       if (res.errorCode === 0) {
+        this.dialogVisible = false;
+        this.communityQuery(this.query);
       }
     },
     //通过config接口注入权限验证配置
@@ -261,7 +296,7 @@ export default {
     p {
       line-height: 1.4;
       margin-top: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       text-align: justify;
       word-wrap: break-word;
       word-break: break-all;
@@ -298,7 +333,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+  // margin-top: 10px;
   .right {
     font-size: 0;
     i {
@@ -314,7 +349,7 @@ export default {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
   i {
     font-size: 30px;
     color: #9aa4cb;
@@ -326,9 +361,11 @@ export default {
 }
 .comment-list {
   color: #9aa4cb;
+  padding-bottom: 15px;
   border-top: 2px solid #e7e7e7;
   li {
-    padding: 10px 20px;
+    margin-top: 15px;
+    padding: 0 20px 0 20px;
   }
 }
 .keyboard {

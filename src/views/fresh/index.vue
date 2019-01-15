@@ -1,15 +1,17 @@
 <template>
   <div class="page">
-    <div class="page-hd">
-      <div class="button-sp-area flex" size-17>
-        <a href="javascript:void(0);" @click="handleSelectClass">
-          <span>{{ className }}</span>
-          <i class="iconfont icon-xiangxia1"></i>
-        </a>
+    <template v-if="roleType === 1 || roleType === 2">
+      <div class="page-hd">
+        <div class="button-sp-area flex" size-17>
+          <a href="javascript:void(0);" @click="handleSelectClass">
+            <span>{{ className }}</span>
+            <i class="iconfont icon-xiangxia1"></i>
+          </a>
+        </div>
       </div>
-    </div>
+    </template>
     <div class="page-bd">
-      <template>
+      <template v-if="roleType === 1 || roleType === 2">
         <router-link to="/fresh/add" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
         </router-link>
