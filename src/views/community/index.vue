@@ -30,7 +30,6 @@
               <select class="select" name="select" dir="rtl" v-model="form.classId">
                 <option :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>                
               </select>
-              <!-- <input type="text" readonly class="input" placeholder="请选择发送的班级" @click="handleSelectClass" v-model="className"> -->
             </div>                      
           </div>
         </div>
@@ -146,29 +145,35 @@ export default {
       this.serverId.splice(index, 1); //移除微信图片ID
     },
     handleSubmit() {
-      let obj = {
+      let { textContent, ...args } = this.form;
+      if (textContent == "" && !this.serverId.length) {
+        this.$weui.alert("请输入内容", () => {}, { title: "提示" });
+        return;
+      }
+      let params = {
         openId: this.$store.getters.openId,
         imgIds: this.serverId
       };
-      let { textContent, classId } = this.form;
-      if (textContent == "" || !this.serverId.length) {
-        this.$weui.alert("请输入内容或者上传图片", () => {}, { title: "提示" });
-        return;
+      let obj = Object.assign({}, args, { textContent });
+      //如果有上传图片
+      if (this.serverId.length) {
+        //先上传图片ID给后端去下载图片
+        service.imgIds(params).then(res => {
+          if (res.errorCode === 0) {
+            let loading = this.$weui.loading("正在发布中");
+            obj.images = res.data.paths;
+            //在发布班级圈
+            service.communityAdd(obj).then(res => {
+              if (res.errorCode === 0) {
+                loading.hide();
+                this.$router.go(-1);
+              }
+            });
+          }
+        });
+      } else {
+        this.communityAdd(obj);
       }
-      //先上传图片ID给后端去下载图片
-      service.imgIds(obj).then(res => {
-        if (res.errorCode === 0) {
-          let loading = this.$weui.loading("正在发布中");
-          this.form.images = res.data.paths;
-          //在发布班级圈
-          service.communityAdd(this.form).then(res => {
-            if (res.errorCode === 0) {
-              loading.hide();
-              this.$router.go(-1);
-            }
-          });
-        }
-      });
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {

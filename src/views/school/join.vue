@@ -1,7 +1,7 @@
 <template>
   <div class="page page-join">
     <div class="page-hd" style="background-color: transparent;">
-      <template v-if="views">
+      <template>
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
             {{ info.schoolName }}
@@ -13,19 +13,19 @@
           </div>   
         </div>     
       </template>
-      <template v-else>
+      <template>
         <!-- <h2 size-18 class="text-ellipsis text-center">请输入学校ID码</h2> -->
       </template>
     </div>
     <div class="page-bd">
-      <template v-if="views">
+      <template>
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
               <label class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="form.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="info.teacherName">
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -33,7 +33,7 @@
               <label for="" class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.sex">
+              <select class="select" name="" dir="rtl" v-model="info.sex">
                 <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
@@ -43,20 +43,12 @@
               <label class="label">手机号码</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="form.tel">
+              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="info.tel">
             </div>
           </div>  
-          <!-- <div class="cell"> 
-            <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入验证码" v-model="form.veriftCode" maxlength="6">
-            </div>
-            <div class="cell-ft">
-              <span style="color:#92cd36" @click="handleGetVeriftCode">获取验证码</span>
-            </div>                
-          </div>                          -->
         </div>
       </template>
-      <template v-else>
+      <!-- <template v-else>
         <div class="cells">
           <div class="cell">
             <div class="cell-bd">
@@ -64,16 +56,17 @@
             </div>            
           </div>
         </div>
-      </template>
+      </template> -->
     </div>
     <div class="page-ft">
       <div class="btn-area">
-        <template v-if="views">
+        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
+        <!-- <template v-if="views">
           <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
         </template>
         <template v-else>
           <a href="javascript:;" class="btn btn-primary" @click="handleNext">下一步</a>
-        </template>
+        </template> -->
       </div>      
     </div>
   </div>  
@@ -88,38 +81,49 @@ export default {
   mixins: [sex],
   data() {
     return {
-      views: false,
-      schoolCode: "",
-      info: {},
-      form: {
+      //views: false,
+      //schoolCode: "",
+      query: {
         openId: this.$store.getters.openId,
-        teacherName: "",
-        schoolId: 1,
-        sex: 1,
         tel: this.$store.getters.tel
-        //veriftCode: ""
-      }
+      },
+      info: {}
+      // form: {
+      //   openId: this.$store.getters.openId,
+      //   teacherName: "",
+      //   schoolId: 1,
+      //   sex: 1,
+      //   tel: this.$store.getters.tel
+      // }
     };
   },
   methods: {
-    handleNext() {
-      if (this.schoolCode == "") {
-        this.$weui.alert("请输入学校ID码", () => {}, { title: "提示" });
-      } else {
-        this.querySchoolInfo(this.schoolCode);
-      }
-    },
+    // handleNext() {
+    //   if (this.schoolCode == "") {
+    //     this.$weui.alert("请输入学校ID码", () => {}, { title: "提示" });
+    //   } else {
+    //     this.querySchoolInfo(this.schoolCode);
+    //   }
+    // },
     handleSubmit() {
-      let { teacherName, tel } = this.form;
-      if (teacherName == "" || !teacherName.length) {
+      let { schoolCode, location, schoolName, teacherId, ...args } = this.info;
+      if (args.teacherName == "" || !args.teacherName.length) {
         this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
         return false;
       }
-      if (isPhone(tel)) {
-        this.teacherJoin(this.form);
-      } else {
-        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
-      }
+      let obj = Object.assign({}, args, { openId: this.query.openId });
+      console.log(obj);
+      this.teacherJoin(obj);
+      // let { teacherName, tel } = this.form;
+      // if (teacherName == "" || !teacherName.length) {
+      //   this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
+      //   return false;
+      // }
+      // if (isPhone(tel)) {
+      //   this.teacherJoin(this.form);
+      // } else {
+      //   this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
+      // }
     },
     // handleGetVeriftCode() {
     //   this.telVeriftCode(this.form.tel);
@@ -132,17 +136,24 @@ export default {
     //   }
     // },
     //根据学校Id码查询信息
-    async querySchoolInfo(schoolCode) {
-      let res = await service.querySchoolInfo({ schoolCode });
+    // async querySchoolInfo(schoolCode) {
+    //   let res = await service.querySchoolInfo({ schoolCode });
+    //   if (res.errorCode === 0) {
+    //     let { schoolId, ...args } = res.data;
+    //     this.views = true;
+    //     this.form.schoolId = schoolId;
+    //     this.info = { ...args };
+    //   } else if (res.errorCode === -1) {
+    //     this.$weui.alert("学校ID码有错，请联系园长", () => {}, {
+    //       title: "提示"
+    //     });
+    //   }
+    // },
+    //查询园长预先录入老师的信息
+    async queryTeacherInfoByTel(params = {}) {
+      let res = await service.queryTeacherInfoByTel(params);
       if (res.errorCode === 0) {
-        let { schoolId, ...args } = res.data;
-        this.views = true;
-        this.form.schoolId = schoolId;
-        this.info = { ...args };
-      } else if (res.errorCode === -1) {
-        this.$weui.alert("学校ID码有错，请联系园长", () => {}, {
-          title: "提示"
-        });
+        this.info = res.data;
       }
     },
     //老师信息完善
@@ -162,6 +173,9 @@ export default {
         });
       }
     }
+  },
+  mounted() {
+    this.queryTeacherInfoByTel(this.query);
   }
 };
 </script>

@@ -5,8 +5,9 @@ Vue.use(Router);
 
 export const constantRouterMap = [{
     path: '/',
-    redirect: '/author'
-  }, {
+    redirect: '/home'
+  },
+  {
     path: '/author',
     component: () => import('@/views/author'),
     meta: {
@@ -14,15 +15,18 @@ export const constantRouterMap = [{
       title: '微信登陆中',
       roles: ['admin', 'teacher', 'patroarch']
     }
-  }, {
+  },
+  {
     path: '/home',
+    name: 'home',
     component: () => import('@/views/home'),
     meta: {
       keepAlive: true,
-      title: '首页',
+      title: '小Q智慧',
       roles: ['admin', 'teacher', 'patroarch']
     }
-  }, {
+  },
+  {
     path: '/baby',
     component: () => import('@/views/baby'),
     meta: {
@@ -30,7 +34,8 @@ export const constantRouterMap = [{
       title: '学生信息',
       roles: ['patroarch']
     }
-  }, {
+  },
+  {
     path: '/baby/supply',
     component: () => import('@/views/baby/supply'),
     meta: {
@@ -38,7 +43,8 @@ export const constantRouterMap = [{
       title: '完善学生信息',
       roles: ['patroarch']
     }
-  }, {
+  },
+  {
     path: '/baby/add',
     component: () => import('@/views/baby/add'),
     meta: {
@@ -46,7 +52,8 @@ export const constantRouterMap = [{
       title: '学生添加',
       roles: ['patroarch']
     }
-  }, {
+  },
+  {
     path: '/community',
     component: () => import('@/views/community'),
     meta: {
@@ -54,7 +61,8 @@ export const constantRouterMap = [{
       title: '班级圈发布',
       roles: ['teacher', 'patroarch']
     }
-  }, {
+  },
+  {
     path: '/my',
     component: () => import('@/views/my'),
     meta: {
@@ -62,21 +70,25 @@ export const constantRouterMap = [{
       title: '我的',
       roles: ['admin', 'teacher', 'patroarch']
     }
-  }, {
+  },
+  {
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login'),
     meta: {
       keepAlive: false,
       title: '登陆',
     }
-  }, {
+  },
+  {
     path: '/author',
     component: () => import('@/views/author'),
     meta: {
       title: '授权',
       roles: ['admin', 'teacher', 'patroarch']
     }
-  }, {
+  },
+  {
     path: '/schoolCreate',
     component: () => import('@/views/school/create'),
     meta: {
@@ -84,7 +96,8 @@ export const constantRouterMap = [{
       title: '创建学校',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/schoolJoin',
     component: () => import('@/views/school/join'),
     meta: {
@@ -92,45 +105,56 @@ export const constantRouterMap = [{
       title: '学校加入',
       roles: ['teacher']
     }
-  }, {
+  },
+  {
     path: '/recipe',
     component: () => import('@/views/recipe'),
     meta: {
       keepAlive: true,
       title: '营养食谱',
     }
-  }, {
+  },
+  {
     path: '/homework',
     component: () => import('@/views/homework'),
     meta: {
       keepAlive: true,
       title: "亲子作业",
     }
-  }, {
+  },
+  {
     path: '/homework/show',
     component: () => import('@/views/homework/show'),
     meta: {
       keepAlive: true,
       title: "作业详情查看",
     }
-  }, {
+  },
+  {
     path: '/homework/add',
     component: () => import('@/views/homework/add'),
     meta: {
       keepAlive: false,
       title: "布置作业"
     }
-  }, {
+  },
+  {
     path: '/clock',
     component: () => import('@/views/clock'),
     meta: {
       keepAlive: true,
       title: '考勤管理'
     }
-  }, {
-    path: '/clock/show/:id',
-    component: () => import('@/views/clock/show')
-  }, {
+  },
+  {
+    path: '/clock/show',
+    component: () => import('@/views/clock/show'),
+    meta: {
+      keepAlive: true,
+      title: '考勤详情'
+    }
+  },
+  {
     path: '/fresh',
     component: () => import('@/views/fresh'),
     meta: {
@@ -138,7 +162,8 @@ export const constantRouterMap = [{
       title: '新鲜速报',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/fresh/add',
     component: () => import('@/views/fresh/add'),
     meta: {
@@ -146,7 +171,8 @@ export const constantRouterMap = [{
       title: '新鲜速报发布',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/fresh/show',
     component: () => import('@/views/fresh/show'),
     meta: {
@@ -154,7 +180,8 @@ export const constantRouterMap = [{
       title: '新鲜速报详情',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/notice',
     component: () => import('@/views/notice'),
     meta: {
@@ -162,7 +189,8 @@ export const constantRouterMap = [{
       title: '通知公告',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/notice/add',
     component: () => import('@/views/notice/add'),
     meta: {
@@ -170,7 +198,8 @@ export const constantRouterMap = [{
       title: '公告发布',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/notice/show/:id',
     component: () => import('@/views/notice/show'),
     meta: {
@@ -178,7 +207,8 @@ export const constantRouterMap = [{
       title: '公告详情',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/teacher',
     component: () => import('@/views/teacher'),
     meta: {
@@ -186,7 +216,8 @@ export const constantRouterMap = [{
       title: '老师管理',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/teacher/add',
     component: () => import('@/views/teacher/add'),
     meta: {
@@ -194,7 +225,8 @@ export const constantRouterMap = [{
       title: '老师添加',
       roles: ['admin']
     }
-  }, {
+  },
+  {
     path: '/teacher/edit/:id',
     component: () => import('@/views/teacher/edit'),
     meta: {
@@ -256,7 +288,17 @@ export const constantRouterMap = [{
       title: '学生编辑',
       roles: ['teacher']
     }
-  }, {
+  },
+  {
+    path: '/shuttle',
+    component: () => import('@/views/shuttle'),
+    meta: {
+      keepAlive: true,
+      title: '实时接送',
+      roles: ['teacher']
+    }
+  },
+  {
     path: '/album',
     component: () => import('@/views/album'),
     meta: {

@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <i class="iconfont iconfont icon-jiazai" size-24></i>
       <!-- <div class="album">
         <div class="cell" v-for="(album, index) in 3" :key="index">
           <figure class="figure">

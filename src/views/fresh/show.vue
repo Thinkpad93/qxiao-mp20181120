@@ -12,12 +12,12 @@
           </div>
         </div>
         <section size-16 class="article-content">
+          <p>{{ info.textContent }}</p>      
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
           </template>              
-          <p>{{ info.textContent }}</p>      
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -118,6 +118,7 @@ export default {
       let res = await service.freshCommentAdd(params);
       if (res.errorCode === 0) {
         this.dialogVisible = false;
+        this.form.textContent = "";
         //重新加载速报详情
         this.freshDetail(this.query);
       }

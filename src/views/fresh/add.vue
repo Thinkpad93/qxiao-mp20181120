@@ -4,9 +4,7 @@
       <form action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
-            <div class="cell-hd">
-              <label for="" class="label">速报标题</label>
-            </div>
+            <div class="cell-hd"></div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入速报标题" v-model="form.title" maxlength="20">
             </div>

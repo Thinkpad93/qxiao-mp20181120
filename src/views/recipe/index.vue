@@ -49,11 +49,14 @@ export default {
     background-color: #f2f2f2;
   }
   h3 {
+    font-weight: bold;
     font-size: 36px;
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
   }
   p {
-    font-size: 28px;
+    font-size: 30px;
+    margin: 10px 0 20px 0;
+    line-height: 1.5;
   }
   img {
     width: 690px;

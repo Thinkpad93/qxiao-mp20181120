@@ -16,14 +16,6 @@
             <i class="iconfont icon-xiangxia1"></i>
           </span>
         </section>
-        <!-- 班级圈评论键盘 -->
-        <!-- <section class="keyboard">
-          <form action="#">
-            <label for="keyWord" ref="keys">
-              <input type="text" id="keyWord" v-model="commForm.textContent">
-            </label>
-          </form>
-        </section> -->
         <section class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
@@ -197,6 +189,17 @@ export default {
         );
       }
     },
+    //加载更多班级圈
+    handleLoadingMore() {
+      window.addEventListener("scroll", e => {
+        // 滚动高度
+        console.log(document.body.scrollTop);
+        // 文档高度
+        console.log(document.body.offsetHeight);
+        // 可视区域高度
+        console.log(window.innerHeight);
+      });
+    },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
@@ -255,6 +258,7 @@ export default {
     }
   },
   created() {
+    this.handleLoadingMore();
     this.getWxConfig();
   },
   mounted() {

@@ -13,12 +13,12 @@
           </div>
         </div>
         <section size-16 class="article-content">
+          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
           </template>          
-          <p>{{ info.textContent }}</p>
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -78,6 +78,17 @@
           </div>
         </div>
       </template>
+      <template v-else>
+        <p class="_plac"></p>
+        <section class="_confirm">
+          <a 
+            :class="[ info.needConfirm ? 'btn-primary': 'btn-default' ]" 
+            href="javascript:void(0);" class="btn" 
+            @click="handleConfirmFlag">
+            {{ info.needConfirm ? '确认通知':'已确认' }}
+          </a>
+        </section>
+      </template>
     </div>  
   </div>  
 </template>
@@ -112,6 +123,13 @@ export default {
     handleTabClick(index) {
       this.readFlag = index;
       this.noticeReaders();
+    },
+    handleConfirmFlag() {
+      //0-无需确认 1-需要确认
+      if (this.info.needConfirm) {
+        let { openId, noticeId } = this.query;
+        this.noticeConfirm({ openId, noticeId });
+      }
     },
     //公告通知详情
     async noticeDetail(params = {}) {
@@ -157,7 +175,7 @@ export default {
 </script>
 <style lang="less">
 .article {
-  padding: 30px;
+  padding: 20px;
   word-wrap: break-word;
   background-color: #fff;
   h1 {
@@ -241,6 +259,22 @@ export default {
         transform: translateX(-50%);
       }
     }
+  }
+}
+._plac {
+  height: 130px;
+}
+._confirm {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 11;
+  padding: 20px 0;
+  box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  > a {
+    width: 200px;
   }
 }
 </style>

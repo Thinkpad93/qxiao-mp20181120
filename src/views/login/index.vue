@@ -72,22 +72,22 @@ export default {
         }, 1000);
         this.telVeriftCode(this.form.tel);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
       }
     },
     handleLogin() {
       if (this.form.tel === "") {
-        this.$weui.topTips("请填写手机号");
+        this.$weui.alert("请填写手机号", () => {}, { title: "提示" });
         return false;
       }
       if (this.form.verifyCode === "") {
-        this.$weui.topTips("请填写手机验证码");
+        this.$weui.alert("请填写手机验证码", () => {}, { title: "提示" });
         return false;
       }
       if (isPhone(this.form.tel)) {
         this.userTeleLogin(this.form);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
       }
     },
     //获取验证码
@@ -117,13 +117,13 @@ export default {
             });
             break;
           case 1:
-            this.$router.push({ path: "/home" });
+            this.$router.replace({ path: "/home" });
             break;
           case 2:
-            this.$router.push({ path: "/home" });
+            this.$router.replace({ path: "/home" });
             break;
           case 3:
-            this.$router.push({ path: "/home" });
+            this.$router.replace({ path: "/home" });
             break;
           case 4:
             //园长进入注册幼儿园页面
@@ -151,6 +151,21 @@ export default {
           title: "提示"
         });
       }
+    }
+  },
+  mounted() {
+    let { openId, photo } = this.$route.query;
+    if (!openId && !photo) {
+      let ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        window.location.href =
+          "http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do";
+      }
+    } else {
+      Cookies.set("openId", this.$route.query.openId);
+      Cookies.set("photo", this.$route.query.photo);
+      this.$store.commit("user/SET_OPENID", this.$route.query.openId);
+      this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
     }
   },
   created() {}

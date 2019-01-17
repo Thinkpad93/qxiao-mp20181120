@@ -186,3 +186,9 @@ export function queryTeacherInfo(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询园长预先录入老师的信息
+export function queryTeacherInfoByTel(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryTeacherInfoByTel.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

@@ -48,6 +48,19 @@ export default {
   width: 100%;
   display: flex;
   background-color: #fff;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #e5e5e5;
+    color: #e5e5e5;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    z-index: 2;
+  }
   .item {
     height: 100px;
     width: 50%;
@@ -63,7 +76,7 @@ export default {
       color: #9acb4d;
     }
     i {
-      font-size: 34px;
+      font-size: 36px;
     }
   }
 }

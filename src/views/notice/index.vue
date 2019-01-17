@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-    <!-- 只有园长才有这个功能 -->
     <template v-if="roleType === 1">
       <div class="page-hd">
         <div class="tab">
@@ -29,9 +28,15 @@
             <div size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template>
             </div>
             <div size-14 class="metedata-count">
-              <span style="color:#ff87b7">{{ notice.classReadCount }}人阅读</span>
-              <span style="color:#92cd36">{{ notice.classConfirmCount }}人确定</span>
-              <span style="color:#8d8d8d">{{ notice.classUnreadCount }}人未读</span>
+              <template v-if="notice.classReadCount">
+                <span style="color:#ff87b7">{{ notice.classReadCount }}人阅读</span>
+              </template>
+              <template v-if="notice.classConfirmCount">
+                <span style="color:#92cd36">{{ notice.classConfirmCount }}人确定</span>
+              </template>
+              <template v-if="notice.classUnreadCount">
+                <span style="color:#8d8d8d">{{ notice.classUnreadCount }}人未读</span>
+              </template>
             </div>
           </div>
         </figure>

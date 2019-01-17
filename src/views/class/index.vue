@@ -7,7 +7,9 @@
     </div>
     <div class="page-bd">
       <div class="cells">
-        <div class="cell class-box" v-for="(item, index) in classList" :key="index">
+        <div class="cell class-box" 
+          @click="handleEditClass(item.classId)"
+          v-for="(item, index) in classList" :key="index">
           <div class="cell-bd">
             <p size-17 class="text-ellipsis">{{ item.className }}</p>
             <p>
@@ -17,7 +19,7 @@
           </div>
           <div class="cell-ft flex">
             <a href="javascript:;" class="btn btn-del" size-12 @click="handleDelClass(item)">删除</a>
-            <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a>
+            <!-- <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a> -->
           </div>
         </div> 
       </div>
@@ -88,8 +90,7 @@ export default {
   }
 }
 .class-box {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 120px;
   margin-bottom: 0;
   .cell-bd {
     padding-left: 0;

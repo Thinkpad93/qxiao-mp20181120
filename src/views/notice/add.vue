@@ -63,9 +63,7 @@
       <form id="form" action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
-            <div class="cell-hd">
-              <label for="" class="label">通知标题</label>
-            </div>
+            <div class="cell-hd"></div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入通知标题" v-model="form.title" maxlength="20">
             </div>
@@ -82,12 +80,10 @@
                   v-for="(file, index) in imagesList" 
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}">
-                  <!-- <img src="@/assets/image/del.png" alt="" @click="handleDelImg(index)"> -->
+                  <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-                <!-- <input name="file" type="file" class="uploader-input" @change="handleChangeFile" multiple="multiple" accept="image/*"> -->
-              </div>
+              <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
           </div>      
           <div class="cell cell-input cell-input-after">
@@ -154,7 +150,7 @@ export default {
         title: "", //通知标题
         textContent: "", //通知内容
         images: [], //图片
-        needConfirm: true, //是否需要确认
+        needConfirm: true, //是否需要确认 0-无需确认 1-需要确认
         senders: [], //发送对象
         sendType: 2, //发送类型 2-老师，1-班级
         clockType: false, //定时发送标志 0-即时发送 1-定时发送
@@ -237,6 +233,10 @@ export default {
         });
       };
       upload();
+    },
+    handleDelImg(index) {
+      this.imagesList.splice(index, 1); //移除图片显示
+      this.serverId.splice(index, 1); //移除微信图片ID
     },
     handleTabClick(index) {
       this.tabIndex = index;

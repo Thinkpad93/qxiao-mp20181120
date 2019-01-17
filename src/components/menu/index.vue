@@ -31,6 +31,11 @@ export default {
           name: "学生管理",
           url: "/student",
           icon: "./static/image/men-icon-10@2x.png"
+        },
+        {
+          name: "实时接送",
+          url: "/shuttle",
+          icon: "./static/image/men-icon-6@2x.png"
         }
       ],
       //共用的菜单

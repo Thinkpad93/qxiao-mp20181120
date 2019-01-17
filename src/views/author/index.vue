@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <i class="iconfont iconfont icon-jiazai"></i>
+      <i class="iconfont iconfont icon-jiazai" size-24></i>
     </div>
   </div> 
 </template>

@@ -3,8 +3,8 @@
     <div class="page-hd">
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="handleShowDatePicker">
-          <span id="data1">{{ date }}</span>
-          <!-- <span class="triangle_border_down_green"></span> -->
+          <span id="data1">{{ query.date }}</span>
+          <i class="iconfont icon-xiangxia1"></i>
         </a>
       </div>
     </div>
@@ -49,26 +49,40 @@ export default {
   data() {
     return {
       clockList: [],
-      date: "2018-12-25"
+      query: {
+        openId: this.$store.getters.openId,
+        date: "2019-01-15"
+      }
     };
   },
-  computed: {
-    ...mapGetters(["openId"])
-  },
+  computed: {},
   methods: {
     handleShowDatePicker() {
       let t = this.$weui.datePicker({
         start: 1990,
         end: new Date().getFullYear(),
         onConfirm: result => {
-          this.query.date =
-            result[0].value + "-" + result[1].value + "-" + result[2].value;
+          console.log(result);
+          let y = result[0].value;
+          let m = result[1].value;
+          let d = result[2].value;
+          //添加补0操作
+          if (m >= 1 && m <= 9) {
+            m = "0" + m;
+          }
+          if (d >= 1 && d <= 9) {
+            d = "0" + d;
+          }
+          this.query.date = `${y}-${m}-${d}`;
           this.clockStat(this.query);
         }
       });
     },
     handleQueryClock(clock) {
-      this.$router.push({ path: `/clock/show/${clock.classId}` });
+      this.$router.push({
+        path: "/clock/show",
+        query: { classId: `${clock.classId}`, date: `${clock.statDate}` }
+      });
     },
     //考勤统计查询
     async clockStat(params = {}) {
@@ -79,11 +93,7 @@ export default {
     }
   },
   activated() {
-    let obj = {
-      openId: this.openId,
-      date: this.date
-    };
-    this.clockStat(obj);
+    this.clockStat(this.query);
   }
 };
 </script>
@@ -100,17 +110,6 @@ export default {
   height: 100px;
   justify-content: center;
   align-items: center;
-}
-.triangle_border_down_green {
-  position: absolute;
-  right: -16%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 10px;
-  border-color: #9cd248 transparent transparent;
-  transform: translateY(-50%);
 }
 
 .clock-table {
