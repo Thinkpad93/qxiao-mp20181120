@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <i class="iconfont iconfont icon-jiazai" size-24></i>
+      <i class="iconfont iconfont icon-jiazai"></i>
     </div>
   </div> 
 </template>
@@ -37,4 +37,11 @@ export default {
 };
 </script>
 <style lang="less">
+.icon-jiazai {
+  font-size: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

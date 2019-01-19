@@ -1,8 +1,4 @@
 import service from "@/api";
-import {
-  clearAllCookie
-} from "@/utils/cookies";
-
 export default {
   namespaced: true,
   actions: {
@@ -57,21 +53,5 @@ export default {
         }
       });
     },
-    //用户退出
-    logout() {
-      return new Promise(resolve => {
-        clearAllCookie(); //清队Cookie 
-        resolve();
-      })
-    },
-    load({
-      dispatch
-    }) {
-      return new Promise(async resolve => {
-        await dispatch('user/load', null, {
-          root: true
-        });
-      })
-    }
   }
 }

@@ -56,6 +56,22 @@ export default {
     }
   },
   actions: {
+    async reload({
+      commit,
+      dispatch
+    }, params) {
+      alert(params);
+      if (Object.keys(params).length) {
+        alert(params);
+        Cookies.set("openId", params.openId);
+        Cookies.set("roleType", params.roleType);
+        Cookies.set("photo", params.photo);
+        Cookies.set("id", params.id);
+        dispatch('get', {
+          root: true
+        });
+      }
+    },
     async set({
       commit
     }, params) {
@@ -138,11 +154,6 @@ export default {
           resolve();
         }
       });
-    },
-    load({
-      dispatch
-    }) {
-      return dispatch('get');
     }
   }
 }

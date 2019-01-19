@@ -4,10 +4,6 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export const constantRouterMap = [{
-    path: '/',
-    redirect: '/home'
-  },
-  {
     path: '/author',
     component: () => import('@/views/author'),
     meta: {

@@ -117,13 +117,13 @@ export default {
             });
             break;
           case 1:
-            this.$router.replace({ path: "/home" });
+            this.$router.push({ path: "/home" });
             break;
           case 2:
-            this.$router.replace({ path: "/home" });
+            this.$router.push({ path: "/home" });
             break;
           case 3:
-            this.$router.replace({ path: "/home" });
+            this.$router.push({ path: "/home" });
             break;
           case 4:
             //园长进入注册幼儿园页面
@@ -154,21 +154,16 @@ export default {
     }
   },
   mounted() {
-    let { openId, photo } = this.$route.query;
-    if (!openId && !photo) {
+    if (Object.keys(this.$route.query).length) {
       let ua = window.navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        window.location.href =
-          "http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do";
+        Cookies.set("openId", this.$route.query.openId);
+        Cookies.set("photo", this.$route.query.photo);
+        this.$store.commit("user/SET_OPENID", this.$route.query.openId);
+        this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
       }
-    } else {
-      Cookies.set("openId", this.$route.query.openId);
-      Cookies.set("photo", this.$route.query.photo);
-      this.$store.commit("user/SET_OPENID", this.$route.query.openId);
-      this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
     }
-  },
-  created() {}
+  }
 };
 </script>
 <style lang="less">

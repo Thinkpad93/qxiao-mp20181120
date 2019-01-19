@@ -1,13 +1,8 @@
 import ax from '../axios';
 
 //用户注册
-// export function registerUser(params) {
-//   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do', params)
-//     .then(res => res.data)
-//     .catch(e => console.log(e));
-// }
-export function registerUser(params = {}, config) {
-  return ax.get('http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do', params, config)
+export function registerUser(params = {}) {
+  return ax.get('http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do')
     .then(res => res.data)
     .catch(e => console.log(e));
 }

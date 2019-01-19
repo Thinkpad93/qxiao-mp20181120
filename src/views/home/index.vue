@@ -262,6 +262,10 @@ export default {
     this.getWxConfig();
   },
   mounted() {
+    if (Object.keys(this.$route.query).length) {
+      console.log("haha");
+      this.$store.dispatch("user/reload", this.$route.query, { root: true });
+    }
     if (this.id) {
       this.queryClassId({ id: this.id, roleType: this.roleType });
     }
