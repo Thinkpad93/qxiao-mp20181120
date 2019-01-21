@@ -22,7 +22,7 @@
             </template>
           </div>
           <div class="cell-bd">
-            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" style="color: rgb(64, 158, 255);">微信邀请</span>
+            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" @click.stop="handleShare" style="color: rgb(64, 158, 255);">微信邀请</span>
             </p>
             <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">{{ cla.className }}</small>
           </div>
@@ -56,7 +56,41 @@ export default {
       if (res.errorCode === 0) {
         this.teacherList = res.data;
       }
+    },
+    //分享功能
+    handleShare() {
+      wx.onMenuShareAppMessage({
+        title: "中原首届国学文化艺术节", // 分享标题
+        desc: "为国学打call 为少年加油 国学少年成长路期待您的参与", // 分享描述
+        link: "http://232a9x6385.51mypc.cn", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: "http://h5.ztuo.cn/img/shareimg.jpg", // 分享图标
+        success: res => {
+          // 设置成功
+          console.log(res);
+        },
+        fail: error => {
+          console.log(error);
+        }
+      });
+    },
+    //通过config接口注入权限验证配置
+    getWxConfig() {
+      let url = window.location.href.split("#")[0];
+      service.sign({ url }).then(res => {
+        wx.config({
+          debug: false, // 开启调试模式,开发时可以开启
+          appId: res.appid, // 必填，公众号的唯一标识
+          timestamp: res.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.nonceStr, // 必填，生成签名的随机串
+          signature: res.signature, // 必填，签名
+          jsApiList: ["onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
+        });
+      });
     }
+  },
+  created() {
+    //请求配置
+    this.getWxConfig();
   },
   activated() {
     this.queryTeacher(this.schoolId);

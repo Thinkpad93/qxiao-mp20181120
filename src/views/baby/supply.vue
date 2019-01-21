@@ -18,7 +18,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+                <option :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div>  
@@ -36,7 +36,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.relation">
-                <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
+                <option :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div>
@@ -44,26 +44,18 @@
             <div class="cell-hd">
               <label for="" class="label">学生所在班级</label>
             </div>
-            <div class="cell-bd">
-              <!-- <input class="input" placeholder="学生所在班级" readonly v-model="form.className"> -->
-              <!-- <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select> -->
-            </div>
+            <div class="cell-bd"></div>
             <div class="cell-ft">
-              <p class="cell-p">
-                <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span>
-              </p>
+              <p class="cell-p">{{ form.className }}</p>
+              <!-- <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span> -->
             </div>
           </div>                                                   
         </div>
       </form>  
     </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-      </div>
-    </div>       
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+    </div>   
   </div>  
 </template>
 <script>
@@ -77,13 +69,11 @@ export default {
   data() {
     return {
       classList: [],
-      form: {
+      query: {
         openId: this.$store.getters.openId,
-        studentName: "",
-        sex: 1,
-        tel: this.$store.getters.tel,
-        relation: 1
-      }
+        tel: this.$store.getters.tel
+      },
+      form: {}
     };
   },
   methods: {
@@ -96,12 +86,19 @@ export default {
         return false;
       }
       if (isPhone(tel)) {
-        console.log(this.form);
-        this.studentSupply(this.form);
+        let obj = Object.assign({}, this.form, { openId: this.query.openId });
+        this.studentSupply(obj);
       } else {
         this.$weui.alert("请正确填写手机号", () => {}, {
           title: "提示"
         });
+      }
+    },
+    //学生信息查询
+    async studentQuery(params = {}) {
+      let res = await service.studentQuery(params);
+      if (res.errorCode === 0) {
+        this.form = res.data[0];
       }
     },
     //根据家长手机号查询相关班级
@@ -125,7 +122,8 @@ export default {
     }
   },
   mounted() {
-    this.queryClassByTel(this.form.tel);
+    this.studentQuery(this.query);
+    //this.queryClassByTel(this.form.tel);
   }
 };
 </script>

@@ -82,7 +82,7 @@
       <template v-else>
         <div class="btn-area">
           <a :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]" href="javascript:void(0);" 
-          class="btn" @click="handleConfirmFlag">确认通知</a>
+          class="btn" @click="handleConfirmFlag">确定阅读</a>
         </div>
       </template>
     </div>  

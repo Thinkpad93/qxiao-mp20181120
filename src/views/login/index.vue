@@ -170,7 +170,12 @@ export default {
 .page-login {
   background-image: url("../../../static/image/login-bg@2x.png");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 .form {
   background-color: #fff;

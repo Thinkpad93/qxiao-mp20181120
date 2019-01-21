@@ -145,12 +145,6 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        // let classMap = res.data.map(item => {
-        //   return {
-        //     label: item.className,
-        //     value: item.classId
-        //   };
-        // });
         this.classList = res.data;
       }
     }

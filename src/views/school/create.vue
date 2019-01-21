@@ -69,6 +69,17 @@
               <p class="p">请编辑班级信息<span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span></p>
             </div>
           </div> 
+          <div class="cell">
+            <div class="cell-bd">
+              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="10">
+            </div>
+            <div class="ft">
+              <div class="createClass" @click="handleAddClass">添加班级</div>
+            </div>
+          </div>        
+        </div> 
+        <div class="cells-title" :style="{display: views ? 'block': 'none'}">已有班级列表</div>
+        <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell" v-for="(cla, index) in form.classes" :key="index">
             <div class="cell-hd">
               <label for="">班级名称:</label>
@@ -79,27 +90,13 @@
             <div class="cell-ft">
               <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>
             </div>          
-          </div>
-          <div class="cell">
-            <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="10">
-            </div>
-          </div>
-          <div class="cell">
-            <div class="cell-bd">
-              <p class="p">
-                <img src="@/assets/image/+.png" alt="" @click="handleAddClass">
-              </p>
-            </div>
-          </div>
-        </div> 
+          </div>  
+        </div>
       </form>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a v-if="!views" hclaref="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
-        <a v-if="views" hclaref="javascript:;" class="btn btn-primary" @click="handleSubmit">完成</a>
-      </div>
+    <div class="btn-area">
+      <a v-if="!views" hclaref="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
+      <a v-if="views" hclaref="javascript:;" class="btn btn-primary" @click="handleSubmit">完成</a>
     </div>
   </div>     
 </template>
@@ -228,5 +225,8 @@ export default {
   .on {
     color: #9cd248;
   }
+}
+.createClass {
+  color: #9cd248;
 }
 </style>

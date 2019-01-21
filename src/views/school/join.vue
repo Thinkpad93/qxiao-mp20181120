@@ -13,9 +13,6 @@
           </div>   
         </div>     
       </template>
-      <template>
-        <!-- <h2 size-18 class="text-ellipsis text-center">请输入学校ID码</h2> -->
-      </template>
     </div>
     <div class="page-bd">
       <template>
@@ -48,25 +45,10 @@
           </div>  
         </div>
       </template>
-      <!-- <template v-else>
-        <div class="cells">
-          <div class="cell">
-            <div class="cell-bd">
-              <input type="number" class="input" placeholder="请输入6位数学校ID码" maxlength="6" v-model="schoolCode">
-            </div>            
-          </div>
-        </div>
-      </template> -->
     </div>
     <div class="page-ft">
       <div class="btn-area">
         <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
-        <!-- <template v-if="views">
-          <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
-        </template>
-        <template v-else>
-          <a href="javascript:;" class="btn btn-primary" @click="handleNext">下一步</a>
-        </template> -->
       </div>      
     </div>
   </div>  
@@ -81,30 +63,14 @@ export default {
   mixins: [sex],
   data() {
     return {
-      //views: false,
-      //schoolCode: "",
       query: {
         openId: this.$store.getters.openId,
         tel: this.$store.getters.tel
       },
       info: {}
-      // form: {
-      //   openId: this.$store.getters.openId,
-      //   teacherName: "",
-      //   schoolId: 1,
-      //   sex: 1,
-      //   tel: this.$store.getters.tel
-      // }
     };
   },
   methods: {
-    // handleNext() {
-    //   if (this.schoolCode == "") {
-    //     this.$weui.alert("请输入学校ID码", () => {}, { title: "提示" });
-    //   } else {
-    //     this.querySchoolInfo(this.schoolCode);
-    //   }
-    // },
     handleSubmit() {
       let { schoolCode, location, schoolName, teacherId, ...args } = this.info;
       if (args.teacherName == "" || !args.teacherName.length) {
@@ -112,43 +78,8 @@ export default {
         return false;
       }
       let obj = Object.assign({}, args, { openId: this.query.openId });
-      console.log(obj);
       this.teacherJoin(obj);
-      // let { teacherName, tel } = this.form;
-      // if (teacherName == "" || !teacherName.length) {
-      //   this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
-      //   return false;
-      // }
-      // if (isPhone(tel)) {
-      //   this.teacherJoin(this.form);
-      // } else {
-      //   this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
-      // }
     },
-    // handleGetVeriftCode() {
-    //   this.telVeriftCode(this.form.tel);
-    // },
-    //获取验证码
-    // async telVeriftCode(tel) {
-    //   let res = await service.telVeriftCode({ tel });
-    //   if (res.errorCode === 0) {
-    //     this.$weui.topTips(`验证码已经发送，请注意查收`);
-    //   }
-    // },
-    //根据学校Id码查询信息
-    // async querySchoolInfo(schoolCode) {
-    //   let res = await service.querySchoolInfo({ schoolCode });
-    //   if (res.errorCode === 0) {
-    //     let { schoolId, ...args } = res.data;
-    //     this.views = true;
-    //     this.form.schoolId = schoolId;
-    //     this.info = { ...args };
-    //   } else if (res.errorCode === -1) {
-    //     this.$weui.alert("学校ID码有错，请联系园长", () => {}, {
-    //       title: "提示"
-    //     });
-    //   }
-    // },
     //查询园长预先录入老师的信息
     async queryTeacherInfoByTel(params = {}) {
       let res = await service.queryTeacherInfoByTel(params);

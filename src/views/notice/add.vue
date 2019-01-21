@@ -130,7 +130,6 @@
 </template>
 <script>
 import service from "@/api";
-import wxConfig from "@/config/wxsdk";
 export default {
   namae: "noticeAdd",
   data() {

@@ -102,7 +102,7 @@ export default {
       readFlag: 0, //0-已读 1-未读
       query: {
         openId: this.$store.getters.openId, //用户openid
-        noticeId: this.$route.params.id,
+        noticeId: this.$route.query.noticeId,
         classId: this.$store.getters.classId
       },
       info: {},
@@ -271,7 +271,7 @@ export default {
   width: 100%;
   z-index: 11;
   padding: 20px 0;
-  box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   > a {
     width: 200px;

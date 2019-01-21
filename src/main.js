@@ -19,6 +19,7 @@ const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   if (!store.getters.openId && Cookies.get('openId')) {
+    console.log("Vuex");
     store.dispatch('user/get');
     next();
   }

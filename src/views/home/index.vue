@@ -110,8 +110,10 @@ export default {
       dialogVisible: false,
       className: this.$store.getters.className,
       query: {
-        openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId
+        classId: this.$store.getters.classId || this.$route.query.classId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
+        page: 1,
+        pageSize: 10
       },
       classList: this.$store.getters.classList,
       communityData: [],
@@ -169,9 +171,6 @@ export default {
         this.dialogVisible = true;
         this.form.communityId = communityId;
       }
-      //this.commForm.communityId = communityId;
-      //this.$refs.keys.click();
-      //alert(communityId);
     },
     handleSubmit() {
       this.communityComment(this.form);
@@ -211,13 +210,23 @@ export default {
           };
         });
         this.classList = classMap;
+        this.className = classMap[0].label;
       }
     },
     //班级圈信息查询
     async communityQuery(params = {}) {
       let res = await service.communityQuery(params);
       if (res.errorCode === 0) {
-        this.communityData = res.data;
+        let list = res.data.data || [];
+        if (list.length) {
+          //因为实时查询的数据，每次都要清空一下原来的数据
+          this.communityData = [];
+          list.forEach(element => {
+            this.communityData.push(element);
+          });
+        } else {
+          this.communityData = [];
+        }
       }
     },
     //班级圈删除
@@ -258,12 +267,11 @@ export default {
     }
   },
   created() {
-    this.handleLoadingMore();
+    //this.handleLoadingMore();
     this.getWxConfig();
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
-      console.log("haha");
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     if (this.id) {

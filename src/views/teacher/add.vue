@@ -39,7 +39,7 @@
             </div>     
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.type">
-                <option  :value="option.id" v-for="(option,index) in typeList" :key="index">{{ option.name }}</option>
+                <option :value="option.id" v-for="(option,index) in typeList" :key="index">{{ option.name }}</option>
               </select>          
             </div>   
           </div>
@@ -115,12 +115,6 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        // let classMap = res.data.map(item => {
-        //   return {
-        //     label: item.className,
-        //     value: item.classId
-        //   };
-        // });
         this.classList = res.data;
       }
     },

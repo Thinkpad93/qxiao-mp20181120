@@ -196,7 +196,7 @@ export const constantRouterMap = [{
     }
   },
   {
-    path: '/notice/show/:id',
+    path: '/notice/show',
     component: () => import('@/views/notice/show'),
     meta: {
       keepAlive: true,

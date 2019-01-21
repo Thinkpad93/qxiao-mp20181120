@@ -83,8 +83,8 @@ export default {
       dialogVisible: false,
       query: {
         openId: this.$store.getters.openId,
-        freshId: parseInt(this.$route.query.freshId),
-        classId: parseInt(this.$route.query.classId)
+        freshId: this.$route.query.freshId,
+        classId: this.$route.query.classId
       },
       form: {
         openId: this.$store.getters.openId,

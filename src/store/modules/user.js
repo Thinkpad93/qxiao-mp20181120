@@ -60,13 +60,12 @@ export default {
       commit,
       dispatch
     }, params) {
-      alert(params);
       if (Object.keys(params).length) {
-        alert(params);
         Cookies.set("openId", params.openId);
         Cookies.set("roleType", params.roleType);
         Cookies.set("photo", params.photo);
         Cookies.set("id", params.id);
+        Cookies.set("classId", params.classId);
         dispatch('get', {
           root: true
         });

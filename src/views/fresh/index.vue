@@ -11,24 +11,26 @@
       </div>
     </template>
     <div class="page-bd">
-      <template v-if="roleType === 1 || roleType === 2">
+      <template v-if="roleType === 2">
         <router-link to="/fresh/add" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
         </router-link>
       </template>
-      <figure class="figure" v-for="(fresh, index) in freshData" :key="index" @click="handleRouteGo(fresh)">
-        <h3 class="text-ellipsis">{{ fresh.title }}</h3>
-        <div style="color:#8d8d8d;">
-          <time>{{ fresh.postTime }}</time>
-        </div>
-        <template v-if="fresh.topImage">
-          <div class="pic" :style="{backgroundImage: `url(${fresh.topImage})`}"></div>
-        </template>
-        <p class="line-clamp">{{ fresh.textContent }}</p>
-        <div class="metedata" style="color:#8d8d8d;">
-          <span>{{ fresh.classReadCount }}人阅读</span>
-          <span>留言{{ fresh.classCommentCount }}</span>
-        </div>
+      <figure class="figure" v-for="(fresh, index) in freshData" :key="index">
+        <router-link  :to="{ path: '/fresh/show', query: { freshId: fresh.freshId, classId: fresh.classId} }">
+          <h3 class="text-ellipsis">{{ fresh.title }}</h3>
+          <div style="color:#8d8d8d;">
+            <time>{{ fresh.postTime }}</time>
+          </div>
+          <template v-if="fresh.topImage">
+            <div class="pic" :style="{backgroundImage: `url(${fresh.topImage})`}"></div>
+          </template>
+          <p class="line-clamp">{{ fresh.textContent }}</p>
+          <div class="metedata" style="color:#8d8d8d;">
+            <span>{{ fresh.classReadCount }}人阅读</span>
+            <span>留言{{ fresh.classCommentCount }}</span>
+          </div>
+        </router-link>  
       </figure>  
     </div>
   </div>  
@@ -40,11 +42,15 @@ export default {
   name: "fresh",
   data() {
     return {
-      className: this.$store.getters.className,
+      className: "",
       classList: [],
+      isLoading: false,
+      totalPage: 1, //总页数
       query: {
         openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId
+        classId: this.$store.getters.classId,
+        page: 1,
+        pageSize: 10
       },
       queryClass: {
         id: this.$store.getters.id,
@@ -57,12 +63,6 @@ export default {
     ...mapGetters(["roleType"])
   },
   methods: {
-    handleRouteGo(fresh) {
-      this.$router.push({
-        path: `/fresh/show/`,
-        query: { freshId: `${fresh.freshId}`, classId: `${fresh.classId}` }
-      });
-    },
     handleSelectClass() {
       this.$weui.picker(this.classList, {
         defaultValue: [this.query.classId],
@@ -72,6 +72,29 @@ export default {
           this.className = label;
           this.query.classId = value;
           this.freshQuery(this.query);
+        }
+      });
+    },
+    //加载分页数据
+    handleLoadingMore() {
+      window.addEventListener("scroll", e => {
+        let scrollTop = 0;
+        if (document.documentElement && document.documentElement.scrollTop) {
+          scrollTop = document.documentElement.scrollTop;
+        } else if (document.body) {
+          scrollTop = document.body.scrollTop;
+        }
+        let bottom =
+          document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
+        if (bottom && this.isLoading === false) {
+          //判断是否总页数
+          if (this.query.page < this.totalPage) {
+            this.isLoading = true;
+            this.query.page += 1;
+            this.freshQuery(this.query);
+          } else {
+            console.log("已经不用加载了");
+          }
         }
       });
     },
@@ -86,18 +109,30 @@ export default {
           };
         });
         this.classList = classMap;
+        this.className = this.classList[0].label;
       }
     },
     //速报列表查询
     async freshQuery(params = {}) {
       let res = await service.freshQuery(params);
       if (res.errorCode === 0) {
-        this.freshData = res.data;
+        let list = res.data.data || [];
+        if (list.length) {
+          this.totalPage = res.data.totalPage;
+          this.query.page = res.data.page;
+          this.isLoading = false;
+          list.forEach(element => {
+            this.freshData.push(element);
+          });
+        } else {
+          this.freshData = [];
+        }
       }
     }
   },
   mounted() {
     this.queryClassId(this.queryClass);
+    this.handleLoadingMore();
   },
   activated() {
     this.freshQuery(this.query);
@@ -116,9 +151,13 @@ export default {
   align-items: center;
 }
 .figure {
-  padding: 0 30px;
   margin-bottom: 30px;
   background-color: #fff;
+  > a {
+    position: relative;
+    padding: 0 30px;
+    display: block;
+  }
   &:active {
     background-color: #f2f2f2;
   }
