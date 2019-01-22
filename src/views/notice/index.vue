@@ -69,7 +69,14 @@ export default {
     ...mapGetters(["roleType"])
   },
   watch: {
-    $route(to, from) {}
+    $route(to, from) {
+      //如果是发布过来的，则重新请求数据
+      if (from.path === "/notice/add") {
+        //this.query.page = 1;
+        //this.totalPage = 1;
+        //this.noticeQuery();
+      }
+    }
   },
   methods: {
     handleTabClick(index) {
@@ -78,59 +85,59 @@ export default {
       this.noticeQuery(this.query);
     },
     //加载分页数据
-    handleLoadingMore() {
-      window.addEventListener("scroll", e => {
-        let scrollTop = 0;
-        if (document.documentElement && document.documentElement.scrollTop) {
-          scrollTop = document.documentElement.scrollTop;
-        } else if (document.body) {
-          scrollTop = document.body.scrollTop;
+    handleLoadingMore(e) {
+      let scrollTop = 0;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = document.documentElement.scrollTop;
+      } else if (document.body) {
+        scrollTop = document.body.scrollTop;
+      }
+      let bottom =
+        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
+      if (bottom && this.isLoading === false) {
+        //判断总页数
+        if (this.query.page < this.totalPage) {
+          this.isLoading = true;
+          this.query.page += 1;
+          let classId = this.roleType === 1 ? 0 : this.$store.getters.classId;
+          let obj = Object.assign({}, this.query, { classId });
+          service.noticeQuery(obj).then(res => {
+            if (res.errorCode === 0) {
+              this.totalPage = res.data.totalPage;
+              this.query.page = res.data.page;
+              this.isLoading = false;
+              let list = res.data.data;
+              if (list.length) {
+                list.forEach(element => {
+                  this.noticeData.push(element);
+                });
+              }
+            }
+          });
         }
-        let bottom =
-          document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
-        if (bottom && this.isLoading === false) {
-          //判断是否总页数
-          if (this.query.page < this.totalPage) {
-            this.isLoading = true;
-            this.query.page += 1;
-            this.noticeQuery(this.query);
-          } else {
-            console.log("已经不用加载了");
-          }
-        }
-      });
+      }
     },
     //公告通知列表查询
     async noticeQuery() {
-      let classId = null;
-      if (this.roleType === 1) {
-        classId = 0;
-      } else {
-        classId = this.$store.getters.classId;
-      }
+      let classId = this.roleType === 1 ? 0 : this.$store.getters.classId;
       let obj = Object.assign({}, this.query, { classId });
       let res = await service.noticeQuery(obj);
       if (res.errorCode === 0) {
-        let list = res.data.data;
-        if (list.length) {
-          this.totalPage = res.data.totalPage;
-          this.query.page = res.data.page;
-          this.isLoading = false;
-          list.forEach(element => {
-            this.noticeData.push(element);
-          });
-        } else {
-          this.noticeData = [];
-        }
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
+        this.isLoading = false;
+        this.noticeData = res.data.data;
       }
     }
   },
-  mounted() {
-    this.handleLoadingMore();
+  destroyed() {
+    document.removeEventListener("scroll", this.handleLoadingMore, false);
   },
-  activated() {
+  mounted() {
     this.noticeQuery();
-  }
+    document.addEventListener("scroll", this.handleLoadingMore, false);
+  },
+  activated() {}
 };
 </script>
 <style lang="less">

@@ -109,6 +109,8 @@ export default {
     return {
       dialogVisible: false,
       className: this.$store.getters.className,
+      isLoading: false,
+      totalPage: 1, //总页数
       query: {
         classId: this.$store.getters.classId || this.$route.query.classId,
         openId: this.$store.getters.openId || this.$route.query.openId,
@@ -165,7 +167,6 @@ export default {
     },
     //班级圈评论
     handleComment(community) {
-      console.log(community);
       let { communityId } = community;
       if (communityId) {
         this.dialogVisible = true;
@@ -189,15 +190,34 @@ export default {
       }
     },
     //加载更多班级圈
-    handleLoadingMore() {
-      window.addEventListener("scroll", e => {
-        // 滚动高度
-        console.log(document.body.scrollTop);
-        // 文档高度
-        console.log(document.body.offsetHeight);
-        // 可视区域高度
-        console.log(window.innerHeight);
-      });
+    handleLoadingMore(e) {
+      let scrollTop = 0;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = document.documentElement.scrollTop;
+      } else if (document.body) {
+        scrollTop = document.body.scrollTop;
+      }
+      let bottom =
+        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
+      if (bottom && this.isLoading === false) {
+        if (this.query.page < this.totalPage) {
+          this.isLoading = true;
+          this.query.page += 1;
+          service.communityQuery(this.query).then(res => {
+            if (res.errorCode === 0) {
+              this.totalPage = res.data.totalPage;
+              this.query.page = res.data.page;
+              this.isLoading = false;
+              let list = res.data.data;
+              if (list.length) {
+                list.forEach(element => {
+                  this.communityData.push(element);
+                });
+              }
+            }
+          });
+        }
+      }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -218,15 +238,10 @@ export default {
       let res = await service.communityQuery(params);
       if (res.errorCode === 0) {
         let list = res.data.data || [];
-        if (list.length) {
-          //因为实时查询的数据，每次都要清空一下原来的数据
-          this.communityData = [];
-          list.forEach(element => {
-            this.communityData.push(element);
-          });
-        } else {
-          this.communityData = [];
-        }
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
+        this.isLoading = false;
+        this.communityData = list;
       }
     },
     //班级圈删除
@@ -248,7 +263,8 @@ export default {
       let res = await service.communityComment(params);
       if (res.errorCode === 0) {
         this.dialogVisible = false;
-        this.communityQuery(this.query);
+        this.form.textContent = "";
+        //this.communityQuery(this.query);
       }
     },
     //通过config接口注入权限验证配置
@@ -267,8 +283,10 @@ export default {
     }
   },
   created() {
-    //this.handleLoadingMore();
     this.getWxConfig();
+  },
+  destroyed() {
+    document.removeEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
@@ -277,9 +295,8 @@ export default {
     if (this.id) {
       this.queryClassId({ id: this.id, roleType: this.roleType });
     }
-  },
-  activated() {
     this.communityQuery(this.query);
+    document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>

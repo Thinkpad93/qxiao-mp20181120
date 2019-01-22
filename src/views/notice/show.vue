@@ -30,7 +30,7 @@
           <div class="tab">
             <div class="tab-head">
               <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
-              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unreadCount }})</a>
+              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unReadCount }})</a>
             </div>
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
@@ -57,6 +57,9 @@
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
                 <div class="cell" v-for="(unread, index) in unreadList" :key="index">
+                  <div class="cell-hd">
+                    <img :src="unread.photo" :alt="unread.studentName">
+                  </div>                  
                   <div class="cell-bd">
                     <p class="">
                       {{ unread.studentName }}
@@ -82,10 +85,10 @@
         <p class="_plac"></p>
         <section class="_confirm">
           <a 
-            :class="[ info.needConfirm ? 'btn-primary': 'btn-default' ]" 
+            :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]" 
             href="javascript:void(0);" class="btn" 
             @click="handleConfirmFlag">
-            {{ info.needConfirm ? '确认通知':'已确认' }}
+            {{ info.confirmFlag ? '已确认':'确认通知' }}
           </a>
         </section>
       </template>
@@ -107,17 +110,13 @@ export default {
       },
       info: {},
       readList: [],
-      unreadList: []
+      unreadList: [],
+      readCount: null,
+      unReadCount: null
     };
   },
   computed: {
-    ...mapGetters(["roleType"]),
-    readCount() {
-      return this.readList.length;
-    },
-    unreadCount() {
-      return this.unreadList.length;
-    }
+    ...mapGetters(["roleType"])
   },
   methods: {
     handleTabClick(index) {
@@ -126,7 +125,7 @@ export default {
     },
     handleConfirmFlag() {
       //0-无需确认 1-需要确认
-      if (this.info.needConfirm) {
+      if (!this.info.confirmFlag) {
         let { openId, noticeId } = this.query;
         this.noticeConfirm({ openId, noticeId });
       }
@@ -152,8 +151,12 @@ export default {
         if (res.errorCode === 0) {
           if (this.readFlag) {
             this.unreadList = res.data.readers || []; //后端有可能返回null
+            this.readCount = res.data.readCount;
+            this.unReadCount = res.data.unReadCount;
           } else {
             this.readList = res.data.readers || []; //后端有可能返回null
+            this.readCount = res.data.readCount;
+            this.unReadCount = res.data.unReadCount;
           }
         }
       }
@@ -163,6 +166,8 @@ export default {
       if (this.roleType === 3) {
         let res = await service.noticeConfirm(params);
         if (res.errorCode === 0) {
+          this.info.confirmFlag = 1;
+          this.$weui.alert("通知确认成功", () => {}, { title: "提示" });
         }
       }
     }

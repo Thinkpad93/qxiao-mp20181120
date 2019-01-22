@@ -22,7 +22,7 @@
             </template>
           </div>
           <div class="cell-bd">
-            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" @click.stop="handleShare" style="color: rgb(64, 158, 255);">微信邀请</span>
+            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" @click.stop="handleShare" style="color: rgb(64, 158, 255);margin-left:10px;">微信邀请</span>
             </p>
             <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">{{ cla.className }}</small>
           </div>
@@ -59,23 +59,18 @@ export default {
     },
     //分享功能
     handleShare() {
-      wx.onMenuShareAppMessage({
-        title: "中原首届国学文化艺术节", // 分享标题
-        desc: "为国学打call 为少年加油 国学少年成长路期待您的参与", // 分享描述
-        link: "http://232a9x6385.51mypc.cn", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: "http://h5.ztuo.cn/img/shareimg.jpg", // 分享图标
-        success: res => {
-          // 设置成功
-          console.log(res);
-        },
-        fail: error => {
-          console.log(error);
-        }
-      });
+      this.$weui.alert("请点击右上角发送给朋友", () => {}, { title: "提示" });
+      // wx.showMenuItems({
+      //   menuList: ["menuItem:share:appMessage", "menuItem:share:timeline"]
+      // });
     },
     //通过config接口注入权限验证配置
     getWxConfig() {
       let url = window.location.href.split("#")[0];
+      let IS_DEV = process.env.NODE_ENV !== "production";
+      let shareUrl = IS_DEV
+        ? "http://232a9x6385.51mypc.cn/#/share"
+        : "http://zc.qxiao.net/qxiao-mp/#/share";
       service.sign({ url }).then(res => {
         wx.config({
           debug: false, // 开启调试模式,开发时可以开启
@@ -83,16 +78,41 @@ export default {
           timestamp: res.timestamp, // 必填，生成签名的时间戳
           nonceStr: res.nonceStr, // 必填，生成签名的随机串
           signature: res.signature, // 必填，签名
-          jsApiList: ["onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
+          jsApiList: ["onMenuShareAppMessage", "showMenuItems", "hideMenuItems"] // 必填，需要使用的JS接口列表
+        });
+        //config信息验证后会执行ready方法
+        wx.error(res => {
+          console.log(res);
+        });
+        wx.ready(() => {
+          wx.hideMenuItems({
+            menuList: [
+              "menuItem:share:qq",
+              "menuItem:share:weiboApp",
+              "menuItem:share:QZone",
+              "menuItem:favorite"
+            ]
+          });
+          //如果是分享给老师的，默认加上roleType字段
+          wx.onMenuShareAppMessage({
+            title: "亲爱的老师您好", // 分享标题
+            desc: "小Q智慧欢迎您的加入", // 分享描述
+            link: "http://232a9x6385.51mypc.cn/#/share", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: "http://h5.ztuo.cn/img/shareimg.jpg", // 分享图标
+            success: res => {
+              console.log(res);
+            },
+            fail: error => {
+              console.log(error);
+            }
+          });
         });
       });
     }
   },
-  created() {
+  mounted() {
     //请求配置
     this.getWxConfig();
-  },
-  activated() {
     this.queryTeacher(this.schoolId);
   }
 };
@@ -108,6 +128,7 @@ export default {
     text-align: center;
     display: flex;
     a {
+      height: auto;
       flex: 1;
     }
   }
@@ -125,7 +146,7 @@ export default {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: rgb(69, 135, 166);
+  background-color: #f2f2f2;
 }
 .status {
   color: #ff87b7;

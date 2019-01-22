@@ -208,7 +208,7 @@ export const constantRouterMap = [{
     path: '/teacher',
     component: () => import('@/views/teacher'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       title: '老师管理',
       roles: ['admin']
     }
@@ -262,7 +262,7 @@ export const constantRouterMap = [{
     path: '/student',
     component: () => import('@/views/student'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       title: '学生管理',
       roles: ['teacher']
     },
@@ -300,6 +300,15 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: '班级相册',
+      roles: ['admin', 'teacher', 'patroarch']
+    }
+  },
+  {
+    path: '/share',
+    component: () => import('@/views/share'),
+    meta: {
+      keepAlive: true,
+      title: '分享',
       roles: ['admin', 'teacher', 'patroarch']
     }
   }

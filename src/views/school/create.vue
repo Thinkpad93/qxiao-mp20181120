@@ -167,6 +167,7 @@ export default {
           Cookies.set("roleType", args.roleType);
           this.$store.dispatch("user/queryClassId", args);
           this.$store.commit("user/SET_ROLETYPE", args.roleType);
+          this.$store.commit("user/SET_ID", args.id);
           this.$router.push({ path: "/home" });
         }
       }

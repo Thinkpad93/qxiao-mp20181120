@@ -1,16 +1,20 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <figure class="figure" v-for="(f, index) in 1" :key="index" @click="go">
-        <h3 class="text-ellipsis">9月25日至9月30日食谱</h3>
-        <div>
-          <time>09-22 10:15</time>
-        </div>
-        <img src="http://iph.href.lu/690x298" alt="">
-        <p class="line-clamp">星期二： 早餐【 肠粉】午餐【蒸白米饭 土豆焖鸡】</p>
-        <div class="metedata">
-          <span>73人阅读</span>
-        </div>
+      <figure class="figure" v-for="(recipe, index) in recipeData" :key="index">
+        <router-link  :to="{ path: '/recipe/show', query: { recipeId: recipe.recipeId} }">
+          <h3 class="text-ellipsis">{{ recipe.title }}</h3>
+          <div style="color:#8d8d8d;">
+            <time>{{ recipe.postTime }}</time>
+          </div>  
+          <template v-if="recipe.topImage">
+            <div class="pic" :style="{backgroundImage: `url(${recipe.topImage})`}"></div>
+          </template>   
+          <p class="line-clamp">{{ homework.textContent }}</p>
+          <div class="metedata" style="color:#8d8d8d;">
+            <span>{{ recipe.classReadCount }}人阅读</span>
+          </div>                                   
+        </router-link>
       </figure>  
     </div>
   </div>  
@@ -21,34 +25,50 @@ export default {
   name: "recipe",
   data() {
     return {
+      isLoading: false,
+      totalPage: 1, //总页数
       query: {
         openId: this.$store.getters.openId
-      }
+      },
+      recipeData: []
     };
   },
   methods: {
-    go() {
-      this.$router.push({ path: "/fresh/show" });
-    },
+    handleLoadingMore(e) {},
     //食谱列表查询
     async recipeQuery(params = {}) {
       let res = await service.recipeQuery(params);
+      if (res.errorCode === 0) {
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
+        this.isLoading = false;
+        this.recipeData = res.data.data;
+      }
     }
   },
-  activated() {
+  destroyed() {
+    document.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  mounted() {
     this.recipeQuery(this.query);
+    document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>
 <style lang="less">
 .figure {
-  padding: 0 30px;
   margin-bottom: 30px;
   background-color: #fff;
+  > a {
+    position: relative;
+    padding: 0 30px;
+    display: block;
+  }
   &:active {
     background-color: #f2f2f2;
   }
   h3 {
+    position: relative;
     font-weight: bold;
     font-size: 36px;
     padding: 20px 0 10px 0;

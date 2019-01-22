@@ -62,4 +62,19 @@ vue2.x + vuex + vueRoute + axios + weuijs
 - .postcssrc webpack 处理 css 插件配置
 - .package npm 配置信息
 
-## 微信公众号
+## 开发问题
+
+> iphone 手机遇到 select 选中不了值问题
+
+```html
+<select class="select" name="" dir="rtl" v-model="selected" multiple size="1">
+  <!-- 兼容性问题修改 -->
+  <optgroup disabled hidden></optgroup>
+  <option
+    :value="option.classId"
+    v-for="(option,index) in classList"
+    :key="index"
+    >{{ option.className }}</option
+  >
+</select>
+```

@@ -195,7 +195,6 @@ export default {
             this.form.images = res.data.paths;
             //发布亲子作业
             service.homeworkAdd(this.form).then(res => {
-              alert(this.form);
               loading.hide();
               this.$refs.form.reset();
               this.$router.go(-1);

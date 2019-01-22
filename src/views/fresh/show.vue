@@ -88,7 +88,7 @@ export default {
       },
       form: {
         openId: this.$store.getters.openId,
-        freshId: parseInt(this.$route.query.freshId),
+        freshId: this.$route.query.freshId,
         textContent: "",
         studentId: this.$store.getters.id
       },

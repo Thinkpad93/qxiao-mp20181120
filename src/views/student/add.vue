@@ -53,11 +53,9 @@
         </div>
       </form>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-      </div>
-    </div>    
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+    </div>   
   </div>  
 </template>
 <script>

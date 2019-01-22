@@ -77,7 +77,7 @@ export default {
       }
     }
   },
-  activated() {
+  mounted() {
     this.queryClass(this.schoolId);
   }
 };

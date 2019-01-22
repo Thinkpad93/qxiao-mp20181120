@@ -76,27 +76,34 @@ export default {
       });
     },
     //加载分页数据
-    handleLoadingMore() {
-      window.addEventListener("scroll", e => {
-        let scrollTop = 0;
-        if (document.documentElement && document.documentElement.scrollTop) {
-          scrollTop = document.documentElement.scrollTop;
-        } else if (document.body) {
-          scrollTop = document.body.scrollTop;
+    handleLoadingMore(e) {
+      let scrollTop = 0;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = document.documentElement.scrollTop;
+      } else if (document.body) {
+        scrollTop = document.body.scrollTop;
+      }
+      let bottom =
+        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
+      if (bottom && this.isLoading === false) {
+        if (this.query.page < this.totalPage) {
+          this.isLoading = true;
+          this.query.page += 1;
+          service.freshQuery(this.query).then(res => {
+            if (res.errorCode === 0) {
+              this.totalPage = res.data.totalPage;
+              this.query.page = res.data.page;
+              this.isLoading = false;
+              let list = res.data.data;
+              if (list.length) {
+                list.forEach(element => {
+                  this.freshData.push(element);
+                });
+              }
+            }
+          });
         }
-        let bottom =
-          document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
-        if (bottom && this.isLoading === false) {
-          //判断是否总页数
-          if (this.query.page < this.totalPage) {
-            this.isLoading = true;
-            this.query.page += 1;
-            this.freshQuery(this.query);
-          } else {
-            console.log("已经不用加载了");
-          }
-        }
-      });
+      }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -116,27 +123,22 @@ export default {
     async freshQuery(params = {}) {
       let res = await service.freshQuery(params);
       if (res.errorCode === 0) {
-        let list = res.data.data || [];
-        if (list.length) {
-          this.totalPage = res.data.totalPage;
-          this.query.page = res.data.page;
-          this.isLoading = false;
-          list.forEach(element => {
-            this.freshData.push(element);
-          });
-        } else {
-          this.freshData = [];
-        }
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
+        this.isLoading = false;
+        this.freshData = res.data.data;
       }
     }
   },
+  destroyed() {
+    document.removeEventListener("scroll", this.handleLoadingMore);
+  },
   mounted() {
     this.queryClassId(this.queryClass);
-    this.handleLoadingMore();
-  },
-  activated() {
     this.freshQuery(this.query);
-  }
+    document.addEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {}
 };
 </script>
 <style lang="less">

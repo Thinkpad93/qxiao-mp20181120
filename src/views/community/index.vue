@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="page-bd">
+    <div class="page-bd" style="background-color:#fff;">
       <form action="" ref="form" method="post">
         <div class="cells">
           <div class="cell">
@@ -226,9 +226,6 @@ export default {
 };
 </script>
 <style lang="less">
-.page-bd {
-  background-color: #fff;
-}
 .uploader-file {
   float: left;
   width: 140px;

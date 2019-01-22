@@ -284,7 +284,6 @@ export default {
           this.classChenkList = [];
         }
       }
-      alert(this.checked);
     },
     //保存选择后的数据
     handleSave() {

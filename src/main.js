@@ -2,22 +2,19 @@ import Vue from 'vue';
 import App from './App';
 import store from './store';
 import router from './router';
-import role from './directive'; //注册全局指令
 import Cookies from "js-cookie";
-
-
 import weui from 'weui.js';
+
+import './assets/iconfont/iconfont.css';
 
 Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
-import './assets/iconfont/iconfont.css';
-
-const whiteList = ['/login'] // no redirect whitelist
-
-
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  const roleType = Cookies.get('roleType');
+  //这里进行路由权限控制
   if (!store.getters.openId && Cookies.get('openId')) {
     console.log("Vuex");
     store.dispatch('user/get');

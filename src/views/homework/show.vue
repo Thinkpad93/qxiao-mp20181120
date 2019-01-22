@@ -28,7 +28,7 @@
           <div class="tab">
             <div class="tab-head">
               <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
-              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unreadCount }})</a>
+              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unReadCount }})</a>
             </div>
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
@@ -70,8 +70,8 @@
                     </p>
                   </div>
                   <div class="cell-ft">
-                    <span v-if="unread.confirmFlag === 0" style="color:#92cd36">未确认通知</span>
-                    <span v-else style="color:#ff87b7">已确认通知</span>
+                    <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                    <span v-else style="color:#92cd36">已确认通知</span>
                   </div>
                 </div>
               </div>
@@ -80,10 +80,13 @@
         </div>
       </template>  
       <template v-else>
-        <div class="btn-area">
+        <p class="_plac"></p>
+        <section class="_confirm">
           <a :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]" href="javascript:void(0);" 
-          class="btn" @click="handleConfirmFlag">确定阅读</a>
-        </div>
+          class="btn" @click="handleConfirmFlag">
+            {{ info.confirmFlag ? '已确定':'确定' }}
+          </a>
+        </section>
       </template>
     </div>  
   </div>  
@@ -98,22 +101,18 @@ export default {
       readFlag: 0, //0-已读 1-未读
       query: {
         openId: this.$store.getters.openId,
-        homeId: parseInt(this.$route.query.homeId),
-        classId: parseInt(this.$route.query.classId)
+        homeId: this.$route.query.homeId,
+        classId: this.$route.query.classId
       },
       info: {},
       readList: [],
-      unreadList: []
+      unreadList: [],
+      readCount: null,
+      unReadCount: null
     };
   },
   computed: {
-    ...mapGetters(["roleType"]),
-    readCount() {
-      return this.readList.length;
-    },
-    unreadCount() {
-      return this.unreadList.length;
-    }
+    ...mapGetters(["roleType"])
   },
   methods: {
     handleTabClick(index) {
@@ -122,6 +121,7 @@ export default {
       this.homeworkReaders();
     },
     handleConfirmFlag() {
+      //判断是否已经确定过了
       if (!this.info.confirmFlag) {
         this.homeWorkConfirm(this.query);
       }
@@ -131,6 +131,8 @@ export default {
       if (this.roleType === 3) {
         let res = await service.homeWorkConfirm(params);
         if (res.errorCode === 0) {
+          //确认成功后设置为1
+          this.info.confirmFlag = 1;
           this.$weui.alert("作业确认成功", () => {}, { title: "提示" });
         }
       }
@@ -150,8 +152,12 @@ export default {
         if (res.errorCode === 0) {
           if (this.readFlag) {
             this.unreadList = res.data.readers || []; //后端有可能返回null
+            this.readCount = res.data.readCount;
+            this.unReadCount = res.data.unReadCount;
           } else {
             this.readList = res.data.readers || []; //后端有可能返回null
+            this.readCount = res.data.readCount;
+            this.unReadCount = res.data.unReadCount;
           }
         }
       }
@@ -233,6 +239,22 @@ export default {
         transform: translateX(-50%);
       }
     }
+  }
+}
+._plac {
+  height: 130px;
+}
+._confirm {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 11;
+  padding: 20px 0;
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  > a {
+    width: 200px;
   }
 }
 </style>
