@@ -1,7 +1,14 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <i class="iconfont iconfont icon-jiazai" size-24></i>
+      <template v-if="albumData.length"></template>
+      <template v-else>
+        <!-- 空提示 -->
+        <div class="empty">
+          <img src="@/assets/image/kong.png" alt="">
+          <p size-17>功能开发中</p>
+        </div>        
+      </template>
       <!-- <div class="album">
         <div class="cell" v-for="(album, index) in 3" :key="index">
           <figure class="figure">
@@ -24,7 +31,9 @@
 export default {
   name: "album",
   data() {
-    return {};
+    return {
+      albumData: []
+    };
   }
 };
 </script>

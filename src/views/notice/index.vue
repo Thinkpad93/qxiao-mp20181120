@@ -72,9 +72,6 @@ export default {
     $route(to, from) {
       //如果是发布过来的，则重新请求数据
       if (from.path === "/notice/add") {
-        //this.query.page = 1;
-        //this.totalPage = 1;
-        //this.noticeQuery();
       }
     }
   },
@@ -136,8 +133,7 @@ export default {
   mounted() {
     this.noticeQuery();
     document.addEventListener("scroll", this.handleLoadingMore, false);
-  },
-  activated() {}
+  }
 };
 </script>
 <style lang="less">

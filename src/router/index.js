@@ -68,12 +68,22 @@ export const constantRouterMap = [{
     }
   },
   {
+    path: '/my/edit',
+    component: () => import('@/views/my/edit'),
+    meta: {
+      keepAlive: false,
+      title: '用户信息编辑',
+      roles: ['admin', 'teacher', 'patroarch']
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login'),
     meta: {
       keepAlive: false,
       title: '登陆',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -108,6 +118,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: '营养食谱',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -116,6 +127,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: "亲子作业",
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -124,6 +136,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: "作业详情查看",
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -131,7 +144,8 @@ export const constantRouterMap = [{
     component: () => import('@/views/homework/add'),
     meta: {
       keepAlive: false,
-      title: "布置作业"
+      title: "布置作业",
+      roles: ['teacher']
     }
   },
   {
@@ -139,7 +153,8 @@ export const constantRouterMap = [{
     component: () => import('@/views/clock'),
     meta: {
       keepAlive: true,
-      title: '考勤管理'
+      title: '考勤管理',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -147,7 +162,8 @@ export const constantRouterMap = [{
     component: () => import('@/views/clock/show'),
     meta: {
       keepAlive: true,
-      title: '考勤详情'
+      title: '考勤详情',
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -156,7 +172,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: '新鲜速报',
-      roles: ['admin']
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {
@@ -165,7 +181,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: false,
       title: '新鲜速报发布',
-      roles: ['admin']
+      roles: ['teacher']
     }
   },
   {
@@ -174,7 +190,7 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: '新鲜速报详情',
-      roles: ['admin']
+      roles: ['admin', 'teacher', 'patroarch']
     }
   },
   {

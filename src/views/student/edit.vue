@@ -53,12 +53,10 @@
         </div>
       </form>
     </div>
-    <div class="page-ft">
-      <div class="btn-area flex">
-        <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-      </div>
-    </div>      
+    <div class="btn-area flex">
+      <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+    </div>     
   </div>  
 </template>
 <script>

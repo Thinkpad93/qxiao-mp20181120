@@ -112,7 +112,7 @@
             <div class="cell-hd">
               <label for="" class="label">性别</label>
             </div>  
-            <div class="cell-bd">
+            <div class="cell-bd">          
               <p class="cell-p">
                 <template v-if="teacherInfo.sex === 1">男</template>
                 <template v-else>女</template>
@@ -128,7 +128,7 @@
             </div>              
           </div>          
         </div>
-        <div class="cells">
+        <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">学校名称</label>
@@ -152,6 +152,11 @@
             <div class="cell-bd">
               <p class="cell-p">{{ teacherInfo.location }}</p>
             </div>              
+          </div>
+          <div class="cell">
+            <div class="cell-bd">
+              <p class="cell-p" @click="handleEditUser">修改信息</p>
+            </div>
           </div>
         </div>
       </template>
@@ -207,7 +212,12 @@
             <div class="cell-bd">
               <p class="cell-p">{{ patroarch.className }}</p>
             </div>            
-          </div>          
+          </div>  
+          <div class="cell">
+            <div class="cell-bd">
+              <p class="cell-p" @click="handleEditUser">修改信息</p>
+            </div>
+          </div>                  
         </div>
       </template>
     </div>
@@ -219,11 +229,11 @@
 <script>
 import service from "@/api";
 import qxfooter from "@/components/footer";
-import { schoolType } from "@/mixins/type";
+import { schoolType, sex } from "@/mixins/type";
 import { mapGetters } from "vuex";
 export default {
   name: "my",
-  mixins: [schoolType],
+  mixins: [schoolType, sex],
   components: {
     qxfooter
   },
@@ -239,19 +249,11 @@ export default {
   computed: {
     ...mapGetters(["roleType"])
   },
+  watch: {},
   methods: {
-    //退出登陆
-    handleOut() {
-      let confirmDom = this.$weui.confirm(
-        "确定要退出登陆吗？",
-        () => {
-          console.log(true);
-          this.$store.dispatch("account/logout").then(res => {
-            location.reload();
-          });
-        },
-        { title: "提示" }
-      );
+    //用户信息修改
+    handleEditUser(role) {
+      this.$router.push({ path: "/my/edit" });
     },
     //学生信息查询
     async studentQuery(params) {

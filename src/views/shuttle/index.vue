@@ -1,44 +1,51 @@
 <template>
   <div class="page">
-    <div class="page-hd">
-
-    </div>
+    <div class="page-hd"></div>
     <div class="page-bd">
-      <div class="table">
-        <div class="table-head">
-          <div class="tr">
-            <div class="th">
-              <i></i>
-              <span size-14>已打卡待接送</span>
-            </div>
-            <div class="th">
-              <i></i>
-              <span size-14>未打卡</span>
-            </div>
-            <div class="th">
-              <i></i>
-              <span size-14>缺勤或已接走</span>
+      <template v-if="shuttleData.length">
+        <div class="table">
+          <div class="table-head">
+            <div class="tr">
+              <div class="th">
+                <i></i>
+                <span size-14>已打卡待接送</span>
+              </div>
+              <div class="th">
+                <i></i>
+                <span size-14>未打卡</span>
+              </div>
+              <div class="th">
+                <i></i>
+                <span size-14>缺勤或已接走</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="table-body">
-          <div class="tr">
-            <div class="td" v-for="(item, index) in shuttleList" :key="index">
-              <div class="">
-                <span>{{ item.studentName }}</span>
+          <div class="table-body">
+            <div class="tr">
+              <div class="td" v-for="(item, index) in shuttleData" :key="index">
+                <div class="">
+                  <span>{{ item.studentName }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="cells">
-        <div class="cell" v-for="(item, index) in 2" :key="index">
-          <div class="cell-bd">
-            <p class="cell-p">刘备已打卡</p>
+        <div class="cells">
+          <div class="cell" v-for="(item, index) in 2" :key="index">
+            <div class="cell-bd">
+              <p class="cell-p">刘备已打卡</p>
+            </div>
+            <div class="cell-ft">16:40:20</div>
           </div>
-          <div class="cell-ft">16:40:20</div>
         </div>
-      </div>
+      </template>
+      <template v-else>
+        <!-- 空提示 -->
+        <div class="empty">
+          <img src="@/assets/image/kong.png" alt="">
+          <p size-17>功能开发中</p>
+        </div>              
+      </template>
     </div> 
   </div>  
 </template>
@@ -54,7 +61,7 @@ export default {
         classId: this.$store.getters.classId,
         date: "2019-01-16"
       },
-      shuttleList: []
+      shuttleData: []
     };
   },
   methods: {

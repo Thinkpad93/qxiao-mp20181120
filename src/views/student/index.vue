@@ -82,6 +82,10 @@ export default {
     //通过config接口注入权限验证配置
     getWxConfig() {
       let url = window.location.href.split("#")[0];
+      let IS_DEV = process.env.NODE_ENV !== "production";
+      let shareUrl = IS_DEV
+        ? "http://232a9x6385.51mypc.cn/#/share"
+        : "http://zc.qxiao.net/qxiao-mp/#/share";
       service.sign({ url }).then(res => {
         wx.config({
           debug: false, // 开启调试模式,开发时可以开启
@@ -107,7 +111,7 @@ export default {
           wx.onMenuShareAppMessage({
             title: "亲爱的学生家长您好", // 分享标题
             desc: "小Q智慧欢迎您的加入", // 分享描述
-            link: "http://232a9x6385.51mypc.cn/#/share", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            link: shareUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: "http://h5.ztuo.cn/img/shareimg.jpg", // 分享图标
             success: res => {
               console.log(res);
@@ -139,6 +143,7 @@ export default {
     text-align: center;
     display: flex;
     a {
+      height: auto;
       flex: 1;
     }
   }
@@ -148,13 +153,13 @@ export default {
   padding-bottom: 20px;
 }
 .student-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 .icon-d {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background-color: rgb(69, 135, 166);
 }

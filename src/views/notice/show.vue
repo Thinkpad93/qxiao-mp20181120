@@ -5,7 +5,7 @@
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-head flex">
           <div class="article-cell">
-            <img src="@/assets/image/109951163721579973.jpg" alt="">
+            <!-- <img src="@/assets/image/109951163721579973.jpg" alt=""> -->
           </div>
           <div class="article-cell">
             <p>刘家明(园长)</p>

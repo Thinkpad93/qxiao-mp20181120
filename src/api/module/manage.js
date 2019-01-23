@@ -192,3 +192,15 @@ export function queryTeacherInfoByTel(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//老师信息修改-我的
+export function teacherInfoUpdate(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/updateMe.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//学生修改-我的
+export function studentInfoUpdate(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/updateStudent.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

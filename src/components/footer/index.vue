@@ -8,7 +8,7 @@
     </div>
     <div class="item">
       <template>
-        <router-link :to="{path: '/my', query: {role: role}}">
+        <router-link to="/my">
           <i class="iconfont icon-yonghufill"></i>
           <div>我的</div>
         </router-link>
@@ -23,19 +23,6 @@ export default {
     return {
       roleType: this.$store.getters.roleType
     };
-  },
-  computed: {
-    role() {
-      let str = "";
-      if (this.roleType === 1) {
-        str = "admin";
-      } else if (this.roleType === 2) {
-        str = "teacher";
-      } else {
-        str = "patroarch";
-      }
-      return str;
-    }
   }
 };
 </script>

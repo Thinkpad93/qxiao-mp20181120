@@ -1,21 +1,30 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <figure class="figure" v-for="(recipe, index) in recipeData" :key="index">
-        <router-link  :to="{ path: '/recipe/show', query: { recipeId: recipe.recipeId} }">
-          <h3 class="text-ellipsis">{{ recipe.title }}</h3>
-          <div style="color:#8d8d8d;">
-            <time>{{ recipe.postTime }}</time>
-          </div>  
-          <template v-if="recipe.topImage">
-            <div class="pic" :style="{backgroundImage: `url(${recipe.topImage})`}"></div>
-          </template>   
-          <p class="line-clamp">{{ homework.textContent }}</p>
-          <div class="metedata" style="color:#8d8d8d;">
-            <span>{{ recipe.classReadCount }}人阅读</span>
-          </div>                                   
-        </router-link>
-      </figure>  
+      <template v-if="recipeData.length">
+        <figure class="figure" v-for="(recipe, index) in recipeData" :key="index">
+          <router-link  :to="{ path: '/recipe/show', query: { recipeId: recipe.recipeId} }">
+            <h3 class="text-ellipsis">{{ recipe.title }}</h3>
+            <div style="color:#8d8d8d;">
+              <time>{{ recipe.postTime }}</time>
+            </div>  
+            <template v-if="recipe.topImage">
+              <div class="pic" :style="{backgroundImage: `url(${recipe.topImage})`}"></div>
+            </template>   
+            <p class="line-clamp">{{ homework.textContent }}</p>
+            <div class="metedata" style="color:#8d8d8d;">
+              <span>{{ recipe.classReadCount }}人阅读</span>
+            </div>                                   
+          </router-link>
+        </figure> 
+      </template> 
+      <template v-else>
+        <!-- 空提示 -->
+        <div class="empty">
+          <img src="@/assets/image/kong.png" alt="">
+          <p size-17>功能开发中</p>
+        </div>
+      </template>
     </div>
   </div>  
 </template>
@@ -47,11 +56,11 @@ export default {
     }
   },
   destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore);
+    d; //ocument.removeEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
-    this.recipeQuery(this.query);
-    document.addEventListener("scroll", this.handleLoadingMore);
+    //this.recipeQuery(this.query);
+    //document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>

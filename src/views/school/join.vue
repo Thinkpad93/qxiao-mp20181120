@@ -31,7 +31,7 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="info.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+                <option :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
               </select>
             </div>
           </div> 
@@ -46,11 +46,9 @@
         </div>
       </template>
     </div>
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
-      </div>      
-    </div>
+    <div class="btn-area">
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
+    </div>      
   </div>  
 </template>
 <script>

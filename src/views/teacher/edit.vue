@@ -56,7 +56,7 @@
         </div>      
       </div> 
     </div>
-    <div class="btn-area flex">
+    <div class="btn-area btn-area-group flex">
       <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
       <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
     </div>
@@ -109,7 +109,6 @@ export default {
         classes,
         openId: this.$store.getters.openId
       });
-      console.log(obj);
       this.teacherUpdate(obj);
     },
     //老师删除
@@ -156,7 +155,7 @@ export default {
 };
 </script>
 <style lang="less">
-.btn-area {
+.btn-area-group {
   justify-content: space-between;
   > a {
     width: 200px;
