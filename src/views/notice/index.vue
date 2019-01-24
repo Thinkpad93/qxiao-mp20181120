@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <template v-if="roleType === 1">
+    <template v-if="roleType == 1">
       <div class="page-hd">
         <div class="tab">
           <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">通知消息</a>
@@ -9,7 +9,7 @@
       </div>
     </template>
     <div class="page-bd">
-      <template v-if="roleType === 1">
+      <template v-if="roleType == 1">
         <router-link to="/notice/add" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
         </router-link> 
@@ -48,7 +48,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 export default {
   name: "notice",
   data() {
@@ -57,17 +57,18 @@ export default {
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
         type: 0,
         page: 1,
         pageSize: 10
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       noticeData: []
     };
   },
-  computed: {
-    ...mapGetters(["roleType"])
-  },
+  // computed: {
+  //   ...mapGetters(["roleType"])
+  // },
   watch: {
     $route(to, from) {
       //如果是发布过来的，则重新请求数据
@@ -116,7 +117,10 @@ export default {
     },
     //公告通知列表查询
     async noticeQuery() {
-      let classId = this.roleType === 1 ? 0 : this.$store.getters.classId;
+      let classId =
+        this.roleType == 1
+          ? 0
+          : this.$store.getters.classId || this.$route.query.classId;
       let obj = Object.assign({}, this.query, { classId });
       let res = await service.noticeQuery(obj);
       if (res.errorCode === 0) {
@@ -131,6 +135,9 @@ export default {
     document.removeEventListener("scroll", this.handleLoadingMore, false);
   },
   mounted() {
+    if (Object.keys(this.$route.query).length) {
+      this.$store.dispatch("user/reload", this.$route.query, { root: true });
+    }    
     this.noticeQuery();
     document.addEventListener("scroll", this.handleLoadingMore, false);
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <template v-if="roleType === 1 || roleType === 2">
+    <template v-if="roleType == 1 || roleType == 2">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:void(0);" @click="handleSelectClass">
@@ -11,7 +11,7 @@
       </div>
     </template>
     <div class="page-bd">
-      <template v-if="roleType === 2">
+      <template v-if="roleType == 2">
         <router-link to="/fresh/add" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
         </router-link>
@@ -37,7 +37,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 export default {
   name: "fresh",
   data() {
@@ -47,21 +47,22 @@ export default {
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
+        classId: this.$store.getters.classId || this.$route.query.classId,
         page: 1,
         pageSize: 10
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       queryClass: {
         id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
+        roleType: this.$store.getters.roleType || this.$route.query.roleType
       },
       freshData: []
     };
   },
-  computed: {
-    ...mapGetters(["roleType"])
-  },
+  // computed: {
+  //   ...mapGetters(["roleType"])
+  // },
   methods: {
     handleSelectClass() {
       this.$weui.picker(this.classList, {

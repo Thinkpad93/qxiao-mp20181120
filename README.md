@@ -78,3 +78,10 @@ vue2.x + vuex + vueRoute + axios + weuijs
   >
 </select>
 ```
+
+## git 分支命名
+
+- Develop
+- Release
+- Hotfix
+- Master

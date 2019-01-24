@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="qcode">
         <div class="qcode-box">
-          <img src="@/assets/image/qcode.png" alt="">
+          <img src="@/assets/image/qxcode.png" alt="">
           <p size-18>亲爱的老师，请按以下方法加入小Q智慧:</p>
           <ul>
             <li>1、长按识别二维码，关注小Q智慧公众号。</li>

@@ -28,7 +28,7 @@
         <div class="comment-hd flex">
           <span>留言({{ commentLen }})</span>
           <!-- 只有家长能够评论 -->
-          <template v-if="roleType === 3">
+          <template v-if="roleType == 3">
             <a href="javascript:void(0);" @click="dialogVisible = true">写留言</a>
           </template>
         </div>
@@ -71,7 +71,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 import QXDialog from "@/components/dialog";
 export default {
   name: "freshShow",
@@ -82,23 +82,24 @@ export default {
     return {
       dialogVisible: false,
       query: {
-        openId: this.$store.getters.openId,
-        freshId: this.$route.query.freshId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
+        freshId: this.$route.query.freshId || this.$route.query.freshId,
         classId: this.$route.query.classId
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       form: {
-        openId: this.$store.getters.openId,
-        freshId: this.$route.query.freshId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
+        freshId: this.$route.query.freshId || this.$route.query.freshId,
         textContent: "",
-        studentId: this.$store.getters.id
+        studentId: this.$store.getters.id || this.$route.query.studentId
       },
       commentLen: 0,
       info: {} //速报详情
     };
   },
-  computed: {
-    ...mapGetters(["roleType"])
-  },
+  // computed: {
+  //   ...mapGetters(["roleType"])
+  // },
   methods: {
     handleSubmit() {
       if (this.form.textContent) {

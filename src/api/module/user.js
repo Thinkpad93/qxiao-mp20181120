@@ -1,8 +1,9 @@
 import ax from '../axios';
 
 //用户注册
+//首页1 公告2 速报3
 export function registerUser(params = {}) {
-  return ax.get('http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do')
+  return ax.get('http://23ti245684.imwork.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1')
     .then(res => res.data)
     .catch(e => console.log(e));
 }

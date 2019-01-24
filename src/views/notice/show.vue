@@ -24,7 +24,7 @@
           <span class="read">{{ info.classReadCount }}人阅读</span>
         </div>
       </article>
-      <template v-if="roleType === 1 || roleType === 2">
+      <template v-if="roleType == 1 || roleType == 2">
         <div class="cells-title">班级阅读情况</div>
         <div class="tab-warp">
           <div class="tab">
@@ -72,8 +72,8 @@
                     </p>
                   </div>
                   <div class="cell-ft">
-                    <span v-if="unread.confirmFlag === 0" style="color:#92cd36">未确认通知</span>
-                    <span v-else style="color:#ff87b7">已确认通知</span>
+                    <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                    <span v-else style="color:#92cd36">已确认通知</span>
                   </div>                  
                 </div>
               </div>
@@ -97,26 +97,23 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
 export default {
   name: "noticeShow",
   data() {
     return {
       readFlag: 0, //0-已读 1-未读
       query: {
-        openId: this.$store.getters.openId, //用户openid
+        openId: this.$store.getters.openId || this.$route.query.openId, //用户openid
         noticeId: this.$route.query.noticeId,
-        classId: this.$store.getters.classId
+        classId: this.$store.getters.classId || this.$route.query.classId
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       info: {},
       readList: [],
       unreadList: [],
       readCount: null,
       unReadCount: null
     };
-  },
-  computed: {
-    ...mapGetters(["roleType"])
   },
   methods: {
     handleTabClick(index) {
@@ -141,9 +138,9 @@ export default {
     },
     //公告阅读人员查询
     async noticeReaders() {
-      if (this.roleType === 1 || this.roleType === 2) {
+      if (this.roleType == 1 || this.roleType == 2) {
         //如果是园长则为0
-        if (this.roleType === 1) {
+        if (this.roleType == 1) {
           this.query.classId = 0;
         }
         let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
@@ -163,7 +160,7 @@ export default {
     },
     //公告确认
     async noticeConfirm(params = {}) {
-      if (this.roleType === 3) {
+      if (this.roleType == 3) {
         let res = await service.noticeConfirm(params);
         if (res.errorCode === 0) {
           this.info.confirmFlag = 1;

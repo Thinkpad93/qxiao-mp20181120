@@ -71,6 +71,8 @@ export default {
       let shareUrl = IS_DEV
         ? "http://232a9x6385.51mypc.cn/#/share"
         : "http://zc.qxiao.net/qxiao-mp/#/share";
+      // http://23ti245684.imwork.net/qxiao-mp/
+      // http://zc.qxiao.net/qxiao-mp/#/share
       service.sign({ url }).then(res => {
         wx.config({
           debug: false, // 开启调试模式,开发时可以开启

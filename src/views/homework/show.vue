@@ -23,7 +23,7 @@
           <span class="read">{{ info.classReadCount }}人阅读</span>
         </div>                    
       </article>
-      <template v-if="roleType === 1 || roleType === 2">
+      <template v-if="roleType == 1 || roleType == 2">
         <div class="tab-warp">
           <div class="tab">
             <div class="tab-head">
@@ -93,17 +93,18 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 export default {
   name: "homeWorkShow",
   data() {
     return {
       readFlag: 0, //0-已读 1-未读
       query: {
-        openId: this.$store.getters.openId,
-        homeId: this.$route.query.homeId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
+        homeId: this.$route.query.homeId || this.$route.query.homeId,
         classId: this.$route.query.classId
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       info: {},
       readList: [],
       unreadList: [],
@@ -111,9 +112,9 @@ export default {
       unReadCount: null
     };
   },
-  computed: {
-    ...mapGetters(["roleType"])
-  },
+  // computed: {
+  //   ...mapGetters(["roleType"])
+  // },
   methods: {
     handleTabClick(index) {
       //实时更新
@@ -128,7 +129,7 @@ export default {
     },
     //作业阅读确认
     async homeWorkConfirm(params = {}) {
-      if (this.roleType === 3) {
+      if (this.roleType == 3) {
         let res = await service.homeWorkConfirm(params);
         if (res.errorCode === 0) {
           //确认成功后设置为1
@@ -146,7 +147,7 @@ export default {
     },
     //作业阅读人员查询
     async homeworkReaders() {
-      if (this.roleType === 1 || this.roleType === 2) {
+      if (this.roleType == 1 || this.roleType == 2) {
         let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
         let res = await service.homeworkReaders(obj);
         if (res.errorCode === 0) {
