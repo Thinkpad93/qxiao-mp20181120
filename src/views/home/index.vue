@@ -331,8 +331,6 @@ export default {
       margin-top: 5px;
       margin-bottom: 10px;
       text-align: justify;
-      word-wrap: break-word;
-      word-break: break-all;
     }
   }
   .cell-hd {

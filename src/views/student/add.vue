@@ -54,11 +54,12 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">提交</a>
     </div>   
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -86,14 +87,14 @@ export default {
     handleSubmit() {
       let { studentName, tel } = this.form;
       if (studentName == "" || !studentName.length) {
-        this.$weui.alert("请输入学生姓名", () => {}, { title: "提示" });
+        Toast("请输入学生姓名");
         return false;
       }
       if (isPhone(tel)) {
         let obj = Object.assign({}, this.form, { openId: this.openId });
         this.studentAdd(this.form);
       } else {
-        this.$weui.alert("请正确填写手机号", () => {}, { title: "提示" });
+        Toast("请正确填写手机号");
       }
     },
     //根据类型查询相关班级
@@ -113,18 +114,8 @@ export default {
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
       if (res.errorCode === 0) {
-        //this.$refs.form.reset();
-        this.form.studentName = "";
-        this.form.tel = "";
-        this.$weui.alert(
-          "新增学生成功",
-          () => {
-            this.$router.go(-1);
-          },
-          {
-            title: "提示"
-          }
-        );
+        this.$refs.form.reset();
+        this.$router.go(-1);
       }
     }
   },

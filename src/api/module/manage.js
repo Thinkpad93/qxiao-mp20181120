@@ -204,3 +204,9 @@ export function studentInfoUpdate(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//园长修改-我的
+export function updateSchool(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/updateSchool.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

@@ -129,6 +129,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 export default {
   namae: "noticeAdd",
@@ -292,9 +293,7 @@ export default {
       let { sendType } = this.form;
       if (sendType === 2) {
         if (!this.teacherCheckList.length) {
-          this.$weui.alert("请选择发送对象班级或者老师", () => {}, {
-            title: "提示"
-          });
+          Toast("请选择发送对象班级或者老师");
           return;
         }
         senders = this.teacherCheckList.map(item => {
@@ -302,9 +301,7 @@ export default {
         });
       } else if (sendType === 1) {
         if (!this.classChenkList.length) {
-          this.$weui.alert("请选择发送对象班级或者老师", () => {}, {
-            title: "提示"
-          });
+          Toast("请选择发送对象班级或者老师");
           return;
         }
         senders = this.classChenkList.map(item => {
@@ -325,21 +322,15 @@ export default {
         ...args
       } = this.form;
       if (title === "") {
-        this.$weui.alert("请输入通知标题", () => {}, {
-          title: "提示"
-        });
+        Toast("请输入通知标题");
         return;
       }
       if (textContent === "") {
-        this.$weui.alert("请输入通知内容", () => {}, {
-          title: "提示"
-        });
+        Toast("请输入通知内容");
         return;
       }
       if (!senders.length) {
-        this.$weui.alert("你还没有选择发送对象", () => {}, {
-          title: "提示"
-        });
+        Toast("你还没有选择发送对象");
         return;
       }
       clockType === false ? (clockType = 0) : (clockType = 1);

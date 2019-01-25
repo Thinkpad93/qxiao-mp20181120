@@ -5,11 +5,22 @@ import router from './router';
 import Cookies from "js-cookie";
 import weui from 'weui.js';
 
+import {
+  Popup,
+  DatetimePicker,
+  Tab,
+  Tabs,
+  Circle
+} from 'vant';
+
 import './assets/iconfont/iconfont.css';
 
 Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
+
+Vue.use(Tab).use(Tabs).use(Circle).use(Popup).use(DatetimePicker);
+
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;

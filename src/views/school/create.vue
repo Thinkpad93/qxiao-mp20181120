@@ -34,7 +34,7 @@
             </div>  
             <div class="cell-bd">
               <select class="select" name="" dir="rtl" v-model="form.type">
-                <option  :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
+                <option :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
               </select>
             </div>                
           </div>
@@ -101,6 +101,7 @@
   </div>     
 </template>
 <script>
+import { Toast } from "vant";
 import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
@@ -127,21 +128,21 @@ export default {
     handleNextClick() {
       let { schoolName, location, leadName, tel } = this.form;
       if (schoolName == "" || !schoolName.length) {
-        this.$weui.topTips("请输入幼儿园名称");
+        Toast("请输入幼儿园名称");
         return false;
       }
       if (location == "" || !location.length) {
-        this.$weui.topTips("请输入详细地址");
+        Toast("请输入详细地址");
         return false;
       }
       if (leadName == "" || !leadName.length) {
-        this.$weui.topTips("请输入园长姓名");
+        Toast("请输入园长姓名");
         return false;
       }
       if (isPhone(tel)) {
         this.views = true;
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        Toast("请正确填写手机号");
       }
     },
     handleAddClass() {
@@ -155,9 +156,7 @@ export default {
     },
     async handleSubmit() {
       if (!this.form.classes.length) {
-        this.$weui.alert("请至少添加一个班级，谢谢", () => {}, {
-          title: "提示"
-        });
+        Toast("请至少添加一个班级，谢谢");
       } else {
         let res = await service.schoolAdd(this.form);
         if (res.errorCode === 0) {

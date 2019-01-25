@@ -51,11 +51,12 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
     </div>        
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -164,15 +165,15 @@ export default {
     handleSubmit() {
       let { title, textContent } = this.form;
       if (title == "") {
-        this.$weui.alert("请输入作业标题", () => {}, { title: "提示" });
+        Toast("请输入作业标题");
         return;
       }
       if (title == "") {
-        this.$weui.alert("请输入作业内容", () => {}, { title: "提示" });
+        Toast("请输入作业内容");
         return;
       }
       if (!this.selected.length) {
-        this.$weui.alert("请选择发送班级", () => {}, { title: "提示" });
+        Toast("请选择发送班级");
         return;
       }
       if (this.needSwitch) {

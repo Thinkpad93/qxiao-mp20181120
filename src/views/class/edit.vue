@@ -3,10 +3,10 @@
     <div class="page-hd">
       <div class="class-edit-head">
         <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
-        <div class="tab">
-          <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">关联的老师</a>
-          <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">关联的学生</a>
-        </div> 
+        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
+          <van-tab title="关联的老师"></van-tab>
+          <van-tab title="关联的学生"></van-tab>          
+        </van-tabs>        
       </div>     
     </div>  
     <div class="page-bd">
@@ -134,7 +134,6 @@ export default {
   },
   activated() {
     this.classQueryTeacher(this.query);
-    //this.classQueryStudent(this.query);
   }
 };
 </script>
@@ -144,40 +143,14 @@ export default {
   > a {
     width: 240px;
   }
-  .tab {
-    display: flex;
-    font-size: 30px;
-    a {
-      height: 100px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .curr {
-      color: #92cd36;
-      &::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        display: block;
-        width: 50%;
-        height: 4px;
-        background-color: #92cd36;
-        transform: translateX(-50%);
-      }
-    }
-  }
 }
 .student-box {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 .teacher-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 .people-list {

@@ -2,10 +2,10 @@
   <div class="page">
     <template v-if="roleType == 1">
       <div class="page-hd">
-        <div class="tab">
-          <a href="javascript:;" @click="handleTabClick(0)" :class="[index === 0 ? 'curr': '']">通知消息</a>
-          <a href="javascript:;" @click="handleTabClick(1)" :class="[index === 1 ? 'curr': '']">发送记录</a>
-        </div>
+        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
+          <van-tab title="通知消息"></van-tab>
+          <van-tab title="发送记录"></van-tab>          
+        </van-tabs>
       </div>
     </template>
     <div class="page-bd">
@@ -48,7 +48,6 @@
 </template>
 <script>
 import service from "@/api";
-//import { mapGetters } from "vuex";
 export default {
   name: "notice",
   data() {
@@ -66,9 +65,6 @@ export default {
       noticeData: []
     };
   },
-  // computed: {
-  //   ...mapGetters(["roleType"])
-  // },
   watch: {
     $route(to, from) {
       //如果是发布过来的，则重新请求数据
@@ -77,7 +73,7 @@ export default {
     }
   },
   methods: {
-    handleTabClick(index) {
+    handleTabClick(index, title) {
       this.index = index;
       this.query.type = index;
       this.noticeQuery(this.query);
@@ -137,7 +133,7 @@ export default {
   mounted() {
     if (Object.keys(this.$route.query).length) {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
-    }    
+    }
     this.noticeQuery();
     document.addEventListener("scroll", this.handleLoadingMore, false);
   }
@@ -147,33 +143,6 @@ export default {
 .page-hd {
   margin-bottom: 20px;
   background-color: #fff;
-}
-.tab {
-  display: flex;
-  font-size: 32px;
-  > a {
-    color: #d7d7d7;
-    height: 100px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .curr {
-    color: #92cd36;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      display: block;
-      width: 50%;
-      height: 4px;
-      background-color: #92cd36;
-      transform: translateX(-50%);
-    }
-  }
 }
 .figure {
   margin-bottom: 30px;

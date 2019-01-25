@@ -67,7 +67,7 @@
             </div>                        
           </div>                          
         </div>
-        <div class="cells">
+        <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">园长姓名</label>
@@ -75,7 +75,7 @@
             <div class="cell-bd">
               <p class="cell-p">{{ leaderInfo.leaderName }}</p>
             </div>                          
-          </div>   
+          </div>           
           <div class="cell">
             <div class="cell-hd">
               <label for="" class="label">园长手机号</label>
@@ -83,7 +83,12 @@
             <div class="cell-bd">
               <p class="cell-p">{{ leaderInfo.tel }}</p>
             </div>                           
-          </div>                       
+          </div> 
+          <div class="cell">
+            <div class="cell-bd">
+              <p class="cell-p" @click="handleEditUser">修改信息</p>
+            </div>
+          </div>                                
         </div>
       </template>
       <!-- 老师 -->

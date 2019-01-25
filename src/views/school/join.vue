@@ -52,6 +52,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import Cookies from "js-cookie";
 import service from "@/api";
 import { sex } from "@/mixins/type";
@@ -72,7 +73,7 @@ export default {
     handleSubmit() {
       let { schoolCode, location, schoolName, teacherId, ...args } = this.info;
       if (args.teacherName == "" || !args.teacherName.length) {
-        this.$weui.alert("请输入老师姓名", () => {}, { title: "提示" });
+        Toast("请输入老师姓名");
         return false;
       }
       let obj = Object.assign({}, args, { openId: this.query.openId });
@@ -97,9 +98,7 @@ export default {
           path: "/home"
         });
       } else if (res.errorCode === -1) {
-        this.$weui.alert(`${res.errorMsg}`, () => {}, {
-          title: "提示"
-        });
+        Toast(`${res.errorMsg}`);
       }
     }
   },

@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="cell-ft flex">
-            <a href="javascript:;" class="btn btn-del" size-12 @click="handleDelClass(item)">删除</a>
+            <a href="javascript:;" class="btn btn-del" size-12 @click.stop="handleDelClass(item)">删除</a>
             <!-- <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a> -->
           </div>
         </div> 
@@ -27,6 +27,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "class",
@@ -44,9 +45,10 @@ export default {
     handleDelClass(params) {
       let { classId, countStudent, countTeacher } = params;
       if (countStudent > 0 || countTeacher > 0) {
-        this.$weui.alert("班级还有关联学生和老师，不能删除班级", () => {}, {
-          title: "提示"
-        });
+        // this.$weui.alert("班级还有关联学生和老师，不能删除班级", () => {}, {
+        //   title: "提示"
+        // });
+        Toast("班级还有关联学生和老师，不能删除班级");
         return;
       }
       let confirmDom = this.$weui.confirm(

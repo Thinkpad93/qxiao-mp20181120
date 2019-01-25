@@ -27,8 +27,10 @@
           </template>
           <p class="line-clamp">{{ fresh.textContent }}</p>
           <div class="metedata" style="color:#8d8d8d;">
-            <span>{{ fresh.classReadCount }}人阅读</span>
-            <span>留言{{ fresh.classCommentCount }}</span>
+            <div>
+              <span>{{ fresh.classReadCount }}人阅读</span>
+              <span>留言{{ fresh.classCommentCount }}</span>
+            </div>
           </div>
         </router-link>  
       </figure>  

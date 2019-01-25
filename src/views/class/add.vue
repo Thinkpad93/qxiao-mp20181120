@@ -22,6 +22,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "classAdd",
@@ -37,7 +38,7 @@ export default {
   methods: {
     handleSubmit() {
       if (this.form.className == "") {
-        this.$weui.alert("请输入班级名称", () => {}, { title: "提示" });
+        Toast("请输入班级名称");
       } else {
         this.classAdd(this.form);
       }
@@ -47,15 +48,7 @@ export default {
       let res = await service.classAdd(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$weui.alert(
-          "班级创建成功",
-          () => {
-            this.$router.go(-1);
-          },
-          {
-            title: "提示"
-          }
-        );
+        this.$router.go(-1);
       }
     }
   }

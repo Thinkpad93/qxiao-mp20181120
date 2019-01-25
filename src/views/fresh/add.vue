@@ -48,6 +48,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -152,21 +153,15 @@ export default {
     handleSubmit() {
       let { title, textContent, ...args } = this.form;
       if (title === "") {
-        this.$weui.alert("请输入速报标题", () => {}, {
-          title: "提示"
-        });
+        Toast("请输入速报标题");
         return;
       }
       if (textContent === "") {
-        this.$weui.alert("请输入速报内容", () => {}, {
-          title: "提示"
-        });
+        Toast("请输入速报内容");
         return;
       }
       if (!this.selected.length) {
-        this.$weui.alert("请选择发送班级", () => {}, {
-          title: "提示"
-        });
+        Toast("请选择发送班级");
         return;
       }
       let senders = this.selected.map(item => {

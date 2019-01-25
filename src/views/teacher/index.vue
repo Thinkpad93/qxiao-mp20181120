@@ -140,13 +140,13 @@ export default {
   padding-bottom: 20px;
 }
 .teacher-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 .icon-d {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background-color: #f2f2f2;
 }
