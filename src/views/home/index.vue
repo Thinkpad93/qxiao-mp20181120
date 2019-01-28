@@ -31,7 +31,7 @@
                       class="item"
                       :style="{backgroundImage: `url(${img.imageUrl})`}" 
                       v-for="(img, index) in community.images" :key="index"
-                      @click="handlePreviewImage(img.imageUrl, community.images)"></div>
+                      @click="handlePreviewImage(index, community.images)"></div>
                   </div>
                 </template>
                 <div class="handle">
@@ -93,6 +93,7 @@
   </div>
 </template>
 <script>
+import { ImagePreview } from "vant";
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
@@ -148,16 +149,18 @@ export default {
       });
     },
     //预览图片
-    handlePreviewImage(url, images) {
-      let imgArray = [];
-      images.forEach(element => {
-        imgArray.push(element.imageUrl);
-      });
-      //华为手机 encodeURI
-      wx.previewImage({
-        current: encodeURI(url),
-        urls: imgArray
-      });
+    handlePreviewImage(index, images) {
+      //通过传入配置对象，可以指定初始图片的位置、监听关闭事件
+      if (Array.isArray(images)) {
+        let resule = [];
+        images.forEach(item => {
+          resule.push(item.imageUrl);
+        });
+        ImagePreview({
+          images: resule,
+          startPosition: index
+        });
+      }
     },
     //点赞
     handlePraise(community) {
@@ -266,25 +269,9 @@ export default {
         this.form.textContent = "";
         //this.communityQuery(this.query);
       }
-    },
-    //通过config接口注入权限验证配置
-    getWxConfig() {
-      let url = window.location.href.split("#")[0];
-      service.sign({ url }).then(res => {
-        wx.config({
-          debug: false, // 开启调试模式,开发时可以开启
-          appId: res.appid, // 必填，公众号的唯一标识
-          timestamp: res.timestamp, // 必填，生成签名的时间戳
-          nonceStr: res.nonceStr, // 必填，生成签名的随机串
-          signature: res.signature, // 必填，签名
-          jsApiList: ["previewImage"] // 必填，需要使用的JS接口列表
-        });
-      });
     }
   },
-  created() {
-    this.getWxConfig();
-  },
+  created() {},
   destroyed() {
     document.removeEventListener("scroll", this.handleLoadingMore);
   },

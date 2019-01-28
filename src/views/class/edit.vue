@@ -55,7 +55,7 @@ export default {
     return {
       index: 0,
       query: {
-        classId: this.$route.params.id,
+        classId: this.$route.query.classId,
         openId: this.$store.getters.openId
       },
       className: "",

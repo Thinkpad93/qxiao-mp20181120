@@ -41,7 +41,7 @@ export default {
   name: "clockShow",
   data() {
     return {
-      className: "KA1班",
+      className: this.$route.query.className,
       classClockList: [],
       query: {
         type: 1, //0-缺勤 1-出勤

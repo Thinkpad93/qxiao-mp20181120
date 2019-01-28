@@ -64,8 +64,8 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
-            <div class="cell-bd">
-              <input class="input" placeholder="请输入通知标题" v-model="form.title" maxlength="20">
+            <div class="cell-bd" style="padding-left:0">
+              <input class="input" placeholder="请输入通知标题" v-model="form.title" maxlength="20" style="text-align:left;">
             </div>
           </div>
           <div class="cell">

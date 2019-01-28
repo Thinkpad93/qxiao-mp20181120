@@ -93,7 +93,6 @@
 </template>
 <script>
 import service from "@/api";
-//import { mapGetters } from "vuex";
 export default {
   name: "homeWorkShow",
   data() {
@@ -112,9 +111,6 @@ export default {
       unReadCount: null
     };
   },
-  // computed: {
-  //   ...mapGetters(["roleType"])
-  // },
   methods: {
     handleTabClick(index) {
       //实时更新
@@ -208,8 +204,8 @@ export default {
       padding-top: 20px;
       padding-bottom: 20px;
       img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
       }
     }

@@ -161,6 +161,6 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: rgb(69, 135, 166);
+  background-color: #f2f2f2;
 }
 </style>

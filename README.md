@@ -79,6 +79,25 @@ vue2.x + vuex + vueRoute + axios + weuijs
 </select>
 ```
 
+> 调用微信 SDK 接口 wx.previewImage 出现华手机查看不了问题(黑屏)
+
+```javascript
+wx.previewImage({
+  current: encodeURI(url), //encodeURI
+  urls: imgArray
+});
+```
+
+> 开发进度
+
+- 家长端考勤管理
+- 营养食谱
+- 相册空间
+- 班级圈点赞和评论成功后，刷新问题
+- 公告通知，通知消息和发送记录切换后，数据查询问题
+
+
+
 ## git 分支命名
 
 - Develop

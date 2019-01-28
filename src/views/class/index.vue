@@ -45,22 +45,24 @@ export default {
     handleDelClass(params) {
       let { classId, countStudent, countTeacher } = params;
       if (countStudent > 0 || countTeacher > 0) {
-        // this.$weui.alert("班级还有关联学生和老师，不能删除班级", () => {}, {
-        //   title: "提示"
-        // });
         Toast("班级还有关联学生和老师，不能删除班级");
         return;
       }
-      let confirmDom = this.$weui.confirm(
-        "确定要删除班级吗？",
-        () => {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除班级吗？"
+        })
+        .then(() => {
           this.classDelete({ classId, openId: this.openId });
-        },
-        { title: "提示" }
-      );
+        })
+        .catch(() => {});
     },
     handleEditClass(classId) {
-      this.$router.push({ path: `/class/edit/${classId}` });
+      this.$router.push({
+        path: "/class/edit",
+        query: { classId }
+      });
     },
     //查询对应学校的所有班级
     async queryClass(schoolId) {

@@ -49,7 +49,11 @@ export default {
   },
   methods: {
     handleEditTeacher(teacher) {
-      this.$router.push({ path: `/teacher/edit/${teacher.teacherId}` });
+      this.$router.push({
+        path: "/teacher/edit",
+        query: { teacherId: teacher.teacherId }
+      });
+      //this.$router.push({ path: `/teacher/edit/${teacher.teacherId}` });
     },
     async queryTeacher(schoolId) {
       let res = await service.queryTeacher({ schoolId });

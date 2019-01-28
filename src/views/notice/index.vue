@@ -75,6 +75,7 @@ export default {
   methods: {
     handleTabClick(index, title) {
       this.index = index;
+      this.query.page = 1; //切换时从第一页查起
       this.query.type = index;
       this.noticeQuery(this.query);
     },

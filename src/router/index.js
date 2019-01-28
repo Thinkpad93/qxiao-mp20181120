@@ -239,7 +239,7 @@ export const constantRouterMap = [{
     }
   },
   {
-    path: '/teacher/edit/:id',
+    path: '/teacher/edit',
     component: () => import('@/views/teacher/edit'),
     meta: {
       keepAlive: false,
@@ -266,7 +266,7 @@ export const constantRouterMap = [{
     }
   },
   {
-    path: '/class/edit/:id',
+    path: '/class/edit',
     component: () => import('@/views/class/edit'),
     meta: {
       keepAlive: true,

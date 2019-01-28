@@ -74,7 +74,7 @@ export default {
       classList: [],
       querys: {
         openId: this.$store.getters.openId,
-        teacherId: this.$route.params.id
+        teacherId: this.$route.query.teacherId
       },
       query: {
         id: this.$store.getters.id,
@@ -87,19 +87,19 @@ export default {
   },
   methods: {
     handleDel() {
-      if (this.$route.params.id) {
-        let confirmDom = this.$weui.confirm(
-          "确定要删除老师吗？",
-          () => {
-            let obj = {
-              openId: this.$store.getters.openId,
-              teacherId: this.$route.params.id
-            };
-            this.teacherDelete(obj);
-          },
-          { title: "提示" }
-        );
-      }
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除老师吗？"
+        })
+        .then(() => {
+          let obj = {
+            openId: this.$store.getters.openId,
+            teacherId: this.$route.query.teacherId
+          };
+          this.teacherDelete(obj);
+        })
+        .catch(() => {});
     },
     handleSubmit() {
       let classes = this.selected.map(item => {

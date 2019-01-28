@@ -1,7 +1,9 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="albumData.length"></template>
+      <template v-if="albumData.length">
+        <div class=""></div>
+      </template>
       <template v-else>
         <!-- 空提示 -->
         <div class="empty">
@@ -28,12 +30,29 @@
   </div>  
 </template>
 <script>
+import service from "@/api";
 export default {
   name: "album",
   data() {
     return {
+      query: {
+        openId: this.$store.getters.openId,
+        roleType: this.$store.getters.roleType
+      },
       albumData: []
     };
+  },
+  methods: {
+    //查询相册所属班级
+    async albumClassQuery(params = {}) {
+      let res = await service.albumClassQuery(params);
+      if (res.errorCode === 0) {
+        this.albumData = res.data;
+      }
+    }
+  },
+  mounted() {
+    this.albumClassQuery(this.query);
   }
 };
 </script>

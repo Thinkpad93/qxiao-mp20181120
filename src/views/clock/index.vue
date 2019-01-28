@@ -91,7 +91,11 @@ export default {
     handleQueryClock(clock) {
       this.$router.push({
         path: "/clock/show",
-        query: { classId: `${clock.classId}`, date: `${clock.statDate}` }
+        query: {
+          className: `${clock.className}`,
+          classId: `${clock.classId}`,
+          date: `${clock.statDate}`
+        }
       });
     },
     //考勤统计查询

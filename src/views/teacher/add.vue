@@ -131,6 +131,8 @@ export default {
             title: "提示"
           }
         );
+      } else if (res.errorCode === -1) {
+        Toast(`${res.errorMsg}`);
       }
     }
   },

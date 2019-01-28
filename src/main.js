@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import weui from 'weui.js';
 
 import {
+  Dialog,
   Popup,
   DatetimePicker,
   Tab,
@@ -19,7 +20,7 @@ Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
-Vue.use(Tab).use(Tabs).use(Circle).use(Popup).use(DatetimePicker);
+Vue.use(Dialog).use(Tab).use(Tabs).use(Circle).use(Popup).use(DatetimePicker);
 
 
 router.beforeEach((to, from, next) => {
