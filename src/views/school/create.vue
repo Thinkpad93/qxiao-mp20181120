@@ -25,7 +25,7 @@
               <label for="" class="label">幼儿园名称</label>
             </div>        
             <div class="cell-bd">
-              <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="20">
+              <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="30">
             </div>        
           </div>
           <div class="cell cell-select cell-select-after">
@@ -51,7 +51,7 @@
               <label for="" class="label">园长姓名</label>
             </div>        
             <div class="cell-bd">
-              <input class="input" placeholder="请输入园长姓名" v-model="form.leadName" maxlength="4">
+              <input class="input" placeholder="请输入园长姓名" v-model="form.leadName" maxlength="10">
             </div>             
           </div>
           <div class="cell">
@@ -71,7 +71,7 @@
           </div> 
           <div class="cell">
             <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="10">
+              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="20">
             </div>
             <div class="ft">
               <div class="createClass" @click="handleAddClass">添加班级</div>
@@ -85,7 +85,7 @@
               <label for="">班级名称:</label>
             </div>
             <div class="cell-bd">
-              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="10">
+              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="20">
             </div>   
             <div class="cell-ft">
               <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>

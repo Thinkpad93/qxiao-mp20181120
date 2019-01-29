@@ -22,7 +22,7 @@
               <label class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="info.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="info.teacherName">
             </div>
           </div>
           <div class="cell cell-select cell-select-after">

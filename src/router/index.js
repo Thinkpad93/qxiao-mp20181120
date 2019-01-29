@@ -4,15 +4,6 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export const constantRouterMap = [{
-    path: '/author',
-    component: () => import('@/views/author'),
-    meta: {
-      keepAlive: false,
-      title: '微信登陆中',
-      roles: ['admin', 'teacher', 'patroarch']
-    }
-  },
-  {
     path: '/home',
     name: 'home',
     component: () => import('@/views/home'),
@@ -87,14 +78,6 @@ export const constantRouterMap = [{
     }
   },
   {
-    path: '/author',
-    component: () => import('@/views/author'),
-    meta: {
-      title: '授权',
-      roles: ['admin', 'teacher', 'patroarch']
-    }
-  },
-  {
     path: '/schoolCreate',
     component: () => import('@/views/school/create'),
     meta: {
@@ -118,6 +101,24 @@ export const constantRouterMap = [{
     meta: {
       keepAlive: true,
       title: '营养食谱',
+      roles: ['admin', 'teacher', 'patroarch']
+    }
+  },
+  {
+    path: '/recipe/add',
+    component: () => import('@/views/recipe/add'),
+    meta: {
+      keepAlive: false,
+      title: '营养食谱发布',
+      roles: ['admin', 'teacher', 'patroarch']
+    }
+  },
+  {
+    path: '/recipe/show',
+    component: () => import('@/views/recipe/show'),
+    meta: {
+      keepAlive: true,
+      title: '营养食谱详情',
       roles: ['admin', 'teacher', 'patroarch']
     }
   },
@@ -293,7 +294,7 @@ export const constantRouterMap = [{
     }
   },
   {
-    path: '/student/edit/:id',
+    path: '/student/edit',
     component: () => import('@/views/student/edit'),
     meta: {
       keepAlive: false,

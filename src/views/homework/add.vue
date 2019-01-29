@@ -5,7 +5,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
-            <div class="cell-bd">
+            <div class="cell-bd" style="padding-left:0">
               <input class="input" placeholder="请输入作业标题" v-model="form.title" maxlength="20">
             </div>
           </div> 
@@ -194,9 +194,11 @@ export default {
             this.form.images = res.data.paths;
             //发布亲子作业
             service.homeworkAdd(this.form).then(res => {
-              loading.hide();
-              this.$refs.form.reset();
-              this.$router.go(-1);
+              if (res.errorCode === 0) {
+                loading.hide();
+                this.$refs.form.reset();
+                this.$router.go(-1);
+              }
             });
           }
         });

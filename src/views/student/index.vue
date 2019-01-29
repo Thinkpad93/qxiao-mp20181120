@@ -61,7 +61,10 @@ export default {
   methods: {
     handleEditStudent(student) {
       let { tel } = student;
-      this.$router.push({ path: `/student/edit/${tel}` });
+      this.$router.push({
+        path: `/student/edit`,
+        query: { tel: student.tel }
+      });
     },
     handleAddStudent() {
       this.$router.push({ path: `/student/add` });

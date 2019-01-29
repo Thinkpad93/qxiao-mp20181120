@@ -1,6 +1,11 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <template v-if="roleType == 1">
+        <router-link to="/recipe/add" class="release">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </router-link>      
+      </template>
       <template v-if="recipeData.length">
         <figure class="figure" v-for="(recipe, index) in recipeData" :key="index">
           <router-link  :to="{ path: '/recipe/show', query: { recipeId: recipe.recipeId} }">
@@ -11,9 +16,10 @@
             <template v-if="recipe.topImage">
               <div class="pic" :style="{backgroundImage: `url(${recipe.topImage})`}"></div>
             </template>   
-            <p class="line-clamp">{{ homework.textContent }}</p>
+            <p class="line-clamp">{{ recipe.textContent }}</p>
             <div class="metedata" style="color:#8d8d8d;">
-              <span>{{ recipe.classReadCount }}人阅读</span>
+              <div>{{ recipe.name }}</div>
+              <div size-14 class="metedata-count"></div>
             </div>                                   
           </router-link>
         </figure> 
@@ -22,7 +28,6 @@
         <!-- 空提示 -->
         <div class="empty">
           <img src="@/assets/image/kong.png" alt="">
-          <p size-17>功能开发中</p>
         </div>
       </template>
     </div>
@@ -34,11 +39,10 @@ export default {
   name: "recipe",
   data() {
     return {
-      isLoading: false,
-      totalPage: 1, //总页数
       query: {
         openId: this.$store.getters.openId
       },
+      roleType: this.$store.getters.roleType || this.$route.query.roleType,
       recipeData: []
     };
   },
@@ -48,19 +52,12 @@ export default {
     async recipeQuery(params = {}) {
       let res = await service.recipeQuery(params);
       if (res.errorCode === 0) {
-        this.query.page = res.data.page;
-        this.totalPage = res.data.totalPage;
-        this.isLoading = false;
-        this.recipeData = res.data.data;
+        this.recipeData = res.data;
       }
     }
   },
-  destroyed() {
-    d; //ocument.removeEventListener("scroll", this.handleLoadingMore);
-  },
   mounted() {
-    //this.recipeQuery(this.query);
-    //document.addEventListener("scroll", this.handleLoadingMore);
+    this.recipeQuery(this.query);
   }
 };
 </script>
@@ -87,10 +84,12 @@ export default {
     margin: 10px 0 20px 0;
     line-height: 1.5;
   }
-  img {
+  .pic {
     width: 690px;
     height: 298px;
     margin: 20px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
   }
   .metedata {
     margin: 20px -30px 0 -30px;
@@ -102,6 +101,14 @@ export default {
     border-top: 1px solid #f5f5f5;
     span {
       margin-right: 30px;
+    }
+  }
+  .metedata-count {
+    font-size: 0;
+    span {
+      font-size: 28px;
+      display: inline-block;
+      margin-left: 10px;
     }
   }
 }

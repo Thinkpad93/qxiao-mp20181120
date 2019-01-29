@@ -18,3 +18,9 @@ export function recipeAdd(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//删除食谱
+export function recipeDelete(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/recipe/recipeDelete.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
