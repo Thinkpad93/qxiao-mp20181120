@@ -316,7 +316,16 @@ export const constantRouterMap = [{
     component: () => import('@/views/album'),
     meta: {
       keepAlive: true,
-      title: '班级相册',
+      title: '相册空间',
+      roles: ['admin', 'teacher', 'patroarch']
+    }
+  },
+  {
+    path: '/album/view',
+    component: () => import('@/views/album/view'),
+    meta: {
+      keepAlive: true,
+      title: '相册列表',
       roles: ['admin', 'teacher', 'patroarch']
     }
   },

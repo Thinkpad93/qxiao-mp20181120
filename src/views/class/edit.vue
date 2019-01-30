@@ -77,13 +77,15 @@ export default {
         { classId, studentId, openId: this.query.openId }
       );
       if (classId && studentId) {
-        let confirmDom = this.$weui.confirm(
-          "确定要移除学生吗？",
-          () => {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要移除学生吗？"
+          })
+          .then(() => {
             this.classMoveStudent(obj);
-          },
-          { title: "提示" }
-        );
+          })
+          .catch(() => {});
       }
     },
     handleMoveTeacher(teacher) {
@@ -93,13 +95,15 @@ export default {
         { classId, teacherId, openId: this.query.openId }
       );
       if (classId && teacherId) {
-        let confirmDom = this.$weui.confirm(
-          "确定要移除老师吗？",
-          () => {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要移除老师吗？"
+          })
+          .then(() => {
             this.classMoveTeacher(obj);
-          },
-          { title: "提示" }
-        );
+          })
+          .catch(() => {});
       }
     },
     //移除班级对应的老师

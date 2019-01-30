@@ -67,25 +67,20 @@
           </div>
         </section>
       </main>   
-      <div class="weui-mask" v-show="dialogVisible"></div>
       <!-- 评论 -->
-      <QXDialog title="班级圈评论" :visible.sync="dialogVisible">
+      <van-dialog v-model="dialogVisible" show-cancel-button @cancel="dialogVisible = false" :before-close="handleSubmit">
         <div class="comment-form">
-          <form action="" method="post">
+          <form ref="form" action="" method="post">
             <div class="cells">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
                   <textarea class="textarea" placeholder="请输入评论内容..." rows="6" v-model="form.textContent"></textarea>
                 </div>
-              </div>
+              </div>            
             </div>
           </form>
         </div>
-        <div slot="footer" class="dialog-ft">
-          <a href="javascript:void(0);" class="dialog-btn-default" @click="dialogVisible = false">取消</a>
-          <a href="javascript:void(0);" class="dialog-btn-primary" @click="handleSubmit">提交</a>
-        </div>
-      </QXDialog>         
+      </van-dialog>
     </div>
     <div class="page-ft">
       <qxfooter></qxfooter>
@@ -93,18 +88,16 @@
   </div>
 </template>
 <script>
-import { ImagePreview } from "vant";
+import { Toast, ImagePreview } from "vant";
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
-import QXDialog from "@/components/dialog";
 import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
     qxfooter,
-    qxmenu,
-    QXDialog
+    qxmenu
   },
   data() {
     return {
@@ -176,8 +169,18 @@ export default {
         this.form.communityId = communityId;
       }
     },
-    handleSubmit() {
-      this.communityComment(this.form);
+    handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.form.textContent == "") {
+          Toast("请输入评论内容");
+          done(false);
+        } else {
+          this.communityComment(this.form);
+          done();
+        }
+      } else {
+        done();
+      }
     },
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
@@ -258,6 +261,7 @@ export default {
     async communityPraise(params = {}) {
       let res = await service.communityPraise(params);
       if (res.errorCode === 0) {
+        this.query.page = 1;
         this.communityQuery(this.query);
       }
     },
@@ -267,11 +271,11 @@ export default {
       if (res.errorCode === 0) {
         this.dialogVisible = false;
         this.form.textContent = "";
-        //this.communityQuery(this.query);
+        this.query.page = 1;
+        this.communityQuery(this.query);
       }
     }
   },
-  created() {},
   destroyed() {
     document.removeEventListener("scroll", this.handleLoadingMore);
   },

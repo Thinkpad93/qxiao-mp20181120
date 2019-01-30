@@ -2,30 +2,21 @@
   <div class="page">
     <div class="page-bd">
       <template v-if="albumData.length">
-        <div class=""></div>
-      </template>
-      <template v-else>
-        <!-- 空提示 -->
-        <div class="empty">
-          <img src="@/assets/image/kong.png" alt="">
-          <p size-17>功能开发中</p>
-        </div>        
-      </template>
-      <!-- <div class="album">
-        <div class="cell" v-for="(album, index) in 3" :key="index">
-          <figure class="figure">
-            <div class="place"></div>
-            <img src="@/assets/image/109951163721579973.jpg" alt="">
-            <figcaption>
-              <p>
-                <span>小班</span>
-                <span>小1班</span>
-              </p>
-              <p>80张</p>
-            </figcaption>
+        <div class="album">
+          <figure class="album-figure" v-for="(album, index) in albumData" :key="index">
+            <router-link :to="{ path: '/album/view', query: { classId: album.classId } }">
+              <div class="album-thumb">
+                <img v-if="album.image" :src="album.image" alt="">
+                <img v-else src="@/assets/image/kong.png" alt="">
+              </div>
+              <figcaption>
+                <p size-16>{{ album.className }}</p>
+                <p>{{ album.imagesCount }}张</p>
+              </figcaption>
+            </router-link>
           </figure>
         </div>
-      </div> -->
+      </template>
     </div>
   </div>  
 </template>
@@ -57,4 +48,37 @@ export default {
 };
 </script>
 <style lang="less">
+.album {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 40px 0 40px;
+  background-color: #fff;
+  justify-content: space-between;
+  .album-figure {
+    margin-bottom: 30px;
+    box-shadow: 0 0 8px 0 rgba(21, 21, 21, 0.2);
+    > a {
+      position: relative;
+      display: block;
+    }
+    figcaption {
+      padding: 20px;
+    }
+  }
+  .album-thumb {
+    width: 310px;
+    height: 310px;
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background-color: #e4f1ff;
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
 </style>

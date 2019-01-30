@@ -122,15 +122,7 @@ export default {
       let res = await service.teacherAdd(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$weui.alert(
-          "老师新增成功",
-          () => {
-            this.$router.go(-1);
-          },
-          {
-            title: "提示"
-          }
-        );
+        this.$router.go(-1);
       } else if (res.errorCode === -1) {
         Toast(`${res.errorMsg}`);
       }

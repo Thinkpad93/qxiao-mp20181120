@@ -122,13 +122,7 @@ export default {
     async teacherUpdate(params = {}) {
       let res = await service.teacherUpdate(params);
       if (res.errorCode === 0) {
-        let confirmDom = this.$weui.confirm(
-          "修改成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //老师信息查询

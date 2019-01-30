@@ -17,8 +17,8 @@
       <div class="cells" style="background-color:transparent;">
         <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
           <router-link  :to="{ path: '/notice/show', query: { noticeId: notice.noticeId } }">
-            <h3 class="text-ellipsis">{{ notice.title }}</h3>
-            <div class="nocice-time" style="color:#8d8d8d;">
+            <h3><small v-if="!notice.status" style="width:8px;height:8px;"></small>{{ notice.title }}</h3>
+            <div class="notice-time" style="color:#8d8d8d;">
               <time>{{ notice.postTime }}</time>
             </div>        
             <template v-if="notice.topImage">
@@ -161,6 +161,13 @@ export default {
     font-weight: bold;
     font-size: 36px;
     padding: 20px 0 10px 0;
+    small {
+      border-radius: 50%;
+      display: inline-block;
+      background-color: red;
+      vertical-align: top;
+      margin: 10px 14px 0 0;
+    }
   }
   p {
     font-size: 30px;
@@ -192,7 +199,7 @@ export default {
       margin-left: 10px;
     }
   }
-  .nocice-time {
+  .notice-time {
     font-size: 28px;
   }
 }

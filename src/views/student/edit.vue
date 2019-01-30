@@ -60,6 +60,7 @@
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -84,25 +85,27 @@ export default {
     handleDel() {
       let { studentId } = this.form;
       if (studentId) {
-        let confirmDom = this.$weui.confirm(
-          "确定要删除学生吗？",
-          () => {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要删除学生吗？"
+          })
+          .then(() => {
             this.studentDelete({ studentId, openId: this.querys.openId });
-          },
-          { title: "提示" }
-        );
+          })
+          .catch(() => {});
       }
     },
     handleSubmit() {
       let { studentName, tel } = this.form;
       if (studentName == "" || !studentName.length) {
-        this.$weui.topTips("请输入学生姓名");
+        Toast("请输入学生姓名");
         return false;
       }
       if (isPhone(tel)) {
         this.studentUpdate(this.form);
       } else {
-        this.$weui.topTips("请正确填写手机号");
+        Toast("请正确填写手机号");
       }
     },
     //根据类型查询相关班级
@@ -129,13 +132,7 @@ export default {
     async studentUpdate(params = {}) {
       let res = await service.studentUpdate(params);
       if (res.errorCode === 0) {
-        let confirmDom = this.$weui.alert(
-          "修改成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //学生删除

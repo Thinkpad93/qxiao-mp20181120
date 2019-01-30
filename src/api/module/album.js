@@ -30,3 +30,9 @@ export function albumImageAdd(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//新增栏目
+export function addChannel(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/addChannel.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

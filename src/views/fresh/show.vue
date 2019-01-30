@@ -47,11 +47,10 @@
           </div>
         </div>
       </div>
-      <div class="weui-mask" v-show="dialogVisible"></div>
       <!-- 评论 -->
-      <QXDialog title="速报留言" :visible.sync="dialogVisible">
+      <van-dialog v-model="dialogVisible" show-cancel-button @cancel="dialogVisible = false" :before-close="handleSubmit">
         <div class="comment-form">
-          <form action="" method="post">
+          <form ref="form" action="" method="post">
             <div class="cells">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
@@ -60,24 +59,16 @@
               </div>
             </div>
           </form>
-        </div>
-        <div slot="footer" class="dialog-ft">
-          <a href="javascript:void(0);" class="dialog-btn-default" @click="dialogVisible = false">取消</a>
-          <a href="javascript:void(0);" class="dialog-btn-primary" @click="handleSubmit">提交</a>
-        </div>
-      </QXDialog>
+        </div>        
+      </van-dialog>
     </div>
   </div>  
 </template>
 <script>
+import { Toast } from "vant";
 import service from "@/api";
-//import { mapGetters } from "vuex";
-import QXDialog from "@/components/dialog";
 export default {
   name: "freshShow",
-  components: {
-    QXDialog
-  },
   data() {
     return {
       dialogVisible: false,
@@ -97,13 +88,18 @@ export default {
       info: {} //速报详情
     };
   },
-  // computed: {
-  //   ...mapGetters(["roleType"])
-  // },
   methods: {
-    handleSubmit() {
-      if (this.form.textContent) {
-        this.freshCommentAdd(this.form);
+    handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.form.textContent == "") {
+          Toast("请输入评论内容");
+          done(false);
+        } else {
+          this.freshCommentAdd(this.form);
+          done();
+        }
+      } else {
+        done();
       }
     },
     //速报详情
@@ -186,8 +182,8 @@ export default {
       text-align: justify;
     }
     .icon {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
     }
   }

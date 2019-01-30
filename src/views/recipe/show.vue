@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.getters.openId || this.$route.query.openId,
         recipeId: this.$route.query.recipeId
       },
       info: {}
