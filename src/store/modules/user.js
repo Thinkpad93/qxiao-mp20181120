@@ -136,14 +136,14 @@ export default {
         let res = await service.queryClassId(params);
         if (res.errorCode === 0) {
           if (res.data.length) {
-            let classMap = res.data.map(item => {
-              return {
-                label: item.className,
-                value: item.classId
-              }
-            });
-            let copy = classMap.slice(0, 1);
-            commit('SET_CLASSLIST', classMap);
+            // let classMap = res.data.map(item => {
+            //   return {
+            //     label: item.className,
+            //     value: item.classId
+            //   }
+            // });
+            let copy = res.data.slice(0, 1);
+            commit('SET_CLASSLIST', res.data);
             commit('SET_CLASSNAME', copy[0].label);
             commit('SET_CLASSID', copy[0].value);
             Cookies.set('id', params.id);

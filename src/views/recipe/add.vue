@@ -66,7 +66,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "recipeAdd",
@@ -194,19 +193,19 @@ export default {
     handleSubmit() {
       let { startDate, endDate, title, textContent, ...args } = this.form;
       if (startDate === "") {
-        Toast("请选择起始日期");
+        this.$toast("请选择起始日期");
         return;
       }
       if (endDate === "") {
-        Toast("请选择结束日期");
+        this.$toast("请选择结束日期");
         return;
       }
       if (title === "") {
-        Toast("请输入食谱标题");
+        this.$toast("请输入食谱标题");
         return;
       }
       if (textContent === "") {
-        Toast("请输入食谱内容");
+        this.$toast("请输入食谱内容");
         return;
       }
       let obj = Object.assign({}, args, {
@@ -240,14 +239,7 @@ export default {
     async recipeAdd(params = {}) {
       let res = await service.recipeAdd(params);
       if (res.errorCode === 0) {
-        this.$dialog
-          .alert({
-            title: "提示",
-            message: "发布成功"
-          })
-          .then(() => {
-            this.$router.go(-1);
-          });
+        this.$router.go(-1);
       }
     },
     //通过config接口注入权限验证配置

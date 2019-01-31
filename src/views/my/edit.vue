@@ -110,7 +110,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 import { sex, relation, schoolType } from "@/mixins/type";
 import { mapGetters } from "vuex";
@@ -146,7 +145,7 @@ export default {
     async studentInfoUpdate() {
       let { studentName, sex, relation } = this.patroarch;
       if (studentName == "") {
-        Toast("请完善学生名称");
+        this.$toast("请完善学生名称");
       } else {
         let obj = Object.assign(
           {},
@@ -162,7 +161,7 @@ export default {
     async teacherInfoUpdate() {
       let { teacherName, sex } = this.teacherInfo;
       if (teacherName == "") {
-        Toast("请完善老师名称");
+        this.$toast("请完善老师名称");
       } else {
         let obj = Object.assign({}, { teacherName, sex, openId: this.openId });
         let res = await service.teacherInfoUpdate(obj);
@@ -175,15 +174,15 @@ export default {
     async updateSchool(params = {}) {
       let { schoolName, location, leaderName, type } = this.leaderInfo;
       if (schoolName == "") {
-        Toast("请完善学校名称");
+        this.$toast("请完善学校名称");
         return;
       }
       if (location == "") {
-        Toast("详细地址");
+        this.$toast("详细地址");
         return;
       }
       if (leaderName == "") {
-        Toast("请完善园长名称");
+        this.$toast("请完善园长名称");
         return;
       }
       let obj = Object.assign(

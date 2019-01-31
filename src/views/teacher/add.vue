@@ -64,7 +64,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -94,11 +93,11 @@ export default {
       let { teacherName, tel, classId, ...args } = this.form;
       let classes = [];
       if (teacherName == "" || !teacherName.length) {
-        Toast("请输入老师姓名");
+        this.$toast("请输入老师姓名");
         return false;
       }
       if (!this.selected.length) {
-        Toast("请选择任教班级，支持多选");
+        this.$toast("请选择任教班级，支持多选");
         return false;
       }
       if (isPhone(tel)) {
@@ -107,7 +106,7 @@ export default {
         });
         this.teacherAdd(this.form);
       } else {
-        Toast("请正确填写手机号");
+        this.$toast("请正确填写手机号");
       }
     },
     //根据类型查询相关班级
@@ -124,7 +123,7 @@ export default {
         this.$refs.form.reset();
         this.$router.go(-1);
       } else if (res.errorCode === -1) {
-        Toast(`${res.errorMsg}`);
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

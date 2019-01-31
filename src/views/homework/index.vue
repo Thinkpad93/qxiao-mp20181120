@@ -4,7 +4,7 @@
     <template v-if="roleType === 1 || roleType === 2">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
-          <a href="javascript:;" @click="handleSelectClass">
+          <a href="javascript:;" @click="popupShow = true">
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </a>
@@ -12,6 +12,16 @@
       </div>
     </template>
     <div class="page-bd">
+      <!-- -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker 
+          :columns="classList" 
+          show-toolbar 
+          value-key="className" 
+          @cancel="popupShow = false" 
+          @confirm="handleClassConfirm">
+        </van-picker>
+      </van-popup>
       <template v-if="roleType === 2">
         <router-link to="/homework/add" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
@@ -42,6 +52,7 @@ export default {
   name: "homeWork",
   data() {
     return {
+      popupShow: false,
       className: "",
       classList: this.$store.getters.classList,
       isLoading: false,
@@ -64,17 +75,10 @@ export default {
   },
   methods: {
     //选择班级
-    handleSelectClass() {
-      this.$weui.picker(this.classList, {
-        defaultValue: [this.query.classId],
-        onConfirm: result => {
-          let value = result[0].value; //取第一个元素
-          let label = result[0].label;
-          this.className = label;
-          this.query.classId = value;
-          this.homeworkQuery(this.query);
-        }
-      });
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      this.homeworkQuery(this.query);
     },
     //加载分页数据
     handleLoadingMore(e) {
@@ -110,20 +114,15 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
-        this.className = this.classList[0].label;
+        this.classList = res.data;
+        this.className = res.data[0].className;
       }
     },
     //作业列表查询
     async homeworkQuery(params = {}) {
       let res = await service.homeworkQuery(params);
       if (res.errorCode === 0) {
+        this.popupShow = false;
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;

@@ -48,10 +48,14 @@
         </div>
       </div>
       <!-- 评论 -->
-      <van-dialog v-model="dialogVisible" show-cancel-button @cancel="dialogVisible = false" :before-close="handleSubmit">
+      <van-dialog 
+        v-model="dialogVisible" 
+        show-cancel-button 
+        @cancel="dialogVisible = false" 
+        :before-close="handleSubmit">
         <div class="comment-form">
           <form ref="form" action="" method="post">
-            <div class="cells">
+            <div class="cells" style="padding:15px 0 15px 0;">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
                   <textarea class="textarea" placeholder="请输入留言内容..." rows="6" v-model="form.textContent"></textarea>
@@ -65,7 +69,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "freshShow",
@@ -92,7 +95,7 @@ export default {
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.form.textContent == "") {
-          Toast("请输入评论内容");
+          this.$toast("请输入评论内容");
           done(false);
         } else {
           this.freshCommentAdd(this.form);
@@ -132,7 +135,7 @@ export default {
   word-wrap: break-word;
   background-color: #fff;
   h1 {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 }
 .article-content {

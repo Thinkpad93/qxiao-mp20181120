@@ -2,10 +2,25 @@
   <div class="page">
     <div class="page-hd">
       <div class="class-head">
-        <router-link to="/class/add" class="btn btn-primary">添加班级</router-link>
+        <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">添加班级</a>
       </div>
     </div>
     <div class="page-bd">
+      <!-- -->
+      <van-dialog 
+        v-model="dialogVisible" 
+        title="班级名称"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit">
+        <div class="cells" style="padding:15px 0 15px 0;">
+          <div class="cell">
+            <div class="cell-bd" style="padding-left:0">
+              <input class="input" placeholder="请输入班级名称" maxlength="20" v-model="className" style="text-align:left;">
+            </div>
+          </div>
+        </div>        
+      </van-dialog>
       <div class="cells">
         <div class="cell class-box" 
           @click="handleEditClass(item.classId)"
@@ -19,7 +34,6 @@
           </div>
           <div class="cell-ft flex">
             <a href="javascript:;" class="btn btn-del" size-12 @click.stop="handleDelClass(item)">删除</a>
-            <!-- <a href="javascript:;" class="btn btn-edit" size-12 @click="handleEditClass(item.classId)">编辑</a> -->
           </div>
         </div> 
       </div>
@@ -33,14 +47,34 @@ export default {
   name: "class",
   data() {
     return {
+      dialogVisible: false,
+      className: "",
       schoolId: this.$store.getters.id,
       openId: this.$store.getters.openId,
       classList: []
     };
   },
   methods: {
-    handleAddClass() {
-      this.$router.push({ path: `/class/add` });
+    handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.className == "") {
+          Toast("请输入班级名称");
+          done(false);
+        } else {
+          let obj = Object.assign(
+            {},
+            {
+              className: this.className,
+              schoolId: this.schoolId,
+              openId: this.openId
+            }
+          );
+          this.classAdd(obj);
+          done();
+        }
+      } else {
+        done();
+      }
     },
     handleDelClass(params) {
       let { classId, countStudent, countTeacher } = params;
@@ -69,6 +103,14 @@ export default {
       let res = await service.queryClass({ schoolId });
       if (res.errorCode === 0) {
         this.classList = res.data;
+      }
+    },
+    //班级创建
+    async classAdd(params = {}) {
+      let res = await service.classAdd(params);
+      if (res.errorCode === 0) {
+        this.className = "";
+        this.queryClass(this.schoolId);
       }
     },
     //班级删除

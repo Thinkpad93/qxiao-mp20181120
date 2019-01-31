@@ -4,6 +4,15 @@
       <qxmenu @change="go"></qxmenu>
     </div>
     <div class="page-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker 
+          :columns="classList" 
+          show-toolbar 
+          value-key="className" 
+          @cancel="popupShow = false" 
+          @confirm="handleClassConfirm">
+        </van-picker>
+      </van-popup>
       <template v-if="(roleType === 2) || (roleType === 3)">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt="">
@@ -11,7 +20,7 @@
       </template>
       <main class="main">
         <section class="classId">
-          <span @click="handleSelectClass">
+          <span @click="popupShow = true">
             {{ className }}
             <i class="iconfont icon-xiangxia1"></i>
           </span>
@@ -68,10 +77,15 @@
         </section>
       </main>   
       <!-- 评论 -->
-      <van-dialog v-model="dialogVisible" show-cancel-button @cancel="dialogVisible = false" :before-close="handleSubmit">
+      <van-dialog 
+        title="评论" 
+        v-model="dialogVisible" 
+        show-cancel-button 
+        @cancel="dialogVisible = false" 
+        :before-close="handleSubmit">
         <div class="comment-form">
           <form ref="form" action="" method="post">
-            <div class="cells">
+            <div class="cells" style="padding:15px 0 15px 0;">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
                   <textarea class="textarea" placeholder="请输入评论内容..." rows="6" v-model="form.textContent"></textarea>
@@ -101,6 +115,7 @@ export default {
   },
   data() {
     return {
+      popupShow: false,
       dialogVisible: false,
       className: this.$store.getters.className,
       isLoading: false,
@@ -129,18 +144,23 @@ export default {
         this.$router.push({ path: `${url}` });
       }
     },
-    handleSelectClass() {
-      this.$weui.picker(this.classList, {
-        defaultValue: [this.query.classId],
-        onConfirm: result => {
-          let value = result[0].value; //取第一个元素
-          let label = result[0].label;
-          this.className = label;
-          this.query.classId = value;
-          this.communityQuery(this.query);
-        }
-      });
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      this.communityQuery(this.query);
     },
+    // handleSelectClass() {
+    //   this.$weui.picker(this.classList, {
+    //     defaultValue: [this.query.classId],
+    //     onConfirm: result => {
+    //       let value = result[0].value; //取第一个元素
+    //       let label = result[0].label;
+    //       this.className = label;
+    //       this.query.classId = value;
+    //       this.communityQuery(this.query);
+    //     }
+    //   });
+    // },
     //预览图片
     handlePreviewImage(index, images) {
       //通过传入配置对象，可以指定初始图片的位置、监听关闭事件
@@ -211,6 +231,7 @@ export default {
           this.query.page += 1;
           service.communityQuery(this.query).then(res => {
             if (res.errorCode === 0) {
+              this.popupShow = false;
               this.totalPage = res.data.totalPage;
               this.query.page = res.data.page;
               this.isLoading = false;
@@ -229,14 +250,14 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
-        this.className = classMap[0].label;
+        // let classMap = res.data.map(item => {
+        //   return {
+        //     label: item.className,
+        //     value: item.classId
+        //   };
+        // });
+        this.classList = res.data;
+        this.className = res.data[0].className;
       }
     },
     //班级圈信息查询
@@ -247,6 +268,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
+        this.popupShow = false;
         this.communityData = list;
       }
     },

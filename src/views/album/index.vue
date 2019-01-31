@@ -11,7 +11,7 @@
               </div>
               <figcaption>
                 <p size-16>{{ album.className }}</p>
-                <p>{{ album.imagesCount }}张</p>
+                <p size-14>{{ album.imagesCount }}张</p>
               </figcaption>
             </router-link>
           </figure>
@@ -56,13 +56,18 @@ export default {
   justify-content: space-between;
   .album-figure {
     margin-bottom: 30px;
-    box-shadow: 0 0 8px 0 rgba(21, 21, 21, 0.2);
+    box-shadow: 0 0 14px 0 rgba(21, 21, 21, 0.2);
     > a {
       position: relative;
       display: block;
     }
     figcaption {
       padding: 20px;
+      p {
+        &:first-child {
+          font-weight: bold;
+        }
+      }
     }
   }
   .album-thumb {

@@ -6,7 +6,7 @@
           <div class="cell">
             <div class="cell-hd"></div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入速报标题" v-model="form.title" maxlength="20">
+              <input class="input" placeholder="请输入速报标题" v-model="form.title" maxlength="20" style="text-align:left;">
             </div>
           </div> 
           <div class="cell">
@@ -48,7 +48,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -153,15 +152,15 @@ export default {
     handleSubmit() {
       let { title, textContent, ...args } = this.form;
       if (title === "") {
-        Toast("请输入速报标题");
+        this.$toast("请输入速报标题");
         return;
       }
       if (textContent === "") {
-        Toast("请输入速报内容");
+        this.$toast("请输入速报内容");
         return;
       }
       if (!this.selected.length) {
-        Toast("请选择发送班级");
+        this.$toast("请选择发送班级");
         return;
       }
       let senders = this.selected.map(item => {
@@ -176,12 +175,10 @@ export default {
       if (this.serverId.length) {
         service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            let loading = this.$weui.loading("正在发布中");
             obj.images = res.data.paths;
             //发布速报
             service.freshAdd(obj).then(res => {
               if (res.errorCode === 0) {
-                loading.hide();
                 this.$refs.form.reset();
                 this.$router.go(-1);
               }
@@ -205,13 +202,7 @@ export default {
       let res = await service.freshAdd(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$weui.alert(
-          "发布成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //通过config接口注入权限验证配置

@@ -38,7 +38,6 @@
   </div>           
 </template>
 <script>
-import { Toast } from "vant";
 import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
@@ -73,29 +72,29 @@ export default {
         }, 1000);
         this.telVeriftCode(this.form.tel);
       } else {
-        Toast("请正确填写手机号");
+        this.$toast("请正确填写手机号");
       }
     },
     handleLogin() {
       if (this.form.tel === "") {
-        Toast("请填写手机号");
+        this.$toast("请填写手机号");
         return false;
       }
       if (this.form.verifyCode === "") {
-        Toast("请填写手机验证码");
+        this.$toast("请填写手机验证码");
         return false;
       }
       if (isPhone(this.form.tel)) {
         this.userTeleLogin(this.form);
       } else {
-        Toast("请正确填写手机号");
+        this.$toast("请正确填写手机号");
       }
     },
     //获取验证码
     async telVeriftCode(tel) {
       let res = await service.telVeriftCode({ tel });
       if (res.errorCode === 0) {
-        Toast("验证码已经发送，请注意查收");
+        this.$toast("验证码已经发送，请注意查收");
       }
     },
     //用户登录
@@ -113,7 +112,7 @@ export default {
         }
         switch (roleType) {
           case 0:
-            Toast("此手机号码还没有录入");
+            this.$toast("此手机号码还没有录入");
             break;
           case 1:
             this.$router.push({ path: "/home" });
@@ -146,7 +145,7 @@ export default {
             console.log("default");
         }
       } else if (res.errorCode === -1) {
-        Toast(`${res.errorMsg}`);
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

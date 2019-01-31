@@ -1,7 +1,6 @@
 <template>
-  <div class="page">
+  <div class="page" style="padding-bottom: 65px;">
     <div class="page-bd">
-      <!-- <div @click="dialogVisible = true">新增相册栏目</div> -->
       <van-dialog 
         v-model="dialogVisible" 
         title="相册名称" 
@@ -18,14 +17,17 @@
       </van-dialog>
       <!-- -->
       <div class="album-show">
-        <div class="album-channel flex" v-for="(channel, index) in albumChannel" :key="index">
+        <div class="album-channel flex" 
+          v-for="(channel, index) in albumChannel" 
+          :key="index"
+          @click="handleGo(channel.channelId)">
           <div class="album-thumb">
             <img v-if="channel.image" :src="album.image" alt="">
             <img v-else src="@/assets/image/kong.png" alt="">
           </div>
           <div class="album-box">
             <p size-15>{{ channel.title }}</p>
-            <div size-12 style="margin-top: 6px;margin-bottom: 8px;">
+            <div size-12 style="margin-top: 4px;margin-bottom: 6px;">
               <span>共{{ channel.imagesCount }}张</span>
               <span>阅读{{ channel.readCount }}</span>
             </div>
@@ -34,9 +36,11 @@
         </div>
       </div>
     </div>  
-    <section class="_confirm">
-      <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增相册栏目</a>
-    </section>
+    <template v-if="roleType == 2">
+      <section class="_confirm">
+        <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
+      </section>
+    </template>
   </div>  
 </template>
 <script>
@@ -48,6 +52,7 @@ export default {
     return {
       title: "",
       dialogVisible: false,
+      roleType: this.$store.getters.roleType,
       query: {
         openId: this.$store.getters.openId,
         classId: this.$route.query.classId
@@ -56,6 +61,12 @@ export default {
     };
   },
   methods: {
+    handleGo(channelId) {
+      this.$router.push({
+        path: "/album/show",
+        query: { channelId }
+      });
+    },
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.title == "") {
@@ -66,6 +77,8 @@ export default {
           this.addChannel(obj);
           done();
         }
+      } else {
+        done();
       }
     },
     //查询班级所属的相册栏目

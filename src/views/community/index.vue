@@ -147,7 +147,7 @@ export default {
     handleSubmit() {
       let { textContent, ...args } = this.form;
       if (textContent == "" && !this.serverId.length) {
-        this.$weui.alert("请输入内容", () => {}, { title: "提示" });
+        this.$toast("请输入内容");
         return;
       }
       let params = {
@@ -160,12 +160,10 @@ export default {
         //先上传图片ID给后端去下载图片
         service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            let loading = this.$weui.loading("正在发布中");
             obj.images = res.data.paths;
             //在发布班级圈
             service.communityAdd(obj).then(res => {
               if (res.errorCode === 0) {
-                loading.hide();
                 this.$router.go(-1);
               }
             });
@@ -186,13 +184,7 @@ export default {
     async communityAdd(params = {}) {
       let res = await service.communityAdd(params);
       if (res.errorCode === 0) {
-        this.$weui.alert(
-          "发布成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //通过config接口注入权限验证配置

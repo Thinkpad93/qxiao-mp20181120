@@ -101,7 +101,6 @@
   </div>     
 </template>
 <script>
-import { Toast } from "vant";
 import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
@@ -128,21 +127,21 @@ export default {
     handleNextClick() {
       let { schoolName, location, leadName, tel } = this.form;
       if (schoolName == "" || !schoolName.length) {
-        Toast("请输入幼儿园名称");
+        this.$toast("请输入幼儿园名称");
         return false;
       }
       if (location == "" || !location.length) {
-        Toast("请输入详细地址");
+        this.$toast("请输入详细地址");
         return false;
       }
       if (leadName == "" || !leadName.length) {
-        Toast("请输入园长姓名");
+        this.$toast("请输入园长姓名");
         return false;
       }
       if (isPhone(tel)) {
         this.views = true;
       } else {
-        Toast("请正确填写手机号");
+        this.$toast("请正确填写手机号");
       }
     },
     handleAddClass() {
@@ -156,7 +155,7 @@ export default {
     },
     async handleSubmit() {
       if (!this.form.classes.length) {
-        Toast("请至少添加一个班级，谢谢");
+        this.$toast("请至少添加一个班级，谢谢");
       } else {
         let res = await service.schoolAdd(this.form);
         if (res.errorCode === 0) {

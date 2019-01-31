@@ -6,7 +6,7 @@
           <div class="cell">
             <div class="cell-hd"></div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入作业标题" v-model="form.title" maxlength="20">
+              <input class="input" placeholder="请输入作业标题" v-model="form.title" maxlength="20" style="text-align:left;">
             </div>
           </div> 
           <div class="cell">
@@ -56,7 +56,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -165,15 +164,15 @@ export default {
     handleSubmit() {
       let { title, textContent } = this.form;
       if (title == "") {
-        Toast("请输入作业标题");
+        this.$toast("请输入作业标题");
         return;
       }
       if (title == "") {
-        Toast("请输入作业内容");
+        this.$toast("请输入作业内容");
         return;
       }
       if (!this.selected.length) {
-        Toast("请选择发送班级");
+        this.$toast("请选择发送班级");
         return;
       }
       if (this.needSwitch) {
@@ -190,12 +189,10 @@ export default {
       if (this.serverId.length) {
         service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            let loading = this.$weui.loading("正在发布中");
             this.form.images = res.data.paths;
             //发布亲子作业
             service.homeworkAdd(this.form).then(res => {
               if (res.errorCode === 0) {
-                loading.hide();
                 this.$refs.form.reset();
                 this.$router.go(-1);
               }
@@ -217,13 +214,7 @@ export default {
     async homeworkAdd(params = {}) {
       let res = await service.homeworkAdd(params);
       if (res.errorCode === 0) {
-        this.$weui.alert(
-          "作业发布成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //通过config接口注入权限验证配置

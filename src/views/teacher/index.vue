@@ -63,7 +63,7 @@ export default {
     },
     //分享功能
     handleShare() {
-      this.$weui.alert("请点击右上角发送给朋友", () => {}, { title: "提示" });
+      this.$toast("请点击右上角发送给朋友");
       // wx.showMenuItems({
       //   menuList: ["menuItem:share:appMessage", "menuItem:share:timeline"]
       // });

@@ -129,10 +129,8 @@ export default {
     },
     //公告通知详情
     async noticeDetail(params = {}) {
-      let loading = this.$weui.loading("加载中");
       let res = await service.noticeDetail(params);
       if (res.errorCode === 0) {
-        loading.hide();
         this.info = res.data;
       }
     },
@@ -164,7 +162,7 @@ export default {
         let res = await service.noticeConfirm(params);
         if (res.errorCode === 0) {
           this.info.confirmFlag = 1;
-          this.$weui.alert("通知确认成功", () => {}, { title: "提示" });
+          this.$toast("通知确认成功");
         }
       }
     }
@@ -229,8 +227,8 @@ export default {
       padding-top: 20px;
       padding-bottom: 20px;
       img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
       }
     }

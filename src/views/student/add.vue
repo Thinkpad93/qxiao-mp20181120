@@ -59,7 +59,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -87,14 +86,14 @@ export default {
     handleSubmit() {
       let { studentName, tel } = this.form;
       if (studentName == "" || !studentName.length) {
-        Toast("请输入学生姓名");
+        this.$toast("请输入学生姓名");
         return false;
       }
       if (isPhone(tel)) {
         let obj = Object.assign({}, this.form, { openId: this.openId });
         this.studentAdd(this.form);
       } else {
-        Toast("请正确填写手机号");
+        this.$toast("请正确填写手机号");
       }
     },
     //根据类型查询相关班级

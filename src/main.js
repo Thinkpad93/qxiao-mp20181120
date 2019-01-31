@@ -8,6 +8,7 @@ import weui from 'weui.js';
 import {
   Dialog,
   Popup,
+  Picker,
   DatetimePicker,
   Tab,
   Tabs,
@@ -20,7 +21,7 @@ Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
-Vue.use(Dialog).use(Tab).use(Tabs).use(Circle).use(Popup).use(DatetimePicker);
+Vue.use(Dialog).use(Tab).use(Tabs).use(Circle).use(Popup).use(Picker).use(DatetimePicker);
 
 
 router.beforeEach((to, from, next) => {
@@ -31,6 +32,15 @@ router.beforeEach((to, from, next) => {
     store.dispatch('user/get');
     next();
   }
+  // if (roleType && Cookies.get('openId')) {
+  //   if (to.meta.roles.indexOf(parseInt(roleType)) > -1) {
+  //     next();
+  //   } else {
+  //     next({
+  //       path: `${from.path}`
+  //     })
+  //   }
+  // }
   next();
 });
 

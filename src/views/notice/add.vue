@@ -129,7 +129,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 export default {
   namae: "noticeAdd",
@@ -293,7 +292,7 @@ export default {
       let { sendType } = this.form;
       if (sendType === 2) {
         if (!this.teacherCheckList.length) {
-          Toast("请选择发送对象班级或者老师");
+          this.$toast("请选择发送对象班级或者老师");
           return;
         }
         senders = this.teacherCheckList.map(item => {
@@ -301,7 +300,7 @@ export default {
         });
       } else if (sendType === 1) {
         if (!this.classChenkList.length) {
-          Toast("请选择发送对象班级或者老师");
+          this.$toast("请选择发送对象班级或者老师");
           return;
         }
         senders = this.classChenkList.map(item => {
@@ -322,15 +321,15 @@ export default {
         ...args
       } = this.form;
       if (title === "") {
-        Toast("请输入通知标题");
+        this.$toast("请输入通知标题");
         return;
       }
       if (textContent === "") {
-        Toast("请输入通知内容");
+        this.$toast("请输入通知内容");
         return;
       }
       if (!senders.length) {
-        Toast("你还没有选择发送对象");
+        this.$toast("你还没有选择发送对象");
         return;
       }
       clockType === false ? (clockType = 0) : (clockType = 1);
@@ -350,12 +349,10 @@ export default {
       if (this.serverId.length) {
         service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            let loading = this.$weui.loading("正在发布中");
             obj.images = res.data.paths;
             //发布公告
             service.noticeAdd(obj).then(res => {
               if (res.errorCode === 0) {
-                loading.hide();
                 this.$refs.form.reset();
                 this.$router.go(-1);
               }
@@ -371,13 +368,7 @@ export default {
       let res = await service.noticeAdd(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$weui.alert(
-          "发布成功",
-          () => {
-            this.$router.go(-1);
-          },
-          { title: "提示" }
-        );
+        this.$router.go(-1);
       }
     },
     //根据OpenId获取学校的班级信息
