@@ -79,6 +79,9 @@ export default {
       this.query.type = index;
       this.noticeQuery(this.query);
     },
+    handleTouchEnd(e) {
+      this.$toast(e);
+    },
     //加载分页数据
     handleLoadingMore(e) {
       let scrollTop = 0;
@@ -112,6 +115,12 @@ export default {
         }
       }
     },
+    //删除通知公告
+    async deleteNotice(params = {}) {
+      let res = await service.deleteNotice(params);
+      if (res.errorCode === 0) {
+      }
+    },
     //公告通知列表查询
     async noticeQuery() {
       let classId =
@@ -129,14 +138,14 @@ export default {
     }
   },
   destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore, false);
+    document.removeEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.noticeQuery();
-    document.addEventListener("scroll", this.handleLoadingMore, false);
+    document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>
@@ -160,7 +169,7 @@ export default {
     position: relative;
     font-weight: bold;
     font-size: 36px;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 0 0;
     small {
       border-radius: 50%;
       display: inline-block;

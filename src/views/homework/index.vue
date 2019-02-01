@@ -138,7 +138,7 @@ export default {
     this.queryClassId(this.queryClass);
     document.addEventListener("scroll", this.handleLoadingMore);
   },
-  activated() {}
+  beforeDestroy() {}
 };
 </script>
 <style lang="less">
@@ -162,7 +162,7 @@ export default {
   h3 {
     font-weight: bold;
     font-size: 36px;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 0 0;
   }
   p {
     font-size: 30px;

@@ -1,6 +1,11 @@
 <template>
   <div class="page" style="padding-bottom: 65px;">
     <div class="page-bd">
+      <template v-if="roleType == 2">
+        <a href="javascript:;" class="release" @click="handleBlumAdd">
+          <img src="@/assets/image/release-icon.png" alt="">
+        </a>
+      </template>      
       <van-dialog 
         v-model="dialogVisible" 
         title="相册名称" 
@@ -22,7 +27,7 @@
           :key="index"
           @click="handleGo(channel.channelId)">
           <div class="album-thumb">
-            <img v-if="channel.image" :src="album.image" alt="">
+            <img v-if="channel.image" :src="channel.image" alt="">
             <img v-else src="@/assets/image/kong.png" alt="">
           </div>
           <div class="album-box">
@@ -44,7 +49,6 @@
   </div>  
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "albumChannel",
@@ -61,6 +65,12 @@ export default {
     };
   },
   methods: {
+    handleBlumAdd(e) {
+      this.$router.push({
+        path: "/album/add",
+        query: { classId: this.$route.query.classId }
+      });
+    },
     handleGo(channelId) {
       this.$router.push({
         path: "/album/show",
@@ -70,7 +80,7 @@ export default {
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.title == "") {
-          Toast("请输入相册名称");
+          this.$toast("请输入相册名称");
           done(false);
         } else {
           let obj = Object.assign({}, this.query, { title: this.title });

@@ -102,7 +102,7 @@
   </div>
 </template>
 <script>
-import { Toast, ImagePreview } from "vant";
+import { ImagePreview } from "vant";
 import service from "@/api";
 import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
@@ -192,7 +192,7 @@ export default {
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.form.textContent == "") {
-          Toast("请输入评论内容");
+          this.$toast("请输入评论内容");
           done(false);
         } else {
           this.communityComment(this.form);
@@ -205,14 +205,16 @@ export default {
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
       if (openId && communityId) {
-        this.$weui.confirm(
-          "确实要删除该条班级较圈吗",
-          () => {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确实要删除该条班级较圈吗?"
+          })
+          .then(() => {
             this.communityData.splice(index, 1);
             this.communityDelete({ openId, communityId });
-          },
-          { title: "提示" }
-        );
+          })
+          .catch(() => {});
       }
     },
     //加载更多班级圈

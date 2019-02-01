@@ -24,12 +24,6 @@
           </router-link>
         </figure> 
       </template> 
-      <template v-else>
-        <!-- 空提示 -->
-        <div class="empty">
-          <img src="@/assets/image/kong.png" alt="">
-        </div>
-      </template>
     </div>
   </div>  
 </template>
@@ -77,7 +71,7 @@ export default {
     position: relative;
     font-weight: bold;
     font-size: 36px;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 0 0;
   }
   p {
     font-size: 30px;

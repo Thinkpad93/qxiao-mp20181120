@@ -8,7 +8,7 @@
             <!-- <img src="@/assets/image/109951163721579973.jpg" alt=""> -->
           </div>
           <div class="article-cell">
-            <p>刘家明(园长)</p>
+            <!-- <p>刘家明(园长)</p> -->
             <time style="color:#8d8d8d;">{{ info.postTime }}</time>            
           </div>
         </div>
@@ -185,7 +185,7 @@ export default {
 .article-head {
   align-items: center;
   .article-cell {
-    margin-right: 20px;
+    //margin-right: 20px;
   }
   img {
     width: 80px;

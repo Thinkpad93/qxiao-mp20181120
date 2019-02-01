@@ -165,7 +165,7 @@ export default {
   h3 {
     font-weight: bold;
     font-size: 36px;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 0 0;
   }
   p {
     font-size: 30px;
