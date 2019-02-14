@@ -64,6 +64,16 @@ vue2.x + vuex + vueRoute + axios + weuijs
 
 ## 开发问题
 
+> 在keep-alive作用下，某些钩子函数会失去作用，在deactivated（）这个钩子函数解绑即可
+```javascript
+  deactivated() {
+    window.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {
+    window.addEventListener("scroll", this.handleLoadingMore);
+  },
+```
+
 > iphone 手机遇到 select 选中不了值问题
 
 ```html

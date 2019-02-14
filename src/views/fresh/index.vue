@@ -13,21 +13,23 @@
     <div class="page-bd">
       <!-- -->
       <van-popup v-model="popupShow" position="bottom">
-        <van-picker 
-          :columns="classList" 
-          show-toolbar 
-          value-key="className" 
-          @cancel="popupShow = false" 
-          @confirm="handleClassConfirm">
-        </van-picker>
-      </van-popup>      
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
+      </van-popup>
       <template v-if="roleType == 2">
         <router-link to="/fresh/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt="">
+          <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
       <figure class="figure" v-for="(fresh, index) in freshData" :key="index">
-        <router-link  :to="{ path: '/fresh/show', query: { freshId: fresh.freshId, classId: fresh.classId} }">
+        <router-link
+          :to="{ path: '/fresh/show', query: { freshId: fresh.freshId, classId: fresh.classId} }"
+        >
           <h3 class="text-ellipsis">{{ fresh.title }}</h3>
           <div style="color:#8d8d8d;">
             <time>{{ fresh.postTime }}</time>
@@ -42,10 +44,10 @@
               <span>留言{{ fresh.classCommentCount }}</span>
             </div>
           </div>
-        </router-link>  
-      </figure>  
+        </router-link>
+      </figure>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -129,15 +131,16 @@ export default {
       }
     }
   },
-  destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore);
+  deactivated() {
+    window.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {
+    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     this.queryClassId(this.queryClass);
     this.freshQuery(this.query);
-    document.addEventListener("scroll", this.handleLoadingMore);
-  },
-  activated() {}
+  }
 };
 </script>
 <style lang="less">

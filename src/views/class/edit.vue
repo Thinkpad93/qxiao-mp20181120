@@ -5,10 +5,10 @@
         <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
         <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
           <van-tab title="关联的老师"></van-tab>
-          <van-tab title="关联的学生"></van-tab>          
-        </van-tabs>        
-      </div>     
-    </div>  
+          <van-tab title="关联的学生"></van-tab>
+        </van-tabs>
+      </div>
+    </div>
     <div class="page-bd">
       <div class="people-list">
         <div class="item" :class="[index === 0 ? 'on': '']">
@@ -16,14 +16,15 @@
           <div class="cells">
             <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" :src="teacher.photo" alt="">
-              </div> 
+                <img class="teacher-icon" v-if="teacher.photo" :src="teacher.photo" alt>
+                <div class="icon-d" v-else></div>
+              </div>
               <div class="cell-bd">
                 <p>{{ teacher.teacherName }}</p>
-              </div> 
+              </div>
               <div class="cell-ft">
                 <span size-14 style="color:#92cd36" @click="handleMoveTeacher(teacher)">移除</span>
-              </div>                                  
+              </div>
             </div>
           </div>
         </div>
@@ -32,20 +33,21 @@
           <div class="cells">
             <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" :src="student.photo" alt="">
-              </div>   
+                <img class="teacher-icon" v-if="student.photo" :src="student.photo" alt>
+                <div class="icon-d" v-else></div>
+              </div>
               <div class="cell-bd">
                 <p>{{ student.studentName }}</p>
-              </div>   
+              </div>
               <div class="cell-ft">
                 <span size-14 style="color:#ce3c39" @click="handleMoveStudent(student)">移除</span>
-              </div>                                       
+              </div>
             </div>
-          </div>          
-        </div>  
+          </div>
+        </div>
       </div>
-    </div>  
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -156,6 +158,12 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+.icon-d {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
 }
 .people-list {
   .item {

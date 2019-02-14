@@ -132,13 +132,11 @@
 <script>
 import { ImagePreview } from "vant";
 import service from "@/api";
-//import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
 import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
-    //qxfooter,
     qxmenu
   },
   data() {
@@ -177,18 +175,6 @@ export default {
       this.query.classId = value.classId;
       this.communityQuery(this.query);
     },
-    // handleSelectClass() {
-    //   this.$weui.picker(this.classList, {
-    //     defaultValue: [this.query.classId],
-    //     onConfirm: result => {
-    //       let value = result[0].value; //取第一个元素
-    //       let label = result[0].label;
-    //       this.className = label;
-    //       this.query.classId = value;
-    //       this.communityQuery(this.query);
-    //     }
-    //   });
-    // },
     //预览图片
     handlePreviewImage(index, images) {
       //通过传入配置对象，可以指定初始图片的位置、监听关闭事件
@@ -328,8 +314,11 @@ export default {
       }
     }
   },
-  destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore);
+  deactivated() {
+    window.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {
+    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
@@ -339,7 +328,6 @@ export default {
       this.queryClassId({ id: this.id, roleType: this.roleType });
     }
     this.communityQuery(this.query);
-    document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>

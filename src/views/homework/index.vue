@@ -8,42 +8,44 @@
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </a>
-        </div>      
+        </div>
       </div>
     </template>
     <div class="page-bd">
       <!-- -->
       <van-popup v-model="popupShow" position="bottom">
-        <van-picker 
-          :columns="classList" 
-          show-toolbar 
-          value-key="className" 
-          @cancel="popupShow = false" 
-          @confirm="handleClassConfirm">
-        </van-picker>
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
       </van-popup>
       <template v-if="roleType === 2">
         <router-link to="/homework/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt="">
+          <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
       <figure class="figure" v-for="(homework, index) in homeworkData" :key="index">
-        <router-link  :to="{ path: '/homework/show', query: { classId: homework.classId, homeId: homework.homeId} }">
+        <router-link
+          :to="{ path: '/homework/show', query: { classId: homework.classId, homeId: homework.homeId} }"
+        >
           <h3 class="text-ellipsis">{{ homework.title }}</h3>
           <div style="color:#8d8d8d;">
             <time>{{ homework.postTime }}</time>
-          </div> 
+          </div>
           <template v-if="homework.topImage">
             <div class="pic" :style="{backgroundImage: `url(${homework.topImage})`}"></div>
-          </template>      
+          </template>
           <p class="line-clamp">{{ homework.textContent }}</p>
           <div class="metedata" style="color:#8d8d8d;">
             <span>{{ homework.classReadCount }}人阅读</span>
-          </div>     
-        </router-link>     
-      </figure>      
+          </div>
+        </router-link>
+      </figure>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -130,15 +132,16 @@ export default {
       }
     }
   },
-  destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore);
+  deactivated() {
+    window.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {
+    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     this.homeworkQuery(this.query);
     this.queryClassId(this.queryClass);
-    document.addEventListener("scroll", this.handleLoadingMore);
-  },
-  beforeDestroy() {}
+  }
 };
 </script>
 <style lang="less">

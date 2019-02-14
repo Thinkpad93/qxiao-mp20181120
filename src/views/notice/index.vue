@@ -4,29 +4,35 @@
       <div class="page-hd">
         <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
           <van-tab title="通知消息"></van-tab>
-          <van-tab title="发送记录"></van-tab>          
+          <van-tab title="发送记录"></van-tab>
         </van-tabs>
       </div>
     </template>
     <div class="page-bd">
       <template v-if="roleType == 1">
         <router-link to="/notice/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt="">
-        </router-link> 
-      </template>     
+          <img src="@/assets/image/release-icon.png" alt>
+        </router-link>
+      </template>
       <div class="cells" style="background-color:transparent;">
         <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
-          <router-link  :to="{ path: '/notice/show', query: { noticeId: notice.noticeId } }">
-            <h3><small v-if="!notice.status" style="width:8px;height:8px;"></small>{{ notice.title }}</h3>
+          <router-link :to="{ path: '/notice/show', query: { noticeId: notice.noticeId } }">
+            <h3>
+              <small v-if="!notice.status" style="width:8px;height:8px;"></small>
+              {{ notice.title }}
+            </h3>
             <div class="notice-time" style="color:#8d8d8d;">
               <time>{{ notice.postTime }}</time>
-            </div>        
+            </div>
             <template v-if="notice.topImage">
               <div class="pic" :style="{backgroundImage: `url(${notice.topImage})`}"></div>
             </template>
             <p class="line-clamp">{{ notice.textContent }}</p>
             <div class="metedata flex">
-              <div size-14>{{ notice.name }}<template v-if="notice.personType === 1">园长</template><template v-else>老师</template>
+              <div size-14>
+                {{ notice.name }}
+                <template v-if="notice.personType === 1">园长</template>
+                <template v-else>老师</template>
               </div>
               <div size-14 class="metedata-count">
                 <template v-if="notice.classReadCount">
@@ -43,8 +49,8 @@
           </router-link>
         </figure>
       </div>
-    </div>  
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -52,6 +58,7 @@ export default {
   name: "notice",
   data() {
     return {
+      throttleLoad: null,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
@@ -137,15 +144,17 @@ export default {
       }
     }
   },
-  destroyed() {
-    document.removeEventListener("scroll", this.handleLoadingMore);
+  deactivated() {
+    window.removeEventListener("scroll", this.handleLoadingMore);
+  },
+  activated() {
+    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.noticeQuery();
-    document.addEventListener("scroll", this.handleLoadingMore);
   }
 };
 </script>

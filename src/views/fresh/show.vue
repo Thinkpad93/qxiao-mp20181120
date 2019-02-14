@@ -8,16 +8,16 @@
             <span style="color:#8d8d8d;">{{ info.schoolName }}</span>
           </div>
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>    
+            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
           </div>
         </div>
         <section size-16 class="article-content">
-          <p>{{ info.textContent }}</p>      
+          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>              
+          </template>
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -34,39 +34,45 @@
         </div>
         <div class="comment-bd">
           <div class="cells">
-            <div class="cell" 
-              v-for="(comment, index) in info.commentList" :key="index">
+            <div class="cell" v-for="(comment, index) in info.commentList" :key="index">
               <div class="cell-hd">
-                <img class="icon" :src="comment.photo" alt="">
-              </div>   
+                <img class="icon" :src="comment.photo" alt>
+              </div>
               <div class="cell-bd">
                 <span style="color:#44649f;">{{ comment.name }}</span>
                 <p>{{ comment.textContent }}</p>
-              </div>           
+              </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 评论 -->
-      <van-dialog 
-        v-model="dialogVisible" 
-        show-cancel-button 
-        @cancel="dialogVisible = false" 
-        :before-close="handleSubmit">
+      <van-dialog
+        title="评论"
+        v-model="dialogVisible"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
+      >
         <div class="comment-form">
-          <form ref="form" action="" method="post">
+          <form ref="form" action method="post">
             <div class="cells" style="padding:15px 0 15px 0;">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
-                  <textarea class="textarea" placeholder="请输入留言内容..." rows="6" v-model="form.textContent"></textarea>
+                  <textarea
+                    class="textarea"
+                    placeholder="请输入留言内容..."
+                    rows="6"
+                    v-model="form.textContent"
+                  ></textarea>
                 </div>
               </div>
             </div>
           </form>
-        </div>        
+        </div>
       </van-dialog>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";

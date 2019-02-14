@@ -59,7 +59,7 @@
   </div>
 </template>
 <script>
-import moment from "moment"; //
+import moment from "moment";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -69,7 +69,7 @@ export default {
       query: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
-        date: moment().format("YYYY-MM-DD")
+        date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],
       classClockData: []

@@ -7,24 +7,34 @@
     </div>
     <div class="page-bd">
       <!-- -->
-      <van-dialog 
-        v-model="dialogVisible" 
+      <van-dialog
+        v-model="dialogVisible"
         title="班级名称"
         show-cancel-button
         @cancel="dialogVisible = false"
-        :before-close="handleSubmit">
+        :before-close="handleSubmit"
+      >
         <div class="cells" style="padding:15px 0 15px 0;">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入班级名称" maxlength="20" v-model="className" style="text-align:left;">
+              <input
+                class="input"
+                placeholder="请输入班级名称"
+                maxlength="20"
+                v-model="className"
+                style="text-align:left;"
+              >
             </div>
           </div>
-        </div>        
+        </div>
       </van-dialog>
       <div class="cells">
-        <div class="cell class-box" 
+        <div
+          class="cell class-box"
           @click="handleEditClass(item.classId)"
-          v-for="(item, index) in classList" :key="index">
+          v-for="(item, index) in classList"
+          :key="index"
+        >
           <div class="cell-bd">
             <p size-17 class="text-ellipsis">{{ item.className }}</p>
             <p>
@@ -35,13 +45,12 @@
           <div class="cell-ft flex">
             <a href="javascript:;" class="btn btn-del" size-12 @click.stop="handleDelClass(item)">删除</a>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
-import { Toast } from "vant";
 import service from "@/api";
 export default {
   name: "class",
@@ -58,7 +67,7 @@ export default {
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.className == "") {
-          Toast("请输入班级名称");
+          this.$toast("请输入班级名称");
           done(false);
         } else {
           let obj = Object.assign(
@@ -79,7 +88,7 @@ export default {
     handleDelClass(params) {
       let { classId, countStudent, countTeacher } = params;
       if (countStudent > 0 || countTeacher > 0) {
-        Toast("班级还有关联学生和老师，不能删除班级");
+        this.$toast("班级还有关联学生和老师，不能删除班级");
         return;
       }
       this.$dialog
