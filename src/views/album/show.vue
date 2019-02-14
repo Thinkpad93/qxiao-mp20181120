@@ -8,12 +8,13 @@
             <time style="color:#8d8d8d;">{{ albumInfo.postTime }}</time>    
           </div>
         </div> 
-        <div class="album-content flex">
+        <div class="album-content clearfix">
           <div class="item" 
             v-for="(pic, index) in albumInfo.items" 
             :key="index" 
             @click="handlePreviewImage(index, albumInfo.items)">
-            <img :src="pic.imageUrl" alt="">
+            <div class="grid-content" :style="{backgroundImage: `url(${pic.imageUrl})`}"></div>
+            <!-- <img :src="pic.imageUrl" alt=""> -->
           </div>
         </div>           
       </article>
@@ -69,7 +70,7 @@ export default {
 </script>
 <style lang="less">
 .article {
-  padding: 30px;
+  padding: 20px;
   word-wrap: break-word;
   background-color: #fff;
   h1 {
@@ -77,22 +78,32 @@ export default {
   }
 }
 .album-content {
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  // justify-content: flex-start;
+  // flex-wrap: wrap;
   padding-top: 20px;
+  padding-left: -10px;
+  padding-right: -10px;
   .item {
+    float: left;
     text-align: center;
     position: relative;
     width: 25%;
-    height: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
     overflow: hidden;
-    img {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+    .grid-content {
+      height: 200px;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: 0;
     }
+    // img {
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: 0;
+    // }
   }
 }
 </style>

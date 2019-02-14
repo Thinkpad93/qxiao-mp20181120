@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="cells-title">基础信息修改</div>
       <!-- 园长 -->
-      <template v-if="roleType === 1">
+      <template v-if="roleType == 1">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -45,7 +45,7 @@
         </div>          
       </template>
       <!-- 老师 -->
-      <template v-if="roleType === 2">
+      <template v-if="roleType == 2">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -71,7 +71,7 @@
         </div>        
       </template>
       <!-- 家长 -->
-      <template v-if="roleType === 3">
+      <template v-if="roleType == 3">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">

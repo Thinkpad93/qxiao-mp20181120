@@ -5,17 +5,17 @@
     </div>
     <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
-        <van-picker 
-          :columns="classList" 
-          show-toolbar 
-          value-key="className" 
-          @cancel="popupShow = false" 
-          @confirm="handleClassConfirm">
-        </van-picker>
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
       </van-popup>
       <template v-if="(roleType === 2) || (roleType === 3)">
         <router-link to="/community" class="release">
-          <img src="@/assets/image/release-icon.png" alt="">
+          <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
       <main class="main">
@@ -29,7 +29,7 @@
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
               <div class="cell-hd">
-                <img v-if="community.photo" :src="community.photo" alt="">
+                <img v-if="community.photo" :src="community.photo" alt>
               </div>
               <div class="cell-bd">
                 <h5 size-15>{{ community.name }}</h5>
@@ -38,9 +38,11 @@
                   <div class="img-group">
                     <div
                       class="item"
-                      :style="{backgroundImage: `url(${img.imageUrl})`}" 
-                      v-for="(img, index) in community.images" :key="index"
-                      @click="handlePreviewImage(index, community.images)"></div>
+                      :style="{backgroundImage: `url(${img.imageUrl})`}"
+                      v-for="(img, index) in community.images"
+                      :key="index"
+                      @click="handlePreviewImage(index, community.images)"
+                    ></div>
                   </div>
                 </template>
                 <div class="handle">
@@ -60,14 +62,18 @@
                   <template v-if="community.praiseList">
                     <div class="zan-list" size-12>
                       <i class="iconfont icon-zantong"></i>
-                      <span v-for="(praise, index) in community.praiseList" :key="index">{{ praise.studentName }}</span>
+                      <span
+                        v-for="(praise, index) in community.praiseList"
+                        :key="index"
+                      >{{ praise.studentName }}</span>
                     </div>
                   </template>
                   <template v-if="community.commentList">
                     <ul class="comment-list" size-12>
-                      <li v-for="(commen, index) in community.commentList" :key="index">
-                        {{ commen.studentName }}:{{ commen.textContent }}
-                      </li>
+                      <li
+                        v-for="(commen, index) in community.commentList"
+                        :key="index"
+                      >{{ commen.studentName }}:{{ commen.textContent }}</li>
                     </ul>
                   </template>
                 </div>
@@ -75,42 +81,64 @@
             </div>
           </div>
         </section>
-      </main>   
+      </main>
       <!-- 评论 -->
-      <van-dialog 
-        title="评论" 
-        v-model="dialogVisible" 
-        show-cancel-button 
-        @cancel="dialogVisible = false" 
-        :before-close="handleSubmit">
+      <van-dialog
+        title="评论"
+        v-model="dialogVisible"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
+      >
         <div class="comment-form">
-          <form ref="form" action="" method="post">
+          <form ref="form" action method="post">
             <div class="cells" style="padding:15px 0 15px 0;">
               <div class="cell">
                 <div class="cell-bd" style="padding-left:0">
-                  <textarea class="textarea" placeholder="请输入评论内容..." rows="6" v-model="form.textContent"></textarea>
+                  <textarea
+                    class="textarea"
+                    placeholder="请输入评论内容..."
+                    rows="6"
+                    v-model="form.textContent"
+                  ></textarea>
                 </div>
-              </div>            
+              </div>
             </div>
           </form>
         </div>
       </van-dialog>
     </div>
     <div class="page-ft">
-      <qxfooter></qxfooter>
-    </div>    
+      <!-- <qxfooter></qxfooter> -->
+      <footer class="footer">
+        <div class="item">
+          <router-link to="/home">
+            <i class="iconfont icon-shouyefill"></i>
+            <div>首页</div>
+          </router-link>
+        </div>
+        <div class="item">
+          <template>
+            <router-link to="/my">
+              <i class="iconfont icon-yonghufill"></i>
+              <div>我的</div>
+            </router-link>
+          </template>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 <script>
 import { ImagePreview } from "vant";
 import service from "@/api";
-import qxfooter from "@/components/footer";
+//import qxfooter from "@/components/footer";
 import qxmenu from "@/components/menu";
 import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
-    qxfooter,
+    //qxfooter,
     qxmenu
   },
   data() {

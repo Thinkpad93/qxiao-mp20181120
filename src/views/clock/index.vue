@@ -9,15 +9,14 @@
       </div>
     </div>
     <div class="page-bd">
-      <!-- -->
       <van-popup v-model="show" position="bottom">
         <van-datetime-picker
           ref="datetime"
           @cancel="show = false"
           @confirm="handleShowDatePicker"
-          v-model="currentDate" 
-          type="date">
-        </van-datetime-picker>
+          v-model="currentDate"
+          type="date"
+        ></van-datetime-picker>
       </van-popup>
       <div class="clock-table">
         <div class="cells">
@@ -31,32 +30,39 @@
       </div>
       <div class="clock-table">
         <div class="cells">
-          <div class="cell" v-for="(clock, index) in clockList" :key="index" @click="handleQueryClock(clock)">
+          <div
+            class="cell"
+            v-for="(clock, index) in clockList"
+            :key="index"
+            @click="handleQueryClock(clock)"
+          >
             <div class="cell-bd">
-              <p class="">{{ clock.className }}</p>
+              <p class>{{ clock.className }}</p>
             </div>
             <div class="cell-bd">
-              <p class="">{{ clock.classCount }}</p>
+              <p class>{{ clock.classCount }}</p>
             </div>
             <div class="cell-bd">
-              <p class="">{{ clock.clockCount }}</p>
+              <p class>{{ clock.clockCount }}</p>
             </div>
             <div class="cell-bd">
-              <van-circle 
-                v-model="clock.clockRate" 
+              <van-circle
+                v-model="clock.clockRate"
                 :rate="clock.clockRate"
                 color="#07c160"
                 layer-color="#ebedf0"
-                size="42px" :text="clock.clockRate.toFixed(0) + '%'">
-              </van-circle>
+                size="42px"
+                :text="clock.clockRate.toFixed(0) + '%'"
+              ></van-circle>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
+import moment from "moment";
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -68,24 +74,16 @@ export default {
       clockList: [],
       query: {
         openId: this.$store.getters.openId,
-        date: "2019-01-15"
+        date: moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD")
       }
     };
   },
   methods: {
     handleShowDatePicker(value) {
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      let d = date.getDate();
-      //添加补0操作
-      if (m >= 1 && m <= 9) {
-        m = "0" + m;
-      }
-      if (d >= 1 && d <= 9) {
-        d = "0" + d;
-      }
-      this.query.date = `${y}-${m}-${d}`;
+      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.query.date = now;
       this.clockStat(this.query);
     },
     handleQueryClock(clock) {

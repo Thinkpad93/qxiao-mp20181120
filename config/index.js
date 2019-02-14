@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://23ti245684.imwork.net/', //目标接口域名
+        target: 'http://23s662016z.imwork.net/', //目标接口域名
         changeOrigin: true, //是否跨域
         secure: true, //允许https请求
         pathRewrite: {

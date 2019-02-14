@@ -9,7 +9,7 @@
           </div>
           <div class="article-cell">
             <!-- <p>刘家明(园长)</p> -->
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>            
+            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
           </div>
         </div>
         <section size-16 class="article-content">
@@ -18,7 +18,7 @@
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>          
+          </template>
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
@@ -29,8 +29,16 @@
         <div class="tab-warp">
           <div class="tab">
             <div class="tab-head">
-              <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
-              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unReadCount }})</a>
+              <a
+                href="javascript:void(0);"
+                :class="[ readFlag === 0 ? 'curr': '' ]"
+                @click="handleTabClick(0)"
+              >已读({{ readCount }})</a>
+              <a
+                href="javascript:void(0);"
+                :class="[ readFlag === 1 ? 'curr': '' ]"
+                @click="handleTabClick(1)"
+              >未读({{ unReadCount }})</a>
             </div>
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
@@ -39,7 +47,7 @@
                     <img :src="read.photo" :alt="read.studentName">
                   </div>
                   <div class="cell-bd">
-                    <p class="">
+                    <p class>
                       {{ read.studentName }}
                       <template v-if="read.relation === 1">(妈妈)</template>
                       <template v-else-if="read.relation === 2">(爸爸)</template>
@@ -47,21 +55,22 @@
                       <template v-else-if="read.relation === 4">(奶奶)</template>
                       <template v-else-if="read.relation === 5">(外公)</template>
                       <template v-else>(外婆)</template>
-                    </p>                    
+                    </p>
                   </div>
                   <div class="cell-ft">
                     <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>                    
+                    <span v-else style="color:#92cd36">已确认通知</span>
                   </div>
                 </div>
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
                 <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                   <div class="cell-hd">
-                    <img :src="unread.photo" :alt="unread.studentName">
-                  </div>                  
+                    <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
+                    <div class="icon-d" v-else></div>
+                  </div>
                   <div class="cell-bd">
-                    <p class="">
+                    <p class>
                       {{ unread.studentName }}
                       <template v-if="unread.relation === 1">(妈妈)</template>
                       <template v-else-if="unread.relation === 2">(爸爸)</template>
@@ -74,7 +83,7 @@
                   <div class="cell-ft">
                     <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
                     <span v-else style="color:#92cd36">已确认通知</span>
-                  </div>                  
+                  </div>
                 </div>
               </div>
             </div>
@@ -84,16 +93,16 @@
       <template v-else>
         <p class="_plac"></p>
         <section class="_confirm">
-          <a 
-            :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]" 
-            href="javascript:void(0);" class="btn" 
-            @click="handleConfirmFlag">
-            {{ info.confirmFlag ? '已确认':'确认通知' }}
-          </a>
+          <a
+            :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
+            href="javascript:void(0);"
+            class="btn"
+            @click="handleConfirmFlag"
+          >{{ info.confirmFlag ? '已确认':'确认通知' }}</a>
         </section>
       </template>
-    </div>  
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -179,7 +188,7 @@ export default {
   word-wrap: break-word;
   background-color: #fff;
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 .article-head {
@@ -260,6 +269,12 @@ export default {
       }
     }
   }
+}
+.icon-d {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
 }
 ._plac {
   height: 130px;

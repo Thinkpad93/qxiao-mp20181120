@@ -3,7 +3,7 @@ import App from './App';
 import store from './store';
 import router from './router';
 import Cookies from "js-cookie";
-import weui from 'weui.js';
+//import weui from 'weui.js';
 
 import {
   Dialog,
@@ -17,7 +17,7 @@ import {
 
 import './assets/iconfont/iconfont.css';
 
-Vue.prototype.$weui = weui; //weUI
+//Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 

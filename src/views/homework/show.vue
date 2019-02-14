@@ -172,7 +172,7 @@ export default {
   word-wrap: break-word;
   background-color: #fff;
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 .article-content {

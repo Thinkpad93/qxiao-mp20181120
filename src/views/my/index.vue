@@ -227,20 +227,36 @@
       </template>
     </div>
     <div class="page-ft">
-      <qxfooter></qxfooter>
+      <!-- <qxfooter></qxfooter> -->
+      <footer class="footer">
+        <div class="item">
+          <router-link to="/home">
+            <i class="iconfont icon-shouyefill"></i>
+            <div>首页</div>
+          </router-link>
+        </div>
+        <div class="item">
+          <template>
+            <router-link to="/my">
+              <i class="iconfont icon-yonghufill"></i>
+              <div>我的</div>
+            </router-link>
+          </template>
+        </div>
+      </footer>         
     </div>
   </div>  
 </template>
 <script>
 import service from "@/api";
-import qxfooter from "@/components/footer";
+//import qxfooter from "@/components/footer";
 import { schoolType, sex } from "@/mixins/type";
 import { mapGetters } from "vuex";
 export default {
   name: "my",
   mixins: [schoolType, sex],
   components: {
-    qxfooter
+    //qxfooter
   },
   data() {
     return {

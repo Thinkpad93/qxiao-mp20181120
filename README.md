@@ -96,11 +96,11 @@ wx.previewImage({
 - 班级圈点赞和评论成功后，刷新问题
 - 公告通知，通知消息和发送记录切换后，数据查询问题
 
-
-
 ## git 分支命名
 
 - Develop
 - Release
 - Hotfix
 - Master
+
+> C:\windows\system32\cmd.exe

@@ -23,33 +23,43 @@
           <div class="table-body">
             <div class="tr">
               <div class="td" v-for="(item, index) in shuttleData" :key="index">
-                <div class="">
-                  <span>{{ item.studentName }}</span>
+                <div>
+                  <img :src="item.photo">
+                  <div class>
+                    <span>{{ item.studentName }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="cells">
-          <div class="cell" v-for="(item, index) in 2" :key="index">
-            <div class="cell-bd">
-              <p class="cell-p">刘备已打卡</p>
+        <div class="cells" style="margin-top:15px;">
+          <div class="cell" v-for="(item, index) in classClockData" :key="index">
+            <div class="cell-hd">
+              <label for class="label">
+                {{ item.studentName }}
+                <template v-if="item.clockFlag">已打卡</template>
+                <template v-else>未打卡</template>
+              </label>
             </div>
-            <div class="cell-ft">16:40:20</div>
+            <div class="cell-bd">
+              <p class="cell-p">{{ item.postTime }}</p>
+            </div>
           </div>
         </div>
       </template>
       <template v-else>
         <!-- 空提示 -->
         <div class="empty">
-          <img src="@/assets/image/kong.png" alt="">
+          <img src="@/assets/image/kong.png" alt>
           <p size-17>功能开发中</p>
-        </div>              
+        </div>
       </template>
-    </div> 
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
+import moment from "moment"; //
 import service from "@/api";
 import { mapGetters } from "vuex";
 export default {
@@ -59,20 +69,31 @@ export default {
       query: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
-        date: "2019-01-16"
+        date: moment().format("YYYY-MM-DD")
       },
-      shuttleData: []
+      shuttleData: [],
+      classClockData: []
     };
   },
   methods: {
+    //实时接送接口
     async realShuttle(params = {}) {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
-        this.shuttleList = res.data;
+        this.shuttleData = res.data;
+      }
+    },
+    //查询班级当天打卡记录
+    async classClockQuery() {
+      let { openId, classId } = this.query;
+      let res = await service.classClockQuery({ openId, classId });
+      if (res.errorCode === 0) {
+        this.classClockData = res.data;
       }
     }
   },
   activated() {
+    this.classClockQuery();
     this.realShuttle(this.query);
   }
 };
@@ -103,25 +124,19 @@ export default {
 }
 .table-body {
   .td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 25%;
     height: 200px;
     position: relative;
+    text-align: center;
     background-color: #8d8d8d;
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      border-right: 1px solid #e5e5e5;
-      color: #e5e5e5;
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
-      -webkit-transform: scaleY(0.5);
-      transform: scaleY(0.5);
-      z-index: 2;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 20px;
     }
   }
 }

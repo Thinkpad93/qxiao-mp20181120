@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     handleEditStudent(student) {
-      let { tel } = student;
       this.$router.push({
         path: `/student/edit`,
         query: { tel: student.tel }
