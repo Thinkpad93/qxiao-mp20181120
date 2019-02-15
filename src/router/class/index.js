@@ -2,7 +2,7 @@ export default [{
     path: '/class',
     component: () => import('@/views/class'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       title: '班级管理',
       roles: [1]
     },

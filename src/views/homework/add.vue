@@ -1,59 +1,76 @@
 <template>
   <div class="pages">
     <div class="page-bd">
-      <form action="" ref="form" method="post">
+      <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入作业标题" v-model="form.title" maxlength="20" style="text-align:left;">
+              <input
+                class="input"
+                placeholder="请输入作业标题"
+                v-model="form.title"
+                maxlength="20"
+                style="text-align:left;"
+              >
             </div>
-          </div> 
+          </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" rows="6" v-model="form.textContent"></textarea>
+              <textarea
+                class="textarea"
+                rows="6"
+                placeholder="请输入作业内容..."
+                v-model="form.textContent"
+              ></textarea>
             </div>
-          </div>  
+          </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
-                <li class="uploader-file" 
-                  v-for="(file, index) in imagesList" 
+                <li
+                  class="uploader-file"
+                  v-for="(file, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}">
+                  :style="{backgroundImage: `url(${file})`}"
+                >
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
-          </div>           
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">发送班级</label>
-            </div>  
+              <label for class="label">发送班级</label>
+            </div>
             <div class="cell-bd">
               <select class="select" name="select" dir="rtl" v-model="selected" multiple size="1">
                 <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
-                <option :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
+                <option
+                  :value="option.classId"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.className }}</option>
               </select>
-            </div>                      
-          </div>             
+            </div>
+          </div>
           <div class="cell cell-switch">
             <div class="cell-bd" style="padding-left:0">
-              <label for="" class="label">是否需要确定</label>
-            </div>   
+              <label for class="label">是否需要确定</label>
+            </div>
             <div class="cell-ft">
               <input type="checkbox" v-model="needSwitch" class="weui-switch">
-            </div>         
-          </div>                              
+            </div>
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
       <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
-    </div>        
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";

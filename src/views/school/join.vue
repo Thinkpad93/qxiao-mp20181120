@@ -1,21 +1,20 @@
 <template>
-  <div class="page page-join">
-    <div class="page-hd" style="background-color: transparent;">
-      <template>
+  <div class="page">
+    <div class="page-bd">
+      <div class="cover">
+        <img src="@/assets/image/login-bg@2x.png" alt>
+      </div>
+      <form action ref="form" class="form">
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
             {{ info.schoolName }}
             <small>(ID码: {{ info.schoolCode }})</small>
           </h2>
           <div class="address flex text-ellipsis">
-            <img src="@/assets/image/map.png" alt="">
+            <img src="@/assets/image/map.png" alt>
             <span>{{ info.location }}</span>
-          </div>   
-        </div>     
-      </template>
-    </div>
-    <div class="page-bd">
-      <template>
+          </div>
+        </div>
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -27,29 +26,40 @@
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
+              <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="info.sex">
-                <option :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="info.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div> 
+          </div>
           <div class="cell">
             <div class="cell-hd">
               <label class="label">手机号码</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" readonly v-model="info.tel">
+              <input
+                type="number"
+                class="input"
+                pattern="[0-9]*"
+                placeholder="请输入手机号"
+                readonly
+                v-model="info.tel"
+              >
             </div>
-          </div>  
+          </div>
         </div>
-      </template>
+        <div class="btn-area">
+          <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
+        </div>
+      </form>
     </div>
-    <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
-    </div>      
-  </div>  
+  </div>
 </template>
 <script>
 import Cookies from "js-cookie";
@@ -107,16 +117,26 @@ export default {
 };
 </script>
 <style lang="less">
-.page-join {
-  background-image: url("../../../static/image/login-bg@2x.png");
-  background-repeat: no-repeat;
-  background-size: 100%;
+.cover {
+  height: 100vh;
+  padding-bottom: 100%;
+  overflow: hidden;
+  position: relative;
+  img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+.form {
   z-index: 10;
+  width: 100%;
+  overflow: hidden;
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
 }
 .join-head {
   padding-top: 75px;

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <form action="" ref="form">
+      <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -10,54 +10,76 @@
             </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入学生姓名" maxlength="10" v-model="form.studentName">
-            </div>            
-          </div> 
+            </div>
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
+              <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="form.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div>   
+          </div>
+          <div class="cell cell-select cell-select-after">
+            <div class="cell-hd">
+              <label for class="label">学生所在班级</label>
+            </div>
+            <div class="cell-bd">
+              <select class="select" name dir="rtl" v-model="form.classId">
+                <option
+                  :value="option.value"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.label }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="cells-title">家长关联</div>
+        <div class="cells">
           <div class="cell">
             <div class="cell-hd">
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel" readonly disabled>
+              <input
+                class="input"
+                pattern="[0-9]*"
+                placeholder="请输入手机号"
+                v-model="form.tel"
+                readonly
+                disabled
+              >
             </div>
-          </div>  
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">学生和家长关系</label>
+              <label for class="label">学生和家长关系</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.relation">
-                <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
-              </select>              
-            </div>
-          </div> 
-          <div class="cell cell-select cell-select-after">
-            <div class="cell-hd">
-              <label for="" class="label">学生所在班级</label>
-            </div>
-            <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option  :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
+              <select class="select" name dir="rtl" v-model="form.relation">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in relationList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div>                    
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area flex">
       <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
       <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
-    </div>     
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";

@@ -3,11 +3,10 @@
     <!-- 发送的班级和老师 -->
     <div class="panel" style="z-index: 999" :class="{'panel-on': isActive}">
       <div class="panel-hd">
-        <div class="panel-tab">
-          <a href="javascript:void(0);" :class="[tabIndex === 0 ? 'curr': '']" @click="handleTabClick(0)">老师</a>
-          <a href="javascript:void(0);" :class="[tabIndex === 1 ? 'curr': '']" @click="handleTabClick(1)">班级</a>
-          <a href="javascript:void(0);" :class="[tabIndex === 2 ? 'curr': '']" @click="handleTabClick(2)">老师和班级</a>
-        </div>
+        <van-tabs color="#92cd36" :line-height="2" @click="handleTabClick">
+          <van-tab title="老师"></van-tab>
+          <van-tab title="班级"></van-tab>
+        </van-tabs>
       </div>
       <div class="panel-bd">
         <!-- 老师列表 -->
@@ -15,28 +14,40 @@
           <div class="cells weui-cells_checkbox">
             <label class="cell item weui-check__label" v-for="(t,i) in teacherList" :key="i">
               <div class="cell-hd">
-                <img class="teacher-icon" src="http://iph.href.lu/50x50" alt="">
+                <img class="teacher-icon" src="http://iph.href.lu/50x50" alt>
               </div>
               <div class="cell-bd">
                 <p>{{ t.teacherName }}</p>
               </div>
               <div class="cell-ft">
-                <input type="checkbox" class="weui-check" name="checkbox1" v-model="teacherCheckList" :value="t.teacherId">
+                <input
+                  type="checkbox"
+                  class="weui-check"
+                  name="checkbox1"
+                  v-model="teacherCheckList"
+                  :value="t.teacherId"
+                >
                 <i class="weui-icon-checked"></i>
               </div>
             </label>
-          </div>          
+          </div>
         </div>
         <!-- 班级列表 -->
         <div class="panel-bd_cell" :style="{display: tabIndex === 1 ? 'block':'none'}">
           <div class="cells weui-cells_checkbox">
             <label class="cell class-box weui-check__label" v-for="(c,i) in classList" :key="i">
               <div class="cell-hd"></div>
-              <div class="cell-bd">
+              <div class="cell-bd" style="padding-left:0">
                 <p>{{ c.className }}</p>
               </div>
               <div class="cell-ft">
-                <input type="checkbox" class="weui-check" name="checkbox1" v-model="classChenkList" :value="c.classId">
+                <input
+                  type="checkbox"
+                  class="weui-check"
+                  name="checkbox1"
+                  v-model="classChenkList"
+                  :value="c.classId"
+                >
                 <i class="weui-icon-checked"></i>
               </div>
             </label>
@@ -47,93 +58,133 @@
         <div class="tabbar weui-cells_checkbox">
           <label id="handle" class="weui-check__label">
             <div class="cell-hd">
-              <input type="checkbox" class="weui-check" name="checkedAll" v-model="checked" @click="handleCheckAll">
+              <input
+                type="checkbox"
+                class="weui-check"
+                name="checkedAll"
+                v-model="checked"
+                @click="handleCheckAll"
+              >
               <i class="weui-icon-checked"></i>
             </div>
             <div class="cell-bd">
               <p>全选</p>
             </div>
           </label>
-          <!-- <a href="javascript:void(0);" @click="isActive = false">取消</a> -->
           <a href="javascript:void(0);" id="publish" @click="handleSave">确定</a>
-        </div>        
+        </div>
       </div>
-    </div>    
+    </div>
     <div class="page-bd">
-      <form id="form" action="" ref="form" method="post">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-datetime-picker
+          ref="datetime"
+          @cancel="popupShow = false"
+          @confirm="handleShowDatePicker"
+          v-model="currentDate"
+          type="date"
+        ></van-datetime-picker>
+      </van-popup>
+      <form id="form" action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入通知标题" v-model="form.title" maxlength="30" style="text-align:left;">
+              <input
+                class="input"
+                placeholder="请输入通知标题"
+                v-model="form.title"
+                maxlength="30"
+                style="text-align:left;"
+              >
             </div>
           </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="6" v-model="form.textContent" maxlength="1000"></textarea>
+              <textarea
+                class="textarea"
+                placeholder="请输入公告通知内容..."
+                rows="6"
+                v-model="form.textContent"
+                maxlength="1000"
+              ></textarea>
             </div>
-          </div>          
+          </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
-                <li class="uploader-file" 
-                  v-for="(file, index) in imagesList" 
+                <li
+                  class="uploader-file"
+                  v-for="(file, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}">
+                  :style="{backgroundImage: `url(${file})`}"
+                >
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
-          </div>      
+          </div>
           <div class="cell cell-input cell-input-after">
             <div class="cell-hd">
-              <label for="" class="label">发送对象</label>
-            </div>  
+              <label for class="label">发送对象</label>
+            </div>
             <div class="cell-bd">
-              <p class="cell-p" @click="handleChangeSenders">请选择发送对象</p>
-            </div>                      
-          </div>      
+              <p class="cell-p" @click="handleChangeSenders">
+                <span v-if="checkTotal">已选择{{ checkTotal }}项</span>
+                <span v-else>请选择发送对象</span>
+              </p>
+            </div>
+          </div>
           <div class="cell cell-switch">
             <div class="cell-bd" style="padding-left:0">
-              <label for="" class="label">是否需要确定</label>
-            </div>   
+              <label for class="label">是否需要确定</label>
+            </div>
             <div class="cell-ft">
               <input type="checkbox" v-model="form.needConfirm" class="weui-switch">
-            </div>         
-          </div>   
+            </div>
+          </div>
           <div class="cell cell-switch">
             <div class="cell-bd" style="padding-left:0">
-              <label for="" class="label">是否定时发送</label>
-            </div>   
+              <label for class="label">是否定时发送</label>
+            </div>
             <div class="cell-ft">
               <input type="checkbox" v-model="form.clockType" class="weui-switch">
-            </div>         
-          </div>    
+            </div>
+          </div>
           <template v-if="form.clockType">
             <div class="cell">
               <div class="cell-hd">
-                <label for="" class="label">定时发送时间</label>
+                <label for class="label">定时发送时间</label>
               </div>
               <div class="cell-bd">
-                <input class="input" placeholder="请选择发送时间" readonly v-model="form.clockTime" @click="handleShowDatePicker">
+                <input
+                  class="input"
+                  placeholder="请选择发送时间"
+                  readonly
+                  v-model="form.clockTime"
+                  @click="popupShow = true"
+                >
               </div>
-            </div>  
-          </template>                            
+            </div>
+          </template>
         </div>
       </form>
-    </div> 
+    </div>
     <div class="btn-area">
       <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
-    </div>      
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
+import moment from "moment";
 import service from "@/api";
 export default {
   namae: "noticeAdd",
   data() {
     return {
+      popupShow: false,
+      currentDate: new Date(),
       serverId: [], //微信图片ID
       tabIndex: 0,
       isActive: false,
@@ -157,7 +208,19 @@ export default {
       }
     };
   },
+  computed: {
+    checkTotal() {
+      return this.form.sendType === 2
+        ? this.teacherCheckList.length
+        : this.classChenkList.length;
+    }
+  },
   methods: {
+    handleShowDatePicker(value) {
+      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.clockTime = now;
+      this.popupShow = false;
+    },
     //选图
     handleChooseImage() {
       wx.chooseImage({
@@ -251,19 +314,6 @@ export default {
     //选择发送对象
     handleChangeSenders() {
       this.isActive = true;
-    },
-    //选择定时发送时间
-    handleShowDatePicker() {
-      this.$weui.datePicker({
-        start: 1990,
-        end: new Date().getFullYear(),
-        onConfirm: result => {
-          let year = result[0].label;
-          let moth = result[1].label;
-          let day = result[2].label;
-          this.form.clockTime = `${year}${moth}${day}`;
-        }
-      });
     },
     handleCheckAll() {
       let { sendType } = this.form;
@@ -460,37 +510,9 @@ export default {
 .panel-ft {
   height: 100px;
 }
-.panel-tab {
-  display: flex;
-  font-size: 32px;
-  background-color: #fff;
-  a {
-    color: #d7d7d7;
-    height: 100px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .curr {
-    color: #92cd36;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      display: block;
-      width: 50%;
-      height: 4px;
-      background-color: #92cd36;
-      transform: translateX(-50%);
-    }
-  }
-}
 .teacher-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 .tabbar {

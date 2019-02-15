@@ -1,71 +1,99 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- 开始时间选择 -->   
+      <!-- 开始时间选择 -->
       <van-popup v-model="startTimeShow" position="bottom">
         <van-datetime-picker
           @cancel="startTimeShow = false"
           @confirm="handleConfirmStartTime"
-          v-model="startDate" 
-          type="date">
-        </van-datetime-picker>
+          v-model="startDate"
+          type="date"
+        ></van-datetime-picker>
       </van-popup>
       <!-- 结束时间选择 -->
       <van-popup v-model="endTimeShow" position="bottom">
         <van-datetime-picker
           @cancel="endTimeShow = false"
           @confirm="handleConfirmEndTime"
-          v-model="endDate" 
-          type="date">
-        </van-datetime-picker>
-      </van-popup>            
-      <form id="form" action="" ref="form" method="post">
+          v-model="endDate"
+          type="date"
+        ></van-datetime-picker>
+      </van-popup>
+      <form id="form" action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">起始日期</div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请选择起始日期" @click="startTimeShow = true" v-model="form.startDate" readonly maxlength="20">
+              <input
+                class="input"
+                placeholder="请选择起始日期"
+                @click="startTimeShow = true"
+                v-model="form.startDate"
+                readonly
+                maxlength="20"
+              >
             </div>
           </div>
           <div class="cell">
             <div class="cell-hd">结束日期</div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请选择结束日期" @click="endTimeShow = true" v-model="form.endDate" readonly maxlength="20">
+              <input
+                class="input"
+                placeholder="请选择结束日期"
+                @click="endTimeShow = true"
+                v-model="form.endDate"
+                readonly
+                maxlength="20"
+              >
             </div>
-          </div> 
+          </div>
           <div class="cell">
             <div class="cell-hd"></div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入食谱标题" v-model="form.title" maxlength="30" style="text-align:left;">
+              <input
+                class="input"
+                placeholder="请输入食谱标题"
+                v-model="form.title"
+                maxlength="30"
+                style="text-align:left;"
+              >
             </div>
-          </div>           
+          </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" rows="6" v-model="form.textContent" placeholder="请输入食谱内容..."></textarea>
+              <textarea
+                class="textarea"
+                rows="6"
+                v-model="form.textContent"
+                placeholder="请输入食谱内容..."
+              ></textarea>
             </div>
-          </div>  
+          </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
-                <li class="uploader-file" 
-                  v-for="(file, index) in imagesList" 
+                <li
+                  class="uploader-file"
+                  v-for="(file, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}">
+                  :style="{backgroundImage: `url(${file})`}"
+                >
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
-          </div>                                
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
       <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
-    </div>      
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
+import moment from "moment";
 import service from "@/api";
 export default {
   name: "recipeAdd",
@@ -88,27 +116,16 @@ export default {
     };
   },
   methods: {
-    //添加补0操作
-    fill: function(i) {
-      if (i >= 1 && i <= 9) {
-        i = "0" + i;
-      }
-      return i;
-    },
     //选择开始时间
     handleConfirmStartTime(value) {
-      let year = value.getFullYear();
-      let mouth = this.fill(value.getMonth() + 1); //月
-      let day = this.fill(value.getDate()); //日
-      this.form.startDate = `${year}-${mouth}-${day}`;
+      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.startDate = now;
       this.startTimeShow = false;
     },
     //选择结束时间
     handleConfirmEndTime(value) {
-      let year = value.getFullYear();
-      let mouth = this.fill(value.getMonth() + 1); //月
-      let day = this.fill(value.getDate()); //日
-      this.form.endDate = `${year}-${mouth}-${day}`;
+      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.endDate = now;
       this.endTimeShow = false;
     },
     //选图
@@ -204,7 +221,7 @@ export default {
         this.$toast("请输入食谱标题");
         return;
       }
-      if (textContent === "") {
+      if (textContent === "" && !this.serverId.length) {
         this.$toast("请输入食谱内容");
         return;
       }

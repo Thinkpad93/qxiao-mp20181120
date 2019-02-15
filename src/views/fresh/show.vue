@@ -184,7 +184,7 @@ export default {
     .cell {
       padding-top: 20px;
       padding-bottom: 20px;
-      align-items: flex-start;
+      align-items: center;
     }
     p {
       margin-top: 10px;

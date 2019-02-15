@@ -3,9 +3,9 @@ import App from './App';
 import store from './store';
 import router from './router';
 import Cookies from "js-cookie";
-//import weui from 'weui.js';
 
 import {
+  Notify,
   Dialog,
   Popup,
   Picker,
@@ -17,11 +17,10 @@ import {
 
 import './assets/iconfont/iconfont.css';
 
-//Vue.prototype.$weui = weui; //weUI
 
 Vue.config.productionTip = false;
 
-Vue.use(Dialog).use(Tab).use(Tabs).use(Circle).use(Popup).use(Picker).use(DatetimePicker);
+Vue.use(Notify).use(Dialog).use(Tab).use(Tabs).use(Circle).use(Popup).use(Picker).use(DatetimePicker);
 
 
 router.beforeEach((to, from, next) => {

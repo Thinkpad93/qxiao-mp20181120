@@ -3,32 +3,40 @@
     <div class="page-bd">
       <template v-if="roleType == 2">
         <a href="javascript:;" class="release" @click="handleBlumAdd">
-          <img src="@/assets/image/release-icon.png" alt="">
+          <img src="@/assets/image/release-icon.png" alt>
         </a>
-      </template>      
-      <van-dialog 
-        v-model="dialogVisible" 
-        title="相册名称" 
-        show-cancel-button 
-        @cancel="dialogVisible = false" 
-        :before-close="handleSubmit">
+      </template>
+      <van-dialog
+        v-model="dialogVisible"
+        title="相册名称"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
+      >
         <div class="cells" style="padding:15px 0 15px 0;">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入相册名称" maxlength="10" v-model="title" style="text-align:left;">
+              <input
+                class="input"
+                placeholder="请输入相册名称"
+                maxlength="10"
+                v-model="title"
+                style="text-align:left;"
+              >
             </div>
           </div>
         </div>
       </van-dialog>
-      <!-- -->
       <div class="album-show">
-        <div class="album-channel flex" 
-          v-for="(channel, index) in albumChannel" 
+        <div
+          class="album-channel flex"
+          v-for="(channel, index) in albumChannel"
           :key="index"
-          @click="handleGo(channel.channelId)">
+          @click="handleGo(channel.channelId)"
+        >
           <div class="album-thumb">
-            <img v-if="channel.image" :src="channel.image" alt="">
-            <img v-else src="@/assets/image/kong.png" alt="">
+            <img v-if="channel.image" :src="channel.image" alt>
+            <img v-else src="@/assets/image/kong.png" alt>
           </div>
           <div class="album-box">
             <p size-15>{{ channel.title }}</p>
@@ -40,13 +48,13 @@
           </div>
         </div>
       </div>
-    </div>  
+    </div>
     <template v-if="roleType == 2">
       <section class="_confirm">
         <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
       </section>
     </template>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";

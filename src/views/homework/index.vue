@@ -1,7 +1,7 @@
 
 <template>
   <div class="page">
-    <template v-if="roleType === 1 || roleType === 2">
+    <template v-if="roleType == 1 || roleType == 2">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" @click="popupShow = true">
@@ -22,7 +22,7 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <template v-if="roleType === 2">
+      <template v-if="roleType == 2">
         <router-link to="/homework/add" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>

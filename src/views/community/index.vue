@@ -1,44 +1,55 @@
 <template>
   <div class="page">
     <div class="page-bd" style="background-color:#fff;">
-      <form action="" ref="form" method="post">
+      <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
-              <textarea class="textarea" placeholder="记录下孩子的成长点滴~" rows="10" v-model="form.textContent"></textarea>
+              <textarea
+                class="textarea"
+                placeholder="记录下孩子的成长点滴..."
+                rows="10"
+                v-model="form.textContent"
+              ></textarea>
             </div>
           </div>
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
-                <li class="uploader-file" 
+                <li
+                  class="uploader-file"
                   @click="handlePreviewImage(item)"
-                  v-for="(item, index) in imagesList" 
+                  v-for="(item, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${item})`}">
+                  :style="{backgroundImage: `url(${item})`}"
+                >
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
-          </div>         
+          </div>
           <div class="cell cell-input cell-input-after">
             <div class="cell-hd">
-              <label for="" class="label">发送班级</label>
-            </div>  
+              <label for class="label">发送班级</label>
+            </div>
             <div class="cell-bd" style="padding-left:0">
               <select class="select" name="select" dir="rtl" v-model="form.classId">
-                <option :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>                
+                <option
+                  :value="option.classId"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.className }}</option>
               </select>
-            </div>                      
+            </div>
           </div>
         </div>
       </form>
-    </div>  
+    </div>
     <div class="btn-area">
       <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
-    </div>      
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <form action="" ref="form">
+      <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -10,53 +10,74 @@
             </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入学生姓名" maxlength="10" v-model="form.studentName">
-            </div>            
+            </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
+              <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="form.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div>   
+          </div>
+          <div class="cell cell-select cell-select-after">
+            <div class="cell-hd">
+              <label for class="label">学生所在班级</label>
+            </div>
+            <div class="cell-bd">
+              <select class="select" name dir="rtl" v-model="form.classId">
+                <option
+                  :value="option.classId"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.className }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="cells-title">家长关联</div>
+        <div class="cells">
           <div class="cell">
             <div class="cell-hd">
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input
+                type="number"
+                class="input"
+                pattern="[0-9]*"
+                placeholder="请输入手机号"
+                v-model="form.tel"
+              >
             </div>
-          </div>  
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">学生和家长关系</label>
+              <label for class="label">学生和家长关系</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.relation">
-                <option  :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="form.relation">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in relationList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div> 
-          <div class="cell cell-select cell-select-after">
-            <div class="cell-hd">
-              <label for="" class="label">学生所在班级</label>
-            </div>
-            <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.classId">
-                <option :value="option.value" v-for="(option,index) in classList" :key="index">{{ option.label }}</option>
-              </select>
-            </div>
-          </div>                                        
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
       <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">提交</a>
-    </div>   
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -84,9 +105,13 @@ export default {
   },
   methods: {
     handleSubmit() {
-      let { studentName, tel } = this.form;
+      let { studentName, tel, classId } = this.form;
       if (studentName == "" || !studentName.length) {
         this.$toast("请输入学生姓名");
+        return false;
+      }
+      if (!classId) {
+        this.$toast("请选择学生所在班级");
         return false;
       }
       if (isPhone(tel)) {
@@ -100,13 +125,7 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
+        this.classList = res.data;
       }
     },
     //学生新增
@@ -115,6 +134,8 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$router.go(-1);
+      } else if (res.errorCode === -1) {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },
