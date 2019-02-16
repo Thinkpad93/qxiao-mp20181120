@@ -8,27 +8,35 @@
             <span style="color:#8d8d8d;">{{ info.schoolName }}</span>
           </div>
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>    
+            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
           </div>
-        </div>    
+        </div>
         <section size-16 class="article-content">
-          <p>{{ info.textContent }}</p>     
+          <p>{{ info.textContent }}</p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">
             </p>
-          </template>               
+          </template>
         </section>
         <div class="class flex" style="color:#8d8d8d;">
           <span class="read">{{ info.classReadCount }}人阅读</span>
-        </div>                    
+        </div>
       </article>
       <template v-if="roleType == 1 || roleType == 2">
         <div class="tab-warp">
           <div class="tab">
             <div class="tab-head">
-              <a href="javascript:void(0);" :class="[ readFlag === 0 ? 'curr': '' ]" @click="handleTabClick(0)">已读({{ readCount }})</a>
-              <a href="javascript:void(0);" :class="[ readFlag === 1 ? 'curr': '' ]" @click="handleTabClick(1)">未读({{ unReadCount }})</a>
+              <a
+                href="javascript:void(0);"
+                :class="[ readFlag === 0 ? 'curr': '' ]"
+                @click="handleTabClick(0)"
+              >已读({{ readCount }})</a>
+              <a
+                href="javascript:void(0);"
+                :class="[ readFlag === 1 ? 'curr': '' ]"
+                @click="handleTabClick(1)"
+              >未读({{ unReadCount }})</a>
             </div>
             <div class="tab-content">
               <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
@@ -37,7 +45,7 @@
                     <img :src="read.photo" :alt="read.studentName">
                   </div>
                   <div class="cell-bd">
-                    <p class="">
+                    <p class>
                       {{ read.studentName }}
                       <template v-if="read.relation === 1">(妈妈)</template>
                       <template v-else-if="read.relation === 2">(爸爸)</template>
@@ -57,9 +65,9 @@
                 <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                   <div class="cell-hd">
                     <img :src="unread.photo" :alt="unread.studentName">
-                  </div>                  
+                  </div>
                   <div class="cell-bd">
-                    <p class="">
+                    <p class>
                       {{ unread.studentName }}
                       <template v-if="unread.relation === 1">(妈妈)</template>
                       <template v-else-if="unread.relation === 2">(爸爸)</template>
@@ -76,20 +84,25 @@
                 </div>
               </div>
             </div>
-          </div>        
+          </div>
         </div>
-      </template>  
-      <template v-else>
-        <p class="_plac"></p>
-        <section class="_confirm">
-          <a :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]" href="javascript:void(0);" 
-          class="btn" @click="handleConfirmFlag">
-            {{ info.confirmFlag ? '已确定':'确定' }}
-          </a>
-        </section>
       </template>
-    </div>  
-  </div>  
+      <template v-else>
+        <!-- 确认标志 0-无需确认 1-需要确认 -->
+        <template v-if="needConfirm">
+          <p class="_plac"></p>
+          <section class="_confirm">
+            <a
+              :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
+              href="javascript:void(0);"
+              class="btn"
+              @click="handleConfirmFlag"
+            >{{ info.confirmFlag ? '已确定':'确定' }}</a>
+          </section>
+        </template>
+      </template>
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -104,6 +117,7 @@ export default {
         classId: this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      needConfirm: this.$route.query.needConfirm,
       info: {},
       readList: [],
       unreadList: [],
@@ -130,7 +144,7 @@ export default {
         if (res.errorCode === 0) {
           //确认成功后设置为1
           this.info.confirmFlag = 1;
-          this.$weui.alert("作业确认成功", () => {}, { title: "提示" });
+          this.$toast("作业确认成功");
         }
       }
     },
@@ -236,22 +250,6 @@ export default {
         transform: translateX(-50%);
       }
     }
-  }
-}
-._plac {
-  height: 130px;
-}
-._confirm {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 11;
-  padding: 20px 0;
-  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  > a {
-    width: 200px;
   }
 }
 </style>

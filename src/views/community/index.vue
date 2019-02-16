@@ -47,7 +47,7 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
+      <a href="javascript:;" class="btn btn-large btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
     </div>
   </div>
 </template>

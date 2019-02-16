@@ -12,15 +12,20 @@
     <div class="page-bd">
       <div class="cells-title">学生家长列表({{ studentList.length }})</div>
       <div class="cells">
-        <div class="cell student-box" v-for="(student, index) in studentList" :key="index" @click="handleEditStudent(student)">
+        <div
+          class="cell student-box"
+          v-for="(student, index) in studentList"
+          :key="index"
+          @click="handleEditStudent(student)"
+        >
           <div class="cell-hd">
             <template v-if="student.photo">
-              <img class="student-icon" :src="student.photo" alt="">
+              <img class="student-icon" :src="student.photo" alt>
             </template>
             <template v-else>
               <div class="icon-d"></div>
             </template>
-          </div>  
+          </div>
           <div class="cell-bd">
             <p>
               {{ student.studentName }}
@@ -32,21 +37,26 @@
                 <span v-else-if="student.relation === 5">(外公)</span>
                 <span v-else>(外婆)</span>
               </template>
-              <span size-14 v-if="!student.openId" @click.stop="handleShare" style="color: rgb(64, 158, 255);margin-left:10px;">微信邀请</span>
+              <span
+                size-14
+                v-if="!student.openId"
+                @click.stop="handleShare"
+                style="color: rgb(64, 158, 255);margin-left:10px;"
+              >微信邀请</span>
             </p>
             <small class="and" style="color:#bdbdbd;">{{ student.tel }}</small>
             <small class="and" style="color:#bdbdbd;">{{ student.className }}</small>
-          </div>  
+          </div>
           <div class="cell-ft flex">
             <template>
               <span size-14 v-if="student.openId" style="color:#92cd36">已加入</span>
               <span size-14 v-else style="color:#ff87b7">未加入</span>
-            </template>            
-          </div>                
+            </template>
+          </div>
         </div>
       </div>
-    </div>  
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -137,6 +147,7 @@ export default {
 <style lang="less">
 .student-head {
   padding: 30px 0;
+  text-align: center;
   > a {
     width: 240px;
   }
@@ -151,18 +162,11 @@ export default {
   }
 }
 .student-box {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 120px;
 }
 .student-icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
 }
 </style>

@@ -12,19 +12,36 @@
     <div class="page-bd">
       <div class="cells-title">老师列表({{ teacherList.length }})</div>
       <div class="cells">
-        <div class="cell teacher-box" v-for="(teacher, index) in teacherList" :key="index" @click="handleEditTeacher(teacher)">
+        <div
+          class="cell teacher-box"
+          v-for="(teacher, index) in teacherList"
+          :key="index"
+          @click="handleEditTeacher(teacher)"
+        >
           <div class="cell-hd">
             <template v-if="teacher.photo">
-              <img class="teacher-icon" :src="teacher.photo" alt="">
+              <img class="teacher-icon" :src="teacher.photo" alt>
             </template>
             <template v-else>
               <div class="icon-d"></div>
             </template>
           </div>
           <div class="cell-bd">
-            <p>{{ teacher.teacherName }}<span size-14 v-if="!teacher.openId" @click.stop="handleShare" style="color: rgb(64, 158, 255);margin-left:10px;">微信邀请</span>
+            <p>
+              {{ teacher.teacherName }}
+              <span
+                size-14
+                v-if="!teacher.openId"
+                @click.stop="handleShare"
+                style="color: rgb(64, 158, 255);margin-left:10px;"
+              >微信邀请</span>
             </p>
-            <small class="and" style="color:#bdbdbd;" v-for="(cla, index) in teacher.classes" :key="index">{{ cla.className }}</small>
+            <small
+              class="and"
+              style="color:#bdbdbd;"
+              v-for="(cla, index) in teacher.classes"
+              :key="index"
+            >{{ cla.className }}</small>
           </div>
           <div class="cell-ft flex">
             <template>
@@ -35,7 +52,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -125,6 +142,7 @@ export default {
 <style lang="less">
 .teacher-head {
   padding: 30px 0;
+  text-align: center;
   > a {
     width: 240px;
   }
@@ -139,19 +157,12 @@ export default {
   }
 }
 .teacher-box {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 120px;
 }
 .teacher-icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
 }
 .status {
   color: #ff87b7;

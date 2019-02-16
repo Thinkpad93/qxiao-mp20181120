@@ -18,87 +18,115 @@
     </div>
     <div class="page-bd">
       <!-- 提交成功提示 -->
-      <form action="" ref="form">
+      <form action ref="form">
         <div class="cells" :style="{display: !views ? 'block': 'none'}">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">幼儿园名称</label>
-            </div>        
+              <label for class="label">幼儿园名称</label>
+            </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="30">
-            </div>        
+            </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">幼儿园类型</label>
-            </div>  
+              <label for class="label">幼儿园类型</label>
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.type">
-                <option :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="form.type">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in schoolTypeList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
-            </div>                
+            </div>
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">详细地址</label>
-            </div>   
+              <label for class="label">详细地址</label>
+            </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入详细地址" maxlength="120" v-model="form.location">
-            </div>                  
+            </div>
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">园长姓名</label>
-            </div>        
+              <label for class="label">园长姓名</label>
+            </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入园长姓名" v-model="form.leadName" maxlength="10">
-            </div>             
+            </div>
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">园长手机号</label>
-            </div>    
+              <label for class="label">园长手机号</label>
+            </div>
             <div class="cell-bd">
               <input type="number" class="input" placeholder="请输入园长手机号" readonly v-model="form.tel">
-            </div>                   
+            </div>
           </div>
-        </div>  
+        </div>
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell">
             <div class="cell-bd">
-              <p class="p">请编辑班级信息<span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span></p>
+              <p class="p">
+                请编辑班级信息
+                <span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span>
+              </p>
             </div>
-          </div> 
+          </div>
           <div class="cell">
             <div class="cell-bd">
-              <input class="input text-left" placeholder="请输入班级名称,例如: 小小班" v-model="className" maxlength="20">
+              <input
+                class="input text-left"
+                placeholder="请输入班级名称,例如: 小小班"
+                v-model="className"
+                maxlength="20"
+              >
             </div>
             <div class="ft">
               <div class="createClass" @click="handleAddClass">添加班级</div>
             </div>
-          </div>        
-        </div> 
+          </div>
+        </div>
         <div class="cells-title" :style="{display: views ? 'block': 'none'}">已有班级列表</div>
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell" v-for="(cla, index) in form.classes" :key="index">
             <div class="cell-hd">
-              <label for="">班级名称:</label>
+              <label for>班级名称:</label>
             </div>
             <div class="cell-bd">
-              <input class="input text-center" readonly placeholder="" v-model="cla.className" maxlength="20">
-            </div>   
+              <input
+                class="input text-center"
+                readonly
+                placeholder
+                v-model="cla.className"
+                maxlength="20"
+              >
+            </div>
             <div class="cell-ft">
               <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>
-            </div>          
-          </div>  
+            </div>
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
-      <a v-if="!views" hclaref="javascript:;" class="btn btn-primary" @click="handleNextClick">下一步</a>
-      <a v-if="views" hclaref="javascript:;" class="btn btn-primary" @click="handleSubmit">完成</a>
+      <a
+        v-if="!views"
+        hclaref="javascript:;"
+        class="btn btn-large btn-primary"
+        @click="handleNextClick"
+      >下一步</a>
+      <a
+        v-if="views"
+        hclaref="javascript:;"
+        class="btn btn-large btn-primary"
+        @click="handleSubmit"
+      >完成</a>
     </div>
-  </div>     
+  </div>
 </template>
 <script>
 import Cookies from "js-cookie";
@@ -167,6 +195,8 @@ export default {
           this.$store.commit("user/SET_ROLETYPE", args.roleType);
           this.$store.commit("user/SET_ID", args.id);
           this.$router.push({ path: "/home" });
+        } else if (res.errorCode === -1) {
+          this.$toast(`${res.errorMsg}`);
         }
       }
     }

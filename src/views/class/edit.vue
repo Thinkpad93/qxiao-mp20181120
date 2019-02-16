@@ -146,24 +146,18 @@ export default {
 <style lang="less">
 .class-edit-head {
   padding-top: 40px;
+  text-align: center;
   > a {
     width: 240px;
   }
 }
 .student-box {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 120px;
 }
 .teacher-icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
 }
 .people-list {
   .item {

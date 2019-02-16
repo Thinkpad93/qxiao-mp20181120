@@ -88,7 +88,7 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
+      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
     </div>
   </div>
 </template>

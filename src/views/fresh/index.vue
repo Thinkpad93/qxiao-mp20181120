@@ -38,7 +38,7 @@
             <div class="pic" :style="{backgroundImage: `url(${fresh.topImage})`}"></div>
           </template>
           <p class="line-clamp">{{ fresh.textContent }}</p>
-          <div class="metedata" style="color:#8d8d8d;">
+          <div class="metedata">
             <div>
               <span>{{ fresh.classReadCount }}人阅读</span>
               <span>留言{{ fresh.classCommentCount }}</span>
@@ -153,43 +153,5 @@ export default {
   height: 100px;
   justify-content: center;
   align-items: center;
-}
-.figure {
-  margin-bottom: 30px;
-  background-color: #fff;
-  > a {
-    position: relative;
-    padding: 0 30px;
-    display: block;
-  }
-  &:active {
-    background-color: #f2f2f2;
-  }
-  h3 {
-    font-weight: bold;
-    font-size: 36px;
-    padding: 20px 0 0 0;
-  }
-  p {
-    font-size: 30px;
-    margin: 10px 0 20px 0;
-    line-height: 1.5;
-  }
-  .pic {
-    width: 690px;
-    height: 298px;
-    margin: 20px 0;
-    background-size: 100%;
-    background-repeat: no-repeat;
-  }
-  .metedata {
-    margin: 20px -30px 0 -30px;
-    padding: 0 30px;
-    display: flex;
-    height: 80px;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f5f5f5;
-  }
 }
 </style>

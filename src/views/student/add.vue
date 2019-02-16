@@ -41,8 +41,11 @@
             </div>
           </div>
         </div>
-        <div class="cells-title">家长关联</div>
-        <div class="cells">
+        <div class="cells-title">
+          <span></span>
+          <a href="javascript:void(0);" class="btn btn-primary" @click="handleAddLinkMan">新增家长</a>
+        </div>
+        <div class="cells" v-for="(link,index) in form.linkMan" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <label class="label">家长手机号</label>
@@ -53,7 +56,7 @@
                 class="input"
                 pattern="[0-9]*"
                 placeholder="请输入手机号"
-                v-model="form.tel"
+                v-model="link.tel"
               >
             </div>
           </div>
@@ -62,7 +65,7 @@
               <label for class="label">学生和家长关系</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name dir="rtl" v-model="form.relation">
+              <select class="select" name dir="rtl" v-model="link.relation">
                 <option
                   :value="option.id"
                   v-for="(option,index) in relationList"
@@ -71,11 +74,16 @@
               </select>
             </div>
           </div>
+          <div class="cells-footer" v-if="form.linkMan.length > 1">
+            <div class="cell">
+              <a href="javascript:void(0);" class="btn btn-warn" @click="handleDelLinkMan(index)">删除</a>
+            </div>
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">提交</a>
+      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
     </div>
   </div>
 </template>
@@ -97,15 +105,24 @@ export default {
         openId: this.$store.getters.openId,
         studentName: "",
         sex: 1,
-        tel: "",
-        relation: 1,
+        linkMan: [{ relation: 1, tel: "" }],
         classId: null
       }
     };
   },
   methods: {
+    handleAddLinkMan() {
+      if (this.form.linkMan.length >= 2) {
+        this.$toast("只能添加两名家长");
+        return;
+      }
+      this.form.linkMan.push({ relation: 1, tel: "" });
+    },
+    handleDelLinkMan(index) {
+      return this.form.linkMan.splice(index, 1);
+    },
     handleSubmit() {
-      let { studentName, tel, classId } = this.form;
+      let { studentName, classId, linkMan } = this.form;
       if (studentName == "" || !studentName.length) {
         this.$toast("请输入学生姓名");
         return false;
@@ -114,12 +131,16 @@ export default {
         this.$toast("请选择学生所在班级");
         return false;
       }
-      if (isPhone(tel)) {
-        let obj = Object.assign({}, this.form, { openId: this.openId });
-        this.studentAdd(this.form);
-      } else {
-        this.$toast("请正确填写手机号");
+      //for
+      for (let i = 0; i < linkMan.length; i++) {
+        let tel = linkMan[i].tel;
+        if (!isPhone(tel)) {
+          this.$toast("请正确填写手机号");
+          return;
+        }
       }
+      let obj = Object.assign({}, this.form);
+      this.studentAdd(obj);
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -145,4 +166,15 @@ export default {
 };
 </script>
 <style lang="less">
+.cells-footer {
+  .cell {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: flex-end;
+  }
+  a {
+    font-size: 28px;
+    border-radius: 0;
+  }
+}
 </style>

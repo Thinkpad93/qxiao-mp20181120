@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-primary" @click="handleLogin">登陆</a>
+          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登陆</a>
         </div>
       </form>
     </div>
@@ -118,6 +118,8 @@ export default {
       let res = await service.telVeriftCode({ tel });
       if (res.errorCode === 0) {
         this.$toast("验证码已经发送，请注意查收");
+      } else if (res.errorCode === -1) {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //用户登录

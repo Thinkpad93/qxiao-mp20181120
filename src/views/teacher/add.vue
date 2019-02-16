@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <form action="" ref="form">
+      <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
           <div class="cell">
@@ -14,14 +14,18 @@
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
+              <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.sex">
-                <option  :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="form.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div>    
+          </div>
           <div class="cell">
             <div class="cell-hd">
               <label class="label">手机号码</label>
@@ -29,39 +33,47 @@
             <div class="cell-bd">
               <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
             </div>
-          </div>        
-        </div> 
+          </div>
+        </div>
         <div class="cells-title">职务信息</div>
         <div class="cells">
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label class="label">职务类别</label>
-            </div>     
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="form.type">
-                <option :value="option.id" v-for="(option,index) in typeList" :key="index">{{ option.name }}</option>
-              </select>          
-            </div>   
+              <select class="select" name dir="rtl" v-model="form.type">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in typeList"
+                  :key="index"
+                >{{ option.name }}</option>
+              </select>
+            </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label class="label">任教班级</label>
-            </div>     
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="selected" multiple size="1">
+              <select class="select" name dir="rtl" v-model="selected" multiple size="1">
                 <!-- 兼容性问题修改 -->
-                <optgroup disabled hidden></optgroup>                
-                <option  :value="option.classId" v-for="(option,index) in classList" :key="index">{{ option.className }}</option>
-              </select>          
-            </div>   
-          </div>      
-        </div> 
+                <optgroup disabled hidden></optgroup>
+                <option
+                  :value="option.classId"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.className }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";

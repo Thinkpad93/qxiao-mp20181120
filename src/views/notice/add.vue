@@ -13,21 +13,13 @@
         <div class="panel-bd_cell" :style="{display: tabIndex === 0 ? 'block':'none'}">
           <div class="cells weui-cells_checkbox">
             <label class="cell item weui-check__label" v-for="(t,i) in teacherList" :key="i">
-              <div class="cell-hd">
-                <img class="teacher-icon" src="http://iph.href.lu/50x50" alt>
-              </div>
-              <div class="cell-bd">
+              <div class="cell-bd" style="padding-left:0">
                 <p>{{ t.teacherName }}</p>
               </div>
               <div class="cell-ft">
-                <input
-                  type="checkbox"
-                  class="weui-check"
-                  name="checkbox1"
-                  v-model="teacherCheckList"
-                  :value="t.teacherId"
-                >
-                <i class="weui-icon-checked"></i>
+                <van-checkbox-group v-model="teacherCheckList">
+                  <van-checkbox :key="t.teacherId" :name="t.teacherId" checked-color="#92cd36"></van-checkbox>
+                </van-checkbox-group>
               </div>
             </label>
           </div>
@@ -41,14 +33,9 @@
                 <p>{{ c.className }}</p>
               </div>
               <div class="cell-ft">
-                <input
-                  type="checkbox"
-                  class="weui-check"
-                  name="checkbox1"
-                  v-model="classChenkList"
-                  :value="c.classId"
-                >
-                <i class="weui-icon-checked"></i>
+                <van-checkbox-group v-model="classChenkList">
+                  <van-checkbox :key="c.classId" :name="c.classId" checked-color="#92cd36"></van-checkbox>
+                </van-checkbox-group>
               </div>
             </label>
           </div>
@@ -56,19 +43,9 @@
       </div>
       <div class="panel-ft">
         <div class="tabbar weui-cells_checkbox">
-          <label id="handle" class="weui-check__label">
+          <label id="handle" class="cell weui-check__label">
             <div class="cell-hd">
-              <input
-                type="checkbox"
-                class="weui-check"
-                name="checkedAll"
-                v-model="checked"
-                @click="handleCheckAll"
-              >
-              <i class="weui-icon-checked"></i>
-            </div>
-            <div class="cell-bd">
-              <p>全选</p>
+              <van-checkbox v-model="checked" @change="handleCheckAll" checked-color="#92cd36">全选</van-checkbox>
             </div>
           </label>
           <a href="javascript:void(0);" id="publish" @click="handleSave">确定</a>
@@ -141,7 +118,7 @@
               <label for class="label">是否需要确定</label>
             </div>
             <div class="cell-ft">
-              <input type="checkbox" v-model="form.needConfirm" class="weui-switch">
+              <van-switch v-model="form.needConfirm" size="28px" active-color="#92cd36"></van-switch>
             </div>
           </div>
           <div class="cell cell-switch">
@@ -149,7 +126,7 @@
               <label for class="label">是否定时发送</label>
             </div>
             <div class="cell-ft">
-              <input type="checkbox" v-model="form.clockType" class="weui-switch">
+              <van-switch v-model="form.clockType" size="28px" active-color="#92cd36"></van-switch>
             </div>
           </div>
           <template v-if="form.clockType">
@@ -172,7 +149,7 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">发布</a>
+      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
     </div>
   </div>
 </template>
@@ -315,10 +292,10 @@ export default {
     handleChangeSenders() {
       this.isActive = true;
     },
-    handleCheckAll() {
+    handleCheckAll(value) {
       let { sendType } = this.form;
       if (sendType === 2) {
-        if (!this.checked) {
+        if (value) {
           this.teacherList.forEach((item, index) => {
             this.teacherCheckList.push(item.teacherId);
           });
@@ -326,7 +303,7 @@ export default {
           this.teacherCheckList = [];
         }
       } else if (sendType === 1) {
-        if (!this.checked) {
+        if (value) {
           this.classList.forEach((item, index) => {
             this.classChenkList.push(item.classId);
           });
@@ -515,6 +492,13 @@ export default {
   height: 100px;
   border-radius: 50%;
 }
+.icon-d {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
+}
+
 .tabbar {
   font-size: 32px;
   display: flex;
@@ -537,12 +521,10 @@ export default {
 }
 .panel-bd_cell {
   .item {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: 100px;
   }
 }
 .class-box {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 100px;
 }
 </style>

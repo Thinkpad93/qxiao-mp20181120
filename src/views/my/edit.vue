@@ -41,7 +41,7 @@
           </div>                          
         </div>
         <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit(1)">保存</a>
+          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(1)">保存</a>
         </div>          
       </template>
       <!-- 老师 -->
@@ -67,7 +67,7 @@
           </div>          
         </div>
         <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit(2)">保存</a>
+          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(2)">保存</a>
         </div>        
       </template>
       <!-- 家长 -->
@@ -103,7 +103,7 @@
           </div>                  
         </div>
         <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit(3)">保存</a>
+          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(3)">保存</a>
         </div>           
       </template>
     </div>  

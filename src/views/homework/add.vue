@@ -61,14 +61,14 @@
               <label for class="label">是否需要确定</label>
             </div>
             <div class="cell-ft">
-              <input type="checkbox" v-model="needSwitch" class="weui-switch">
+              <van-switch v-model="needSwitch" size="28px" active-color="#92cd36"></van-switch>
             </div>
           </div>
         </div>
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">发布</a>
+      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
     </div>
   </div>
 </template>
@@ -105,7 +105,6 @@ export default {
         sizeType: ["compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: res => {
-          console.log(res);
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
           // 判断 ios
           if (window.__wxjs_is_wkwebview) {

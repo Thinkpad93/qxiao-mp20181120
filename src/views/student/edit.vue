@@ -33,10 +33,10 @@
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="form.classId">
                 <option
-                  :value="option.value"
+                  :value="option.classId"
                   v-for="(option,index) in classList"
                   :key="index"
-                >{{ option.label }}</option>
+                >{{ option.className }}</option>
               </select>
             </div>
           </div>
@@ -112,7 +112,11 @@ export default {
             message: "确定要删除学生吗？"
           })
           .then(() => {
-            this.studentDelete({ studentId, openId: this.querys.openId });
+            this.studentDelete({
+              studentId,
+              openId: this.querys.openId,
+              tel: this.querys.tel
+            });
           })
           .catch(() => {});
       }
@@ -133,13 +137,14 @@ export default {
     async queryClassId(params = {}) {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
-        let classMap = res.data.map(item => {
-          return {
-            label: item.className,
-            value: item.classId
-          };
-        });
-        this.classList = classMap;
+        this.classList = res.data;
+        // let classMap = res.data.map(item => {
+        //   return {
+        //     label: item.className,
+        //     value: item.classId
+        //   };
+        // });
+        // this.classList = classMap;
       }
     },
     //学生信息查询

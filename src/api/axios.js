@@ -12,10 +12,7 @@ const service = axios.create({
 
 
 service.interceptors.request.use(config => {
-  toast = Toast.loading({
-    type: 'loading',
-    message: '加载中...'
-  });
+  toast = Toast.loading();
   console.log(config);
   return config;
 }, error => {

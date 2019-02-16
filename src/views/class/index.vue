@@ -140,6 +140,7 @@ export default {
 <style lang="less">
 .class-head {
   padding: 30px 0;
+  text-align: center;
   > a {
     width: 240px;
   }

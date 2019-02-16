@@ -127,6 +127,8 @@ export default {
         this.form.textContent = "";
         //重新加载速报详情
         this.freshDetail(this.query);
+      } else if (res.errorCode === -1) {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },
@@ -191,8 +193,8 @@ export default {
       text-align: justify;
     }
     .icon {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
     }
   }

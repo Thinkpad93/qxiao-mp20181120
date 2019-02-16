@@ -91,15 +91,17 @@
         </div>
       </template>
       <template v-else>
-        <p class="_plac"></p>
-        <section class="_confirm">
-          <a
-            :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
-            href="javascript:void(0);"
-            class="btn"
-            @click="handleConfirmFlag"
-          >{{ info.confirmFlag ? '已确认':'确认通知' }}</a>
-        </section>
+        <template v-if="needConfirm">
+          <p class="_plac"></p>
+          <section class="_confirm">
+            <a
+              :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
+              href="javascript:void(0);"
+              class="btn"
+              @click="handleConfirmFlag"
+            >{{ info.confirmFlag ? '已确认':'确认通知' }}</a>
+          </section>
+        </template>
       </template>
     </div>
   </div>
@@ -117,6 +119,7 @@ export default {
         classId: this.$store.getters.classId || this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      needConfirm: this.$route.query.needConfirm,
       info: {},
       readList: [],
       unreadList: [],
@@ -233,8 +236,7 @@ export default {
     }
     .cell {
       color: #252525;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      height: 120px;
       img {
         width: 100px;
         height: 100px;
@@ -268,28 +270,6 @@ export default {
         transform: translateX(-50%);
       }
     }
-  }
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
-}
-._plac {
-  height: 130px;
-}
-._confirm {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 11;
-  padding: 20px 0;
-  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  > a {
-    width: 200px;
   }
 }
 </style>

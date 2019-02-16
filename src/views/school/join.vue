@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="btn-area">
-          <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">申请加入</a>
+          <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">申请加入</a>
         </div>
       </form>
     </div>

@@ -4,20 +4,29 @@
   position: relative;
   background-color: #fff;
 }
-.cells-title { 
+
+.cells-title {
   color: #808080;
-  font-size: 30px;  
+  font-size: 30px;
   margin: 20px 0;
-  padding-left: 30px;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+
+  a {
+    font-size: 28px;
+  }
 }
+
 .cell {
   padding: 0 30px;
   position: relative;
   display: flex;
-  align-items: center;  
+  align-items: center;
+
   &::before {
     content: "";
-    position: absolute;  
+    position: absolute;
     left: 0;
     top: 0;
     right: 0;
@@ -29,31 +38,37 @@
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
     left: 15px;
-    z-index: 2;    
+    z-index: 2;
   }
-  &-hd {
-  }
+
+  &-hd {}
+
   &-bd {
-    flex: 1;  
+    flex: 1;
     padding-left: 20px;
   }
+
   .cell-p {
     min-height: 120px;
     line-height: 120px;
     text-align: right;
   }
 }
+
 .label {
   position: relative;
-  display: block; 
+  display: block;
   word-wrap: break-word;
   word-break: break-all;
 }
+
 .cell-select {
-  padding: 0;  
+  padding: 0;
+
   .select {
     padding: 0 60px;
   }
+
   .cell-bd {
     &::after {
       content: "";
@@ -68,11 +83,13 @@
       top: 50%;
       right: 30px;
     }
-  }    
+  }
 }
+
 .cell-select-after {
   padding-left: 30px;
 }
+
 .cell-input {
   .cell-bd {
     &::after {
@@ -87,15 +104,17 @@
       position: absolute;
       top: 50%;
       right: 30px;
-    }    
+    }
   }
 }
+
 .cell-input-after {
   padding-right: 50px;
 }
+
 .cell-switch {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 120px;
+
   .cell-ft {
     font-size: 0;
   }

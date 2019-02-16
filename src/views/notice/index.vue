@@ -16,12 +16,14 @@
       </template>
       <div class="cells" style="background-color:transparent;">
         <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
-          <router-link :to="{ path: '/notice/show', query: { noticeId: notice.noticeId } }">
-            <h3>
+          <router-link
+            :to="{ path: '/notice/show', query: { noticeId: notice.noticeId, needConfirm: notice.needConfirm } }"
+          >
+            <h3 class="text-ellipsis">
               <small v-if="!notice.status" style="width:8px;height:8px;"></small>
               {{ notice.title }}
             </h3>
-            <div class="notice-time" style="color:#8d8d8d;">
+            <div class="time">
               <time>{{ notice.postTime }}</time>
             </div>
             <template v-if="notice.topImage">
@@ -30,9 +32,9 @@
             <p class="line-clamp">{{ notice.textContent }}</p>
             <div class="metedata flex">
               <div size-14>
-                {{ notice.name }}
-                <template v-if="notice.personType === 1">园长</template>
-                <template v-else>老师</template>
+                <span>{{ notice.name }}</span>
+                <span v-if="notice.personType === 1">园长</span>
+                <span v-else>老师</span>
               </div>
               <div size-14 class="metedata-count">
                 <template v-if="notice.classReadCount">
@@ -162,63 +164,5 @@ export default {
 .page-hd {
   margin-bottom: 20px;
   background-color: #fff;
-}
-.figure {
-  margin-bottom: 30px;
-  background-color: #fff;
-  > a {
-    position: relative;
-    padding: 0 30px;
-    display: block;
-  }
-  &:active {
-    background-color: #f2f2f2;
-  }
-  h3 {
-    position: relative;
-    font-weight: bold;
-    font-size: 36px;
-    padding: 20px 0 0 0;
-    small {
-      border-radius: 50%;
-      display: inline-block;
-      background-color: red;
-      vertical-align: top;
-      margin: 10px 14px 0 0;
-    }
-  }
-  p {
-    font-size: 30px;
-    margin: 10px 0 20px 0;
-    line-height: 1.5;
-  }
-  .pic {
-    width: 690px;
-    height: 298px;
-    margin: 20px 0;
-    background-size: 100%;
-    background-repeat: no-repeat;
-  }
-  .metedata {
-    color: #8d8d8d;
-    margin: 20px -30px 0 -30px;
-    padding: 0 30px;
-    display: flex;
-    height: 80px;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f5f5f5;
-  }
-  .metedata-count {
-    font-size: 0;
-    span {
-      font-size: 28px;
-      display: inline-block;
-      margin-left: 10px;
-    }
-  }
-  .notice-time {
-    font-size: 28px;
-  }
 }
 </style>
