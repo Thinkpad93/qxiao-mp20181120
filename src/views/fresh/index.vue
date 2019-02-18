@@ -26,25 +26,36 @@
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
-      <figure class="figure" v-for="(fresh, index) in freshData" :key="index">
-        <router-link
-          :to="{ path: '/fresh/show', query: { freshId: fresh.freshId, classId: fresh.classId} }"
-        >
-          <h3 class="text-ellipsis">{{ fresh.title }}</h3>
-          <div style="color:#8d8d8d;">
-            <time>{{ fresh.postTime }}</time>
-          </div>
-          <template v-if="fresh.topImage">
-            <div class="pic" :style="{backgroundImage: `url(${fresh.topImage})`}"></div>
-          </template>
-          <p class="line-clamp">{{ fresh.textContent }}</p>
-          <div class="metedata">
-            <div>
-              <span>{{ fresh.classReadCount }}人阅读</span>
-              <span>留言{{ fresh.classCommentCount }}</span>
+      <figure
+        class="figure figure-skin-two"
+        v-for="(fresh, index) in freshData"
+        :key="index"
+        @click="handleJump(fresh)"
+      >
+        <div class="figure-bd">
+          <div class="figure-info">
+            <figcaption size-18 class="text-ellipsis">{{ fresh.title }}</figcaption>
+            <div class="metedata flex">
+              <time class="time">{{ fresh.postTime }}</time>
             </div>
+            <div
+              class="figure-thumb-medium"
+              v-if="fresh.topImage"
+              :style="{backgroundImage: `url(${fresh.topImage})`}"
+            ></div>
+            <p class="line-clamp">{{ fresh.textContent }}</p>
           </div>
-        </router-link>
+        </div>
+        <div class="figure-ft">
+          <div class="figure-icon">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ fresh.classReadCount }}</b>
+          </div>
+          <div class="figure-icon">
+            <i class="iconfont icon-pinglun"></i>
+            <b>{{ fresh.classCommentCount }}</b>
+          </div>
+        </div>
       </figure>
     </div>
   </div>
@@ -80,6 +91,12 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.freshQuery(this.query);
+    },
+    handleJump(fresh) {
+      this.$router.push({
+        path: "/fresh/show",
+        query: { freshId: fresh.freshId, classId: fresh.classId }
+      });
     },
     //加载分页数据
     handleLoadingMore(e) {

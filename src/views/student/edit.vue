@@ -48,14 +48,7 @@
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                pattern="[0-9]*"
-                placeholder="请输入手机号"
-                v-model="form.tel"
-                readonly
-                disabled
-              >
+              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -138,13 +131,6 @@ export default {
       let res = await service.queryClassId(params);
       if (res.errorCode === 0) {
         this.classList = res.data;
-        // let classMap = res.data.map(item => {
-        //   return {
-        //     label: item.className,
-        //     value: item.classId
-        //   };
-        // });
-        // this.classList = classMap;
       }
     },
     //学生信息查询

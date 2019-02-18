@@ -60,7 +60,7 @@
                 </div>
                 <div class="data">
                   <template v-if="community.praiseList">
-                    <div class="zan-list" size-12>
+                    <div class="zan-list" size-14>
                       <i class="iconfont icon-zantong"></i>
                       <span
                         v-for="(praise, index) in community.praiseList"
@@ -69,7 +69,7 @@
                     </div>
                   </template>
                   <template v-if="community.commentList">
-                    <ul class="comment-list" size-12>
+                    <ul class="comment-list" size-14>
                       <li
                         v-for="(commen, index) in community.commentList"
                         :key="index"
@@ -370,6 +370,7 @@ export default {
     margin-left: 20px;
   }
   .data {
+    margin-top: 20px;
     background-color: #f5f5f5;
   }
 }
@@ -405,7 +406,6 @@ export default {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
   i {
     font-size: 30px;
     color: #9aa4cb;
@@ -416,19 +416,31 @@ export default {
   }
 }
 .comment-list {
+  position: relative;
   color: #9aa4cb;
-  padding-bottom: 15px;
-  border-top: 2px solid #e7e7e7;
+  padding: 15px 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #e7e7e7;
+    color: #e7e7e7;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 2;
+  }
   li {
     margin-top: 15px;
     padding: 0 20px 0 20px;
+    &:first-child {
+      margin-top: 0;
+    }
   }
-}
-.keyboard {
-  position: absolute;
-  z-index: -1;
-  left: -1000px;
-  top: 0px;
-  display: block;
 }
 </style>

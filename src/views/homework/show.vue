@@ -3,10 +3,7 @@
     <div class="page-bd">
       <article class="article">
         <h1 size-24>{{ info.title }}</h1>
-        <div class="article-head flex">
-          <div class="article-cell">
-            <span style="color:#8d8d8d;">{{ info.schoolName }}</span>
-          </div>
+        <div class="article-hd">
           <div class="article-cell">
             <time style="color:#8d8d8d;">{{ info.postTime }}</time>
           </div>
@@ -19,8 +16,11 @@
             </p>
           </template>
         </section>
-        <div class="class flex" style="color:#8d8d8d;">
-          <span class="read">{{ info.classReadCount }}人阅读</span>
+        <div class="article-ft">
+          <div class="article-icon">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ info.classReadCount }}</b>
+          </div>
         </div>
       </article>
       <template v-if="roleType == 1 || roleType == 2">
@@ -45,15 +45,7 @@
                     <img :src="read.photo" :alt="read.studentName">
                   </div>
                   <div class="cell-bd">
-                    <p class>
-                      {{ read.studentName }}
-                      <template v-if="read.relation === 1">(妈妈)</template>
-                      <template v-else-if="read.relation === 2">(爸爸)</template>
-                      <template v-else-if="read.relation === 3">(爷爷)</template>
-                      <template v-else-if="read.relation === 4">(奶奶)</template>
-                      <template v-else-if="read.relation === 5">(外公)</template>
-                      <template v-else>(外婆)</template>
-                    </p>
+                    <p class>{{ read.studentName }}</p>
                   </div>
                   <div class="cell-ft">
                     <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
@@ -67,15 +59,7 @@
                     <img :src="unread.photo" :alt="unread.studentName">
                   </div>
                   <div class="cell-bd">
-                    <p class>
-                      {{ unread.studentName }}
-                      <template v-if="unread.relation === 1">(妈妈)</template>
-                      <template v-else-if="unread.relation === 2">(爸爸)</template>
-                      <template v-else-if="unread.relation === 3">(爷爷)</template>
-                      <template v-else-if="unread.relation === 4">(奶奶)</template>
-                      <template v-else-if="unread.relation === 5">(外公)</template>
-                      <template v-else>(外婆)</template>
-                    </p>
+                    <p class>{{ unread.studentName }}</p>
                   </div>
                   <div class="cell-ft">
                     <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
@@ -181,24 +165,40 @@ export default {
 };
 </script>
 <style lang="less">
-.article {
-  padding: 30px;
-  word-wrap: break-word;
-  background-color: #fff;
-  h1 {
-    margin-bottom: 10px;
-  }
-}
-.article-content {
-  text-align: justify;
-  p {
-    margin: 20px 0;
-    line-height: 1.4;
-  }
-  img {
-    max-width: 100%;
-  }
-}
+// .article {
+//   padding: 30px;
+//   word-wrap: break-word;
+//   background-color: #fff;
+//   h1 {
+//     font-weight: bold;
+//     margin-bottom: 10px;
+//   }
+// }
+// .article-content {
+//   text-align: justify;
+//   p {
+//     margin: 20px 0;
+//     line-height: 1.4;
+//   }
+//   img {
+//     max-width: 100%;
+//   }
+// }
+// .article-ft {
+//   .article-icon {
+//     display: flex;
+//     align-items: center;
+//     color: #8d8d8d;
+//     b {
+//       font-size: 28px;
+//       margin-left: 8px;
+//     }
+
+//     i {
+//       font-size: 34px;
+//     }
+//   }
+// }
 .tab-warp {
   margin-top: 20px;
   margin-bottom: 30px;

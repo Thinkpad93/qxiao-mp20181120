@@ -3,12 +3,12 @@
     <div class="page-bd">
       <article class="article">
         <h1 size-24>{{ info.title }}</h1>
-        <div class="article-head flex">
+        <div class="article-hd">
           <div class="article-cell">
-            <span style="color:#8d8d8d;">{{ info.schoolName }}</span>
+            <span>{{ info.schoolName }}</span>
           </div>
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
+            <time>{{ info.postTime }}</time>
           </div>
         </div>
         <section size-16 class="article-content">
@@ -19,9 +19,11 @@
             </p>
           </template>
         </section>
-        <div class="class flex" style="color:#8d8d8d;">
-          <span class="read">{{ info.classReadCount }}人阅读</span>
-          <span class="zan">{{ info.classCommentCount }}人评论</span>
+        <div class="article-ft">
+          <div class="article-icon">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ info.classReadCount }}</b>
+          </div>
         </div>
       </article>
       <div class="comment">
@@ -39,7 +41,7 @@
                 <img class="icon" :src="comment.photo" alt>
               </div>
               <div class="cell-bd">
-                <span style="color:#44649f;">{{ comment.name }}</span>
+                <span>{{ comment.name }}</span>
                 <p>{{ comment.textContent }}</p>
               </div>
             </div>
@@ -138,27 +140,43 @@ export default {
 };
 </script>
 <style lang="less">
-.article {
-  padding: 30px;
-  word-wrap: break-word;
-  background-color: #fff;
-  h1 {
-    margin-bottom: 10px;
-  }
-}
-.article-content {
-  text-align: justify;
-  p {
-    margin: 20px 0;
-    line-height: 1.4;
-  }
-  img {
-    max-width: 100%;
-  }
-}
-.class {
-  justify-content: space-between;
-}
+// .article {
+//   padding: 30px;
+//   word-wrap: break-word;
+//   background-color: #fff;
+//   h1 {
+//     font-weight: bold;
+//     margin-bottom: 10px;
+//   }
+// }
+// .article-cell {
+//   margin-right: 30px;
+// }
+// .article-content {
+//   text-align: justify;
+//   p {
+//     margin: 20px 0;
+//     line-height: 1.4;
+//   }
+//   img {
+//     max-width: 100%;
+//   }
+// }
+// .article-ft {
+//   .article-icon {
+//     display: flex;
+//     align-items: center;
+//     color: #8d8d8d;
+//     b {
+//       font-size: 28px;
+//       margin-left: 8px;
+//     }
+
+//     i {
+//       font-size: 34px;
+//     }
+//   }
+// }
 .comment {
   font-size: 30px;
   margin-top: 20px;
@@ -186,10 +204,14 @@ export default {
     .cell {
       padding-top: 20px;
       padding-bottom: 20px;
-      align-items: center;
+      align-items: flex-start;
+    }
+    span {
+      color: #44649f;
+      font-weight: bold;
     }
     p {
-      margin-top: 10px;
+      margin-top: 20px;
       text-align: justify;
     }
     .icon {

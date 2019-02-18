@@ -20,24 +20,7 @@
     <div class="page-bd">
       <!-- 园长 -->
       <template v-if="roleType === 1">
-        <div class="cells">
-          <div class="cell">
-            <div class="cell-hd">
-              <label for class="label">头像</label>
-            </div>
-            <div class="cell-bd"></div>
-            <div class="cell-ft">
-              <img class="user-icon" :src="photo" alt>
-            </div>
-          </div>
-          <div class="cell">
-            <div class="cell-hd">
-              <label for class="label">学校ID码</label>
-            </div>
-            <div class="cell-bd">
-              <p class="cell-p">{{ leaderInfo.schoolCode }}</p>
-            </div>
-          </div>
+        <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">学校名称</label>
@@ -84,16 +67,22 @@
               <p class="cell-p">{{ leaderInfo.tel }}</p>
             </div>
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <div class="cell-bd">
               <p class="cell-p" @click="handleEditUser">修改信息</p>
             </div>
-          </div>
+          </div>-->
         </div>
+        <a
+          href="javascript:void(0);"
+          style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
+          class="btn btn-default btn-large"
+          @click="handleEditUser"
+        >修改资料</a>
       </template>
       <!-- 老师 -->
       <template v-if="roleType === 2">
-        <div class="cells">
+        <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">头像</label>
@@ -158,12 +147,13 @@
               <p class="cell-p">{{ teacherInfo.location }}</p>
             </div>
           </div>
-          <div class="cell">
-            <div class="cell-bd">
-              <p class="cell-p" @click="handleEditUser">修改信息</p>
-            </div>
-          </div>
         </div>
+        <a
+          href="javascript:void(0);"
+          style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
+          class="btn btn-default btn-large"
+          @click="handleEditUser"
+        >修改资料</a>
       </template>
       <!-- 家长 -->
       <template v-if="roleType === 3">
@@ -218,12 +208,18 @@
               <p class="cell-p">{{ patroarch.className }}</p>
             </div>
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <div class="cell-bd">
               <p class="cell-p" @click="handleEditUser">修改信息</p>
             </div>
-          </div>
+          </div>-->
         </div>
+        <a
+          href="javascript:void(0);"
+          style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
+          class="btn btn-default btn-large"
+          @click="handleEditUser"
+        >修改资料</a>
       </template>
     </div>
     <div class="page-ft">

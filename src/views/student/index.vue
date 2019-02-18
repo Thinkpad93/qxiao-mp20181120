@@ -4,7 +4,6 @@
       <div class="student-head">
         <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
         <div class="tab">
-          <a href="javascript:;" style="color:#409eff;" size-14>批量导入学生信息</a>
           <a href="javascript:;" style="color:#409eff;" size-14>批量邀请学生学长</a>
         </div>
       </div>
@@ -29,14 +28,6 @@
           <div class="cell-bd">
             <p>
               {{ student.studentName }}
-              <template>
-                <span v-if="student.relation === 1">(妈妈)</span>
-                <span v-else-if="student.relation === 2">(爸爸)</span>
-                <span v-else-if="student.relation === 3">(爷爷)</span>
-                <span v-else-if="student.relation === 4">(奶奶)</span>
-                <span v-else-if="student.relation === 5">(外公)</span>
-                <span v-else>(外婆)</span>
-              </template>
               <span
                 size-14
                 v-if="!student.openId"
@@ -87,9 +78,6 @@ export default {
     },
     handleShare() {
       this.$toast("请点击右上角发送给朋友");
-      // wx.showMenuItems({
-      //   menuList: ["menuItem:scene:appMessage", "menuItem:share:timeline"]
-      // });
     },
     //通过config接口注入权限验证配置
     getWxConfig() {

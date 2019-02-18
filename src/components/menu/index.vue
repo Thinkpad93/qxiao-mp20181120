@@ -1,10 +1,15 @@
 <template>
-  <nav class="nav">       
-    <div class="nav-item" v-for="(menu, index) in computedMenu" :key="index" @click="handleMenuClick(menu.url)">
+  <nav class="nav">
+    <div
+      class="nav-item"
+      v-for="(menu, index) in computedMenu"
+      :key="index"
+      @click="handleMenuClick(menu.url)"
+    >
       <img :src="menu.icon" :alt="roleType">
       <div class="text-ellipsis">{{ menu.name }}</div>
     </div>
-  </nav>  
+  </nav>
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -101,6 +106,7 @@ export default {
     width: 25%;
     min-width: 0; /*解决方案*/
     height: 168px;
+    font-size: 28px;
     text-align: center;
     &:active {
       background-color: #f2f2f2;

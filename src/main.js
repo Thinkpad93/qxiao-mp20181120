@@ -5,6 +5,7 @@ import router from './router';
 import Cookies from "js-cookie";
 
 import './assets/iconfont/iconfont.css';
+import './assets/iconfonts/iconfont.css';
 
 Vue.config.productionTip = false;
 

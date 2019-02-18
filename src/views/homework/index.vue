@@ -27,24 +27,35 @@
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
-      <figure class="figure" v-for="(homework, index) in homeworkData" :key="index">
-        <router-link
-          :to="{ path: '/homework/show', query: { classId: homework.classId, homeId: homework.homeId, needConfirm: homework.needConfirm} }"
-        >
-          <h3 class="text-ellipsis">{{ homework.title }}</h3>
-          <div class="time">
-            <time>{{ homework.postTime }}</time>
-          </div>
-          <template v-if="homework.topImage">
-            <div class="pic" :style="{backgroundImage: `url(${homework.topImage})`}"></div>
-          </template>
-          <p class="line-clamp">{{ homework.textContent }}</p>
-          <div class="metedata">
-            <div>
-              <span>{{ homework.classReadCount }}人阅读</span>
+      <figure
+        class="figure figure-skin-two"
+        v-for="(homework, index) in homeworkData"
+        :key="index"
+        @click="handleJump(homework)"
+      >
+        <div class="figure-bd">
+          <div class="figure-info">
+            <figcaption size-18 class="text-ellipsis">
+              <i v-if="!homework.status"></i>
+              <span>{{ homework.title }}</span>
+            </figcaption>
+            <div class="metedata flex">
+              <time class="time">{{ homework.postTime }}</time>
             </div>
+            <div
+              class="figure-thumb-medium"
+              v-if="homework.topImage"
+              :style="{backgroundImage: `url(${homework.topImage})`}"
+            ></div>
+            <p class="line-clamp">{{ homework.textContent }}</p>
           </div>
-        </router-link>
+        </div>
+        <div class="figure-ft">
+          <div class="figure-icon">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ homework.classReadCount }}</b>
+          </div>
+        </div>
       </figure>
     </div>
   </div>
@@ -83,6 +94,16 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.homeworkQuery(this.query);
+    },
+    handleJump(homework) {
+      this.$router.push({
+        path: "/homework/show",
+        query: {
+          classId: homework.classId,
+          homeId: homework.homeId,
+          needConfirm: homework.needConfirm
+        }
+      });
     },
     //加载分页数据
     handleLoadingMore(e) {

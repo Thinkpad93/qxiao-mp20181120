@@ -15,40 +15,35 @@
         </router-link>
       </template>
       <div class="cells" style="background-color:transparent;">
-        <figure class="figure" v-for="(notice, index) in noticeData" :key="index">
-          <router-link
-            :to="{ path: '/notice/show', query: { noticeId: notice.noticeId, needConfirm: notice.needConfirm } }"
-          >
-            <h3 class="text-ellipsis">
-              <small v-if="!notice.status" style="width:8px;height:8px;"></small>
-              {{ notice.title }}
-            </h3>
-            <div class="time">
-              <time>{{ notice.postTime }}</time>
-            </div>
-            <template v-if="notice.topImage">
-              <div class="pic" :style="{backgroundImage: `url(${notice.topImage})`}"></div>
-            </template>
-            <p class="line-clamp">{{ notice.textContent }}</p>
-            <div class="metedata flex">
-              <div size-14>
-                <span>{{ notice.name }}</span>
-                <span v-if="notice.personType === 1">园长</span>
-                <span v-else>老师</span>
-              </div>
-              <div size-14 class="metedata-count">
-                <template v-if="notice.classReadCount">
-                  <span style="color:#ff87b7">{{ notice.classReadCount }}人阅读</span>
-                </template>
-                <template v-if="notice.classConfirmCount">
-                  <span style="color:#92cd36">{{ notice.classConfirmCount }}人确定</span>
-                </template>
-                <template v-if="notice.classUnreadCount">
-                  <span style="color:#8d8d8d">{{ notice.classUnreadCount }}人未读</span>
-                </template>
+        <figure
+          class="figure figure-skin-one"
+          v-for="(notice, index) in noticeData"
+          :key="index"
+          @click="handleJump(notice)"
+        >
+          <div class="figure-bd">
+            <div
+              class="figure-thumb-small"
+              v-if="notice.topImage"
+              :style="{backgroundImage: `url(${notice.topImage})`}"
+            ></div>
+            <div class="figure-info">
+              <figcaption size-18 class="text-ellipsis">
+                <i v-if="!notice.status"></i>
+                <span>{{ notice.title }}</span>
+              </figcaption>
+              <p size-15 class="text-ellipsis">{{ notice.textContent }}</p>
+              <div class="metedata flex">
+                <span class="name">{{ notice.name }}</span>
+                <time class="time">{{ notice.postTime }}</time>
               </div>
             </div>
-          </router-link>
+          </div>
+          <div class="figure-ft">
+            <div class="figure-total">
+              <span>已读{{ notice.classReadCount }}人，共{{ notice.totalCount }}人</span>
+            </div>
+          </div>
         </figure>
       </div>
     </div>
@@ -88,8 +83,11 @@ export default {
       this.query.type = index;
       this.noticeQuery(this.query);
     },
-    handleTouchEnd(e) {
-      this.$toast(e);
+    handleJump(notice) {
+      this.$router.push({
+        path: "/notice/show",
+        query: { noticeId: notice.noticeId, needConfirm: notice.needConfirm }
+      });
     },
     //加载分页数据
     handleLoadingMore(e) {

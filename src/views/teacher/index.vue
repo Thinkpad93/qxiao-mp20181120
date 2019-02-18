@@ -4,7 +4,6 @@
       <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
-          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量导入老师信息</a>
           <a href="javascript:void(0);" style="color:#409eff;" size-14>批量邀请老师</a>
         </div>
       </div>
