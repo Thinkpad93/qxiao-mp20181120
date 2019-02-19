@@ -4,8 +4,16 @@
       <div class="class-edit-head">
         <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
         <div class="tab">
-          <a href="javascript:;" @click="handleTabClick(1)" :class="[query.type === 1 ? 'curr': '']">已签到人数</a>
-          <a href="javascript:;" @click="handleTabClick(0)" :class="[query.type === 0 ? 'curr': '']">未签到人数</a>
+          <a
+            href="javascript:;"
+            @click="handleTabClick(1)"
+            :class="[query.type === 1 ? 'curr': '']"
+          >已签到人数</a>
+          <a
+            href="javascript:;"
+            @click="handleTabClick(0)"
+            :class="[query.type === 0 ? 'curr': '']"
+          >未签到人数</a>
         </div>
       </div>
     </div>
@@ -31,9 +39,9 @@
             <span v-for="(time, index) in item.time" :key="index">{{ time.postTime }}</span>
           </div>
         </div>
-      </div> -->
+      </div>-->
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -79,6 +87,7 @@ export default {
   }
 }
 .class-edit-head {
+  text-align: center;
   padding-top: 40px;
   > a {
     width: 240px;

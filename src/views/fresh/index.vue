@@ -3,7 +3,7 @@
     <template v-if="roleType == 1 || roleType == 2">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
-          <a href="javascript:void(0);" @click="popupShow = true">
+          <a href="javascript:void(0);" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </a>

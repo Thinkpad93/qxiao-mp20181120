@@ -4,7 +4,7 @@
       <div class="cover">
         <img src="@/assets/image/login-bg@2x.png" alt>
       </div>
-      <form action ref="form" class="form">
+      <form action ref="form" class="join-form">
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
             {{ info.schoolName }}
@@ -130,7 +130,7 @@ export default {
     left: 0;
   }
 }
-.form {
+.join-form {
   z-index: 10;
   width: 100%;
   overflow: hidden;

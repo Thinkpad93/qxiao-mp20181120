@@ -115,9 +115,7 @@ export default {
   margin-bottom: 20px;
   background-color: #fff;
 }
-#showDatePicker {
-  position: relative;
-}
+
 .button-sp-area {
   color: #9cd248;
   height: 100px;
@@ -128,7 +126,7 @@ export default {
 .clock-table {
   .cell {
     padding: 0 0;
-    height: 100px;
+    height: 120px;
   }
   .cell-bd {
     text-align: center;

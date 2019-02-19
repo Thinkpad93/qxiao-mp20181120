@@ -75,52 +75,16 @@
   align-items: center;
 }
 
-.btn-area {
+.btn-area,
+.btn-group {
   margin: 50px 44px;
 }
 
-.btn {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
-  padding: 0 15px;
-  font-size: 32px;
-  color: #fff;
-  text-align: center;
-  text-decoration: none;
-  overflow: hidden;
-  line-height: 2.2;
-  border-radius: 50px;
-  box-shadow: 0 2px 20px 0 rgba(128, 199, 17, .3);
-}
+
 
 .btn-large {
   width: 100%;
 }
-
-
-.btn-warn {
-  background-color: #e64340;
-}
-
-.btn-primary {
-  background-image: linear-gradient(135deg, rgb(170, 221, 90) 10%, rgb(146, 205, 54) 100%);
-}
-
-.btn-default {
-  background-color: #fff;
-  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, .1);
-}
-
-
-.btn-primary:active {
-  color: rgba(255, 255, 255, 0.6);
-  background-color: #75a52b;
-  background-image: none;
-}
-
-
 
 
 .uploader-input_box {
@@ -168,16 +132,19 @@
 .classId {
   padding: 30px;
 
-  >span {
-    display: inline-block;
+  div {
+    display: flex;
     color: #fff;
-    text-align: center;
-    min-width: 150px;
-    padding: 0 20px;
     height: 60px;
-    line-height: 60px;
-    border-radius: 30px;
+    width: 150px;
+    align-items: center;
+    justify-content: center;
     background-color: #9acb4d;
+    border-radius: 30px;
+
+    span {
+      margin-right: 20px;
+    }
   }
 }
 
@@ -188,20 +155,6 @@
   bottom: 10%;
   z-index: 100;
 }
-
-/*fade-transform*/
-// .fade-transform-leave-active,
-// .fade-transform-enter-active {
-//   transition: all .3s ease;
-// }
-// .fade-transform-enter {
-//   opacity: 0.8;
-//   transform: translateX(10%);
-// }
-// .fade-transform-leave-to {
-//   opacity: 0;
-//   transform: translateX(-10%);
-// }
 
 .empty {
   text-align: center;
@@ -242,5 +195,17 @@
 
   >a {
     width: 200px;
+  }
+}
+
+
+#showDatePicker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    margin-right: 20px;
   }
 }

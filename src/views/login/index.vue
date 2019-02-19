@@ -4,7 +4,7 @@
       <div class="cover">
         <img src="@/assets/image/login-bg@2x.png" alt>
       </div>
-      <form action ref="form" class="form">
+      <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">
             <img src="@/assets/image/qlogocdr12.png" alt>
@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-        <div class="btn-area">
+        <div class="btn-group">
           <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登陆</a>
         </div>
       </form>
@@ -201,7 +201,7 @@ export default {
     left: 0;
   }
 }
-.form {
+.login-form {
   background-color: #fff;
   z-index: 10;
   width: 90%;

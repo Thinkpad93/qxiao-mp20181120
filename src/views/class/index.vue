@@ -30,7 +30,7 @@
       </van-dialog>
       <div class="cells">
         <div
-          class="cell class-box"
+          class="cell class-boxs"
           @click="handleEditClass(item.classId)"
           v-for="(item, index) in classList"
           :key="index"
@@ -145,7 +145,7 @@ export default {
     width: 240px;
   }
 }
-.class-box {
+.class-boxs {
   height: 120px;
   margin-bottom: 0;
   .cell-bd {

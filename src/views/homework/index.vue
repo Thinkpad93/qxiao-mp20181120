@@ -4,7 +4,7 @@
     <template v-if="roleType == 1 || roleType == 2">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
-          <a href="javascript:;" @click="popupShow = true">
+          <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </a>
@@ -69,7 +69,7 @@ export default {
     return {
       popupShow: false,
       className: "",
-      classList: this.$store.getters.classList,
+      classList: [],
       isLoading: false,
       totalPage: 1, //总页数
       query: {

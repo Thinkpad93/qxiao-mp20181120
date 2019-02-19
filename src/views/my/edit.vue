@@ -7,107 +7,150 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">姓名</label>
+              <label for class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入园长名称" maxlength="4" v-model="leaderInfo.leaderName">
-            </div>            
+              <input
+                class="input"
+                placeholder="请输入园长名称"
+                maxlength="4"
+                v-model="leaderInfo.leaderName"
+              >
+            </div>
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">学校名称</label>
+              <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
-            </div>            
-          </div>    
+            </div>
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">学校类型</label>
+              <label for class="label">学校类型</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="leaderInfo.type">
-                <option :value="option.id" v-for="(option,index) in schoolTypeList" :key="index">{{ option.name }}</option>
-              </select>              
-            </div>            
-          </div>     
+              <select class="select" name dir="rtl" v-model="leaderInfo.type">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in schoolTypeList"
+                  :key="index"
+                >{{ option.name }}</option>
+              </select>
+            </div>
+          </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">详细地址</label>
+              <label for class="label">详细地址</label>
             </div>
             <div class="cell-bd">
               <input class="input" placeholder="请输入详细地址" v-model="leaderInfo.location">
-            </div>            
-          </div>                          
+            </div>
+          </div>
         </div>
-        <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(1)">保存</a>
-        </div>          
+        <div class="btn-group">
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="handleSubmit(1)"
+          >保存</a>
+        </div>
       </template>
       <!-- 老师 -->
       <template v-if="roleType == 2">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">姓名</label>
+              <label for class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="4" v-model="teacherInfo.teacherName">
+              <input
+                class="input"
+                placeholder="请输入老师姓名"
+                maxlength="4"
+                v-model="teacherInfo.teacherName"
+              >
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
+              <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="teacherInfo.sex">
-                <option :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="teacherInfo.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
             </div>
-          </div>          
+          </div>
         </div>
-        <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(2)">保存</a>
-        </div>        
+        <div class="btn-group">
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="handleSubmit(2)"
+          >保存</a>
+        </div>
       </template>
       <!-- 家长 -->
       <template v-if="roleType == 3">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <label for="" class="label">学生姓名</label>
-            </div>     
+              <label for class="label">学生姓名</label>
+            </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学生姓名" maxlength="4" v-model="patroarch.studentName">
-            </div>                   
+              <input
+                class="input"
+                placeholder="请输入学生姓名"
+                maxlength="4"
+                v-model="patroarch.studentName"
+              >
+            </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">性别</label>
-            </div>  
+              <label for class="label">性别</label>
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="patroarch.sex">
-                <option :value="option.id" v-for="(option,index) in sexList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="patroarch.sex">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in sexList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
-            </div>                      
-          </div>   
+            </div>
+          </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for="" class="label">学生和家长关系</label>
-            </div>  
+              <label for class="label">学生和家长关系</label>
+            </div>
             <div class="cell-bd">
-              <select class="select" name="" dir="rtl" v-model="patroarch.relation">
-                <option :value="option.id" v-for="(option,index) in relationList" :key="index">{{ option.name }}</option>
+              <select class="select" name dir="rtl" v-model="patroarch.relation">
+                <option
+                  :value="option.id"
+                  v-for="(option,index) in relationList"
+                  :key="index"
+                >{{ option.name }}</option>
               </select>
-            </div>                      
-          </div>                  
+            </div>
+          </div>
         </div>
-        <div class="btn-area">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit(3)">保存</a>
-        </div>           
+        <div class="btn-group">
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="handleSubmit(3)"
+          >保存</a>
+        </div>
       </template>
-    </div>  
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";

@@ -167,42 +167,6 @@ export default {
 };
 </script>
 <style lang="less">
-// .article {
-//   padding: 20px;
-//   word-wrap: break-word;
-//   background-color: #fff;
-//   h1 {
-//     font-weight: bold;
-//     margin-bottom: 10px;
-//   }
-// }
-// .article-head {
-//   align-items: center;
-//   .article-cell {
-//     color: #8d8d8d;
-//     display: flex;
-//     align-items: center;
-//     margin-right: 30px;
-//     b {
-//       font-size: 28px;
-//       margin-left: 8px;
-//     }
-
-//     i {
-//       font-size: 34px;
-//     }
-//   }
-// }
-// .article-content {
-//   text-align: justify;
-//   p {
-//     margin: 20px 0;
-//     line-height: 1.4;
-//   }
-//   img {
-//     max-width: 100%;
-//   }
-// }
 .icon {
   width: 80px;
   height: 80px;

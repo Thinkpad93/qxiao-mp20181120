@@ -46,7 +46,7 @@
         </div>
       </form>
     </div>
-    <div class="btn-area">
+    <div class="btn-group">
       <a href="javascript:;" class="btn btn-large btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
     </div>
   </div>
@@ -196,6 +196,8 @@ export default {
       let res = await service.communityAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      }else if (res.errorCode === -1) {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //通过config接口注入权限验证配置

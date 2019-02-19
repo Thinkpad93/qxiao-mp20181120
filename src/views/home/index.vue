@@ -13,17 +13,17 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <template v-if="(roleType === 2) || (roleType === 3)">
+      <template v-if="(roleType == 2) || (roleType == 3)">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
       <main class="main">
         <section class="classId">
-          <span @click="popupShow = true">
-            {{ className }}
+          <div @click="popupShow = true">
+            <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
-          </span>
+          </div>
         </section>
         <section class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
@@ -109,7 +109,6 @@
       </van-dialog>
     </div>
     <div class="page-ft">
-      <!-- <qxfooter></qxfooter> -->
       <footer class="footer">
         <div class="item">
           <router-link to="/home">

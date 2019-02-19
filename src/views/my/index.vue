@@ -67,16 +67,11 @@
               <p class="cell-p">{{ leaderInfo.tel }}</p>
             </div>
           </div>
-          <!-- <div class="cell">
-            <div class="cell-bd">
-              <p class="cell-p" @click="handleEditUser">修改信息</p>
-            </div>
-          </div>-->
         </div>
         <a
           href="javascript:void(0);"
           style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
-          class="btn btn-default btn-large"
+          class="btn btn-white btn-large"
           @click="handleEditUser"
         >修改资料</a>
       </template>
@@ -151,15 +146,16 @@
         <a
           href="javascript:void(0);"
           style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
-          class="btn btn-default btn-large"
+          class="btn btn-white btn-large"
           @click="handleEditUser"
         >修改资料</a>
       </template>
       <!-- 家长 -->
       <template v-if="roleType === 3">
-        <div class="cells">
+        <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
+              <img src="@/assets/image/info-icon-1@2x.png" class="info-icon">
               <label for class="label">宝宝姓名</label>
             </div>
             <div class="cell-bd">
@@ -168,6 +164,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
+              <img src="@/assets/image/info-icon-2@2x.png" class="info-icon">
               <label for class="label">性别</label>
             </div>
             <div class="cell-bd">
@@ -179,6 +176,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
+              <img src="@/assets/image/info-icon-3@2x.png" class="info-icon">
               <label for class="label">手机号码</label>
             </div>
             <div class="cell-bd">
@@ -187,6 +185,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
+              <img src="@/assets/image/info-icon-4@2x.png" class="info-icon">
               <label for class="label">和宝宝关系</label>
             </div>
             <div class="cell-bd">
@@ -202,22 +201,18 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
+              <img src="@/assets/image/info-icon-5@2x.png" class="info-icon">
               <label for class="label">所在班级</label>
             </div>
             <div class="cell-bd">
               <p class="cell-p">{{ patroarch.className }}</p>
             </div>
           </div>
-          <!-- <div class="cell">
-            <div class="cell-bd">
-              <p class="cell-p" @click="handleEditUser">修改信息</p>
-            </div>
-          </div>-->
         </div>
         <a
           href="javascript:void(0);"
           style="color:#92cd36;margin:50px auto 0 auto;width:250px;display:block;"
-          class="btn btn-default btn-large"
+          class="btn btn-white btn-large"
           @click="handleEditUser"
         >修改资料</a>
       </template>
@@ -326,5 +321,11 @@ export default {
 }
 .media-box__title {
   margin-left: 20px;
+}
+
+.info-icon {
+  width: 64px;
+  height: 64px;
+  margin-right: 20px;
 }
 </style>
