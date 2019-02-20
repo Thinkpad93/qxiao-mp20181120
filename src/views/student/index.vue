@@ -4,12 +4,20 @@
       <div class="student-head">
         <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
         <div class="tab">
-          <a href="javascript:;" style="color:#409eff;" size-14>批量邀请学生学长</a>
+          <a href="javascript:;" style="color:#409eff;" size-14>批量导入学生信息</a>
+          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = true">批量邀请学生家长</a>
         </div>
       </div>
     </div>
     <div class="page-bd">
-      <div class="cells-title">学生家长列表({{ studentList.length }})</div>
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/image/share-tip.png">
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
+      <div class="cells-title">学生家长列表({{ studentCount }})</div>
       <div class="cells">
         <div
           class="cell student-box"
@@ -31,7 +39,7 @@
               <span
                 size-14
                 v-if="!student.openId"
-                @click.stop="handleShare"
+                @click.stop="visibility = true"
                 style="color: rgb(64, 158, 255);margin-left:10px;"
               >微信邀请</span>
             </p>
@@ -55,9 +63,15 @@ export default {
   name: "student",
   data() {
     return {
+      visibility: false,
       teacherId: this.$store.getters.id,
       studentList: []
     };
+  },
+  computed: {
+    studentCount() {
+      return this.studentList.length;
+    }
   },
   methods: {
     handleEditStudent(student) {
@@ -76,9 +90,9 @@ export default {
         this.studentList = res.data;
       }
     },
-    handleShare() {
-      this.$toast("请点击右上角发送给朋友");
-    },
+    // handleShare() {
+    //   this.visibility = true;
+    // },
     //通过config接口注入权限验证配置
     getWxConfig() {
       let url = window.location.href.split("#")[0];

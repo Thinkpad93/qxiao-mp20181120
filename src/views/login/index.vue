@@ -193,6 +193,7 @@ export default {
   padding-bottom: 100%;
   overflow: hidden;
   position: relative;
+  background-color: #cbf4fa;
   img {
     position: absolute;
     top: 0;

@@ -210,3 +210,9 @@ export function updateSchool(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询学生详细信息
+export function studentInfoQuery(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/studentInfoQuery.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

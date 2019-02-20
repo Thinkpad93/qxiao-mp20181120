@@ -1,40 +1,30 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <form action="" ref="form" method="post">
+      <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
-                <li class="uploader-file" 
-                  v-for="(file, index) in imagesList" 
+                <li
+                  class="uploader-file"
+                  v-for="(file, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}">
+                  :style="{backgroundImage: `url(${file})`}"
+                >
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage"></div>              
+              <div class="uploader-input_box" @click="handleChooseImage"></div>
             </div>
           </div>
-          <div class="cell cell-select cell-select-after">
-            <div class="cell-hd">
-              <label for="" class="label">相册栏目</label>
-            </div>    
-            <div class="cell-bd">
-              <select class="select" name="select" dir="rtl" v-model="form.channelId" size="1">
-                <!-- 兼容性问题修改 -->
-                <optgroup disabled hidden></optgroup>
-                <option :value="option.channelId" v-for="(option,index) in albumChannel" :key="index">{{ option.title }}</option>
-              </select>
-            </div>                       
-          </div>
-        </div>  
-      </form>  
-    </div>  
+        </div>
+      </form>
+    </div>
     <div class="btn-area">
-      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">保存</a>
-    </div>       
-  </div>  
+      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
@@ -44,13 +34,9 @@ export default {
     return {
       serverId: [], //微信图片ID
       imagesList: [],
-      query: {
-        openId: this.$store.getters.openId,
-        classId: this.$route.query.classId
-      },
       form: {
         openId: this.$store.getters.openId,
-        channelId: null,
+        channelId: this.$route.query.channelId,
         type: 0, // 0-图片 1-视频
         imageUrl: [],
         videoUrl: "" //视频URL
@@ -140,8 +126,6 @@ export default {
     handleSubmit() {
       if (!this.serverId.length) {
         this.$toast("请上传图片");
-      } else if (!this.form.channelId) {
-        this.$toast("请选择相册栏目");
       } else {
         let params = {
           openId: this.form.openId,
@@ -159,13 +143,6 @@ export default {
             });
           }
         });
-      }
-    },
-    //查询班级所属的相册栏目
-    async albumChannelQuery(params = {}) {
-      let res = await service.albumChannelQuery(params);
-      if (res.errorCode === 0) {
-        this.albumChannel = res.data;
       }
     },
     //通过config接口注入权限验证配置
@@ -192,9 +169,7 @@ export default {
   created() {
     this.getWxConfig();
   },
-  mounted() {
-    this.albumChannelQuery(this.query);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less">

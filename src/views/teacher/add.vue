@@ -71,7 +71,7 @@
       </form>
     </div>
     <div class="btn-area">
-      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
+      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
     </div>
   </div>
 </template>

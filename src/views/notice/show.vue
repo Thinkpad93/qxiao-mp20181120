@@ -46,10 +46,6 @@
                   <div class="cell-bd">
                     <p class>{{ read.studentName }}</p>
                   </div>
-                  <div class="cell-ft">
-                    <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
-                  </div>
                 </div>
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
@@ -60,10 +56,6 @@
                   </div>
                   <div class="cell-bd">
                     <p class>{{ unread.studentName }}</p>
-                  </div>
-                  <div class="cell-ft">
-                    <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
                   </div>
                 </div>
               </div>
@@ -78,9 +70,9 @@
             <a
               :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
               href="javascript:void(0);"
-              class="btn"
+              class="btn btn-large"
               @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确认':'确认通知' }}</a>
+            >{{ info.confirmFlag ? '已确认':'确认阅读' }}</a>
           </section>
         </template>
       </template>

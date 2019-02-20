@@ -133,8 +133,10 @@ import { ImagePreview } from "vant";
 import service from "@/api";
 import qxmenu from "@/components/menu";
 import { mapGetters } from "vuex";
+import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "home",
+  mixins: [scrollMixins],
   components: {
     qxmenu
   },
@@ -307,12 +309,6 @@ export default {
       }
     }
   },
-  deactivated() {
-    window.removeEventListener("scroll", this.handleLoadingMore);
-  },
-  activated() {
-    window.addEventListener("scroll", this.handleLoadingMore);
-  },
   mounted() {
     if (Object.keys(this.$route.query).length) {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
@@ -383,6 +379,7 @@ export default {
     margin-bottom: 10px;
     background-size: 100%;
     background-repeat: no-repeat;
+    background-position: 0, center;
   }
 }
 .handle {

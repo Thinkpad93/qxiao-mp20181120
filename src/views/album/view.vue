@@ -1,11 +1,6 @@
 <template>
   <div class="page" style="padding-bottom: 65px;">
     <div class="page-bd">
-      <template v-if="roleType == 2">
-        <a href="javascript:;" class="release" @click="handleBlumAdd">
-          <img src="@/assets/image/release-icon.png" alt>
-        </a>
-      </template>
       <van-dialog
         v-model="dialogVisible"
         title="相册名称"
@@ -73,12 +68,6 @@ export default {
     };
   },
   methods: {
-    handleBlumAdd(e) {
-      this.$router.push({
-        path: "/album/add",
-        query: { classId: this.$route.query.classId }
-      });
-    },
     handleGo(channelId) {
       this.$router.push({
         path: "/album/show",
@@ -169,18 +158,18 @@ export default {
     }
   }
 }
-._confirm {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 11;
-  padding: 20px 0;
-  text-align: center;
-  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  > a {
-    width: 200px;
-  }
-}
+// ._confirm {
+//   position: fixed;
+//   left: 0;
+//   bottom: 0;
+//   width: 100%;
+//   z-index: 11;
+//   padding: 20px 0;
+//   text-align: center;
+//   box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
+//   background-color: #fff;
+//   > a {
+//     width: 500px;
+//   }
+// }
 </style>

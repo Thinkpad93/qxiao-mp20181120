@@ -16,6 +16,7 @@
           <div class="figure-info">
             <figcaption size-18 class="text-ellipsis">{{ recipe.title }}</figcaption>
             <div class="metedata flex">
+              <span class="name">{{ recipe.name }}</span>
               <time class="time">{{ recipe.postTime }}</time>
             </div>
             <div

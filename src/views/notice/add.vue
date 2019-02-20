@@ -4,28 +4,13 @@
     <div class="panel" style="z-index: 999" :class="{'panel-on': isActive}">
       <div class="panel-hd">
         <van-tabs color="#92cd36" :line-height="2" @click="handleTabClick">
-          <van-tab title="老师"></van-tab>
           <van-tab title="班级"></van-tab>
+          <van-tab title="老师"></van-tab>
         </van-tabs>
       </div>
       <div class="panel-bd">
-        <!-- 老师列表 -->
-        <div class="panel-bd_cell" :style="{display: tabIndex === 0 ? 'block':'none'}">
-          <div class="cells weui-cells_checkbox">
-            <label class="cell item weui-check__label" v-for="(t,i) in teacherList" :key="i">
-              <div class="cell-bd" style="padding-left:0">
-                <p>{{ t.teacherName }}</p>
-              </div>
-              <div class="cell-ft">
-                <van-checkbox-group v-model="teacherCheckList">
-                  <van-checkbox :key="t.teacherId" :name="t.teacherId" checked-color="#92cd36"></van-checkbox>
-                </van-checkbox-group>
-              </div>
-            </label>
-          </div>
-        </div>
         <!-- 班级列表 -->
-        <div class="panel-bd_cell" :style="{display: tabIndex === 1 ? 'block':'none'}">
+        <div class="panel-bd_cell" :style="{display: tabIndex === 0 ? 'block':'none'}">
           <div class="cells weui-cells_checkbox">
             <label class="cell class-box weui-check__label" v-for="(c,i) in classList" :key="i">
               <div class="cell-hd"></div>
@@ -35,6 +20,21 @@
               <div class="cell-ft">
                 <van-checkbox-group v-model="classChenkList">
                   <van-checkbox :key="c.classId" :name="c.classId" checked-color="#92cd36"></van-checkbox>
+                </van-checkbox-group>
+              </div>
+            </label>
+          </div>
+        </div>
+        <!-- 老师列表 -->
+        <div class="panel-bd_cell" :style="{display: tabIndex === 1 ? 'block':'none'}">
+          <div class="cells weui-cells_checkbox">
+            <label class="cell item weui-check__label" v-for="(t,i) in teacherList" :key="i">
+              <div class="cell-bd" style="padding-left:0">
+                <p>{{ t.teacherName }}</p>
+              </div>
+              <div class="cell-ft">
+                <van-checkbox-group v-model="teacherCheckList">
+                  <van-checkbox :key="t.teacherId" :name="t.teacherId" checked-color="#92cd36"></van-checkbox>
                 </van-checkbox-group>
               </div>
             </label>
@@ -121,7 +121,7 @@
               <van-switch v-model="form.needConfirm" size="28px" active-color="#92cd36"></van-switch>
             </div>
           </div>
-          <div class="cell cell-switch">
+          <!-- <div class="cell cell-switch">
             <div class="cell-bd" style="padding-left:0">
               <label for class="label">是否定时发送</label>
             </div>
@@ -144,7 +144,7 @@
                 >
               </div>
             </div>
-          </template>
+          </template>-->
         </div>
       </form>
     </div>
@@ -179,7 +179,7 @@ export default {
         images: [], //图片
         needConfirm: true, //是否需要确认 0-无需确认 1-需要确认
         senders: [], //发送对象
-        sendType: 2, //发送类型 2-老师，1-班级
+        sendType: 1, //发送类型 2-老师，1-班级
         clockType: false, //定时发送标志 0-即时发送 1-定时发送
         clockTime: "" //定时发送时间
       }
@@ -280,11 +280,11 @@ export default {
     handleTabClick(index) {
       this.tabIndex = index;
       if (index === 0) {
-        this.form.sendType = 2;
-        this.teacherCheckList = [];
-      } else if (index === 1) {
         this.form.sendType = 1;
         this.classChenkList = [];
+      } else if (index === 1) {
+        this.form.sendType = 2;
+        this.teacherCheckList = [];
       }
       this.checked = false;
     },

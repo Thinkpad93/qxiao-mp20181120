@@ -41,7 +41,18 @@ export const constantRouterMap = [
   ...teacherRouterConfig
 ]
 
+
+
 export default new Router({
-  //mode: 'history',
-  routes: constantRouterMap
-})
+  routes: constantRouterMap,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition && to.meta.keepAlive) {
+      return savedPosition;
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
+});

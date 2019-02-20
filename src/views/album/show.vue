@@ -1,25 +1,32 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <template v-if="roleType == 2">
+        <a href="javascript:;" class="release" @click="handleBlumAdd">
+          <img src="@/assets/image/release-icon.png" alt>
+        </a>
+      </template>
       <article class="article">
-        <h1 size-24>{{ albumInfo.title }}</h1>  
+        <h1 size-24>{{ albumInfo.title }}</h1>
         <div class="article-head flex">
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ albumInfo.postTime }}</time>    
+            <time style="color:#8d8d8d;">{{ albumInfo.postTime }}</time>
           </div>
-        </div> 
+        </div>
         <div class="album-content clearfix">
-          <div class="item" 
-            v-for="(pic, index) in albumInfo.items" 
-            :key="index" 
-            @click="handlePreviewImage(index, albumInfo.items)">
+          <div
+            class="item"
+            v-for="(pic, index) in albumInfo.items"
+            :key="index"
+            @click="handlePreviewImage(index, albumInfo.items)"
+          >
             <div class="grid-content" :style="{backgroundImage: `url(${pic.imageUrl})`}"></div>
             <!-- <img :src="pic.imageUrl" alt=""> -->
           </div>
-        </div>           
+        </div>
       </article>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import { ImagePreview } from "vant";
@@ -28,6 +35,7 @@ export default {
   name: "albumDetail",
   data() {
     return {
+      roleType: this.$store.getters.roleType,
       query: {
         openId: this.$store.getters.openId,
         channelId: this.$route.query.channelId
@@ -36,6 +44,12 @@ export default {
     };
   },
   methods: {
+    handleBlumAdd(e) {
+      this.$router.push({
+        path: "/album/add",
+        query: { channelId: this.$route.query.channelId }
+      });
+    },
     //预览图片
     handlePreviewImage(index, images) {
       if (Array.isArray(images)) {
@@ -78,8 +92,6 @@ export default {
   }
 }
 .album-content {
-  // justify-content: flex-start;
-  // flex-wrap: wrap;
   padding-top: 20px;
   padding-left: -10px;
   padding-right: -10px;
@@ -97,13 +109,6 @@ export default {
       background-size: 100%;
       background-position: 0;
     }
-    // img {
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   left: 0;
-    // }
   }
 }
 </style>

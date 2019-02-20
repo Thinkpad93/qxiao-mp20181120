@@ -58,7 +58,8 @@
           </div>
           <div class="figure-ft">
             <div class="figure-total">
-              <span>已读{{ notice.classReadCount }}人，共{{ notice.totalCount }}人</span>
+              <span>已读{{ notice.classReadCount }}人</span>
+              <span v-if="roleType == 1">共{{ notice.totalCount }}人</span>
             </div>
           </div>
         </figure>
@@ -68,8 +69,10 @@
 </template>
 <script>
 import service from "@/api";
+import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "notice",
+  mixins: [scrollMixins],
   data() {
     return {
       popupShow: false,
@@ -180,12 +183,6 @@ export default {
         this.noticeData = res.data.data;
       }
     }
-  },
-  deactivated() {
-    window.removeEventListener("scroll", this.handleLoadingMore);
-  },
-  activated() {
-    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {

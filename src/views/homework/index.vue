@@ -63,8 +63,10 @@
 <script>
 import service from "@/api";
 import { mapGetters } from "vuex";
+import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "homeWork",
+  mixins: [scrollMixins],
   data() {
     return {
       popupShow: false,
@@ -154,12 +156,6 @@ export default {
         this.homeworkData = res.data.data;
       }
     }
-  },
-  deactivated() {
-    window.removeEventListener("scroll", this.handleLoadingMore);
-  },
-  activated() {
-    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     this.homeworkQuery(this.query);

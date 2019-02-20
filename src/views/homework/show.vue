@@ -47,23 +47,16 @@
                   <div class="cell-bd">
                     <p class>{{ read.studentName }}</p>
                   </div>
-                  <div class="cell-ft">
-                    <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
-                  </div>
                 </div>
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
                 <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                   <div class="cell-hd">
-                    <img :src="unread.photo" :alt="unread.studentName">
+                    <img :src="unread.photo" v-if="unread.photo">
+                    <div class="icon-d" v-else></div>
                   </div>
                   <div class="cell-bd">
                     <p class>{{ unread.studentName }}</p>
-                  </div>
-                  <div class="cell-ft">
-                    <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
                   </div>
                 </div>
               </div>
@@ -81,7 +74,7 @@
               href="javascript:void(0);"
               class="btn"
               @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确定':'确定' }}</a>
+            >{{ info.confirmFlag ? '已确认':'确认' }}</a>
           </section>
         </template>
       </template>
@@ -109,8 +102,12 @@ export default {
       unReadCount: null
     };
   },
+  computed: {},
   methods: {
     handleTabClick(index) {
+      if (index == this.readFlag) {
+        return;
+      }
       //实时更新
       this.readFlag = index;
       this.homeworkReaders();
@@ -165,40 +162,6 @@ export default {
 };
 </script>
 <style lang="less">
-// .article {
-//   padding: 30px;
-//   word-wrap: break-word;
-//   background-color: #fff;
-//   h1 {
-//     font-weight: bold;
-//     margin-bottom: 10px;
-//   }
-// }
-// .article-content {
-//   text-align: justify;
-//   p {
-//     margin: 20px 0;
-//     line-height: 1.4;
-//   }
-//   img {
-//     max-width: 100%;
-//   }
-// }
-// .article-ft {
-//   .article-icon {
-//     display: flex;
-//     align-items: center;
-//     color: #8d8d8d;
-//     b {
-//       font-size: 28px;
-//       margin-left: 8px;
-//     }
-
-//     i {
-//       font-size: 34px;
-//     }
-//   }
-// }
 .tab-warp {
   margin-top: 20px;
   margin-bottom: 30px;

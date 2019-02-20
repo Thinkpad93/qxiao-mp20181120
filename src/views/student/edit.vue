@@ -41,14 +41,23 @@
             </div>
           </div>
         </div>
-        <div class="cells-title">家长关联</div>
-        <div class="cells">
+        <div class="cells-title">
+          <span></span>
+          <a href="javascript:void(0);" class="btn btn-primary" @click="handleAddLinkMan">新增家长</a>
+        </div>
+        <div class="cells" v-for="(link,index) in form.linkMan" :key="index">
           <div class="cell">
             <div class="cell-hd">
               <label class="label">家长手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input
+                type="number"
+                class="input"
+                pattern="[0-9]*"
+                placeholder="请输入手机号"
+                v-model="link.tel"
+              >
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -56,7 +65,7 @@
               <label for class="label">学生和家长关系</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name dir="rtl" v-model="form.relation">
+              <select class="select" name dir="rtl" v-model="link.relation">
                 <option
                   :value="option.id"
                   v-for="(option,index) in relationList"
@@ -65,12 +74,17 @@
               </select>
             </div>
           </div>
+          <div class="cells-footer" v-if="form.linkMan.length > 1">
+            <div class="cell">
+              <a href="javascript:void(0);" class="btn btn-warn" @click="handleDelLinkMan(index)">删除</a>
+            </div>
+          </div>
         </div>
       </form>
     </div>
     <div class="btn-area flex">
       <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
     </div>
   </div>
 </template>
@@ -96,6 +110,16 @@ export default {
     };
   },
   methods: {
+    handleAddLinkMan() {
+      if (this.form.linkMan.length >= 2) {
+        this.$toast("只能添加两名家长");
+        return;
+      }
+      this.form.linkMan.push({ relation: 1, tel: "" });
+    },
+    handleDelLinkMan(index) {
+      return this.form.linkMan.splice(index, 1);
+    },
     handleDel() {
       let { studentId } = this.form;
       if (studentId) {
@@ -115,16 +139,23 @@ export default {
       }
     },
     handleSubmit() {
-      let { studentName, tel } = this.form;
+      let { studentName, classId, linkMan } = this.form;
       if (studentName == "" || !studentName.length) {
         this.$toast("请输入学生姓名");
         return false;
       }
-      if (isPhone(tel)) {
-        this.studentUpdate(this.form);
-      } else {
-        this.$toast("请正确填写手机号");
+      if (!classId) {
+        this.$toast("请选择学生所在班级");
+        return false;
       }
+      for (let i = 0; i < linkMan.length; i++) {
+        let tel = linkMan[i].tel;
+        if (!isPhone(tel)) {
+          this.$toast("请正确填写手机号");
+          return;
+        }
+      }
+      this.studentUpdate(this.form);
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -134,8 +165,8 @@ export default {
       }
     },
     //学生信息查询
-    async studentQuery(params = {}) {
-      let res = await service.studentQuery(params);
+    async studentInfoQuery(params = {}) {
+      let res = await service.studentInfoQuery(params);
       if (res.errorCode === 0) {
         this.form = res.data[0];
       }
@@ -159,7 +190,7 @@ export default {
   },
   mounted() {
     this.queryClassId(this.query);
-    this.studentQuery(this.querys);
+    this.studentInfoQuery(this.querys);
   }
 };
 </script>
@@ -168,6 +199,17 @@ export default {
   justify-content: space-between;
   > a {
     width: 200px;
+  }
+}
+.cells-footer {
+  .cell {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: flex-end;
+  }
+  a {
+    font-size: 28px;
+    border-radius: 0;
   }
 }
 </style>

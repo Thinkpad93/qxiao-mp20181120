@@ -62,8 +62,10 @@
 </template>
 <script>
 import service from "@/api";
+import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "fresh",
+  mixins: [scrollMixins],
   data() {
     return {
       popupShow: false,
@@ -147,12 +149,6 @@ export default {
         this.freshData = res.data.data;
       }
     }
-  },
-  deactivated() {
-    window.removeEventListener("scroll", this.handleLoadingMore);
-  },
-  activated() {
-    window.addEventListener("scroll", this.handleLoadingMore);
   },
   mounted() {
     this.queryClassId(this.queryClass);

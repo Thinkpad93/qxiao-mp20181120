@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
+      <audio id="player" src="http://a.f265.com/project/shake-money/img/shake.mp3"></audio>
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
@@ -59,6 +60,7 @@
             <div class="cell-bd">
               <p class="cell-p">{{ item.postTime }}</p>
             </div>
+            <div class="cell-ft"></div>
           </div>
         </div>
       </template>
@@ -73,6 +75,7 @@ export default {
   name: "shuttle",
   data() {
     return {
+      timer: null,
       popupShow: false,
       className: "",
       classList: [],
@@ -94,6 +97,12 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.classClockQuery();
+    },
+    handleAudioAutoPlay(e) {
+      let audio = document.getElementById("player");
+      if (audio.src) {
+        audio.play();
+      }
     },
     //根据类型查询相关班级
     async queryClassId(params = {}) {
@@ -120,10 +129,26 @@ export default {
       }
     }
   },
-  activated() {
+  mounted() {
     this.classClockQuery();
     this.realShuttle(this.query);
     this.queryClassId(this.queryClass);
+    // document.addEventListener(
+    //   "WeixinJSBridgeReady",
+    //   this.handleAudioAutoPlay,
+    //   false
+    // );
+    if (this.timer) {
+      clearInterval(this.timer);
+    } else {
+      this.timer = setInterval(() => {
+        this.realShuttle(this.query);
+        this.queryClassId(this.queryClass);
+      }, 6000);
+    }
+  },
+  destroyed() {
+    clearInterval(this.timer);
   }
 };
 </script>

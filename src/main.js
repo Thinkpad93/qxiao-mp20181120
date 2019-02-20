@@ -9,11 +9,13 @@ import './assets/iconfonts/iconfont.css';
 
 Vue.config.productionTip = false;
 
+import FastClick from 'fastclick'; // 引入插件
+FastClick.attach(document.body); // 使用 fastclick
+
 import {
   Checkbox,
   CheckboxGroup,
   Switch,
-  Notify,
   Dialog,
   Popup,
   Picker,
@@ -29,7 +31,6 @@ import {
 Vue.use(CheckboxGroup)
   .use(Checkbox)
   .use(Switch)
-  .use(Notify)
   .use(Dialog)
   .use(Tab)
   .use(Tabs)

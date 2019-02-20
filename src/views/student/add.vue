@@ -82,8 +82,8 @@
         </div>
       </form>
     </div>
-    <div class="btn-area">
-      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
+    <div class="btn-group">
+      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
     </div>
   </div>
 </template>

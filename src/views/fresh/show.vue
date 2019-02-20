@@ -30,7 +30,7 @@
         <div class="comment-hd flex">
           <span>留言({{ commentLen }})</span>
           <!-- 只有家长能够评论 -->
-          <template v-if="roleType == 3">
+          <template>
             <a href="javascript:void(0);" @click="dialogVisible = true">写留言</a>
           </template>
         </div>

@@ -4,11 +4,24 @@
       <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
-          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量邀请老师</a>
+          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量导入老师信息</a>
+          <a
+            href="javascript:void(0);"
+            style="color:#409eff;"
+            size-14
+            @click="visibility = true"
+          >批量邀请老师</a>
         </div>
       </div>
     </div>
     <div class="page-bd">
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/image/share-tip.png">
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
       <div class="cells-title">老师列表({{ teacherList.length }})</div>
       <div class="cells">
         <div
@@ -31,7 +44,7 @@
               <span
                 size-14
                 v-if="!teacher.openId"
-                @click.stop="handleShare"
+                @click.stop="visibility = true"
                 style="color: rgb(64, 158, 255);margin-left:10px;"
               >微信邀请</span>
             </p>
@@ -59,6 +72,7 @@ export default {
   name: "teacher",
   data() {
     return {
+      visibility: false,
       schoolId: this.$store.getters.id,
       teacherList: []
     };
@@ -75,13 +89,6 @@ export default {
       if (res.errorCode === 0) {
         this.teacherList = res.data;
       }
-    },
-    //分享功能
-    handleShare() {
-      this.$toast("请点击右上角发送给朋友");
-      // wx.showMenuItems({
-      //   menuList: ["menuItem:share:appMessage", "menuItem:share:timeline"]
-      // });
     },
     //通过config接口注入权限验证配置
     getWxConfig() {

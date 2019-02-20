@@ -57,22 +57,4 @@ export default {
 };
 </script>
 <style lang="less">
-// .article {
-//   padding: 30px;
-//   word-wrap: break-word;
-//   background-color: #fff;
-//   h1 {
-//     margin-bottom: 10px;
-//   }
-// }
-// .article-content {
-//   text-align: justify;
-//   p {
-//     margin: 20px 0;
-//     line-height: 1.4;
-//   }
-//   img {
-//     max-width: 100%;
-//   }
-// }
 </style>
