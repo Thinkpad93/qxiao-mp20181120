@@ -89,6 +89,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -96,11 +97,11 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
-      classList: [],
-      query: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
-      },
+      //classList: [],
+      // query: {
+      //   id: this.$store.getters.id,
+      //   roleType: this.$store.getters.roleType
+      // },
       form: {
         openId: this.$store.getters.openId,
         studentName: "",
@@ -109,6 +110,9 @@ export default {
         classId: null
       }
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     handleAddLinkMan() {
@@ -161,7 +165,7 @@ export default {
     }
   },
   mounted() {
-    this.queryClassId(this.query);
+    //this.queryClassId(this.query);
   }
 };
 </script>

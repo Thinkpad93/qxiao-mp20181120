@@ -81,11 +81,11 @@ export default {
   computed: {
     ...mapGetters(["roleType"]),
     computedMenu() {
-      if (this.roleType === 1) {
+      if (this.roleType == 1) {
         return this.menuList.concat(this.patroarList);
-      } else if (this.roleType === 2) {
+      } else if (this.roleType == 2) {
         return this.menuList.concat(this.teacherList);
-      } else if (this.roleType === 3) {
+      } else if (this.roleType == 3) {
         return this.menuList;
       }
     }

@@ -66,7 +66,8 @@
             <span
               :class="{'red':k2==0||k2==6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}"
             >{{child.day}}</span>
-            <div class="text" v-if="child.eventName!=undefined">{{child.eventName}}</div>
+            <div class="eventName" v-if="child.eventName!=undefined"></div>
+            <!-- 如果是自定义的事件，则加上 eventName {{child.eventName}} -->
             <div
               class="text"
               :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}"
@@ -442,7 +443,7 @@ export default {
           temp[line].push(options);
         } else {
           // 单选
-          // console.log(this.lunar(this.year,this.month,i));
+          //console.log(this.lunar(this.year,this.month,i));
 
           let chk = new Date();
           let chkY = chk.getFullYear();
@@ -944,6 +945,15 @@ export default {
   font-size: 20px;
   line-height: 1.2;
   color: #444;
+}
+.calendar td .eventName {
+  position: absolute;
+  right: 10%;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ea6151;
 }
 .calendar td .isGregorianFestival,
 .calendar td .isLunarFestival {

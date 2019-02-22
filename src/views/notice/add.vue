@@ -192,6 +192,7 @@ export default {
         : this.classChenkList.length;
     }
   },
+  watch: {},
   methods: {
     handleShowDatePicker(value) {
       let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");

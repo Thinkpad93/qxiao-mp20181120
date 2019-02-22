@@ -70,8 +70,8 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: "",
-      classList: [],
+      className: this.$store.getters.className,
+      //classList: [],
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -88,7 +88,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["roleType"])
+    ...mapGetters(["roleType", "classList"])
   },
   methods: {
     //选择班级
@@ -159,7 +159,7 @@ export default {
   },
   mounted() {
     this.homeworkQuery(this.query);
-    this.queryClassId(this.queryClass);
+    //this.queryClassId(this.queryClass);
   }
 };
 </script>

@@ -2,7 +2,7 @@ export default [{
     path: '/student',
     component: () => import('@/views/student'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: '学生管理',
       roles: [2]
     },

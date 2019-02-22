@@ -74,8 +74,8 @@
         </div>
       </form>
     </div>
-    <div class="btn-area">
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">提交</a>
+    <div class="btn-group">
+      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
     </div>
   </div>
 </template>

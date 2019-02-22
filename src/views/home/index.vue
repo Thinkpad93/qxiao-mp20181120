@@ -21,7 +21,8 @@
       <main class="main">
         <section class="classId">
           <div @click="popupShow = true">
-            <span>{{ className }}</span>
+            <span v-if="!className">{{ fullName }}</span>
+            <span v-else>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </div>
         </section>
@@ -65,7 +66,7 @@
                       <span
                         v-for="(praise, index) in community.praiseList"
                         :key="index"
-                      >{{ praise.studentName }}</span>
+                      >{{ praise.studentName | capitalize }}</span>
                     </div>
                   </template>
                   <template v-if="community.commentList">
@@ -129,6 +130,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import { ImagePreview } from "vant";
 import service from "@/api";
 import qxmenu from "@/components/menu";
@@ -144,7 +146,7 @@ export default {
     return {
       popupShow: false,
       dialogVisible: false,
-      className: this.$store.getters.className,
+      className: "",
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -153,7 +155,7 @@ export default {
         page: 1,
         pageSize: 10
       },
-      classList: this.$store.getters.classList,
+      //classList: this.$store.getters.classList,
       communityData: [],
       form: {
         openId: this.$store.getters.openId,
@@ -163,7 +165,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["id", "roleType"])
+    ...mapGetters(["id", "roleType", "classList"]),
+    fullName: {
+      get() {
+        return this.$store.getters.className;
+      },
+      set(newValue) {
+        this.className = newValue;
+      }
+    }
+  },
+  filters: {
+    capitalize(value) {
+      return `${value},`;
+    }
   },
   methods: {
     go(url) {
@@ -172,7 +187,7 @@ export default {
       }
     },
     handleClassConfirm(value, index) {
-      this.className = value.className;
+      this.fullName = value.className;
       this.query.classId = value.classId;
       this.communityQuery(this.query);
     },
@@ -310,12 +325,13 @@ export default {
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length) {
+    if (Object.keys(this.$route.query).length && !Cookies.get("openId")) {
+      console.log("第二次登陆");
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
-    if (this.id) {
-      this.queryClassId({ id: this.id, roleType: this.roleType });
-    }
+    // if (this.id) {
+    //   this.queryClassId({ id: this.id, roleType: this.roleType });
+    // }
     this.communityQuery(this.query);
   }
 };

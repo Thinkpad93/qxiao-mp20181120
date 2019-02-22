@@ -47,24 +47,30 @@
       </form>
     </div>
     <div class="btn-group">
-      <a href="javascript:;" class="btn btn-large btn-primary" id="btn-Submission" @click="handleSubmit">发布</a>
+      <a
+        href="javascript:;"
+        class="btn btn-large btn-primary"
+        id="btn-Submission"
+        @click="handleSubmit"
+      >发布</a>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 export default {
   name: "community",
   data() {
     return {
-      className: this.$store.getters.className,
+      //className: this.$store.getters.className,
       imagesList: [],
       serverId: [], //微信图片ID
-      classList: [], //
-      query: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
-      },
+      //classList: [], //
+      // query: {
+      //   id: this.$store.getters.id,
+      //   roleType: this.$store.getters.roleType
+      // },
       form: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
@@ -74,6 +80,9 @@ export default {
         video: ""
       }
     };
+  },
+  computed: {
+    ...mapGetters(["className", "classList"])
   },
   methods: {
     //选图
@@ -196,7 +205,7 @@ export default {
       let res = await service.communityAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
-      }else if (res.errorCode === -1) {
+      } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);
       }
     },
@@ -226,7 +235,7 @@ export default {
     this.getWxConfig();
   },
   mounted() {
-    this.queryClassId(this.query);
+    //this.queryClassId(this.query);
   }
 };
 </script>

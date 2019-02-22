@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <audio id="player" src="http://a.f265.com/project/shake-money/img/shake.mp3"></audio>
+      <audio id="player" ref="audiofef" :src="playUrl" loop></audio>
+
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
@@ -75,22 +76,62 @@ export default {
   name: "shuttle",
   data() {
     return {
-      timer: null,
+      timer: null, //页面定时器
+      playTime: 6000, //单条语音播放时长为6s
+      playIndex: 0, //播放起始位置为0
+      playUrl: "",
+      audioTime: null,
+
       popupShow: false,
-      className: "",
-      classList: [],
+      className: this.$store.getters.className,
       query: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
         date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
-      queryClass: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
-      },
-      shuttleData: [],
+      audioList: [],
+      shuttleData: [
+        {
+          broadcast: 1,
+          clockId: 1,
+          photo: "",
+          postTime: "2019-02-22 16:29:13",
+          studentId: 1,
+          studentName: "孙志明已打卡",
+          url: "http://192.168.18.113:8080/qxiao-mp/muise/1.mp3"
+        },
+        {
+          broadcast: 1,
+          clockId: 2,
+          photo: "",
+          postTime: "2019-02-22 16:29:13",
+          studentId: 2,
+          studentName: "刘小小铄已打卡",
+          url: "http://a.f265.com/project/shake-money/img/shake.mp3"
+        },
+        {
+          broadcast: 1,
+          clockId: 3,
+          photo: "",
+          postTime: "2019-02-22 16:29:13",
+          studentId: 3,
+          studentName: "罗拉已打卡",
+          url: "http://192.168.18.113:8080/qxiao-mp/muise/1.mp3"
+        }
+      ],
       classClockData: []
     };
+  },
+  watch: {
+    playUrl(newPlaying) {
+      const audio = this.$refs.audiofef;
+      this.$nextTick(() => {
+        newPlaying ? audio.play() : audio.pause();
+      });
+    }
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     handleClassConfirm(value, index) {
@@ -98,25 +139,42 @@ export default {
       this.query.classId = value.classId;
       this.classClockQuery();
     },
-    handleAudioAutoPlay(e) {
-      let audio = document.getElementById("player");
-      if (audio.src) {
-        audio.play();
-      }
+    handleAudioAutoPlay() {
+      // console.log("执行");
+      // let audio = document.getElementById("player");
+      // audio.play();
+      // document.addEventListener(
+      //   "WeixinJSBridgeReady",
+      //   () => {
+      //     this.$nextTick(() => {
+      //       audio.play();
+      //     });
+      //   },
+      //   false
+      // );
+      this.audioTime = setInterval(() => {
+        console.log(this.playIndex);
+        if (this.playIndex < this.audioList.length) {
+          this.playIndex++;
+          this.playUrl = this.audioList[this.playIndex].url;
+        } else {
+          this.playIndex = 0;
+          //clearInterval(this.audioTime);
+        }
+      }, 6000);
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-        this.className = res.data[0].className;
-      }
-    },
-    //实时接送接口
+    //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
-        this.shuttleData = res.data;
+        //this.shuttleData = res.data;
+        //this.audioUrl = res.data[0].url;
+        //保存音频url
+        this.audioList = this.shuttleData.map(item => {
+          return { url: item.url };
+        });
+        //设置第一条开始播放
+        this.playUrl = this.audioList[this.playIndex].url;
       }
     },
     //查询班级当天打卡记录
@@ -130,25 +188,27 @@ export default {
     }
   },
   mounted() {
+    //
     this.classClockQuery();
     this.realShuttle(this.query);
-    this.queryClassId(this.queryClass);
+    this.handleAudioAutoPlay();
     // document.addEventListener(
     //   "WeixinJSBridgeReady",
     //   this.handleAudioAutoPlay,
     //   false
     // );
-    if (this.timer) {
-      clearInterval(this.timer);
-    } else {
-      this.timer = setInterval(() => {
-        this.realShuttle(this.query);
-        this.queryClassId(this.queryClass);
-      }, 6000);
-    }
+    // if (this.timer) {
+    //   clearInterval(this.timer);
+    // } else {
+    //   this.timer = setInterval(() => {
+    //     this.realShuttle(this.query);
+    //     this.classClockQuery();
+    //   }, this.maxTime);
+    // }
   },
   destroyed() {
     clearInterval(this.timer);
+    clearInterval(this.audioTime);
   }
 };
 </script>

@@ -6,8 +6,8 @@
           <figure class="album-figure" v-for="(album, index) in albumData" :key="index">
             <router-link :to="{ path: '/album/view', query: { classId: album.classId } }">
               <div class="album-thumb">
-                <img v-if="album.image" :src="album.image" alt="">
-                <img v-else src="@/assets/image/kong.png" alt="">
+                <img v-if="album.image" :src="album.image" alt>
+                <img v-else src="@/assets/image/kong.png" alt>
               </div>
               <figcaption>
                 <p size-16>{{ album.className }}</p>
@@ -18,7 +18,7 @@
         </div>
       </template>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import service from "@/api";

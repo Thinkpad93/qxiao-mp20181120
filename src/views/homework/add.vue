@@ -81,7 +81,7 @@ export default {
     return {
       serverId: [], //微信图片ID
       imagesList: [],
-      classList: [],
+      //classList: [],
       selected: [],
       needSwitch: false,
       form: {
@@ -95,7 +95,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["id", "roleType"])
+    ...mapGetters(["id", "roleType", "classList"])
   },
   methods: {
     //选图
@@ -258,7 +258,7 @@ export default {
     this.getWxConfig();
   },
   mounted() {
-    this.queryClassId({ id: this.id, roleType: this.roleType });
+    //this.queryClassId({ id: this.id, roleType: this.roleType });
   }
 };
 </script>

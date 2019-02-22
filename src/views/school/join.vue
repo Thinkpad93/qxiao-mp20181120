@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-        <div class="btn-area">
+        <div class="btn-group">
           <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">申请加入</a>
         </div>
       </form>

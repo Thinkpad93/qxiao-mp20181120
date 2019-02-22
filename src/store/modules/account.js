@@ -42,6 +42,7 @@ export default {
           await dispatch('user/set', res.data, {
             root: true
           });
+          //这里首次不会执行 roleType 为 4
           if (roleType === 1 || roleType === 2 || roleType === 3) {
             await dispatch('user/queryClassId', obj, {
               root: true

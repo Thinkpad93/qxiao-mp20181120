@@ -45,9 +45,9 @@
               :style="{backgroundImage: `url(${notice.topImage})`}"
             ></div>
             <div class="figure-info">
-              <figcaption size-18 class="text-ellipsis">
-                <i v-if="!notice.status"></i>
-                <span>{{ notice.title }}</span>
+              <figcaption class="text-ellipsis">
+                <i v-if="!notice.status" style="width:6px;height:6px;"></i>
+                <span size-18>{{ notice.title }}</span>
               </figcaption>
               <p size-15 class="text-ellipsis">{{ notice.textContent }}</p>
               <div class="metedata flex">
@@ -69,6 +69,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "notice",
@@ -76,8 +77,8 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: "",
-      classList: [],
+      className: this.$store.getters.className,
+      //classList: [],
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
@@ -89,12 +90,15 @@ export default {
         pageSize: 10
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
-      queryClass: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
-      },
+      // queryClass: {
+      //   id: this.$store.getters.id,
+      //   roleType: this.$store.getters.roleType
+      // },
       noticeData: []
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   watch: {
     $route(to, from) {
@@ -189,7 +193,7 @@ export default {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.noticeQuery(this.query);
-    this.queryClassId(this.queryClass);
+    //this.queryClassId(this.queryClass);
   }
 };
 </script>

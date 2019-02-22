@@ -191,7 +191,9 @@ export default {
           let { schoolCode, ...args } = res.data;
           Cookies.set("id", args.id);
           Cookies.set("roleType", args.roleType);
-          this.$store.dispatch("user/queryClassId", args);
+
+          //查询班级名称
+          this.$store.dispatch("user/queryClassId", args); //args.id args.roleType
           this.$store.commit("user/SET_ROLETYPE", args.roleType);
           this.$store.commit("user/SET_ID", args.id);
           this.$router.push({ path: "/home" });

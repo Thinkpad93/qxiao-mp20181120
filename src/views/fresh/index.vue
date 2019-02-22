@@ -62,6 +62,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "fresh",
@@ -69,8 +70,8 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: "",
-      classList: [],
+      className: this.$store.getters.className,
+      //classList: [],
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -86,6 +87,9 @@ export default {
       },
       freshData: []
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     //选择班级
@@ -151,7 +155,7 @@ export default {
     }
   },
   mounted() {
-    this.queryClassId(this.queryClass);
+    //this.queryClassId(this.queryClass);
     this.freshQuery(this.query);
   }
 };

@@ -1,6 +1,6 @@
 export default [{
     path: '/clock',
-    component: () => import('@/views/clock/test'),
+    component: () => import('@/views/clock'),
     meta: {
       keepAlive: true,
       title: '考勤管理',

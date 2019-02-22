@@ -175,15 +175,25 @@ export default {
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length) {
-      let ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        Cookies.set("openId", this.$route.query.openId);
-        Cookies.set("photo", this.$route.query.photo);
-        this.$store.commit("user/SET_OPENID", this.$route.query.openId);
-        this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
+    let { openId, photo } = this.$route.query;
+    let ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+      if (openId || photo) {
+        Cookies.set("openId", openId);
+        Cookies.set("photo", photo);
+        this.$store.commit("user/SET_OPENID", openId);
+        this.$store.commit("user/SET_PHOTO", photo);
       }
     }
+    // if (Object.keys(this.$route.query).length) {
+    //   let ua = window.navigator.userAgent.toLowerCase();
+    //   if (ua.match(/MicroMessenger/i) == "micromessenger") {
+    //     Cookies.set("openId", this.$route.query.openId);
+    //     Cookies.set("photo", this.$route.query.photo);
+    //     this.$store.commit("user/SET_OPENID", this.$route.query.openId);
+    //     this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
+    //   }
+    // }
   }
 };
 </script>

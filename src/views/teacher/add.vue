@@ -70,13 +70,14 @@
         </div>
       </form>
     </div>
-    <div class="btn-area">
+    <div class="btn-group">
       <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -85,7 +86,7 @@ export default {
   data() {
     return {
       selected: [],
-      classList: [],
+      //classList: [],
       query: {
         id: this.$store.getters.id,
         roleType: this.$store.getters.roleType
@@ -99,6 +100,9 @@ export default {
         classes: []
       }
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     handleSubmit() {
@@ -140,7 +144,7 @@ export default {
     }
   },
   mounted() {
-    this.queryClassId(this.query);
+    //this.queryClassId(this.query);
   }
 };
 </script>

@@ -36,3 +36,9 @@ export function queryAttendance(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询学生当天打卡记录
+export function clockQueryDate(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/clockQueryDate.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

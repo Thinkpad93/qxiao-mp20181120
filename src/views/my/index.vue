@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <template v-if="roleType === 3">
+    <template v-if="roleType == 3">
       <div class="page-hd" style="margin-bottom:0;">
         <img src="@/assets/image/baby_header_bg.png" alt>
         <div class="media-box media-box_appmsg flex">
@@ -19,7 +19,7 @@
     </template>
     <div class="page-bd">
       <!-- 园长 -->
-      <template v-if="roleType === 1">
+      <template v-if="roleType == 1">
         <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
@@ -76,7 +76,7 @@
         >修改资料</a>
       </template>
       <!-- 老师 -->
-      <template v-if="roleType === 2">
+      <template v-if="roleType == 2">
         <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
@@ -151,7 +151,7 @@
         >修改资料</a>
       </template>
       <!-- 家长 -->
-      <template v-if="roleType === 3">
+      <template v-if="roleType == 3">
         <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
@@ -285,9 +285,9 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType === 1) {
+    if (this.roleType == 1) {
       this.queryInfo(this.openId);
-    } else if (this.roleType === 2) {
+    } else if (this.roleType == 2) {
       this.queryTeacherInfo(this.openId);
     } else {
       this.studentQuery({ openId: this.openId, tel: "" });
