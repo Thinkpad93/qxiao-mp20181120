@@ -352,8 +352,8 @@ export default {
         this.$toast("请输入通知标题");
         return;
       }
-      if (textContent === "") {
-        this.$toast("请输入通知内容");
+      if (textContent === "" && !this.serverId.length) {
+        this.$toast("请输入通知内容或者上传图片");
         return;
       }
       if (!senders.length) {

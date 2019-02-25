@@ -1,8 +1,13 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <audio id="player" ref="audiofef" :src="playUrl" loop></audio>
-
+      <audio
+        id="player"
+        ref="audioRef"
+        :src="playUrl"
+        @ended="handleEnded"
+        @playing="handlePlaying"
+      ></audio>
       <div class="button-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
@@ -81,7 +86,6 @@ export default {
       playIndex: 0, //播放起始位置为0
       playUrl: "",
       audioTime: null,
-
       popupShow: false,
       className: this.$store.getters.className,
       query: {
@@ -89,42 +93,17 @@ export default {
         classId: this.$store.getters.classId,
         date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
-      audioList: [],
-      shuttleData: [
-        {
-          broadcast: 1,
-          clockId: 1,
-          photo: "",
-          postTime: "2019-02-22 16:29:13",
-          studentId: 1,
-          studentName: "孙志明已打卡",
-          url: "http://192.168.18.113:8080/qxiao-mp/muise/1.mp3"
-        },
-        {
-          broadcast: 1,
-          clockId: 2,
-          photo: "",
-          postTime: "2019-02-22 16:29:13",
-          studentId: 2,
-          studentName: "刘小小铄已打卡",
-          url: "http://a.f265.com/project/shake-money/img/shake.mp3"
-        },
-        {
-          broadcast: 1,
-          clockId: 3,
-          photo: "",
-          postTime: "2019-02-22 16:29:13",
-          studentId: 3,
-          studentName: "罗拉已打卡",
-          url: "http://192.168.18.113:8080/qxiao-mp/muise/1.mp3"
-        }
-      ],
-      classClockData: []
+      audioList: [], //音频列表
+      shuttleData: [],
+      classClockData: [],
+      palyNumber: 1,
+      palyMax: 3 //每条语音播放最多次数
     };
   },
   watch: {
-    playUrl(newPlaying) {
-      const audio = this.$refs.audiofef;
+    //audio的url, 如果有变化则重新播放
+    playUrl(newPlaying, oldPlaying) {
+      const audio = this.$refs.audioRef;
       this.$nextTick(() => {
         newPlaying ? audio.play() : audio.pause();
       });
@@ -138,43 +117,59 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.classClockQuery();
+      this.realShuttle(this.query);
     },
+    //播放开始事件
+    handlePlaying(e) {},
+    //播放结束事件
+    handleEnded(e) {
+      if (this.palyNumber === this.palyMax) {
+        //单条语音播放次数达到
+        this.palyNumber = 1;
+        this.playIndex++;
+        if (this.playIndex < this.audioList.length) {
+          this.playUrl = this.audioList[this.playIndex].url;
+        } else {
+          //全部语音已经播放完
+          this.playIndex = 0;
+          this.classClockQuery();
+          this.realShuttle(this.query);
+        }
+      } else {
+        this.palyNumber++;
+        this.$refs.audioRef.play();
+      }
+    },
+    //播放语音
     handleAudioAutoPlay() {
-      // console.log("执行");
-      // let audio = document.getElementById("player");
-      // audio.play();
-      // document.addEventListener(
-      //   "WeixinJSBridgeReady",
-      //   () => {
-      //     this.$nextTick(() => {
-      //       audio.play();
-      //     });
-      //   },
-      //   false
-      // );
       this.audioTime = setInterval(() => {
-        console.log(this.playIndex);
         if (this.playIndex < this.audioList.length) {
           this.playIndex++;
           this.playUrl = this.audioList[this.playIndex].url;
         } else {
           this.playIndex = 0;
-          //clearInterval(this.audioTime);
+          //当播放到最后一条时，重新请求
+          this.classClockQuery();
+          this.realShuttle(this.query);
         }
-      }, 6000);
+      }, this.playTime);
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
-        //this.shuttleData = res.data;
-        //this.audioUrl = res.data[0].url;
-        //保存音频url
-        this.audioList = this.shuttleData.map(item => {
-          return { url: item.url };
-        });
-        //设置第一条开始播放
-        this.playUrl = this.audioList[this.playIndex].url;
+        if (res.data.length) {
+          this.shuttleData = res.data;
+          //保存音频url
+          this.audioList = this.shuttleData.map(item => {
+            return { url: item.url };
+          });
+          //设置第一条开始播放
+          this.playUrl = this.audioList[this.playIndex].url;
+        } else {
+          //如果没有数据返回，说明还没有到打卡时间，则清除定时器
+          clearInterval(this.audioTime);
+        }
       }
     },
     //查询班级当天打卡记录
@@ -188,25 +183,12 @@ export default {
     }
   },
   mounted() {
-    //
     this.classClockQuery();
     this.realShuttle(this.query);
-    this.handleAudioAutoPlay();
-    // document.addEventListener(
-    //   "WeixinJSBridgeReady",
-    //   this.handleAudioAutoPlay,
-    //   false
-    // );
-    // if (this.timer) {
-    //   clearInterval(this.timer);
-    // } else {
-    //   this.timer = setInterval(() => {
-    //     this.realShuttle(this.query);
-    //     this.classClockQuery();
-    //   }, this.maxTime);
-    // }
+    //this.handleAudioAutoPlay();
   },
   destroyed() {
+    console.log("destroyed");
     clearInterval(this.timer);
     clearInterval(this.audioTime);
   }

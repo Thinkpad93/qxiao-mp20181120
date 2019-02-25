@@ -172,8 +172,8 @@ export default {
         this.$toast("请输入速报标题");
         return;
       }
-      if (textContent === "") {
-        this.$toast("请输入速报内容");
+      if (textContent === "" && !this.serverId.length) {
+        this.$toast("请输入速报内容或者上传图片");
         return;
       }
       if (!this.selected.length) {

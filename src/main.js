@@ -9,8 +9,8 @@ import './assets/iconfonts/iconfont.css';
 
 Vue.config.productionTip = false;
 
-import FastClick from 'fastclick'; // 引入插件
-FastClick.attach(document.body); // 使用 fastclick
+// import FastClick from 'fastclick'; // 引入插件
+// FastClick.attach(document.body); // 使用 fastclick
 
 import {
   Checkbox,

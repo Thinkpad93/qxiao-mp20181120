@@ -115,7 +115,6 @@ export default {
       dispatch
     }) {
       return new Promise(async resolve => {
-        console.log("进来get");
         // let roleType = parseInt(Cookies.get('roleType'));
         // let openId = Cookies.get('openId');
         // let photo = Cookies.get('photo');

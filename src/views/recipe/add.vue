@@ -222,7 +222,7 @@ export default {
         return;
       }
       if (textContent === "" && !this.serverId.length) {
-        this.$toast("请输入食谱内容");
+        this.$toast("请输入食谱内容或者上传图片");
         return;
       }
       let obj = Object.assign({}, args, {

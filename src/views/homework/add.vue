@@ -183,8 +183,8 @@ export default {
         this.$toast("请输入作业标题");
         return;
       }
-      if (title == "") {
-        this.$toast("请输入作业内容");
+      if (textContent == "" && !this.serverId.length) {
+        this.$toast("请输入作业内容或者上传图片");
         return;
       }
       if (!this.selected.length) {

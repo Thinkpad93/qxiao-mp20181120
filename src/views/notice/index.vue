@@ -78,7 +78,6 @@ export default {
     return {
       popupShow: false,
       className: this.$store.getters.className,
-      //classList: [],
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
@@ -90,10 +89,6 @@ export default {
         pageSize: 10
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
-      // queryClass: {
-      //   id: this.$store.getters.id,
-      //   roleType: this.$store.getters.roleType
-      // },
       noticeData: []
     };
   },
@@ -184,7 +179,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
-        this.noticeData = res.data.data;
+        this.noticeData = res.data.data || [];
       }
     }
   },
@@ -193,7 +188,6 @@ export default {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.noticeQuery(this.query);
-    //this.queryClassId(this.queryClass);
   }
 };
 </script>
