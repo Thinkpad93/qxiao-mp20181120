@@ -297,6 +297,7 @@ export default {
       let { sendType } = this.form;
       if (sendType === 2) {
         if (value) {
+          this.teacherCheckList = []; //考虑到有可能已经选了
           this.teacherList.forEach((item, index) => {
             this.teacherCheckList.push(item.teacherId);
           });
@@ -305,6 +306,7 @@ export default {
         }
       } else if (sendType === 1) {
         if (value) {
+          this.classChenkList = []; //考虑到有可能已经选了
           this.classList.forEach((item, index) => {
             this.classChenkList.push(item.classId);
           });

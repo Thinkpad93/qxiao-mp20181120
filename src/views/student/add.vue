@@ -97,11 +97,6 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
-      //classList: [],
-      // query: {
-      //   id: this.$store.getters.id,
-      //   roleType: this.$store.getters.roleType
-      // },
       form: {
         openId: this.$store.getters.openId,
         studentName: "",
@@ -146,13 +141,6 @@ export default {
       let obj = Object.assign({}, this.form);
       this.studentAdd(obj);
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    },
     //学生新增
     async studentAdd(params = {}) {
       let res = await service.studentAdd(params);
@@ -164,9 +152,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //this.queryClassId(this.query);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less">

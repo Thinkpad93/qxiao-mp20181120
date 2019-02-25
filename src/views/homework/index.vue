@@ -71,7 +71,6 @@ export default {
     return {
       popupShow: false,
       className: this.$store.getters.className,
-      //classList: [],
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -137,14 +136,6 @@ export default {
         }
       }
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-        this.className = res.data[0].className;
-      }
-    },
     //作业列表查询
     async homeworkQuery(params = {}) {
       let res = await service.homeworkQuery(params);
@@ -159,7 +150,6 @@ export default {
   },
   mounted() {
     this.homeworkQuery(this.query);
-    //this.queryClassId(this.queryClass);
   }
 };
 </script>

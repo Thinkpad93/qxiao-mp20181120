@@ -63,14 +63,8 @@ export default {
   name: "community",
   data() {
     return {
-      //className: this.$store.getters.className,
       imagesList: [],
       serverId: [], //微信图片ID
-      //classList: [], //
-      // query: {
-      //   id: this.$store.getters.id,
-      //   roleType: this.$store.getters.roleType
-      // },
       form: {
         openId: this.$store.getters.openId,
         classId: this.$store.getters.classId,
@@ -167,7 +161,7 @@ export default {
     handleSubmit() {
       let { textContent, ...args } = this.form;
       if (textContent == "" && !this.serverId.length) {
-        this.$toast("请输入内容");
+        this.$toast("请输入内容或者上传图片");
         return;
       }
       let params = {
@@ -191,13 +185,6 @@ export default {
         });
       } else {
         this.communityAdd(obj);
-      }
-    },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
       }
     },
     //发布班级圈
@@ -234,9 +221,7 @@ export default {
     //请求配置
     this.getWxConfig();
   },
-  mounted() {
-    //this.queryClassId(this.query);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less">

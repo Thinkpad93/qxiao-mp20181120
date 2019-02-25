@@ -92,7 +92,7 @@ export default {
         classId: this.$store.getters.classId || this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
-      needConfirm: this.$route.query.needConfirm,
+      needConfirm: this.$route.query.needConfirm, //0 不用确认
       info: {},
       readList: [],
       unreadList: [],
@@ -155,6 +155,7 @@ export default {
   activated() {
     this.noticeReaders();
     this.noticeDetail(this.query);
+    alert(this.needConfirm);
   }
 };
 </script>

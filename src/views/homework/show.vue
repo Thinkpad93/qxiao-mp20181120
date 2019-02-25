@@ -94,7 +94,7 @@ export default {
         classId: this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
-      needConfirm: this.$route.query.needConfirm,
+      needConfirm: this.$route.query.needConfirm, //0不用确认
       info: {},
       readList: [],
       unreadList: [],

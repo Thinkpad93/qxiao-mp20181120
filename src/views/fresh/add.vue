@@ -73,7 +73,6 @@ export default {
     return {
       serverId: [], //微信图片ID
       imagesList: [],
-      //classList: [],
       selected: [],
       form: {
         openId: this.$store.getters.openId,
@@ -208,13 +207,6 @@ export default {
         this.freshAdd(obj);
       }
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    },
     async freshAdd(params = {}) {
       let res = await service.freshAdd(params);
       if (res.errorCode === 0) {
@@ -246,9 +238,7 @@ export default {
   created() {
     this.getWxConfig();
   },
-  mounted() {
-    //this.queryClassId({ id: this.id, roleType: this.roleType });
-  }
+  mounted() {}
 };
 </script>
 <style lang="less">

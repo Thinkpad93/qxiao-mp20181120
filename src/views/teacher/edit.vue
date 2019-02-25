@@ -76,6 +76,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapGetters } from "vuex";
 import { type, sex } from "@/mixins/type";
 export default {
   name: "teacherAdd",
@@ -83,19 +84,17 @@ export default {
   data() {
     return {
       selected: [],
-      classList: [],
       querys: {
         openId: this.$store.getters.openId,
         teacherId: this.$route.query.teacherId
-      },
-      query: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
       },
       form: {
         classes: []
       }
     };
+  },
+  computed: {
+    ...mapGetters(["classList"])
   },
   methods: {
     handleDel() {
@@ -151,17 +150,9 @@ export default {
         this.form = args;
         this.selected = classes;
       }
-    },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
     }
   },
   mounted() {
-    this.queryClassId(this.query);
     this.teacherQuery(this.querys);
   }
 };

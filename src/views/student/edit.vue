@@ -98,11 +98,6 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
-      //classList: [],
-      // query: {
-      //   id: this.$store.getters.id,
-      //   roleType: this.$store.getters.roleType
-      // },
       querys: {
         openId: this.$store.getters.openId,
         tel: this.$route.query.tel
@@ -161,13 +156,6 @@ export default {
       }
       this.studentUpdate(this.form);
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    },
     //学生信息查询
     async studentInfoQuery(params = {}) {
       let res = await service.studentInfoQuery(params);
@@ -193,7 +181,6 @@ export default {
     }
   },
   mounted() {
-    //this.queryClassId(this.query);
     this.studentInfoQuery(this.querys);
   }
 };

@@ -86,11 +86,6 @@ export default {
   data() {
     return {
       selected: [],
-      //classList: [],
-      query: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
-      },
       form: {
         openId: this.$store.getters.openId,
         teacherName: "",
@@ -125,13 +120,6 @@ export default {
         this.$toast("请正确填写手机号");
       }
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    },
     //老师新增
     async teacherAdd(params = {}) {
       let res = await service.teacherAdd(params);
@@ -143,9 +131,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //this.queryClassId(this.query);
-  }
+  mounted() {}
 };
 </script>
 <style lang="less">

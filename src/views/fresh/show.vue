@@ -140,43 +140,6 @@ export default {
 };
 </script>
 <style lang="less">
-// .article {
-//   padding: 30px;
-//   word-wrap: break-word;
-//   background-color: #fff;
-//   h1 {
-//     font-weight: bold;
-//     margin-bottom: 10px;
-//   }
-// }
-// .article-cell {
-//   margin-right: 30px;
-// }
-// .article-content {
-//   text-align: justify;
-//   p {
-//     margin: 20px 0;
-//     line-height: 1.4;
-//   }
-//   img {
-//     max-width: 100%;
-//   }
-// }
-// .article-ft {
-//   .article-icon {
-//     display: flex;
-//     align-items: center;
-//     color: #8d8d8d;
-//     b {
-//       font-size: 28px;
-//       margin-left: 8px;
-//     }
-
-//     i {
-//       font-size: 34px;
-//     }
-//   }
-// }
 .comment {
   font-size: 30px;
   margin-top: 20px;

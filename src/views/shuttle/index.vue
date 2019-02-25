@@ -7,12 +7,16 @@
         :src="playUrl"
         @ended="handleEnded"
         @playing="handlePlaying"
+        @pause="handlePause"
       ></audio>
-      <div class="button-sp-area flex" size-17>
-        <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
+      <div class="shuttle-sp-area flex">
+        <a href="javascript:;" @click="popupShow = true">
           <span>{{ className }}</span>
           <i class="iconfont icon-xiangxia1"></i>
         </a>
+        <!-- <div @click="handlePlayAudio">
+          <span>{{ playBoolean ? '暂停':'播放' }}</span>
+        </div>-->
       </div>
     </div>
     <div class="page-bd">
@@ -81,11 +85,6 @@ export default {
   name: "shuttle",
   data() {
     return {
-      timer: null, //页面定时器
-      playTime: 6000, //单条语音播放时长为6s
-      playIndex: 0, //播放起始位置为0
-      playUrl: "",
-      audioTime: null,
       popupShow: false,
       className: this.$store.getters.className,
       query: {
@@ -93,11 +92,14 @@ export default {
         classId: this.$store.getters.classId,
         date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
-      audioList: [], //音频列表
       shuttleData: [],
       classClockData: [],
-      palyNumber: 1,
-      palyMax: 3 //每条语音播放最多次数
+      playBoolean: false,
+      playIndex: 0, //播放起始位置为0
+      playUrl: "", //播放url
+      playList: [], //音频列表
+      playNumber: 1, //默认播放次数为1
+      playMax: 3 //每条语音最多播放次数
     };
   },
   watch: {
@@ -121,38 +123,41 @@ export default {
     },
     //播放开始事件
     handlePlaying(e) {},
+    //播放暂停事件
+    handlePause(e) {},
     //播放结束事件
     handleEnded(e) {
-      if (this.palyNumber === this.palyMax) {
+      if (this.playNumber === this.playMax) {
         //单条语音播放次数达到
-        this.palyNumber = 1;
+        this.playNumber = 1;
         this.playIndex++;
-        if (this.playIndex < this.audioList.length) {
-          this.playUrl = this.audioList[this.playIndex].url;
+        if (this.playIndex < this.playList.length) {
+          this.playUrl = this.playList[this.playIndex].url;
         } else {
           //全部语音已经播放完
           this.playIndex = 0;
+          this.playUrl = "";
+          this.playBoolean = false;
+          //重新请求
           this.classClockQuery();
           this.realShuttle(this.query);
         }
       } else {
-        this.palyNumber++;
+        this.playNumber++;
         this.$refs.audioRef.play();
       }
     },
-    //播放语音
-    handleAudioAutoPlay() {
-      this.audioTime = setInterval(() => {
-        if (this.playIndex < this.audioList.length) {
-          this.playIndex++;
-          this.playUrl = this.audioList[this.playIndex].url;
-        } else {
-          this.playIndex = 0;
-          //当播放到最后一条时，重新请求
-          this.classClockQuery();
-          this.realShuttle(this.query);
-        }
-      }, this.playTime);
+    handlePlayAudio() {
+      //设置第一条开始播放
+      let audio = this.$refs.audioRef;
+      if (audio.paused) {
+        this.playBoolean = true;
+        this.playUrl = this.playList[this.playIndex].url;
+        audio.play();
+      } else {
+        this.playBoolean = false;
+        audio.pause();
+      }
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
@@ -161,14 +166,13 @@ export default {
         if (res.data.length) {
           this.shuttleData = res.data;
           //保存音频url
-          this.audioList = this.shuttleData.map(item => {
+          this.playList = this.shuttleData.map(item => {
             return { url: item.url };
           });
           //设置第一条开始播放
-          this.playUrl = this.audioList[this.playIndex].url;
+          this.playUrl = this.playList[this.playIndex].url;
         } else {
-          //如果没有数据返回，说明还没有到打卡时间，则清除定时器
-          clearInterval(this.audioTime);
+          //如果没有数据返回，说明还没有到打卡时间
         }
       }
     },
@@ -185,21 +189,32 @@ export default {
   mounted() {
     this.classClockQuery();
     this.realShuttle(this.query);
-    //this.handleAudioAutoPlay();
   },
   destroyed() {
     console.log("destroyed");
-    clearInterval(this.timer);
-    clearInterval(this.audioTime);
   }
 };
 </script>
 <style lang="less">
-.button-sp-area {
+.shuttle-sp-area {
   color: #9cd248;
   height: 100px;
-  justify-content: center;
+  padding: 0 30px;
+  justify-content: space-between;
   align-items: center;
+  > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 150px;
+    color: #fff;
+    border-radius: 30px;
+    background-color: #9cd248;
+    span {
+      margin-right: 20px;
+    }
+  }
 }
 .table {
   background-color: #fff;
