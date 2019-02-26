@@ -12,10 +12,7 @@ export default {
     roleType: null, //角色类型
     openId: null, //微信 openId
     photo: "", //微信头像
-    //schoolCode: null, //学校ID码
-    //schoolId: null, //学校ID
-    //teacherId: null, //老师ID
-    //patroarchId: null //家长ID
+    type: null //0 幼儿园  1 小学
   },
   mutations: {
     SET_CLASSLIST: (state, classList) => {
@@ -25,8 +22,6 @@ export default {
       state.id = id;
     },
     SET_CLASSNAME: (state, className) => {
-      //console.log(className);
-      //console.log(10);
       state.className = className;
     },
     SET_CLASSID: (state, classId) => {
@@ -44,18 +39,9 @@ export default {
     SET_OPENID: (state, openId) => {
       state.openId = openId;
     },
-    // SET_SCHOOLCODE: (state, schoolCode) => {
-    //   state.schoolCode = schoolCode;
-    // },
-    // SET_SCHOOLID: (state, schoolId) => {
-    //   state.schoolId = schoolId;
-    // },
-    // SET_TEACHERID: (state, teacherId) => {
-    //   state.teacherId = teacherId;
-    // },
-    // SET_PATROARCHID: (state, patroarchId) => {
-    //   state.patroarchId = patroarchId;
-    // }
+    SET_TYPE: (state, type) => {
+      state.type = type;
+    },
   },
   actions: {
     async reload({
@@ -68,10 +54,8 @@ export default {
         Cookies.set("photo", params.photo);
         Cookies.set("id", params.id);
         Cookies.set("classId", params.classId);
+        Cookies.set("type", params.type);
         dispatch('get');
-        // dispatch('get', {
-        //   root: true
-        // });
       }
     },
     async set({
@@ -115,20 +99,6 @@ export default {
       dispatch
     }) {
       return new Promise(async resolve => {
-        // let roleType = parseInt(Cookies.get('roleType'));
-        // let openId = Cookies.get('openId');
-        // let photo = Cookies.get('photo');
-        // let tel = Cookies.get('tel');
-        // let classId = parseInt(Cookies.get('classId'));
-        // let className = Cookies.get('className');
-        // let id = parseInt(Cookies.get('id'));
-        // commit('SET_ROLETYPE', roleType);
-        // commit('SET_TEL', tel);
-        // commit('SET_PHOTO', photo);
-        // commit('SET_OPENID', openId);
-        // commit('SET_ID', id);
-        // commit('SET_CLASSID', classId);
-        // commit('SET_CLASSNAME', className);
         commit('SET_ROLETYPE', Cookies.get('roleType'));
         commit('SET_TEL', Cookies.get('tel'));
         commit('SET_PHOTO', Cookies.get('photo'));
@@ -136,6 +106,7 @@ export default {
         commit('SET_ID', Cookies.get('id'));
         commit('SET_CLASSID', Cookies.get('classId'));
         commit('SET_CLASSNAME', Cookies.get('className'));
+        commit('SET_TYPE', Cookies.get('type'));
 
         //提交班级查询
         dispatch('queryClassId', {
@@ -153,16 +124,6 @@ export default {
       return new Promise(async resolve => {
         let res = await service.queryClassId(params);
         if (res.errorCode === 0) {
-          // if (res.data.length) {
-          //   let copy = res.data.slice(0, 1);
-          //   commit('SET_CLASSLIST', res.data);
-          //   commit('SET_CLASSNAME', copy[0].label);
-          //   commit('SET_CLASSID', copy[0].value);
-          //   Cookies.set('id', params.id);
-          //   Cookies.set('classId', copy[0].value);
-          //   Cookies.set('className', copy[0].label);
-          // }
-
           commit('SET_CLASSLIST', res.data);
           commit('SET_CLASSNAME', res.data[0].className);
           commit('SET_CLASSID', res.data[0].classId);

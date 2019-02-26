@@ -21,7 +21,7 @@
           </template>
         </div>
       </article>
-      <template v-if="roleType == 1 || roleType == 2">
+      <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
         <div class="cells-title">班级阅读情况</div>
         <div class="tab-warp">
           <div class="tab">
@@ -46,6 +46,12 @@
                   <div class="cell-bd">
                     <p class>{{ read.studentName }}</p>
                   </div>
+                  <div class="cell-ft">
+                    <template v-if="needConfirm">
+                      <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                      <span v-else style="color:#92cd36">已确认通知</span>
+                    </template>
+                  </div>
                 </div>
               </div>
               <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
@@ -56,6 +62,12 @@
                   </div>
                   <div class="cell-bd">
                     <p class>{{ unread.studentName }}</p>
+                  </div>
+                  <div class="cell-ft">
+                    <template v-if="needConfirm">
+                      <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                      <span v-else style="color:#92cd36">已确认通知</span>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -155,7 +167,6 @@ export default {
   activated() {
     this.noticeReaders();
     this.noticeDetail(this.query);
-    alert(this.needConfirm);
   }
 };
 </script>

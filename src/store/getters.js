@@ -7,8 +7,5 @@ export default {
   roleType: state => state.user.roleType,
   openId: state => state.user.openId,
   photo: state => state.user.photo,
-  //schoolCode: state => state.user.schoolCode,
-  //schoolId: state => state.user.schoolId,
-  //teacherId: state => state.user.teacherId,
-  //patroarchId: state => state.user.patroarchId
+  type: state => state.user.type,
 }

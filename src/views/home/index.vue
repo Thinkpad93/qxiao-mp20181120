@@ -329,9 +329,6 @@ export default {
       console.log("第二次登陆");
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
-    // if (this.id) {
-    //   this.queryClassId({ id: this.id, roleType: this.roleType });
-    // }
     this.communityQuery(this.query);
   }
 };

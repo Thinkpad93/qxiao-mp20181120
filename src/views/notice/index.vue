@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <template v-if="roleType == 1">
+      <template v-if="roleType == 1 || roleType == 4">
         <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
           <van-tab title="通知消息"></van-tab>
           <van-tab title="发送记录"></van-tab>
@@ -26,7 +26,7 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <template v-if="roleType == 1">
+      <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/notice/add" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
@@ -59,7 +59,7 @@
           <div class="figure-ft">
             <div class="figure-total">
               <span>已读{{ notice.classReadCount }}人</span>
-              <span v-if="roleType == 1">共{{ notice.totalCount }}人</span>
+              <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
             </div>
           </div>
         </figure>
@@ -170,7 +170,7 @@ export default {
     },
     //公告通知列表查询
     async noticeQuery(params = {}) {
-      if (this.roleType == 1) {
+      if (this.roleType == 1 || this.roleType == 4) {
         this.query.classId = 0;
       }
       let res = await service.noticeQuery(params);

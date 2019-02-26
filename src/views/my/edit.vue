@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="cells-title">基础信息修改</div>
       <!-- 园长 -->
-      <template v-if="roleType == 1">
+      <template v-if="roleType == 1 || roleType == 4">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
@@ -26,7 +26,7 @@
               <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
             </div>
           </div>
-          <div class="cell cell-select cell-select-after">
+          <!-- <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
               <label for class="label">学校类型</label>
             </div>
@@ -39,7 +39,7 @@
                 >{{ option.name }}</option>
               </select>
             </div>
-          </div>
+          </div>-->
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">详细地址</label>
@@ -260,9 +260,9 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType === 1) {
+    if (this.roleType == 1 || this.roleType == 4) {
       this.queryInfo(this.openId);
-    } else if (this.roleType === 2) {
+    } else if (this.roleType == 2) {
       this.queryTeacherInfo(this.openId);
     } else {
       this.studentQuery({ openId: this.openId, tel: "" });

@@ -30,25 +30,41 @@ export const type = {
   }
 }
 
+
 export const schoolType = {
   data() {
     return {
       schoolTypeList: [{
-          name: "公办",
+          name: "幼儿园",
           id: 0
         },
         {
-          name: "私立",
+          name: "小学",
           id: 1
-        },
-        {
-          name: "民办",
-          id: 2
         }
       ]
     }
   }
 }
+// export const schoolType = {
+//   data() {
+//     return {
+//       schoolTypeList: [{
+//           name: "公办",
+//           id: 0
+//         },
+//         {
+//           name: "私立",
+//           id: 1
+//         },
+//         {
+//           name: "民办",
+//           id: 2
+//         }
+//       ]
+//     }
+//   }
+// }
 
 export const relation = {
   data() {

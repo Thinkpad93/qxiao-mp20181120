@@ -17,8 +17,30 @@ export default {
   name: "qmenu",
   data() {
     return {
-      //园长
-      patroarList: [
+      //学校类型
+      recipeList: [
+        {
+          name: "营养食谱",
+          url: "/recipe",
+          icon: "./static/image/men-icon-9@2x.png"
+        }
+      ],
+      shuttleList: [
+        {
+          name: "实时接送",
+          url: "/shuttle",
+          icon: "./static/image/men-icon-6@2x.png"
+        }
+      ],
+      clockList: [
+        {
+          name: "考勤记录",
+          url: "/clock",
+          icon: "./static/image/men-icon-3@2x.png"
+        }
+      ],
+      //学校
+      schoolList: [
         {
           name: "班级管理",
           url: "/class",
@@ -36,11 +58,6 @@ export default {
           name: "学生管理",
           url: "/student",
           icon: "./static/image/men-icon-10@2x.png"
-        },
-        {
-          name: "实时接送",
-          url: "/shuttle",
-          icon: "./static/image/men-icon-6@2x.png"
         }
       ],
       //共用的菜单
@@ -51,19 +68,9 @@ export default {
           icon: "./static/image/men-icon-7@2x.png"
         },
         {
-          name: "营养食谱",
-          url: "/recipe",
-          icon: "./static/image/men-icon-9@2x.png"
-        },
-        {
           name: "亲子作业",
           url: "/homework",
           icon: "./static/image/men-icon-5@2x.png"
-        },
-        {
-          name: "考勤记录",
-          url: "/clock",
-          icon: "./static/image/men-icon-3@2x.png"
         },
         {
           name: "新鲜速报",
@@ -79,14 +86,49 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["roleType"]),
+    ...mapGetters(["roleType", "type"]),
     computedMenu() {
-      if (this.roleType == 1) {
-        return this.menuList.concat(this.patroarList);
-      } else if (this.roleType == 2) {
-        return this.menuList.concat(this.teacherList);
-      } else if (this.roleType == 3) {
-        return this.menuList;
+      //幼儿园
+      if (this.type == 0) {
+        switch (this.roleType) {
+          case "1":
+            return this.menuList
+              .concat(this.schoolList)
+              .concat(this.recipeList)
+              .concat(this.clockList);
+            break;
+          case "2":
+            return this.menuList
+              .concat(this.teacherList)
+              .concat(this.recipeList)
+              .concat(this.clockList);
+            break;
+          case "3":
+            return this.menuList.concat(this.recipeList).concat(this.clockList);
+            break;
+          default:
+            return this.menuList
+              .concat(this.schoolList)
+              .concat(this.recipeList)
+              .concat(this.clockList);
+            break;
+        }
+      } else if (this.type == 1) {
+        switch (this.roleType) {
+          case "1":
+            return this.menuList.concat(this.schoolList);
+            break;
+          case "2":
+            return this.menuList.concat(this.teacherList);
+            break;
+          case "3":
+            return this.menuList;
+            break;
+          default:
+            console.log(10);
+            return this.menuList.concat(this.schoolList);
+            break;
+        }
       }
     }
   },

@@ -125,8 +125,10 @@ export default {
         //当家长加入成功后，重新设置 roleType值
         this.$refs.form.reset();
         Cookies.set("roleType", res.data.roleType);
+        Cookies.set("type", res.data.type);
         this.$store.dispatch("user/queryClassId", res.data);
         this.$store.commit("user/SET_ROLETYPE", res.data.roleType);
+        this.$store.commit("user/SET_TYPE", res.data.type);
         this.$router.push({ path: "/home" });
       }
     }

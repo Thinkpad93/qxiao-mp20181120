@@ -11,7 +11,7 @@
           <div class="circle">2</div>
         </div>
         <div class="stepwz flex">
-          <div class="s-green on">创建幼儿园</div>
+          <div class="s-green on">创建学校</div>
           <div class="s-gray">创建班级</div>
         </div>
       </div>
@@ -22,15 +22,15 @@
         <div class="cells" :style="{display: !views ? 'block': 'none'}">
           <div class="cell">
             <div class="cell-hd">
-              <label for class="label">幼儿园名称</label>
+              <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入幼儿园名称" v-model="form.schoolName" maxlength="30">
+              <input class="input" placeholder="请输入学校名称" v-model="form.schoolName" maxlength="30">
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
             <div class="cell-hd">
-              <label for class="label">幼儿园类型</label>
+              <label for class="label">学校类型</label>
             </div>
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="form.type">
@@ -52,27 +52,26 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for class="label">园长姓名</label>
+              <label for class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入园长姓名" v-model="form.leadName" maxlength="10">
+              <input class="input" placeholder="请输入姓名" v-model="form.leadName" maxlength="10">
             </div>
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for class="label">园长手机号</label>
+              <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" placeholder="请输入园长手机号" readonly v-model="form.tel">
+              <input type="number" class="input" placeholder="请输入手机号" readonly v-model="form.tel">
             </div>
           </div>
         </div>
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell">
             <div class="cell-bd">
-              <p class="p">
-                请编辑班级信息
-                <span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span>
+              <p class="p">请编辑班级信息
+                <!-- <span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span> -->
               </p>
             </div>
           </div>
@@ -143,7 +142,8 @@ export default {
       form: {
         schoolName: "",
         location: "",
-        type: 1,
+        type: 0,
+        //schoolType: 0,
         leadName: "",
         tel: this.$store.getters.tel,
         openId: this.$store.getters.openId,
@@ -155,7 +155,7 @@ export default {
     handleNextClick() {
       let { schoolName, location, leadName, tel } = this.form;
       if (schoolName == "" || !schoolName.length) {
-        this.$toast("请输入幼儿园名称");
+        this.$toast("请输入名称");
         return false;
       }
       if (location == "" || !location.length) {
@@ -163,7 +163,7 @@ export default {
         return false;
       }
       if (leadName == "" || !leadName.length) {
-        this.$toast("请输入园长姓名");
+        this.$toast("请输入姓名");
         return false;
       }
       if (isPhone(tel)) {
@@ -191,11 +191,13 @@ export default {
           let { schoolCode, ...args } = res.data;
           Cookies.set("id", args.id);
           Cookies.set("roleType", args.roleType);
+          Cookies.set("type", args.type);
 
           //查询班级名称
           this.$store.dispatch("user/queryClassId", args); //args.id args.roleType
           this.$store.commit("user/SET_ROLETYPE", args.roleType);
           this.$store.commit("user/SET_ID", args.id);
+          this.$store.commit("user/SET_TYPE", args.type);
           this.$router.push({ path: "/home" });
         } else if (res.errorCode === -1) {
           this.$toast(`${res.errorMsg}`);

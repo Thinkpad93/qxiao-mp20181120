@@ -149,7 +149,7 @@ export default {
             this.$router.push({ path: "/home" });
             break;
           case 4:
-            //园长进入注册幼儿园页面
+            //进入注册页面
             this.$router.push({
               path: "/schoolCreate"
             });
@@ -185,15 +185,6 @@ export default {
         this.$store.commit("user/SET_PHOTO", photo);
       }
     }
-    // if (Object.keys(this.$route.query).length) {
-    //   let ua = window.navigator.userAgent.toLowerCase();
-    //   if (ua.match(/MicroMessenger/i) == "micromessenger") {
-    //     Cookies.set("openId", this.$route.query.openId);
-    //     Cookies.set("photo", this.$route.query.photo);
-    //     this.$store.commit("user/SET_OPENID", this.$route.query.openId);
-    //     this.$store.commit("user/SET_PHOTO", this.$route.query.photo);
-    //   }
-    // }
   }
 };
 </script>

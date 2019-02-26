@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="roleType == 1">
+      <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/recipe/add" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>

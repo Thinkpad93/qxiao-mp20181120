@@ -19,7 +19,7 @@
     </template>
     <div class="page-bd">
       <!-- 园长 -->
-      <template v-if="roleType == 1">
+      <template v-if="roleType == 1 || roleType == 4">
         <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
@@ -29,7 +29,7 @@
               <p class="cell-p">{{ leaderInfo.schoolName }}</p>
             </div>
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <div class="cell-hd">
               <label for class="label">学校类型</label>
             </div>
@@ -40,7 +40,7 @@
                 <template v-else>民办</template>
               </p>
             </div>
-          </div>
+          </div>-->
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">详细地址</label>
@@ -53,7 +53,7 @@
         <div class="cells" style="margin-top: 10px;">
           <div class="cell">
             <div class="cell-hd">
-              <label for class="label">园长姓名</label>
+              <label for class="label">姓名</label>
             </div>
             <div class="cell-bd">
               <p class="cell-p">{{ leaderInfo.leaderName }}</p>
@@ -61,7 +61,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd">
-              <label for class="label">园长手机号</label>
+              <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
               <p class="cell-p">{{ leaderInfo.tel }}</p>
@@ -285,7 +285,7 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType == 1) {
+    if (this.roleType == 1 || this.roleType == 4) {
       this.queryInfo(this.openId);
     } else if (this.roleType == 2) {
       this.queryTeacherInfo(this.openId);
