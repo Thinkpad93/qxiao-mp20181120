@@ -115,10 +115,6 @@ export default {
   },
   methods: {
     handleAddLinkMan() {
-      // if (this.form.linkMan.length >= 2) {
-      //   this.$toast("只能添加两名家长");
-      //   return;
-      // }
       this.form.linkMan.push({ relation: 1, tel: "" });
     },
     handleDelLinkMan(index) {

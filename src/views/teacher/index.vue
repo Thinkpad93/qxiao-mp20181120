@@ -4,17 +4,23 @@
       <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
-          <a href="javascript:void(0);" style="color:#409eff;" size-14>批量导入老师信息</a>
           <a
             href="javascript:void(0);"
             style="color:#409eff;"
             size-14
-            @click="visibility = true"
+            @click="visible = true"
+          >批量导入老师信息</a>
+          <a
+            href="javascript:void(0);"
+            style="color:#409eff;"
+            size-14
+            @click="visible = false"
           >批量邀请老师</a>
         </div>
       </div>
     </div>
     <div class="page-bd">
+      <v-dialog title="提示" :visible="visible"></v-dialog>
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -68,10 +74,15 @@
 </template>
 <script>
 import service from "@/api";
+import dialog from "@/components/dialog";
 export default {
   name: "teacher",
+  components: {
+    "v-dialog": dialog
+  },
   data() {
     return {
+      visible: false,
       visibility: false,
       schoolId: this.$store.getters.id,
       teacherList: []

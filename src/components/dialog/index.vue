@@ -1,6 +1,6 @@
 <template>
-  <transition name="dialog-fade" mode="out-in">
-    <div class="dialog">
+  <transition name="dialog-fade">
+    <div class="dialog-wrapper" v-if="visible">
       <div class="dialog-content">
         <div class="dialog-header">
           <h5 class="dialog-title">
@@ -15,17 +15,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="dialog" style="z-index: 2000" v-show="visible">
-      <div class="dialog-hd">
-        <slot name="title">
-          <strong>{{ title }}</strong>
-        </slot>
-      </div>
-      <div class="dialog-bd">
-        <slot></slot>
-      </div>
-      <slot name="footer"></slot>
-    </div>-->
   </transition>
 </template>
 <script>
@@ -38,6 +27,7 @@ export default {
     },
     visible: {
       type: Boolean,
+      required: true,
       default: false
     }
   },
@@ -47,111 +37,46 @@ export default {
 };
 </script>
 <style lang="less">
-.dialog {
+.dialog-wrapper {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 85%;
-  z-index: 100;
-  border-radius: 8px;
-  background-color: #fff;
-  transform: translate(-50%, -50%);
-  &-hd {
-    font-size: 36px;
-    padding: 30px;
-    text-align: center;
-    position: relative;
-  }
-  &-ft {
-    display: flex;
-    position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      height: 1px;
-      border-top: 1px solid #e5e5e5;
-      color: #e5e5e5;
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
-      -webkit-transform: scaleY(0.5);
-      transform: scaleY(0.5);
-      left: 0;
-      z-index: 2;
-    }
-    a {
-      flex: 1;
-      font-size: 34px;
-      font-weight: bold;
-      display: flex;
-      height: 100px;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-  }
+  width: 500px;
+  height: 600px;
+  z-index: 1000;
+  overflow: auto;
+  text-align: center;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  transform: translate3d(-50%, -50%, 0);
 }
 
-.dialog-btn-default {
-  color: #8d8d8d;
+.dialog-fade-enter-active {
+  animation: dialog-fade-in 0.3s;
 }
-.dialog-btn-primary {
-  color: #9acb4d;
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    border-left: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    transform-origin: 0 0;
-    transform: scaleX(0.5);
-    z-index: 2;
-  }
-}
-
-.dialog-fade-enter-active,
 .dialog-fade-leave-active {
-  transition: all 0.4s ease;
+  animation: dialog-fadde-out 0.3s;
 }
 
-.dialog-fade-enter {
-  opacity: 0.8;
+@keyframes dialog-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
 }
-
-.dialog-fade-leave-to {
-  opacity: 0;
+@keyframes dialog-fadde-out {
+  0% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.7);
+  }
 }
-
-// .dialog-fade-leave-active {
-//   animation: dialogout 0.5s;
-// }
-// .dialog-fade-enter-active {
-//   animation: dialogin 0.5s;
-// }
-
-// @keyframes dialogin {
-//   0% {
-//     transform: scale(1.185) translate(-50%, -50%);
-//     opacity: 0;
-//   }
-//   100% {
-//     transform: scale(1) translate(-50%, -50%);
-//     opacity: 1;
-//   }
-// }
-// @keyframes dialogout {
-//   0% {
-//     transform: scale(1) translate(-50%, -50%);
-//     opacity: 1;
-//   }
-//   100% {
-//     transform: scale(0.85) ;
-//     opacity: 0;
-//   }
-// }
 </style>
