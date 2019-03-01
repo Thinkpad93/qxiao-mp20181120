@@ -57,6 +57,10 @@
           </div>
         </div>
       </figure>
+      <div class="empty" v-if="!freshData.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p size-18>暂无新鲜速报</p>
+      </div>
     </div>
   </div>
 </template>
@@ -141,7 +145,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
-        this.freshData = res.data.data;
+        this.freshData = res.data.data || [];
       }
     }
   },

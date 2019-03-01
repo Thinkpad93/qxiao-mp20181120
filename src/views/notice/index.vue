@@ -31,38 +31,40 @@
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
-      <div class="cells" style="background-color:transparent;">
-        <figure
-          class="figure figure-skin-one"
-          v-for="(notice, index) in noticeData"
-          :key="index"
-          @click="handleJump(notice)"
-        >
-          <div class="figure-bd">
-            <div
-              class="figure-thumb-small"
-              v-if="notice.topImage"
-              :style="{backgroundImage: `url(${notice.topImage})`}"
-            ></div>
-            <div class="figure-info">
-              <figcaption class="text-ellipsis">
-                <i v-if="!notice.status" style="width:6px;height:6px;"></i>
-                <span size-18>{{ notice.title }}</span>
-              </figcaption>
-              <p size-15 class="text-ellipsis">{{ notice.textContent }}</p>
-              <div class="metedata flex">
-                <span class="name">{{ notice.name }}</span>
-                <time class="time">{{ notice.postTime }}</time>
-              </div>
+      <figure
+        class="figure figure-skin-one"
+        v-for="(notice, index) in noticeData"
+        :key="index"
+        @click="handleJump(notice)"
+      >
+        <div class="figure-bd">
+          <div
+            class="figure-thumb-small"
+            v-if="notice.topImage"
+            :style="{backgroundImage: `url(${notice.topImage})`}"
+          ></div>
+          <div class="figure-info">
+            <figcaption class="text-ellipsis">
+              <i v-if="!notice.status" style="width:6px;height:6px;"></i>
+              <span size-18>{{ notice.title }}</span>
+            </figcaption>
+            <p size-15 class="text-ellipsis">{{ notice.textContent }}</p>
+            <div class="metedata flex">
+              <span class="name">{{ notice.name }}</span>
+              <time class="time">{{ notice.postTime }}</time>
             </div>
           </div>
-          <div class="figure-ft">
-            <div class="figure-total">
-              <span>已读{{ notice.classReadCount }}人</span>
-              <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
-            </div>
+        </div>
+        <div class="figure-ft">
+          <div class="figure-total">
+            <span>已读{{ notice.classReadCount }}人</span>
+            <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
           </div>
-        </figure>
+        </div>
+      </figure>
+      <div class="empty" v-if="!noticeData.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p size-18>暂无通知公告</p>
       </div>
     </div>
   </div>
@@ -118,7 +120,11 @@ export default {
     handleJump(notice) {
       this.$router.push({
         path: "/notice/show",
-        query: { noticeId: notice.noticeId, needConfirm: notice.needConfirm }
+        query: {
+          noticeId: notice.noticeId,
+          needConfirm: notice.needConfirm,
+          classId: notice.classId
+        }
       });
     },
     //加载分页数据

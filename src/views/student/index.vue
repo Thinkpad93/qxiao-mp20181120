@@ -98,8 +98,8 @@ export default {
       let url = window.location.href.split("#")[0];
       let IS_DEV = process.env.NODE_ENV !== "production";
       let shareUrl = IS_DEV
-        ? "http://232a9x6385.51mypc.cn/#/share"
-        : "http://zc.qxiao.net/qxiao-mp/#/share";
+        ? "http://232a9x6385.51mypc.cn/#/share?roleType=3"
+        : "http://zc.qxiao.net/qxiao-mp/#/share?roleType=3";
       service.sign({ url }).then(res => {
         wx.config({
           debug: false, // 开启调试模式,开发时可以开启

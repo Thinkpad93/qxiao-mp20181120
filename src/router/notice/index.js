@@ -25,4 +25,13 @@ export default [{
       roles: [1]
     }
   },
+  {
+    path: '/notice/read',
+    component: () => import('@/views/notice/read'),
+    meta: {
+      keepAlive: false,
+      title: '班级阅读情况',
+      roles: [1]
+    }
+  },
 ]

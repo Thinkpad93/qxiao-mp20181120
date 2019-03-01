@@ -5,7 +5,11 @@
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
+            <time>{{ info.postTime }}</time>
+          </div>
+          <div class="article-cell">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ info.classReadCount }}</b>
           </div>
         </div>
         <section size-16 class="article-content">
@@ -16,67 +20,18 @@
             </p>
           </template>
         </section>
-        <div class="article-ft">
-          <div class="article-icon">
-            <i class="iconfont icon-chakan"></i>
-            <b>{{ info.classReadCount }}</b>
-          </div>
-        </div>
       </article>
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-        <div class="tab-warp">
-          <div class="tab">
-            <div class="tab-head">
-              <a
-                href="javascript:void(0);"
-                :class="[ readFlag === 0 ? 'curr': '' ]"
-                @click="handleTabClick(0)"
-              >已读({{ readCount }})</a>
-              <a
-                href="javascript:void(0);"
-                :class="[ readFlag === 1 ? 'curr': '' ]"
-                @click="handleTabClick(1)"
-              >未读({{ unReadCount }})</a>
-            </div>
-            <div class="tab-content">
-              <div class="item" :class="[ readFlag === 0 ? 'currs': '' ]">
-                <div class="cell" v-for="(read, index) in readList" :key="index">
-                  <div class="cell-hd">
-                    <img :src="read.photo" :alt="read.studentName">
-                  </div>
-                  <div class="cell-bd">
-                    <p class>{{ read.studentName }}</p>
-                  </div>
-                  <div class="cell-ft">
-                    <template v-if="needConfirm">
-                      <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                      <span v-else style="color:#92cd36">已确认通知</span>
-                    </template>
-                  </div>
-                </div>
-              </div>
-              <div class="item" :class="[ readFlag === 1 ? 'currs': '' ]">
-                <div class="cell" v-for="(unread, index) in unreadList" :key="index">
-                  <div class="cell-hd">
-                    <img :src="unread.photo" v-if="unread.photo">
-                    <div class="icon-d" v-else></div>
-                  </div>
-                  <div class="cell-bd">
-                    <p class>{{ unread.studentName }}</p>
-                  </div>
-                  <div class="cell-ft">
-                    <template v-if="needConfirm">
-                      <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                      <span v-else style="color:#92cd36">已确认通知</span>
-                    </template>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p class="_plac"></p>
+        <section class="_confirm">
+          <p
+            style="color:#92cd36;margin: 4px 0"
+            size-16
+            @click="handleReaders(info)"
+          >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
+        </section>
       </template>
-      <template v-else>
+      <template v-if="roleType == 3">
         <!-- 确认标志 0-无需确认 1-需要确认 -->
         <template v-if="needConfirm">
           <p class="_plac"></p>
@@ -106,29 +61,28 @@ export default {
         classId: this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
-      needConfirm: this.$route.query.needConfirm, //0不用确认
-      info: {},
-      readList: [],
-      unreadList: [],
-      readCount: null,
-      unReadCount: null
+      needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
+      info: {}
     };
   },
   computed: {},
   methods: {
-    handleTabClick(index) {
-      if (index == this.readFlag) {
-        return;
-      }
-      //实时更新
-      this.readFlag = index;
-      this.homeworkReaders();
-    },
     handleConfirmFlag() {
       //判断是否已经确定过了
       if (!this.info.confirmFlag) {
         this.homeWorkConfirm(this.query);
       }
+    },
+    handleReaders(params) {
+      let obj = {
+        homeId: params.homeId,
+        classId: this.$route.query.classId,
+        needConfirm: this.$route.query.needConfirm
+      };
+      this.$router.push({
+        path: "/homework/read",
+        query: obj
+      });
     },
     //作业阅读确认
     async homeWorkConfirm(params = {}) {
@@ -147,84 +101,12 @@ export default {
       if (res.errorCode === 0) {
         this.info = res.data;
       }
-    },
-    //作业阅读人员查询
-    async homeworkReaders() {
-      if (this.roleType == 1 || this.roleType == 2) {
-        let obj = Object.assign({}, this.query, { readFlag: this.readFlag });
-        let res = await service.homeworkReaders(obj);
-        if (res.errorCode === 0) {
-          if (this.readFlag) {
-            this.unreadList = res.data.readers || []; //后端有可能返回null
-            this.readCount = res.data.readCount;
-            this.unReadCount = res.data.unReadCount;
-          } else {
-            this.readList = res.data.readers || []; //后端有可能返回null
-            this.readCount = res.data.readCount;
-            this.unReadCount = res.data.unReadCount;
-          }
-        }
-      }
     }
   },
   activated() {
-    this.homeworkReaders();
     this.homeworkDetail(this.query);
   }
 };
 </script>
 <style lang="less">
-.tab-warp {
-  margin-top: 20px;
-  margin-bottom: 30px;
-  .tab-head {
-    display: flex;
-  }
-  .tab-content {
-    .item {
-      position: relative;
-      display: none;
-    }
-    .currs {
-      display: block;
-    }
-    .cell {
-      color: #252525;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-      }
-    }
-  }
-  .tab {
-    display: block;
-    font-size: 30px;
-    background-color: #fff;
-    a {
-      width: 200px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .curr {
-      color: #92cd36;
-      &::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        display: block;
-        width: 70%;
-        height: 4px;
-        background-color: #92cd36;
-        transform: translateX(-50%);
-      }
-    }
-  }
-}
 </style>

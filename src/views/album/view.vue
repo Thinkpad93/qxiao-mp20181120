@@ -34,7 +34,7 @@
             <img v-else src="@/assets/image/kong.png" alt>
           </div>
           <div class="album-box">
-            <p size-15>{{ channel.title }}</p>
+            <p size-16>{{ channel.title }}</p>
             <div size-12 style="margin-top: 4px;margin-bottom: 6px;">
               <span>共{{ channel.imagesCount }}张</span>
               <span>阅读{{ channel.readCount }}</span>
@@ -42,6 +42,10 @@
             <time size-12>更新于{{ channel.updateTime }}</time>
           </div>
         </div>
+      </div>
+      <div class="empty" v-if="!albumChannel.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p size-18>暂无相册列表</p>
       </div>
     </div>
     <template v-if="roleType == 2">
@@ -133,8 +137,8 @@ export default {
     z-index: 2;
   }
   .album-thumb {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     position: relative;
     overflow: hidden;
     margin-right: 20px;
@@ -144,6 +148,8 @@ export default {
       right: 0;
       bottom: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
     }
   }
   .album-box {
@@ -158,18 +164,4 @@ export default {
     }
   }
 }
-// ._confirm {
-//   position: fixed;
-//   left: 0;
-//   bottom: 0;
-//   width: 100%;
-//   z-index: 11;
-//   padding: 20px 0;
-//   text-align: center;
-//   box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
-//   background-color: #fff;
-//   > a {
-//     width: 500px;
-//   }
-// }
 </style>

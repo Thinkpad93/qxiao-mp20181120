@@ -69,8 +69,8 @@
       </div>
     </div>
     <div class="btn-area btn-area-group flex">
-      <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
+      <a href="javascript:void(0);" class="btn btn-warn" @click="handleDel">删除</a>
+      <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">保存</a>
     </div>
   </div>
 </template>

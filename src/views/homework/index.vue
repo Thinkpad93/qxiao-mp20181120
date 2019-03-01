@@ -57,6 +57,10 @@
           </div>
         </div>
       </figure>
+      <div class="empty" v-if="!homeworkData.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p size-18>暂无亲子作业</p>
+      </div>
     </div>
   </div>
 </template>

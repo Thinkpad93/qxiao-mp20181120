@@ -43,6 +43,8 @@
             </div>
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="form.type">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>
                 <option
                   :value="option.id"
                   v-for="(option,index) in typeList"

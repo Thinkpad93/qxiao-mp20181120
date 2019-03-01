@@ -10,6 +10,10 @@
           <div class="article-cell">
             <time>{{ info.postTime }}</time>
           </div>
+          <div class="article-cell">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ info.classReadCount }}</b>
+          </div>
         </div>
         <section size-16 class="article-content">
           <p>{{ info.textContent }}</p>
@@ -19,12 +23,6 @@
             </p>
           </template>
         </section>
-        <div class="article-ft">
-          <div class="article-icon">
-            <i class="iconfont icon-chakan"></i>
-            <b>{{ info.classReadCount }}</b>
-          </div>
-        </div>
       </article>
       <div class="comment">
         <div class="comment-hd flex">

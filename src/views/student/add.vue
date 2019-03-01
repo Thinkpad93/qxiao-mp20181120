@@ -32,6 +32,8 @@
             </div>
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="form.classId">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>
                 <option
                   :value="option.classId"
                   v-for="(option,index) in classList"
@@ -66,6 +68,8 @@
             </div>
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="link.relation">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>
                 <option
                   :value="option.id"
                   v-for="(option,index) in relationList"
@@ -111,10 +115,10 @@ export default {
   },
   methods: {
     handleAddLinkMan() {
-      if (this.form.linkMan.length >= 2) {
-        this.$toast("只能添加两名家长");
-        return;
-      }
+      // if (this.form.linkMan.length >= 2) {
+      //   this.$toast("只能添加两名家长");
+      //   return;
+      // }
       this.form.linkMan.push({ relation: 1, tel: "" });
     },
     handleDelLinkMan(index) {
@@ -149,6 +153,15 @@ export default {
         this.$router.go(-1);
       } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);
+      } else if (res.errorCode === 2) {
+        this.$dialog
+          .alert({
+            message: `${res.errorMsg}`
+          })
+          .then(() => {
+            this.$refs.form.reset();
+            this.$router.go(-1);
+          });
       }
     }
   },

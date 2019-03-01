@@ -82,11 +82,9 @@ export default {
           }
           //写入Cookie
           Cookies.set('roleType', roleType);
-          //Cookies.set('openId', args.openId);
           Cookies.set('tel', args.tel);
           //提交commit
           commit('SET_ROLETYPE', roleType);
-          //commit('SET_OPENID', args.openId);
           commit('SET_TEL', args.tel);
           resolve();
         } else {
@@ -99,6 +97,7 @@ export default {
       dispatch
     }) {
       return new Promise(async resolve => {
+
         commit('SET_ROLETYPE', Cookies.get('roleType'));
         commit('SET_TEL', Cookies.get('tel'));
         commit('SET_PHOTO', Cookies.get('photo'));
@@ -107,7 +106,6 @@ export default {
         commit('SET_CLASSID', Cookies.get('classId'));
         commit('SET_CLASSNAME', Cookies.get('className'));
         commit('SET_TYPE', Cookies.get('type'));
-
         //提交班级查询
         dispatch('queryClassId', {
           id: Cookies.get('id'),

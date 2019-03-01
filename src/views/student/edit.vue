@@ -32,6 +32,8 @@
             </div>
             <div class="cell-bd">
               <select class="select" name dir="rtl" v-model="form.classId">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>
                 <option
                   :value="option.classId"
                   v-for="(option,index) in classList"
@@ -110,10 +112,10 @@ export default {
   },
   methods: {
     handleAddLinkMan() {
-      if (this.form.linkMan.length >= 2) {
-        this.$toast("只能添加两名家长");
-        return;
-      }
+      // if (this.form.linkMan.length >= 2) {
+      //   this.$toast("只能添加两名家长");
+      //   return;
+      // }
       this.form.linkMan.push({ relation: 1, tel: "" });
     },
     handleDelLinkMan(index) {

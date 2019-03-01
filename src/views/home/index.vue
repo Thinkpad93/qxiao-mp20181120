@@ -50,7 +50,7 @@
                   <div class="left">
                     <time>{{ community.postTime }}</time>
                     <!-- 园长和老师才能删除 -->
-                    <template v-if="roleType === 1 || roleType === 2">
+                    <template v-if="roleType == 1 || roleType == 2">
                       <span class="del" @click="handleCommunityDelete(community, index)">删除</span>
                     </template>
                   </div>
@@ -155,7 +155,6 @@ export default {
         page: 1,
         pageSize: 10
       },
-      //classList: this.$store.getters.classList,
       communityData: [],
       form: {
         openId: this.$store.getters.openId,
@@ -325,8 +324,7 @@ export default {
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length && !Cookies.get("openId")) {
-      console.log("第二次登陆");
+    if (Object.keys(this.$route.query).length) {
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.communityQuery(this.query);
@@ -360,16 +358,16 @@ export default {
     flex: 1;
     padding-left: 20px;
     p {
-      line-height: 1.4;
-      margin-top: 5px;
-      margin-bottom: 10px;
+      line-height: 1.2;
+      margin-top: 16px;
+      margin-bottom: 16px;
       text-align: justify;
     }
   }
   .cell-hd {
     img {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
     }
   }
@@ -390,9 +388,9 @@ export default {
     height: 160px;
     margin-right: 10px;
     margin-bottom: 10px;
-    background-size: 100%;
     background-repeat: no-repeat;
-    background-position: 0, center;
+    background-position: center center;
+    background-size: cover;
   }
 }
 .handle {
@@ -412,9 +410,10 @@ export default {
 }
 .zan-list {
   color: #9aa4cb;
-  padding: 10px 20px;
+  padding: 10px 20px 0 20px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   i {
     font-size: 30px;
     color: #9aa4cb;
@@ -422,6 +421,7 @@ export default {
   }
   span {
     margin-right: 5px;
+    margin-bottom: 10px;
   }
 }
 .comment-list {

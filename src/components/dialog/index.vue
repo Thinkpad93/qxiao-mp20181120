@@ -1,6 +1,21 @@
 <template>
   <transition name="dialog-fade" mode="out-in">
-    <div class="dialog" style="z-index: 2000" v-show="visible">
+    <div class="dialog">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h5 class="dialog-title">
+            <slot name="title">{{ title }}</slot>
+          </h5>
+        </div>
+        <div class="dialog-body">
+          <slot></slot>
+        </div>
+        <div class="dialog-foter">
+          <slot name="footer"></slot>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="dialog" style="z-index: 2000" v-show="visible">
       <div class="dialog-hd">
         <slot name="title">
           <strong>{{ title }}</strong>
@@ -10,12 +25,12 @@
         <slot></slot>
       </div>
       <slot name="footer"></slot>
-    </div>  
-  </transition>  
+    </div>-->
+  </transition>
 </template>
 <script>
 export default {
-  name: "QXDialog",
+  name: "dialog",
   props: {
     title: {
       type: String,

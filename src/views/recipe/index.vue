@@ -34,6 +34,10 @@
           </div>
         </div>
       </figure>
+      <div class="empty" v-if="!recipeData.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p size-18>暂无营养食谱</p>
+      </div>
     </div>
   </div>
 </template>

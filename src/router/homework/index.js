@@ -25,4 +25,13 @@ export default [{
       roles: [2]
     }
   },
+  {
+    path: '/homework/read',
+    component: () => import('@/views/homework/read'),
+    meta: {
+      keepAlive: false,
+      title: "作业阅读人数查询",
+      roles: [2]
+    }
+  },
 ]

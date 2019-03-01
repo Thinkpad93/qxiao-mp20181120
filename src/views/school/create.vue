@@ -111,7 +111,7 @@
         </div>
       </form>
     </div>
-    <div class="btn-area">
+    <div class="btn-group">
       <a
         v-if="!views"
         hclaref="javascript:;"

@@ -8,21 +8,26 @@
       </template>
       <article class="article">
         <h1 size-24>{{ albumInfo.title }}</h1>
-        <div class="article-head flex">
+        <div class="article-hd flex">
           <div class="article-cell">
             <time style="color:#8d8d8d;">{{ albumInfo.postTime }}</time>
           </div>
         </div>
-        <div class="album-content clearfix">
-          <div
-            class="item"
-            v-for="(pic, index) in albumInfo.items"
-            :key="index"
-            @click="handlePreviewImage(index, albumInfo.items)"
-          >
-            <div class="grid-content" :style="{backgroundImage: `url(${pic.imageUrl})`}"></div>
-            <!-- <img :src="pic.imageUrl" alt=""> -->
+        <div class="album-content">
+          <div class="grid-content clearfix">
+            <div
+              class="album-img"
+              v-for="(pic, index) in albumInfo.items"
+              :key="index"
+              @click="handlePreviewImage(index, albumInfo.items)"
+            >
+              <img :src="pic.imageUrl">
+            </div>
           </div>
+        </div>
+        <div class="empty" v-if="!albumInfo.items.length">
+          <img src="@/assets/image/kong.png" alt>
+          <p size-18>暂无~</p>
         </div>
       </article>
     </div>
@@ -83,32 +88,25 @@ export default {
 };
 </script>
 <style lang="less">
-.article {
-  padding: 20px;
-  word-wrap: break-word;
-  background-color: #fff;
-  h1 {
-    margin-bottom: 10px;
-  }
-}
 .album-content {
-  padding-top: 20px;
-  padding-left: -10px;
-  padding-right: -10px;
-  .item {
-    float: left;
-    text-align: center;
-    position: relative;
-    width: 25%;
-    padding-left: 10px;
-    padding-right: 10px;
-    overflow: hidden;
-    .grid-content {
-      height: 200px;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      background-position: 0;
-    }
+  overflow: hidden;
+}
+.album-img {
+  width: 160px;
+  height: 160px;
+  float: left;
+  position: relative;
+  overflow: hidden;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

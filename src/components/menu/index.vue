@@ -90,20 +90,21 @@ export default {
     computedMenu() {
       //幼儿园
       if (this.type == 0) {
-        switch (this.roleType) {
-          case "1":
+        switch (parseInt(this.roleType)) {
+          case 1:
             return this.menuList
-              .concat(this.schoolList)
               .concat(this.recipeList)
-              .concat(this.clockList);
+              .concat(this.clockList)
+              .concat(this.schoolList);
             break;
-          case "2":
+          case 2:
             return this.menuList
+              .concat(this.recipeList)
+              .concat(this.clockList)
               .concat(this.teacherList)
-              .concat(this.recipeList)
-              .concat(this.clockList);
+              .concat(this.shuttleList);
             break;
-          case "3":
+          case 3:
             return this.menuList.concat(this.recipeList).concat(this.clockList);
             break;
           default:
@@ -114,18 +115,17 @@ export default {
             break;
         }
       } else if (this.type == 1) {
-        switch (this.roleType) {
-          case "1":
+        switch (parseInt(this.roleType)) {
+          case 1:
             return this.menuList.concat(this.schoolList);
             break;
-          case "2":
+          case 2:
             return this.menuList.concat(this.teacherList);
             break;
-          case "3":
+          case 3:
             return this.menuList;
             break;
           default:
-            console.log(10);
             return this.menuList.concat(this.schoolList);
             break;
         }

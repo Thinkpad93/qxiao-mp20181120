@@ -5,7 +5,11 @@
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ info.postTime }}</time>
+            <time>{{ info.postTime }}</time>
+          </div>
+          <div class="article-cell">
+            <i class="iconfont icon-chakan"></i>
+            <b>{{ info.readCount }}</b>
           </div>
         </div>
         <div size-16 class="article-content">
@@ -16,15 +20,6 @@
             </p>
           </template>
         </div>
-        <div class="article-ft">
-          <div class="article-icon">
-            <i class="iconfont icon-chakan"></i>
-            <b>{{ info.readCount }}</b>
-          </div>
-        </div>
-        <!-- <div class="class flex" style="color:#8d8d8d;">
-          <span class="read">{{ info.readCount }}人阅读</span>
-        </div>-->
       </article>
     </div>
   </div>
