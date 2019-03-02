@@ -55,8 +55,8 @@
                     </template>
                   </div>
                   <div class="right">
-                    <i class="iconfont icon-zantongfill" @click="handlePraise(community)"></i>
-                    <i class="iconfont icon-liuyanfill" @click="handleComment(community)"></i>
+                    <i class="iconfont icon-zantongfill" @click="handlePraise(community, index)"></i>
+                    <i class="iconfont icon-liuyanfill" @click="handleComment(community, index)"></i>
                   </div>
                 </div>
                 <div class="data">
@@ -157,6 +157,7 @@ export default {
       },
       communityData: [],
       form: {
+        index: null,
         openId: this.$store.getters.openId,
         communityId: null,
         textContent: ""
@@ -204,28 +205,49 @@ export default {
         });
       }
     },
-    //点赞
-    handlePraise(community) {
+    //班级圈点赞
+    async handlePraise(community, index) {
       let openId = this.$store.getters.openId;
       let { communityId } = community;
-      this.communityPraise({ openId, communityId });
-    },
-    //班级圈评论
-    handleComment(community) {
-      let { communityId } = community;
-      if (communityId) {
-        this.dialogVisible = true;
-        this.form.communityId = communityId;
+      let res = await service.communityPraise({ openId, communityId });
+      if (res.errorCode === 0) {
+        if (!this.communityData[index].praiseList) {
+          this.communityData[index].praiseList = [];
+        }
+        if (!res.data) {
+          let praise = this.communityData[index].praiseList.filter(
+            elem => elem.openId !== openId
+          );
+          this.communityData[index].praiseList = praise.length ? praise : null;
+        } else {
+          this.communityData[index].praiseList.push(res.data);
+        }
       }
     },
-    handleSubmit(action, done) {
+    //班级圈评论
+    handleComment(community, index) {
+      this.dialogVisible = true;
+      this.form.communityId = community.communityId;
+      this.form.index = index;
+      console.log(this.form);
+    },
+    async handleSubmit(action, done) {
+      let { index, ...args } = this.form;
       if (action === "confirm") {
         if (this.form.textContent == "") {
           this.$toast("请输入评论内容");
           done(false);
         } else {
-          this.communityComment(this.form);
-          done();
+          if (!this.communityData[index].commentList) {
+            this.communityData[index].commentList = [];
+          }
+          let res = await service.communityComment(args);
+          if (res.errorCode === 0) {
+            this.dialogVisible = false;
+            this.form.textContent = "";
+            this.communityData[index].commentList.push(res.data);
+            done();
+          }
         }
       } else {
         done();
@@ -303,25 +325,17 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
-    },
-    //班级圈点赞
-    async communityPraise(params = {}) {
-      let res = await service.communityPraise(params);
-      if (res.errorCode === 0) {
-        this.query.page = 1;
-        this.communityQuery(this.query);
-      }
-    },
-    //班级圈评论
-    async communityComment(params) {
-      let res = await service.communityComment(params);
-      if (res.errorCode === 0) {
-        this.dialogVisible = false;
-        this.form.textContent = "";
-        this.query.page = 1;
-        this.communityQuery(this.query);
-      }
     }
+    //班级圈评论
+    // async communityComment(params) {
+    //   let res = await service.communityComment(params);
+    //   if (res.errorCode === 0) {
+    //     this.dialogVisible = false;
+    //     this.form.textContent = "";
+    //     this.query.page = 1;
+    //     this.communityQuery(this.query);
+    //   }
+    // }
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {

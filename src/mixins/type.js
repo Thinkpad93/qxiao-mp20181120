@@ -41,6 +41,10 @@ export const schoolType = {
         {
           name: "小学",
           id: 1
+        },
+        {
+          name: "中学",
+          id: 2
         }
       ]
     }

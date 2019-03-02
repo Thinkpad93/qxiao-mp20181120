@@ -253,22 +253,4 @@ export default {
 };
 </script>
 <style lang="less">
-.uploader-file {
-  float: left;
-  width: 140px;
-  height: 140px;
-  position: relative;
-  background-size: cover;
-  margin: 20px 0 0 0;
-  border-radius: 4px;
-  margin-right: 20px;
-  i {
-    color: #8d8d8d;
-    font-size: 48px;
-    position: absolute;
-    top: -14%;
-    right: -10%;
-    z-index: 10;
-  }
-}
 </style>

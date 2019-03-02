@@ -155,6 +155,7 @@
 </template>
 <script>
 import moment from "moment";
+import { textReplace } from "@/utils/string";
 import service from "@/api";
 export default {
   namae: "noticeAdd",
@@ -350,6 +351,7 @@ export default {
         senders,
         ...args
       } = this.form;
+      textContent = textReplace(textContent);
       if (title === "") {
         this.$toast("请输入通知标题");
         return;
@@ -447,24 +449,7 @@ export default {
 };
 </script>
 <style lang="less">
-.uploader-file {
-  float: left;
-  width: 140px;
-  height: 140px;
-  position: relative;
-  background-size: cover;
-  margin: 20px 0 0 0;
-  border-radius: 4px;
-  margin-right: 20px;
-  i {
-    color: #8d8d8d;
-    font-size: 48px;
-    position: absolute;
-    top: -14%;
-    right: -10%;
-    z-index: 10;
-  }
-}
+
 .panel {
   display: flex;
   flex-direction: column;

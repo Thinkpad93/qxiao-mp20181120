@@ -13,7 +13,7 @@
           </div>
         </div>
         <div size-16 class="article-content">
-          <p>{{ info.textContent }}</p>
+          <p v-html="info.textContent"></p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl">

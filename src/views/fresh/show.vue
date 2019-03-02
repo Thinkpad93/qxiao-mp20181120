@@ -28,7 +28,7 @@
         <div class="comment-hd flex">
           <span>留言({{ commentLen }})</span>
           <!-- 只有家长能够评论 -->
-          <template>
+          <template v-if="roleType == 3">
             <a href="javascript:void(0);" @click="dialogVisible = true">写留言</a>
           </template>
         </div>
@@ -41,6 +41,9 @@
               <div class="cell-bd">
                 <span>{{ comment.name }}</span>
                 <p>{{ comment.textContent }}</p>
+              </div>
+              <div class="cell-ft">
+                <p @click="handleDelComment(comment.commentId, index)" style="color:#e64340">删除</p>
               </div>
             </div>
           </div>
@@ -91,13 +94,27 @@ export default {
         openId: this.$store.getters.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId || this.$route.query.freshId,
         textContent: "",
-        studentId: this.$store.getters.id || this.$route.query.studentId
+        studentId: this.$store.getters.id || this.$route.query.studentId,
+        classId: this.$route.query.classId
       },
       commentLen: 0,
       info: {} //速报详情
     };
   },
   methods: {
+    handleDelComment(commentId, index) {
+      let { openId } = this.query;
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除该条留言？"
+        })
+        .then(() => {
+          this.info.commentList.splice(index, 1);
+          this.deleteComment({ openId, commentId });
+        })
+        .catch(() => {});
+    },
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.form.textContent == "") {
@@ -110,6 +127,10 @@ export default {
       } else {
         done();
       }
+    },
+    //删除速报留言
+    async deleteComment(params) {
+      let res = await service.deleteComment(params);
     },
     //速报详情
     async freshDetail(params = {}) {
@@ -165,7 +186,7 @@ export default {
     .cell {
       padding-top: 20px;
       padding-bottom: 20px;
-      align-items: flex-start;
+      align-items: center;
     }
     span {
       color: #44649f;
@@ -176,8 +197,8 @@ export default {
       text-align: justify;
     }
     .icon {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
     }
   }

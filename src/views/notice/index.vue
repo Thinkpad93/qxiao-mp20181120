@@ -48,7 +48,7 @@
               <i v-if="!notice.status" style="width:6px;height:6px;"></i>
               <span size-18>{{ notice.title }}</span>
             </figcaption>
-            <p size-15 class="text-ellipsis">{{ notice.textContent }}</p>
+            <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
             <div class="metedata flex">
               <span class="name">{{ notice.name }}</span>
               <time class="time">{{ notice.postTime }}</time>
@@ -96,6 +96,12 @@ export default {
   },
   computed: {
     ...mapGetters(["classList"])
+  },
+  filters: {
+    brReplace(value) {
+      if (!value) return "";
+      return value.replace(/<br\/>/g, "");
+    }
   },
   watch: {
     $route(to, from) {
