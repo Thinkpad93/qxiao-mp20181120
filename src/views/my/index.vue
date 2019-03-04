@@ -67,6 +67,17 @@
               <p class="cell-p">{{ leaderInfo.tel }}</p>
             </div>
           </div>
+          <div class="cell cell-switch">
+            <div class="cell-hd">家长班级圈控制</div>
+            <div class="cell-bd" style="text-align: right;">
+              <van-switch
+                v-model="leaderInfo.isOpen"
+                size="28px"
+                active-color="#92cd36"
+                @change="handleChange"
+              ></van-switch>
+            </div>
+          </div>
         </div>
         <a
           href="javascript:void(0);"
@@ -246,6 +257,7 @@ export default {
   mixins: [schoolType, sex],
   data() {
     return {
+      isOpen: true,
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
@@ -261,6 +273,18 @@ export default {
     //用户信息修改
     handleEditUser(role) {
       this.$router.push({ path: "/my/edit" });
+    },
+    handleChange() {
+      let { schoolId, isOpen } = this.leaderInfo;
+      this.updateIsOpen({ schoolId, isOpen });
+    },
+    async updateIsOpen(params = {}) {
+      let res = await service.updateIsOpen(params);
+      if (res.errorCode === 0) {
+        this.$toast("修改成功");
+      } else {
+        this.$toast("修改失败");
+      }
     },
     //学生信息查询
     async studentQuery(params) {

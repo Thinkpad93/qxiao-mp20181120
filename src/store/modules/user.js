@@ -12,7 +12,8 @@ export default {
     roleType: null, //角色类型
     openId: null, //微信 openId
     photo: "", //微信头像
-    type: null //0 幼儿园  1 小学
+    type: null, //0 幼儿园  1 小学
+    isOpen: true, //老师是否可以发班级圈
   },
   mutations: {
     SET_CLASSLIST: (state, classList) => {
@@ -42,6 +43,9 @@ export default {
     SET_TYPE: (state, type) => {
       state.type = type;
     },
+    SET_ISOPEN: (state, isOpen) => {
+      state.isOpen = isOpen === 'false' ? false : true;
+    },
   },
   actions: {
     async reload({
@@ -55,6 +59,7 @@ export default {
         Cookies.set("id", params.id);
         Cookies.set("classId", params.classId);
         Cookies.set("type", params.type);
+        Cookies.set("isOpen", params.isOpen);
         dispatch('get');
       }
     },
@@ -106,6 +111,7 @@ export default {
         commit('SET_CLASSID', Cookies.get('classId'));
         commit('SET_CLASSNAME', Cookies.get('className'));
         commit('SET_TYPE', Cookies.get('type'));
+        commit('SET_ISOPEN', Cookies.get('isOpen'));
         //提交班级查询
         dispatch('queryClassId', {
           id: Cookies.get('id'),

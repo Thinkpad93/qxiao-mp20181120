@@ -64,7 +64,7 @@
       </template>
       <!-- 家长端 -->
       <template v-else>
-        <div class="calendar-container">
+        <!-- <div class="calendar-container">
           <calendar
             :events="calendar.events"
             :range="calendar.range"
@@ -73,7 +73,7 @@
             @next="handleNext"
             @select="handleSelect"
           ></calendar>
-        </div>
+        </div>-->
         <div class="clock-table">
           <div class="cells">
             <div class="cell"></div>
@@ -187,7 +187,6 @@ export default {
     }
   },
   activated() {
-    console.log(this.calendar.events);
     if (this.roleType == 3) {
       this.clockQuery(this.querys);
     } else {

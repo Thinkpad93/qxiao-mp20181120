@@ -143,7 +143,6 @@ export default {
         schoolName: "",
         location: "",
         type: 0,
-        //schoolType: 0,
         leadName: "",
         tel: this.$store.getters.tel,
         openId: this.$store.getters.openId,
@@ -192,12 +191,13 @@ export default {
           Cookies.set("id", args.id);
           Cookies.set("roleType", args.roleType);
           Cookies.set("type", args.type);
-
+          Cookies.set("isOpen", args.isOpen);
           //查询班级名称
           this.$store.dispatch("user/queryClassId", args); //args.id args.roleType
           this.$store.commit("user/SET_ROLETYPE", args.roleType);
           this.$store.commit("user/SET_ID", args.id);
           this.$store.commit("user/SET_TYPE", args.type);
+          this.$store.commit("user/SET_ISOPEN", args.isOpen);
           this.$router.push({ path: "/home" });
         } else if (res.errorCode === -1) {
           this.$toast(`${res.errorMsg}`);
@@ -209,14 +209,6 @@ export default {
 };
 </script>
 <style lang="less">
-.getCenter {
-  position: fixed;
-  left: 0;
-  top: 50%;
-  height: auto;
-  width: 100%;
-  z-index: 100;
-}
 .school-head {
   height: 172px;
 }

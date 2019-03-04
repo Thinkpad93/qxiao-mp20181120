@@ -126,9 +126,11 @@ export default {
         this.$refs.form.reset();
         Cookies.set("roleType", res.data.roleType);
         Cookies.set("type", res.data.type);
+        Cookies.set("isOpen", res.data.isOpen);
         this.$store.dispatch("user/queryClassId", res.data);
         this.$store.commit("user/SET_ROLETYPE", res.data.roleType);
         this.$store.commit("user/SET_TYPE", res.data.type);
+        this.$store.commit("user/SET_ISOPEN", res.data.isOpen);
         this.$router.push({ path: "/home" });
       }
     }
@@ -139,8 +141,4 @@ export default {
 };
 </script>
 <style lang="less">
-.teacher-icon {
-  width: 100px;
-  height: 100px;
-}
 </style>

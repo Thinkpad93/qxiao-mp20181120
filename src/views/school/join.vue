@@ -102,8 +102,10 @@ export default {
         //当加入成功后，重新设置 roleType值
         Cookies.set("roleType", res.data.roleType);
         Cookies.set("type", res.data.type);
+        Cookies.set("isOpen", res.data.isOpen);
         this.$store.commit("user/SET_ROLETYPE", res.data.roleType);
         this.$store.commit("user/SET_TYPE", res.data.type);
+        this.$store.commit("user/SET_ISOPEN", res.data.isOpen);
         this.$store.dispatch("user/queryClassId", res.data);
         this.$router.push({
           path: "/home"

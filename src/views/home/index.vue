@@ -13,7 +13,7 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <template v-if="(roleType == 2) || (roleType == 3)">
+      <template v-if="isOpen">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
@@ -165,7 +165,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["id", "roleType", "classList"]),
+    ...mapGetters(["id", "roleType", "isOpen", "classList"]),
     fullName: {
       get() {
         return this.$store.getters.className;

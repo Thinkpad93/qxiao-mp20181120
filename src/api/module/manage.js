@@ -216,3 +216,9 @@ export function studentInfoQuery(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//控制家长端发布班级圈权限
+export function updateIsOpen(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/updateIsOpen.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

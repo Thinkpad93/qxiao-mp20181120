@@ -8,4 +8,5 @@ export default {
   openId: state => state.user.openId,
   photo: state => state.user.photo,
   type: state => state.user.type,
+  isOpen: state => state.user.isOpen,
 }
