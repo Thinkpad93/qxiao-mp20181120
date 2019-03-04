@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="page flex flex-direction">
+    <div class="page-bd bd">
       <article class="article">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
@@ -21,29 +21,31 @@
           </template>
         </div>
       </article>
-      <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-        <p class="_plac"></p>
-        <section class="_confirm">
-          <p
-            style="color:#92cd36;margin: 4px 0"
-            size-16
-            @click="handleReaders(info)"
-          >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
-        </section>
-      </template>
-      <template v-if="roleType == 3">
-        <template v-if="needConfirm">
-          <p class="_plac"></p>
-          <section class="_confirm">
-            <a
-              :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
-              href="javascript:void(0);"
-              class="btn btn-large"
-              @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确认':'确认阅读' }}</a>
+    </div>
+    <div class="page-fts">
+      <div class="foot">
+        <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
+          <section>
+            <p
+              style="color:#92cd36;"
+              size-16
+              @click="handleReaders(info)"
+            >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
           </section>
         </template>
-      </template>
+        <template v-if="roleType == 3">
+          <template v-if="needConfirm">
+            <section>
+              <a
+                :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
+                href="javascript:void(0);"
+                class="btn btn-large"
+                @click="handleConfirmFlag"
+              >{{ info.confirmFlag ? '已确认':'确认阅读' }}</a>
+            </section>
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>

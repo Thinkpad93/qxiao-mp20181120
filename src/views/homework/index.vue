@@ -47,7 +47,7 @@
               v-if="homework.topImage"
               :style="{backgroundImage: `url(${homework.topImage})`}"
             ></div>
-            <p class="line-clamp">{{ homework.textContent }}</p>
+            <p class="line-clamp">{{ homework.textContent | brReplace }}</p>
           </div>
         </div>
         <div class="figure-ft">
@@ -92,6 +92,12 @@ export default {
   },
   computed: {
     ...mapGetters(["roleType", "classList"])
+  },
+  filters: {
+    brReplace(value) {
+      if (!value) return "";
+      return value.replace(/<br\/>/g, "");
+    }
   },
   methods: {
     //选择班级

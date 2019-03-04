@@ -259,7 +259,7 @@ export default {
         this.$dialog
           .confirm({
             title: "提示",
-            message: "确实要删除该条班级较圈吗?"
+            message: "确实要删除该条班级圈吗?"
           })
           .then(() => {
             this.communityData.splice(index, 1);
@@ -326,16 +326,6 @@ export default {
         //...
       }
     }
-    //班级圈评论
-    // async communityComment(params) {
-    //   let res = await service.communityComment(params);
-    //   if (res.errorCode === 0) {
-    //     this.dialogVisible = false;
-    //     this.form.textContent = "";
-    //     this.query.page = 1;
-    //     this.communityQuery(this.query);
-    //   }
-    // }
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {

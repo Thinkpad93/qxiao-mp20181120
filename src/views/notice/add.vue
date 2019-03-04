@@ -83,7 +83,7 @@
                 placeholder="请输入公告通知内容..."
                 rows="6"
                 v-model="form.textContent"
-                maxlength="1000"
+                maxlength="5000"
               ></textarea>
             </div>
           </div>
@@ -107,7 +107,7 @@
               <label for class="label">发送对象</label>
             </div>
             <div class="cell-bd">
-              <p class="cell-p" @click="handleChangeSenders">
+              <p class="cell-p" @click="isActive = true">
                 <span v-if="checkTotal">已选择{{ checkTotal }}项</span>
                 <span v-else>请选择发送对象</span>
               </p>
@@ -291,9 +291,9 @@ export default {
       this.checked = false;
     },
     //选择发送对象
-    handleChangeSenders() {
-      this.isActive = true;
-    },
+    // handleChangeSenders() {
+    //   this.isActive = true;
+    // },
     handleCheckAll(value) {
       let { sendType } = this.form;
       if (sendType === 2) {
@@ -351,7 +351,6 @@ export default {
         senders,
         ...args
       } = this.form;
-      textContent = textReplace(textContent);
       if (title === "") {
         this.$toast("请输入通知标题");
         return;
@@ -368,7 +367,7 @@ export default {
       needConfirm === false ? (needConfirm = 0) : (needConfirm = 1);
       let obj = Object.assign({}, args, {
         title,
-        textContent,
+        textContent: textReplace(textContent),
         senders,
         clockType,
         needConfirm
@@ -449,7 +448,6 @@ export default {
 };
 </script>
 <style lang="less">
-
 .panel {
   display: flex;
   flex-direction: column;

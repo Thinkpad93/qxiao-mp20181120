@@ -43,7 +43,7 @@
               v-if="fresh.topImage"
               :style="{backgroundImage: `url(${fresh.topImage})`}"
             ></div>
-            <p class="line-clamp">{{ fresh.textContent }}</p>
+            <p class="line-clamp">{{ fresh.textContent | brReplace }}</p>
           </div>
         </div>
         <div class="figure-ft">
@@ -93,6 +93,12 @@ export default {
   },
   computed: {
     ...mapGetters(["classList"])
+  },
+  filters: {
+    brReplace(value) {
+      if (!value) return "";
+      return value.replace(/<br\/>/g, "");
+    }
   },
   methods: {
     //选择班级

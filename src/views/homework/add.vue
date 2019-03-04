@@ -75,6 +75,7 @@
 <script>
 import service from "@/api";
 import { mapGetters } from "vuex";
+import { textReplace } from "@/utils/string";
 export default {
   name: "homeWorkAdd",
   data() {
@@ -196,6 +197,7 @@ export default {
       this.form.senders = this.selected.map(item => {
         return { classId: item };
       });
+      this.form.textContent = textReplace(textContent);
       let params = {
         openId: this.form.openId,
         imgIds: this.serverId

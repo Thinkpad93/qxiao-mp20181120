@@ -95,6 +95,7 @@
 <script>
 import moment from "moment";
 import service from "@/api";
+import { textReplace } from "@/utils/string";
 export default {
   name: "recipeAdd",
   data() {
@@ -229,7 +230,7 @@ export default {
         startDate,
         endDate,
         title,
-        textContent
+        textContent: textReplace(textContent)
       });
       let params = {
         openId: this.form.openId,

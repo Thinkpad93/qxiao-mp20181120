@@ -20,7 +20,11 @@ export default {
       calendar: {
         range: false,
         lunar: true,
-        events: {}
+        events: {
+          "2019-3-04": "",
+          "2019-3-05": "",
+          "2019-3-14": ""
+        }
       },
       querys: {
         openId: this.$store.getters.openId,
@@ -35,15 +39,21 @@ export default {
       let res = await service.clockQuery(params);
       if (res.errorCode === 0) {
         let datas = res.data;
-        let obj = {};
-        let time = {};
-        datas.forEach((elem, index) => {
-          obj[elem] = index;
+        let timeArray = [];
+        datas.forEach(elem => {
+          let str = new Date(elem).getTime();
+          timeArray.push(str);
         });
-        for (let i in obj) {
-          time[moment(new Date(i).getTime()).format("YYYY-M-DD")] = i;
-        }
-        this.calendar.events = time;
+        console.log(timeArray);
+        // let obj = {};
+        // let time = {};
+        // datas.forEach((elem, index) => {
+        //   obj[elem] = index;
+        // });
+        // for (let i in obj) {
+        //   time[moment(new Date(i).getTime()).format("YYYY-M-DD")] = i;
+        // }
+        // this.calendar.events = time;
       }
     }
   },

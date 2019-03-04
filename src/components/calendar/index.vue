@@ -950,8 +950,8 @@ export default {
   position: absolute;
   right: 10%;
   top: 0;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background-color: #ea6151;
 }

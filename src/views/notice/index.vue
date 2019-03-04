@@ -166,14 +166,6 @@ export default {
         }
       }
     },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-        this.className = res.data[0].className;
-      }
-    },
     //删除通知公告
     async deleteNotice(params = {}) {
       let res = await service.deleteNotice(params);

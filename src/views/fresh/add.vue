@@ -67,6 +67,7 @@
 <script>
 import service from "@/api";
 import { mapGetters } from "vuex";
+import { textReplace } from "@/utils/string";
 export default {
   name: "freshAdd",
   data() {
@@ -186,6 +187,7 @@ export default {
         openId: this.form.openId,
         imgIds: this.serverId
       };
+      this.form.textContent = textReplace(textContent);
       let obj = Object.assign({}, this.form, { senders });
       //如果有上传图片
       if (this.serverId.length) {

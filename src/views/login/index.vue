@@ -39,10 +39,10 @@
         </div>
         <div class="cells">
           <div class="cell">
-            <div class="cell-hd">
+            <!-- <div class="cell-hd">
               <img class="ignore" src="@/assets/image/password-icon@2x.png" alt>
-            </div>
-            <div class="cell-bd">
+            </div>-->
+            <div class="cell-bd" style="padding-left:30px;">
               <input
                 type="password"
                 class="input text-left"

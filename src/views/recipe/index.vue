@@ -24,7 +24,7 @@
               v-if="recipe.topImage"
               :style="{backgroundImage: `url(${recipe.topImage})`}"
             ></div>
-            <p class="line-clamp">{{ recipe.textContent }}</p>
+            <p class="line-clamp">{{ recipe.textContent | brReplace }}</p>
           </div>
         </div>
         <div class="figure-ft">
@@ -53,6 +53,12 @@ export default {
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
       recipeData: []
     };
+  },
+  filters: {
+    brReplace(value) {
+      if (!value) return "";
+      return value.replace(/<br\/>/g, "");
+    }
   },
   methods: {
     handleJump(recipe) {
