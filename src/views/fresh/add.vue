@@ -175,6 +175,8 @@ export default {
       if (textContent === "" && !this.serverId.length) {
         this.$toast("请输入速报内容或者上传图片");
         return;
+      } else {
+        this.form.textContent = textReplace(textContent) || "";
       }
       if (!this.selected.length) {
         this.$toast("请选择发送班级");
@@ -187,7 +189,7 @@ export default {
         openId: this.form.openId,
         imgIds: this.serverId
       };
-      this.form.textContent = textReplace(textContent);
+
       let obj = Object.assign({}, this.form, { senders });
       //如果有上传图片
       if (this.serverId.length) {

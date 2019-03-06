@@ -42,9 +42,11 @@
                 <span>{{ comment.name }}</span>
                 <p>{{ comment.textContent }}</p>
               </div>
-              <div class="cell-ft">
-                <p @click="handleDelComment(comment.commentId, index)" style="color:#e64340">删除</p>
-              </div>
+              <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
+                <div class="cell-ft">
+                  <p @click="handleDelComment(comment.commentId, index)" style="color:#e64340">删除</p>
+                </div>
+              </template>
             </div>
           </div>
         </div>

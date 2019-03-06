@@ -16,4 +16,13 @@ export default [{
       roles: [1, 2, 3]
     }
   },
+  {
+    path: '/clock/day',
+    component: () => import('@/views/clock/day'),
+    meta: {
+      keepAlive: true,
+      title: '学生当天打卡记录',
+      roles: [1, 2, 3]
+    }
+  },
 ]

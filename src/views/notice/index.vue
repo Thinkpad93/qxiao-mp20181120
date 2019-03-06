@@ -1,19 +1,19 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <template v-if="roleType == 1 || roleType == 4">
-        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
-          <van-tab title="通知消息"></van-tab>
-          <van-tab title="发送记录"></van-tab>
-        </van-tabs>
-      </template>
-      <template v-if="roleType == 2">
+      <template v-if="roleType == 1 || roleType == 4 || roleType == 2">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </a>
         </div>
+      </template>
+      <template v-if="roleType == 1 || roleType == 4">
+        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
+          <van-tab title="通知消息"></van-tab>
+          <van-tab title="发送记录"></van-tab>
+        </van-tabs>
       </template>
     </div>
     <div class="page-bd">
@@ -174,9 +174,6 @@ export default {
     },
     //公告通知列表查询
     async noticeQuery(params = {}) {
-      if (this.roleType == 1 || this.roleType == 4) {
-        this.query.classId = 0;
-      }
       let res = await service.noticeQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;
@@ -185,6 +182,17 @@ export default {
         this.isLoading = false;
         this.noticeData = res.data.data || [];
       }
+      // if (this.roleType == 1 || this.roleType == 4) {
+      //   this.query.classId = 0;
+      // }
+      // let res = await service.noticeQuery(params);
+      // if (res.errorCode === 0) {
+      //   this.popupShow = false;
+      //   this.query.page = res.data.page;
+      //   this.totalPage = res.data.totalPage;
+      //   this.isLoading = false;
+      //   this.noticeData = res.data.data || [];
+      // }
     }
   },
   mounted() {

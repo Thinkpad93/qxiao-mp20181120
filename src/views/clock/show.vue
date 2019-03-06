@@ -8,12 +8,12 @@
             href="javascript:;"
             @click="handleTabClick(1)"
             :class="[query.type === 1 ? 'curr': '']"
-          >已签到人数</a>
+          >已打卡</a>
           <a
             href="javascript:;"
             @click="handleTabClick(0)"
             :class="[query.type === 0 ? 'curr': '']"
-          >未签到人数</a>
+          >未打卡</a>
         </div>
       </div>
     </div>
@@ -25,7 +25,8 @@
               <p>{{ item.studentName }}</p>
             </div>
             <div class="cell-ft">
-              <span v-for="(time, index) in item.time" :key="index">{{ time.postTime }}</span>
+              <span>{{ item.postTime }}</span>
+              <!-- <span v-for="(time, index) in item.time" :key="index">{{ time.postTime }}</span> -->
             </div>
           </div>
         </div>

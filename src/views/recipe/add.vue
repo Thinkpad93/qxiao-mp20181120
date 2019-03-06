@@ -225,12 +225,14 @@ export default {
       if (textContent === "" && !this.serverId.length) {
         this.$toast("请输入食谱内容或者上传图片");
         return;
+      } else {
+        textContent = textReplace(textContent) || "";
       }
       let obj = Object.assign({}, args, {
         startDate,
         endDate,
         title,
-        textContent: textReplace(textContent)
+        textContent
       });
       let params = {
         openId: this.form.openId,

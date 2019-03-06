@@ -2,21 +2,19 @@
   <div class="page">
     <div class="page-hd">
       <audio
-        id="player"
+        id="audios"
         ref="audioRef"
         :src="playUrl"
+        @play="handlePlay"
         @ended="handleEnded"
         @playing="handlePlaying"
         @pause="handlePause"
       ></audio>
-      <div class="shuttle-sp-area flex">
-        <a href="javascript:;" @click="popupShow = true">
+      <div class="button-sp-area flex" size-17>
+        <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
           <i class="iconfont icon-xiangxia1"></i>
         </a>
-        <!-- <div @click="handlePlayAudio">
-          <span>{{ playBoolean ? '暂停':'播放' }}</span>
-        </div>-->
       </div>
     </div>
     <div class="page-bd">
@@ -121,12 +119,16 @@ export default {
       this.classClockQuery();
       this.realShuttle(this.query);
     },
+    handlePlay(e) {},
     //播放开始事件
     handlePlaying(e) {},
     //播放暂停事件
-    handlePause(e) {},
+    handlePause(e) {
+      //console.log("播放暂停");
+    },
     //播放结束事件
     handleEnded(e) {
+      const audio = this.$refs.audioRef;
       if (this.playNumber === this.playMax) {
         //单条语音播放次数达到
         setTimeout(() => {
@@ -134,6 +136,10 @@ export default {
           this.playIndex++;
           if (this.playIndex < this.playList.length) {
             this.playUrl = this.playList[this.playIndex].url;
+            //这时判断，如果读取的url是一样的值
+            if (this.playUrl === audio.src) {
+              audio.play();
+            }
           } else {
             //全部语音已经播放完
             this.playIndex = 0;
@@ -149,17 +155,29 @@ export default {
         this.$refs.audioRef.play();
       }
     },
-    handlePlayAudio() {
-      //设置第一条开始播放
-      let audio = this.$refs.audioRef;
-      if (audio.paused) {
-        this.playBoolean = true;
-        this.playUrl = this.playList[this.playIndex].url;
-        audio.play();
-      } else {
-        this.playBoolean = false;
-        audio.pause();
-      }
+    handleOnload() {
+      document.addEventListener("touchstart", () => {
+        document.getElementById("audios").play();
+      });
+      // 配置信息, 即使不正确也能使用 wx.ready
+      wx.config({
+        debug: false,
+        appId: "",
+        timestamp: 1,
+        nonceStr: "",
+        signature: "",
+        jsApiList: []
+      });
+      wx.ready(() => {
+        let audio = document.getElementById("audios");
+        let ua = window.navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|mac/i.test(ua)) {
+          console.log("ios");
+          audio.play();
+        }
+        if (/android/i.test(ua)) {
+        }
+      });
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
@@ -174,7 +192,8 @@ export default {
           //设置第一条开始播放
           this.playUrl = this.playList[this.playIndex].url;
         } else {
-          //如果没有数据返回，说明还没有到打卡时间
+          //没有到打卡时间
+          this.shuttleData = [];
         }
       }
     },
@@ -189,15 +208,23 @@ export default {
     }
   },
   mounted() {
+    this.handleOnload();
     this.classClockQuery();
     this.realShuttle(this.query);
   },
   destroyed() {
     console.log("destroyed");
+    //document.getElementById("audios").src = "";
   }
 };
 </script>
 <style lang="less">
+.button-sp-area {
+  color: #9cd248;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
 .shuttle-sp-area {
   color: #9cd248;
   height: 100px;

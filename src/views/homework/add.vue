@@ -186,7 +186,10 @@ export default {
       if (textContent == "" && !this.serverId.length) {
         this.$toast("请输入作业内容或者上传图片");
         return;
+      } else {
+        this.form.textContent = textReplace(textContent) || "";
       }
+
       if (!this.selected.length) {
         this.$toast("请选择发送班级");
         return;
@@ -197,7 +200,7 @@ export default {
       this.form.senders = this.selected.map(item => {
         return { classId: item };
       });
-      this.form.textContent = textReplace(textContent);
+
       let params = {
         openId: this.form.openId,
         imgIds: this.serverId

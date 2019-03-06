@@ -358,6 +358,8 @@ export default {
       if (textContent === "" && !this.serverId.length) {
         this.$toast("请输入通知内容或者上传图片");
         return;
+      } else {
+        textContent = textReplace(textContent) || "";
       }
       if (!senders.length) {
         this.$toast("你还没有选择发送对象");
@@ -367,7 +369,7 @@ export default {
       needConfirm === false ? (needConfirm = 0) : (needConfirm = 1);
       let obj = Object.assign({}, args, {
         title,
-        textContent: textReplace(textContent),
+        textContent,
         senders,
         clockType,
         needConfirm

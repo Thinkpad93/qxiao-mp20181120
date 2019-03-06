@@ -64,7 +64,8 @@ vue2.x + vuex + vueRoute + axios + weuijs
 
 ## 开发问题
 
-> 在keep-alive作用下，某些钩子函数会失去作用，在deactivated（）这个钩子函数解绑即可
+> 在 keep-alive 作用下，某些钩子函数会失去作用，在 deactivated（）这个钩子函数解绑即可
+
 ```javascript
   deactivated() {
     window.removeEventListener("scroll", this.handleLoadingMore);
@@ -96,6 +97,33 @@ wx.previewImage({
   current: encodeURI(url), //encodeURI
   urls: imgArray
 });
+```
+
+> audio
+
+```javascript
+    handlePlayAudio() {
+      let ua = window.navigator.userAgent.toLowerCase();
+      //ios
+      if (/iphone|ipad|mac/i.test(ua)) {
+        alert("ios");
+        document.addEventListener(
+          "WeixinJSBridgeReady",
+          function() {
+            let audios = document.getElementById("audios");
+            WeixinJSBridge.invoke("getNetworkType", {}, function(res) {
+              //res这里面就包含了所有的网络类型
+              audios.play();
+            });
+          },
+          false
+        );
+      }
+      //android
+      if (/android/i.test(ua)) {
+        console.log("android");
+      }
+    },
 ```
 
 > 开发进度

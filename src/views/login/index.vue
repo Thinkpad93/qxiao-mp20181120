@@ -39,15 +39,12 @@
         </div>
         <div class="cells">
           <div class="cell">
-            <!-- <div class="cell-hd">
-              <img class="ignore" src="@/assets/image/password-icon@2x.png" alt>
-            </div>-->
             <div class="cell-bd" style="padding-left:30px;">
               <input
-                type="password"
+                type="number"
                 class="input text-left"
+                pattern="[0-9]*"
                 placeholder="请输入验证码"
-                maxlength="6"
                 v-model="form.verifyCode"
               >
             </div>

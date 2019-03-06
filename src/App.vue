@@ -13,7 +13,17 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  data() {
+    return {};
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to);
+    }
+  },
+  methods: {},
+  mounted() {}
 };
 </script>
 
