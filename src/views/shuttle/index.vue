@@ -15,6 +15,12 @@
           <span>{{ className }}</span>
           <i class="iconfont icon-xiangxia1"></i>
         </a>
+        <div class="audio-box" @click="handlePlayAudio">
+          <template v-if="isAndroid">
+            <i class="iconfont icon-bofang" v-if="playBoolean"></i>
+            <i class="iconfont icon-zanting" v-else></i>
+          </template>
+        </div>
       </div>
     </div>
     <div class="page-bd">
@@ -92,7 +98,8 @@ export default {
       },
       shuttleData: [],
       classClockData: [],
-      playBoolean: false,
+      isAndroid: false,
+      playBoolean: true,
       playIndex: 0, //播放起始位置为0
       playUrl: "", //播放url
       playList: [], //音频列表
@@ -155,29 +162,53 @@ export default {
         this.$refs.audioRef.play();
       }
     },
+    handlePlayAudio() {
+      let audio = document.getElementById("audios");
+      if (audio.paused) {
+        audio.play();
+        this.playBoolean = false;
+      } else {
+        audio.pause();
+        this.playBoolean = true;
+      }
+      // // if (!this.playBoolean) {
+      // //   document.getElementById("audios").play();
+      // //   this.playBoolean = true;
+      // // } else {
+      // //   document.getElementById("audios").pause();
+      // //   this.playBoolean = false;
+      // }
+    },
     handleOnload() {
-      document.addEventListener("touchstart", () => {
-        document.getElementById("audios").play();
-      });
-      // 配置信息, 即使不正确也能使用 wx.ready
-      wx.config({
-        debug: false,
-        appId: "",
-        timestamp: 1,
-        nonceStr: "",
-        signature: "",
-        jsApiList: []
-      });
-      wx.ready(() => {
-        let audio = document.getElementById("audios");
-        let ua = window.navigator.userAgent.toLowerCase();
-        if (/iphone|ipad|mac/i.test(ua)) {
-          console.log("ios");
-          audio.play();
-        }
-        if (/android/i.test(ua)) {
-        }
-      });
+      let ua = window.navigator.userAgent.toLowerCase();
+      if (/android/i.test(ua)) {
+        this.isAndroid = false;
+      } else {
+        this.isAndroid = true;
+      }
+      // document.addEventListener("touchstart", () => {
+      //   document.getElementById("audios").play();
+      // });
+      //配置信息, 即使不正确也能使用 wx.ready
+      // wx.config({
+      //   debug: false,
+      //   appId: "",
+      //   timestamp: 1,
+      //   nonceStr: "",
+      //   signature: "",
+      //   jsApiList: []
+      // });
+      // wx.ready(() => {
+      //   let audio = document.getElementById("audios");
+      //   let ua = window.navigator.userAgent.toLowerCase();
+      //   if (/iphone|ipad|mac/i.test(ua)) {
+      //     alert("ios");
+      //     //audio.pause();
+      //     audio.play();
+      //   }
+      //   if (/android/i.test(ua)) {
+      //   }
+      // });
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
@@ -213,8 +244,8 @@ export default {
     this.realShuttle(this.query);
   },
   destroyed() {
+    //this.playBoolean = true;
     console.log("destroyed");
-    //document.getElementById("audios").src = "";
   }
 };
 </script>
@@ -222,9 +253,16 @@ export default {
 .button-sp-area {
   color: #9cd248;
   height: 100px;
-  justify-content: center;
+  padding: 0 30px;
+  justify-content: space-between;
   align-items: center;
 }
+.audio-box {
+  i {
+    font-size: 80px;
+  }
+}
+
 .shuttle-sp-area {
   color: #9cd248;
   height: 100px;
