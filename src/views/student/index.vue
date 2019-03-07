@@ -4,12 +4,20 @@
       <div class="student-head">
         <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
         <div class="tab">
-          <a href="javascript:;" style="color:#409eff;" size-14>批量导入学生信息</a>
-          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = true">批量邀请学生家长</a>
+          <a href="javascript:;" style="color:#409eff;" size-14 @click="visible = true">批量导入学生信息</a>
+          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = false">批量邀请学生家长</a>
         </div>
       </div>
     </div>
     <div class="page-bd">
+      <v-dialog
+        title="提示"
+        :visible="visible"
+        @on-cancel="handleOnCancel"
+        @on-confirm="handleOnConfirm"
+      >
+        <p>请登陆管理后台进行批量操作</p>
+      </v-dialog>
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -59,10 +67,15 @@
 </template>
 <script>
 import service from "@/api";
+import dialog from "@/components/dialog";
 export default {
   name: "student",
+  components: {
+    "v-dialog": dialog
+  },
   data() {
     return {
+      visible: false,
       visibility: false,
       teacherId: this.$store.getters.id,
       studentList: []
@@ -74,10 +87,16 @@ export default {
     }
   },
   methods: {
+    handleOnCancel(state) {
+      this.visible = state;
+    },
+    handleOnConfirm() {
+      console.log("confirm");
+    },
     handleEditStudent(student) {
       this.$router.push({
         path: `/student/edit`,
-        query: { tel: student.tel }
+        query: { tel: student.tel, studentId: student.studentId }
       });
     },
     handleAddStudent() {
@@ -90,9 +109,6 @@ export default {
         this.studentList = res.data;
       }
     },
-    // handleShare() {
-    //   this.visibility = true;
-    // },
     //通过config接口注入权限验证配置
     getWxConfig() {
       let url = window.location.href.split("#")[0];

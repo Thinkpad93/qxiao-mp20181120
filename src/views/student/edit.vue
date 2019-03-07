@@ -102,7 +102,8 @@ export default {
     return {
       querys: {
         openId: this.$store.getters.openId,
-        tel: this.$route.query.tel
+        tel: this.$route.query.tel,
+        studentId: this.$route.query.studentId
       },
       form: {}
     };

@@ -24,7 +24,7 @@
           </template>
         </section>
       </article>
-      <div class="comment">
+      <div class="comment" v-if="info.commentList.length">
         <div class="comment-hd flex">
           <span>留言({{ commentLen }})</span>
           <!-- 只有家长能够评论 -->

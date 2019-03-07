@@ -15,7 +15,6 @@
       </div>
     </div>
     <div class="page-bd">
-      <v-dialog title="提示" :visible="visible"></v-dialog>
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -69,15 +68,10 @@
 </template>
 <script>
 import service from "@/api";
-import dialog from "@/components/dialog";
 export default {
   name: "teacher",
-  components: {
-    "v-dialog": dialog
-  },
   data() {
     return {
-      visible: false,
       visibility: false,
       schoolId: this.$store.getters.id,
       teacherList: []

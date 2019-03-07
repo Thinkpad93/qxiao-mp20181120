@@ -88,7 +88,7 @@ export default {
   computed: {
     ...mapGetters(["roleType", "type"]),
     computedMenu() {
-      //幼儿园
+      //幼儿园 0   小学 1
       if (this.type == 0) {
         switch (parseInt(this.roleType)) {
           case 1:

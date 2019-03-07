@@ -178,7 +178,10 @@ export default {
     },
     handleOnload() {
       let ua = window.navigator.userAgent.toLowerCase();
-      if (/android/i.test(ua)) {
+      if (
+        /android/i.test(ua) &&
+        ua.match(/MicroMessenger/i) == "micromessenger"
+      ) {
         this.isAndroid = false;
       } else {
         this.isAndroid = true;
@@ -298,6 +301,9 @@ export default {
     }
     &-default {
       background-color: #cccccc;
+    }
+    .icon-d {
+      margin: 0 auto;
     }
     img {
       width: 100px;
