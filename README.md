@@ -124,15 +124,30 @@ wx.previewImage({
         console.log("android");
       }
     },
+      document.addEventListener("touchstart", () => {
+        document.getElementById("audios").play();
+      });
+      配置信息, 即使不正确也能使用 wx.ready
+      wx.config({
+        debug: false,
+        appId: "",
+        timestamp: 1,
+        nonceStr: "",
+        signature: "",
+        jsApiList: []
+      });
+      wx.ready(() => {
+        let audio = document.getElementById("audios");
+        let ua = window.navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|mac/i.test(ua)) {
+          alert("ios");
+          //audio.pause();
+          audio.play();
+        }
+        if (/android/i.test(ua)) {
+        }
+      });
 ```
-
-> 开发进度
-
-- 家长端考勤管理
-- 营养食谱
-- 相册空间
-- 班级圈点赞和评论成功后，刷新问题
-- 公告通知，通知消息和发送记录切换后，数据查询问题
 
 ## git 分支命名
 

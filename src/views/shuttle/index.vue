@@ -10,7 +10,7 @@
         @playing="handlePlaying"
         @pause="handlePause"
       ></audio>
-      <div class="button-sp-area flex" size-17>
+      <div class="shuttle-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
           <i class="iconfont icon-xiangxia1"></i>
@@ -164,20 +164,17 @@ export default {
     },
     handlePlayAudio() {
       let audio = document.getElementById("audios");
-      if (audio.paused) {
-        audio.play();
-        this.playBoolean = false;
+      if (this.playUrl) {
+        if (audio.paused) {
+          audio.play();
+          this.playBoolean = false;
+        } else {
+          audio.pause();
+          this.playBoolean = true;
+        }
       } else {
-        audio.pause();
-        this.playBoolean = true;
+        this.$toast("暂无学生打卡");
       }
-      // // if (!this.playBoolean) {
-      // //   document.getElementById("audios").play();
-      // //   this.playBoolean = true;
-      // // } else {
-      // //   document.getElementById("audios").pause();
-      // //   this.playBoolean = false;
-      // }
     },
     handleOnload() {
       let ua = window.navigator.userAgent.toLowerCase();
@@ -186,29 +183,6 @@ export default {
       } else {
         this.isAndroid = true;
       }
-      // document.addEventListener("touchstart", () => {
-      //   document.getElementById("audios").play();
-      // });
-      //配置信息, 即使不正确也能使用 wx.ready
-      // wx.config({
-      //   debug: false,
-      //   appId: "",
-      //   timestamp: 1,
-      //   nonceStr: "",
-      //   signature: "",
-      //   jsApiList: []
-      // });
-      // wx.ready(() => {
-      //   let audio = document.getElementById("audios");
-      //   let ua = window.navigator.userAgent.toLowerCase();
-      //   if (/iphone|ipad|mac/i.test(ua)) {
-      //     alert("ios");
-      //     //audio.pause();
-      //     audio.play();
-      //   }
-      //   if (/android/i.test(ua)) {
-      //   }
-      // });
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
@@ -221,7 +195,7 @@ export default {
             return { url: item.url };
           });
           //设置第一条开始播放
-          this.playUrl = this.playList[this.playIndex].url;
+          this.playUrl = this.playList[this.playIndex].url || "";
         } else {
           //没有到打卡时间
           this.shuttleData = [];
@@ -244,19 +218,11 @@ export default {
     this.realShuttle(this.query);
   },
   destroyed() {
-    //this.playBoolean = true;
     console.log("destroyed");
   }
 };
 </script>
 <style lang="less">
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  padding: 0 30px;
-  justify-content: space-between;
-  align-items: center;
-}
 .audio-box {
   i {
     font-size: 80px;
@@ -265,23 +231,10 @@ export default {
 
 .shuttle-sp-area {
   color: #9cd248;
-  height: 100px;
+  height: 120px;
   padding: 0 30px;
   justify-content: space-between;
   align-items: center;
-  > a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    width: 150px;
-    color: #fff;
-    border-radius: 30px;
-    background-color: #9cd248;
-    span {
-      margin-right: 20px;
-    }
-  }
 }
 .table {
   background-color: #fff;
