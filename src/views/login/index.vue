@@ -58,7 +58,6 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
 import { mapGetters } from "vuex";
@@ -74,9 +73,6 @@ export default {
         verifyCode: ""
       }
     };
-  },
-  computed: {
-    ...mapGetters(["roleType"])
   },
   methods: {
     handleSecond() {
@@ -123,15 +119,13 @@ export default {
     async userTeleLogin(params = {}) {
       let res = await this.$store.dispatch("account/userTeleLogin", params);
       if (res.errorCode === 0) {
+        let { roleType } = res.data;
         //定时器清除
         this.second = 60;
         this.hidden = false;
         window.clearInterval(this.timer);
-        let { roleType } = res.data;
-        if (roleType !== 0) {
-          this.form.tel = "";
-          this.form.verifyCode = "";
-        }
+        this.$refs.form.reset();
+
         switch (roleType) {
           case 0:
             this.$toast("此手机号码还没有录入");
@@ -176,10 +170,8 @@ export default {
     let ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
       if (openId || photo) {
-        Cookies.set("openId", openId);
-        Cookies.set("photo", photo);
-        this.$store.commit("user/SET_OPENID", openId);
-        this.$store.commit("user/SET_PHOTO", photo);
+        this.$store.commit("wx/SET_OPENID", openId);
+        this.$store.commit("wx/SET_PHOTO", photo);
       }
     }
   }

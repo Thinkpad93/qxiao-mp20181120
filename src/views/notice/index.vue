@@ -71,7 +71,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "notice",
@@ -79,23 +79,30 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.getters.className,
+      className: this.$store.state["queryClass"].className,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.getters.openId || this.$route.query.openId,
-        classId: this.$store.getters.classId || this.$route.query.classId,
+        openId: this.$store.state["wx"].openId || this.$route.query.openId,
+        classId:
+          this.$store.state["queryClass"].classId || this.$route.query.classId,
         type: 0,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      roleType:
+        this.$store.state["users"].roleType || this.$route.query.roleType,
       noticeData: []
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
+    // className() {
+    //   return this.$store.state["queryClass"].className;
+    // }
   },
   filters: {
     brReplace(value) {
@@ -182,22 +189,13 @@ export default {
         this.isLoading = false;
         this.noticeData = res.data.data || [];
       }
-      // if (this.roleType == 1 || this.roleType == 4) {
-      //   this.query.classId = 0;
-      // }
-      // let res = await service.noticeQuery(params);
-      // if (res.errorCode === 0) {
-      //   this.popupShow = false;
-      //   this.query.page = res.data.page;
-      //   this.totalPage = res.data.totalPage;
-      //   this.isLoading = false;
-      //   this.noticeData = res.data.data || [];
-      // }
     }
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
-      this.$store.dispatch("user/reload", this.$route.query, { root: true });
+      this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
+        root: true
+      });
     }
     this.noticeQuery(this.query);
   }

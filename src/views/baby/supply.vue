@@ -122,16 +122,16 @@ export default {
     async studentSupply(params = {}) {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
-        //当家长加入成功后，重新设置 roleType值
         this.$refs.form.reset();
-        Cookies.set("roleType", res.data.roleType);
-        Cookies.set("type", res.data.type);
-        Cookies.set("isOpen", res.data.isOpen);
-        this.$store.dispatch("user/queryClassId", res.data);
-        this.$store.commit("user/SET_ROLETYPE", res.data.roleType);
-        this.$store.commit("user/SET_TYPE", res.data.type);
-        this.$store.commit("user/SET_ISOPEN", res.data.isOpen);
-        this.$router.push({ path: "/home" });
+        this.$store.dispatch("users/saveUserInfo", res.data);
+        //查询班级名称
+        this.$store.dispatch("queryClass/queryClassId", {
+          id: res.data.id,
+          roleType: res.data.roleType
+        });
+        this.$router.replace({
+          path: "/home"
+        });
       }
     }
   },

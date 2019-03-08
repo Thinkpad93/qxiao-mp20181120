@@ -2,8 +2,10 @@ import service from "@/api";
 
 // actions
 const actions = {
-  //用户名登录
+  //用户登录
+  //roleType 1-园长 2-老师 3-学生 
   async userTeleLogin({
+    commit,
     dispatch
   }, params) {
     return new Promise(async resolve => {
@@ -21,17 +23,14 @@ const actions = {
         } else if (obj.roleType === 3) {
           obj.id = res.data.patroarchId;
         }
-        //写入cookie
-        await dispatch('user/set', res.data, {
+
+        commit('users/SET_ID', obj.id, {
           root: true
         });
-        //这里首次不会执行 roleType 为 4
-        //提交班级查询 obj = { id, roleType }
-        if (obj.roleType === 1 || obj.roleType === 2 || obj.roleType === 3) {
-          await dispatch('user/queryClassId', obj, {
-            root: true
-          });
-        }
+        commit('users/SET_TEL', res.data.tel, {
+          root: true
+        });
+
         resolve(res);
       } else if (res.errorCode === -1) {
         resolve(res);

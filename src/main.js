@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
   //这里进行路由权限控制
   if (!store.getters.openId && Cookies.get('openId')) {
     console.log("这里进行路由权限控制");
-    store.dispatch('user/get');
+    store.dispatch('users/getUserInfo');
     next();
   }
   next();

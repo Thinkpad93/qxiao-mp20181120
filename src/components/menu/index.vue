@@ -12,7 +12,7 @@
   </nav>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "qmenu",
   data() {
@@ -86,7 +86,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["roleType", "type"]),
+    ...mapState("users", {
+      roleType: state => state.roleType,
+      type: state => state.type
+    }),
+    //...mapGetters(["roleType", "type"]),
     computedMenu() {
       //幼儿园 0   小学 1
       if (this.type == 0) {

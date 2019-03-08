@@ -157,7 +157,9 @@ export default {
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
-      this.$store.dispatch("user/reload", this.$route.query, { root: true });
+      this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
+        root: true
+      });
     }
     this.freshQuery(this.query);
   }

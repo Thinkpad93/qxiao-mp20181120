@@ -188,17 +188,13 @@ export default {
         if (res.errorCode === 0) {
           //当学校创建成功后，重新设置 roleType值
           let { schoolCode, ...args } = res.data;
-          Cookies.set("id", args.id);
-          Cookies.set("roleType", args.roleType);
-          Cookies.set("type", args.type);
-          Cookies.set("isOpen", args.isOpen);
+          this.$store.dispatch("users/saveUserInfo", args);
           //查询班级名称
-          this.$store.dispatch("user/queryClassId", args); //args.id args.roleType
-          this.$store.commit("user/SET_ROLETYPE", args.roleType);
-          this.$store.commit("user/SET_ID", args.id);
-          this.$store.commit("user/SET_TYPE", args.type);
-          this.$store.commit("user/SET_ISOPEN", args.isOpen);
-          this.$router.push({ path: "/home" });
+          this.$store.dispatch("queryClass/queryClassId", {
+            id: args.id,
+            roleType: args.roleType
+          });
+          this.$router.replace({ path: "/home" });
         } else if (res.errorCode === -1) {
           this.$toast(`${res.errorMsg}`);
         }

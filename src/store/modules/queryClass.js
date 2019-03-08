@@ -20,6 +20,7 @@ const mutations = {
 }
 
 const actions = {
+  //根据类型查询相关班级
   async queryClassId({
     commit
   }, params) {
