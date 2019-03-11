@@ -76,15 +76,6 @@ export default {
   methods: {
     handleSecond() {
       if (isPhone(this.form.tel)) {
-        this.hidden = true;
-        this.timer = setInterval(() => {
-          if (this.second === 1) {
-            this.second = 60;
-            this.hidden = false;
-            window.clearInterval(this.timer);
-          }
-          this.second--;
-        }, 1000);
         this.telVeriftCode(this.form.tel);
       } else {
         this.$toast("请正确填写手机号");
@@ -110,6 +101,15 @@ export default {
       let res = await service.telVeriftCode({ tel });
       if (res.errorCode === 0) {
         this.$toast("验证码已经发送，请注意查收");
+        this.hidden = true;
+        this.timer = setInterval(() => {
+          if (this.second === 1) {
+            this.second = 60;
+            this.hidden = false;
+            window.clearInterval(this.timer);
+          }
+          this.second--;
+        }, 1000);
       } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);
       }

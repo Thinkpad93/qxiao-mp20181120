@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       form: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         studentName: "",
         sex: 1,
         linkMan: [{ relation: 1, tel: "" }],
@@ -111,7 +111,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleAddLinkMan() {

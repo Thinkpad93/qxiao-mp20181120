@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.className,
+      className: this.$store.state.users.className,
       query: {
         openId: this.$store.state.openId,
         classId: this.$store.state.classId,
@@ -117,7 +117,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleClassConfirm(value, index) {

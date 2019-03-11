@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       visibility: false,
-      schoolId: this.$store.state.id,
+      schoolId: this.$store.state.users.id,
       teacherList: []
     };
   },

@@ -56,11 +56,11 @@ export default {
     return {
       readFlag: 0, //0-已读 1-未读
       query: {
-        openId: this.$store.state.openId || this.$route.query.openId,
+        openId: this.$store.state.wx.openId || this.$route.query.openId,
         homeId: this.$route.query.homeId || this.$route.query.homeId,
         classId: this.$route.query.classId
       },
-      roleType: this.$store.state.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       info: {}
     };

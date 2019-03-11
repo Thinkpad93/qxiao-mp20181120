@@ -77,7 +77,7 @@ export default {
     return {
       visible: false,
       visibility: false,
-      teacherId: this.$store.state.id,
+      teacherId: this.$store.state.users.id,
       studentList: []
     };
   },

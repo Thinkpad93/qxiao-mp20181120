@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       querys: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         tel: this.$route.query.tel,
         studentId: this.$route.query.studentId
       },
@@ -109,7 +109,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleAddLinkMan() {

@@ -261,12 +261,14 @@ export default {
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
-      openId: this.$store.state.openId,
-      photo: this.$store.state.photo
+      openId: this.$store.state.wx.openId,
+      photo: this.$store.state.wx.photo
     };
   },
   computed: {
-    ...mapState(["roleType"])
+    ...mapState("users", {
+      roleType: state => state.roleType
+    })
   },
   watch: {},
   methods: {
@@ -280,11 +282,6 @@ export default {
     },
     async updateIsOpen(params = {}) {
       let res = await service.updateIsOpen(params);
-      // if (res.errorCode === 0) {
-      //   this.$toast("修改成功");
-      // } else {
-      //   this.$toast("修改失败");
-      // }
     },
     //学生信息查询
     async studentQuery(params) {

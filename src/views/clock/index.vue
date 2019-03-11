@@ -129,20 +129,22 @@ export default {
         events: {}
       },
       query: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         date: moment()
           .subtract(1, "days")
           .format("YYYY-MM-DD")
       },
       querys: {
-        studentId: this.$store.state.id,
-        openId: this.$store.state.openId,
+        studentId: this.$store.state.users.id,
+        openId: this.$store.state.wx.openId,
         month: moment().format("YYYY-MM")
       }
     };
   },
   computed: {
-    ...mapState(["roleType"])
+    ...mapState("users", {
+      roleType: state => state.roleType
+    })
   },
   methods: {
     //格式化函数

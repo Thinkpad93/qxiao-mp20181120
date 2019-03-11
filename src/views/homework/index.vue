@@ -74,24 +74,31 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.className,
+      className:
+        this.$store.state.users.className || this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state.openId,
-        classId: this.$store.state.classId,
+        openId: this.$store.state.wx.openId,
+        classId: this.$store.state.users.classId,
+        studentId: null,
         page: 1,
         pageSize: 10
       },
       queryClass: {
-        id: this.$store.state.id,
-        roleType: this.$store.state.roleType
+        id: this.$store.state.users.id,
+        roleType: this.$store.state.users.roleType
       },
       homeworkData: []
     };
   },
   computed: {
-    ...mapState(["roleType", "classList"])
+    ...mapState("users", {
+      roleType: state => state.roleType
+    }),
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   filters: {
     brReplace(value) {
@@ -148,6 +155,12 @@ export default {
     },
     //作业列表查询
     async homeworkQuery(params = {}) {
+      if (this.roleType == 3) {
+        this.query.studentId =
+          this.$store.state.student.studentId || this.$route.query.studentId;
+      } else {
+        this.query.studentId = 0;
+      }
       let res = await service.homeworkQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;

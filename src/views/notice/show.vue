@@ -25,7 +25,7 @@
     <div class="page-fts">
       <div class="foot">
         <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-          <section>
+          <section v-if="info.totalCount">
             <p
               style="color:#92cd36;"
               size-16
@@ -56,11 +56,12 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.openId || this.$route.query.openId, //用户openid
+        openId: this.$store.state.wx.openId || this.$route.query.openId, //用户openid
         noticeId: this.$route.query.noticeId,
-        classId: this.$route.query.classId
+        classId: this.$route.query.classId,
+        studentId: this.$route.query.studentId
       },
-      roleType: this.$store.state.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       info: {}
     };
@@ -69,8 +70,8 @@ export default {
     handleConfirmFlag() {
       //0-无需确认 1-需要确认
       if (!this.info.confirmFlag) {
-        let { openId, noticeId } = this.query;
-        this.noticeConfirm({ openId, noticeId });
+        let { openId, noticeId, studentId } = this.query;
+        this.noticeConfirm({ openId, noticeId, studentId });
       }
     },
     handleReaders(params) {

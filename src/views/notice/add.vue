@@ -121,30 +121,6 @@
               <van-switch v-model="form.needConfirm" size="28px" active-color="#92cd36"></van-switch>
             </div>
           </div>
-          <!-- <div class="cell cell-switch">
-            <div class="cell-bd" style="padding-left:0">
-              <label for class="label">是否定时发送</label>
-            </div>
-            <div class="cell-ft">
-              <van-switch v-model="form.clockType" size="28px" active-color="#92cd36"></van-switch>
-            </div>
-          </div>
-          <template v-if="form.clockType">
-            <div class="cell">
-              <div class="cell-hd">
-                <label for class="label">定时发送时间</label>
-              </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请选择发送时间"
-                  readonly
-                  v-model="form.clockTime"
-                  @click="popupShow = true"
-                >
-              </div>
-            </div>
-          </template>-->
         </div>
       </form>
     </div>
@@ -172,9 +148,9 @@ export default {
       teacherList: [], //老师列表
       teacherCheckList: [], //选中的数据
       classChenkList: [], //选中的数据
-      openId: this.$store.state.openId,
+      openId: this.$store.state.wx.openId,
       form: {
-        openId: this.$store.state.openId, //用户openid
+        openId: this.$store.state.wx.openId, //用户openid
         title: "", //通知标题
         textContent: "", //通知内容
         images: [], //图片

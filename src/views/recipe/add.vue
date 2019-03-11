@@ -8,6 +8,7 @@
           @confirm="handleConfirmStartTime"
           v-model="startDate"
           type="date"
+          :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
       <!-- 结束时间选择 -->
@@ -17,6 +18,7 @@
           @confirm="handleConfirmEndTime"
           v-model="endDate"
           type="date"
+          :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
       <form id="form" action ref="form" method="post">
@@ -107,7 +109,7 @@ export default {
       serverId: [], //微信图片ID
       imagesList: [],
       form: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         title: "",
         textContent: "",
         images: [],
@@ -117,6 +119,17 @@ export default {
     };
   },
   methods: {
+    //格式化函数
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      } else if (type === "month") {
+        return `${value}月`;
+      } else if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },    
     //选择开始时间
     handleConfirmStartTime(value) {
       let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");

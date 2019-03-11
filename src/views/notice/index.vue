@@ -79,18 +79,20 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.className,
+      className:
+        this.$store.state.users.className || this.$route.query.className,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state.openId || this.$route.query.openId,
-        classId: this.$store.state.classId || this.$route.query.classId,
+        openId: this.$store.state.wx.openId || this.$route.query.openId,
+        classId: this.$store.state.users.classId || this.$route.query.classId,
+        studentId: null,
         type: 0,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$store.state.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
       noticeData: []
     };
   },
@@ -98,21 +100,11 @@ export default {
     ...mapState("queryClass", {
       classList: state => state.classList
     })
-    // className() {
-    //   return this.$store.state["queryClass"].className;
-    // }
   },
   filters: {
     brReplace(value) {
       if (!value) return "";
       return value.replace(/<br\/>/g, "");
-    }
-  },
-  watch: {
-    $route(to, from) {
-      //如果是发布过来的，则重新请求数据
-      if (from.path === "/notice/add") {
-      }
     }
   },
   methods: {
@@ -134,7 +126,8 @@ export default {
         query: {
           noticeId: notice.noticeId,
           needConfirm: notice.needConfirm,
-          classId: notice.classId
+          classId: notice.classId,
+          studentId: notice.studentId
         }
       });
     },
@@ -179,6 +172,12 @@ export default {
     },
     //公告通知列表查询
     async noticeQuery(params = {}) {
+      if (this.roleType == 3) {
+        this.query.studentId =
+          this.$store.state.student.studentId || this.$route.query.studentId;
+      } else {
+        this.query.studentId = 0;
+      }
       let res = await service.noticeQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;
@@ -194,6 +193,12 @@ export default {
       this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
         root: true
       });
+      if (this.roleType == 3) {
+        this.$store.dispatch(
+          "student/saveStudnetId",
+          this.$route.query.studentId
+        );
+      }
     }
     this.noticeQuery(this.query);
   }

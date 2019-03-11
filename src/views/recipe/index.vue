@@ -48,9 +48,10 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.openId
+        openId: this.$store.state.wx.openId,
+        studentId: null
       },
-      roleType: this.$store.state.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
       recipeData: []
     };
   },
@@ -69,6 +70,12 @@ export default {
     },
     //食谱列表查询
     async recipeQuery(params = {}) {
+      if (this.roleType == 3) {
+        this.query.studentId =
+          this.$store.state.student.studentId || this.$route.query.studentId;
+      } else {
+        this.query.studentId = 0;
+      }
       let res = await service.recipeQuery(params);
       if (res.errorCode === 0) {
         this.recipeData = res.data;

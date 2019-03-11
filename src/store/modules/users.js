@@ -6,6 +6,8 @@ const state = {
   roleType: null, //角色类型
   type: null, //0 幼儿园  1 小学
   isOpen: true, //老师是否可以发班级圈
+  className: "", //班级名称
+  classId: null, //班级ID
 }
 
 const mutations = {
@@ -24,6 +26,12 @@ const mutations = {
   SET_ISOPEN: (state, isOpen) => {
     state.isOpen = isOpen === 'false' ? false : true;
   },
+  SET_CLASSNAME: (state, className) => {
+    state.className = className;
+  },
+  SET_CLASSID: (state, classId) => {
+    state.classId = classId;
+  }
 }
 
 const actions = {
@@ -38,19 +46,27 @@ const actions = {
     commit('SET_ROLETYPE', params.roleType);
     commit('SET_TYPE', params.type);
     commit('SET_ISOPEN', params.isOpen);
+    commit('SET_CLASSNAME', params.className);
+    commit('SET_CLASSID', params.classId);
   },
   //vuex刷新处理
   async getUserInfo({
-    commit
+    commit,
+    dispatch
   }) {
     commit('SET_ID', Cookies.get('id'));
     commit('SET_ROLETYPE', Cookies.get('roleType'));
     commit('SET_TYPE', Cookies.get('type'));
     commit('SET_ISOPEN', Cookies.get('isOpen'));
+    commit('SET_CLASSNAME', Cookies.get('className'));
+    commit('SET_CLASSID', Cookies.get('classId'));
     commit('wx/SET_OPENID', Cookies.get('openId'), {
       root: true
     });
     commit('wx/SET_PHOTO', Cookies.get('photo'), {
+      root: true
+    });
+    commit('student/SET_STUDENTID', Cookies.get('studentId'), {
       root: true
     });
     await dispatch('queryClass/queryClassId', {
@@ -65,7 +81,6 @@ const actions = {
     commit,
     dispatch
   }, params) {
-    console.log("reloadUserInfo");
     dispatch('saveUserInfo', params);
     commit('wx/SET_OPENID', Cookies.get('openId'), {
       root: true

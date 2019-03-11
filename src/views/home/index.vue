@@ -21,8 +21,7 @@
       <main class="main">
         <section class="classId">
           <div @click="popupShow = true">
-            <span v-if="!className">{{ fullName }}</span>
-            <span v-else>{{ className }}</span>
+            <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </div>
         </section>
@@ -145,34 +144,34 @@ export default {
     return {
       popupShow: false,
       dialogVisible: false,
-      className: "",
+      className:
+        this.$store.state.users.className || this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        classId: this.$store.state.classId || this.$route.query.classId,
-        openId: this.$store.state.openId || this.$route.query.openId,
+        classId: this.$store.state.users.classId || this.$route.query.classId,
+        openId: this.$store.state.wx.openId || this.$route.query.openId,
         page: 1,
         pageSize: 10
       },
       communityData: [],
       form: {
         index: null,
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         communityId: null,
         textContent: ""
       }
     };
   },
   computed: {
-    ...mapState(["id", "roleType", "isOpen", "classList"]),
-    fullName: {
-      get() {
-        return this.$store.state.className;
-      },
-      set(newValue) {
-        this.className = newValue;
-      }
-    }
+    ...mapState("users", {
+      roleType: state => state.roleType,
+      isOpen: state => state.isOpen,
+      id: state => state.id
+    }),
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   filters: {
     capitalize(value) {

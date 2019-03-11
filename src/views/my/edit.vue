@@ -150,11 +150,13 @@ export default {
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
-      openId: this.$store.state.openId
+      openId: this.$store.state.wx.openId
     };
   },
   computed: {
-    ...mapState(["roleType"])
+    ...mapState("users", {
+      roleType: state => state.roleType
+    })
   },
   methods: {
     handleSubmit(index) {

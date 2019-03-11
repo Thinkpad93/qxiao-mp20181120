@@ -90,8 +90,8 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$store.state.openId,
-        tel: this.$store.state.tel
+        openId: this.$store.state.wx.openId,
+        tel: this.$store.state.users.tel
       },
       form: {}
     };
@@ -123,7 +123,8 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$store.dispatch("users/saveUserInfo", res.data);
-        //查询班级名称
+        this.$store.dispatch("student/saveStudnetId", res.data.studentId);
+        //查询班级列表
         this.$store.dispatch("queryClass/queryClassId", {
           id: res.data.id,
           roleType: res.data.roleType

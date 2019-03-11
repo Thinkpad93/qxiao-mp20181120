@@ -85,7 +85,7 @@ export default {
     return {
       selected: [],
       querys: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         teacherId: this.$route.query.teacherId
       },
       form: {
@@ -94,7 +94,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleDel() {

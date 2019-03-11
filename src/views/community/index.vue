@@ -66,8 +66,8 @@ export default {
       imagesList: [],
       serverId: [], //微信图片ID
       form: {
-        openId: this.$store.state.openId,
-        classId: this.$store.state.classId,
+        openId: this.$store.state.wx.openId,
+        classId: this.$store.state.users.classId,
         contentType: 0,
         textContent: "",
         images: [],
@@ -76,7 +76,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["className", "classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     //选图

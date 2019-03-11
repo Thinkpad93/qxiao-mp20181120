@@ -43,7 +43,7 @@ Vue.use(CheckboxGroup)
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   //这里进行路由权限控制
-  if (!store.getters.openId && Cookies.get('openId')) {
+  if (!store.state.wx.openId && Cookies.get('openId')) {
     console.log("这里进行路由权限控制");
     store.dispatch('users/getUserInfo');
     next();

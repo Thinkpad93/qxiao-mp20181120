@@ -5,9 +5,7 @@ import account from './modules/account';
 import users from './modules/users';
 import queryClass from './modules/queryClass';
 import wx from './modules/wx';
-
-//import getters from './getters';
-import state from './state';
+import student from './modules/student';
 
 Vue.use(Vuex);
 
@@ -17,10 +15,9 @@ const store = new Vuex.Store({
     account,
     queryClass,
     wx,
-    users
-  },
-  state
-  //getters
+    users,
+    student
+  }
 });
 
 export default store;

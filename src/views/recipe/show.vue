@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.openId || this.$route.query.openId,
+        openId: this.$store.state.wx.openId || this.$route.query.openId,
         recipeId: this.$route.query.recipeId
       },
       info: {}

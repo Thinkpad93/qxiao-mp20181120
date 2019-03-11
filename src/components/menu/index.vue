@@ -6,7 +6,7 @@
       :key="index"
       @click="handleMenuClick(menu.url)"
     >
-      <img :src="menu.icon" :alt="roleType">
+      <img :src="menu.icon">
       <div class="text-ellipsis">{{ menu.name }}</div>
     </div>
   </nav>
@@ -60,6 +60,8 @@ export default {
           icon: "./static/image/men-icon-10@2x.png"
         }
       ],
+      //作业
+      homeworkList: [],
       //共用的菜单
       menuList: [
         {
@@ -90,7 +92,6 @@ export default {
       roleType: state => state.roleType,
       type: state => state.type
     }),
-    //...mapGetters(["roleType", "type"]),
     computedMenu() {
       //幼儿园 0   小学 1
       if (this.type == 0) {

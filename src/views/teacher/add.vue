@@ -89,7 +89,7 @@ export default {
     return {
       selected: [],
       form: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         teacherName: "",
         sex: 1,
         tel: "",
@@ -99,7 +99,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["classList"])
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleSubmit() {

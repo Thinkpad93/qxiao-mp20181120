@@ -85,7 +85,7 @@ export default {
       selected: [],
       needSwitch: false,
       form: {
-        openId: this.$store.state.openId,
+        openId: this.$store.state.wx.openId,
         title: "",
         textContent: "",
         images: [],
@@ -95,7 +95,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["id", "roleType", "classList"])
+    ...mapState("users", {
+      roleType: state => state.roleType,
+      id: state => state.id
+    }),
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     //选图

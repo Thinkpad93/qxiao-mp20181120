@@ -143,8 +143,8 @@ export default {
         location: "",
         type: 0,
         leadName: "",
-        tel: this.$store.state.tel,
-        openId: this.$store.state.openId,
+        tel: this.$store.state.users.tel,
+        openId: this.$store.state.wx.openId,
         classes: []
       }
     };
@@ -188,7 +188,7 @@ export default {
           //当学校创建成功后，重新设置 roleType值
           let { schoolCode, ...args } = res.data;
           this.$store.dispatch("users/saveUserInfo", args);
-          //查询班级名称
+          //查询班级列表
           this.$store.dispatch("queryClass/queryClassId", {
             id: args.id,
             roleType: args.roleType
