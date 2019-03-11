@@ -60,17 +60,26 @@ export default {
           icon: "./static/image/men-icon-10@2x.png"
         }
       ],
+      homeworkTwoList: [
+        {
+          name: "亲子作业",
+          url: "/homework",
+          icon: "./static/image/men-icon-5@2x.png"
+        }
+      ],
+      homeworkOneList: [
+        {
+          name: "亲子练习",
+          url: "/homework",
+          icon: "./static/image/men-icon-5@2x.png"
+        }
+      ],
       //共用的菜单
       menuList: [
         {
           name: "通知公告",
           url: "/notice",
           icon: "./static/image/men-icon-7@2x.png"
-        },
-        {
-          name: "亲子作业",
-          url: "/homework",
-          icon: "./static/image/men-icon-5@2x.png"
         },
         {
           name: "新鲜速报",
@@ -93,22 +102,28 @@ export default {
         switch (parseInt(this.roleType)) {
           case 1:
             return this.menuList
+              .concat(this.homeworkOneList)
               .concat(this.recipeList)
               .concat(this.clockList)
               .concat(this.schoolList);
             break;
           case 2:
             return this.menuList
+              .concat(this.homeworkOneList)
               .concat(this.recipeList)
               .concat(this.clockList)
               .concat(this.teacherList)
               .concat(this.shuttleList);
             break;
           case 3:
-            return this.menuList.concat(this.recipeList).concat(this.clockList);
+            return this.menuList
+              .concat(this.homeworkOneList)
+              .concat(this.recipeList)
+              .concat(this.clockList);
             break;
           default:
             return this.menuList
+              .concat(this.homeworkOneList)
               .concat(this.schoolList)
               .concat(this.recipeList)
               .concat(this.clockList);
@@ -117,16 +132,22 @@ export default {
       } else if (this.type == 1) {
         switch (parseInt(this.roleType)) {
           case 1:
-            return this.menuList.concat(this.schoolList);
+            return this.menuList
+              .concat(this.homeworkTwoList)
+              .concat(this.schoolList);
             break;
           case 2:
-            return this.menuList.concat(this.teacherList);
+            return this.menuList
+              .concat(this.homeworkTwoList)
+              .concat(this.teacherList);
             break;
           case 3:
-            return this.menuList;
+            return this.menuList.concat(this.homeworkTwoList);
             break;
           default:
-            return this.menuList.concat(this.schoolList);
+            return this.menuList
+              .concat(this.homeworkTwoList)
+              .concat(this.schoolList);
             break;
         }
       }
