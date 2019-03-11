@@ -74,7 +74,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { textReplace } from "@/utils/string";
 export default {
   name: "homeWorkAdd",
@@ -85,7 +85,7 @@ export default {
       selected: [],
       needSwitch: false,
       form: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         title: "",
         textContent: "",
         images: [],
@@ -95,7 +95,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["id", "roleType", "classList"])
+    ...mapState(["id", "roleType", "classList"])
   },
   methods: {
     //选图

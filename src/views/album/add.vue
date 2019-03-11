@@ -35,7 +35,7 @@ export default {
       serverId: [], //微信图片ID
       imagesList: [],
       form: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         channelId: this.$route.query.channelId,
         type: 0, // 0-图片 1-视频
         imageUrl: [],

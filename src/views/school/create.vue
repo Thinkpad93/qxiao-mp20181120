@@ -128,7 +128,6 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -144,8 +143,8 @@ export default {
         location: "",
         type: 0,
         leadName: "",
-        tel: this.$store.getters.tel,
-        openId: this.$store.getters.openId,
+        tel: this.$store.state.tel,
+        openId: this.$store.state.openId,
         classes: []
       }
     };

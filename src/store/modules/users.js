@@ -41,8 +41,7 @@ const actions = {
   },
   //vuex刷新处理
   async getUserInfo({
-    commit,
-    dispatch
+    commit
   }) {
     commit('SET_ID', Cookies.get('id'));
     commit('SET_ROLETYPE', Cookies.get('roleType'));

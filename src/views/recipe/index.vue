@@ -48,9 +48,9 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.getters.openId
+        openId: this.$store.state.openId
       },
-      roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.roleType || this.$route.query.roleType,
       recipeData: []
     };
   },

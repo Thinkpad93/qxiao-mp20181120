@@ -79,7 +79,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -89,7 +89,7 @@ export default {
     return {
       selected: [],
       form: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         teacherName: "",
         sex: 1,
         tel: "",
@@ -99,7 +99,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   methods: {
     handleSubmit() {

@@ -80,7 +80,6 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -91,8 +90,8 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$store.getters.openId,
-        tel: this.$store.getters.tel
+        openId: this.$store.state.openId,
+        tel: this.$store.state.tel
       },
       form: {}
     };

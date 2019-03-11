@@ -84,16 +84,16 @@
 <script>
 import moment from "moment";
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "shuttle",
   data() {
     return {
       popupShow: false,
-      className: this.$store.getters.className,
+      className: this.$store.state.className,
       query: {
-        openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId,
+        openId: this.$store.state.openId,
+        classId: this.$store.state.classId,
         date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],
@@ -117,7 +117,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   methods: {
     handleClassConfirm(value, index) {

@@ -79,20 +79,18 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state["queryClass"].className,
+      className: this.$store.state.className,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state["wx"].openId || this.$route.query.openId,
-        classId:
-          this.$store.state["queryClass"].classId || this.$route.query.classId,
+        openId: this.$store.state.openId || this.$route.query.openId,
+        classId: this.$store.state.classId || this.$route.query.classId,
         type: 0,
         page: 1,
         pageSize: 10
       },
-      roleType:
-        this.$store.state["users"].roleType || this.$route.query.roleType,
+      roleType: this.$store.state.roleType || this.$route.query.roleType,
       noticeData: []
     };
   },

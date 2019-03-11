@@ -26,21 +26,10 @@
             </div>
             <div class="cell-ft">
               <span>{{ item.postTime }}</span>
-              <!-- <span v-for="(time, index) in item.time" :key="index">{{ time.postTime }}</span> -->
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="cells">
-        <div class="cell" v-for="(item, index) in classClockList" :key="index">
-          <div class="cell-bd">
-            <p>{{ item.studentName }}</p>
-          </div>
-          <div class="cell-ft">
-            <span v-for="(time, index) in item.time" :key="index">{{ time.postTime }}</span>
-          </div>
-        </div>
-      </div>-->
     </div>
   </div>
 </template>

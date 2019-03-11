@@ -87,16 +87,16 @@ export default {
     return {
       dialogVisible: false,
       query: {
-        openId: this.$store.getters.openId || this.$route.query.openId,
+        openId: this.$store.state.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId || this.$route.query.freshId,
         classId: this.$route.query.classId
       },
-      roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.roleType || this.$route.query.roleType,
       form: {
-        openId: this.$store.getters.openId || this.$route.query.openId,
+        openId: this.$store.state.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId || this.$route.query.freshId,
         textContent: "",
-        studentId: this.$store.getters.id || this.$route.query.studentId,
+        studentId: this.$store.state.id || this.$route.query.studentId,
         classId: this.$route.query.classId
       },
       commentLen: 0,

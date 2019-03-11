@@ -92,7 +92,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       querys: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         tel: this.$route.query.tel,
         studentId: this.$route.query.studentId
       },
@@ -109,7 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   methods: {
     handleAddLinkMan() {

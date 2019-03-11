@@ -130,11 +130,10 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import { ImagePreview } from "vant";
 import service from "@/api";
 import qxmenu from "@/components/menu";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "home",
@@ -150,25 +149,25 @@ export default {
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        classId: this.$store.getters.classId || this.$route.query.classId,
-        openId: this.$store.getters.openId || this.$route.query.openId,
+        classId: this.$store.state.classId || this.$route.query.classId,
+        openId: this.$store.state.openId || this.$route.query.openId,
         page: 1,
         pageSize: 10
       },
       communityData: [],
       form: {
         index: null,
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         communityId: null,
         textContent: ""
       }
     };
   },
   computed: {
-    ...mapGetters(["id", "roleType", "isOpen", "classList"]),
+    ...mapState(["id", "roleType", "isOpen", "classList"]),
     fullName: {
       get() {
-        return this.$store.getters.className;
+        return this.$store.state.className;
       },
       set(newValue) {
         this.className = newValue;
@@ -297,14 +296,6 @@ export default {
             }
           });
         }
-      }
-    },
-    //根据类型查询相关班级
-    async queryClassId(params = {}) {
-      let res = await service.queryClassId(params);
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-        this.className = res.data[0].className;
       }
     },
     //班级圈信息查询

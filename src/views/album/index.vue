@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.getters.openId,
-        roleType: this.$store.getters.roleType
+        openId: this.$store.state.openId,
+        roleType: this.$store.state.roleType
       },
       albumData: []
     };

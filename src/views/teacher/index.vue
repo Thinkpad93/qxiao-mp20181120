@@ -68,20 +68,14 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 export default {
   name: "teacher",
   data() {
     return {
       visibility: false,
-      schoolId: this.$store.state["users"].id,
+      schoolId: this.$store.state.id,
       teacherList: []
     };
-  },
-  computed: {
-    ...mapState({
-      schoolId: state => state.id
-    })
   },
   methods: {
     handleEditTeacher(teacher) {

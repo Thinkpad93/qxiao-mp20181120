@@ -58,7 +58,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "community",
   data() {
@@ -66,8 +66,8 @@ export default {
       imagesList: [],
       serverId: [], //微信图片ID
       form: {
-        openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId,
+        openId: this.$store.state.openId,
+        classId: this.$store.state.classId,
         contentType: 0,
         textContent: "",
         images: [],
@@ -76,7 +76,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["className", "classList"])
+    ...mapState(["className", "classList"])
   },
   methods: {
     //选图

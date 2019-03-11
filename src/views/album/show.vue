@@ -40,9 +40,9 @@ export default {
   name: "albumDetail",
   data() {
     return {
-      roleType: this.$store.getters.roleType,
+      roleType: this.$store.state.roleType,
       query: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         channelId: this.$route.query.channelId
       },
       albumInfo: {}

@@ -93,7 +93,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       form: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         studentName: "",
         sex: 1,
         linkMan: [{ relation: 1, tel: "" }],
@@ -111,7 +111,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   methods: {
     handleAddLinkMan() {

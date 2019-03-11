@@ -113,7 +113,7 @@
 <script>
 import moment from "moment";
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "clock",
   data() {
@@ -129,20 +129,20 @@ export default {
         events: {}
       },
       query: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         date: moment()
           .subtract(1, "days")
           .format("YYYY-MM-DD")
       },
       querys: {
-        studentId: this.$store.getters.id,
-        openId: this.$store.getters.openId,
+        studentId: this.$store.state.id,
+        openId: this.$store.state.openId,
         month: moment().format("YYYY-MM")
       }
     };
   },
   computed: {
-    ...mapGetters(["roleType"])
+    ...mapState(["roleType"])
   },
   methods: {
     //格式化函数

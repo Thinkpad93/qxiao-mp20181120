@@ -172,9 +172,9 @@ export default {
       teacherList: [], //老师列表
       teacherCheckList: [], //选中的数据
       classChenkList: [], //选中的数据
-      openId: this.$store.getters.openId,
+      openId: this.$store.state.openId,
       form: {
-        openId: this.$store.getters.openId, //用户openid
+        openId: this.$store.state.openId, //用户openid
         title: "", //通知标题
         textContent: "", //通知内容
         images: [], //图片
@@ -193,7 +193,6 @@ export default {
         : this.classChenkList.length;
     }
   },
-  watch: {},
   methods: {
     handleShowDatePicker(value) {
       let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");

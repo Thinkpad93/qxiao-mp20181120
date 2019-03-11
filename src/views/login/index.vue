@@ -60,7 +60,6 @@
 <script>
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
-import { mapGetters } from "vuex";
 export default {
   name: "login",
   data() {

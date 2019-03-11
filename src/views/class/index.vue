@@ -58,8 +58,8 @@ export default {
     return {
       dialogVisible: false,
       className: "",
-      schoolId: this.$store.getters.id,
-      openId: this.$store.getters.openId,
+      schoolId: this.$store.state.id,
+      openId: this.$store.state.openId,
       classList: []
     };
   },

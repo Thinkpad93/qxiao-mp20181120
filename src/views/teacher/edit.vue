@@ -76,7 +76,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { type, sex } from "@/mixins/type";
 export default {
   name: "teacherAdd",
@@ -85,7 +85,7 @@ export default {
     return {
       selected: [],
       querys: {
-        openId: this.$store.getters.openId,
+        openId: this.$store.state.openId,
         teacherId: this.$route.query.teacherId
       },
       form: {
@@ -94,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   methods: {
     handleDel() {

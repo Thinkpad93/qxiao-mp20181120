@@ -251,7 +251,7 @@
 <script>
 import service from "@/api";
 import { schoolType, sex } from "@/mixins/type";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "my",
   mixins: [schoolType, sex],
@@ -261,12 +261,12 @@ export default {
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
-      openId: this.$store.getters.openId,
-      photo: this.$store.getters.photo
+      openId: this.$store.state.openId,
+      photo: this.$store.state.photo
     };
   },
   computed: {
-    ...mapGetters(["roleType"])
+    ...mapState(["roleType"])
   },
   watch: {},
   methods: {

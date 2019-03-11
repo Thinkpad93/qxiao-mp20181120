@@ -66,7 +66,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "homeWork",
@@ -74,24 +74,24 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.getters.className,
+      className: this.$store.state.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.getters.openId,
-        classId: this.$store.getters.classId,
+        openId: this.$store.state.openId,
+        classId: this.$store.state.classId,
         page: 1,
         pageSize: 10
       },
       queryClass: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType
+        id: this.$store.state.id,
+        roleType: this.$store.state.roleType
       },
       homeworkData: []
     };
   },
   computed: {
-    ...mapGetters(["roleType", "classList"])
+    ...mapState(["roleType", "classList"])
   },
   filters: {
     brReplace(value) {

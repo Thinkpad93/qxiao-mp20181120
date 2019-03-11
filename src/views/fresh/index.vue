@@ -66,7 +66,7 @@
 </template>
 <script>
 import service from "@/api";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "fresh",
@@ -74,25 +74,25 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.getters.className,
+      className: this.$store.state.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.getters.openId || this.$route.query.openId,
-        classId: this.$store.getters.classId || this.$route.query.classId,
+        openId: this.$store.state.openId || this.$route.query.openId,
+        classId: this.$store.state.classId || this.$route.query.classId,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.roleType || this.$route.query.roleType,
       queryClass: {
-        id: this.$store.getters.id,
-        roleType: this.$store.getters.roleType || this.$route.query.roleType
+        id: this.$store.state.id,
+        roleType: this.$store.state.roleType || this.$route.query.roleType
       },
       freshData: []
     };
   },
   computed: {
-    ...mapGetters(["classList"])
+    ...mapState(["classList"])
   },
   filters: {
     brReplace(value) {

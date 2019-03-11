@@ -56,11 +56,11 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.getters.openId || this.$route.query.openId, //用户openid
+        openId: this.$store.state.openId || this.$route.query.openId, //用户openid
         noticeId: this.$route.query.noticeId,
         classId: this.$route.query.classId
       },
-      roleType: this.$store.getters.roleType || this.$route.query.roleType,
+      roleType: this.$store.state.roleType || this.$route.query.roleType,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       info: {}
     };
