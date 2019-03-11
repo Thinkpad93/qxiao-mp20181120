@@ -4,7 +4,7 @@
       class="nav-item"
       v-for="(menu, index) in computedMenu"
       :key="index"
-      @click="handleMenuClick(menu.url)"
+      @click="$emit('change', menu.url)"
     >
       <img :src="menu.icon">
       <div class="text-ellipsis">{{ menu.name }}</div>
@@ -114,9 +114,9 @@ export default {
             break;
           default:
             return this.menuList
-              .concat(this.schoolList)
               .concat(this.recipeList)
-              .concat(this.clockList);
+              .concat(this.clockList)
+              .concat(this.schoolList);
             break;
         }
       } else if (this.type == 1) {
@@ -135,11 +135,6 @@ export default {
             break;
         }
       }
-    }
-  },
-  methods: {
-    handleMenuClick(url) {
-      this.$emit("change", url);
     }
   }
 };

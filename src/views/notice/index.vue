@@ -146,7 +146,8 @@ export default {
         if (this.query.page < this.totalPage) {
           this.isLoading = true;
           this.query.page += 1;
-          let classId = this.roleType === 1 ? 0 : this.$store.getters.classId;
+          let classId =
+            this.roleType === 1 ? 0 : this.$store.state.users.classId;
           let obj = Object.assign({}, this.query, { classId });
           service.noticeQuery(obj).then(res => {
             if (res.errorCode === 0) {
