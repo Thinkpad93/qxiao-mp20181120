@@ -13,6 +13,8 @@ Vue.config.productionTip = false;
 // FastClick.attach(document.body); // 使用 fastclick
 
 import {
+  RadioGroup,
+  Radio,
   Checkbox,
   CheckboxGroup,
   Switch,
@@ -28,7 +30,9 @@ import {
 
 
 
-Vue.use(CheckboxGroup)
+Vue.use(RadioGroup)
+  .use(Radio)
+  .use(CheckboxGroup)
   .use(Checkbox)
   .use(Switch)
   .use(Dialog)

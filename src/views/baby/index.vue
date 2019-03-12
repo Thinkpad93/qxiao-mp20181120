@@ -1,56 +1,71 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells weui-cells_checkbox" v-for="(item, index) in babyList" :key="index">
-        <label class="cell babyItem weui-check__label" :for="index">
-          <div class="cell-hd">
-            <img class="teacher-icon" src="http://iph.href.lu/40x40" alt="">
-          </div>
+      <div class="cells">
+        <div
+          class="cell student-box"
+          v-for="student in studentList"
+          :key="student.studentId"
+          @click="handleChangeStudent(student.studentId)"
+        >
+          <div class="cell-hd"></div>
           <div class="cell-bd">
-            <p>{{ item.name }}</p>
+            <p>{{ student.studentName }}</p>
           </div>
           <div class="cell-ft">
-            <input @change="handleChange" v-model="item.checked" type="radio" name="radio1" :value="index" class="weui-check" :id="index">
-            <span class="weui-icon-checked"></span>
+            <van-radio-group v-model="studentId">
+              <van-radio :name="student.studentId" checked-color="#92cd36"></van-radio>
+            </van-radio-group>
           </div>
-        </label>
+        </div>
       </div>
-    </div>  
-    <div class="page-ft">
-      <div class="btn-area">
-        <a href="javascript:;" class="btn btn-primary" @click="handleAddChild">添加孩子</a>
-      </div>
-    </div>    
-  </div>  
+    </div>
+  </div>
 </template>
 <script>
+import service from "@/api";
+import Cookies from "js-cookie";
 export default {
   name: "boby",
   data() {
     return {
-      babyList: [
-        { name: "小东北", checked: "0" },
-        { name: "大西南", checked: "" }
-      ]
+      studentId: parseInt(this.$store.state.student.studentId),
+      query: {
+        openId: this.$store.state.wx.openId
+      },
+      studentList: []
     };
   },
   methods: {
-    handleAddChild() {
-      this.$router.push({ path: "/baby/add" });
+    handleChangeStudent(studentId) {
+      if (studentId) {
+        this.$dialog
+          .alert({
+            message: "学生切换成功"
+          })
+          .then(() => {
+            //更新studentId值
+            this.$store.commit("student/SET_STUDENTID", studentId);
+            Cookies.set("studentId", studentId);
+            this.$router.go(-1);
+          });
+      }
     },
-    handleChange() {
-      console.log(this.babyList);
+    //查询学生列表
+    async queryAllStudent(params = {}) {
+      let res = await service.queryAllStudent(params);
+      if (res.errorCode === 0) {
+        this.studentList = res.data;
+      }
     }
   },
-  activated() {
-    console.log(this.$route);
+  mounted() {
+    this.queryAllStudent(this.query);
   }
 };
 </script>
 <style lang="less">
-.babyItem {
-  img {
-    border-radius: 50%;
-  }
+.student-box {
+  height: 120px;
 }
 </style>

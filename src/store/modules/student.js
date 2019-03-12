@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 const state = {
-  studentId: null //学生Id 
+  studentId: 0 //学生Id 
 }
 
 const mutations = {
@@ -14,10 +14,8 @@ const actions = {
   saveStudnetId({
     commit
   }, studentId) {
-    if (studentId) {
-      Cookies.set('studentId', studentId);
-      commit('SET_STUDENTID', studentId);
-    }
+    Cookies.set('studentId', studentId);
+    commit('SET_STUDENTID', studentId);
   }
 }
 

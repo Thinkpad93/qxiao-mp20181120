@@ -114,6 +114,18 @@ export function studentQuery(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询学生信息--我的
+export function studentQueryMe(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/studentQueryMe.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询学生列表--我的--切换
+export function queryAllStudent(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryAllStudent.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //学生新增
 export function studentAdd(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/studentAdd.do', params)

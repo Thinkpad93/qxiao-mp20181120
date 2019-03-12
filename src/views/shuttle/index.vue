@@ -92,8 +92,8 @@ export default {
       popupShow: false,
       className: this.$store.state.users.className,
       query: {
-        openId: this.$store.state.openId,
-        classId: this.$store.state.classId,
+        openId: this.$store.state.wx.openId,
+        classId: this.$store.state.users.classId,
         date: moment().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],

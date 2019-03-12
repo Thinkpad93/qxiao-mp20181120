@@ -27,7 +27,7 @@
         </div>
         <div class="empty" v-if="!albumInfo.items.length">
           <img src="@/assets/image/kong.png" alt>
-          <p size-18>暂无~</p>
+          <p size-18>暂无相册</p>
         </div>
       </article>
     </div>

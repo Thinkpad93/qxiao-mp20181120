@@ -188,6 +188,7 @@ export default {
           //当学校创建成功后，重新设置 roleType值
           let { schoolCode, ...args } = res.data;
           this.$store.dispatch("users/saveUserInfo", args);
+          this.$store.dispatch("student/saveStudnetId", args.studentId);
           //查询班级列表
           this.$store.dispatch("queryClass/queryClassId", {
             id: args.id,

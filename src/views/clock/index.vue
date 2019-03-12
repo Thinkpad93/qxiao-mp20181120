@@ -135,7 +135,7 @@ export default {
           .format("YYYY-MM-DD")
       },
       querys: {
-        studentId: this.$store.state.users.id,
+        studentId: this.$store.state.student.studentId,
         openId: this.$store.state.wx.openId,
         month: moment().format("YYYY-MM")
       }

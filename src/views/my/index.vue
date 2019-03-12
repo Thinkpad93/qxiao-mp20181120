@@ -11,7 +11,7 @@
             <h4 size-17 class="media-box__title">{{ patroarch.studentName }}</h4>
           </div>
         </div>
-        <!-- <a class="switch-children">
+        <!-- <a href="javascript:void(0);" class="switch-children" @click="handleToBaby">
           <i></i>
           切换孩子
         </a>-->
@@ -29,18 +29,6 @@
               <p class="cell-p">{{ leaderInfo.schoolName }}</p>
             </div>
           </div>
-          <!-- <div class="cell">
-            <div class="cell-hd">
-              <label for class="label">学校类型</label>
-            </div>
-            <div class="cell-bd">
-              <p class="cell-p">
-                <template v-if="leaderInfo.type === 0">公办</template>
-                <template v-else-if="leaderInfo.type === 1">私立</template>
-                <template v-else>民办</template>
-              </p>
-            </div>
-          </div>-->
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">详细地址</label>
@@ -268,10 +256,17 @@ export default {
   computed: {
     ...mapState("users", {
       roleType: state => state.roleType
+    }),
+    ...mapState("student", {
+      studentId: state => state.studentId
     })
   },
-  watch: {},
   methods: {
+    handleToBaby() {
+      this.$router.push({
+        path: "/baby"
+      });
+    },
     //用户信息修改
     handleEditUser(role) {
       this.$router.push({ path: "/my/edit" });
@@ -284,10 +279,10 @@ export default {
       let res = await service.updateIsOpen(params);
     },
     //学生信息查询
-    async studentQuery(params) {
-      let res = await service.studentQuery(params);
+    async studentQueryMe(params) {
+      let res = await service.studentQueryMe(params);
       if (res.errorCode === 0) {
-        this.patroarch = res.data[0];
+        this.patroarch = res.data;
       }
     },
     //查询老师信息-我的
@@ -311,7 +306,7 @@ export default {
     } else if (this.roleType == 2) {
       this.queryTeacherInfo(this.openId);
     } else {
-      this.studentQuery({ openId: this.openId, tel: "" });
+      this.studentQueryMe({ openId: this.openId, studentId: this.studentId });
     }
   }
 };
@@ -328,9 +323,10 @@ export default {
   font-size: 20px;
   position: absolute;
   z-index: auto;
-  top: 60px;
+  top: 50%;
   left: 40px;
   border: none;
+  transform: translateY(-50%);
 }
 .media-box_appmsg {
   align-items: center;
@@ -348,5 +344,18 @@ export default {
   width: 64px;
   height: 64px;
   margin-right: 20px;
+}
+.switch-children {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  height: 60px;
+  padding: 0 30px;
+  align-items: center;
+  border-radius: 30px 0 0 30px;
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-50%);
 }
 </style>

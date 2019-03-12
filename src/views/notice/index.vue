@@ -87,7 +87,8 @@ export default {
       query: {
         openId: this.$store.state.wx.openId || this.$route.query.openId,
         classId: this.$store.state.users.classId || this.$route.query.classId,
-        studentId: null,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         type: 0,
         page: 1,
         pageSize: 10
@@ -173,12 +174,6 @@ export default {
     },
     //公告通知列表查询
     async noticeQuery(params = {}) {
-      if (this.roleType == 3) {
-        this.query.studentId =
-          this.$store.state.student.studentId || this.$route.query.studentId;
-      } else {
-        this.query.studentId = 0;
-      }
       let res = await service.noticeQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;
@@ -194,12 +189,6 @@ export default {
       this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
         root: true
       });
-      if (this.roleType == 3) {
-        this.$store.dispatch(
-          "student/saveStudnetId",
-          this.$route.query.studentId
-        );
-      }
     }
     this.noticeQuery(this.query);
   }

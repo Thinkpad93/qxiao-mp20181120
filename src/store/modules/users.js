@@ -81,8 +81,12 @@ const actions = {
     commit,
     dispatch
   }, params) {
+    console.log("第二次登陆处理");
     dispatch('saveUserInfo', params);
     commit('wx/SET_OPENID', Cookies.get('openId'), {
+      root: true
+    });
+    commit('student/SET_STUDENTID', Cookies.get('studentId'), {
       root: true
     });
     await dispatch('queryClass/queryClassId', {

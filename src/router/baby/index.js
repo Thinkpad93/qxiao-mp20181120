@@ -3,7 +3,7 @@ export default [{
     component: () => import('@/views/baby'),
     meta: {
       keepAlive: true,
-      title: '学生信息',
+      title: '学生列表',
       roles: [3]
     }
   },

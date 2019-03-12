@@ -100,6 +100,7 @@ export default {
       if (res.errorCode === 0) {
         //当加入成功后，重新设置 roleType值
         this.$store.dispatch("users/saveUserInfo", res.data);
+        this.$store.dispatch("student/saveStudnetId", res.data.studentId);
         //查询班级列表
         this.$store.dispatch("queryClass/queryClassId", {
           id: res.data.id,

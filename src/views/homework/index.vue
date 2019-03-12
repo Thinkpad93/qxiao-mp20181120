@@ -81,7 +81,8 @@ export default {
       query: {
         openId: this.$store.state.wx.openId,
         classId: this.$store.state.users.classId,
-        studentId: null,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
@@ -119,6 +120,7 @@ export default {
         query: {
           classId: homework.classId,
           homeId: homework.homeId,
+          studentId: homework.studentId,
           needConfirm: homework.needConfirm
         }
       });
@@ -155,12 +157,6 @@ export default {
     },
     //作业列表查询
     async homeworkQuery(params = {}) {
-      if (this.roleType == 3) {
-        this.query.studentId =
-          this.$store.state.student.studentId || this.$route.query.studentId;
-      } else {
-        this.query.studentId = 0;
-      }
       let res = await service.homeworkQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;

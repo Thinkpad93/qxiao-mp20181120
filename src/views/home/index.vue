@@ -13,19 +13,26 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
+      <!-- student Picker -->
+      <van-popup v-model="studentPicker" position="bottom">
+        <van-picker :columns="studentList" show-toolbar @change="onChange"></van-picker>
+      </van-popup>
       <template v-if="isOpen">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt>
         </router-link>
       </template>
       <main class="main">
-        <section class="classId">
+        <div class="classId">
           <div @click="popupShow = true">
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </div>
-        </section>
-        <section class="community">
+          <div class="student-picker">
+            <a href="javascript:void(0);" @click="studentPicker = true">打开</a>
+          </div>
+        </div>
+        <div class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
             <div class="cell">
               <div class="cell-hd">
@@ -80,7 +87,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </main>
       <!-- 评论 -->
       <van-dialog
@@ -134,6 +141,12 @@ import service from "@/api";
 import qxmenu from "@/components/menu";
 import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
+
+const citys = {
+  北极班: ["孙志明"],
+  南极班: ["福州", "厦门", "莆田", "三明", "泉州"]
+};
+
 export default {
   name: "home",
   mixins: [scrollMixins],
@@ -142,6 +155,7 @@ export default {
   },
   data() {
     return {
+      studentPicker: false,
       popupShow: false,
       dialogVisible: false,
       className:
@@ -151,13 +165,24 @@ export default {
       query: {
         classId: this.$store.state.users.classId || this.$route.query.classId,
         openId: this.$store.state.wx.openId || this.$route.query.openId,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
       communityData: [],
+      studentList: [
+        {
+          values: ["北极班", "南极班"]
+        },
+        {
+          values: citys["北极班"]
+        }
+      ],
       form: {
         index: null,
         openId: this.$store.state.wx.openId,
+        studentId: this.$store.state.student.studentId || 0,
         communityId: null,
         textContent: ""
       }
@@ -184,8 +209,11 @@ export default {
         this.$router.push({ path: `${url}` });
       }
     },
+    onChange(picker, values) {
+      picker.setColumnValues(1, citys[values[0]]);
+    },
     handleClassConfirm(value, index) {
-      this.fullName = value.className;
+      this.className = value.className;
       this.query.classId = value.classId;
       this.communityQuery(this.query);
     },
@@ -205,9 +233,14 @@ export default {
     },
     //班级圈点赞
     async handlePraise(community, index) {
-      let openId = this.$store.getters.openId;
+      let openId = this.$store.state.wx.openId;
+      let studentId = this.$store.state.student.studentId || 0;
       let { communityId } = community;
-      let res = await service.communityPraise({ openId, communityId });
+      let res = await service.communityPraise({
+        openId,
+        communityId,
+        studentId
+      });
       if (res.errorCode === 0) {
         if (!this.communityData[index].praiseList) {
           this.communityData[index].praiseList = [];
@@ -227,7 +260,6 @@ export default {
       this.dialogVisible = true;
       this.form.communityId = community.communityId;
       this.form.index = index;
-      console.log(this.form);
     },
     async handleSubmit(action, done) {
       let { index, ...args } = this.form;

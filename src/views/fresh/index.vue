@@ -81,7 +81,8 @@ export default {
       query: {
         openId: this.$store.state.wx.openId || this.$route.query.openId,
         classId: this.$store.state.users.classId || this.$route.query.classId,
-        studentId: null,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
@@ -114,7 +115,11 @@ export default {
     handleJump(fresh) {
       this.$router.push({
         path: "/fresh/show",
-        query: { freshId: fresh.freshId, classId: fresh.classId }
+        query: {
+          freshId: fresh.freshId,
+          classId: fresh.classId,
+          studentId: fresh.studentId
+        }
       });
     },
     //加载分页数据
@@ -149,12 +154,6 @@ export default {
     },
     //速报列表查询
     async freshQuery(params = {}) {
-      if (this.roleType == 3) {
-        this.query.studentId =
-          this.$store.state.student.studentId || this.$route.query.studentId;
-      } else {
-        this.query.studentId = 0;
-      }
       let res = await service.freshQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;

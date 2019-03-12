@@ -89,14 +89,17 @@ export default {
       query: {
         openId: this.$store.state.wx.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId || this.$route.query.freshId,
-        classId: this.$route.query.classId
+        classId: this.$route.query.classId,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId
       },
       roleType: this.$store.state.users.roleType || this.$route.query.roleType,
       form: {
         openId: this.$store.state.wx.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId || this.$route.query.freshId,
         textContent: "",
-        studentId: this.$store.state.users.id || this.$route.query.studentId,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         classId: this.$route.query.classId
       },
       commentLen: 0,
