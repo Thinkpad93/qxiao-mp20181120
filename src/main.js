@@ -13,6 +13,9 @@ Vue.config.productionTip = false;
 // FastClick.attach(document.body); // 使用 fastclick
 
 import {
+  Cell,
+  CellGroup,
+  SwipeCell,
   RadioGroup,
   Radio,
   Checkbox,
@@ -30,7 +33,10 @@ import {
 
 
 
-Vue.use(RadioGroup)
+Vue.use(Cell)
+  .use(CellGroup)
+  .use(SwipeCell)
+  .use(RadioGroup)
   .use(Radio)
   .use(CheckboxGroup)
   .use(Checkbox)

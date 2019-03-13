@@ -11,10 +11,10 @@
             <h4 size-17 class="media-box__title">{{ patroarch.studentName }}</h4>
           </div>
         </div>
-        <!-- <a href="javascript:void(0);" class="switch-children" @click="handleToBaby">
+        <a href="javascript:void(0);" class="switch-children" @click="handleToBaby">
           <i></i>
           切换孩子
-        </a>-->
+        </a>
       </div>
     </template>
     <div class="page-bd">

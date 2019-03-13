@@ -14,9 +14,9 @@
         ></van-picker>
       </van-popup>
       <!-- student Picker -->
-      <van-popup v-model="studentPicker" position="bottom">
+      <!-- <van-popup v-model="studentPicker" position="bottom">
         <van-picker :columns="studentList" show-toolbar @change="onChange"></van-picker>
-      </van-popup>
+      </van-popup>-->
       <template v-if="isOpen">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt>
@@ -28,9 +28,9 @@
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </div>
-          <div class="student-picker">
+          <!-- <div class="student-picker">
             <a href="javascript:void(0);" @click="studentPicker = true">打开</a>
-          </div>
+          </div>-->
         </div>
         <div class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
@@ -143,9 +143,11 @@ import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 
 const citys = {
-  北极班: ["孙志明"],
-  南极班: ["福州", "厦门", "莆田", "三明", "泉州"]
+  太平洋: ["孙志明"],
+  印度洋: ["致命"]
 };
+
+const hit = [{ 南极班: ["三明", "泉州"] }, { 北极班: ["厦门", "福州"] }];
 
 export default {
   name: "home",
@@ -173,16 +175,17 @@ export default {
       communityData: [],
       studentList: [
         {
-          values: ["北极班", "南极班"]
+          values: ["太平洋", "印度洋"]
         },
         {
-          values: citys["北极班"]
+          values: ["孙志明"]
         }
       ],
       form: {
         index: null,
         openId: this.$store.state.wx.openId,
-        studentId: this.$store.state.student.studentId || 0,
+        studentId:
+          this.$store.state.student.studentId || this.$route.query.studentId,
         communityId: null,
         textContent: ""
       }
@@ -196,7 +199,31 @@ export default {
     }),
     ...mapState("queryClass", {
       classList: state => state.classList
-    })
+    }),
+    hotStudentList() {
+      let tt = this.classList.map((element, inden) => {
+        let res = [];
+        let obj = {};
+        res.push(element.className);
+        obj.values = res;
+        return obj;
+      });
+      console.log(tt);
+    },
+    hitStudentList() {
+      let result = this.classList.map((element, index) => {
+        if (element.student.length) {
+          let rObj = {};
+          let res = [];
+          element.student.forEach(item => {
+            res.push(item.studentName);
+          });
+          rObj[element.className] = res;
+          return rObj;
+        }
+      });
+      return result;
+    }
   },
   filters: {
     capitalize(value) {
@@ -234,7 +261,8 @@ export default {
     //班级圈点赞
     async handlePraise(community, index) {
       let openId = this.$store.state.wx.openId;
-      let studentId = this.$store.state.student.studentId || 0;
+      let studentId =
+        this.$store.state.student.studentId || this.$route.query.studentId;
       let { communityId } = community;
       let res = await service.communityPraise({
         openId,
@@ -425,7 +453,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // margin-top: 10px;
   .right {
     font-size: 0;
     i {

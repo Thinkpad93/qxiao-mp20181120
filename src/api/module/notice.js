@@ -31,7 +31,7 @@ export function noticeConfirm(params) {
     .catch(e => console.log(e));
 }
 //公告删除
-export function noticeDelete(params) {
+export function deleteNotice(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/deleteNotice.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));

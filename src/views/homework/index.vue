@@ -31,7 +31,8 @@
         class="figure figure-skin-two"
         v-for="(homework, index) in homeworkData"
         :key="index"
-        @click="handleJump(homework)"
+        @touchstart="start(homework, index)"
+        @touchend="end(homework)"
       >
         <div class="figure-bd">
           <div class="figure-info">
@@ -73,6 +74,8 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
+      long: 0,
+      time: 0,
       popupShow: false,
       className:
         this.$store.state.users.className || this.$route.query.className,
@@ -108,22 +111,51 @@ export default {
     }
   },
   methods: {
+    start(homework, index) {
+      this.long = 0;
+      this.time = setTimeout(() => {
+        this.long = 1;
+        if (this.roleType == 2) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "确定删除该条作业吗？"
+            })
+            .then(async () => {
+              let obj = {
+                openId: this.query.openId,
+                homeId: homework.homeId
+              };
+              //删除速报
+              let res = await service.homeworkDelete(obj);
+              if (res.errorCode === 0) {
+                this.homeworkData.splice(index, 1);
+              }
+            })
+            .catch(() => {});
+        }
+      }, 500);
+    },
+    end(homework) {
+      clearTimeout(this.time);
+      if (this.long == 0 && this.time != 0) {
+        this.$router.push({
+          path: "/homework/show",
+          query: {
+            classId: homework.classId,
+            homeId: homework.homeId,
+            studentId: homework.studentId,
+            needConfirm: homework.needConfirm
+          }
+        });
+      }
+      return false;
+    },
     //选择班级
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
       this.homeworkQuery(this.query);
-    },
-    handleJump(homework) {
-      this.$router.push({
-        path: "/homework/show",
-        query: {
-          classId: homework.classId,
-          homeId: homework.homeId,
-          studentId: homework.studentId,
-          needConfirm: homework.needConfirm
-        }
-      });
     },
     //加载分页数据
     handleLoadingMore(e) {

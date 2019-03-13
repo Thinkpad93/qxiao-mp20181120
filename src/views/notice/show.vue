@@ -104,6 +104,7 @@ export default {
     }
   },
   activated() {
+    console.log(this.$route.query);
     this.noticeDetail(this.query);
   }
 };

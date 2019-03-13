@@ -444,11 +444,10 @@ export default {
   transform: translateX(0%);
 }
 .panel-bd {
-  flex: 1;
-  overflow-y: auto;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 .panel-ft {
-  height: 100px;
 }
 .teacher-icon {
   width: 100px;
@@ -463,6 +462,7 @@ export default {
 }
 
 .tabbar {
+  height: 100px;
   font-size: 32px;
   display: flex;
   background-color: #fff;

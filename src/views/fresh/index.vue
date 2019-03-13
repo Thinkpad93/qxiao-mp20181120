@@ -30,7 +30,8 @@
         class="figure figure-skin-two"
         v-for="(fresh, index) in freshData"
         :key="index"
-        @click="handleJump(fresh)"
+        @touchstart="start(fresh, index)"
+        @touchend="end(fresh)"
       >
         <div class="figure-bd">
           <div class="figure-info">
@@ -73,6 +74,8 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
+      long: 0,
+      time: 0,
       popupShow: false,
       className:
         this.$store.state.users.className || this.$route.query.className,
@@ -106,21 +109,50 @@ export default {
     }
   },
   methods: {
+    start(fresh, index) {
+      this.long = 0;
+      this.time = setTimeout(() => {
+        this.long = 1;
+        if (this.roleType == 2) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "确定删除该条速报吗？"
+            })
+            .then(async () => {
+              let obj = {
+                openId: this.query.openId,
+                freshId: fresh.freshId
+              };
+              //删除速报
+              let res = await service.deleteFresh(obj);
+              if (res.errorCode === 0) {
+                this.freshData.splice(index, 1);
+              }
+            })
+            .catch(() => {});
+        }
+      }, 500);
+    },
+    end(fresh) {
+      clearTimeout(this.time);
+      if (this.long == 0 && this.time != 0) {
+        this.$router.push({
+          path: "/fresh/show",
+          query: {
+            freshId: fresh.freshId,
+            classId: fresh.classId,
+            studentId: fresh.studentId
+          }
+        });
+      }
+      return false;
+    },
     //选择班级
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
       this.freshQuery(this.query);
-    },
-    handleJump(fresh) {
-      this.$router.push({
-        path: "/fresh/show",
-        query: {
-          freshId: fresh.freshId,
-          classId: fresh.classId,
-          studentId: fresh.studentId
-        }
-      });
     },
     //加载分页数据
     handleLoadingMore(e) {
@@ -150,6 +182,12 @@ export default {
             }
           });
         }
+      }
+    },
+    //删除速报
+    async deleteFresh(params = {}) {
+      let res = await service.deleteFresh(params);
+      if (res.errorCode === 0) {
       }
     },
     //速报列表查询

@@ -10,7 +10,8 @@
         class="figure figure-skin-two"
         v-for="(recipe, index) in recipeData"
         :key="index"
-        @click="handleJump(recipe)"
+        @touchstart="start(recipe, index)"
+        @touchend="end(recipe)"
       >
         <div class="figure-bd">
           <div class="figure-info">
@@ -47,6 +48,8 @@ export default {
   name: "recipe",
   data() {
     return {
+      long: 0,
+      time: 0,
       query: {
         openId: this.$store.state.wx.openId,
         studentId: this.$store.state.student.studentId || 0
@@ -62,11 +65,40 @@ export default {
     }
   },
   methods: {
-    handleJump(recipe) {
-      this.$router.push({
-        path: "/recipe/show",
-        query: { recipeId: recipe.recipeId, studentId: recipe.studentId }
-      });
+    start(recipe, index) {
+      this.long = 0;
+      this.time = setTimeout(() => {
+        this.long = 1;
+        if (this.roleType == 1 || this.roleType == 4) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "确定删除该条食谱吗？"
+            })
+            .then(async () => {
+              let obj = {
+                openId: this.query.openId,
+                recipeId: recipe.recipeId
+              };
+              //删除速报
+              let res = await service.recipeDelete(obj);
+              if (res.errorCode === 0) {
+                this.recipeData.splice(index, 1);
+              }
+            })
+            .catch(() => {});
+        }
+      }, 500);
+    },
+    end(recipe) {
+      clearTimeout(this.time);
+      if (this.long == 0 && this.time != 0) {
+        this.$router.push({
+          path: "/recipe/show",
+          query: { recipeId: recipe.recipeId, studentId: recipe.studentId }
+        });
+      }
+      return false;
     },
     //食谱列表查询
     async recipeQuery(params = {}) {

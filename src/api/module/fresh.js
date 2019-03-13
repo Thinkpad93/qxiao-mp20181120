@@ -30,15 +30,15 @@ export function freshCommentAdd(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
-// //速报评论删除
-// export function freshCommentDelete(params) {
-//   return ax.post('/qxiao-mp/action/mod-xiaojiao/fresh/freshCommentDelete.do', params)
-//     .then(res => res.data)
-//     .catch(e => console.log(e));
-// }
 //删除速报留言
 export function deleteComment(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/fresh/deleteComment.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//删除速报
+export function deleteFresh(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/fresh/deleteFresh.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

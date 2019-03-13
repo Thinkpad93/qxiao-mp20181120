@@ -35,7 +35,8 @@
         class="figure figure-skin-one"
         v-for="(notice, index) in noticeData"
         :key="index"
-        @click="handleJump(notice)"
+        @touchstart="start(notice, index)"
+        @touchend="end(notice)"
       >
         <div class="figure-bd">
           <div
@@ -78,6 +79,8 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
+      long: 0,
+      time: 0,
       popupShow: false,
       className:
         this.$store.state.users.className || this.$route.query.className,
@@ -109,6 +112,47 @@ export default {
     }
   },
   methods: {
+    start(notice, index) {
+      this.long = 0;
+      this.time = setTimeout(() => {
+        this.long = 1;
+        if (this.roleType == 1 || this.roleType == 4) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "确定删除该条公告吗？"
+            })
+            .then(async () => {
+              let obj = {
+                openId: this.query.openId,
+                noticeId: notice.noticeId,
+                classId: notice.classId
+              };
+              //删除通知公告
+              let res = await service.deleteNotice(obj);
+              if (res.errorCode === 0) {
+                this.noticeData.splice(index, 1);
+              }
+            })
+            .catch(() => {});
+        }
+      }, 500);
+    },
+    end(notice) {
+      clearTimeout(this.time);
+      if (this.long == 0 && this.time != 0) {
+        this.$router.push({
+          path: "/notice/show",
+          query: {
+            noticeId: notice.noticeId,
+            needConfirm: notice.needConfirm,
+            classId: notice.classId,
+            studentId: notice.studentId
+          }
+        });
+      }
+      return false;
+    },
     handleTabClick(index, title) {
       this.index = index;
       this.query.page = 1; //切换时从第一页查起
@@ -120,17 +164,6 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.noticeQuery(this.query);
-    },
-    handleJump(notice) {
-      this.$router.push({
-        path: "/notice/show",
-        query: {
-          noticeId: notice.noticeId,
-          needConfirm: notice.needConfirm,
-          classId: notice.classId,
-          studentId: notice.studentId
-        }
-      });
     },
     //加载分页数据
     handleLoadingMore(e) {
@@ -164,12 +197,6 @@ export default {
             }
           });
         }
-      }
-    },
-    //删除通知公告
-    async deleteNotice(params = {}) {
-      let res = await service.deleteNotice(params);
-      if (res.errorCode === 0) {
       }
     },
     //公告通知列表查询
