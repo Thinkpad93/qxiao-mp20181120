@@ -124,11 +124,15 @@ export default {
         this.$refs.form.reset();
         this.$store.dispatch("users/saveUserInfo", res.data);
         this.$store.dispatch("student/saveStudnetId", res.data.studentId);
-        //查询班级列表
-        this.$store.dispatch("queryClass/queryClassId", {
+        this.$store.dispatch("queryClass/queryStudentClass", {
           id: res.data.id,
-          roleType: res.data.roleType
+          studentId: res.data.studentId
         });
+        //查询班级列表
+        // this.$store.dispatch("queryClass/queryClassId", {
+        //   id: res.data.id,
+        //   roleType: res.data.roleType
+        // });
         this.$router.replace({
           path: "/home"
         });

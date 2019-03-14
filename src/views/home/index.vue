@@ -417,13 +417,12 @@ export default {
       line-height: 1.2;
       margin-top: 16px;
       margin-bottom: 16px;
-      text-align: justify;
     }
   }
   .cell-hd {
     img {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
     }
   }

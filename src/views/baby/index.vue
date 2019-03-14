@@ -6,11 +6,11 @@
           class="cell student-box"
           v-for="student in studentList"
           :key="student.studentId"
-          @click="handleChangeStudent(student.studentId)"
+          @click="handleChangeStudent(student)"
         >
           <div class="cell-hd"></div>
           <div class="cell-bd">
-            <p>{{ student.studentName }}</p>
+            <p>{{ student.studentName }}({{ student.className }})</p>
           </div>
           <div class="cell-ft">
             <van-radio-group v-model="studentId">
@@ -37,16 +37,24 @@ export default {
     };
   },
   methods: {
-    handleChangeStudent(studentId) {
-      if (studentId) {
+    handleChangeStudent(student) {
+      if (student) {
         this.$dialog
           .alert({
             message: "学生切换成功"
           })
           .then(() => {
-            //更新studentId值
-            this.$store.commit("student/SET_STUDENTID", studentId);
-            Cookies.set("studentId", studentId);
+            Cookies.set("studentId", student.studentId);
+            Cookies.set("className", student.className);
+            Cookies.set("classId", student.classId);
+            //更新值
+            this.$store.commit("student/SET_STUDENTID", student.studentId);
+            this.$store.commit("users/SET_CLASSNAME", student.className);
+            this.$store.commit("users/SET_CLASSID", student.classId);
+            this.$store.dispatch("queryClass/queryStudentClass", {
+              id: this.$store.state.users.id,
+              studentId: student.studentId
+            });
             this.$router.go(-1);
           });
       }

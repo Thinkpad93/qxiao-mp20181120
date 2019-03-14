@@ -2,7 +2,7 @@ export default [{
     path: '/my',
     component: () => import('@/views/my'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       title: '我的',
       roles: [1, 2, 3]
     }

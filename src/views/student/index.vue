@@ -96,7 +96,11 @@ export default {
     handleEditStudent(student) {
       this.$router.push({
         path: `/student/edit`,
-        query: { tel: student.tel, studentId: student.studentId }
+        query: {
+          tel: student.tel,
+          studentId: student.studentId,
+          classId: student.classId
+        }
       });
     },
     handleAddStudent() {

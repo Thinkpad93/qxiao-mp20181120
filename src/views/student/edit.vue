@@ -132,6 +132,7 @@ export default {
             this.studentDelete({
               studentId,
               openId: this.querys.openId,
+              classId: this.$route.query.classId,
               tel: this.querys.tel
             });
           })

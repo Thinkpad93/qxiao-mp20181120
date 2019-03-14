@@ -54,8 +54,9 @@ const actions = {
     commit,
     dispatch
   }) {
+    let roleType = Cookies.get('roleType');
     commit('SET_ID', Cookies.get('id'));
-    commit('SET_ROLETYPE', Cookies.get('roleType'));
+    commit('SET_ROLETYPE', roleType);
     commit('SET_TYPE', Cookies.get('type'));
     commit('SET_ISOPEN', Cookies.get('isOpen'));
     commit('SET_CLASSNAME', Cookies.get('className'));
@@ -69,32 +70,57 @@ const actions = {
     commit('student/SET_STUDENTID', Cookies.get('studentId'), {
       root: true
     });
-    await dispatch('queryClass/queryClassId', {
-      id: Cookies.get('id'),
-      roleType: Cookies.get('roleType')
-    }, {
-      root: true
-    })
+    //
+    if (roleType == 3) {
+      await dispatch('queryClass/queryStudentClass', {
+        id: Cookies.get('id'),
+        studentId: Cookies.get('studentId')
+      }, {
+        root: true
+      })
+    } else {
+      await dispatch('queryClass/queryClassId', {
+        id: Cookies.get('id'),
+        roleType: Cookies.get('roleType')
+      }, {
+        root: true
+      })
+    }
   },
   //第二次登陆处理
   async reloadUserInfo({
     commit,
     dispatch
   }, params) {
+    let {
+      roleType
+    } = params;
     console.log("第二次登陆处理");
     dispatch('saveUserInfo', params);
     commit('wx/SET_OPENID', Cookies.get('openId'), {
       root: true
     });
+    commit('wx/SET_PHOTO', Cookies.get('photo'), {
+      root: true
+    });
     commit('student/SET_STUDENTID', Cookies.get('studentId'), {
       root: true
     });
-    await dispatch('queryClass/queryClassId', {
-      id: Cookies.get('id'),
-      roleType: Cookies.get('roleType')
-    }, {
-      root: true
-    })
+    if (roleType == 3) {
+      await dispatch('queryClass/queryStudentClass', {
+        id: Cookies.get('id'),
+        studentId: Cookies.get('studentId')
+      }, {
+        root: true
+      })
+    } else {
+      await dispatch('queryClass/queryClassId', {
+        id: Cookies.get('id'),
+        roleType: Cookies.get('roleType')
+      }, {
+        root: true
+      })
+    }
   }
 }
 

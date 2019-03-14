@@ -32,6 +32,7 @@
         v-for="(homework, index) in homeworkData"
         :key="index"
         @touchstart="start(homework, index)"
+        @touchmove="move"
         @touchend="end(homework)"
       >
         <div class="figure-bd">
@@ -135,6 +136,10 @@ export default {
             .catch(() => {});
         }
       }, 500);
+    },
+    move() {
+      clearTimeout(this.time);
+      this.time = 0;
     },
     end(homework) {
       clearTimeout(this.time);

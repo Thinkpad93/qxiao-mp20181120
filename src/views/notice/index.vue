@@ -36,6 +36,7 @@
         v-for="(notice, index) in noticeData"
         :key="index"
         @touchstart="start(notice, index)"
+        @touchmove="move"
         @touchend="end(notice)"
       >
         <div class="figure-bd">
@@ -137,6 +138,10 @@ export default {
             .catch(() => {});
         }
       }, 500);
+    },
+    move() {
+      clearTimeout(this.time);
+      this.time = 0;
     },
     end(notice) {
       clearTimeout(this.time);

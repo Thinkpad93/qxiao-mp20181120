@@ -1,6 +1,5 @@
 import service from "@/api";
 
-// actions
 const actions = {
   //用户登录
   //roleType 1-园长 2-老师 3-学生 

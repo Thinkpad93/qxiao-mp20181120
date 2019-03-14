@@ -31,6 +31,7 @@
         v-for="(fresh, index) in freshData"
         :key="index"
         @touchstart="start(fresh, index)"
+        @touchmove="move"
         @touchend="end(fresh)"
       >
         <div class="figure-bd">
@@ -133,6 +134,10 @@ export default {
             .catch(() => {});
         }
       }, 500);
+    },
+    move() {
+      clearTimeout(this.time);
+      this.time = 0;
     },
     end(fresh) {
       clearTimeout(this.time);

@@ -68,6 +68,7 @@ export default {
       form: {
         openId: this.$store.state.wx.openId,
         classId: this.$store.state.users.classId,
+        studentId: this.$store.state.student.studentId,
         contentType: 0,
         textContent: "",
         images: [],

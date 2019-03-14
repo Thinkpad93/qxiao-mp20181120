@@ -11,6 +11,7 @@
         v-for="(recipe, index) in recipeData"
         :key="index"
         @touchstart="start(recipe, index)"
+        @touchmove="move"
         @touchend="end(recipe)"
       >
         <div class="figure-bd">
@@ -89,6 +90,10 @@ export default {
             .catch(() => {});
         }
       }, 500);
+    },
+    move() {
+      clearTimeout(this.time);
+      this.time = 0;
     },
     end(recipe) {
       clearTimeout(this.time);

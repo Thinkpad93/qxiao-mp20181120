@@ -18,9 +18,7 @@ export default {
     return {};
   },
   watch: {
-    $route(to, from) {
-      console.log(to);
-    }
+    $route(to, from) {}
   },
   methods: {},
   mounted() {}

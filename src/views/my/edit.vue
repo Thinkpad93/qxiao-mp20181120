@@ -156,6 +156,9 @@ export default {
   computed: {
     ...mapState("users", {
       roleType: state => state.roleType
+    }),
+    ...mapState("student", {
+      studentId: state => state.studentId
     })
   },
   methods: {
@@ -174,13 +177,13 @@ export default {
     },
     //学生家长信息修改
     async studentInfoUpdate() {
-      let { studentName, sex, relation } = this.patroarch;
+      let { studentName, sex, relation, studentId } = this.patroarch;
       if (studentName == "") {
         this.$toast("请完善学生名称");
       } else {
         let obj = Object.assign(
           {},
-          { studentName, sex, relation, openId: this.openId }
+          { studentName, sex, relation, openId: this.openId, studentId }
         );
         let res = await service.studentInfoUpdate(obj);
         if (res.errorCode === 0) {
@@ -226,10 +229,10 @@ export default {
       }
     },
     //学生信息查询
-    async studentQuery(params = {}) {
-      let res = await service.studentQuery(params);
+    async studentQueryMe(params = {}) {
+      let res = await service.studentQueryMe(params);
       if (res.errorCode === 0) {
-        this.patroarch = res.data[0];
+        this.patroarch = res.data;
       }
     },
     //查询老师信息
@@ -239,7 +242,7 @@ export default {
         this.teacherInfo = res.data;
       }
     },
-    //查询园长信息-我的
+    //查询管理信息-我的
     async queryInfo(openId) {
       let res = await service.queryInfo({ openId });
       if (res.errorCode === 0) {
@@ -253,7 +256,7 @@ export default {
     } else if (this.roleType == 2) {
       this.queryTeacherInfo(this.openId);
     } else {
-      this.studentQuery({ openId: this.openId, tel: "" });
+      this.studentQueryMe({ openId: this.openId, studentId: this.studentId });
     }
   }
 };
