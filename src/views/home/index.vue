@@ -277,6 +277,7 @@ export default {
           let praise = this.communityData[index].praiseList.filter(
             elem => elem.openId !== openId
           );
+          console.log(praise);
           this.communityData[index].praiseList = praise.length ? praise : null;
         } else {
           this.communityData[index].praiseList.push(res.data);

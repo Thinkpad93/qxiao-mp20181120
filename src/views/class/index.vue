@@ -31,7 +31,7 @@
       <div class="cells">
         <div
           class="cell class-boxs"
-          @click="handleEditClass(item.classId)"
+          @click="handleEditClass(item)"
           v-for="(item, index) in classList"
           :key="index"
         >
@@ -101,10 +101,10 @@ export default {
         })
         .catch(() => {});
     },
-    handleEditClass(classId) {
+    handleEditClass(item) {
       this.$router.push({
         path: "/class/edit",
-        query: { classId }
+        query: { classId: item.classId, className: item.className }
       });
     },
     //查询对应学校的所有班级

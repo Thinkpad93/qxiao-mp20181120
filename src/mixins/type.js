@@ -46,25 +46,6 @@ export const schoolType = {
     }
   }
 }
-// export const schoolType = {
-//   data() {
-//     return {
-//       schoolTypeList: [{
-//           name: "公办",
-//           id: 0
-//         },
-//         {
-//           name: "私立",
-//           id: 1
-//         },
-//         {
-//           name: "民办",
-//           id: 2
-//         }
-//       ]
-//     }
-//   }
-// }
 
 export const relation = {
   data() {

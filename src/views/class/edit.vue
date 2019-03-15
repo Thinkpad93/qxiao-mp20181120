@@ -60,7 +60,7 @@ export default {
         classId: this.$route.query.classId,
         openId: this.$store.state.wx.openId
       },
-      className: "",
+      className: this.$route.query.className,
       teacherList: [],
       studentList: []
     };
@@ -120,7 +120,6 @@ export default {
       let res = await service.classQueryTeacher(params);
       if (res.errorCode === 0) {
         this.teacherList = res.data.teacher;
-        this.className = res.data.className;
       }
     },
     //移除班级对应的学生

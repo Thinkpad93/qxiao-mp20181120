@@ -161,7 +161,7 @@ export default {
   }
 }
 .teacher-box {
-  height: 120px;
+  min-height: 120px;
 }
 .teacher-icon {
   width: 100px;
