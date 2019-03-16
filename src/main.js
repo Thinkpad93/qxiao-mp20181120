@@ -7,54 +7,21 @@ import Cookies from "js-cookie";
 import './assets/iconfont/iconfont.css';
 import './assets/iconfonts/iconfont.css';
 
+import wxSdk from '@/config/wxsdk';
+
+import '@/vant'; //vant UI
+
 Vue.config.productionTip = false;
 
-// import FastClick from 'fastclick'; // 引入插件
-// FastClick.attach(document.body); // 使用 fastclick
-
-import {
-  Cell,
-  CellGroup,
-  SwipeCell,
-  RadioGroup,
-  Radio,
-  Checkbox,
-  CheckboxGroup,
-  Switch,
-  Dialog,
-  Popup,
-  Picker,
-  DatetimePicker,
-  Tab,
-  Tabs,
-  Circle
-} from 'vant';
-
-
-
-
-Vue.use(Cell)
-  .use(CellGroup)
-  .use(SwipeCell)
-  .use(RadioGroup)
-  .use(Radio)
-  .use(CheckboxGroup)
-  .use(Checkbox)
-  .use(Switch)
-  .use(Dialog)
-  .use(Tab)
-  .use(Tabs)
-  .use(Circle)
-  .use(Popup)
-  .use(Picker)
-  .use(DatetimePicker);
-
+Vue.prototype.wxSdk = wxSdk;
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
+  let roleType = Cookies.get('roleType');
   //这里进行路由权限控制
   if (!store.state.wx.openId && Cookies.get('openId')) {
     console.log("这里进行路由权限控制");
+    //wxSdk.wxShare(roleType);
     store.dispatch('users/getUserInfo');
     next();
   }
