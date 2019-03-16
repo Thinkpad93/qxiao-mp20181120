@@ -4,6 +4,7 @@ export default [{
   component: () => import('@/views/login'),
   meta: {
     keepAlive: false,
+    isShare: false,
     title: '登陆',
     roles: [1, 2, 3]
   }

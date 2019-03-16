@@ -26,20 +26,6 @@
               <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
             </div>
           </div>
-          <!-- <div class="cell cell-select cell-select-after">
-            <div class="cell-hd">
-              <label for class="label">学校类型</label>
-            </div>
-            <div class="cell-bd">
-              <select class="select" name dir="rtl" v-model="leaderInfo.type">
-                <option
-                  :value="option.id"
-                  v-for="(option,index) in schoolTypeList"
-                  :key="index"
-                >{{ option.name }}</option>
-              </select>
-            </div>
-          </div>-->
           <div class="cell">
             <div class="cell-hd">
               <label for class="label">详细地址</label>

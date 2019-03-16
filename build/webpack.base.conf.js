@@ -17,11 +17,11 @@ module.exports = {
   },
   // 键：表示 导入包语法 from 后面跟着的名称
   // 值：表示 script 引入JS文件时，在全局环境中的变量名称
-  externals: {
-    'vue': 'Vue',
-    'vue-router': 'VueRouter',
-    'vuex': 'Vuex',
-  },
+  // externals: {
+  //   'vue': 'Vue',
+  //   'vue-router': 'VueRouter',
+  //   'vuex': 'Vuex',
+  // },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

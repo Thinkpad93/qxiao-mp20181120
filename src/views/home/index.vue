@@ -329,6 +329,7 @@ export default {
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
+      this.wxSdk.wxShare(this.roleType);
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.communityQuery(this.query);
@@ -370,8 +371,8 @@ export default {
   }
   .cell-hd {
     img {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
     }
   }

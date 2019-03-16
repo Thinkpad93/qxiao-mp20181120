@@ -182,21 +182,11 @@ export default {
         this.isLoading = false;
         this.noticeData = res.data.data || [];
       }
-      // if (this.roleType == 1 || this.roleType == 4) {
-      //   this.query.classId = 0;
-      // }
-      // let res = await service.noticeQuery(params);
-      // if (res.errorCode === 0) {
-      //   this.popupShow = false;
-      //   this.query.page = res.data.page;
-      //   this.totalPage = res.data.totalPage;
-      //   this.isLoading = false;
-      //   this.noticeData = res.data.data || [];
-      // }
     }
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
+      this.wxSdk.wxShare(this.roleType);
       this.$store.dispatch("user/reload", this.$route.query, { root: true });
     }
     this.noticeQuery(this.query);

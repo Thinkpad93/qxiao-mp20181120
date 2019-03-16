@@ -57,7 +57,7 @@ export default {
       readFlag: 0, //0-已读 1-未读
       query: {
         openId: this.$store.getters.openId || this.$route.query.openId,
-        homeId: this.$route.query.homeId || this.$route.query.homeId,
+        homeId: this.$route.query.homeId,
         classId: this.$route.query.classId
       },
       roleType: this.$store.getters.roleType || this.$route.query.roleType,
