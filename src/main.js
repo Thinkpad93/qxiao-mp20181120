@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
   //这里进行路由权限控制
   if (!store.state.wx.openId && Cookies.get('openId')) {
     console.log("这里进行路由权限控制");
-    //wxSdk.wxShare(roleType);
+    wxSdk.wxShare(roleType);
     store.dispatch('users/getUserInfo');
     next();
   }

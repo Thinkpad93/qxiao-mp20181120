@@ -218,6 +218,7 @@ export default {
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
+      this.wxSdk.wxShare(this.roleType);
       this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
         root: true
       });

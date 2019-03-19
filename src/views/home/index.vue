@@ -142,13 +142,6 @@ import qxmenu from "@/components/menu";
 import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 
-const citys = {
-  太平洋: ["孙志明"],
-  印度洋: ["致命"]
-};
-
-const hit = [{ 南极班: ["三明", "泉州"] }, { 北极班: ["厦门", "福州"] }];
-
 export default {
   name: "home",
   mixins: [scrollMixins],
@@ -380,6 +373,7 @@ export default {
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
+      this.wxSdk.wxShare(this.roleType);
       this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
         root: true
       });

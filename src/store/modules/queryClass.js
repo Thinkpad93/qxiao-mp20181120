@@ -21,7 +21,7 @@ const actions = {
         commit('SET_CLASSLIST', res.data);
         resolve();
       }
-    })
+    });
   },
   //查询学生相关班级
   async queryStudentClass({
