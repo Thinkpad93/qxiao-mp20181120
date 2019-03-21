@@ -39,24 +39,17 @@ export default {
   methods: {
     handleChangeStudent(student) {
       if (student) {
-        this.$dialog
-          .alert({
-            message: "学生切换成功"
-          })
-          .then(() => {
-            Cookies.set("studentId", student.studentId);
-            Cookies.set("className", student.className);
-            Cookies.set("classId", student.classId);
-            //更新值
-            this.$store.commit("student/SET_STUDENTID", student.studentId);
-            this.$store.commit("users/SET_CLASSNAME", student.className);
-            this.$store.commit("users/SET_CLASSID", student.classId);
-            this.$store.dispatch("queryClass/queryStudentClass", {
-              id: this.$store.state.users.id,
-              studentId: student.studentId
-            });
-            this.$router.go(-1);
-          });
+        Cookies.set("studentId", student.studentId);
+        Cookies.set("className", student.className);
+        Cookies.set("classId", student.classId);
+        this.$store.commit("student/SET_STUDENTID", student.studentId);
+        this.$store.commit("users/SET_CLASSNAME", student.className);
+        this.$store.commit("users/SET_CLASSID", student.classId);
+        this.$store.dispatch("queryClass/queryStudentClass", {
+          id: this.$store.state.users.id,
+          studentId: student.studentId
+        });
+        this.$router.go(-1);
       }
     },
     //查询学生列表

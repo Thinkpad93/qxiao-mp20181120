@@ -39,6 +39,7 @@ const actions = {
   saveUserInfo({
     commit
   }, params) {
+
     Object.keys(params).forEach(key => {
       Cookies.set(key, params[key]);
     });

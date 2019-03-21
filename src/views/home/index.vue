@@ -13,10 +13,6 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <!-- student Picker -->
-      <!-- <van-popup v-model="studentPicker" position="bottom">
-        <van-picker :columns="studentList" show-toolbar @change="onChange"></van-picker>
-      </van-popup>-->
       <template v-if="isOpen">
         <router-link to="/community" class="release">
           <img src="@/assets/image/release-icon.png" alt>
@@ -28,9 +24,6 @@
             <span>{{ className }}</span>
             <i class="iconfont icon-xiangxia1"></i>
           </div>
-          <!-- <div class="student-picker">
-            <a href="javascript:void(0);" @click="studentPicker = true">打开</a>
-          </div>-->
         </div>
         <div class="community">
           <div class="box" v-for="(community, index) in communityData" :key="index">
@@ -153,8 +146,8 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className:
-        this.$store.state.users.className || this.$route.query.className,
+      //className:
+      // this.$store.state.users.className || this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -166,14 +159,6 @@ export default {
         pageSize: 10
       },
       communityData: [],
-      studentList: [
-        {
-          values: ["太平洋", "印度洋"]
-        },
-        {
-          values: ["孙志明"]
-        }
-      ],
       form: {
         index: null,
         openId: this.$store.state.wx.openId,
@@ -188,35 +173,12 @@ export default {
     ...mapState("users", {
       roleType: state => state.roleType,
       isOpen: state => state.isOpen,
-      id: state => state.id
+      id: state => state.id,
+      className: state => state.className
     }),
     ...mapState("queryClass", {
       classList: state => state.classList
-    }),
-    hotStudentList() {
-      let tt = this.classList.map((element, inden) => {
-        let res = [];
-        let obj = {};
-        res.push(element.className);
-        obj.values = res;
-        return obj;
-      });
-      console.log(tt);
-    },
-    hitStudentList() {
-      let result = this.classList.map((element, index) => {
-        if (element.student.length) {
-          let rObj = {};
-          let res = [];
-          element.student.forEach(item => {
-            res.push(item.studentName);
-          });
-          rObj[element.className] = res;
-          return rObj;
-        }
-      });
-      return result;
-    }
+    })
   },
   filters: {
     capitalize(value) {
@@ -268,7 +230,7 @@ export default {
         }
         if (!res.data) {
           let praise = this.communityData[index].praiseList.filter(
-            elem => elem.openId !== openId
+            elem => elem.openId !== openId && elem.studentId !== studentId
           );
           console.log(praise);
           this.communityData[index].praiseList = praise.length ? praise : null;
@@ -373,11 +335,9 @@ export default {
   },
   mounted() {
     if (Object.keys(this.$route.query).length) {
-      this.wxSdk.wxShare(this.roleType);
-      this.$store.dispatch("users/reloadUserInfo", this.$route.query, {
-        root: true
-      });
+      this.$store.dispatch("users/reloadUserInfo", this.$route.query);
     }
+    this.wxSdk.wxShare(this.roleType);
     this.communityQuery(this.query);
   }
 };

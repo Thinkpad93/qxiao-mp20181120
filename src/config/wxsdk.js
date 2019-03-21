@@ -1,7 +1,6 @@
 import service from "@/api";
 export default {
   wxShare(roleType) {
-    console.log(roleType);
     let url = window.location.href.split("#")[0]; //获取当前url,传递到服务端进行签名
     let is_dev = process.env.NODE_ENV !== "production";
     let shareUrl = is_dev ?
