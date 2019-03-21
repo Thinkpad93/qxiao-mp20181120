@@ -146,8 +146,8 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      //className:
-      // this.$store.state.users.className || this.$route.query.className,
+      className:
+        this.$store.state.users.className || this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -173,8 +173,8 @@ export default {
     ...mapState("users", {
       roleType: state => state.roleType,
       isOpen: state => state.isOpen,
-      id: state => state.id,
-      className: state => state.className
+      id: state => state.id
+      //className: state => state.className
     }),
     ...mapState("queryClass", {
       classList: state => state.classList
