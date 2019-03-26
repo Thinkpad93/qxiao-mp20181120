@@ -99,7 +99,15 @@ export default {
     async homeworkDetail(params = {}) {
       let res = await service.homeworkDetail(params);
       if (res.errorCode === 0) {
-        this.info = res.data;
+        let { isDel } = res.data;
+        if (isDel) {
+          this.$dialog.alert({
+            showConfirmButton: false,
+            message: "内容已被删除"
+          });
+        } else {
+          this.info = res.data;
+        }
       }
     }
   },

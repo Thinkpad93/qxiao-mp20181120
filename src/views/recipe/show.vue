@@ -43,7 +43,15 @@ export default {
     async recipeDetail(params = {}) {
       let res = await service.recipeDetail(params);
       if (res.errorCode === 0) {
-        this.info = res.data;
+        let { isDel } = res.data;
+        if (isDel) {
+          this.$dialog.alert({
+            showConfirmButton: false,
+            message: "内容已被删除"
+          });
+        } else {
+          this.info = res.data;
+        }
       }
     }
   },

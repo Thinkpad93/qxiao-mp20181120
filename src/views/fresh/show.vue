@@ -139,8 +139,16 @@ export default {
     async freshDetail(params = {}) {
       let res = await service.freshDetail(params);
       if (res.errorCode === 0) {
-        this.info = res.data;
-        this.commentLen = res.data.commentList.length;
+        let { isDel } = res.data;
+        if (isDel) {
+          this.$dialog.alert({
+            showConfirmButton: false,
+            message: "内容已被删除"
+          });
+        } else {
+          this.info = res.data;
+          this.commentLen = res.data.commentList.length;
+        }
       }
     },
     //速报评论发表

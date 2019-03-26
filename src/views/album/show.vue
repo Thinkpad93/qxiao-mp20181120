@@ -41,8 +41,8 @@
           <div class="album-tool flex">
             <span @click="handleCancel">取消</span>
             <template>
-              <span @click="isShow = true" v-if="!isShow">选择</span>
-              <span v-if="isShow" @click="handleConfirm">确认</span>
+              <span @click="isShow = true" v-if="!isShow">删除图片</span>
+              <span v-if="isShow" @click="handleConfirm">确认删除</span>
             </template>
           </div>
         </div>
@@ -80,17 +80,10 @@ export default {
     },
     handleConfirm() {
       if (this.albumCheckList.length) {
-        this.$dialog
-          .confirm({
-            title: "提示",
-            message: "确定删除选择的图片吗？"
-          })
-          .then(() => {
-            this.imageDelete({
-              openId: this.query.openId,
-              itemIds: this.albumCheckList
-            });
-          });
+        this.imageDelete({
+          openId: this.query.openId,
+          itemIds: this.albumCheckList
+        });
       } else {
         this.$toast("没有选择图片");
       }
@@ -163,7 +156,14 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
 }
 .album-tool {
-  padding: 10px 20px;
+  padding: 0 20px;
   justify-content: space-between;
+  span {
+    display: inline-block;
+    padding: 15px 30px;
+    color: #fff;
+    border-radius: 30px;
+    background-color: #92cd36;
+  }
 }
 </style>
