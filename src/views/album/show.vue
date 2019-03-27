@@ -36,7 +36,7 @@
           <p size-18>暂无相册</p>
         </div>
       </article>
-      <template v-if="roleType == 2">
+      <template v-if="roleType == 1 ||roleType == 2 || roleType == 4">
         <div class="_confirm" v-if="albumInfo.items.length">
           <div class="album-tool flex">
             <span @click="handleCancel">取消</span>
