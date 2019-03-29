@@ -25,62 +25,13 @@
             <i class="iconfont icon-xiangxia1"></i>
           </div>
         </div>
-        <div class="community">
-          <div class="box" v-for="(community, index) in communityData" :key="index">
-            <div class="cell">
-              <div class="cell-hd">
-                <img v-if="community.photo" :src="community.photo" alt>
-              </div>
-              <div class="cell-bd">
-                <h5 size-15>{{ community.name }}</h5>
-                <p size-15>{{ community.textContent }}</p>
-                <template>
-                  <div class="img-group">
-                    <div
-                      class="item"
-                      :style="{backgroundImage: `url(${img.imageUrl})`}"
-                      v-for="(img, index) in community.images"
-                      :key="index"
-                      @click="handlePreviewImage(index, community.images)"
-                    ></div>
-                  </div>
-                </template>
-                <div class="handle">
-                  <div class="left">
-                    <time>{{ community.postTime }}</time>
-                    <!-- 园长和老师才能删除 -->
-                    <template v-if="roleType == 1 || roleType == 2">
-                      <span class="del" @click="handleCommunityDelete(community, index)">删除</span>
-                    </template>
-                  </div>
-                  <div class="right">
-                    <i class="iconfont icon-zantongfill" @click="handlePraise(community, index)"></i>
-                    <i class="iconfont icon-liuyanfill" @click="handleComment(community, index)"></i>
-                  </div>
-                </div>
-                <div class="data">
-                  <template v-if="community.praiseList">
-                    <div class="zan-list" size-14>
-                      <i class="iconfont icon-zantong"></i>
-                      <span
-                        v-for="(praise, index) in community.praiseList"
-                        :key="index"
-                      >{{ praise.studentName | capitalize }}</span>
-                    </div>
-                  </template>
-                  <template v-if="community.commentList">
-                    <ul class="comment-list" size-14>
-                      <li
-                        v-for="(commen, index) in community.commentList"
-                        :key="index"
-                      >{{ commen.studentName }}:{{ commen.textContent }}</li>
-                    </ul>
-                  </template>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- 班级圈 -->
+        <qx-community
+          :data="communityData"
+          @on-del="handleCommunityDelete"
+          @on-praise="handlePraise"
+          @on-comment="handleComment"
+        ></qx-community>
       </main>
       <!-- 评论 -->
       <van-dialog
@@ -132,6 +83,7 @@
 import { ImagePreview } from "vant";
 import service from "@/api";
 import qxmenu from "@/components/menu";
+import qxCommunity from "@/components/Community";
 import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 
@@ -139,7 +91,8 @@ export default {
   name: "home",
   mixins: [scrollMixins],
   components: {
-    qxmenu
+    qxmenu,
+    "qx-community": qxCommunity
   },
   data() {
     return {
@@ -199,20 +152,6 @@ export default {
       this.query.classId = value.classId;
       this.communityQuery(this.query);
     },
-    //预览图片
-    handlePreviewImage(index, images) {
-      //通过传入配置对象，可以指定初始图片的位置、监听关闭事件
-      if (Array.isArray(images)) {
-        let resule = [];
-        images.forEach(item => {
-          resule.push(item.imageUrl);
-        });
-        ImagePreview({
-          images: resule,
-          startPosition: index
-        });
-      }
-    },
     //班级圈点赞
     async handlePraise(community, index) {
       let openId = this.$store.state.wx.openId;
@@ -233,7 +172,7 @@ export default {
             elem => elem.openId !== openId && elem.studentId !== studentId
           );
           console.log(praise);
-          this.communityData[index].praiseList = praise.length ? praise : null;
+          this.communityData[index].praiseList = praise.length ? praise : [];
         } else {
           this.communityData[index].praiseList.push(res.data);
         }
@@ -345,120 +284,5 @@ export default {
 <style lang="less">
 .page-ft {
   padding-top: 130px;
-}
-.community {
-  .box {
-    border-top: 1px solid #f2f2f2;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-  .cell {
-    padding: 0 30px;
-    display: flex;
-    position: relative;
-    align-items: flex-start;
-    &::before {
-      display: none;
-    }
-  }
-  h5 {
-    font-weight: bold;
-    color: #656895;
-  }
-  .cell-bd {
-    flex: 1;
-    padding-left: 20px;
-    p {
-      line-height: 1.2;
-      margin-top: 16px;
-      margin-bottom: 16px;
-    }
-  }
-  .cell-hd {
-    img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-    }
-  }
-  .del {
-    color: #ff87b7;
-    margin-left: 20px;
-  }
-  .data {
-    margin-top: 20px;
-    background-color: #f5f5f5;
-  }
-}
-.img-group {
-  font-size: 0;
-  .item {
-    display: inline-block;
-    width: 160px;
-    height: 160px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-  }
-}
-.handle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .right {
-    font-size: 0;
-    i {
-      font-size: 36px;
-      color: #9aa4cb;
-      display: inline-block;
-      margin-left: 20px;
-    }
-  }
-}
-.zan-list {
-  color: #9aa4cb;
-  padding: 10px 20px 0 20px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  i {
-    font-size: 30px;
-    color: #9aa4cb;
-    margin-right: 10px;
-  }
-  span {
-    margin-right: 5px;
-    margin-bottom: 10px;
-  }
-}
-.comment-list {
-  position: relative;
-  color: #9aa4cb;
-  padding: 15px 0;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px solid #e7e7e7;
-    color: #e7e7e7;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-    z-index: 2;
-  }
-  li {
-    margin-top: 15px;
-    padding: 0 20px 0 20px;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
 }
 </style>
