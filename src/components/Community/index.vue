@@ -34,7 +34,7 @@
           </div>
           <div class="data">
             <template v-if="fuck.praiseList.length">
-              <div class="zan-list" size-14>
+              <div class="zan-list">
                 <i class="iconfont icon-zantong"></i>
                 <span
                   v-for="(praise, index) in fuck.praiseList"
@@ -43,13 +43,17 @@
               </div>
             </template>
             <template v-if="fuck.commentList.length">
-              <ul class="comment-list" size-14>
-                <li
-                  v-for="(commen, index) in fuck.commentList"
-                  :key="index"
-                >{{ commen.studentName }}:{{ commen.textContent }}</li>
+              <ul class="comment-list">
+                <li ref="li" v-for="(commen, index) in fuck.commentList" :key="index">
+                  <span>{{ commen.studentName }}:</span>
+                  <span style="color:#252525;">{{ commen.textContent }}</span>
+                </li>
               </ul>
             </template>
+            <!-- 显示更多 -->
+            <!-- <div class="more-show">
+              <span>查看更多</span>
+            </div>-->
           </div>
         </div>
       </div>
@@ -70,7 +74,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      showMore: false
+    };
   },
   filters: {
     capitalize(value) {
@@ -83,6 +89,16 @@ export default {
     })
   },
   methods: {
+    //
+    handleLiHeight() {
+      this.$nextTick(() => {
+        let li = this.$refs.li[0].height;
+        if (li) {
+          console.log(li);
+          console.log("OK");
+        }
+      });
+    },
     handlePreviewImage(index, images) {
       if (images.length) {
         let resule = [];
@@ -104,6 +120,9 @@ export default {
     handleComment(fuck, index) {
       this.$emit("on-comment", fuck, index);
     }
+  },
+  mounted() {
+    //this.handleLiHeight();
   }
 };
 </script>
@@ -138,8 +157,8 @@ export default {
   }
   .cell-hd {
     img {
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
     }
   }
@@ -148,6 +167,7 @@ export default {
     margin-left: 20px;
   }
   .data {
+    // padding: 20px;
     margin-top: 20px;
     background-color: #f5f5f5;
   }
@@ -181,10 +201,11 @@ export default {
 }
 .zan-list {
   color: #9aa4cb;
-  padding: 10px 20px 0 20px;
+  padding: 12px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  line-height: 1.4;
   i {
     font-size: 30px;
     color: #9aa4cb;
@@ -192,14 +213,15 @@ export default {
   }
   span {
     margin-right: 5px;
-    margin-bottom: 10px;
   }
 }
 .comment-list {
+  //height: 100px;
   position: relative;
   color: #9aa4cb;
-  padding: 15px 0;
-
+  padding: 20px;
+  overflow: hidden;
+  transition: all ease 0.2s;
   &::before {
     content: "";
     position: absolute;
@@ -209,18 +231,21 @@ export default {
     height: 1px;
     border-top: 1px solid #e7e7e7;
     color: #e7e7e7;
-    -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-    -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
     z-index: 2;
   }
   li {
-    margin-top: 15px;
-    padding: 0 20px 0 20px;
+    line-height: 1.4;
+    margin-top: 10px;
+    text-align: justify;
     &:first-child {
       margin-top: 0;
     }
   }
+}
+.more-show {
+  color: #fe9430;
+  text-align: right;
 }
 </style>

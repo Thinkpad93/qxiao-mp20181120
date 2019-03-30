@@ -107,6 +107,10 @@
           </div>
         </div>
       </template>
+      <!-- 打卡按钮 -->
+      <div class="_confirm">
+        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleAddPunch">打卡接送</a>
+      </div>
     </div>
   </div>
 </template>
@@ -157,6 +161,11 @@ export default {
         return `${value}日`;
       }
       return value;
+    },
+    //
+    handleAddPunch() {
+      let { studentId } = this.querys;
+      this.addPunch(studentId);
     },
     handleClockDay(month) {
       this.$router.push({
@@ -221,6 +230,13 @@ export default {
       if (res.errorCode === 0) {
         this.clockMonthList = res.data;
         this.popupTwo = false;
+      }
+    },
+    //打卡按钮
+    async addPunch(studentId) {
+      let res = await service.addPunch({ studentId });
+      if (res.errorCode === 0) {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import {
+  Radio,
+  RadioGroup,
   Checkbox,
   CheckboxGroup,
   Switch,
@@ -12,7 +14,9 @@ import {
   Circle
 } from 'vant';
 
-Vue.use(CheckboxGroup)
+Vue.use(Radio)
+  .use(RadioGroup)
+  .use(CheckboxGroup)
   .use(Checkbox)
   .use(Switch)
   .use(Dialog)

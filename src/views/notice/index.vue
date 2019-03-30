@@ -18,13 +18,27 @@
     </div>
     <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
-        <van-picker
-          :columns="classList"
-          show-toolbar
-          value-key="className"
-          @cancel="popupShow = false"
-          @confirm="handleClassConfirm"
-        ></van-picker>
+        <div class="popup-class">
+          <div class="cells">
+            <div class="cell popup-box" v-for="(p, index) in classList" :key="index">
+              <div class="cell-hd">
+                <img src="@/assets/image/kong.png" width="54" height="54">
+              </div>
+              <div class="cell-bd">
+                <p>{{ p.className }}</p>
+              </div>
+              <div class="cell-ft">
+                <van-radio-group v-model="classId">
+                  <van-radio
+                    :name="p.classId"
+                    checked-color="#92cd36"
+                    @click="handleClassConfirm(p)"
+                  ></van-radio>
+                </van-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/notice/add" class="release">
@@ -85,6 +99,7 @@ export default {
       popupShow: false,
       className:
         this.$store.state.users.className || this.$route.query.className,
+      classId: parseInt(this.$store.state.users.classId),
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
@@ -165,9 +180,10 @@ export default {
       this.noticeQuery(this.query);
     },
     //选择班级
-    handleClassConfirm(value, index) {
-      this.className = value.className;
-      this.query.classId = value.classId;
+    handleClassConfirm(obj) {
+      this.popupShow = false;
+      this.className = obj.className;
+      this.query.classId = obj.classId;
       this.noticeQuery(this.query);
     },
     //加载分页数据
