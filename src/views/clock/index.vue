@@ -108,9 +108,15 @@
         </div>
       </template>
       <!-- 打卡按钮 -->
-      <div class="_confirm">
-        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleAddPunch">打卡接送</a>
-      </div>
+      <template v-if="roleType == 3">
+        <div class="_confirm">
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="handleAddPunch"
+          >打卡接送</a>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -236,6 +242,8 @@ export default {
     async addPunch(studentId) {
       let res = await service.addPunch({ studentId });
       if (res.errorCode === 0) {
+        this.$toast(`${res.errorMsg}`);
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }
