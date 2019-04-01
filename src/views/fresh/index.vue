@@ -129,7 +129,7 @@ export default {
       this.long = 0;
       this.time = setTimeout(() => {
         this.long = 1;
-        if (this.roleType == 2) {
+        if (this.roleType != 3) {
           this.$dialog
             .confirm({
               title: "提示",
