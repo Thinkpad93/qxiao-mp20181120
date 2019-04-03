@@ -129,10 +129,6 @@ export default {
           studentId: res.data.studentId
         });
         //查询班级列表
-        // this.$store.dispatch("queryClass/queryClassId", {
-        //   id: res.data.id,
-        //   roleType: res.data.roleType
-        // });
         this.$router.replace({
           path: "/home"
         });

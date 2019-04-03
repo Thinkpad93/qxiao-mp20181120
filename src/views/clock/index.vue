@@ -168,10 +168,17 @@ export default {
       }
       return value;
     },
-    //
+    //一键接送
     handleAddPunch() {
       let { studentId } = this.querys;
-      this.addPunch(studentId);
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定接送孩子吗？"
+        })
+        .then(() => {
+          this.addPunch(studentId);
+        });
     },
     handleClockDay(month) {
       this.$router.push({
