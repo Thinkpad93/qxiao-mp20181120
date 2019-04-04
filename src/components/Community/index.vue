@@ -22,8 +22,8 @@
           <div class="handle">
             <div class="left">
               <time>{{ fuck.postTime }}</time>
-              <!-- 园长和老师才能删除 -->
-              <template v-if="roleType == 1 || roleType == 2">
+              <!-- 园长和管理员和老师才能删除 -->
+              <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
                 <span class="del" @click="handleCommunityDelete(fuck, index)">删除</span>
               </template>
             </div>
