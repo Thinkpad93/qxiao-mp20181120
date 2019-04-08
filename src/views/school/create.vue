@@ -70,7 +70,8 @@
         <div class="cells" :style="{display: views ? 'block': 'none'}">
           <div class="cell">
             <div class="cell-bd">
-              <p class="p">请编辑班级信息
+              <p class="p">
+                请编辑班级信息
                 <!-- <span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span> -->
               </p>
             </div>
@@ -128,6 +129,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -143,8 +145,8 @@ export default {
         location: "",
         type: 0,
         leadName: "",
-        tel: this.$store.state.users.tel,
-        openId: this.$store.state.wx.openId,
+        tel: this.$route.query.tel,
+        openId: this.$store.state.wx.openId || Cookies.get("openId"),
         classes: []
       }
     };

@@ -141,19 +141,28 @@ export default {
           case 4:
             //进入注册页面
             this.$router.push({
-              path: "/schoolCreate"
+              path: "/schoolCreate",
+              query: {
+                tel: res.data.tel
+              }
             });
             break;
           case 5:
             //老师进入绑定幼儿园页面
             this.$router.push({
-              path: "/schoolJoin"
+              path: "/schoolJoin",
+              query: {
+                tel: res.data.tel
+              }
             });
             break;
           case 6:
             //学生进入完善信息页面
             this.$router.push({
-              path: "/baby/supply"
+              path: "/baby/supply",
+              query: {
+                tel: res.data.tel
+              }
             });
             break;
           default:

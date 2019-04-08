@@ -25,9 +25,9 @@ const actions = {
         commit('users/SET_ID', obj.id, {
           root: true
         });
-        commit('users/SET_TEL', res.data.tel, {
-          root: true
-        });
+        // commit('tel/SET_TEL', res.data.tel, {
+        //   root: true
+        // });
 
         resolve(res);
       } else if (res.errorCode === -1) {

@@ -14,9 +14,6 @@ const mutations = {
   SET_ID: (state, id) => {
     state.id = id;
   },
-  SET_TEL: (state, tel) => {
-    state.tel = tel;
-  },
   SET_ROLETYPE: (state, roleType) => {
     state.roleType = roleType;
   },

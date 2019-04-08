@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -90,8 +91,8 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$store.state.wx.openId,
-        tel: this.$store.state.users.tel
+        openId: this.$store.state.wx.openId || Cookies.get("openId"),
+        tel: this.$route.query.tel
       },
       form: {}
     };
@@ -132,6 +133,8 @@ export default {
         this.$router.replace({
           path: "/home"
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

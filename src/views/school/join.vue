@@ -62,6 +62,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -71,8 +72,8 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.wx.openId,
-        tel: this.$store.state.users.tel
+        openId: this.$store.state.wx.openId || Cookies.get("openId"),
+        tel: this.$route.query.tel
       },
       info: {}
     };
