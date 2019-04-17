@@ -25,6 +25,7 @@ vue2.x + vuex + vueRoute + axios + weuijs
 - dist 项目打包后的文件
 - node_modules npm 包
 - src 开发需要的目录
+
   - api 后端接口地址
     - module api 接口模块文件
       - album.js 班级相册接口地址
@@ -32,12 +33,14 @@ vue2.x + vuex + vueRoute + axios + weuijs
     - index.js 导出所有接口地址
   - assets 资源目录
   - components 组件目录
+
   - config 配置
   - router 路由文件
   - mock 模拟数据
   - router vue 路由配置文件
   - store vuex 文件
   - style less 样式文件
+  - vantUI 移动端 UI 组件
   - views 页面
     - album 班级相册
     - baby 学生
@@ -56,6 +59,7 @@ vue2.x + vuex + vueRoute + axios + weuijs
     - teacher 老师管理
   - App.vue 根组件
   - main.js 项目启动文件（入口）
+
 - static 静态资源目录
 - .babelrc babel 配置文件
 - .eslint eslint 配置文件
