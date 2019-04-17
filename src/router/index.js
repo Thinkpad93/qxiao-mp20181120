@@ -18,6 +18,13 @@ import shareRouterConfig from './share';
 import shuttleRouterConfig from './shuttle';
 import studentRouterConfig from './student';
 import teacherRouterConfig from './teacher';
+
+//2019-04-17
+import actionRouterConfig from './action';
+import prizeRouterConfig from './prize';
+import wisdomRouterConfig from './wisdom';
+
+
 Vue.use(Router);
 
 export const constantRouterMap = [
@@ -38,7 +45,11 @@ export const constantRouterMap = [
   ...shareRouterConfig,
   ...shuttleRouterConfig,
   ...studentRouterConfig,
-  ...teacherRouterConfig
+  ...teacherRouterConfig,
+
+  ...actionRouterConfig,
+  ...prizeRouterConfig,
+  ...wisdomRouterConfig,
 ]
 
 
