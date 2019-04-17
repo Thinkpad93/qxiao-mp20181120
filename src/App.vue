@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import "normalize.css/normalize.css";
 @import "./styles/site.less";
 </style>

@@ -1,4 +1,7 @@
 export default [{
+    path: '/',
+    redirect: '/action'
+  }, {
     path: '/action',
     component: () => import('@/views/action'),
     meta: {

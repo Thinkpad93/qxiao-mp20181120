@@ -120,7 +120,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .cover {
   height: 100vh;
   padding-bottom: 100%;

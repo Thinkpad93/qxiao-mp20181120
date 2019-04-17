@@ -400,7 +400,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .panel {
   display: flex;
   flex-direction: column;

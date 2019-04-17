@@ -281,7 +281,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .page-ft {
   padding-top: 130px;
 }

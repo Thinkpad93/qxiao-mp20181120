@@ -264,7 +264,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .page-hd {
   margin-bottom: 20px;
   background-color: #fff;

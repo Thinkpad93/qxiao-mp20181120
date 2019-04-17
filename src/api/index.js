@@ -10,6 +10,11 @@ import * as user from './module/user';
 import * as classes from './module/classes';
 import * as wx from './module/wx';
 
+import * as action from './module/action';
+import * as prize from './module/prize';
+import * as homeStat from './module/homeStat';
+import * as lesson from './module/lesson';
+
 export default {
   ...album,
   ...clock,
@@ -21,5 +26,9 @@ export default {
   ...recipe,
   ...user,
   ...classes,
-  ...wx
+  ...wx,
+  ...action,
+  ...prize,
+  ...homeStat,
+  ...lesson
 }

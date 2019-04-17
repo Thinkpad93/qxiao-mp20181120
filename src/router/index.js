@@ -20,6 +20,7 @@ import studentRouterConfig from './student';
 import teacherRouterConfig from './teacher';
 
 //2019-04-17
+import singleRouterConfig from './single';
 import actionRouterConfig from './action';
 import prizeRouterConfig from './prize';
 import wisdomRouterConfig from './wisdom';
@@ -47,6 +48,7 @@ export const constantRouterMap = [
   ...studentRouterConfig,
   ...teacherRouterConfig,
 
+  ...singleRouterConfig,
   ...actionRouterConfig,
   ...prizeRouterConfig,
   ...wisdomRouterConfig,

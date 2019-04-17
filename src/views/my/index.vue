@@ -311,7 +311,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .user-icon {
   width: 100px;
   height: 100px;

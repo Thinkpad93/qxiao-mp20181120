@@ -196,7 +196,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .btn-area {
   justify-content: space-between;
   > a {

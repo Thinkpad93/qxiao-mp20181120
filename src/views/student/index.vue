@@ -120,7 +120,7 @@ export default {
   activated() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .student-head {
   padding: 30px 0;
   text-align: center;

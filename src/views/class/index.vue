@@ -137,7 +137,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .class-head {
   padding: 30px 0;
   text-align: center;

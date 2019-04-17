@@ -66,7 +66,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .clock-show-table {
   .cell {
     padding: 0 30px;

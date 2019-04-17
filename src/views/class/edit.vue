@@ -142,7 +142,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .class-edit-head {
   padding-top: 40px;
   text-align: center;

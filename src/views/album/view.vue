@@ -114,7 +114,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .album-channel {
   position: relative;
   padding: 24px 30px;

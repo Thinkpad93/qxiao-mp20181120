@@ -227,7 +227,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .audio-box {
   i {
     font-size: 80px;

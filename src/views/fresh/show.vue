@@ -169,7 +169,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .comment {
   font-size: 30px;
   margin-top: 20px;

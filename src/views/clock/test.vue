@@ -62,7 +62,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .calendar-container {
   height: 100vh;
   // background-image: linear-gradient(

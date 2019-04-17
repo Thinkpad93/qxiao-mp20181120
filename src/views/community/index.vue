@@ -198,12 +198,12 @@ export default {
       } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);
       }
-    },
+    }
   },
   mounted() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .uploader-file {
   float: left;
   width: 140px;

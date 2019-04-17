@@ -149,7 +149,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .uploader-file {
   float: left;
   width: 140px;

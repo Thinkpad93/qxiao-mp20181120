@@ -9,7 +9,7 @@ import './assets/iconfonts/iconfont.css';
 
 import wxSdk from '@/config/wxsdk';
 
-import '@/vant'; //vant UI
+import '@/vantUI'; //vant UI
 
 Vue.config.productionTip = false;
 

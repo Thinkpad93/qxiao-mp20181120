@@ -166,7 +166,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .cells-footer {
   .cell {
     padding-top: 20px;

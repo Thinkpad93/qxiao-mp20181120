@@ -11,7 +11,17 @@ import {
   DatetimePicker,
   Tab,
   Tabs,
-  Circle
+  Circle,
+  Toast,
+  Rate,
+  Icon,
+  Button,
+  Stepper,
+  Cell,
+  CellGroup,
+  SwipeCell,
+  Collapse,
+  CollapseItem,
 } from 'vant';
 
 Vue.use(Radio)
@@ -25,4 +35,14 @@ Vue.use(Radio)
   .use(Circle)
   .use(Popup)
   .use(Picker)
-  .use(DatetimePicker);
+  .use(DatetimePicker)
+  .use(Toast)
+  .use(Rate)
+  .use(Icon)
+  .use(Button)
+  .use(Stepper)
+  .use(Cell)
+  .use(CellGroup)
+  .use(SwipeCell)
+  .use(Collapse)
+  .use(CollapseItem);

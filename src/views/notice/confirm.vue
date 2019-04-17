@@ -59,7 +59,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .student-box {
   height: 120px;
 }

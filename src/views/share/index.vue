@@ -28,7 +28,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .qcode {
   position: fixed;
   left: 0;

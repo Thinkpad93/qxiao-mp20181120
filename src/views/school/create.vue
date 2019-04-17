@@ -206,7 +206,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .school-head {
   height: 172px;
 }
