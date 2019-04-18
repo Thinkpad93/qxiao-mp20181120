@@ -3,7 +3,7 @@
     <div class="page-bd">
       <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/recipe/add" class="release">
-          <van-icon name="records" size="24px"></van-icon>
+          <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
       <figure

@@ -12,6 +12,12 @@ npm run dev
 # build for production with minification
 npm run build
 
+openid	classid	id	studentid
+oUQwt1Wif8RaCwa9SQnrJPEuKNu0	1	1	1	家长
+oUQwt1e9wv4_CbA6YcI-pefbcQdo	1	1	0	老师
+oUQwt1XVT1Y0ohyXWNwrchLSYLa8	0	1	0	园长
+
+
 ```
 
 ### 技术

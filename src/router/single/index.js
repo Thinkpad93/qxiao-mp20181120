@@ -3,7 +3,7 @@ export default [{
   name: 'single',
   component: () => import('@/views/single'),
   meta: {
-    keepAlive: false,
+    keepAlive: true,
     title: '小Q表现',
   }
-}, ]
+}]

@@ -1,7 +1,18 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <div class></div>
+      <div class="user-info">
+        <div class="avatar">
+          <img src="http://iph.href.lu/50x50" width="50" height="50" radius="50">
+        </div>
+        <div class="info-box">
+          <h3 class="username" size-17>这个那个有的没的</h3>
+          <div class="info-meta flex">
+            <div class="mr-10">Q星: 500</div>
+            <div class="mr-10">积分: 800</div>
+          </div>
+        </div>
+      </div>
       <div class="snail">
         <div class="snail-left">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -38,8 +49,25 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.user-info {
+  color: #fff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 220px;
+  padding-left: 30px;
+  background-image: url("~@/assets/user-center-bg@2x.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.info-box {
+  margin-left: 30px;
+}
+.info-meta {
+  padding-top: 30px;
+}
+
 .snail {
-  font-size: 30px;
   height: 80px;
   width: calc(100% - 60px);
   display: flex;

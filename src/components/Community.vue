@@ -28,8 +28,8 @@
               </template>
             </div>
             <div class="right">
-              <i class="iconfont icon-zantongfill" @click="handlePraise(fuck, index)"></i>
-              <i class="iconfont icon-liuyanfill" @click="handleComment(fuck, index)"></i>
+              <van-icon name="like" size="20px" @click="handlePraise(fuck, index)"></van-icon>
+              <van-icon name="comment" size="20px" @click="handleComment(fuck, index)"></van-icon>
             </div>
           </div>
           <div class="data">
@@ -190,12 +190,12 @@ export default {
   align-items: center;
   justify-content: space-between;
   .right {
-    font-size: 0;
     i {
       font-size: 36px;
       color: #9aa4cb;
       display: inline-block;
-      margin-left: 20px;
+      margin-left: 10px;
+      vertical-align: top;
     }
   }
 }

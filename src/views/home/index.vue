@@ -13,7 +13,7 @@
       </van-popup>
       <template v-if="isOpen">
         <router-link to="/community" class="release">
-          <van-icon name="records" size="24px"></van-icon>
+          <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
       <main class="main">
@@ -76,7 +76,7 @@ export default {
   mixins: [scrollMixins],
   components: {
     qxMenu,
-    "qx-community": qxCommunity,
+    qxCommunity,
     qxFooter
   },
   data() {
@@ -91,8 +91,7 @@ export default {
       query: {
         classId: this.$store.state.users.classId || this.$route.query.classId,
         openId: this.$store.state.wx.openId || this.$route.query.openId,
-        studentId:
-          this.$store.state.student.studentId || this.$route.query.studentId,
+        studentId: 1,
         page: 1,
         pageSize: 10
       },

@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-  name: "dialog",
+  name: "qxdialog",
   props: {
     title: {
       type: String,

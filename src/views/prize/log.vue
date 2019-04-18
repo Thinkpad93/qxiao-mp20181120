@@ -2,11 +2,11 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="cells">
-        <div class="cell cell-h160" v-for="item in pageData" :key="item.exchangeId">
+        <div class="cell min-h160" v-for="item in pageData" :key="item.exchangeId">
           <div class="cell-bd">
             <p>{{ item.textContent }}</p>
-            <div class="font-14">x{{ item.times }}</div>
-            <time class="font-12">{{ item.postTime }}</time>
+            <div size-14>x{{ item.times }}</div>
+            <time size-12>{{ item.postTime }}</time>
           </div>
           <div class="cell-ft">
             <span>{{ item.starCount }}颗</span>

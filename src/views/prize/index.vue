@@ -62,7 +62,7 @@
                 <van-checkbox v-model="item.checked" checked-color="#04b6ff" @change="chg"></van-checkbox>
               </div>
               <div class="cell-bd pl-20">
-                <p class="font-18 mb-20">{{ item.textContent }}</p>
+                <p class="mb-20" size-16>{{ item.textContent }}</p>
                 <p style="color:#ff4d67">{{ item.starCount }}颗</p>
               </div>
               <div class="cell-ft">
@@ -171,9 +171,31 @@ export default {
       }
     },
     handleSave() {
-      if (!this.chenkedList.length) {
+      if (!this.total) {
         this.$toast("请勾选你要兑换的奖项");
         return;
+      }
+      if (this.total > this.statrCount) {
+        this.$toast("你的Q星数量不够兑换的奖项哦");
+        return;
+      }
+      let itemArray = [];
+      this.pageData.forEach(element => {
+        if (element.checked) {
+          itemArray.push({
+            itemId: element.itemId,
+            times: element.value,
+            prizeType: element.prizeType
+          });
+        }
+      });
+      if (itemArray.length) {
+        let obj = {
+          studentId: this.$route.query.studentId,
+          openId: this.$route.query.openId,
+          itemArray
+        };
+        this.prizeExchange(obj);
       }
     },
     //获取可兑换星星数
@@ -187,6 +209,14 @@ export default {
     async prizeExchange(params = {}) {
       let res = await service.prizeExchange(params);
       if (res.errorCode === 0) {
+        this.$dialog
+          .alert({
+            message: "奖励兑换成功"
+          })
+          .then(() => {
+            this.queryTotalCountStar(this.$route.query);
+            this.prizeListQuery(this.query);
+          });
       }
     },
     //奖励列表查询
@@ -240,7 +270,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100px;
+  height: 60px;
   padding: 0 20px;
   background-color: #f6f8f9;
 }

@@ -24,7 +24,7 @@
       </van-popup>
       <template v-if="roleType == 2">
         <router-link to="/homework/add" class="release">
-          <van-icon name="records" size="24px"></van-icon>
+          <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
       <figure
