@@ -105,6 +105,7 @@ export default {
       playList: [], //音频列表
       playNumber: 1, //默认播放次数为1
       playMax: 2 //每条语音最多播放次数
+      playTimer: null //播放定时器
     };
   },
   watch: {
@@ -194,6 +195,8 @@ export default {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
         if (res.data.length) {
+          //清除定时器
+          clearInterval(this.playTimer);          
           this.shuttleData = res.data;
           //保存音频url
           this.playList = this.shuttleData.map(item => {
@@ -204,6 +207,12 @@ export default {
         } else {
           //没有到打卡时间
           this.shuttleData = [];
+          clearInterval(this.playTimer);
+          //启动定时器，15秒后重新请求
+          this.playTimer = setInterval(() => {
+            console.log("15秒后重新请求");
+            this.realShuttle(this.query);
+          }, 20 * 1000);          
         }
       }
     },
@@ -223,6 +232,7 @@ export default {
     this.realShuttle(this.query);
   },
   destroyed() {
+    clearInterval(this.playTimer);
     console.log("destroyed");
   }
 };
