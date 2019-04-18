@@ -196,7 +196,7 @@ export default {
       if (res.errorCode === 0) {
         if (res.data.length) {
           //清除定时器
-          clearInterval(this.playTimer);          
+          clearInterval(this.playTimer);
           this.shuttleData = res.data;
           //保存音频url
           this.playList = this.shuttleData.map(item => {
@@ -210,9 +210,9 @@ export default {
           clearInterval(this.playTimer);
           //启动定时器，15秒后重新请求
           this.playTimer = setInterval(() => {
-            console.log("15秒后重新请求");
+            console.log("10秒后重新请求");
             this.realShuttle(this.query);
-          }, 20 * 1000);          
+          }, 10 * 1000);
         }
       }
     },
