@@ -6,7 +6,7 @@
       :key="index"
       @click="$emit('change', menu.url)"
     >
-      <img :src="menu.icon">
+      <img :src="menu.icon" width="57" height="57">
       <div class="text-ellipsis">{{ menu.name }}</div>
     </div>
   </nav>
@@ -149,13 +149,6 @@ export default {
     min-width: 0; /*解决方案*/
     height: 168px;
     text-align: center;
-    &:active {
-      background-color: #f6f8f9;
-    }
-    img {
-      width: 114px;
-      height: 114px;
-    }
   }
 }
 </style>

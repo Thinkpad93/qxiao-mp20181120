@@ -37,7 +37,7 @@
       </van-popup>
       <template v-if="roleType == 2">
         <router-link to="/fresh/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt>
+          <van-icon name="records" size="24px"></van-icon>
         </router-link>
       </template>
       <figure
@@ -64,11 +64,11 @@
         </div>
         <div class="figure-ft">
           <div class="figure-icon">
-            <i class="iconfont icon-chakan"></i>
+            <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ fresh.classReadCount }}</b>
           </div>
           <div class="figure-icon">
-            <i class="iconfont icon-pinglun"></i>
+            <van-icon name="comment-o" size="16px"></van-icon>
             <b>{{ fresh.classCommentCount }}</b>
           </div>
         </div>

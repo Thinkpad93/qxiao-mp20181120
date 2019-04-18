@@ -11,7 +11,7 @@
             <time>{{ info.postTime }}</time>
           </div>
           <div class="article-cell">
-            <i class="iconfont icon-chakan"></i>
+            <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.classReadCount }}</b>
           </div>
         </div>

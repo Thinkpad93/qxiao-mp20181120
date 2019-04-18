@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <qxmenu @change="go"></qxmenu>
+      <qx-menu @change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="classList"
@@ -13,14 +13,14 @@
       </van-popup>
       <template v-if="isOpen">
         <router-link to="/community" class="release">
-          <img src="@/assets/image/release-icon.png" alt>
+          <van-icon name="records" size="24px"></van-icon>
         </router-link>
       </template>
       <main class="main">
         <div class="classId">
           <div @click="popupShow = true">
             <span>{{ className }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </div>
         </div>
         <!-- 班级圈 -->
@@ -58,14 +58,14 @@
       </van-dialog>
     </div>
     <div class="flex-ft">
-      <qxFooter></qxFooter>
+      <qx-footer></qx-footer>
     </div>
   </div>
 </template>
 <script>
 import { ImagePreview } from "vant";
 import service from "@/api";
-import qxmenu from "@/components/menu";
+import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
@@ -75,7 +75,7 @@ export default {
   name: "home",
   mixins: [scrollMixins],
   components: {
-    qxmenu,
+    qxMenu,
     "qx-community": qxCommunity,
     qxFooter
   },

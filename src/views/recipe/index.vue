@@ -3,7 +3,7 @@
     <div class="page-bd">
       <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/recipe/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt>
+          <van-icon name="records" size="24px"></van-icon>
         </router-link>
       </template>
       <figure
@@ -31,7 +31,7 @@
         </div>
         <div class="figure-ft">
           <div class="figure-icon">
-            <i class="iconfont icon-chakan"></i>
+            <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ recipe.readCount }}</b>
           </div>
         </div>

@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <article class="article">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
@@ -8,7 +8,7 @@
             <time>{{ info.postTime }}</time>
           </div>
           <div class="article-cell">
-            <i class="iconfont icon-chakan"></i>
+            <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.readCount }}</b>
           </div>
         </div>

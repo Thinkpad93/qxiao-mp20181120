@@ -1,22 +1,10 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
-      <div class="tab-warp">
-        <div class="tab">
-          <div class="tab-head">
-            <a
-              href="javascript:void(0);"
-              :class="[ query.readFlag == 0 ? 'curr': '' ]"
-              @click="handleTabClick(0)"
-            >已读({{ readCount }})</a>
-            <a
-              href="javascript:void(0);"
-              :class="[ query.readFlag == 1 ? 'curr': '' ]"
-              @click="handleTabClick(1)"
-            >未读({{ unReadCount }})</a>
-          </div>
-          <div class="tab-content">
-            <div class="item" :class="[ query.readFlag == 0 ? 'currs': '' ]">
+  <div class="flex-page">
+    <div class="flex-bd">
+      <van-tabs v-model="active" @click="handleTabClick">
+        <van-tab title="已读">
+          <div class="tab-warp">
+            <div class="tab-content">
               <div class="cell" v-for="(read, index) in readList" :key="index">
                 <div class="cell-hd">
                   <img :src="read.photo" :alt="read.studentName">
@@ -32,7 +20,11 @@
                 </div>
               </div>
             </div>
-            <div class="item" :class="[ query.readFlag == 1 ? 'currs': '' ]">
+          </div>
+        </van-tab>
+        <van-tab title="未读">
+          <div class="tab-warp">
+            <div class="tab-content">
               <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                 <div class="cell-hd">
                   <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
@@ -50,8 +42,8 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </van-tab>
+      </van-tabs>
     </div>
   </div>
 </template>
@@ -61,6 +53,7 @@ export default {
   name: "noticeRead",
   data() {
     return {
+      active: 0,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       query: {
         openId: this.$store.state.wx.openId || this.$route.query.openId, //用户openid
@@ -100,7 +93,6 @@ export default {
   },
   mounted() {
     this.noticeReaders(0);
-    this.noticeReaders(1);
   }
 };
 </script>

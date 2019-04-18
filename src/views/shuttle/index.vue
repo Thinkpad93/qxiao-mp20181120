@@ -17,8 +17,8 @@
         </a>
         <div class="audio-box" @click="handlePlayAudio">
           <template v-if="isAndroid">
-            <i class="iconfont icon-bofang" v-if="playBoolean"></i>
-            <i class="iconfont icon-zanting" v-else></i>
+            <van-icon name="play-circle-o" size="40px" v-if="playBoolean"></van-icon>
+            <van-icon name="pause-circle-o" size="40px" v-else></van-icon>
           </template>
         </div>
       </div>
@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import dayjs from "dayjs";
 import service from "@/api";
 import { mapState } from "vuex";
 export default {
@@ -94,7 +94,7 @@ export default {
       query: {
         openId: this.$store.state.wx.openId,
         classId: this.$store.state.users.classId,
-        date: moment().format("YYYY-MM-DD") //获取当前年月日
+        date: dayjs().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],
       classClockData: [],
@@ -195,6 +195,8 @@ export default {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
         if (res.data.length) {
+          //清除定时器
+          clearInterval(this.playTimer);
           this.shuttleData = res.data;
           //保存音频url
           this.playList = this.shuttleData.map(item => {
@@ -205,6 +207,12 @@ export default {
         } else {
           //没有到打卡时间
           this.shuttleData = [];
+          clearInterval(this.playTimer);
+          //启动定时器，15秒后重新请求
+          this.playTimer = setInterval(() => {
+            console.log("15秒后重新请求");
+            this.realShuttle(this.query);
+          }, 20 * 1000);
         }
       }
     },
@@ -224,6 +232,7 @@ export default {
     this.realShuttle(this.query);
   },
   destroyed() {
+    clearInterval(this.playTimer);
     console.log("destroyed");
   }
 };

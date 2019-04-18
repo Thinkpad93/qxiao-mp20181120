@@ -41,13 +41,13 @@
                 </router-link>
                 <div class="action-cells">
                   <div class="action-cell" v-for="item in myActions" :key="item.actionId">
-                    <div class="hd">
+                    <div class="action-cell-hd">
                       <span @click="handleActionMore(item)">
                         {{ item.title }}
                         <van-icon name="question-o" size="16px"></van-icon>
                       </span>
                     </div>
-                    <div class="bd">
+                    <div class="action-cell-bd">
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
@@ -88,7 +88,7 @@
                     <div class="hd">
                       <span>{{ item.title }}</span>
                     </div>
-                    <div class="bd">
+                    <div class="action-cell-bd">
                       <van-rate
                         v-model="item.startCount"
                         :count="5"
@@ -280,10 +280,10 @@ export default {
   justify-content: center;
   position: relative;
   margin: 20px 0;
-  .hd {
+  &-hd {
     min-width: 200px;
   }
-  .bd {
+  &-bd {
     flex: 1;
   }
 }

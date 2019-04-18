@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <template v-if="roleType == 2">
         <a href="javascript:;" class="release" @click="handleBlumAdd">
-          <img src="@/assets/image/release-icon.png" alt>
+          <van-icon name="records" size="24px"></van-icon>
         </a>
       </template>
       <article class="article">

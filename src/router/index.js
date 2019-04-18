@@ -39,7 +39,6 @@ export const constantRouterMap = [
   ...homeRouterConfig,
   ...loginRouterConfig,
   ...homeworkRouterConfig,
-  ...homeworkRouterConfig,
   ...myRouterConfig,
   ...noticeRouterConfig,
   ...recipeRouterConfig,

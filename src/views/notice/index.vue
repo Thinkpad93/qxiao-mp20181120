@@ -42,7 +42,7 @@
       </van-popup>
       <template v-if="roleType == 1 || roleType == 4">
         <router-link to="/notice/add" class="release">
-          <img src="@/assets/image/release-icon.png" alt>
+          <van-icon name="records" size="24px"></van-icon>
         </router-link>
       </template>
       <figure
@@ -106,8 +106,7 @@ export default {
       query: {
         openId: this.$store.state.wx.openId || this.$route.query.openId,
         classId: this.$store.state.users.classId || this.$route.query.classId,
-        studentId:
-          this.$store.state.student.studentId || this.$route.query.studentId,
+        studentId: 0,
         type: 0,
         page: 1,
         pageSize: 10

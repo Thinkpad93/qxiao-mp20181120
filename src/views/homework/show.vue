@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <article class="article">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
@@ -8,7 +8,7 @@
             <time>{{ info.postTime }}</time>
           </div>
           <div class="article-cell">
-            <i class="iconfont icon-chakan"></i>
+            <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.classReadCount }}</b>
           </div>
         </div>
@@ -21,9 +21,10 @@
           </template>
         </section>
       </article>
+    </div>
+    <div class="flex-ft">
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-        <p class="_plac"></p>
-        <section class="_confirm">
+        <section class="mamba">
           <p
             style="color:#92cd36;margin: 4px 0"
             size-16
@@ -34,8 +35,7 @@
       <template v-if="roleType == 3">
         <!-- 确认标志 0-无需确认 1-需要确认 -->
         <template v-if="needConfirm">
-          <p class="_plac"></p>
-          <section class="_confirm">
+          <section class="mamba">
             <a
               :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
               href="javascript:void(0);"
@@ -117,4 +117,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.mamba {
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
+  background-color: #fff;
+  > a {
+    width: 500px;
+  }
+}
 </style>
