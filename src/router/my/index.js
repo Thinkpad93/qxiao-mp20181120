@@ -1,5 +1,6 @@
 export default [{
     path: '/my',
+    name: 'my',
     component: () => import('@/views/my'),
     meta: {
       keepAlive: false,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/my/edit',
+    name: 'myEdit',
     component: () => import('@/views/my/edit'),
     meta: {
       keepAlive: false,

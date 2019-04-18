@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 const state = {
-  openId: null, //微信 openId
+  openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", //微信 openId
   photo: "", //微信头像
 }
 

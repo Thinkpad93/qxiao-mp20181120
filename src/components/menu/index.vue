@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <div
-      class="nav-item"
+      class="langur"
       v-for="(menu, index) in computedMenu"
       :key="index"
       @click="$emit('change', menu.url)"
@@ -139,19 +139,18 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .nav {
   display: flex;
   flex-wrap: wrap;
   background-color: #fff;
-  &-item {
+  .langur {
     width: 25%;
     min-width: 0; /*解决方案*/
     height: 168px;
-    font-size: 28px;
     text-align: center;
     &:active {
-      background-color: #f2f2f2;
+      background-color: #f6f8f9;
     }
     img {
       width: 114px;

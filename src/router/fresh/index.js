@@ -1,5 +1,6 @@
 export default [{
     path: '/fresh',
+    name: 'fresh',
     component: () => import('@/views/fresh'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/fresh/add',
+    name: 'freshAdd',
     component: () => import('@/views/fresh/add'),
     meta: {
       keepAlive: false,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/fresh/show',
+    name: 'freshShow',
     component: () => import('@/views/fresh/show'),
     meta: {
       keepAlive: true,

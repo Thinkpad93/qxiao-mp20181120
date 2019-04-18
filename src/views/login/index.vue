@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <div class="cover">
         <img src="@/assets/image/login-bg@2x.png" alt>
       </div>
@@ -188,7 +188,6 @@ export default {
 <style lang="less" scoped>
 .cover {
   height: 100vh;
-  padding-bottom: 100%;
   overflow: hidden;
   position: relative;
   background-color: #cbf4fa;

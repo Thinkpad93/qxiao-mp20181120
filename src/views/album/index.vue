@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <template v-if="albumData.length">
         <div class="album">
           <figure class="album-figure" v-for="(album, index) in albumData" :key="index">

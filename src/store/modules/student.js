@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 const state = {
-  studentId: 0 //学生Id 
+  studentId: 1 //学生Id 
 }
 
 const mutations = {

@@ -25,7 +25,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-@import "normalize.css/normalize.css";
+<style lang="less">
+//@import "normalize.css/normalize.css";
 @import "./styles/site.less";
+
+#app {
+  height: 100vh;
+}
 </style>

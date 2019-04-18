@@ -1,5 +1,6 @@
 export default [{
     path: '/recipe',
+    name: 'recipe',
     component: () => import('@/views/recipe'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/recipe/add',
+    name: 'recipeAdd',
     component: () => import('@/views/recipe/add'),
     meta: {
       keepAlive: false,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/recipe/show',
+    name: 'recipeShow',
     component: () => import('@/views/recipe/show'),
     meta: {
       keepAlive: true,

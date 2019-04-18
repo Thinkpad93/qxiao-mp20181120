@@ -1,5 +1,6 @@
 export default [{
     path: '/student',
+    name: 'student',
     component: () => import('@/views/student'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/student/add',
+    name: 'studentAdd',
     component: () => import('@/views/student/add'),
     meta: {
       keepAlive: false,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/student/edit',
+    name: 'studentEdit',
     component: () => import('@/views/student/edit'),
     meta: {
       keepAlive: false,

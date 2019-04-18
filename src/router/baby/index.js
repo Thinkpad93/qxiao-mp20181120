@@ -1,5 +1,6 @@
 export default [{
     path: '/baby',
+    name: 'baby',
     component: () => import('@/views/baby'),
     meta: {
       keepAlive: true,
@@ -10,7 +11,7 @@ export default [{
   },
   {
     path: '/baby/supply',
-    name: 'supply',
+    name: 'babySupply',
     component: () => import('@/views/baby/supply'),
     meta: {
       keepAlive: false,
@@ -21,6 +22,7 @@ export default [{
   },
   {
     path: '/baby/add',
+    name: 'babyAdd',
     component: () => import('@/views/baby/add'),
     meta: {
       keepAlive: false,

@@ -13,7 +13,7 @@
       <div class="shuttle-sp-area flex" size-17>
         <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
-          <i class="iconfont icon-xiangxia1"></i>
+          <van-icon name="arrow-down" size="16px"></van-icon>
         </a>
         <div class="audio-box" @click="handlePlayAudio">
           <template v-if="isAndroid">
@@ -104,7 +104,8 @@ export default {
       playUrl: "", //播放url
       playList: [], //音频列表
       playNumber: 1, //默认播放次数为1
-      playMax: 2 //每条语音最多播放次数
+      playMax: 2, //每条语音最多播放次数
+      playTimer: null //播放定时器
     };
   },
   watch: {

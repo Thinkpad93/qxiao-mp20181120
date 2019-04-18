@@ -1,5 +1,6 @@
 export default [{
     path: '/notice',
+    name: 'notice',
     component: () => import('@/views/notice'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/notice/add',
+    name: 'noticeAdd',
     component: () => import('@/views/notice/add'),
     meta: {
       keepAlive: false,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/notice/show',
+    name: 'noticeShow',
     component: () => import('@/views/notice/show'),
     meta: {
       keepAlive: true,
@@ -30,6 +33,7 @@ export default [{
   },
   {
     path: '/notice/read',
+    name: 'noticeRead',
     component: () => import('@/views/notice/read'),
     meta: {
       keepAlive: false,

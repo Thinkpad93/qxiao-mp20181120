@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie';
 
 const state = {
-  id: null,
+  id: 1,
   tel: "", //用户输入的手机号
-  roleType: null, //角色类型
-  type: null, //0 幼儿园  1 小学
+  roleType: 2, //角色类型
+  type: 0, //0 幼儿园  1 小学
   isOpen: true, //老师是否可以发班级圈
-  className: "", //班级名称
-  classId: null, //班级ID
+  className: "清风班", //班级名称
+  classId: 0, //班级ID
 }
 
 const mutations = {

@@ -5,7 +5,7 @@
         <div class="button-sp-area flex" size-17>
           <a href="javascript:void(0);" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </div>
@@ -75,7 +75,7 @@
       </figure>
       <div class="empty" v-if="!freshData.length">
         <img src="@/assets/image/kong.png" alt>
-        <p size-18>暂无新鲜速报</p>
+        <p>暂无新鲜速报</p>
       </div>
     </div>
   </div>

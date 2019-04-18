@@ -1,11 +1,9 @@
 <template>
-  <div class="page">
-    <div class="page-hd">
+  <div class="flex">
+    <div class="flex-bd">
       <div class="class-head">
         <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">添加班级</a>
       </div>
-    </div>
-    <div class="page-bd">
       <!-- -->
       <van-dialog
         v-model="dialogVisible"
@@ -28,7 +26,7 @@
           </div>
         </div>
       </van-dialog>
-      <div class="cells">
+      <div class="cells mb-20">
         <div
           class="cell class-boxs"
           @click="handleEditClass(item)"
@@ -42,7 +40,7 @@
               <span class="s" size-12>关联学生{{ item.countStudent }}人</span>
             </p>
           </div>
-          <div class="cell-ft flex">
+          <div class="cell-ft">
             <a href="javascript:;" class="btn btn-del" size-12 @click.stop="handleDelClass(item)">删除</a>
           </div>
         </div>
@@ -140,7 +138,9 @@ export default {
 <style lang="less" scoped>
 .class-head {
   padding: 30px 0;
+  margin-bottom: 20px;
   text-align: center;
+  background-color: #fff;
   > a {
     width: 240px;
   }

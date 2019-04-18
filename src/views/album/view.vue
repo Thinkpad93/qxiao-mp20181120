@@ -1,6 +1,6 @@
 <template>
-  <div class="page" style="padding-bottom: 65px;">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <van-dialog
         v-model="dialogVisible"
         title="相册名称"
@@ -22,7 +22,7 @@
           </div>
         </div>
       </van-dialog>
-      <div class="album-show">
+      <div class="album-show mb-20">
         <div
           class="album-channel flex"
           v-for="(channel, index) in albumChannel"
@@ -45,14 +45,16 @@
       </div>
       <div class="empty" v-if="!albumChannel.length">
         <img src="@/assets/image/kong.png" alt>
-        <p size-18>暂无相册列表</p>
+        <p>暂无相册列表</p>
       </div>
     </div>
-    <template v-if="roleType == 2">
-      <section class="_confirm">
-        <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
-      </section>
-    </template>
+    <div class="flex-ft">
+      <template v-if="roleType == 2">
+        <section class="mamba">
+          <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
+        </section>
+      </template>
+    </div>
   </div>
 </template>
 <script>
@@ -118,6 +120,7 @@ export default {
 .album-channel {
   position: relative;
   padding: 24px 30px;
+  align-items: center;
   justify-content: flex-start;
   background-color: #fff;
   &::before {
@@ -162,6 +165,17 @@ export default {
     time {
       color: #92cd36;
     }
+  }
+}
+
+.mamba {
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
+  background-color: #fff;
+
+  > a {
+    width: 500px;
   }
 }
 </style>

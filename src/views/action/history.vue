@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-page">
     <div class="flex-bd">
       <!-- -->
       <van-dialog v-model="dialogVisible" title="评价标准" show-cancel-button @confirm="handleConfirm"></van-dialog>

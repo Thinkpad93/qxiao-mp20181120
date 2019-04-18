@@ -1,5 +1,6 @@
 export default [{
     path: '/schoolCreate',
+    name: 'schoolCreate',
     component: () => import('@/views/school/create'),
     meta: {
       keepAlive: false,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/schoolJoin',
+    name: 'schoolJoin',
     component: () => import('@/views/school/join'),
     meta: {
       keepAlive: false,

@@ -5,7 +5,7 @@
         <div class="button-sp-area flex" size-17>
           <a href="javascript:void(0);" id="showDatePicker" @click="popupOne = true">
             <span id="data1">{{ query.date }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </template>
@@ -13,7 +13,6 @@
         <div class="button-sp-area flex" size-17>
           <a href="javascript:void(0);" @click="popupTwo = true">
             <span id="data1">{{ querys.month }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
           </a>
         </div>
       </template>
@@ -121,7 +120,7 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import dayjs from "dayjs";
 import service from "@/api";
 import { mapState } from "vuex";
 export default {
@@ -140,14 +139,14 @@ export default {
       },
       query: {
         openId: this.$store.state.wx.openId,
-        date: moment()
+        date: dayjs()
           .subtract(1, "days")
           .format("YYYY-MM-DD")
       },
       querys: {
         studentId: this.$store.state.student.studentId,
         openId: this.$store.state.wx.openId,
-        month: moment().format("YYYY-MM")
+        month: dayjs().format("YYYY-MM-DD")
       }
     };
   },

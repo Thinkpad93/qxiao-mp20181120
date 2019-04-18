@@ -5,12 +5,12 @@
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </template>
       <template v-if="roleType == 1 || roleType == 4">
-        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
+        <van-tabs v-model="index" :line-height="2" @click="handleTabClick">
           <van-tab title="通知消息"></van-tab>
           <van-tab title="发送记录"></van-tab>
         </van-tabs>
@@ -80,7 +80,7 @@
       </figure>
       <div class="empty" v-if="!noticeData.length">
         <img src="@/assets/image/kong.png" alt>
-        <p size-18>暂无通知公告</p>
+        <p>暂无通知公告</p>
       </div>
     </div>
   </div>
@@ -99,7 +99,7 @@ export default {
       popupShow: false,
       className:
         this.$store.state.users.className || this.$route.query.className,
-      classId: parseInt(this.$store.state.users.classId),
+      classId: this.$store.state.users.classId,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数

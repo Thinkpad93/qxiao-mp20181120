@@ -6,7 +6,7 @@
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
-            <i class="iconfont icon-xiangxia1"></i>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </div>
@@ -61,7 +61,7 @@
       </figure>
       <div class="empty" v-if="!homeworkData.length">
         <img src="@/assets/image/kong.png" alt>
-        <p size-18>暂无亲子作业</p>
+        <p>暂无亲子作业</p>
       </div>
     </div>
   </div>

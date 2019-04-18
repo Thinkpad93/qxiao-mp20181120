@@ -1,8 +1,8 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <form action ref="form" method="post">
-        <div class="cells">
+        <div class="cells mb-20">
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
@@ -21,8 +21,10 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
+    <div class="flex-ft">
+      <div class="mamba">
+        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
+      </div>
     </div>
   </div>
 </template>
@@ -144,7 +146,7 @@ export default {
           }
         });
       }
-    },
+    }
   },
   mounted() {}
 };
@@ -166,6 +168,17 @@ export default {
     top: -14%;
     right: -10%;
     z-index: 10;
+  }
+}
+
+.mamba {
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
+  background-color: #fff;
+
+  > a {
+    width: 500px;
   }
 }
 </style>

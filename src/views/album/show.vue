@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <template v-if="roleType == 2">
         <a href="javascript:;" class="release" @click="handleBlumAdd">
           <img src="@/assets/image/release-icon.png" alt>
@@ -33,7 +33,7 @@
         </div>
         <div class="empty" v-if="!albumInfo.items.length">
           <img src="@/assets/image/kong.png" alt>
-          <p size-18>暂无相册</p>
+          <p>暂无相册</p>
         </div>
       </article>
       <template v-if="roleType == 1 ||roleType == 2 || roleType == 4">

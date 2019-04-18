@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
@@ -58,9 +58,9 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="btn-group">
-      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+      <div class="btn-group">
+        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+      </div>
     </div>
   </div>
 </template>

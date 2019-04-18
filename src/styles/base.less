@@ -21,10 +21,7 @@ body {
   font-size: 28px;
   margin: 0;
   font-family: @font-family;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   color: @base-color;
-  overflow-x: hidden;
   line-height: 1.15;
   position: relative;
   background-color: @body-bg;
@@ -81,6 +78,7 @@ strong {
 a {
   color: inherit;
   text-decoration: none;
+  background-color: transparent;
 }
 
 ul,
@@ -92,6 +90,10 @@ img {
   border: none;
   max-width: 100%;
   vertical-align: top;
+
+  &[radius="50"] {
+    border-radius: 50%;
+  }
 }
 
 
@@ -106,7 +108,3 @@ select[dir="ltl"] {
 [contenteditable] {
   outline: none;
 }
-
-/* ::-webkit-scrollbar {
-  opacity: 0;
-} */

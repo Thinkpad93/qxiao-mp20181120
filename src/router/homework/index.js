@@ -1,5 +1,6 @@
 export default [{
     path: '/homework',
+    name: 'homework',
     component: () => import('@/views/homework'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/homework/show',
+    name: 'homeworkShow',
     component: () => import('@/views/homework/show'),
     meta: {
       keepAlive: true,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/homework/add',
+    name: 'homeworkAdd',
     component: () => import('@/views/homework/add'),
     meta: {
       keepAlive: false,
@@ -30,6 +33,7 @@ export default [{
   },
   {
     path: '/homework/read',
+    name: 'homeworkRead',
     component: () => import('@/views/homework/read'),
     meta: {
       keepAlive: false,

@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-hd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
@@ -13,8 +13,6 @@
           >批量邀请老师</a>
         </div>
       </div>
-    </div>
-    <div class="page-bd">
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -100,6 +98,7 @@ export default {
 .teacher-head {
   padding: 30px 0;
   text-align: center;
+  background-color: #fff;
   > a {
     width: 240px;
   }

@@ -5,7 +5,7 @@ export default [{
   meta: {
     keepAlive: true,
     isShare: false,
-    title: '小Q智慧',
+    title: '小Q班级',
     roles: [1, 2, 3]
   }
 }]

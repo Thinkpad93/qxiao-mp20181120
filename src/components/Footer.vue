@@ -1,30 +1,22 @@
 <template>
   <div class="footer">
     <div class="item">
-      <router-link :to="{path: '/home', query: { openId: '12456', studentId: 1 }}">
-        <!-- <van-icon name="card" size="22px"></van-icon> -->
-        <!-- <img src="@/assets/footer-icon-expression@2x.png" alt width="27" height="27"> -->
+      <router-link to="/single">
         <div>小Q表现</div>
       </router-link>
     </div>
     <div class="item">
       <router-link to="/wisdom">
-        <!-- <img src="@/assets/footer-icon-expression@2x.png" alt width="27" height="27"> -->
-        <!-- <van-icon name="invition" size="22px"></van-icon> -->
         <div>小Q智慧</div>
       </router-link>
     </div>
     <div class="item">
-      <router-link to="/community">
-        <!-- <img src="@/assets/footer-icon-expression@2x.png" alt width="27" height="27"> -->
-        <!-- <van-icon name="coupon" size="22px"></van-icon> -->
+      <router-link to="/home">
         <div>小Q班级</div>
       </router-link>
     </div>
     <div class="item">
       <router-link to="/user">
-        <!-- <img src="@/assets/footer-icon-expression@2x.png" alt width="27" height="27"> -->
-        <!-- <van-icon name="manager" size="22px"></van-icon> -->
         <div>个人中心</div>
       </router-link>
     </div>

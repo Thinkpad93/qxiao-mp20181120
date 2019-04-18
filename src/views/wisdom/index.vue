@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-page">
     <div class="flex-bd"></div>
     <div class="flex-ft">
       <qxFooter></qxFooter>

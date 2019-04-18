@@ -240,3 +240,9 @@ export function queryStudentClass(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//新增孩子
+export function addStudentWithOpen(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/addStudentWithOpen.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

@@ -1,5 +1,6 @@
 export default [{
     path: '/album',
+    name: 'album',
     component: () => import('@/views/album'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/album/view',
+    name: 'albumView',
     component: () => import('@/views/album/view'),
     meta: {
       keepAlive: true,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/album/show',
+    name: 'albumShow',
     component: () => import('@/views/album/show'),
     meta: {
       keepAlive: true,
@@ -30,6 +33,7 @@ export default [{
   },
   {
     path: '/album/add',
+    name: 'albumAdd',
     component: () => import('@/views/album/add'),
     meta: {
       keepAlive: false,

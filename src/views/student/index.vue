@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-hd">
+  <div class="flex-page">
+    <div class="flex-hd">
       <div class="student-head">
         <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
         <div class="tab">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div class="page-bd">
+    <div class="flex-bd">
       <v-dialog
         title="提示"
         :visible="visible"
@@ -124,6 +124,7 @@ export default {
 .student-head {
   padding: 30px 0;
   text-align: center;
+  background-color: #fff;
   > a {
     width: 240px;
   }

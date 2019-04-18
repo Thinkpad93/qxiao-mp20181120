@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-page">
     <div class="flex-bd">
       <!-- dialog -->
       <van-dialog v-model="dialogVisible" title="行为说明">
@@ -26,7 +26,7 @@
             <p class="ml-10">添加孩子，记录孩子成长表现</p>
           </div>
         </div>
-        <van-tabs v-model="active">
+        <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
             <div class="container">
               <div class="mod">

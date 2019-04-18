@@ -1,5 +1,6 @@
 export default [{
     path: '/clock',
+    name: 'clock',
     component: () => import('@/views/clock'),
     meta: {
       keepAlive: true,
@@ -10,6 +11,7 @@ export default [{
   },
   {
     path: '/clock/show',
+    name: 'clockShow',
     component: () => import('@/views/clock/show'),
     meta: {
       keepAlive: true,
@@ -20,6 +22,7 @@ export default [{
   },
   {
     path: '/clock/day',
+    name: 'clockDay',
     component: () => import('@/views/clock/day'),
     meta: {
       keepAlive: true,

@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
@@ -83,10 +83,10 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="btn-area flex">
-      <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
-      <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
+      <div class="btn-area flex">
+        <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
+        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
+      </div>
     </div>
   </div>
 </template>

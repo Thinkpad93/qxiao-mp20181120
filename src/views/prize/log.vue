@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-page">
     <div class="flex-bd">
       <div class="cells">
         <div class="cell cell-h160" v-for="item in pageData" :key="item.exchangeId">

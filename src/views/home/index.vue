@@ -1,9 +1,7 @@
 <template>
-  <div class="page">
-    <div class="page-hd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <qxmenu @change="go"></qxmenu>
-    </div>
-    <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="classList"
@@ -59,23 +57,8 @@
         </div>
       </van-dialog>
     </div>
-    <div class="page-ft">
-      <footer class="footer">
-        <div class="item">
-          <router-link to="/home">
-            <i class="iconfont icon-shouyefill"></i>
-            <div>首页</div>
-          </router-link>
-        </div>
-        <div class="item">
-          <template>
-            <router-link to="/my">
-              <i class="iconfont icon-yonghufill"></i>
-              <div>我的</div>
-            </router-link>
-          </template>
-        </div>
-      </footer>
+    <div class="flex-ft">
+      <qxFooter></qxFooter>
     </div>
   </div>
 </template>
@@ -84,6 +67,7 @@ import { ImagePreview } from "vant";
 import service from "@/api";
 import qxmenu from "@/components/menu";
 import qxCommunity from "@/components/Community";
+import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 
@@ -92,7 +76,8 @@ export default {
   mixins: [scrollMixins],
   components: {
     qxmenu,
-    "qx-community": qxCommunity
+    "qx-community": qxCommunity,
+    qxFooter
   },
   data() {
     return {
@@ -127,7 +112,6 @@ export default {
       roleType: state => state.roleType,
       isOpen: state => state.isOpen,
       id: state => state.id
-      //className: state => state.className
     }),
     ...mapState("queryClass", {
       classList: state => state.classList
