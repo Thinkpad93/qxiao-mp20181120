@@ -14,7 +14,7 @@ export default [{
     name: 'teacherAdd',
     component: () => import('@/views/teacher/add'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       isShare: false,
       title: '老师添加',
       roles: [1]

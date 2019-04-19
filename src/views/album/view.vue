@@ -65,9 +65,9 @@ export default {
     return {
       title: "",
       dialogVisible: false,
-      roleType: this.$store.state.users.roleType,
+      roleType: this.$route.query.roleType,
       query: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         classId: this.$route.query.classId
       },
       albumChannel: []

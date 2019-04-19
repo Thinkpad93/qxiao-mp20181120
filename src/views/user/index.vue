@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <div class="user-info">
         <div class="avatar">
-          <img src="http://iph.href.lu/50x50" width="50" height="50" radius="50">
+          <img :src="photo" width="50" height="50" radius="50">
         </div>
         <div class="info-box">
           <h3 class="username" size-17>这个那个有的没的</h3>
@@ -44,7 +44,9 @@ export default {
     qxFooter
   },
   data() {
-    return {};
+    return {
+      photo: this.$route.query.photo
+    };
   }
 };
 </script>

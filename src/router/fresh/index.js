@@ -3,7 +3,7 @@ export default [{
     name: 'fresh',
     component: () => import('@/views/fresh'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
       title: '新鲜速报',
       roles: [1, 2, 3]

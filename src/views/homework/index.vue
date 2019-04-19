@@ -23,42 +23,47 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link to="/homework/add" class="release">
+        <router-link :to="{path:'/homework/add', query: this.$route.query}" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
-      <figure
-        class="figure figure-skin-two"
+      <van-swipe-cell
+        ref="swipeCell"
+        :right-width="60"
         v-for="(homework, index) in homeworkData"
         :key="index"
-        @touchstart="start(homework, index)"
-        @touchmove="move"
-        @touchend="end(homework)"
+        :disabled="roleType == 3"
+        :on-close="onClose(homework, index)"
       >
-        <div class="figure-bd">
-          <div class="figure-info">
-            <figcaption size-18 class="text-ellipsis">
-              <i v-if="!homework.status"></i>
-              <span>{{ homework.title }}</span>
-            </figcaption>
-            <div class="metedata flex">
-              <time class="time">{{ homework.postTime }}</time>
+        <van-cell-group>
+          <figure class="figure figure-skin-two" @click="go(homework)">
+            <div class="figure-bd">
+              <div class="figure-info">
+                <figcaption size-18 class="text-ellipsis">
+                  <i v-if="!homework.status"></i>
+                  <span>{{ homework.title }}</span>
+                </figcaption>
+                <div class="metedata flex">
+                  <time class="time">{{ homework.postTime }}</time>
+                </div>
+                <div
+                  class="figure-thumb-medium"
+                  v-if="homework.topImage"
+                  :style="{backgroundImage: `url(${homework.topImage})`}"
+                ></div>
+                <p class="line-clamp">{{ homework.textContent | brReplace }}</p>
+              </div>
             </div>
-            <div
-              class="figure-thumb-medium"
-              v-if="homework.topImage"
-              :style="{backgroundImage: `url(${homework.topImage})`}"
-            ></div>
-            <p class="line-clamp">{{ homework.textContent | brReplace }}</p>
-          </div>
-        </div>
-        <div class="figure-ft">
-          <div class="figure-icon">
-            <van-icon name="eye-o" size="16px"></van-icon>
-            <b>{{ homework.classReadCount }}</b>
-          </div>
-        </div>
-      </figure>
+            <div class="figure-ft">
+              <div class="figure-icon">
+                <van-icon name="eye-o" size="16px"></van-icon>
+                <b>{{ homework.classReadCount }}</b>
+              </div>
+            </div>
+          </figure>
+        </van-cell-group>
+        <span slot="right" style="line-height: 80px;">删除</span>
+      </van-swipe-cell>
       <div class="empty" v-if="!homeworkData.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无亲子作业</p>
@@ -68,7 +73,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "homeWork",
@@ -78,32 +82,24 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className:
-        this.$store.state.users.className || this.$route.query.className,
+      className: this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state.wx.openId,
-        classId: this.$store.state.users.classId,
-        studentId:
-          this.$store.state.student.studentId || this.$route.query.studentId,
+        openId: this.$route.query.openId,
+        classId: this.$route.query.classId,
+        studentId: this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
+      roleType: this.$route.query.roleType,
       queryClass: {
-        id: this.$store.state.users.id,
-        roleType: this.$store.state.users.roleType
+        id: this.$route.query.id,
+        roleType: this.$route.query.roleType
       },
-      homeworkData: []
+      homeworkData: [],
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType
-    }),
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     brReplace(value) {
@@ -112,49 +108,49 @@ export default {
     }
   },
   methods: {
-    start(homework, index) {
-      this.long = 0;
-      this.time = setTimeout(() => {
-        this.long = 1;
-        if (this.roleType != 3) {
-          this.$dialog
-            .confirm({
-              title: "提示",
-              message: "确定删除该条作业吗？"
-            })
-            .then(async () => {
-              let obj = {
-                openId: this.query.openId,
-                homeId: homework.homeId
-              };
-              //删除速报
-              let res = await service.homeworkDelete(obj);
-              if (res.errorCode === 0) {
-                this.homeworkData.splice(index, 1);
-              }
-            })
-            .catch(() => {});
+    onClose(homework, index) {
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "right":
+            this.$dialog
+              .confirm({
+                title: "提示",
+                message: "确定删除该条作业吗？"
+              })
+              .then(async () => {
+                let obj = {
+                  openId: this.query.openId,
+                  homeId: homework.homeId
+                };
+                //删除作业
+                let res = await service.homeworkDelete(obj);
+                if (res.errorCode === 0) {
+                  instance.close();
+                  this.homeworkData.splice(index, 1);
+                }
+              })
+              .catch(() => {
+                instance.close();
+              });
+            break;
         }
-      }, 500);
+      };
     },
-    move() {
-      clearTimeout(this.time);
-      this.time = 0;
-    },
-    end(homework) {
-      clearTimeout(this.time);
-      if (this.long == 0 && this.time != 0) {
-        this.$router.push({
-          path: "/homework/show",
-          query: {
-            classId: homework.classId,
-            homeId: homework.homeId,
-            studentId: homework.studentId,
-            needConfirm: homework.needConfirm
-          }
-        });
-      }
-      return false;
+    go(homework) {
+      let { classId, homeId, studentId, needConfirm } = homework;
+      let openId = this.query.openId;
+      let roleType = this.roleType;
+      this.$router.push({
+        path: "/homework/show",
+        query: {
+          classId,
+          homeId,
+          studentId,
+          needConfirm,
+          openId,
+          roleType
+        }
+      });
     },
     //选择班级
     handleClassConfirm(value, index) {
@@ -202,9 +198,18 @@ export default {
         this.isLoading = false;
         this.homeworkData = res.data.data;
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
+    this.queryClassGroup();
     this.homeworkQuery(this.query);
   }
 };

@@ -4,7 +4,7 @@
       class="langur"
       v-for="(menu, index) in computedMenu"
       :key="index"
-      @click="$emit('change', menu.url)"
+      @click="chanage(menu.url)"
     >
       <img :src="menu.icon" width="57" height="57">
       <div class="text-ellipsis">{{ menu.name }}</div>
@@ -12,11 +12,12 @@
   </nav>
 </template>
 <script>
-import { mapState } from "vuex";
 export default {
   name: "qmenu",
   data() {
     return {
+      roleType: this.$route.query.roleType,
+      type: this.$route.query.type,
       //学校类型
       recipeList: [
         {
@@ -88,10 +89,6 @@ export default {
     };
   },
   computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType,
-      type: state => state.type
-    }),
     computedMenu() {
       //幼儿园 0   小学 1
       if (this.type == 0) {
@@ -135,6 +132,11 @@ export default {
             break;
         }
       }
+    }
+  },
+  methods: {
+    chanage(url) {
+      this.$emit("on-change", url, this.$route.query);
     }
   }
 };

@@ -3,7 +3,7 @@ export default [{
     name: 'recipe',
     component: () => import('@/views/recipe'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
       title: '营养食谱',
       roles: [1, 2, 3]

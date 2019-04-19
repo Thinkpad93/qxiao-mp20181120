@@ -148,9 +148,9 @@ export default {
       teacherList: [], //老师列表
       teacherCheckList: [], //选中的数据
       classChenkList: [], //选中的数据
-      openId: this.$store.state.wx.openId,
+      openId: this.$route.query.openId,
       form: {
-        openId: this.$store.state.wx.openId, //用户openid
+        openId: this.$route.query.openId, //用户openid
         title: "", //通知标题
         textContent: "", //通知内容
         images: [], //图片

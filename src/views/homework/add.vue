@@ -74,7 +74,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { textReplace } from "@/utils/string";
 export default {
   name: "homeWorkAdd",
@@ -85,23 +84,15 @@ export default {
       selected: [],
       needSwitch: false,
       form: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         title: "",
         textContent: "",
         images: [],
         needConfirm: 0, //0-无需确认 1-需要确认
         senders: []
-      }
+      },
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType,
-      id: state => state.id
-    }),
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     //选图
@@ -235,9 +226,19 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryClassGroup();
+  }
 };
 </script>
 <style lang="less" scoped>

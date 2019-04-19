@@ -56,7 +56,7 @@ export default {
       active: 0,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       query: {
-        openId: this.$store.state.wx.openId || this.$route.query.openId, //用户openid
+        openId: this.$route.query.openId, //用户openid
         homeId: this.$route.query.homeId,
         classId: this.$route.query.classId,
         readFlag: 0 //0-已读 1-未读

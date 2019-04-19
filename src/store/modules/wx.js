@@ -1,18 +1,18 @@
-import Cookies from 'js-cookie';
-
 const state = {
-  openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", //微信 openId
+  openId: "oUQwt1XVT1Y0ohyXWNwrchLSYLa8", //微信openId
   photo: "", //微信头像
+  tel: "" //用户手机号
 }
 
 const mutations = {
   SET_PHOTO: (state, photo) => {
     state.photo = photo;
-    Cookies.set('photo', photo);
   },
   SET_OPENID: (state, openId) => {
     state.openId = openId;
-    Cookies.set('openId', openId);
+  },
+  SET_TEL: (state, tel) => {
+    state.tel = tel;
   },
 }
 

@@ -36,43 +36,48 @@
         </div>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link to="/fresh/add" class="release">
+        <router-link :to="{path:'/fresh/add', query: this.$route.query}" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
-      <figure
-        class="figure figure-skin-two"
+      <van-swipe-cell
+        ref="swipeCell"
+        :right-width="60"
         v-for="(fresh, index) in freshData"
         :key="index"
-        @touchstart="start(fresh, index)"
-        @touchmove="move"
-        @touchend="end(fresh)"
+        :disabled="roleType == 3"
+        :on-close="onClose(fresh, index)"
       >
-        <div class="figure-bd">
-          <div class="figure-info">
-            <figcaption size-18 class="text-ellipsis">{{ fresh.title }}</figcaption>
-            <div class="metedata flex">
-              <time class="time">{{ fresh.postTime }}</time>
+        <van-cell-group>
+          <figure class="figure figure-skin-two" @click="go(fresh)">
+            <div class="figure-bd">
+              <div class="figure-info">
+                <figcaption size-18 class="text-ellipsis">{{ fresh.title }}</figcaption>
+                <div class="metedata flex">
+                  <time class="time">{{ fresh.postTime }}</time>
+                </div>
+                <div
+                  class="figure-thumb-medium"
+                  v-if="fresh.topImage"
+                  :style="{backgroundImage: `url(${fresh.topImage})`}"
+                ></div>
+                <p class="line-clamp">{{ fresh.textContent | brReplace }}</p>
+              </div>
             </div>
-            <div
-              class="figure-thumb-medium"
-              v-if="fresh.topImage"
-              :style="{backgroundImage: `url(${fresh.topImage})`}"
-            ></div>
-            <p class="line-clamp">{{ fresh.textContent | brReplace }}</p>
-          </div>
-        </div>
-        <div class="figure-ft">
-          <div class="figure-icon">
-            <van-icon name="eye-o" size="16px"></van-icon>
-            <b>{{ fresh.classReadCount }}</b>
-          </div>
-          <div class="figure-icon">
-            <van-icon name="comment-o" size="16px"></van-icon>
-            <b>{{ fresh.classCommentCount }}</b>
-          </div>
-        </div>
-      </figure>
+            <div class="figure-ft">
+              <div class="figure-icon">
+                <van-icon name="eye-o" size="16px"></van-icon>
+                <b>{{ fresh.classReadCount }}</b>
+              </div>
+              <div class="figure-icon">
+                <van-icon name="comment-o" size="16px"></van-icon>
+                <b>{{ fresh.classCommentCount }}</b>
+              </div>
+            </div>
+          </figure>
+        </van-cell-group>
+        <span slot="right" style="line-height: 80px;">删除</span>
+      </van-swipe-cell>
       <div class="empty" v-if="!freshData.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无新鲜速报</p>
@@ -82,7 +87,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "fresh",
@@ -92,31 +96,25 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className:
-        this.$store.state.users.className || this.$route.query.className,
-      classId: parseInt(this.$store.state.users.classId),
+      className: this.$route.query.className,
+      classId: this.$route.query.classId,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state.wx.openId || this.$route.query.openId,
-        classId: this.$store.state.users.classId || this.$route.query.classId,
-        studentId:
-          this.$store.state.student.studentId || this.$route.query.studentId,
+        openId: this.$route.query.openId,
+        classId: this.$route.query.classId,
+        studentId: this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
+      roleType: this.$route.query.roleType,
       queryClass: {
-        id: this.$store.state.users.id,
-        roleType: this.$store.state.users.roleType || this.$route.query.roleType
+        id: this.$route.query.id,
+        roleType: this.$route.query.roleType
       },
-      freshData: []
+      freshData: [],
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     brReplace(value) {
@@ -125,48 +123,48 @@ export default {
     }
   },
   methods: {
-    start(fresh, index) {
-      this.long = 0;
-      this.time = setTimeout(() => {
-        this.long = 1;
-        if (this.roleType != 3) {
-          this.$dialog
-            .confirm({
-              title: "提示",
-              message: "确定删除该条速报吗？"
-            })
-            .then(async () => {
-              let obj = {
-                openId: this.query.openId,
-                freshId: fresh.freshId
-              };
-              //删除速报
-              let res = await service.deleteFresh(obj);
-              if (res.errorCode === 0) {
-                this.freshData.splice(index, 1);
-              }
-            })
-            .catch(() => {});
+    onClose(fresh, index) {
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "right":
+            this.$dialog
+              .confirm({
+                title: "提示",
+                message: "确定删除该条速报吗？"
+              })
+              .then(async () => {
+                let obj = {
+                  openId: this.query.openId,
+                  freshId: fresh.freshId
+                };
+                //删除速报
+                let res = await service.deleteFresh(obj);
+                if (res.errorCode === 0) {
+                  instance.close();
+                  this.freshData.splice(index, 1);
+                }
+              })
+              .catch(() => {
+                instance.close();
+              });
+            break;
         }
-      }, 500);
+      };
     },
-    move() {
-      clearTimeout(this.time);
-      this.time = 0;
-    },
-    end(fresh) {
-      clearTimeout(this.time);
-      if (this.long == 0 && this.time != 0) {
-        this.$router.push({
-          path: "/fresh/show",
-          query: {
-            freshId: fresh.freshId,
-            classId: fresh.classId,
-            studentId: fresh.studentId
-          }
-        });
-      }
-      return false;
+    go(fresh) {
+      let { freshId, classId, studentId } = fresh;
+      let openId = this.query.openId;
+      let roleType = this.roleType;
+      this.$router.push({
+        path: "/fresh/show",
+        query: {
+          freshId,
+          classId,
+          studentId,
+          openId,
+          roleType
+        }
+      });
     },
     //选择班级
     handleClassConfirm(obj) {
@@ -221,13 +219,19 @@ export default {
         this.isLoading = false;
         this.freshData = res.data.data || [];
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length) {
-      this.wxSdk.wxShare(this.roleType);
-      this.$store.dispatch("users/reloadUserInfo", this.$route.query);
-    }
+    this.queryClassGroup();
+    this.wxSdk.wxShare(this.roleType);
     this.freshQuery(this.query);
   }
 };

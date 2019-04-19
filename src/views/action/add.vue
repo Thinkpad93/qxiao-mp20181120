@@ -101,7 +101,7 @@ export default {
       loading: false,
       form: {
         openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId,
+        studentId: this.$route.query.openStudentId,
         title: "",
         textContent: "",
         rules: []

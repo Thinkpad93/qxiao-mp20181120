@@ -1,22 +1,22 @@
 <template>
   <div class="footer">
     <div class="item">
-      <router-link to="/single">
+      <router-link :to="{path: '/single', query: routeParams}">
         <div>小Q表现</div>
       </router-link>
     </div>
     <div class="item">
-      <router-link to="/wisdom">
+      <router-link :to="{path: '/wisdom', query: routeParams}">
         <div>小Q智慧</div>
       </router-link>
     </div>
     <div class="item">
-      <router-link to="/home">
+      <router-link :to="{path: '/home', query:routeParams}">
         <div>小Q班级</div>
       </router-link>
     </div>
     <div class="item">
-      <router-link to="/user">
+      <router-link :to="{path:'/user', query:routeParams}">
         <div>个人中心</div>
       </router-link>
     </div>
@@ -27,6 +27,11 @@ export default {
   name: "qxFooter",
   data() {
     return {};
+  },
+  computed: {
+    routeParams() {
+      return this.$route.query;
+    }
   }
 };
 </script>

@@ -76,18 +76,15 @@ export default {
       imagesList: [],
       selected: [],
       form: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         title: "",
         textContent: "",
         images: []
-      }
+      },
+      classList: []
     };
   },
   computed: {
-    ...mapState("users", {
-      id: state => state.id,
-      roleType: state => state.roleType
-    }),
     ...mapState("queryClass", {
       classList: state => state.classList
     })
@@ -223,9 +220,19 @@ export default {
         this.$refs.form.reset();
         this.$router.go(-1);
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryClassGroup();
+  }
 };
 </script>
 <style lang="less" scoped>

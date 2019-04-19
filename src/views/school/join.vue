@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.wx.openId || Cookies.get("openId"),
+        openId: this.$route.query.openId,
         tel: this.$route.query.tel
       },
       info: {}

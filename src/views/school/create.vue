@@ -146,7 +146,7 @@ export default {
         type: 0,
         leadName: "",
         tel: this.$route.query.tel,
-        openId: this.$store.state.wx.openId || Cookies.get("openId"),
+        openId: this.$route.query.openId,
         classes: []
       }
     };

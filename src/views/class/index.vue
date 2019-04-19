@@ -56,8 +56,8 @@ export default {
     return {
       dialogVisible: false,
       className: "",
-      schoolId: this.$store.state.users.id,
-      openId: this.$store.state.wx.openId,
+      schoolId: this.$route.query.id,
+      openId: this.$route.query.openId,
       classList: []
     };
   },
@@ -102,7 +102,11 @@ export default {
     handleEditClass(item) {
       this.$router.push({
         path: "/class/edit",
-        query: { classId: item.classId, className: item.className }
+        query: {
+          classId: item.classId,
+          className: item.className,
+          openId: this.openId
+        }
       });
     },
     //查询对应学校的所有班级

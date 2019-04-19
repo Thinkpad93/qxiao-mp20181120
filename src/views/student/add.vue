@@ -93,7 +93,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -102,18 +101,14 @@ export default {
   data() {
     return {
       form: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         studentName: "",
         sex: 1,
         linkMan: [{ relation: 1, tel: "" }],
         classId: null
-      }
+      },
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleAddLinkMan() {
@@ -161,9 +156,19 @@ export default {
             this.$router.go(-1);
           });
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryClassGroup();
+  }
 };
 </script>
 <style lang="less" scoped>

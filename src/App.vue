@@ -16,15 +16,14 @@ export default {
     return {};
   },
   watch: {
-    $route(to, from) {}
-  },
-  methods: {},
-  mounted() {}
+    $route(to, from) {
+      console.log(to);
+    }
+  }
 };
 </script>
 
 <style lang="less">
-//@import "normalize.css/normalize.css";
 @import "./styles/site.less";
 
 #app {

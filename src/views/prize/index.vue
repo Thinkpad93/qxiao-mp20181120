@@ -129,6 +129,7 @@ export default {
                 //行为标准删除
                 let res = await service.prizeDelete(obj);
                 if (res.errorCode === 0) {
+                  instance.close();
                   this.pageData.splice(index, 1);
                 }
               })

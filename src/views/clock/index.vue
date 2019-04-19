@@ -138,14 +138,14 @@ export default {
         events: {}
       },
       query: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         date: dayjs()
           .subtract(1, "days")
           .format("YYYY-MM-DD")
       },
       querys: {
-        studentId: this.$store.state.student.studentId,
-        openId: this.$store.state.wx.openId,
+        studentId: this.$route.query.studentId,
+        openId: this.$route.query.openId,
         month: dayjs().format("YYYY-MM-DD")
       }
     };

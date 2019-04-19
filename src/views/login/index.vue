@@ -174,14 +174,14 @@ export default {
     }
   },
   mounted() {
-    let { openId, photo } = this.$route.query;
-    let ua = window.navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == "micromessenger") {
-      if (openId || photo) {
-        this.$store.commit("wx/SET_OPENID", openId);
-        this.$store.commit("wx/SET_PHOTO", photo);
-      }
-    }
+    // let { openId, photo } = this.$route.query;
+    // let ua = window.navigator.userAgent.toLowerCase();
+    // if (ua.match(/MicroMessenger/i) == "micromessenger") {
+    //   if (openId || photo) {
+    //     this.$store.commit("wx/SET_OPENID", openId);
+    //     this.$store.commit("wx/SET_PHOTO", photo);
+    //   }
+    // }
   }
 };
 </script>

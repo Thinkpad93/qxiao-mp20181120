@@ -92,7 +92,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -101,17 +100,13 @@ export default {
   data() {
     return {
       querys: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         tel: this.$route.query.tel,
-        studentId: this.$route.query.studentId
+        studentId: this.$route.query.studentIds
       },
-      form: {}
+      form: {},
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleAddLinkMan() {
@@ -189,9 +184,18 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
+    this.queryClassGroup();
     this.studentInfoQuery(this.querys);
   }
 };

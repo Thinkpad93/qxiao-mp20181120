@@ -66,9 +66,9 @@ export default {
       imagesList: [],
       serverId: [], //微信图片ID
       form: {
-        openId: this.$store.state.wx.openId,
-        classId: this.$store.state.users.classId,
-        studentId: this.$store.state.student.studentId,
+        openId: this.$route.query.openId,
+        classId: this.$route.query.classId,
+        studentId: this.$route.query.studentId,
         contentType: 0,
         textContent: "",
         images: [],

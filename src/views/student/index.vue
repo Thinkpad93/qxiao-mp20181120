@@ -77,7 +77,7 @@ export default {
     return {
       visible: false,
       visibility: false,
-      teacherId: this.$store.state.users.id,
+      teacherId: this.$route.query.id,
       studentList: []
     };
   },
@@ -98,13 +98,19 @@ export default {
         path: `/student/edit`,
         query: {
           tel: student.tel,
-          studentId: student.studentId,
-          classId: student.classId
+          studentIds: student.studentId,
+          classId: student.classId,
+          roleType: this.$route.query.roleType,
+          id: this.$route.query.id,
+          studentId: this.$route.query.studentId
         }
       });
     },
     handleAddStudent() {
-      this.$router.push({ path: `/student/add` });
+      this.$router.push({
+        path: `/student/add`,
+        query: this.$route.query
+      });
     },
     //学生列表
     async queryStudentList(teacherId) {

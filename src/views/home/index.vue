@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <qx-menu @change="go"></qx-menu>
+      <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="classList"
@@ -12,7 +12,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="isOpen">
-        <router-link to="/community" class="release">
+        <router-link :to="{path: '/community', query: this.$route.query}" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -68,7 +68,6 @@ import service from "@/api";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxFooter from "@/components/Footer";
-import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 
 export default {
@@ -84,37 +83,29 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className:
-        this.$store.state.users.className || this.$route.query.className,
+      className: this.$route.query.className,
       isLoading: false,
       totalPage: 1, //总页数
+      isOpen: this.$route.query.isOpen,
+      roleType: this.$route.query.roleType,
+      id: this.$route.query.id,
       query: {
-        classId: this.$store.state.users.classId || this.$route.query.classId,
-        openId: this.$store.state.wx.openId || this.$route.query.openId,
-        studentId: 1,
+        classId: this.$route.query.classId,
+        openId: this.$route.query.openId,
+        studentId: this.$route.query.studentId,
         page: 1,
         pageSize: 10
       },
       communityData: [],
+      classList: [],
       form: {
         index: null,
-        openId: this.$store.state.wx.openId,
-        studentId:
-          this.$store.state.student.studentId || this.$route.query.studentId,
+        openId: this.$route.query.openId,
+        studentId: this.$route.query.studentId,
         communityId: null,
         textContent: ""
       }
     };
-  },
-  computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType,
-      isOpen: state => state.isOpen,
-      id: state => state.id
-    }),
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     capitalize(value) {
@@ -122,9 +113,9 @@ export default {
     }
   },
   methods: {
-    go(url) {
+    go(url, params) {
       if (url) {
-        this.$router.push({ path: `${url}` });
+        this.$router.push({ path: `${url}`, query: params });
       }
     },
     onChange(picker, values) {
@@ -137,9 +128,8 @@ export default {
     },
     //班级圈点赞
     async handlePraise(community, index) {
-      let openId = this.$store.state.wx.openId;
-      let studentId =
-        this.$store.state.student.studentId || this.$route.query.studentId;
+      let openId = this.$route.query.openId;
+      let studentId = this.$route.query.studentId;
       let { communityId } = community;
       let res = await service.communityPraise({
         openId,
@@ -253,12 +243,18 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length) {
-      this.$store.dispatch("users/reloadUserInfo", this.$route.query);
-    }
+    this.queryClassGroup();
     this.wxSdk.wxShare(this.roleType);
     this.communityQuery(this.query);
   }

@@ -54,12 +54,12 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.wx.openId || this.$route.query.openId, //用户openid
+        openId: this.$route.query.openId, //用户openid
         noticeId: this.$route.query.noticeId,
         classId: this.$route.query.classId,
         studentId: this.$route.query.studentId
       },
-      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
+      roleType: this.$route.query.roleType,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       info: {}
     };
@@ -76,7 +76,8 @@ export default {
       let obj = {
         noticeId: params.noticeId,
         classId: this.$route.query.classId,
-        needConfirm: this.$route.query.needConfirm
+        needConfirm: this.$route.query.needConfirm,
+        openId: this.$route.query.openId //用户openid
       };
       this.$router.push({
         path: "/notice/read",

@@ -32,7 +32,7 @@
               <div class="mod">
                 <!-- 今天的 -->
                 <router-link
-                  :to="{path: '/actionHistory', query: {  openId: '12456', studentId: '1'}}"
+                  :to="{path: '/actionHistory', query: this.$route.query}"
                   tag="div"
                   class="action-today"
                 >
@@ -61,11 +61,11 @@
                   </div>
                 </div>
                 <div class="dhole">
-                  <router-link :to="{path: '/action', query: { openId: '12456', studentId: 1 }}">
+                  <router-link :to="{path: '/action', query: this.$route.query}">
                     <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">行为管理</span>
                   </router-link>
-                  <router-link :to="{path: '/prize', query: { openId: '12456', studentId: 1 }}">
+                  <router-link :to="{path: '/prize', query: this.$route.query}">
                     <img src="@/assets/prize-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">奖励兑换</span>
                   </router-link>
@@ -154,8 +154,8 @@ export default {
         ]
       },
       query: {
-        openId: "12456",
-        studentId: "1",
+        openId: this.$route.query.openId,
+        studentId: this.$route.query.openStudentId,
         day: dayjs().format("YYYY-MM-DD")
       },
       actionView: {},
@@ -271,9 +271,15 @@ export default {
   border-radius: 8px;
   background-color: #fff;
 }
+
 .action-today {
   text-align: center;
 }
+
+.action-cells {
+  min-height: 200px;
+}
+
 .action-cell {
   display: flex;
   align-items: center;

@@ -78,7 +78,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { type, sex } from "@/mixins/type";
 export default {
   name: "teacherAdd",
@@ -87,18 +86,14 @@ export default {
     return {
       selected: [],
       querys: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         teacherId: this.$route.query.teacherId
       },
       form: {
         classes: []
-      }
+      },
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleDel() {
@@ -109,7 +104,7 @@ export default {
         })
         .then(() => {
           let obj = {
-            openId: this.$store.getters.openId,
+            openId: this.$route.query.openId,
             teacherId: this.$route.query.teacherId
           };
           this.teacherDelete(obj);
@@ -126,7 +121,7 @@ export default {
       });
       let obj = Object.assign({}, this.form, {
         classes,
-        openId: this.$store.getters.openId
+        openId: this.$route.query.openId
       });
       this.teacherUpdate(obj);
     },
@@ -154,9 +149,18 @@ export default {
         this.form = args;
         this.selected = classes;
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
+    this.queryClassGroup();
     this.teacherQuery(this.querys);
   }
 };

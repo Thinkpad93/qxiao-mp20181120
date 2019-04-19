@@ -95,7 +95,7 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import dayjs from "dayjs";
 import service from "@/api";
 import { textReplace } from "@/utils/string";
 export default {
@@ -109,7 +109,7 @@ export default {
       serverId: [], //微信图片ID
       imagesList: [],
       form: {
-        openId: this.$store.state.wx.openId,
+        openId: this.$route.query.openId,
         title: "",
         textContent: "",
         images: [],
@@ -132,13 +132,13 @@ export default {
     },
     //选择开始时间
     handleConfirmStartTime(value) {
-      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.form.startDate = now;
       this.startTimeShow = false;
     },
     //选择结束时间
     handleConfirmEndTime(value) {
-      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.form.endDate = now;
       this.endTimeShow = false;
     },

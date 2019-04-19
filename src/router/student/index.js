@@ -3,7 +3,7 @@ export default [{
     name: 'student',
     component: () => import('@/views/student'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
       title: '学生管理',
       roles: [2]

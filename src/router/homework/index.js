@@ -3,7 +3,7 @@ export default [{
     name: 'homework',
     component: () => import('@/views/homework'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
       title: "亲子作业",
       roles: [1, 2, 3]

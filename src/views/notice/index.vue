@@ -41,43 +41,51 @@
         </div>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link to="/notice/add" class="release">
+        <router-link
+          :to="{path: '/notice/add', query: {openId:this.$route.query.openId}}"
+          class="release"
+        >
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
-      <figure
-        class="figure figure-skin-one"
+      <van-swipe-cell
+        ref="swipeCell"
+        :right-width="60"
         v-for="(notice, index) in noticeData"
         :key="index"
-        @touchstart="start(notice, index)"
-        @touchmove="move"
-        @touchend="end(notice)"
+        :disabled="roleType == 3 || roleType == 2"
+        :on-close="onClose(notice, index)"
       >
-        <div class="figure-bd">
-          <div
-            class="figure-thumb-small"
-            v-if="notice.topImage"
-            :style="{backgroundImage: `url(${notice.topImage})`}"
-          ></div>
-          <div class="figure-info">
-            <figcaption class="text-ellipsis">
-              <i v-if="!notice.status" style="width:6px;height:6px;"></i>
-              <span size-18>{{ notice.title }}</span>
-            </figcaption>
-            <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
-            <div class="metedata flex">
-              <span class="name">{{ notice.name }}</span>
-              <time class="time">{{ notice.postTime }}</time>
+        <van-cell-group>
+          <figure class="figure figure-skin-one" @click="go(notice)">
+            <div class="figure-bd">
+              <div
+                class="figure-thumb-small"
+                v-if="notice.topImage"
+                :style="{backgroundImage: `url(${notice.topImage})`}"
+              ></div>
+              <div class="figure-info">
+                <figcaption class="text-ellipsis">
+                  <i v-if="!notice.status" style="width:6px;height:6px;"></i>
+                  <span size-18>{{ notice.title }}</span>
+                </figcaption>
+                <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
+                <div class="metedata flex">
+                  <span class="name">{{ notice.name }}</span>
+                  <time class="time">{{ notice.postTime }}</time>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="figure-ft">
-          <div class="figure-total">
-            <span>已读{{ notice.classReadCount }}人</span>
-            <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
-          </div>
-        </div>
-      </figure>
+            <div class="figure-ft">
+              <div class="figure-total">
+                <span>已读{{ notice.classReadCount }}人</span>
+                <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
+              </div>
+            </div>
+          </figure>
+        </van-cell-group>
+        <span slot="right" style="line-height: 80px;">删除</span>
+      </van-swipe-cell>
       <div class="empty" v-if="!noticeData.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无通知公告</p>
@@ -87,7 +95,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
   name: "notice",
@@ -97,28 +104,23 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className:
-        this.$store.state.users.className || this.$route.query.className,
-      classId: this.$store.state.users.classId,
+      className: this.$route.query.className,
+      classId: this.$route.query.classId,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$store.state.wx.openId || this.$route.query.openId,
-        classId: this.$store.state.users.classId || this.$route.query.classId,
-        studentId: 0,
+        openId: this.$route.query.openId,
+        classId: this.$route.query.classId,
+        studentId: this.$route.query.studentId,
         type: 0,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$store.state.users.roleType || this.$route.query.roleType,
-      noticeData: []
+      roleType: this.$route.query.roleType,
+      noticeData: [],
+      classList: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     brReplace(value) {
@@ -127,50 +129,50 @@ export default {
     }
   },
   methods: {
-    start(notice, index) {
-      this.long = 0;
-      this.time = setTimeout(() => {
-        this.long = 1;
-        if (this.roleType == 1 || this.roleType == 4) {
-          this.$dialog
-            .confirm({
-              title: "提示",
-              message: "确定删除该条公告吗？"
-            })
-            .then(async () => {
-              let obj = {
-                openId: this.query.openId,
-                noticeId: notice.noticeId,
-                classId: notice.classId
-              };
-              //删除通知公告
-              let res = await service.deleteNotice(obj);
-              if (res.errorCode === 0) {
-                this.noticeData.splice(index, 1);
-              }
-            })
-            .catch(() => {});
+    onClose(notice, index) {
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "right":
+            this.$dialog
+              .confirm({
+                title: "提示",
+                message: "确认要删除该条公告吗?"
+              })
+              .then(async () => {
+                let obj = {
+                  openId: this.query.openId,
+                  noticeId: notice.noticeId,
+                  classId: notice.classId
+                };
+                //删除通知公告
+                let res = await service.deleteNotice(obj);
+                if (res.errorCode === 0) {
+                  instance.close();
+                  this.noticeData.splice(index, 1);
+                }
+              })
+              .catch(() => {
+                instance.close();
+              });
+            break;
         }
-      }, 500);
+      };
     },
-    move() {
-      clearTimeout(this.time);
-      this.time = 0;
-    },
-    end(notice) {
-      clearTimeout(this.time);
-      if (this.long == 0 && this.time != 0) {
-        this.$router.push({
-          path: "/notice/show",
-          query: {
-            noticeId: notice.noticeId,
-            needConfirm: notice.needConfirm,
-            classId: notice.classId,
-            studentId: notice.studentId
-          }
-        });
-      }
-      return false;
+    go(notice) {
+      let { noticeId, needConfirm, classId, studentId } = notice;
+      let openId = this.query.openId;
+      let roleType = this.roleType;
+      this.$router.push({
+        path: "/notice/show",
+        query: {
+          noticeId,
+          needConfirm,
+          classId,
+          studentId,
+          openId,
+          roleType
+        }
+      });
     },
     handleTabClick(index, title) {
       this.index = index;
@@ -229,13 +231,19 @@ export default {
         this.isLoading = false;
         this.noticeData = res.data.data || [];
       }
+    },
+    //根据角色查询班级
+    async queryClassGroup() {
+      let { id, studentId, roleType } = this.$route.query;
+      let res = await service.queryClassId({ id, studentId, roleType });
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
-    if (Object.keys(this.$route.query).length) {
-      this.wxSdk.wxShare(this.roleType);
-      this.$store.dispatch("users/reloadUserInfo", this.$route.query);
-    }
+    this.queryClassGroup();
+    this.wxSdk.wxShare(this.roleType);
     this.noticeQuery(this.query);
   }
 };

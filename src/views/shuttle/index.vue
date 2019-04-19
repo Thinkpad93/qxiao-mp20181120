@@ -90,10 +90,10 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.users.className,
+      className: this.$route.query.className,
       query: {
-        openId: this.$store.state.wx.openId,
-        classId: this.$store.state.users.classId,
+        openId: this.$route.query.openId,
+        classId: this.$route.query.classId,
         date: dayjs().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],
@@ -210,9 +210,9 @@ export default {
           clearInterval(this.playTimer);
           //启动定时器，15秒后重新请求
           this.playTimer = setInterval(() => {
-            console.log("15秒后重新请求");
+            console.log("10秒后重新请求");
             this.realShuttle(this.query);
-          }, 20 * 1000);
+          }, 10 * 1000);
         }
       }
     },

@@ -24,7 +24,7 @@ export default {
     return {
       query: {
         openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId,
+        studentId: this.$route.query.openStudentId,
         page: 1,
         pageSize: 10
       },
