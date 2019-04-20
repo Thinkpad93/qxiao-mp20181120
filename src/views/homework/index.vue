@@ -72,6 +72,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
@@ -82,7 +83,7 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className: this.$route.query.className,
+      className: this.$store.state.user.info.className,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -95,11 +96,15 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       queryClass: {
         id: this.$store.state.user.info.id,
-        roleType: this.$store.state.user.info.roleType,
+        roleType: this.$store.state.user.info.roleType
       },
-      homeworkData: [],
-      classList: []
+      homeworkData: []
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   filters: {
     brReplace(value) {
@@ -144,7 +149,7 @@ export default {
           classId,
           homeId,
           studentId,
-          needConfirm,
+          needConfirm
         }
       });
     },

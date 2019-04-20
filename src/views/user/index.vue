@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      photo: this.$route.query.photo
+      photo: this.$store.state.user.info.photo
     };
   }
 };

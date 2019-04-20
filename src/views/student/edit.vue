@@ -106,9 +106,13 @@ export default {
         studentId: this.$route.query.studentId
       },
       form: {},
-      classList: []
     };
   },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
+  },  
   methods: {
     handleAddLinkMan() {
       this.form.linkMan.push({ relation: 1, tel: "" });

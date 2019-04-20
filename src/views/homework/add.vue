@@ -73,6 +73,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import service from "@/api";
 import { textReplace } from "@/utils/string";
 export default {
@@ -91,9 +92,13 @@ export default {
         needConfirm: 0, //0-无需确认 1-需要确认
         senders: []
       },
-      classList: []
     };
   },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
+  },  
   methods: {
     //选图
     handleChooseImage() {

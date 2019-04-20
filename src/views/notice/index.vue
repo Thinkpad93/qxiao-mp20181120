@@ -41,8 +41,7 @@
         </div>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link to="/notice/add" class="release"
-        >
+        <router-link to="/notice/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -92,6 +91,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
@@ -116,9 +116,13 @@ export default {
         pageSize: 10
       },
       roleType: this.$store.state.user.info.roleType,
-      noticeData: [],
-      classList: []
+      noticeData: []
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   filters: {
     brReplace(value) {
@@ -163,10 +167,10 @@ export default {
       this.$router.push({
         path: "/notice/show",
         query: {
-            noticeId,
-            needConfirm,
-            classId,
-            studentId
+          noticeId,
+          needConfirm,
+          classId,
+          studentId
         }
       });
     },
@@ -227,7 +231,7 @@ export default {
         this.isLoading = false;
         this.noticeData = res.data.data || [];
       }
-    },
+    }
   },
   mounted() {
     this.wxSdk.wxShare(this.roleType);

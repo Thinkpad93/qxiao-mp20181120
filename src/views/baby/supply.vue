@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
+  <div class="flex-page">
+    <div class="flex-bd">
       <form action ref="form">
         <div class="cells-title">完善学生信息</div>
         <div class="cells">
@@ -73,14 +73,13 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="btn-group">
-      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
+      <div class="btn-group">
+        <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -91,7 +90,7 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$store.state.wx.openId || Cookies.get("openId"),
+        openId: this.$route.query.openId,
         tel: this.$route.query.tel
       },
       form: {}
@@ -123,13 +122,14 @@ export default {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$store.dispatch("users/saveUserInfo", res.data);
-        this.$store.dispatch("student/saveStudnetId", res.data.studentId);
-        this.$store.dispatch("queryClass/queryStudentClass", {
-          id: res.data.id,
-          studentId: res.data.studentId
-        });
+        // this.$store.dispatch("users/saveUserInfo", res.data);
+        // this.$store.dispatch("student/saveStudnetId", res.data.studentId);
+        // this.$store.dispatch("queryClass/queryStudentClass", {
+        //   id: res.data.id,
+        //   studentId: res.data.studentId
+        // });
         //查询班级列表
+        this.$store.dispatch("user/setInfo", res.data);
         this.$router.replace({
           path: "/home"
         });

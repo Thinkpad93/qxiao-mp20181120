@@ -19,15 +19,16 @@ Vue.prototype.wxSdk = wxSdk;
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  let openId = Cookies.get('openId');
-  let roleType = Cookies.get('roleType');
+  //console.log(router);
+  //let openId = Cookies.get('openId');
+  //let roleType = Cookies.get('roleType');
   //这里进行路由权限控制
-  if (!store.state.wx.openId && openId && roleType) {
-    console.log("这里进行路由权限控制");
-    wxSdk.wxShare(roleType);
-    store.dispatch('users/getUserInfo');
-    next();
-  }
+  // if (!store.state.wx.openId && openId && roleType) {
+  //   console.log("这里进行路由权限控制");
+  //   wxSdk.wxShare(roleType);
+  //   store.dispatch('users/getUserInfo');
+  //   next();
+  // }
   next();
 });
 
@@ -39,5 +40,43 @@ new Vue({
     App
   },
   template: '<App/>',
-  mounted() {}
+  mounted() {
+
+    // let paramsArr = location.href.split('&').length == 1 ? 1 : location.href.match(/\?\S+/)[0].replace('?', '').split('&');  
+    // if (Cookies.getJSON('info')) {
+
+    // }
+    // let paramsArr = location.href.split('&').length == 1 ? 1 : location.href.match(/\?\S+/)[0].replace('?', '').split('&');
+    // let params = {};
+    // if (paramsArr == 1) {
+    //   if (Cookies.get("info")) {
+    //     console.log("10");
+    //     this.$store.dispatch("user/getInfo");
+    //   }
+    // } else {
+    //   if (!Cookies.get("info")) {
+    //     for (let i = 0; i < paramsArr.length; i++) {
+    //       let tmp = paramsArr[i].split('=');
+    //       params[tmp[0]] = tmp[1];
+    //     }
+    //     console.log("20");
+    //     this.$store.dispatch("user/setInfo", params);
+    //   }
+    // }
+    // if (paramsArr.length) {
+    //   for (let i = 0; i < paramsArr.length; i++) {
+    //     let tmp = paramsArr[i].split('=');
+    //     params[tmp[0]] = tmp[1];
+    //   }
+    //   if (params && Cookies.get("info")) {
+    //     console.log("10");
+    //     this.$store.dispatch("user/getInfo");
+    //   }
+    //   if (params && !Cookies.get("info")) {
+    //     console.log("20");
+    //     this.$store.dispatch("user/setInfo", params);
+    //   }
+    // }
+
+  }
 }).$mount('#app');

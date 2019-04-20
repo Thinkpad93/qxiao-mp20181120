@@ -26,6 +26,9 @@
           </div>
         </div>
       </van-dialog>
+      <van-swipe-cell ref="swipeCell" :right-width="60">
+        <van-cell-group></van-cell-group>
+      </van-swipe-cell>
       <div class="cells mb-20">
         <div
           class="cell class-boxs"
@@ -104,7 +107,7 @@ export default {
         path: "/class/edit",
         query: {
           classId: item.classId,
-          className: item.className,
+          className: item.className
         }
       });
     },

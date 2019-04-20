@@ -88,7 +88,6 @@ export default {
   data() {
     return {
       selected: [],
-      classList: [],
       form: {
         openId: this.$store.state.user.info.openId,
         teacherName: "",
@@ -98,6 +97,11 @@ export default {
         classes: []
       }
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleSubmit() {
@@ -129,10 +133,9 @@ export default {
       } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);
       }
-    },
+    }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

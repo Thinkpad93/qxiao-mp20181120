@@ -16,7 +16,16 @@ const actions = {
     commit
   }, params) {
     return new Promise(async resolve => {
-      let res = await service.queryClassId(params);
+      let {
+        id,
+        studentId,
+        roleType
+      } = params;
+      let res = await service.queryClassId({
+        id,
+        studentId,
+        roleType
+      });
       if (res.errorCode === 0) {
         commit('SET_CLASSLIST', res.data);
         resolve();

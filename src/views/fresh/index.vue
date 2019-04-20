@@ -86,6 +86,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
 export default {
@@ -110,11 +111,15 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       queryClass: {
         id: this.$store.state.user.info.id,
-        roleType: this.$store.state.user.info.roleType,
+        roleType: this.$store.state.user.info.roleType
       },
-      freshData: [],
-      classList: []
+      freshData: []
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   filters: {
     brReplace(value) {
@@ -158,7 +163,7 @@ export default {
         query: {
           freshId,
           classId,
-          studentId,
+          studentId
         }
       });
     },

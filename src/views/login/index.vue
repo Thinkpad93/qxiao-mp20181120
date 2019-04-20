@@ -116,7 +116,8 @@ export default {
     },
     //用户登录
     async userTeleLogin(params = {}) {
-      let res = await this.$store.dispatch("account/userTeleLogin", params);
+      //let res = await this.$store.dispatch("account/userTeleLogin", params);
+      let res = await service.userTeleLogin(params);
       if (res.errorCode === 0) {
         let { roleType } = res.data;
         //定时器清除
@@ -143,7 +144,8 @@ export default {
             this.$router.push({
               path: "/schoolCreate",
               query: {
-                tel: res.data.tel
+                tel: res.data.tel,
+                openId: this.$route.query.openId
               }
             });
             break;
@@ -152,7 +154,8 @@ export default {
             this.$router.push({
               path: "/schoolJoin",
               query: {
-                tel: res.data.tel
+                tel: res.data.tel,
+                openId: this.$route.query.openId
               }
             });
             break;
@@ -161,7 +164,8 @@ export default {
             this.$router.push({
               path: "/baby/supply",
               query: {
-                tel: res.data.tel
+                tel: res.data.tel,
+                openId: this.$route.query.openId
               }
             });
             break;

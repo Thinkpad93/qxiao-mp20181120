@@ -16,8 +16,8 @@ export default {
   name: "qmenu",
   data() {
     return {
-      roleType: this.$route.query.roleType,
-      type: this.$route.query.type,
+      roleType: this.$store.state.user.info.roleType,
+      type: this.$store.state.user.info.type,
       //学校类型
       recipeList: [
         {
@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     chanage(url) {
-      this.$emit("on-change", url, this.$route.query);
+      this.$emit("on-change", url);
     }
   }
 };

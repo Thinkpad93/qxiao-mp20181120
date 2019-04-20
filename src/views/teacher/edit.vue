@@ -92,9 +92,13 @@ export default {
       },
       form: {
         classes: []
-      },
-      classList: []
+      }
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleDel() {
@@ -122,7 +126,7 @@ export default {
       });
       let obj = Object.assign({}, this.form, {
         classes,
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId
       });
       this.teacherUpdate(obj);
     },
@@ -150,7 +154,7 @@ export default {
         this.form = args;
         this.selected = classes;
       }
-    },
+    }
   },
   mounted() {
     this.teacherQuery(this.querys);

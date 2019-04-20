@@ -107,9 +107,13 @@ export default {
         sex: 1,
         linkMan: [{ relation: 1, tel: "" }],
         classId: null
-      },
-      classList: []
+      }
     };
+  },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
   },
   methods: {
     handleAddLinkMan() {
@@ -157,10 +161,9 @@ export default {
             this.$router.go(-1);
           });
       }
-    },
+    }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

@@ -62,7 +62,6 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -99,14 +98,15 @@ export default {
     async teacherJoin(params = {}) {
       let res = await service.teacherJoin(params);
       if (res.errorCode === 0) {
+        this.$store.dispatch("user/setInfo", res.data);
         //当加入成功后，重新设置 roleType值
-        this.$store.dispatch("users/saveUserInfo", res.data);
-        this.$store.dispatch("student/saveStudnetId", res.data.studentId);
+        //this.$store.dispatch("users/saveUserInfo", res.data);
+        //this.$store.dispatch("student/saveStudnetId", res.data.studentId);
         //查询班级列表
-        this.$store.dispatch("queryClass/queryClassId", {
-          id: res.data.id,
-          roleType: res.data.roleType
-        });
+        // this.$store.dispatch("queryClass/queryClassId", {
+        //   id: res.data.id,
+        //   roleType: res.data.roleType
+        // });
         this.$router.replace({
           path: "/home"
         });

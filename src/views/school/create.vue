@@ -129,7 +129,6 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import { schoolType } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -146,7 +145,7 @@ export default {
         type: 0,
         leadName: "",
         tel: this.$route.query.tel,
-        openId: this.$store.state.user.info.openId,
+        openId: this.$route.query.openId,
         classes: []
       }
     };
@@ -187,15 +186,18 @@ export default {
       } else {
         let res = await service.schoolAdd(this.form);
         if (res.errorCode === 0) {
+          this.$store.dispatch("user/setInfo", res.data);
+          //this.$store.dispatch("queryClass/queryClassId", res.data);
+
           //当学校创建成功后，重新设置 roleType值
-          let { schoolCode, ...args } = res.data;
-          this.$store.dispatch("users/saveUserInfo", args);
-          this.$store.dispatch("student/saveStudnetId", args.studentId);
+          //let { schoolCode, ...args } = res.data;
+          //this.$store.dispatch("users/saveUserInfo", args);
+          //this.$store.dispatch("student/saveStudnetId", args.studentId);
           //查询班级列表
-          this.$store.dispatch("queryClass/queryClassId", {
-            id: args.id,
-            roleType: args.roleType
-          });
+          // this.$store.dispatch("queryClass/queryClassId", {
+          //   id: args.id,
+          //   roleType: args.roleType
+          // });
           this.$router.replace({ path: "/home" });
         } else if (res.errorCode === -1) {
           this.$toast(`${res.errorMsg}`);

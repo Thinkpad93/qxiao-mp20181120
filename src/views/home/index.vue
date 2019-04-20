@@ -63,6 +63,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import { ImagePreview } from "vant";
 import service from "@/api";
 import qxMenu from "@/components/Menu";
@@ -83,7 +84,7 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className: this.$store.state.user.info.className,
+      className: decodeURI(this.$store.state.user.info.className),
       isLoading: false,
       totalPage: 1, //总页数
       isOpen: this.$store.state.user.info.isOpen,
@@ -97,7 +98,6 @@ export default {
         pageSize: 10
       },
       communityData: [],
-      classList: [],
       form: {
         index: null,
         openId: this.$store.state.user.info.openId,
@@ -107,6 +107,11 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapState("queryClass", {
+      classList: state => state.classList
+    })
+  },
   filters: {
     capitalize(value) {
       return `${value},`;
@@ -115,7 +120,7 @@ export default {
   methods: {
     go(url, params) {
       if (url) {
-        this.$router.push({ path: `${url}`, query: params });
+        this.$router.push({ path: `${url}` });
       }
     },
     onChange(picker, values) {
@@ -128,8 +133,8 @@ export default {
     },
     //班级圈点赞
     async handlePraise(community, index) {
-      let openId = this.$route.query.openId;
-      let studentId = this.$route.query.studentId;
+      let openId = this.query.openId;
+      let studentId = this.query.studentId;
       let { communityId } = community;
       let res = await service.communityPraise({
         openId,
@@ -243,25 +248,13 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
-    },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
     }
   },
   mounted() {
-    this.queryClassGroup();
     this.wxSdk.wxShare(this.roleType);
     this.communityQuery(this.query);
   }
 };
 </script>
 <style lang="less" scoped>
-.page-ft {
-  padding-top: 130px;
-}
 </style>
