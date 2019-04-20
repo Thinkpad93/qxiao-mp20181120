@@ -41,7 +41,19 @@ new Vue({
   },
   template: '<App/>',
   mounted() {
-
+    let paramsArr = location.href.split('&');
+    let params = {};
+    for (let i = 0; i < paramsArr.length; i++) {
+      let tmp = paramsArr[i].split('=');
+      params[tmp[0]] = tmp[1];
+    }
+    //第一次进入应用，判断是否有cookie存在
+    if (Cookies.getJSON("info")) {
+      console.log("有cookie");
+    }
+    if (!Cookies.getJSON("info")) {
+      console.log(params);
+    }
     // let paramsArr = location.href.split('&').length == 1 ? 1 : location.href.match(/\?\S+/)[0].replace('?', '').split('&');  
     // if (Cookies.getJSON('info')) {
 
