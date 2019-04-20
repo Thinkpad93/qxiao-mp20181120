@@ -92,6 +92,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -100,9 +101,9 @@ export default {
   data() {
     return {
       querys: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         tel: this.$route.query.tel,
-        studentId: this.$route.query.studentIds
+        studentId: this.$route.query.studentId
       },
       form: {},
       classList: []
@@ -126,7 +127,7 @@ export default {
           .then(() => {
             this.studentDelete({
               studentId,
-              openId: this.querys.openId,
+              openId: this.$store.state.user.info.openId,
               classId: this.$route.query.classId,
               tel: this.querys.tel
             });
@@ -185,17 +186,8 @@ export default {
         this.$router.go(-1);
       }
     },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    }
   },
   mounted() {
-    this.queryClassGroup();
     this.studentInfoQuery(this.querys);
   }
 };

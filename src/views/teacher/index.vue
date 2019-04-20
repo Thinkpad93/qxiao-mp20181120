@@ -2,10 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="teacher-head">
-        <router-link
-          :to="{path: '/teacher/add', query: this.$route.query}"
-          class="btn btn-primary"
-        >录入老师信息</router-link>
+        <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
         <div class="tab">
           <a href="javascript:void(0);" style="color:#409eff;" size-14>批量导入老师信息</a>
           <a
@@ -74,7 +71,7 @@ export default {
   data() {
     return {
       visibility: false,
-      schoolId: this.$route.query.id,
+      schoolId: this.$store.state.user.info.id,
       teacherList: []
     };
   },
@@ -82,10 +79,7 @@ export default {
     handleEditTeacher(teacher) {
       this.$router.push({
         path: "/teacher/edit",
-        query: {
-          teacherId: teacher.teacherId,
-          ...this.$route.query
-        }
+        query: { teacherId: teacher.teacherId }
       });
     },
     async queryTeacher(schoolId) {

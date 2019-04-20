@@ -58,9 +58,9 @@ export default {
   data() {
     return {
       isShow: false,
-      roleType: this.$route.query.roleType,
+      roleType: this.$store.state.user.info.roleType,
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         channelId: this.$route.query.channelId
       },
       albumInfo: {},

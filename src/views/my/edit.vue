@@ -150,7 +150,7 @@ export default {
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
-      openId: this.$store.state.wx.openId
+      openId: this.$store.state.user.info.openId,
     };
   },
   computed: {

@@ -146,7 +146,7 @@ export default {
         type: 0,
         leadName: "",
         tel: this.$route.query.tel,
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         classes: []
       }
     };

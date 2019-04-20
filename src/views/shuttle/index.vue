@@ -90,10 +90,10 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$route.query.className,
+      className: this.$store.state.user.info.className,
       query: {
-        openId: this.$route.query.openId,
-        classId: this.$route.query.classId,
+        openId: this.$store.state.user.info.openId,
+        classId: this.$store.state.user.info.classId,
         date: dayjs().format("YYYY-MM-DD") //获取当前年月日
       },
       shuttleData: [],

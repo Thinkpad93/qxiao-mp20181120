@@ -23,7 +23,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link :to="{path:'/homework/add', query: this.$route.query}" class="release">
+        <router-link to="/homework/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -86,16 +86,16 @@ export default {
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$route.query.openId,
-        classId: this.$route.query.classId,
-        studentId: this.$route.query.studentId,
+        openId: this.$store.state.user.info.openId,
+        classId: this.$store.state.user.info.classId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$route.query.roleType,
+      roleType: this.$store.state.user.info.roleType,
       queryClass: {
-        id: this.$route.query.id,
-        roleType: this.$route.query.roleType
+        id: this.$store.state.user.info.id,
+        roleType: this.$store.state.user.info.roleType,
       },
       homeworkData: [],
       classList: []
@@ -138,8 +138,6 @@ export default {
     },
     go(homework) {
       let { classId, homeId, studentId, needConfirm } = homework;
-      let openId = this.query.openId;
-      let roleType = this.roleType;
       this.$router.push({
         path: "/homework/show",
         query: {
@@ -147,8 +145,6 @@ export default {
           homeId,
           studentId,
           needConfirm,
-          openId,
-          roleType
         }
       });
     },

@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.studentId,
         page: 1,
         pageSize: 20

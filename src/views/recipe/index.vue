@@ -2,9 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link
-          :to="{path: '/recipe/add', query: {openId:this.$route.query.openId}}"
-          class="release"
+        <router-link to="/recipe/add" class="release"
         >
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
@@ -60,10 +58,10 @@ export default {
       long: 0,
       time: 0,
       query: {
-        openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId
+        openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.studentId,
       },
-      roleType: this.$route.query.roleType,
+      roleType: this.$store.state.user.info.roleType,
       recipeData: []
     };
   },
@@ -104,14 +102,9 @@ export default {
     },
     go(recipe) {
       let { studentId, recipeId } = recipe;
-      let openId = this.query.openId;
       this.$router.push({
         path: "/recipe/show",
-        query: {
-          studentId,
-          recipeId,
-          openId
-        }
+        query: { recipeId, studentId }
       });
     },
     //食谱列表查询

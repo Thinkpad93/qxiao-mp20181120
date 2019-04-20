@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     roleText() {
-      return this.$route.query.roleType == 2 ? "老师" : "家长";
+      return this.$store.state.user.info.roleType == 2 ? "老师" : "家长";
     }
   },
   mounted() {}

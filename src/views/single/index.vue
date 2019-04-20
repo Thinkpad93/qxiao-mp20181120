@@ -251,6 +251,11 @@ export default {
   mounted() {
     this.actionListQuery(this.query);
     this.lessonQuery(this.query);
+    // this.$store.dispatch('user/setInfo', {
+    //   classId: 1,
+    //   roleType: 1,
+    //   className: "清风班", //班级名称
+    // });
   }
 };
 </script>

@@ -111,7 +111,7 @@ export default {
       form: {},
       chenkedList: [],
       dialogForm: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         actionId: this.$route.query.actionId,
         actionType: this.$route.query.actionType,
         ruleText: "",

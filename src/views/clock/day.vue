@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         data: this.$route.query.day
       },
       dayList: []

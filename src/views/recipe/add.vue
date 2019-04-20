@@ -109,7 +109,7 @@ export default {
       serverId: [], //微信图片ID
       imagesList: [],
       form: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         title: "",
         textContent: "",
         images: [],

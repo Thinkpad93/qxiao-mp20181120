@@ -56,8 +56,8 @@ export default {
     return {
       dialogVisible: false,
       className: "",
-      schoolId: this.$route.query.id,
-      openId: this.$route.query.openId,
+      schoolId: this.$store.state.user.info.id,
+      openId: this.$store.state.user.info.openId,
       classList: []
     };
   },
@@ -105,7 +105,6 @@ export default {
         query: {
           classId: item.classId,
           className: item.className,
-          openId: this.openId
         }
       });
     },

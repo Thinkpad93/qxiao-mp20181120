@@ -36,7 +36,7 @@
         </div>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link :to="{path:'/fresh/add', query: this.$route.query}" class="release">
+        <router-link to="/fresh/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -96,21 +96,21 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className: this.$route.query.className,
-      classId: this.$route.query.classId,
+      className: this.$store.state.user.info.className,
+      classId: this.$store.state.user.info.classId,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$route.query.openId,
-        classId: this.$route.query.classId,
-        studentId: this.$route.query.studentId,
+        openId: this.$store.state.user.info.openId,
+        classId: this.$store.state.user.info.classId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$route.query.roleType,
+      roleType: this.$store.state.user.info.roleType,
       queryClass: {
-        id: this.$route.query.id,
-        roleType: this.$route.query.roleType
+        id: this.$store.state.user.info.id,
+        roleType: this.$store.state.user.info.roleType,
       },
       freshData: [],
       classList: []
@@ -153,16 +153,12 @@ export default {
     },
     go(fresh) {
       let { freshId, classId, studentId } = fresh;
-      let openId = this.query.openId;
-      let roleType = this.roleType;
       this.$router.push({
         path: "/fresh/show",
         query: {
           freshId,
           classId,
           studentId,
-          openId,
-          roleType
         }
       });
     },

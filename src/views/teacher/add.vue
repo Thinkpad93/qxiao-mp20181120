@@ -79,6 +79,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -89,7 +90,7 @@ export default {
       selected: [],
       classList: [],
       form: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         teacherName: "",
         sex: 1,
         tel: "",
@@ -129,17 +130,8 @@ export default {
         this.$toast(`${res.errorMsg}`);
       }
     },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    }
   },
   mounted() {
-    this.queryClassGroup();
   }
 };
 </script>

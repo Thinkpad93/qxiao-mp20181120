@@ -84,7 +84,7 @@ export default {
       selected: [],
       needSwitch: false,
       form: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         title: "",
         textContent: "",
         images: [],
@@ -227,17 +227,8 @@ export default {
         this.$router.go(-1);
       }
     },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    }
   },
   mounted() {
-    this.queryClassGroup();
   }
 };
 </script>

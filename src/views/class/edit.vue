@@ -58,7 +58,7 @@ export default {
       index: 0,
       query: {
         classId: this.$route.query.classId,
-        openId: this.$route.query.openId
+        openId: this.$store.state.user.info.openId,
       },
       className: this.$route.query.className,
       teacherList: [],

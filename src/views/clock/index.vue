@@ -132,28 +132,24 @@ export default {
       currentDate: new Date(),
       clockList: [],
       clockMonthList: [],
+      roleType: this.$store.state.user.info.roleType,
       calendar: {
         range: false,
         lunar: true,
         events: {}
       },
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         date: dayjs()
           .subtract(1, "days")
           .format("YYYY-MM-DD")
       },
       querys: {
-        studentId: this.$route.query.studentId,
-        openId: this.$route.query.openId,
+        studentId: this.$store.state.user.info.studentId,
+        openId: this.$store.state.user.info.openId,
         month: dayjs().format("YYYY-MM-DD")
       }
     };
-  },
-  computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType
-    })
   },
   methods: {
     //格式化函数

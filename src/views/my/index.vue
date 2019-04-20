@@ -249,8 +249,8 @@ export default {
       leaderInfo: {},
       teacherInfo: {},
       patroarch: {},
-      openId: this.$store.state.wx.openId,
-      photo: this.$store.state.wx.photo
+      openId: this.$store.state.user.info.openId,
+      photo: this.$store.state.user.info.photo,
     };
   },
   computed: {

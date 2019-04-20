@@ -41,9 +41,7 @@
         </div>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link
-          :to="{path: '/notice/add', query: {openId:this.$route.query.openId}}"
-          class="release"
+        <router-link to="/notice/add" class="release"
         >
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
@@ -104,20 +102,20 @@ export default {
       long: 0,
       time: 0,
       popupShow: false,
-      className: this.$route.query.className,
-      classId: this.$route.query.classId,
+      className: this.$store.state.user.info.className,
+      classId: this.$store.state.user.info.classId,
       index: 0,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
-        openId: this.$route.query.openId,
-        classId: this.$route.query.classId,
-        studentId: this.$route.query.studentId,
+        openId: this.$store.state.user.info.openId,
+        classId: this.$store.state.user.info.classId,
+        studentId: this.$store.state.user.info.studentId,
         type: 0,
         page: 1,
         pageSize: 10
       },
-      roleType: this.$route.query.roleType,
+      roleType: this.$store.state.user.info.roleType,
       noticeData: [],
       classList: []
     };
@@ -165,12 +163,10 @@ export default {
       this.$router.push({
         path: "/notice/show",
         query: {
-          noticeId,
-          needConfirm,
-          classId,
-          studentId,
-          openId,
-          roleType
+            noticeId,
+            needConfirm,
+            classId,
+            studentId
         }
       });
     },
@@ -232,17 +228,8 @@ export default {
         this.noticeData = res.data.data || [];
       }
     },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
-    }
   },
   mounted() {
-    this.queryClassGroup();
     this.wxSdk.wxShare(this.roleType);
     this.noticeQuery(this.query);
   }

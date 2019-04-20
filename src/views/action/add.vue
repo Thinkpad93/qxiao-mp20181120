@@ -100,7 +100,7 @@ export default {
     return {
       loading: false,
       form: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.openStudentId,
         title: "",
         textContent: "",

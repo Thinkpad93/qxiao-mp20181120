@@ -83,16 +83,16 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className: this.$route.query.className,
+      className: this.$store.state.user.info.className,
       isLoading: false,
       totalPage: 1, //总页数
-      isOpen: this.$route.query.isOpen,
-      roleType: this.$route.query.roleType,
-      id: this.$route.query.id,
+      isOpen: this.$store.state.user.info.isOpen,
+      roleType: this.$store.state.user.info.roleType,
+      id: this.$store.state.user.info.id,
       query: {
-        classId: this.$route.query.classId,
-        openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId,
+        classId: this.$store.state.user.info.classId,
+        openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 10
       },
@@ -100,8 +100,8 @@ export default {
       classList: [],
       form: {
         index: null,
-        openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId,
+        openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.studentId,
         communityId: null,
         textContent: ""
       }

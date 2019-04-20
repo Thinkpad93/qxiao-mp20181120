@@ -96,12 +96,12 @@ export default {
     return {
       statrCount: 0,
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         page: 1,
         pageSize: 20
       },
       form: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         textContent: "",
         starCount: ""
       },
@@ -172,6 +172,7 @@ export default {
       }
     },
     handleSave() {
+      
       if (!this.total) {
         this.$toast("请勾选你要兑换的奖项");
         return;
