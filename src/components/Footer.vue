@@ -43,7 +43,6 @@ export default {
     justify-content: center;
     height: 100px;
     a {
-      color: #d5dde0;
       display: block;
       text-align: center;
       &.router-link-active {

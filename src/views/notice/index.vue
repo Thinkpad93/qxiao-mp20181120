@@ -48,7 +48,7 @@
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
-        v-for="(notice, index) in noticeData"
+        v-for="(notice, index) in list"
         :key="index"
         :disabled="roleType == 3 || roleType == 2"
         :on-close="onClose(notice, index)"
@@ -83,7 +83,7 @@
         </van-cell-group>
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
-      <div class="empty" v-if="!noticeData.length">
+      <div class="empty" v-if="!list.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无通知公告</p>
       </div>
@@ -99,8 +99,6 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
-      long: 0,
-      time: 0,
       popupShow: false,
       className: this.$store.state.user.info.className,
       classId: this.$store.state.user.info.classId,
@@ -116,7 +114,7 @@ export default {
         pageSize: 10
       },
       roleType: this.$store.state.user.info.roleType,
-      noticeData: []
+      list: []
     };
   },
   computed: {
@@ -150,7 +148,7 @@ export default {
                 let res = await service.deleteNotice(obj);
                 if (res.errorCode === 0) {
                   instance.close();
-                  this.noticeData.splice(index, 1);
+                  this.list.splice(index, 1);
                 }
               })
               .catch(() => {
@@ -213,7 +211,7 @@ export default {
               let list = res.data.data;
               if (list.length) {
                 list.forEach(element => {
-                  this.noticeData.push(element);
+                  this.list.push(element);
                 });
               }
             }
@@ -229,7 +227,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
-        this.noticeData = res.data.data || [];
+        this.list = res.data.data || [];
       }
     }
   },

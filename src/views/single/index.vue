@@ -112,8 +112,40 @@
           </van-tab>
           <van-tab title="成长分析">
             <div class="container">
-              <div class="mod"></div>
-              <div class="mod"></div>
+              <div class="mod">
+                <div class="remark">
+                  <div class="remark-cell">
+                    <p>
+                      孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。
+                    </p>
+                  </div>
+                  <div class="remark-cell">
+                    <p>
+                      好好学习，天天向上! 一切皆有可能。
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mod">
+                <div class="snail">
+                  <div class="snail-left">
+                    <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+                    <div class="ml-10">竞争力(广州)</div>
+                  </div>
+                  <div class="snail-right">
+                    <span class="mr-10">60</span>
+                    <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
+                  </div>
+                </div>
+              </div>
+              <div class="mod">
+                <van-tabs v-model="actives">
+                  <van-tab title="个性分析">
+                    <p>缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
+                  </van-tab>
+                  <van-tab title="学习分析"></van-tab>
+                </van-tabs>
+              </div>
             </div>
           </van-tab>
         </van-tabs>
@@ -138,6 +170,7 @@ export default {
   data() {
     return {
       active: 0,
+      actives: 0,
       chartSettings: {
         metrics: ["访问用户", "下单用户"],
         dimension: ["日期"]
@@ -160,7 +193,20 @@ export default {
       },
       actionView: {},
       myActions: [], //我的行为列表
-      lessonList: [], //
+      lessonList: [
+        {
+          title: "语文",
+          lessonId: 1,
+          startCount: 2,
+          scoreRank: 5
+        },
+        {
+          title: "数学",
+          lessonId: 2,
+          startCount: 5,
+          scoreRank: 80
+        }
+      ], //
       statu: 0 //今天是否已经打了
     };
   },
@@ -296,6 +342,7 @@ export default {
   }
   &-bd {
     flex: 1;
+    display: flex;
   }
 }
 .dhole {
@@ -312,6 +359,26 @@ export default {
 .actionView {
   padding: 30px;
   p {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.snail {
+  height: 80px;
+  width: calc(100% - 60px);
+  display: flex;
+  margin: 30px auto;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 8px;
+  justify-content: space-between;
+  background-color: #fff;
+  &-left {
+    display: flex;
+    align-items: center;
+  }
+  &-right {
     display: flex;
     align-items: center;
   }

@@ -81,11 +81,12 @@
 </template>
 <script>
 import service from "@/api";
+import pageMixin from "@/mixins/page";
 export default {
   name: "freshShow",
+  mixins: [pageMixin],
   data() {
     return {
-      dialogVisible: false,
       query: {
         openId: this.$store.state.user.info.openId,
         freshId: this.$route.query.freshId,

@@ -25,7 +25,9 @@ import actionRouterConfig from './action';
 import prizeRouterConfig from './prize';
 import wisdomRouterConfig from './wisdom';
 import userRouterConfig from './user';
-
+import childRouterConfig from './child';
+import examPaperRouterConfig from './examPaper';
+import scoreRouterConfig from './score';
 
 Vue.use(Router);
 
@@ -53,6 +55,9 @@ export const constantRouterMap = [
   ...prizeRouterConfig,
   ...wisdomRouterConfig,
   ...userRouterConfig,
+  ...childRouterConfig,
+  ...examPaperRouterConfig,
+  ...scoreRouterConfig
 ]
 
 

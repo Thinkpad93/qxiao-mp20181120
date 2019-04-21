@@ -19,15 +19,28 @@ Vue.prototype.wxSdk = wxSdk;
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  //console.log(router);
-  //let openId = Cookies.get('openId');
-  //let roleType = Cookies.get('roleType');
-  //这里进行路由权限控制
-  // if (!store.state.wx.openId && openId && roleType) {
-  //   console.log("这里进行路由权限控制");
-  //   wxSdk.wxShare(roleType);
-  //   store.dispatch('users/getUserInfo');
-  //   next();
+  console.log("路由");
+  let _cookie = Cookies.getJSON('info') || {};
+  //如果有cookie，刷新页面重新取出数据
+  if (Object.keys(_cookie).length && !store.state.user.info) {
+    store.dispatch("user/getInfo");
+  }
+  //如果没有Cookie
+  // if (!Object.keys(_cookie).length && store.state.user.info) {
+  //   //从地址栏获取后端返回的参数
+  //   if (to.path !== '/login') {
+  //     let paramsArr = location.href.match(/\?\S+/)[0].replace('?', '').split('&');
+  //     let params = {};
+  //     for (let i = 0; i < paramsArr.length; i++) {
+  //       let tmp = paramsArr[i].split('=');
+  //       params[tmp[0]] = tmp[1];	
+  //     }
+  //     //所有参数已经截取到
+  //     if (Object.keys(params).length) {
+  //       //重新设置值
+  //       store.dispatch("user/setInfo", params);
+  //     }
+  //   }
   // }
   next();
 });
@@ -41,19 +54,19 @@ new Vue({
   },
   template: '<App/>',
   mounted() {
-    let paramsArr = location.href.split('&');
-    let params = {};
-    for (let i = 0; i < paramsArr.length; i++) {
-      let tmp = paramsArr[i].split('=');
-      params[tmp[0]] = tmp[1];
-    }
-    //第一次进入应用，判断是否有cookie存在
-    if (Cookies.getJSON("info")) {
-      console.log("有cookie");
-    }
-    if (!Cookies.getJSON("info")) {
-      console.log(params);
-    }
+    // let paramsArr = location.href.split('&');
+    // let params = {};
+    // for (let i = 0; i < paramsArr.length; i++) {
+    //   let tmp = paramsArr[i].split('=');
+    //   params[tmp[0]] = tmp[1];
+    // }
+    // //第一次进入应用，判断是否有cookie存在
+    // if (Cookies.getJSON("info")) {
+    //   console.log("有cookie");
+    // }
+    // if (!Cookies.getJSON("info")) {
+    //   console.log(params);
+    // }
     // let paramsArr = location.href.split('&').length == 1 ? 1 : location.href.match(/\?\S+/)[0].replace('?', '').split('&');  
     // if (Cookies.getJSON('info')) {
 

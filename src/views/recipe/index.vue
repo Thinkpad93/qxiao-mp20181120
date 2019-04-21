@@ -2,15 +2,14 @@
   <div class="page">
     <div class="page-bd">
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link to="/recipe/add" class="release"
-        >
+        <router-link to="/recipe/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
-        v-for="(recipe, index) in recipeData"
+        v-for="(recipe, index) in list"
         :key="index"
         :disabled="roleType == 3 || roleType == 2"
         :on-close="onClose(recipe, index)"
@@ -42,7 +41,7 @@
         </van-cell-group>
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
-      <div class="empty" v-if="!recipeData.length">
+      <div class="empty" v-if="!list.length">
         <img src="@/assets/image/kong.png" alt>
         <p size-18>暂无营养食谱</p>
       </div>
@@ -55,14 +54,12 @@ export default {
   name: "recipe",
   data() {
     return {
-      long: 0,
-      time: 0,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.studentId,
+        studentId: this.$store.state.user.info.studentId
       },
       roleType: this.$store.state.user.info.roleType,
-      recipeData: []
+      list: []
     };
   },
   filters: {
@@ -90,7 +87,7 @@ export default {
                 let res = await service.recipeDelete(obj);
                 if (res.errorCode === 0) {
                   instance.close();
-                  this.recipeData.splice(index, 1);
+                  this.list.splice(index, 1);
                 }
               })
               .catch(() => {
@@ -111,7 +108,7 @@ export default {
     async recipeQuery(params = {}) {
       let res = await service.recipeQuery(params);
       if (res.errorCode === 0) {
-        this.recipeData = res.data;
+        this.list = res.data;
       }
     }
   },

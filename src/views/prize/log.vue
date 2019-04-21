@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="cells">
-        <div class="cell min-h160" v-for="item in pageData" :key="item.exchangeId">
+        <div class="cell min-h160" v-for="item in list" :key="item.exchangeId">
           <div class="cell-bd">
             <p>{{ item.textContent }}</p>
             <div size-14>x{{ item.times }}</div>
@@ -28,7 +28,7 @@ export default {
         page: 1,
         pageSize: 10
       },
-      pageData: []
+      list: []
     };
   },
   methods: {
@@ -36,7 +36,7 @@ export default {
     async prizeExchangeLog(params = {}) {
       let res = await service.prizeExchangeLog(params);
       if (res.errorCode === 0) {
-        this.pageData = res.data.data || [];
+        this.list = res.data.data || [];
       }
     }
   },

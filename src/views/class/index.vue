@@ -53,11 +53,12 @@
 </template>
 <script>
 import service from "@/api";
+import pageMixin from "@/mixins/page";
 export default {
   name: "class",
+  mixins: [pageMixin],
   data() {
     return {
-      dialogVisible: false,
       className: "",
       schoolId: this.$store.state.user.info.id,
       openId: this.$store.state.user.info.openId,

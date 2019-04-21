@@ -30,7 +30,7 @@
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
-        v-for="(homework, index) in homeworkData"
+        v-for="(homework, index) in list"
         :key="index"
         :disabled="roleType == 3"
         :on-close="onClose(homework, index)"
@@ -64,7 +64,7 @@
         </van-cell-group>
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
-      <div class="empty" v-if="!homeworkData.length">
+      <div class="empty" v-if="!list.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无亲子作业</p>
       </div>
@@ -80,8 +80,6 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
-      long: 0,
-      time: 0,
       popupShow: false,
       className: this.$store.state.user.info.className,
       isLoading: false,
@@ -98,7 +96,7 @@ export default {
         id: this.$store.state.user.info.id,
         roleType: this.$store.state.user.info.roleType
       },
-      homeworkData: []
+      list: []
     };
   },
   computed: {
@@ -131,7 +129,7 @@ export default {
                 let res = await service.homeworkDelete(obj);
                 if (res.errorCode === 0) {
                   instance.close();
-                  this.homeworkData.splice(index, 1);
+                  this.list.splice(index, 1);
                 }
               })
               .catch(() => {
@@ -181,7 +179,7 @@ export default {
               let list = res.data.data;
               if (list.length) {
                 list.forEach(element => {
-                  this.homeworkData.push(element);
+                  this.list.push(element);
                 });
               }
             }
@@ -197,7 +195,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
-        this.homeworkData = res.data.data;
+        this.list = res.data.data;
       }
     },
     //根据角色查询班级

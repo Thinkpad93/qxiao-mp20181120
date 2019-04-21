@@ -43,7 +43,7 @@
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
-        v-for="(fresh, index) in freshData"
+        v-for="(fresh, index) in list"
         :key="index"
         :disabled="roleType == 3"
         :on-close="onClose(fresh, index)"
@@ -78,7 +78,7 @@
         </van-cell-group>
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
-      <div class="empty" v-if="!freshData.length">
+      <div class="empty" v-if="!list.length">
         <img src="@/assets/image/kong.png" alt>
         <p>暂无新鲜速报</p>
       </div>
@@ -94,8 +94,6 @@ export default {
   mixins: [scrollMixins],
   data() {
     return {
-      long: 0,
-      time: 0,
       popupShow: false,
       className: this.$store.state.user.info.className,
       classId: this.$store.state.user.info.classId,
@@ -113,7 +111,7 @@ export default {
         id: this.$store.state.user.info.id,
         roleType: this.$store.state.user.info.roleType
       },
-      freshData: []
+      list: []
     };
   },
   computed: {
@@ -146,7 +144,7 @@ export default {
                 let res = await service.deleteFresh(obj);
                 if (res.errorCode === 0) {
                   instance.close();
-                  this.freshData.splice(index, 1);
+                  this.list.splice(index, 1);
                 }
               })
               .catch(() => {
@@ -196,7 +194,7 @@ export default {
               let list = res.data.data;
               if (list.length) {
                 list.forEach(element => {
-                  this.freshData.push(element);
+                  this.list.push(element);
                 });
               }
             }
@@ -218,7 +216,7 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
-        this.freshData = res.data.data || [];
+        this.list = res.data.data || [];
       }
     },
     //根据角色查询班级
