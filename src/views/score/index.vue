@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-hd">
-      <van-tabs v-model="actives">
+      <van-tabs v-model="actives" @click="handleTab">
         <van-tab title="语文"></van-tab>
         <van-tab title="数学"></van-tab>
         <van-tab title="英语"></van-tab>
@@ -47,6 +47,10 @@ export default {
     };
   },
   methods: {
+    handleTab(index, title) {
+      let n = Math.floor(Math.random() * 10);
+      this.list = scoreList(n);
+    },
     async lessonQuery(parms = {}) {
       let res = await service.lessonQuery(params);
     },
