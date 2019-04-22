@@ -14,8 +14,7 @@ const actions = {
       state.info = Object.assign({}, info);
       //设置Cookie
       Cookies.set('info', info);
-      console.log(state.info);
-      console.log("info");
+      console.log("setInfo");
       await dispatch("queryClass/queryClassId", info, {
         root: true
       });
@@ -29,7 +28,6 @@ const actions = {
   }) {
     //Cookies.getJSON
     let info = Cookies.getJSON('info') || {};
-    console.log(info);
     console.log("getInfo");
     if (Object.keys(info).length) {
       state.info = info;

@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.user.info.className,
+      className: decodeURI(this.$store.state.user.info.className),
       isLoading: false,
       totalPage: 1, //总页数
       query: {

@@ -1,28 +1,6 @@
-> A Vue.js project
-
-## Build Setup
-
-```bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-openid	classid	id	studentid
-oUQwt1Wif8RaCwa9SQnrJPEuKNu0	1	1	1	家长
-oUQwt1e9wv4_CbA6YcI-pefbcQdo	1	1	0	老师
-oUQwt1XVT1Y0ohyXWNwrchLSYLa8	0	1	0	园长
-
-
-```
-
 ### 技术
 
-vue2.x + vuex + vueRoute + axios + weuijs
+vue2.x + vuex + vueRoute + axios + vantUI
 
 ## 项目目录介绍
 
@@ -39,13 +17,15 @@ vue2.x + vuex + vueRoute + axios + weuijs
     - index.js 导出所有接口地址
   - assets 资源目录
   - components 组件目录
-
   - config 配置
   - router 路由文件
+  - directive 全局指令
+  - filters 全局过滤
+  - mixins 混入
   - mock 模拟数据
   - router vue 路由配置文件
   - store vuex 文件
-  - style less 样式文件
+  - styles less 样式文件
   - vantUI 移动端 UI 组件
   - views 页面
     - album 班级相册
@@ -107,56 +87,6 @@ wx.previewImage({
   current: encodeURI(url), //encodeURI
   urls: imgArray
 });
-```
-
-> audio
-
-```javascript
-    handlePlayAudio() {
-      let ua = window.navigator.userAgent.toLowerCase();
-      //ios
-      if (/iphone|ipad|mac/i.test(ua)) {
-        alert("ios");
-        document.addEventListener(
-          "WeixinJSBridgeReady",
-          function() {
-            let audios = document.getElementById("audios");
-            WeixinJSBridge.invoke("getNetworkType", {}, function(res) {
-              //res这里面就包含了所有的网络类型
-              audios.play();
-            });
-          },
-          false
-        );
-      }
-      //android
-      if (/android/i.test(ua)) {
-        console.log("android");
-      }
-    },
-      document.addEventListener("touchstart", () => {
-        document.getElementById("audios").play();
-      });
-      配置信息, 即使不正确也能使用 wx.ready
-      wx.config({
-        debug: false,
-        appId: "",
-        timestamp: 1,
-        nonceStr: "",
-        signature: "",
-        jsApiList: []
-      });
-      wx.ready(() => {
-        let audio = document.getElementById("audios");
-        let ua = window.navigator.userAgent.toLowerCase();
-        if (/iphone|ipad|mac/i.test(ua)) {
-          alert("ios");
-          //audio.pause();
-          audio.play();
-        }
-        if (/android/i.test(ua)) {
-        }
-      });
 ```
 
 ## git 分支命名

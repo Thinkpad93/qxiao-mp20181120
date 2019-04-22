@@ -1,6 +1,13 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <!-- -->
+      <div
+        class="van-overlay"
+        style="z-index: 900;background-color: rgba(0, 0, 0, 0);height: calc(100% - 50px)"
+        @click="overlay"
+        v-if="query.studentId == 0"
+      ></div>
       <!-- dialog -->
       <van-dialog v-model="dialogVisible" title="行为说明">
         <div class="actionView">
@@ -21,7 +28,7 @@
       <div class="wrap">
         <!-- 用户 -->
         <div class="home-user">
-          <img src="http://iph.href.lu/50x50" width="50" height="50" radius="50">
+          <img :src="photo" width="50" height="50" radius="50">
           <div class="js-user-change">
             <p class="ml-10">添加孩子，记录孩子成长表现</p>
           </div>
@@ -40,7 +47,7 @@
                   <span>{{ start }}颗Q星</span>
                 </router-link>
                 <div class="action-cells">
-                  <div class="action-cell" v-for="item in myActions" :key="item.actionId">
+                  <div class="action-cell" v-for="(item, index) in myActions" :key="index">
                     <div class="action-cell-hd">
                       <span @click="handleActionMore(item)">
                         {{ item.title }}
@@ -73,7 +80,7 @@
               </div>
               <div class="mod">
                 <!-- 一周数据分析 -->
-                <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+                <!-- <ve-line :data="chartData" :settings="chartSettings"></ve-line> -->
               </div>
             </div>
           </van-tab>
@@ -115,14 +122,10 @@
               <div class="mod">
                 <div class="remark">
                   <div class="remark-cell">
-                    <p>
-                      孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。
-                    </p>
+                    <p>孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
                   </div>
                   <div class="remark-cell">
-                    <p>
-                      好好学习，天天向上! 一切皆有可能。
-                    </p>
+                    <p>好好学习，天天向上! 一切皆有可能。</p>
                   </div>
                 </div>
               </div>
@@ -186,9 +189,10 @@ export default {
           { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
         ]
       },
+      photo: this.$store.state.user.info.photo,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$route.query.openStudentId,
+        studentId: this.$store.state.user.info.openStudentId,
         day: dayjs().format("YYYY-MM-DD")
       },
       actionView: {},
@@ -206,7 +210,7 @@ export default {
           startCount: 5,
           scoreRank: 80
         }
-      ], //
+      ],
       statu: 0 //今天是否已经打了
     };
   },
@@ -219,6 +223,21 @@ export default {
     }
   },
   methods: {
+    overlay() {
+      if (this.query.studentId == 0) {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "请先添加孩子哦"
+          })
+          .then(() => {
+            this.$router.push({
+              path: "/child"
+            });
+          })
+          .catch(() => {});
+      }
+    },
     //rate事件
     handleChangeRate(count) {
       let flag = false;
@@ -296,12 +315,7 @@ export default {
   },
   mounted() {
     this.actionListQuery(this.query);
-    this.lessonQuery(this.query);
-    // this.$store.dispatch('user/setInfo', {
-    //   classId: 1,
-    //   roleType: 1,
-    //   className: "清风班", //班级名称
-    // });
+    //this.lessonQuery(this.query);
   }
 };
 </script>
@@ -343,6 +357,7 @@ export default {
   &-bd {
     flex: 1;
     display: flex;
+    justify-content: center;
   }
 }
 .dhole {

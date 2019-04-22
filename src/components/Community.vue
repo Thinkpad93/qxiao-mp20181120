@@ -62,7 +62,6 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { ImagePreview } from "vant";
 export default {
   name: "community",
@@ -75,18 +74,14 @@ export default {
   },
   data() {
     return {
-      showMore: false
+      showMore: false,
+      roleType: this.$store.state.user.info.roleType
     };
   },
   filters: {
     capitalize(value) {
       return `${value},`;
     }
-  },
-  computed: {
-    ...mapState("users", {
-      roleType: state => state.roleType
-    })
   },
   methods: {
     //

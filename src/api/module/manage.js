@@ -246,3 +246,15 @@ export function addStudentWithOpen(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询学生列表--开放版--切换
+export function queryOpenStudentList(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryOpenStudentList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//老师录入学生（查询存在的学生）
+export function queryStudentOpen(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryStudentOpen.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

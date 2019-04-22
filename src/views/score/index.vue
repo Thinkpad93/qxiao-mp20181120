@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-hd">
-      <van-tabs v-model="actives" @click="handleTab">
+      <van-tabs :line-height="2" v-model="actives" @click="handleTab">
         <van-tab title="语文"></van-tab>
         <van-tab title="数学"></van-tab>
         <van-tab title="英语"></van-tab>
@@ -11,7 +11,7 @@
     </div>
     <div class="flex-bd">
       <!-- -->
-      <div class="score-content mb-20">
+      <div class="score-content mt-20 mb-20">
         <p>二年级上学期期中考试</p>
         <div class>
           <span>班级: top5%</span>
@@ -26,10 +26,10 @@
       <div class="score-list">
         <div class="item mb-20" v-for="(item, index) in list" :key="index">
           <div class="info">
-            <p class="mb-20">{{ item.paragraph }}</p>
+            <p class="mb-20">{{ item.stageTitle }}</p>
             <router-link to="/examPaper">试卷讲解</router-link>
           </div>
-          <div class="goal">{{ item.integer }}分</div>
+          <div class="goal">{{ item.score }}分</div>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
 </template>
 <script>
 import service from "@/api";
-import { scoreList } from '@/mock';
+import { scoreList } from "@/mock";
 export default {
   name: "score",
   data() {
@@ -60,7 +60,6 @@ export default {
   },
   mounted() {
     this.list = scoreList();
-    
   }
 };
 </script>

@@ -122,13 +122,6 @@ export default {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        // this.$store.dispatch("users/saveUserInfo", res.data);
-        // this.$store.dispatch("student/saveStudnetId", res.data.studentId);
-        // this.$store.dispatch("queryClass/queryStudentClass", {
-        //   id: res.data.id,
-        //   studentId: res.data.studentId
-        // });
-        //查询班级列表
         this.$store.dispatch("user/setInfo", res.data);
         this.$router.replace({
           path: "/home"

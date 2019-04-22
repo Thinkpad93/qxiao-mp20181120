@@ -24,7 +24,7 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$route.query.openStudentId,
+        studentId: this.$store.state.user.info.openStudentId,
         page: 1,
         pageSize: 10
       },

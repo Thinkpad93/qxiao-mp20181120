@@ -3,7 +3,7 @@ export default [{
   name: 'shuttle',
   component: () => import('@/views/shuttle'),
   meta: {
-    keepAlive: true,
+    keepAlive: false,
     isShare: false,
     title: '实时接送',
     roles: [2]

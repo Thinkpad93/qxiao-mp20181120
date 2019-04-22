@@ -31,18 +31,6 @@ const actions = {
         resolve();
       }
     });
-  },
-  //查询学生相关班级
-  async queryStudentClass({
-    commit
-  }, params) {
-    return new Promise(async resolve => {
-      let res = await service.queryStudentClass(params);
-      if (res.errorCode === 0) {
-        commit('SET_CLASSLIST', res.data);
-        resolve();
-      }
-    });
   }
 }
 

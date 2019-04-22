@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.user.info.className,
+      className: decodeURI(this.$store.state.user.info.className),
       query: {
         openId: this.$store.state.user.info.openId,
         classId: this.$store.state.user.info.classId,

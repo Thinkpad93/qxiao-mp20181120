@@ -57,7 +57,7 @@
             :on-close="onClose(index, item.ruleId)"
           >
             <van-cell-group>
-              <div class="cell">
+              <div class="cell min-h120">
                 <div class="cell-hd">
                   <van-checkbox-group v-model="chenkedList">
                     <van-checkbox
@@ -110,6 +110,12 @@ export default {
     return {
       form: {},
       chenkedList: [],
+      query: {
+        openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.openStudentId,
+        actionId: this.$route.query.actionId,
+        actionType: this.$route.query.actionType
+      },
       dialogForm: {
         openId: this.$store.state.user.info.openId,
         actionId: this.$route.query.actionId,
@@ -132,8 +138,8 @@ export default {
               .then(async () => {
                 instance.close();
                 let obj = {
-                  openId: this.$route.query.openId,
-                  actionType: this.$route.query.actionType,
+                  openId: this.dialogForm.openId,
+                  actionType: this.dialogForm.actionType,
                   ruleId
                 };
                 //行为标准删除
@@ -164,7 +170,7 @@ export default {
           );
           if (res.errorCode === 0) {
             this.dialogForm.ruleText = "";
-            this.queryStudentRule(this.$route.query);
+            this.queryStudentRule(this.query);
             done();
           }
         }
@@ -175,8 +181,8 @@ export default {
     //提交保存
     async handleSave() {
       let { rules, actionId, actionType, ...args } = this.form;
-      let openId = this.$route.query.openId;
-      let studentId = this.$route.query.studentId;
+      let openId = this.dialogForm.openId;
+      let studentId = this.query.studentId;
       let obj = Object.assign({}, args, { openId, actionId, actionType });
       if (this.chenkedList.length) {
         //行为编辑更新
@@ -196,7 +202,7 @@ export default {
           this.$toast(`${res.errorMsg}`);
         }
       } else {
-        this.$toast("不能取消，请勾选标准");
+        this.$toast("请勾选标准");
       }
     },
     //按行为查询已选中的规则
@@ -216,7 +222,7 @@ export default {
     }
   },
   mounted() {
-    this.queryStudentRule(this.$route.query);
+    this.queryStudentRule(this.query);
   }
 };
 </script>

@@ -7,7 +7,7 @@ export default [{
     component: () => import('@/views/action'),
     meta: {
       title: "行为管理",
-      keepAlive: true,
+      keepAlive: false,
     }
   },
   {

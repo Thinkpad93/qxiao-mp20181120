@@ -95,6 +95,7 @@ export default {
   data() {
     return {
       statrCount: 0,
+      studentId: this.$store.state.user.info.openStudentId,
       query: {
         openId: this.$store.state.user.info.openId,
         page: 1,
@@ -122,7 +123,7 @@ export default {
               .then(async () => {
                 instance.close();
                 let obj = {
-                  openId: this.$route.query.openId,
+                  openId: this.query.openId,
                   itemId,
                   prizeType
                 };
@@ -172,7 +173,6 @@ export default {
       }
     },
     handleSave() {
-      
       if (!this.total) {
         this.$toast("请勾选你要兑换的奖项");
         return;
@@ -193,8 +193,8 @@ export default {
       });
       if (itemArray.length) {
         let obj = {
-          studentId: this.$route.query.studentId,
-          openId: this.$route.query.openId,
+          studentId: this.$store.state.user.info.openStudentId,
+          openId: this.query.openId,
           itemArray
         };
         this.prizeExchange(obj);
@@ -216,7 +216,10 @@ export default {
             message: "奖励兑换成功"
           })
           .then(() => {
-            this.queryTotalCountStar(this.$route.query);
+            this.queryTotalCountStar({
+              studentId: this.studentId,
+              openId: this.query.openId
+            });
             this.prizeListQuery(this.query);
           });
       }
@@ -225,19 +228,24 @@ export default {
     async prizeListQuery(params = {}) {
       let res = await service.prizeListQuery(params);
       if (res.errorCode === 0) {
-        let m = res.data.data.map(element => {
-          return {
-            ...element,
-            checked: false,
-            value: 1 //由于后端没有该字段返回，默认设置一个
-          };
-        });
-        this.pageData = m;
+        if (res.data.data.length) {
+          let m = res.data.data.map(element => {
+            return {
+              ...element,
+              checked: false,
+              value: 1 //由于后端没有该字段返回，默认设置一个
+            };
+          });
+          this.pageData = m;
+        }
       }
     }
   },
   mounted() {
-    this.queryTotalCountStar(this.$route.query);
+    this.queryTotalCountStar({
+      studentId: this.studentId,
+      openId: this.query.openId
+    });
     this.prizeListQuery(this.query);
   }
 };

@@ -57,7 +57,7 @@
             :on-close="onClose(index)"
           >
             <van-cell-group>
-              <div class="cell">
+              <div class="cell min-h120">
                 <div class="cell-bd">
                   <p>{{ item.ruleText }}</p>
                 </div>

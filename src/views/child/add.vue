@@ -26,7 +26,7 @@
         </div>
         <div class="cell">
           <div class="cell-hd">
-            <label class="label">手机号码</label>
+            <label class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
             <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
@@ -65,6 +65,7 @@ export default {
   data() {
     return {
       form: {
+        openId: this.$store.state.user.info.openId,
         studentName: "",
         sex: 1,
         tel: "",

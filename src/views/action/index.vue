@@ -37,8 +37,8 @@
           <div class="narwhal">
             <div
               class="monodon"
-              v-for="item in recommends"
-              :key="item.actionId"
+              v-for="(item, index) in recommends"
+              :key="index"
               @click="handleEdit(item)"
             >
               <div class="monoceros text-ellipsis">
@@ -46,11 +46,7 @@
               </div>
             </div>
             <!-- -->
-            <router-link
-              :to="{path: '/action/add', query: {openId: this.$route.query.openId, studentId: this.$route.query.studentId}}"
-              tag="div"
-              class="monodon"
-            >
+            <router-link :to="{path: '/action/add'}" tag="div" class="monodon">
               <div class="monoceros">
                 <span class="ml-10">自定义</span>
               </div>
@@ -72,7 +68,7 @@ export default {
       isShow: true,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$route.query.studentId
+        studentId: this.$store.state.user.info.openStudentId
       },
       myActions: [],
       recommends: []
@@ -80,19 +76,17 @@ export default {
   },
   methods: {
     handleEdit(params = {}) {
-      let { starCount, title, ...args } = params;
+      let { serial, title, textContent, ...args } = params;
       this.$router.push({
         path: "/action/edit",
         query: {
-          studentId: this.$route.query.studentId,
-          openId: this.$route.query.openId,
           ...args
         }
       });
     },
     handleActionDelete(index, params) {
       let obj = {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         actionId: params.actionId,
         actionType: params.actionType
       };
@@ -102,8 +96,6 @@ export default {
           message: "确认要删除该行为吗?"
         })
         .then(async () => {
-          //this.myActions.splice(index, 1);
-          //this.actionDelete(obj);
           let res = await service.actionDelete(obj);
           if (res.errorCode === 0) {
             this.queryMyAction(this.query);
