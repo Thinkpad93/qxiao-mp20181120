@@ -28,21 +28,27 @@ vue2.x + vuex + vueRoute + axios + vantUI
   - styles less 样式文件
   - vantUI 移动端 UI 组件
   - views 页面
+    - acion 行为管理
     - album 班级相册
     - baby 学生
     - class 班级管理
+    - child 开放版本孩子管理
     - clock 考勤管理
-    - community 班级圈
+    - community 班级圈发布
+    - exampaper 试卷列表
     - fresh 新鲜速报
     - home 首页
     - homework 作业
     - login 登陆页
     - my 我的
     - notice 公告通知
+    - prize 奖励兑换
     - recipe 营养食谱
     - school 创建学校和老师加入学校
+    - score 学习成绩
     - student 学生管理
     - teacher 老师管理
+    - user 个人中心
   - App.vue 根组件
   - main.js 项目启动文件（入口）
 
