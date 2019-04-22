@@ -15,6 +15,7 @@ const actions = {
       //设置Cookie
       Cookies.set('info', info);
       console.log("setInfo");
+      console.log(state.info);
       await dispatch("queryClass/queryClassId", info, {
         root: true
       });
@@ -31,6 +32,7 @@ const actions = {
     console.log("getInfo");
     if (Object.keys(info).length) {
       state.info = info;
+      console.log(state.info);
       await dispatch("queryClass/queryClassId", info, {
         root: true
       });

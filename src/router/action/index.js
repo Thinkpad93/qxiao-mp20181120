@@ -8,6 +8,7 @@ export default [{
     meta: {
       title: "行为管理",
       keepAlive: false,
+      cookie: true
     }
   },
   {
@@ -17,6 +18,7 @@ export default [{
     meta: {
       title: "添加行为",
       keepAlive: false,
+      cookie: true
     }
   },
   {
@@ -26,6 +28,7 @@ export default [{
     meta: {
       title: "编辑行为",
       keepAlive: false,
+      cookie: true
     }
   },
   {
@@ -35,6 +38,7 @@ export default [{
     meta: {
       title: "历史行为",
       keepAlive: true,
+      cookie: true
     }
   }
 ]

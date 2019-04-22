@@ -42,12 +42,13 @@
               @click="handleEdit(item)"
             >
               <div class="monoceros text-ellipsis">
-                <span class="ml-10">{{ item.title }}</span>
+                <span>{{ item.title }}</span>
               </div>
             </div>
             <!-- -->
             <router-link :to="{path: '/action/add'}" tag="div" class="monodon">
-              <div class="monoceros">
+              <div class="monoceros" style="background-color:#04b6ff;color:#fff;">
+                <van-icon name="plus"></van-icon>
                 <span class="ml-10">自定义</span>
               </div>
             </router-link>

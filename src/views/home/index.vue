@@ -19,7 +19,7 @@
       <main class="main">
         <div class="classId">
           <div @click="popupShow = true">
-            <span>{{ className }}</span>
+            <span class="mr-10">{{ className }}</span>
             <van-icon name="arrow-down" size="16px"></van-icon>
           </div>
         </div>

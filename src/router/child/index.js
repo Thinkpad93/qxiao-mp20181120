@@ -5,6 +5,7 @@ export default [{
     meta: {
       title: "已关联孩子列表",
       keepAlive: false,
+      cookie: true,
     }
   },
   {
@@ -14,6 +15,7 @@ export default [{
     meta: {
       title: "添加孩子",
       keepAlive: false,
+      cookie: true,
     }
   }
 ]

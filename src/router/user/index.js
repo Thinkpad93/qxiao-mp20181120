@@ -4,5 +4,6 @@ export default [{
   meta: {
     title: "个人中心",
     keepAlive: true,
+    cookie: true,
   }
-}, ]
+}]

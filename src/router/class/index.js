@@ -4,6 +4,7 @@ export default [{
     component: () => import('@/views/class'),
     meta: {
       keepAlive: false,
+      cookie: true,
       isShare: false,
       title: '班级管理',
       roles: [1]
@@ -11,10 +12,11 @@ export default [{
   },
   {
     path: '/class/edit',
-     name: 'classEdit',
+    name: 'classEdit',
     component: () => import('@/views/class/edit'),
     meta: {
       keepAlive: true,
+      cookie: true,
       isShare: false,
       title: '班级编辑',
       roles: [1]

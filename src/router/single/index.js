@@ -7,6 +7,7 @@ export default [{
   component: () => import('@/views/single'),
   meta: {
     keepAlive: false,
+    cookie: true,
     title: '小Q表现',
   }
 }]

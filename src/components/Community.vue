@@ -28,8 +28,8 @@
               </template>
             </div>
             <div class="right">
-              <van-icon name="like" size="20px" @click="handlePraise(fuck, index)"></van-icon>
-              <van-icon name="comment" size="20px" @click="handleComment(fuck, index)"></van-icon>
+              <van-icon name="like" size="18px" @click="handlePraise(fuck, index)"></van-icon>
+              <van-icon name="comment" size="18px" @click="handleComment(fuck, index)"></van-icon>
             </div>
           </div>
           <div class="data">
