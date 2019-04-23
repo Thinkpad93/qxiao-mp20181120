@@ -11,7 +11,7 @@
       <!-- dialog -->
       <van-dialog v-model="dialogVisible" title="行为说明">
         <div class="actionView">
-          <h4>{{ actionView.textContent }}</h4>
+          <h4>行为说明: {{ actionView.textContent }}</h4>
           <p v-for="(item, index) in actionView.rules" :key="index">
             <span>{{ item.ruleText }}</span>
             <van-rate
@@ -27,10 +27,10 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <div class="home-user">
+        <div class="home-user" @click="toChildList">
           <img :src="photo" width="50" height="50" radius="50">
           <div class="js-user-change">
-            <p class="ml-10">{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
+            <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
           </div>
         </div>
         <van-tabs v-model="active" :line-height="2">
@@ -44,13 +44,12 @@
                 </router-link>
                 <div class="action-cells">
                   <div class="action-cell" v-for="(item, index) in myActions" :key="index">
-                    <div class="action-cell-hd">
-                      <span @click="handleActionMore(item)">
-                        {{ item.title }}
-                        <van-icon name="question-o" size="16px"></van-icon>
-                      </span>
-                    </div>
+                    <!-- <div class="action-cell-hd"></div> -->
                     <div class="action-cell-bd">
+                      <div class="mr-40" @click="handleActionMore(item)">
+                        <span>{{ item.title }}</span>
+                        <van-icon name="question-o" size="16px"></van-icon>
+                      </div>
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
@@ -64,11 +63,11 @@
                   </div>
                 </div>
                 <div class="dhole">
-                  <router-link :to="{path: '/action', query: this.$route.query}">
+                  <router-link :to="{path: '/action'}">
                     <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">行为管理</span>
                   </router-link>
-                  <router-link :to="{path: '/prize', query: this.$route.query}">
+                  <router-link :to="{path: '/prize'}">
                     <img src="@/assets/prize-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">奖励兑换</span>
                   </router-link>
@@ -76,19 +75,23 @@
               </div>
               <div class="mod">
                 <!-- 一周数据分析 -->
-                <!-- <ve-line :data="chartData" :settings="chartSettings"></ve-line> -->
+                <ve-line :data="chartData" :settings="chartSettings"></ve-line>
               </div>
             </div>
           </van-tab>
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <div class="action-today">
-                  <time>{{ query.day }}</time>
-                </div>
+                <table style="width: 100%">
+                  <tr>
+                    <th>课程</th>
+                    <th>课堂表现</th>
+                    <th>近期成绩</th>
+                  </tr>
+                </table>
                 <div class="action-cells">
                   <div class="action-cell" v-for="item in lessonList" :key="item.lessonId">
-                    <div class="hd">
+                    <div class="action-cell-hd">
                       <span>{{ item.title }}</span>
                     </div>
                     <div class="action-cell-bd">
@@ -101,8 +104,8 @@
                         readonly
                       ></van-rate>
                     </div>
-                    <div class="ft">
-                      <span>{{ item.scoreRank }}</span>
+                    <div class="action-cell-ft">
+                      <span>{{ item.scoreRank }}%</span>
                     </div>
                   </div>
                 </div>
@@ -116,25 +119,28 @@
           <van-tab title="成长分析">
             <div class="container">
               <div class="mod">
-                <div class="remark">
-                  <div class="remark-cell">
-                    <p>孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
-                  </div>
-                  <div class="remark-cell">
-                    <p>好好学习，天天向上! 一切皆有可能。</p>
+                <div class="remark" v-for="(item, index) in remarkList" :key="index">
+                  <div class="remark-bd">
+                    <div class="remark-teacher" v-if="item.remarkType == 1">
+                      <span>老师:</span>
+                      <p>{{ item.textContent }}</p>
+                    </div>
+                    <div class="remark-sys" v-if="item.remarkType == 0">
+                      <span>系统:</span>
+                      <p>{{ item.textContent }}</p>
+                    </div>
+                    <div class="remark-time">{{ item.postTime }}</div>
                   </div>
                 </div>
               </div>
-              <div class="mod">
-                <div class="snail">
-                  <div class="snail-left">
-                    <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-                    <div class="ml-10">竞争力(广州)</div>
-                  </div>
-                  <div class="snail-right">
-                    <span class="mr-10">60</span>
-                    <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
-                  </div>
+              <div class="snail mb-20">
+                <div class="snail-left">
+                  <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+                  <div class="ml-10">竞争力(广州)</div>
+                </div>
+                <div class="snail-right">
+                  <span class="mr-10">60</span>
+                  <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
                 </div>
               </div>
               <div class="mod">
@@ -160,6 +166,7 @@ import service from "@/api";
 import qxFooter from "@/components/Footer";
 import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
+import { lessonList, remarkList } from "@/mock";
 export default {
   name: "home",
   components: {
@@ -194,20 +201,8 @@ export default {
       },
       actionView: {},
       myActions: [], //我的行为列表
-      lessonList: [
-        {
-          title: "语文",
-          lessonId: 1,
-          startCount: 2,
-          scoreRank: 5
-        },
-        {
-          title: "数学",
-          lessonId: 2,
-          startCount: 5,
-          scoreRank: 80
-        }
-      ],
+      lessonList: [],
+      remarkList: [],
       statu: 0 //今天是否已经打了
     };
   },
@@ -220,12 +215,17 @@ export default {
     }
   },
   methods: {
+    toChildList() {
+      this.$router.push({
+        path: "/child"
+      });
+    },
     overlay() {
       if (this.query.studentId == 0) {
         this.$dialog
           .confirm({
             title: "提示",
-            message: "请先添加孩子哦"
+            message: "添加孩子信息，才能记录成长表现哦"
           })
           .then(() => {
             this.$router.push({
@@ -313,6 +313,8 @@ export default {
   mounted() {
     this.actionListQuery(this.query);
     //this.lessonQuery(this.query);
+    this.lessonList = lessonList();
+    this.remarkList = remarkList(2);
   }
 };
 </script>
@@ -320,15 +322,18 @@ export default {
 .home-user {
   display: flex;
   align-items: center;
-  padding: 30px 30px 40px 30px;
+  padding: 30px 30px 20px 30px;
   background-color: #fff;
+  .js-user-change {
+    margin-left: 30px;
+  }
 }
 .container {
   padding: 20px;
 }
 .mod {
   height: auto;
-  padding: 30px;
+  padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
   background-color: #fff;
@@ -348,12 +353,14 @@ export default {
   justify-content: center;
   position: relative;
   margin: 20px 0;
-  &-hd {
-    min-width: 200px;
+  i {
+    vertical-align: top;
   }
+
   &-bd {
     flex: 1;
     display: flex;
+    align-items: center;
     justify-content: center;
   }
 }
@@ -378,11 +385,9 @@ export default {
 
 .snail {
   height: 80px;
-  width: calc(100% - 60px);
-  display: flex;
-  margin: 30px auto;
-  align-items: center;
   padding: 0 20px;
+  display: flex;
+  align-items: center;
   border-radius: 8px;
   justify-content: space-between;
   background-color: #fff;
@@ -393,6 +398,31 @@ export default {
   &-right {
     display: flex;
     align-items: center;
+  }
+}
+
+.remark {
+  margin-bottom: 20px;
+  text-align: justify;
+  background-color: #fff;
+  &-teacher {
+    display: flex;
+    margin-bottom: 30px;
+  }
+  &-sys {
+    display: flex;
+  }
+  &-time {
+    color: #b5b5b5;
+    text-align: right;
+  }
+  span {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  p {
+    flex: 1;
+    line-height: 1.4;
   }
 }
 </style>

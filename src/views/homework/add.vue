@@ -37,7 +37,9 @@
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage"></div>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="40px"></van-icon>
+              </div>
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -91,14 +93,14 @@ export default {
         images: [],
         needConfirm: 0, //0-无需确认 1-需要确认
         senders: []
-      },
+      }
     };
   },
   computed: {
     ...mapState("queryClass", {
       classList: state => state.classList
     })
-  },  
+  },
   methods: {
     //选图
     handleChooseImage() {
@@ -231,10 +233,9 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
-    },
+    }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

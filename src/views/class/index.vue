@@ -26,28 +26,28 @@
           </div>
         </div>
       </van-dialog>
-      <van-swipe-cell ref="swipeCell" :right-width="60">
-        <van-cell-group></van-cell-group>
+      <van-swipe-cell
+        ref="swipeCell"
+        :right-width="60"
+        v-for="(item, index) in classList"
+        :key="index"
+        :on-close="onClose(index, item)"
+      >
+        <van-cell-group>
+          <div class="cells">
+            <div class="cell class-boxs" @click="handleEditClass(item)">
+              <div class="cell-bd">
+                <p size-17 class="text-ellipsis">{{ item.className }}</p>
+                <p>
+                  <span class="t" size-12>带班老师{{ item.countTeacher }}人</span>
+                  <span class="s" size-12>关联学生{{ item.countStudent }}人</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </van-cell-group>
+        <span slot="right">删除</span>
       </van-swipe-cell>
-      <div class="cells mb-20">
-        <div
-          class="cell class-boxs"
-          @click="handleEditClass(item)"
-          v-for="(item, index) in classList"
-          :key="index"
-        >
-          <div class="cell-bd">
-            <p size-17 class="text-ellipsis">{{ item.className }}</p>
-            <p>
-              <span class="t" size-12>带班老师{{ item.countTeacher }}人</span>
-              <span class="s" size-12>关联学生{{ item.countStudent }}人</span>
-            </p>
-          </div>
-          <div class="cell-ft">
-            <a href="javascript:;" class="btn btn-del" size-12 @click.stop="handleDelClass(item)">删除</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -66,6 +66,38 @@ export default {
     };
   },
   methods: {
+    onClose(index, item) {
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "right":
+            this.$dialog
+              .confirm({
+                title: "提示",
+                message: "确认要删除该班级吗?"
+              })
+              .then(async () => {
+                let { classId, countStudent, countTeacher } = item;
+                if (countStudent > 0 || countTeacher > 0) {
+                  instance.close();
+                  this.$toast("班级还有关联学生和老师，不能删除班级");
+                  return;
+                }
+                let res = await service.classDelete({
+                  classId,
+                  openId: this.openId
+                });
+                if (res.errorCode === 0) {
+                  this.classList.splice(index, 1);
+                } else if (res.errorCode === -1) {
+                  this.$toast(`${res.errorMsg}`);
+                }
+              })
+              .catch(() => {
+                instance.close();
+              });
+        }
+      };
+    },
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.className == "") {
@@ -86,22 +118,6 @@ export default {
       } else {
         done();
       }
-    },
-    handleDelClass(params) {
-      let { classId, countStudent, countTeacher } = params;
-      if (countStudent > 0 || countTeacher > 0) {
-        this.$toast("班级还有关联学生和老师，不能删除班级");
-        return;
-      }
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要删除班级吗？"
-        })
-        .then(() => {
-          this.classDelete({ classId, openId: this.openId });
-        })
-        .catch(() => {});
     },
     handleEditClass(item) {
       this.$router.push({
@@ -126,15 +142,6 @@ export default {
         this.className = "";
         this.queryClass(this.schoolId);
       }
-    },
-    //班级删除
-    async classDelete(params = {}) {
-      let res = await service.classDelete(params);
-      if (res.errorCode === 0) {
-        this.queryClass(this.schoolId);
-      } else if (res.errorCode === -1) {
-        this.$weui.topTips(`${res.errorMsg}`);
-      }
     }
   },
   mounted() {
@@ -158,19 +165,6 @@ export default {
   .cell-bd {
     padding-left: 0;
   }
-}
-.btn-edit {
-  width: 100px;
-  height: 50px;
-  line-height: 50px;
-  margin-left: 20px;
-  background-color: #d1e0f6;
-}
-.btn-del {
-  width: 100px;
-  height: 50px;
-  line-height: 50px;
-  background-color: #ce3c39;
 }
 span.t {
   color: #409eff;

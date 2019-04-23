@@ -37,7 +37,9 @@
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage"></div>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="40px"></van-icon>
+              </div>
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -220,10 +222,9 @@ export default {
         this.$refs.form.reset();
         this.$router.go(-1);
       }
-    },
+    }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

@@ -23,13 +23,42 @@ export function examPaperList() {
   for (let i = 0; i < 20; i++) {
     let template = {
       'paperId': Random.integer(1, 100),
-      'stageTitle': Random.csentence(5, 10),
-      'title': Random.ctitle(5, 10),
+      'stageTitle': Random.csentence(5, 20),
+      'title': Random.ctitle(5, 20),
       'image': Random.image('200x100'),
       'schoolName': Random.ctitle(5, 10),
     }
     data.push(template)
   }
 
+  return Mock.mock(data);
+}
+
+
+export function lessonList() {
+  let data = [];
+  for (let i = 0; i < 8; i++) {
+    let template = {
+      lessonId: Random.integer(1, 100),
+      title: Random.ctitle(1, 4),
+      startCount: Random.integer(1, 5),
+      scoreRank: Random.integer(1, 100),
+    }
+    data.push(template);
+  }
+  return Mock.mock(data);
+}
+
+
+export function remarkList(num = 10) {
+  let data = [];
+  for (let i = 0; i < num; i++) {
+    let template = {
+      remarkType: Random.integer(0, 1),
+      textContent: Random.csentence(12, 150),
+      postTime: Random.datetime(),
+    }
+    data.push(template);
+  }
   return Mock.mock(data);
 }

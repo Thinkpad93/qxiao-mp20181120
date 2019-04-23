@@ -17,9 +17,9 @@ const actions = {
   }, params) {
     return new Promise(async resolve => {
       let {
-        id,
-        studentId,
-        roleType
+        id = 0,
+          studentId = 0,
+          roleType = -1
       } = params;
       let res = await service.queryClassId({
         id,

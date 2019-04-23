@@ -51,10 +51,11 @@ export default {
     onClose() {
       return (clickPosition, instance) => {};
     },
+    //试卷列表查询
     async examPaperQuery(params = {}) {
       let res = await service.examPaperQuery(params);
       if (res.errorCode === 0) {
-        this.pageData = res.data;
+        this.list = res.data;
       }
     }
   },
@@ -66,5 +67,6 @@ export default {
 <style lang="less" scoped>
 .metedata {
   justify-content: space-between;
+  align-items: center;
 }
 </style>

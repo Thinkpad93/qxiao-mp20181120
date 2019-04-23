@@ -99,7 +99,9 @@
                   <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage"></div>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="40px"></van-icon>
+              </div>
             </div>
           </div>
           <div class="cell cell-input cell-input-after">

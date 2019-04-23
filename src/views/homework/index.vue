@@ -197,18 +197,9 @@ export default {
         this.isLoading = false;
         this.list = res.data.data;
       }
-    },
-    //根据角色查询班级
-    async queryClassGroup() {
-      let { id, studentId, roleType } = this.$route.query;
-      let res = await service.queryClassId({ id, studentId, roleType });
-      if (res.errorCode === 0) {
-        this.classList = res.data;
-      }
     }
   },
   mounted() {
-    this.queryClassGroup();
     this.homeworkQuery(this.query);
   }
 };

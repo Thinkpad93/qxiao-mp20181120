@@ -116,7 +116,6 @@ export default {
     },
     //用户登录
     async userTeleLogin(params = {}) {
-      //let res = await this.$store.dispatch("account/userTeleLogin", params);
       let res = await service.userTeleLogin(params);
       if (res.errorCode === 0) {
         let { roleType } = res.data;
@@ -131,11 +130,7 @@ export default {
             this.$toast("此手机号码还没有录入");
             break;
           case 1:
-            this.$router.push({ path: "/home" });
-            break;
           case 2:
-            this.$router.push({ path: "/home" });
-            break;
           case 3:
             this.$router.push({ path: "/home" });
             break;
@@ -177,16 +172,7 @@ export default {
       }
     }
   },
-  mounted() {
-    // let { openId, photo } = this.$route.query;
-    // let ua = window.navigator.userAgent.toLowerCase();
-    // if (ua.match(/MicroMessenger/i) == "micromessenger") {
-    //   if (openId || photo) {
-    //     this.$store.commit("wx/SET_OPENID", openId);
-    //     this.$store.commit("wx/SET_PHOTO", photo);
-    //   }
-    // }
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

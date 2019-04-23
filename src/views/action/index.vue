@@ -88,6 +88,7 @@ export default {
     handleActionDelete(index, params) {
       let obj = {
         openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.openStudentId,
         actionId: params.actionId,
         actionType: params.actionType
       };

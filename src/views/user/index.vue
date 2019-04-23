@@ -6,7 +6,7 @@
           <img :src="photo" width="50" height="50" radius="50">
         </div>
         <div class="info-box">
-          <h3 class="username" size-17>这个那个有的没的</h3>
+          <h3 class="username" size-17>{{ openStudentName }}</h3>
           <div class="info-meta flex">
             <div class="mr-10">Q星: 500</div>
             <div class="mr-10">积分: 800</div>
@@ -45,7 +45,8 @@ export default {
   },
   data() {
     return {
-      photo: this.$store.state.user.info.photo
+      photo: this.$store.state.user.info.photo,
+      openStudentName: this.$store.state.user.info.openStudentName
     };
   }
 };
