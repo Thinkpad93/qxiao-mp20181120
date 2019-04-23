@@ -88,14 +88,15 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId,
         classId: this.$route.query.classId,
         studentId: this.$route.query.studentId
       },
-      roleType: this.$store.state.user.info.roleType,
+      roleType:
+        this.$store.state.user.info.roleType || this.$route.query.roleType,
       form: {
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId || this.$route.query.openId,
         freshId: this.$route.query.freshId,
         textContent: "",
         studentId: this.$route.query.studentId,

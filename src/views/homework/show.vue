@@ -56,12 +56,13 @@ export default {
     return {
       readFlag: 0, //0-已读 1-未读
       query: {
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId || this.$route.query.openId,
         homeId: this.$route.query.homeId,
         classId: this.$route.query.classId,
         studentId: this.$route.query.studentId
       },
-      roleType: this.$store.state.user.info.roleType,
+      roleType:
+        this.$store.state.user.info.roleType || this.$route.query.roleType,
       needConfirm: parseInt(this.$route.query.needConfirm), //0 不用确认
       info: {}
     };
@@ -77,7 +78,7 @@ export default {
       let obj = {
         homeId: params.homeId,
         classId: this.$route.query.classId,
-        needConfirm: this.$route.query.needConfirm,
+        needConfirm: this.$route.query.needConfirm
       };
       this.$router.push({
         path: "/homework/read",

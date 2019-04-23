@@ -39,7 +39,7 @@
           </div>
           <div class="pichi-btn">
             <a href="javascript:void(0);" @click="dialogVisible = true">添加奖励</a>
-            <router-link :to="{path: '/prize/log', query: { openId: '12456', studentId: 1 }}">兑换记录</router-link>
+            <router-link :to="{path: '/prize/log'}">兑换记录</router-link>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <van-swipe-cell
           ref="swipeCell"
           :right-width="60"
-          v-for="(item, index) in pageData"
+          v-for="(item, index) in list"
           :key="item.itemId"
           :disabled="item.prizeType === 0"
           :on-close="onClose(index,item.itemId, item.prizeType)"
@@ -106,7 +106,7 @@ export default {
         textContent: "",
         starCount: ""
       },
-      pageData: [],
+      list: [],
       total: 0
     };
   },
@@ -131,7 +131,7 @@ export default {
                 let res = await service.prizeDelete(obj);
                 if (res.errorCode === 0) {
                   instance.close();
-                  this.pageData.splice(index, 1);
+                  this.list.splice(index, 1);
                 }
               })
               .catch(() => {
@@ -143,7 +143,7 @@ export default {
     },
     chg() {
       let n = 0;
-      this.pageData.forEach(element => {
+      this.list.forEach(element => {
         if (element.checked) {
           n += element.starCount * element.value;
         }
@@ -182,7 +182,7 @@ export default {
         return;
       }
       let itemArray = [];
-      this.pageData.forEach(element => {
+      this.list.forEach(element => {
         if (element.checked) {
           itemArray.push({
             itemId: element.itemId,
@@ -236,7 +236,7 @@ export default {
               value: 1 //由于后端没有该字段返回，默认设置一个
             };
           });
-          this.pageData = m;
+          this.list = m;
         }
       }
     }
@@ -280,7 +280,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 40px;
   padding: 0 20px;
   background-color: #f6f8f9;
 }

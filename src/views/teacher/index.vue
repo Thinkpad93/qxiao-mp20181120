@@ -20,11 +20,11 @@
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
-      <div class="cells-title">老师列表({{ teacherList.length }})</div>
+      <div class="cells-title">老师列表({{ list.length }})</div>
       <div class="cells">
         <div
           class="cell teacher-box"
-          v-for="(teacher, index) in teacherList"
+          v-for="(teacher, index) in list"
           :key="index"
           @click="handleEditTeacher(teacher)"
         >
@@ -72,7 +72,7 @@ export default {
     return {
       visibility: false,
       schoolId: this.$store.state.user.info.id,
-      teacherList: []
+      list: []
     };
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
     async queryTeacher(schoolId) {
       let res = await service.queryTeacher({ schoolId });
       if (res.errorCode === 0) {
-        this.teacherList = res.data;
+        this.list = res.data;
       }
     }
   },

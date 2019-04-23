@@ -4,8 +4,8 @@ export default [{
     component: () => import('@/views/prize'),
     meta: {
       title: "奖励兑换",
-      keepAlive: true,
-      cookie: false,
+      keepAlive: false,
+      cookie: true,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "兑换记录",
       keepAlive: false,
-      cookie: false,
+      cookie: true,
     }
   }
 ]
