@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
   //这里进行路由权限控制
   if (!store.state.wx.openId && openId && roleType) {
     console.log("这里进行路由权限控制");
-    wxSdk.wxShare(roleType);
+    wxSdk.wxShare();
     store.dispatch('users/getUserInfo');
     next();
   }

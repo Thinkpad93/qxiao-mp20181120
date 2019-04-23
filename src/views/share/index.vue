@@ -4,7 +4,7 @@
       <div class="qcode">
         <div class="qcode-box">
           <img src="@/assets/image/qcode.png" alt>
-          <p size-18>亲爱的{{ roleText }}，请按以下方法加入小Q智慧:</p>
+          <p size-18>亲爱的用户，请按以下方法加入小Q智慧:</p>
           <ul>
             <li>1、长按识别二维码，关注小Q智慧公众号。</li>
             <li>2、进入公众号后，点击公众号页面的提示链接，按提示输入手机号码和验证码即可登录。</li>
@@ -20,19 +20,6 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    roleText() {
-      let text = "";
-      if (this.$route.query.roleType == 1 || this.$route.query.roleType == 4) {
-        text = "老师";
-      } else {
-        text = "家长";
-      }
-      return text;
-      //return this.$route.query.roleType == 2 ? "老师" : "家长";
-    }
-  },
-  mounted() {}
 };
 </script>
 <style lang="less">
