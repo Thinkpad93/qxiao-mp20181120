@@ -22,7 +22,14 @@ export default {
   },
   computed: {
     roleText() {
-      return this.$route.query.roleType == 2 ? "老师" : "家长";
+      let text = "";
+      if (this.$route.query.roleType == 1 || this.$route.query.roleType == 4) {
+        text = "老师";
+      } else {
+        text = "家长";
+      }
+      return text;
+      //return this.$route.query.roleType == 2 ? "老师" : "家长";
     }
   },
   mounted() {}

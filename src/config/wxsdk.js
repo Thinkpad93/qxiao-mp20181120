@@ -1,12 +1,17 @@
 import service from "@/api";
 export default {
   wxShare(roleType) {
+    let shareTitle = "";
     let url = window.location.href.split("#")[0]; //获取当前url,传递到服务端进行签名
     let is_dev = process.env.NODE_ENV !== "production";
     let shareUrl = is_dev ?
       `http://232a9x6385.51mypc.cn/#/share?roleType=${roleType}` :
       `http://zc.qxiao.net/qxiao-mp/#/share?roleType=${roleType}`;
-    let shareTitle = roleType == 1 ? "亲爱的老师您好" : "亲爱的家长您好";
+    if (roleType == 1 || roleType == 4) {
+      shareTitle = "亲爱的老师您好";
+    } else {
+      shareTitle = "亲爱的家长您好";
+    }
     service.sign({
       url
     }).then(res => {
