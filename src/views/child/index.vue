@@ -34,9 +34,10 @@ export default {
   },
   watch: {
     studentId(news, old) {
+      let obj = this.list.find(item => item.openStudentId == news);
       let _cookie = Cookies.getJSON("info");
       //更新cookie值
-      let params = Object.assign({}, _cookie, { openStudentId: news });
+      let params = Object.assign({}, _cookie, obj);
       if (Object.keys(params).length) {
         this.$store.dispatch("user/setInfo", params);
       }

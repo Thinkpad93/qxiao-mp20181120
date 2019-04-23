@@ -24,83 +24,50 @@ router.beforeEach((to, from, next) => {
   } = store.state.user.info;
   console.log("路由");
   let _cookie = Cookies.getJSON('info') || {};
-
-  if (to.meta.cookie) {
-    if (to.path === '/home' || to.path === '/single' || to.path === '/wisdom') {
-      let paramsArr = location.href.match(/\?\S+/)[0].replace('?', '').split('&');
+  //获取地址栏参数
+  function getUrl() {
+    let href = decodeURIComponent(location.href);
+    let num = href.indexOf('?');
+    if (num != -1) {
+      let paramsArr = href.match(/\?\S+/)[0].replace('?', '').split('&');
       let params = {};
       for (let i = 0; i < paramsArr.length; i++) {
         let tmp = paramsArr[i].split('=');
         params[tmp[0]] = tmp[1];
       }
-      if (!Object.keys(_cookie).length) {
-        //从地址栏获取后端返回的参数
-        if (Object.keys(params).length) {
-          store.dispatch("user/setInfo", params);
-        }
+      if (Object.keys(params).length) {
+        return params || {};
       }
-      if (!roleType) {
-        store.dispatch("user/setInfo", params);
-      }
+    } else {
+      return -1;
     }
   }
 
-
-  //从地址栏获取后端返回的参数
-  // function getHref() {
-  //   let paramsArr = location.href.match(/\?\S+/)[0].replace('?', '').split('&');
-  //   let params = {};
-  //   for (let i = 0; i < paramsArr.length; i++) {
-  //     let tmp = paramsArr[i].split('=');
-  //     params[tmp[0]] = tmp[1];
-  //   }
-  //   return params;
-  // }
-
-  // if (to.meta.cookie) {
-  //   let params = getHref();
-  //   if (Object.keys(params).length && to.path !== '/login') {
-  //     //重新设置值
-  //     store.dispatch("user/setInfo", params);
-  //   }
-  //   if (_cookie.roleType == 9 && to.path === '/home') {
-  //     next(`/login?redirect`);
-  //     return false;
-  //   }
-  // }
-
-
-  // if (to.meta.cookie) {
-  //   //如果有cookie，刷新页面重新取出数据
-  //   if (Object.keys(_cookie).length && !store.state.user.info.roleType) {
-  //     console.log("有cookie");
-  //     store.dispatch("user/getInfo");
-  //   }
-  //   //如果没有Cookie
-  //   if (!Object.keys(_cookie).length && store.state.user.info) {
-  //     console.log("没有Cookie");
-  //     //从地址栏获取后端返回的参数
-  //     if (to.path !== '/login') {
-  //       let paramsArr = location.href.match(/\?\S+/)[0].replace('?', '').split('&');
-  //       let params = {};
-  //       for (let i = 0; i < paramsArr.length; i++) {
-  //         let tmp = paramsArr[i].split('=');
-  //         params[tmp[0]] = tmp[1];
-  //       }
-  //       //所有参数已经截取到
-  //       if (Object.keys(params).length) {
-  //         //重新设置值
-  //         store.dispatch("user/setInfo", params);
-  //       }
-  //     }
-  //   }
-  //   //如果菜单进入的不一样
-  //   if (store.state.user.info.roleType == 9 && to.path === '/home') {
-  //     console.log("菜单进入的不一样");
-  //     next(`/login?redirect`);
-  //     return false;
-  //   }
-  // }
+  if (to.meta.cookie) {
+    //第二次进来
+    if (Object.keys(_cookie).length && !roleType) {
+      console.log("有cookie");
+      let pms = getUrl();
+      if (pms != -1) {
+        store.dispatch("user/setInfo", pms);
+      } else {
+        store.dispatch("user/getInfo");
+      }
+    } else if (!Object.keys(_cookie).length && !roleType) {
+      console.log("没有Cookie");
+      if (to.path !== '/login') {
+        //第一次进来
+        let params = getUrl();
+        if (params != -1) {
+          store.dispatch("user/setInfo", params);
+        }
+      }
+    }
+    if (roleType == 9 && to.path === '/home') {
+      next(`/login?redirect`);
+      return false;
+    }
+  }
   next();
 });
 

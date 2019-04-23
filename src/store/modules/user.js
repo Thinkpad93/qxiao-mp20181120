@@ -10,18 +10,16 @@ const actions = {
     state,
     dispatch
   }, info) {
-    if (Object.keys(info).length) {
-      state.info = Object.assign({}, info);
-      //设置Cookie
-      Cookies.set('info', info);
-      console.log("setInfo");
-      console.log(state.info);
-      await dispatch("queryClass/queryClassId", info, {
-        root: true
-      });
-    } else {
-      console.log("不用重复设置");
-    }
+
+    state.info = Object.assign({}, info);
+    //设置Cookie
+    Cookies.set('info', info);
+    console.log("setInfo");
+    console.log(state.info);
+    await dispatch("queryClass/queryClassId", info, {
+      root: true
+    });
+
   },
   async getInfo({
     state,

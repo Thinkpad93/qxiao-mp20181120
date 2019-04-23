@@ -30,7 +30,7 @@
         <div class="home-user">
           <img :src="photo" width="50" height="50" radius="50">
           <div class="js-user-change">
-            <p class="ml-10">添加孩子，记录孩子成长表现</p>
+            <p class="ml-10">{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
           </div>
         </div>
         <van-tabs v-model="active" :line-height="2">
@@ -38,11 +38,7 @@
             <div class="container">
               <div class="mod">
                 <!-- 今天的 -->
-                <router-link
-                  :to="{path: '/actionHistory', query: this.$route.query}"
-                  tag="div"
-                  class="action-today"
-                >
+                <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
                   <time>{{ query.day }}</time>
                   <span>{{ start }}颗Q星</span>
                 </router-link>
@@ -190,6 +186,7 @@ export default {
         ]
       },
       photo: this.$store.state.user.info.photo,
+      openStudentName: this.$store.state.user.info.openStudentName,
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
