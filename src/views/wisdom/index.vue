@@ -10,13 +10,14 @@
 import service from "@/api";
 import qxFooter from "@/components/Footer";
 export default {
-  name: "",
+  name: "wisdom",
   components: {
     qxFooter
   },
   data() {
     return {};
   },
+  methods: {},
   mounted() {}
 };
 </script>

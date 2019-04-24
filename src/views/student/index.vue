@@ -5,7 +5,7 @@
         <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
         <div class="tab">
           <a href="javascript:;" style="color:#409eff;" size-14 @click="visible = true">批量导入学生信息</a>
-          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = false">批量邀请学生家长</a>
+          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = true">批量邀请学生家长</a>
         </div>
       </div>
     </div>

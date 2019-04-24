@@ -118,19 +118,26 @@
           </van-tab>
           <van-tab title="成长分析">
             <div class="container">
-              <div class="mod">
-                <div class="remark">
-                  <div class="remark-bd">
-                    <div class="remark-teacher" v-if="remark.teacherText">
-                      <span>老师:</span>
-                      <p>{{ remark.teacherText }}</p>
-                    </div>
-                    <div class="remark-sys" v-if="remark.sysText">
-                      <span>系统:</span>
-                      <p>{{ remark.sysText }}</p>
-                    </div>
-                    <div class="remark-time">{{ remark.sysTime }}</div>
+              <div class="remark">
+                <div class="remark-hd">
+                  <div class>
+                    <span>评语</span>
                   </div>
+                  <div class>
+                    <span>往期评语</span>
+                    <van-icon name="arrow" size="16px"></van-icon>
+                  </div>
+                </div>
+                <div class="remark-bd">
+                  <div class="remark-teacher">
+                    <span>老师:</span>
+                    <p>你活泼乐观,自信心强,尊敬老师,是你的最大优点,作业能按时完成,有强烈的好奇心,可惜的是你上课管不住自己,不守纪律</p>
+                  </div>
+                  <div class="remark-sys">
+                    <span>系统:</span>
+                    <p>孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
+                  </div>
+                  <div class="remark-time">2019.03.28 10:00:00</div>
                 </div>
               </div>
               <div class="snail mb-20">
@@ -150,6 +157,7 @@
                   </van-tab>
                   <van-tab title="学习分析"></van-tab>
                 </van-tabs>
+                <van-button type="info">定制学习计划</van-button>
               </div>
             </div>
           </van-tab>
@@ -166,7 +174,6 @@ import service from "@/api";
 import qxFooter from "@/components/Footer";
 import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
-import { lessonList, remarkList } from "@/mock";
 export default {
   name: "home",
   components: {
@@ -308,7 +315,7 @@ export default {
         studentId: this.query.studentId
       });
       if (res.errorCode === 0) {
-        this.remark = res.data;
+        this.remark = res.data || {};
       }
     },
     //在家表现一周查询
@@ -324,7 +331,6 @@ export default {
     this.actionListQuery(this.query);
     this.lessonQuery(this.query);
     this.newRemarkQuery();
-    this.remarkList = remarkList(2);
   }
 };
 </script>
@@ -347,6 +353,7 @@ export default {
   margin-bottom: 20px;
   border-radius: 8px;
   background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
 }
 
 .action-today {
@@ -401,6 +408,7 @@ export default {
   border-radius: 8px;
   justify-content: space-between;
   background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
   &-left {
     display: flex;
     align-items: center;
@@ -415,6 +423,11 @@ export default {
   margin-bottom: 20px;
   text-align: justify;
   background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
+  &-hd {
+    display: flex;
+    justify-content: space-between;
+  }
   &-teacher {
     display: flex;
     margin-bottom: 30px;
@@ -428,7 +441,6 @@ export default {
   }
   span {
     display: inline-block;
-    margin-right: 20px;
   }
   p {
     flex: 1;

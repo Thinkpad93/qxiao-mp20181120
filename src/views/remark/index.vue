@@ -33,15 +33,14 @@ export default {
   },
   methods: {
     //评语列表查询
-    async remarkListQuery() {
-      let res = await service.examPaperDetail(params);
+    async remarkListQuery(params = {}) {
+      let res = await service.remarkListQuery(params);
       if (res.errorCode === 0) {
       }
     }
   },
   mounted() {
     this.list = remarkList();
-    console.log(this.list);
   }
 };
 </script>

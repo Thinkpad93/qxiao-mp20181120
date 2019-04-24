@@ -43,7 +43,7 @@
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
         <img src="@/assets/image/kong.png" alt>
-        <p size-18>暂无营养食谱</p>
+        <p>暂无营养食谱</p>
       </div>
     </div>
   </div>

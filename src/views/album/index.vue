@@ -3,8 +3,13 @@
     <div class="flex-bd">
       <template v-if="albumData.length">
         <div class="album">
-          <figure class="album-figure" v-for="(album, index) in albumData" :key="index">
-            <router-link :to="{ path: '/album/view', query: { classId: album.classId } }">
+          <figure
+            class="album-figure"
+            v-for="(album, index) in albumData"
+            :key="index"
+            @click="jump(album)"
+          >
+            <a href="javascript:void(0);">
               <div class="album-thumb">
                 <img v-if="album.image" :src="album.image" alt>
                 <img v-else src="@/assets/image/kong.png" alt>
@@ -13,7 +18,7 @@
                 <p size-16>{{ album.className }}</p>
                 <p size-14>{{ album.imagesCount }}张</p>
               </figcaption>
-            </router-link>
+            </a>
           </figure>
         </div>
       </template>
@@ -28,12 +33,23 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        roleType: this.$store.state.user.info.roleType,
+        roleType: this.$store.state.user.info.roleType
       },
       albumData: []
     };
   },
   methods: {
+    jump(item) {
+      if (item.imagesCount === 0) {
+        return;
+      }
+      this.$router.push({
+        path: "/album/view",
+        query: {
+          classId: item.classId
+        }
+      });
+    },
     //查询相册所属班级
     async albumClassQuery(params = {}) {
       let res = await service.albumClassQuery(params);

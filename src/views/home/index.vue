@@ -251,7 +251,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare(this.roleType);
+    //this.wxSdk.wxShare(this.roleType);
     this.communityQuery(this.query);
   }
 };

@@ -80,6 +80,7 @@ export default {
   border-radius: 8px;
   justify-content: space-between;
   background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
   &-left {
     display: flex;
     align-items: center;
