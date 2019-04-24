@@ -23,8 +23,8 @@
                 </figcaption>
                 <p size-15 class="text-ellipsis">{{ item.stageTitle}}</p>
                 <div class="metedata flex">
-                  <span class="name">下载量{{ item.paperId }}</span>
-                  <van-button type="primary" size="mini">上传成绩</van-button>
+                  <span class="name">下载量: {{ item.paperId }}</span>
+                  <van-button round type="primary" size="mini">成绩</van-button>
                 </div>
               </div>
             </div>

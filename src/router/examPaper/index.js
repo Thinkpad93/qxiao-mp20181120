@@ -9,8 +9,8 @@ export default [{
     }
   },
   {
-    path: "/examPaper/add",
-    name: 'examPaperAdd',
+    path: "/examPaper/show",
+    name: 'examPaperShow',
     component: () => import('@/views/examPaper/show'),
     meta: {
       title: "试卷详情",

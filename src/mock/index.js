@@ -62,3 +62,18 @@ export function remarkList(num = 10) {
   }
   return Mock.mock(data);
 }
+
+export function examPaperComment(num = 20) {
+  let data = [];
+  for (let i = 0; i < num; i++) {
+    let template = {
+      commentId: Random.integer(1, 100),
+      textContent: Random.csentence(2, 30),
+      name: Random.ctitle(2, 4),
+      photo: Random.image('50x50'),
+      postTime: Random.datetime(),
+    }
+    data.push(template);
+  }
+  return Mock.mock(data);
+}

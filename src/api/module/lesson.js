@@ -36,15 +36,3 @@ export function examPaperComment(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
-//最新评语查询
-export function newRemarkQuery(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/newRemarkQuery.do', params)
-    .then(res => res.data)
-    .catch(e => console.log(e));
-}
-//评语列表查询
-export function remarkListQuery(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/remarkListQuery.do', params)
-    .then(res => res.data)
-    .catch(e => console.log(e));
-}

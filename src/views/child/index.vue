@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" @click="handleAdd">添加孩子</van-button>
+      <van-button type="info" size="large" class="no-radius" @click="handleAdd">添加孩子</van-button>
     </div>
   </div>
 </template>

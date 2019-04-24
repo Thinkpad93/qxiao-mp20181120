@@ -105,7 +105,7 @@
                       ></van-rate>
                     </div>
                     <div class="action-cell-ft">
-                      <span>{{ item.scoreRank }}%</span>
+                      <span>{{ item.scoreRank }}</span>
                     </div>
                   </div>
                 </div>
@@ -119,17 +119,17 @@
           <van-tab title="成长分析">
             <div class="container">
               <div class="mod">
-                <div class="remark" v-for="(item, index) in remarkList" :key="index">
+                <div class="remark">
                   <div class="remark-bd">
-                    <div class="remark-teacher" v-if="item.remarkType == 1">
+                    <div class="remark-teacher" v-if="remark.teacherText">
                       <span>老师:</span>
-                      <p>{{ item.textContent }}</p>
+                      <p>{{ remark.teacherText }}</p>
                     </div>
-                    <div class="remark-sys" v-if="item.remarkType == 0">
+                    <div class="remark-sys" v-if="remark.sysText">
                       <span>系统:</span>
-                      <p>{{ item.textContent }}</p>
+                      <p>{{ remark.sysText }}</p>
                     </div>
-                    <div class="remark-time">{{ item.postTime }}</div>
+                    <div class="remark-time">{{ remark.sysTime }}</div>
                   </div>
                 </div>
               </div>
@@ -202,7 +202,7 @@ export default {
       actionView: {},
       myActions: [], //我的行为列表
       lessonList: [],
-      remarkList: [],
+      remark: {},
       statu: 0 //今天是否已经打了
     };
   },
@@ -301,6 +301,16 @@ export default {
         this.lessonList = res.data;
       }
     },
+    //最新评语
+    async newRemarkQuery() {
+      let res = await service.newRemarkQuery({
+        openId: this.query.openId,
+        studentId: this.query.studentId
+      });
+      if (res.errorCode === 0) {
+        this.remark = res.data;
+      }
+    },
     //在家表现一周查询
     async homeStatQuery(params = {}) {
       let res = await service.homeStatQuery(params);
@@ -312,8 +322,8 @@ export default {
   },
   mounted() {
     this.actionListQuery(this.query);
-    //this.lessonQuery(this.query);
-    this.lessonList = lessonList();
+    this.lessonQuery(this.query);
+    this.newRemarkQuery();
     this.remarkList = remarkList(2);
   }
 };

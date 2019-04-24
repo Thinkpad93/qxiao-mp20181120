@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" @click="handleSubmit">添加</van-button>
+      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
     </div>
   </div>
 </template>

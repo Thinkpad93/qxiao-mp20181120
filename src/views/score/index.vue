@@ -12,13 +12,13 @@
     <div class="flex-bd">
       <!-- -->
       <div class="score-content mt-20 mb-20">
-        <p>二年级上学期期中考试</p>
+        <p class="mb-20" size-17>二年级上学期期中考试</p>
         <div class>
           <span>班级: top5%</span>
           <span>学校: top10%</span>
           <span>同城: top20%</span>
         </div>
-        <strong>88分</strong>
+        <strong class="mt-20 mb-20">88分</strong>
         <div>
           <van-button round type="info" size="small">试卷讲解</van-button>
         </div>
@@ -65,8 +65,17 @@ export default {
 </script>
 <style lang="less" scoped>
 .score-content {
-  min-height: 300px;
+  text-align: center;
+  padding: 30px 0;
+  min-height: 310px;
   background-color: #fff;
+  box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
+
+  strong {
+    display: inline-block;
+    font-size: 50px;
+    color: #ff4d67;
+  }
 }
 .score-list {
   padding: 0 20px;
@@ -74,10 +83,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 160px;
+    min-height: 120px;
     padding: 0 30px;
     border-radius: 8px;
     background-color: #fff;
+    box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
     a {
       color: #04b6ff;
     }

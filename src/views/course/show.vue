@@ -10,24 +10,18 @@
       <van-tabs v-model="actives" :line-height="2">
         <van-tab title="简介">
           <div class="section mb-20 mt-20">
-            <h3 class="mb-20">华南师范大学附属小学</h3>
-            <p>二年级上学期期中考试有助于学生创造性发挥，比较注重课改评价理念的践行。</p>
-            <span>下载量：160</span>
+            <h3 class="mb-20">阅读说明:</h3>
+            <p>华南师范大学附属小学</p>
+            <span>下载量: 160</span>
+            <span>满意度: 98%</span>
           </div>
           <div class="section">
-            <h4 class="mb-20">试卷说明：</h4>
+            <h4 class="mb-20">课程说明:</h4>
             <p>
-              总体而言，该试卷知识覆盖面较广，信息量大，贴近学生生活，
-              既考查了学生的语言积累，又检测了运用的能力。
-              题量偏大，偏难。依据课标，尊重教材。
-              同时，有一些题目如六题、七题、九题没有单一的答案，
-              有助于学生创造性发挥，比较注重课改评价理念的践行。
-            </p>
-            <p>
-              对许嵩的歌，我从高中开始一直喜欢，到大学后怕别人说幼稚非主流就慢慢不去听。
-              明明自己喜欢女色却装作正人君子，喜欢放肆却一本正经。
-              其实很多人都很虚伪，明明很喜欢的东西为害怕别人的评论而随波逐流。
-              总假装把自己放在道德制高点其实自己什么也不是。
+              指导精读。就是说在每句阅读时，
+              先理解每字的意思，然后通解一句之意，
+              又通解一章之意，相接连作去，明理演文，一举两得”这是传统的三步精读法。
+              它是培养学生阅读能力最主要最基本的手段。
             </p>
           </div>
         </van-tab>
@@ -51,16 +45,13 @@
     </div>
     <div class="flex-ft">
       <div class="handle">
-        <div class="handle-comment">
-          <van-icon name="comment-o" size="20px"></van-icon>
-          <div size-12>评论</div>
-        </div>
         <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
         </div>
-        <div class="handle-down">
-          <van-button type="info" class="no-radius">下载试卷10元/套</van-button>
+        <div class="handle-comment">
+          <van-icon name="like-o" size="20px"></van-icon>
+          <div size-12>收藏</div>
         </div>
       </div>
     </div>
@@ -70,37 +61,12 @@
 import service from "@/api";
 import { examPaperComment } from "@/mock";
 export default {
-  name: "",
+  name: "courseShow",
   data() {
     return {
       actives: 0,
-      query: {
-        openId: this.$store.state.user.info.openId,
-        paperId: this.$route.query.paperId
-      },
-      form: {
-        studentId: this.$store.state.user.info.openStudentId,
-        textContent: ""
-      },
-      info: {},
       commentList: []
     };
-  },
-  methods: {
-    //试卷详情查询
-    async examPaperDetail(params = {}) {
-      let res = await service.examPaperDetail(params);
-      if (res.errorCode === 0) {
-      }
-    },
-    //查询试卷评论
-    async examPaperCommentQuery() {
-      let res = await service.examPaperCommentQuery(params);
-    },
-    //提交试卷评论
-    async examPaperComment() {
-      let res = await service.examPaperComment(params);
-    }
   },
   mounted() {
     this.commentList = examPaperComment();
@@ -137,6 +103,7 @@ export default {
   }
 }
 .handle {
+  min-height: 88px;
   display: flex;
   align-items: center;
   background-color: #fff;

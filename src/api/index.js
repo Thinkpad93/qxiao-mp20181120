@@ -14,6 +14,7 @@ import * as action from './module/action';
 import * as prize from './module/prize';
 import * as homeStat from './module/homeStat';
 import * as lesson from './module/lesson';
+import * as remark from './module/remark';
 
 export default {
   ...album,
@@ -30,5 +31,6 @@ export default {
   ...action,
   ...prize,
   ...homeStat,
-  ...lesson
+  ...lesson,
+  ...remark
 }
