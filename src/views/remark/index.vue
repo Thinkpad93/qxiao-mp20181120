@@ -5,13 +5,13 @@
         <div class="remark-bd">
           <div class="remark-teacher flex mb-30">
             <span>老师:</span>
-            <p class="ml-20">你活泼乐观,自信心强,尊敬老师,是你的最大优点,作业能按时完成,有强烈的好奇心,可惜的是你上课管不住自己,不守纪律</p>
+            <p class="ml-20">{{ item.teacherText }}</p>
           </div>
           <div class="remark-sys flex mb-30">
             <span>系统:</span>
-            <p class="ml-20">孩子好奇心旺盛，总是在某个角落弹奏着恰好好处的弦律。</p>
+            <p class="ml-20">{{ item.sysText }}</p>
           </div>
-          <div class="remark-time">2019.03.28 10:00:00</div>
+          <div class="remark-time">{{ item.sysTime }}</div>
         </div>
       </div>
     </div>
@@ -25,9 +25,11 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.openStudentId,
+        page: 1,
+        pageSize: 20
       },
-      list: [1]
+      list: []
     };
   },
   methods: {
@@ -35,10 +37,13 @@ export default {
     async remarkListQuery(params = {}) {
       let res = await service.remarkListQuery(params);
       if (res.errorCode === 0) {
+        this.list = res.data.data || [];
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.remarkListQuery(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>

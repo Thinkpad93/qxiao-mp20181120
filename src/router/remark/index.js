@@ -3,8 +3,8 @@ export default [{
   name: 'remark',
   component: () => import('@/views/remark'),
   meta: {
-    keepAlive: false,
+    keepAlive: true,
     cookie: true,
-    title: '评语',
+    title: '评语列表',
   }
 }]

@@ -12,3 +12,9 @@ export function lessonStatQuery(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询课程列表
+export function stateMentList(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/stateMentList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

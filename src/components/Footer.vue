@@ -32,7 +32,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .footer {
-  font-size: 24px;
+  font-size: 28px;
   display: flex;
   border-top: 1px solid #f6f8f9;
   background-color: #fff;

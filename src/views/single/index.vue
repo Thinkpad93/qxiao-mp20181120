@@ -43,9 +43,13 @@
                   <span>{{ start }}颗Q星</span>
                 </router-link>
                 <div class="action-cells">
-                  <div class="action-cell" v-for="(item, index) in myActions" :key="index">
+                  <div
+                    class="action-cell flex a-i-c j-c-s-b"
+                    v-for="(item, index) in myActions"
+                    :key="index"
+                  >
                     <!-- <div class="action-cell-hd"></div> -->
-                    <div class="action-cell-bd">
+                    <div class="action-cell-bd flex a-i-c j-c-s-b">
                       <div class="mr-40" @click="handleActionMore(item)">
                         <span>{{ item.title }}</span>
                         <van-icon name="question-o" size="16px"></van-icon>
@@ -90,11 +94,15 @@
                   </tr>
                 </table>-->
                 <div class="action-cells">
-                  <div class="action-cell" v-for="item in lessonList" :key="item.lessonId">
+                  <div
+                    class="action-cell flex a-i-c j-c-s-b"
+                    v-for="item in lessonList"
+                    :key="item.lessonId"
+                  >
                     <div class="action-cell-hd">
                       <span>{{ item.title }}</span>
                     </div>
-                    <div class="action-cell-bd">
+                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpScore(item.lessonId)">
                       <van-rate
                         v-model="item.startCount"
                         :count="5"
@@ -130,15 +138,15 @@
                   </router-link>
                 </div>
                 <div class="remark-bd">
-                  <div class="flex mb-20">
+                  <div class="flex mb-20" v-if="remark.teacherText">
                     <span>老师:</span>
-                    <p class="ml-20">你活泼乐观,自信心强,尊敬老师,是你的最大优点,作业能按时完成,有强烈的好奇心,可惜的是你上课管不住自己,不守纪律</p>
+                    <p class="ml-20">{{ remark.teacherText }}</p>
                   </div>
-                  <div class="flex mb-20">
+                  <div class="flex mb-20" v-if="remark.sysText">
                     <span>系统:</span>
-                    <p class="ml-20">孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
+                    <p class="ml-20">{{ remark.sysText }}</p>
                   </div>
-                  <div class="remark-time">2019.03.28 10:00:00</div>
+                  <div class="remark-time">{{ remark.sysTime }}</div>
                 </div>
               </div>
               <div class="snail flex j-c-s-b a-i-c mb-20">
@@ -274,6 +282,17 @@ export default {
       let { title, starCount, ...args } = params;
       this.actionQuery(args);
     },
+    jumpScore(lessonId) {
+      let { openId, studentId } = this.query;
+      this.$router.push({
+        path: "/score",
+        query: {
+          openId,
+          studentId,
+          lessonId
+        }
+      });
+    },
     //行为打星
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
@@ -361,9 +380,6 @@ export default {
 }
 
 .action-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   margin: 20px 0;
   i {
@@ -372,9 +388,6 @@ export default {
 
   &-bd {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }
 .dhole {

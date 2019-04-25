@@ -36,13 +36,16 @@
 </template>
 <script>
 import service from "@/api";
-import { examPaperList } from "@/mock";
 export default {
   name: "examPaper",
   data() {
     return {
       query: {
-        openId: this.$store.state.user.info.openId
+        openId: this.$route.query.openId,
+        lessonId: this.$route.query.lessonId,
+        stageId: this.$route.query.stageId,
+        page: 1,
+        pageSize: 20
       },
       list: []
     };
@@ -55,12 +58,12 @@ export default {
     async examPaperQuery(params = {}) {
       let res = await service.examPaperQuery(params);
       if (res.errorCode === 0) {
-        this.list = res.data;
+        this.list = res.data.data || [];
       }
     }
   },
   mounted() {
-    this.list = examPaperList();
+    this.examPaperQuery(this.query);
   }
 };
 </script>
