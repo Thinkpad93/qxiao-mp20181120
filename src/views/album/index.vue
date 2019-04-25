@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <template v-if="albumData.length">
-        <div class="album">
+        <div class="album flex j-c-s-b">
           <figure
             class="album-figure"
             v-for="(album, index) in albumData"
@@ -65,11 +65,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .album {
-  display: flex;
   flex-wrap: wrap;
   padding: 30px 40px 0 40px;
   background-color: #fff;
-  justify-content: space-between;
   .album-figure {
     margin-bottom: 30px;
     box-shadow: 0 0 14px 0 rgba(21, 21, 21, 0.2);

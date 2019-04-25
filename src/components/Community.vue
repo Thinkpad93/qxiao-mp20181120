@@ -1,7 +1,7 @@
 <template>
   <div class="community">
     <div class="box" v-for="(fuck, index) in data" :key="fuck.communityId">
-      <div class="cell">
+      <div class="cell flex">
         <div class="cell-hd">
           <img v-if="fuck.photo" :src="fuck.photo">
         </div>
@@ -19,7 +19,7 @@
               ></div>
             </div>
           </template>
-          <div class="handle">
+          <div class="handle flex j-c-s-b a-i-c">
             <div class="left">
               <time>{{ fuck.postTime }}</time>
               <!-- 园长和管理员和老师才能删除 -->
@@ -34,7 +34,7 @@
           </div>
           <div class="data">
             <template v-if="fuck.praiseList.length">
-              <div class="zan-list">
+              <div class="zan-list flex a-i-c">
                 <i class="iconfont icon-zantong"></i>
                 <span
                   v-for="(praise, index) in fuck.praiseList"
@@ -75,9 +75,11 @@ export default {
   data() {
     return {
       showMore: false,
-      roleType: this.$store.state.user.info.roleType
+      roleType: this.$store.state.user.info.roleType,
+      openId: this.$store.state.user.info.openId
     };
   },
+  computed: {},
   filters: {
     capitalize(value) {
       return `${value},`;
@@ -130,7 +132,6 @@ export default {
   }
   .cell {
     padding: 0 30px;
-    display: flex;
     position: relative;
     align-items: flex-start;
     &::before {
@@ -162,7 +163,6 @@ export default {
     margin-left: 20px;
   }
   .data {
-    // padding: 20px;
     margin-top: 20px;
     background-color: #f5f5f5;
   }
@@ -181,9 +181,6 @@ export default {
   }
 }
 .handle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   .right {
     i {
       font-size: 36px;
@@ -197,8 +194,6 @@ export default {
 .zan-list {
   color: #9aa4cb;
   padding: 12px;
-  display: flex;
-  align-items: center;
   flex-wrap: wrap;
   line-height: 1.4;
   i {

@@ -49,7 +49,7 @@ export default {
         path: "/child/add"
       });
     },
-    //查询学生列表--开放版--切换
+    //查询学生列表--开放版
     async queryOpenStudentList(params = {}) {
       let res = await service.queryOpenStudentList(params);
       if (res.errorCode === 0) {

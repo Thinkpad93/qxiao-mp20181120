@@ -275,6 +275,9 @@ export default {
         this.$router.go(-1);
       }
     }
+  },
+  mounted() {
+    this.wxSdk.wxShare();
   }
 };
 </script>

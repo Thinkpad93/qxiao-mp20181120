@@ -27,14 +27,14 @@
         </form>
       </van-dialog>
       <div class="mod">
-        <div class="pichi">
+        <div class="pichi flex a-i-c">
           <div class="pichi-box">
-            <div class="pichi-figure" radius="50">
+            <div class="pichi-figure flex a-i-c" radius="50">
               <img src="@/assets/rate-icon@2x.png" width="30" height="30">
             </div>
             <div class="pichi-meta">
-              <span>可交换Q星</span>
-              <p>{{ statrCount }}</p>
+              <p>可交换Q星</p>
+              <strong size-20>{{ statrCount }}</strong>
             </div>
           </div>
           <div class="pichi-btn">
@@ -286,8 +286,6 @@ export default {
 }
 .pichi {
   position: relative;
-  display: flex;
-  align-items: center;
   color: #fff;
   width: calc(100% - 90px);
   height: 200px;
@@ -296,8 +294,6 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   &-figure {
-    display: flex;
-    align-items: center;
     justify-content: center;
     width: 86px;
     height: 86px;

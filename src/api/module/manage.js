@@ -252,9 +252,15 @@ export function queryOpenStudentList(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
-//老师录入学生（查询存在的学生）
+//查询存在的学生
 export function queryStudentOpen(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryStudentOpen.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//老师录入学生（存在的学生）
+export function addStudentWithStudentId(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/addStudentWithStudentId.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

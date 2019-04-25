@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="score-list">
-        <div class="item mb-20" v-for="(item, index) in list" :key="index">
+        <div class="item flex j-c-s-b a-i-c mb-20" v-for="(item, index) in list" :key="index">
           <div class="info">
             <p class="mb-20">{{ item.stageTitle }}</p>
             <router-link to="/examPaper">试卷讲解</router-link>
@@ -80,9 +80,6 @@ export default {
 .score-list {
   padding: 0 20px;
   .item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     min-height: 120px;
     padding: 0 30px;
     border-radius: 8px;

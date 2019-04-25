@@ -91,6 +91,7 @@ export default {
   },
   mounted() {
     this.queryTeacher(this.schoolId);
+    this.wxSdk.wxShare();
   }
 };
 </script>

@@ -235,7 +235,9 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.wxSdk.wxShare();
+  }
 };
 </script>
 <style lang="less" scoped>

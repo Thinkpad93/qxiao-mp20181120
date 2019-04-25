@@ -28,7 +28,7 @@
         <van-tab title="评价">
           <div class="comment-box mt-20">
             <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
-              <div class="comment-hd">
+              <div class="comment-hd flex a-i-c">
                 <img :src="item.photo" width="40" height="40" radius="50">
                 <span class="ml-20">{{ item.name }}</span>
               </div>
@@ -44,7 +44,7 @@
       </van-tabs>
     </div>
     <div class="flex-ft">
-      <div class="handle">
+      <div class="handle flex a-i-c">
         <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
@@ -104,8 +104,6 @@ export default {
 }
 .handle {
   min-height: 88px;
-  display: flex;
-  align-items: center;
   background-color: #fff;
   position: relative;
   &::before {
@@ -148,8 +146,6 @@ export default {
 }
 .comment-hd {
   color: #7d7e80;
-  display: flex;
-  align-items: center;
 }
 .comment-bd {
   margin: 10px 0;

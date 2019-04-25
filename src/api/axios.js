@@ -1,5 +1,8 @@
 import axios from 'axios';
-
+import {
+  Toast
+} from 'vant';
+let toast = null;
 
 const service = axios.create({
   baseURL: process.env.BASE_API,
@@ -10,6 +13,7 @@ const service = axios.create({
 
 //request
 service.interceptors.request.use(config => {
+  toast = Toast.loading();
   return config;
 }, error => {
   return Promise.reject(error);
@@ -17,8 +21,12 @@ service.interceptors.request.use(config => {
 
 //response
 service.interceptors.response.use(response => {
+  if (response.data.errorCode === 0) {
+    toast.clear();
+  }
   return response;
 }, error => {
+  toast.clear();
   return Promise.reject(error);
 });
 

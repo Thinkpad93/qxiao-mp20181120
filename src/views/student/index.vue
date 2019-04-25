@@ -116,6 +116,7 @@ export default {
   },
   mounted() {
     this.queryStudentList(this.teacherId);
+    this.wxSdk.wxShare();
   },
   activated() {}
 };

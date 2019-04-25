@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <van-tabs v-model="active" @click="handleTabClick">
+      <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
         <van-tab title="已读">
           <div class="tab-warp">
             <div class="tab-content">

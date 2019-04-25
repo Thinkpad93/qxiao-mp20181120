@@ -10,8 +10,8 @@
         @playing="handlePlaying"
         @pause="handlePause"
       ></audio>
-      <div class="shuttle-sp-area flex" size-17>
-        <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
+      <div class="shuttle-sp-area flex a-i-c j-c-s-b" size-17>
+        <a href="javascript:void(0);" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
           <van-icon name="arrow-down" size="16px"></van-icon>
         </a>
@@ -248,8 +248,6 @@ export default {
   color: #9cd248;
   height: 120px;
   padding: 0 30px;
-  justify-content: space-between;
-  align-items: center;
 }
 .table {
   background-color: #fff;

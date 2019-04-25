@@ -27,7 +27,7 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <div class="home-user" @click="toChildList">
+        <div class="home-user">
           <img :src="photo" width="50" height="50" radius="50">
           <div class="js-user-change">
             <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
@@ -62,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="dhole">
+                <div class="dhole flex">
                   <router-link :to="{path: '/action'}">
                     <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">行为管理</span>
@@ -75,20 +75,20 @@
               </div>
               <div class="mod">
                 <!-- 一周数据分析 -->
-                <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+                <ve-line :data="chartData" :settings="chartSettings" height="340px"></ve-line>
               </div>
             </div>
           </van-tab>
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <table style="width: 100%">
+                <!-- <table style="width: 100%">
                   <tr>
                     <th>课程</th>
                     <th>课堂表现</th>
                     <th>近期成绩</th>
                   </tr>
-                </table>
+                </table>-->
                 <div class="action-cells">
                   <div class="action-cell" v-for="item in lessonList" :key="item.lessonId">
                     <div class="action-cell-hd">
@@ -112,40 +112,41 @@
               </div>
               <div class="mod">
                 <!-- 一周数据分析 -->
-                <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+                <ve-line :data="chartData" :settings="chartSettings" height="340px"></ve-line>
               </div>
             </div>
           </van-tab>
           <van-tab title="成长分析">
             <div class="container">
               <div class="remark">
-                <div class="remark-hd">
-                  <div class>
-                    <span>评语</span>
+                <div class="remark-hd flex j-c-s-b a-i-c">
+                  <div class="remark-left flex a-i-c">
+                    <img src="@/assets/remark-icon@2x.png" width="20" height="20">
+                    <span class="ml-10">评语</span>
                   </div>
-                  <div class>
+                  <router-link to="/remark" tag="div" class="remark-right flex">
                     <span>往期评语</span>
                     <van-icon name="arrow" size="16px"></van-icon>
-                  </div>
+                  </router-link>
                 </div>
                 <div class="remark-bd">
-                  <div class="remark-teacher">
+                  <div class="flex mb-20">
                     <span>老师:</span>
-                    <p>你活泼乐观,自信心强,尊敬老师,是你的最大优点,作业能按时完成,有强烈的好奇心,可惜的是你上课管不住自己,不守纪律</p>
+                    <p class="ml-20">你活泼乐观,自信心强,尊敬老师,是你的最大优点,作业能按时完成,有强烈的好奇心,可惜的是你上课管不住自己,不守纪律</p>
                   </div>
-                  <div class="remark-sys">
+                  <div class="flex mb-20">
                     <span>系统:</span>
-                    <p>孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
+                    <p class="ml-20">孩子好奇心旺盛，对周围一切新奇刺激的玩意都充满着无止境的探索欲望，极具意象色彩的人，总是在某个角落弹奏着恰好好处的弦律。</p>
                   </div>
                   <div class="remark-time">2019.03.28 10:00:00</div>
                 </div>
               </div>
-              <div class="snail mb-20">
-                <div class="snail-left">
+              <div class="snail flex j-c-s-b a-i-c mb-20">
+                <div class="flex a-i-c">
                   <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
                   <div class="ml-10">竞争力(广州)</div>
                 </div>
-                <div class="snail-right">
+                <div class="flex a-i-c">
                   <span class="mr-10">60</span>
                   <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
                 </div>
@@ -222,11 +223,6 @@ export default {
     }
   },
   methods: {
-    toChildList() {
-      this.$router.push({
-        path: "/child"
-      });
-    },
     overlay() {
       if (this.query.studentId == 0) {
         this.$dialog
@@ -382,7 +378,6 @@ export default {
   }
 }
 .dhole {
-  display: flex;
   > a {
     font-size: 28px;
     width: 50%;
@@ -403,37 +398,40 @@ export default {
 .snail {
   height: 80px;
   padding: 0 20px;
-  display: flex;
-  align-items: center;
   border-radius: 8px;
-  justify-content: space-between;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
-  &-left {
-    display: flex;
-    align-items: center;
-  }
-  &-right {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .remark {
+  border-radius: 8px;
   margin-bottom: 20px;
   text-align: justify;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
   &-hd {
-    display: flex;
-    justify-content: space-between;
+    height: 80px;
+    padding: 0 20px;
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 1px;
+      border-top: 1px solid #e5e5e5;
+      color: #e5e5e5;
+      transform-origin: 0 0;
+      transform: scaleY(0.5);
+      z-index: 2;
+    }
   }
-  &-teacher {
-    display: flex;
-    margin-bottom: 30px;
+  &-right {
+    color: #7d7e80;
   }
-  &-sys {
-    display: flex;
+  &-bd {
+    padding: 30px;
   }
   &-time {
     color: #b5b5b5;
