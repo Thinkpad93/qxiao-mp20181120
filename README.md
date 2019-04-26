@@ -93,6 +93,18 @@ wx.previewImage({
   current: encodeURI(url), //encodeURI
   urls: imgArray
 });
+
+function getTagsMap() {
+  return [...document.querySelectorAll("*")].reduce((a, c) => {
+    let tagName = c.tagName.toLowerCase();
+    if (a[tagName]) {
+      a[tagName] += 1;
+    } else {
+      a[tagName] = 1;
+    }
+    return a;
+  }, {});
+}
 ```
 
 ## git 分支命名

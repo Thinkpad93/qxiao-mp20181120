@@ -4,17 +4,19 @@
       <!-- -->
       <van-dialog v-model="dialogVisible" title="评价标准" show-cancel-button @confirm="handleConfirm"></van-dialog>
       <van-collapse v-model="activeNames">
-        <van-collapse-item :name="item.id" v-for="item in pageData" :key="item.id">
+        <van-collapse-item :name="item.id" v-for="item in list" :key="item.day">
           <div slot="title">{{ item.day }} {{ item.starCount }}颗Q星</div>
           <div class="action-cells">
-            <div class="action-cell" v-for="action in item.actions" :key="action.actionId">
-              <div class="hd">
-                <span>
-                  {{ action.title }}
+            <div
+              class="action-cell flex a-i-c j-c-s-b"
+              v-for="(action, index) in item.actions"
+              :key="index"
+            >
+              <div class="action-cell-bd flex a-i-c j-c-s-b">
+                <div class="mr-40">
+                  <span>{{ action.title }}</span>
                   <van-icon name="question-o" size="16px"></van-icon>
-                </span>
-              </div>
-              <div class="bd">
+                </div>
                 <van-rate
                   v-model="action.starCount"
                   :count="5"
@@ -46,7 +48,7 @@ export default {
         pageSize: 20
       },
       activeNames: [0],
-      pageData: []
+      list: []
     };
   },
   methods: {
@@ -55,7 +57,7 @@ export default {
     async historyStrikeQuery(params = {}) {
       let res = await service.historyStrikeQuery(params);
       if (res.errorCode === 0) {
-        this.pageData = res.data.data || [];
+        this.list = res.data.data || [];
       }
     }
   },
@@ -71,10 +73,10 @@ export default {
   justify-content: center;
   position: relative;
   margin: 20px 0;
-  .hd {
-    min-width: 200px;
+  i {
+    vertical-align: top;
   }
-  .bd {
+  &-bd {
     flex: 1;
   }
 }

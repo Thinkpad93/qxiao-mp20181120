@@ -96,7 +96,12 @@
                   :key="index"
                   :style="{backgroundImage: `url(${file})`}"
                 >
-                  <i class="iconfont icon-guanbi2fill" @click.stop="handleDelImg(index)"></i>
+                  <van-icon
+                    name="clear"
+                    size="18px"
+                    class="clear"
+                    @click.stop="handleDelImg(index)"
+                  ></van-icon>
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage">
