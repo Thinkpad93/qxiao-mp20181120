@@ -94,9 +94,10 @@
 import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
+import classList from "@/mixins/classList";
 export default {
   name: "notice",
-  mixins: [scrollMixins],
+  mixins: [scrollMixins, classList],
   data() {
     return {
       popupShow: false,
@@ -116,11 +117,6 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     brReplace(value) {

@@ -79,12 +79,12 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { type, sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import classList from "@/mixins/classList";
 export default {
   name: "teacherAdd",
-  mixins: [type, sex],
+  mixins: [type, sex, classList],
   data() {
     return {
       selected: [],
@@ -97,11 +97,6 @@ export default {
         classes: []
       }
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleSubmit() {

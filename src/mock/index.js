@@ -77,3 +77,16 @@ export function examPaperComment(num = 20) {
   }
   return Mock.mock(data);
 }
+
+
+export function wisdomList(num = 15) {
+  let data = [];
+  for (let i = 0; i < num; i++) {
+    let template = {
+      title: Random.ctitle(5, 25),
+      photo: Random.image('50x50'),
+    }
+    data.push(template);
+  }
+  return Mock.mock(data);
+}

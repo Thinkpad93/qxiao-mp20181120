@@ -86,12 +86,12 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
+import classList from "@/mixins/classList";
 export default {
   name: "fresh",
-  mixins: [scrollMixins],
+  mixins: [scrollMixins, classList],
   data() {
     return {
       popupShow: false,
@@ -107,17 +107,8 @@ export default {
         pageSize: 10
       },
       roleType: this.$store.state.user.info.roleType,
-      queryClass: {
-        id: this.$store.state.user.info.id,
-        roleType: this.$store.state.user.info.roleType
-      },
       list: []
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     brReplace(value) {

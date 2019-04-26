@@ -2,11 +2,7 @@
   <div class="flex-page">
     <div class="flex-hd">
       <div class="student-head">
-        <a href="javascript:;" class="btn btn-primary" @click="handleAddStudent">录入学生信息</a>
-        <div class="tab">
-          <a href="javascript:;" style="color:#409eff;" size-14 @click="visible = true">批量导入学生信息</a>
-          <a href="javascript:;" style="color:#409eff;" size-14 @click="visibility = true">批量邀请学生家长</a>
-        </div>
+        <router-link to="/student/add" class="btn btn-primary">录入学生信息</router-link>
       </div>
     </div>
     <div class="flex-bd">
@@ -102,9 +98,6 @@ export default {
           classId: student.classId
         }
       });
-    },
-    handleAddStudent() {
-      this.$router.push({ path: `/student/add` });
     },
     //学生列表
     async queryStudentList(teacherId) {

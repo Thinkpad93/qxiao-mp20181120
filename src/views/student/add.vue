@@ -99,12 +99,12 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import classList from "@/mixins/classList";
 export default {
   name: "studentAdd",
-  mixins: [sex, relation],
+  mixins: [sex, relation, classList],
   data() {
     return {
       popupShow: false,
@@ -116,11 +116,6 @@ export default {
         classId: null
       }
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleAddLinkMan() {

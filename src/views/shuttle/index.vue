@@ -84,9 +84,10 @@
 <script>
 import dayjs from "dayjs";
 import service from "@/api";
-import { mapState } from "vuex";
+import classList from "@/mixins/classList";
 export default {
   name: "shuttle",
+  mixins: [classList],
   data() {
     return {
       popupShow: false,
@@ -116,11 +117,6 @@ export default {
         newPlaying ? audio.play() : audio.pause();
       });
     }
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   methods: {
     handleClassConfirm(value, index) {

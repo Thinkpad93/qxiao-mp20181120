@@ -63,17 +63,16 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 import { ImagePreview } from "vant";
 import service from "@/api";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxFooter from "@/components/Footer";
 import { scrollMixins } from "@/mixins/scroll";
-
+import classList from "@/mixins/classList";
 export default {
   name: "home",
-  mixins: [scrollMixins],
+  mixins: [scrollMixins, classList],
   components: {
     qxMenu,
     qxCommunity,
@@ -106,11 +105,6 @@ export default {
         textContent: ""
       }
     };
-  },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
   },
   filters: {
     capitalize(value) {

@@ -92,12 +92,12 @@
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import classList from "@/mixins/classList";
 export default {
   name: "studentEdit",
-  mixins: [sex, relation],
+  mixins: [sex, relation, classList],
   data() {
     return {
       querys: {
@@ -105,14 +105,9 @@ export default {
         tel: this.$route.query.tel,
         studentId: this.$route.query.studentId
       },
-      form: {},
+      form: {}
     };
   },
-  computed: {
-    ...mapState("queryClass", {
-      classList: state => state.classList
-    })
-  },  
   methods: {
     handleAddLinkMan() {
       this.form.linkMan.push({ relation: 1, tel: "" });
@@ -189,7 +184,7 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
-    },
+    }
   },
   mounted() {
     this.studentInfoQuery(this.querys);

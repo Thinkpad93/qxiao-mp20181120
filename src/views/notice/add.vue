@@ -135,17 +135,17 @@
 import moment from "moment";
 import { textReplace } from "@/utils/string";
 import service from "@/api";
+import wxHandle from "@/mixins/wx";
 export default {
   namae: "noticeAdd",
+  mixins: [wxHandle],
   data() {
     return {
       popupShow: false,
       currentDate: new Date(),
-      serverId: [], //微信图片ID
       tabIndex: 0,
       isActive: false,
       checked: false, //全选框
-      imagesList: [],
       classList: [], //班级列表
       teacherList: [], //老师列表
       teacherCheckList: [], //选中的数据
@@ -177,85 +177,6 @@ export default {
       this.form.clockTime = now;
       this.popupShow = false;
     },
-    //选图
-    handleChooseImage() {
-      wx.chooseImage({
-        count: 9,
-        sizeType: ["compressed"], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: res => {
-          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-          // 判断 ios
-          if (window.__wxjs_is_wkwebview) {
-            this.handleLocalImgData(localIds);
-          } else {
-            localIds.forEach(element => {
-              this.imagesList.push(element);
-            });
-          }
-          this.handleUploadImage(localIds);
-        },
-        fail: res => {
-          alert("失败");
-        }
-      });
-    },
-    //预览图片
-    handlePreviewImage(item) {
-      wx.previewImage({
-        current: item,
-        urls: this.imagesList
-      });
-    },
-    //上传图片
-    handleUploadImage(localIds) {
-      let i = 0;
-      let length = localIds.length;
-      let upload = () => {
-        let loacId = localIds[i];
-        if (window.__wxjs_is_wkwebview) {
-          if (loacId.indexOf("wxlocalresource") != -1) {
-            loacId = loacId.replace("wxlocalresource", "wxLocalResource");
-          }
-        }
-        wx.uploadImage({
-          localId: loacId, // 需要上传的图片的本地ID，由chooseImage接口获得
-          isShowProgressTips: 1, // 默认为1，显示进度提示
-          success: res => {
-            let serverId = res.serverId; // 返回图片的服务器端ID
-            this.serverId.push(serverId);
-            i++;
-            i < length && upload();
-          },
-          fail: res => {
-            alert("失败");
-          }
-        });
-      };
-      upload();
-    },
-    //ios 图片读取
-    handleLocalImgData(localIds) {
-      let i = 0;
-      let length = localIds.length;
-      let upload = () => {
-        wx.getLocalImgData({
-          localId: localIds[i], // 图片的localID
-          success: res => {
-            let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-            localData = localData.replace("jgp", "jpeg");
-            this.imagesList.push(localData);
-            i++;
-            i < length && upload();
-          }
-        });
-      };
-      upload();
-    },
-    handleDelImg(index) {
-      this.imagesList.splice(index, 1); //移除图片显示
-      this.serverId.splice(index, 1); //移除微信图片ID
-    },
     handleTabClick(index) {
       this.tabIndex = index;
       if (index === 0) {
@@ -267,10 +188,6 @@ export default {
       }
       this.checked = false;
     },
-    //选择发送对象
-    // handleChangeSenders() {
-    //   this.isActive = true;
-    // },
     handleCheckAll(value) {
       let { sendType } = this.form;
       if (sendType === 2) {
