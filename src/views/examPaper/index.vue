@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId,
         lessonId: this.$route.query.lessonId,
         stageId: this.$route.query.stageId,
         page: 1,

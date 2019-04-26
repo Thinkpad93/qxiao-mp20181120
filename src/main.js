@@ -49,7 +49,13 @@ router.beforeEach((to, from, next) => {
       console.log("有cookie");
       let pms = getUrl();
       if (pms != -1) {
-        store.dispatch("user/setInfo", pms);
+        if (pms.openId || pms.roleType) {
+          console.log(pms);
+          console.log("pms");
+          store.dispatch("user/setInfo", pms);
+        } else {
+          store.dispatch("user/getInfo");
+        }
       } else {
         store.dispatch("user/getInfo");
       }

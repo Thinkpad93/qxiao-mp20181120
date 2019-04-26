@@ -28,7 +28,7 @@ export default [{
     component: () => import('@/views/fresh/show'),
     meta: {
       keepAlive: true,
-      cookie: false,
+      cookie: true,
       isShare: false,
       title: '新鲜速报详情',
       roles: [1, 2, 3]

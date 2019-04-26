@@ -1,6 +1,12 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <!-- 查询开放版是否有录入学生 -->
+      <van-popup v-model="popupShow" position="bottom">
+        <div class="popup-class">
+          <div class="cells"></div>
+        </div>
+      </van-popup>
       <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
@@ -46,7 +52,6 @@
         <div class="cells-title">
           <span></span>
           <van-button type="info" size="small" @click="handleAddLinkMan">新增家长</van-button>
-          <!-- <a href="javascript:void(0);" class="btn btn-primary" @click="handleAddLinkMan">新增家长</a> -->
         </div>
         <div class="cells" v-for="(link,index) in form.linkMan" :key="index">
           <div class="cell">
@@ -102,6 +107,7 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
+      popupShow: false,
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
@@ -161,6 +167,12 @@ export default {
             this.$refs.form.reset();
             this.$router.go(-1);
           });
+      }
+    },
+    //查询存在的学生
+    async queryStudentOpen(params = {}) {
+      let res = await service.queryStudentOpen(params);
+      if (res.errorCode === 0) {
       }
     }
   },

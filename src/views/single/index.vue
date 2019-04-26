@@ -287,8 +287,6 @@ export default {
       this.$router.push({
         path: "/score",
         query: {
-          openId,
-          studentId,
           lessonId
         }
       });

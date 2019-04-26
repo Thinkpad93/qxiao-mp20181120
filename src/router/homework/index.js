@@ -16,7 +16,7 @@ export default [{
     component: () => import('@/views/homework/show'),
     meta: {
       keepAlive: true,
-      cookie: false,
+      cookie: true,
       isShare: false,
       title: "作业详情查看",
       roles: [1, 2, 3]
@@ -40,7 +40,7 @@ export default [{
     component: () => import('@/views/homework/read'),
     meta: {
       keepAlive: false,
-      cookie: false,
+      cookie: true,
       isShare: false,
       title: "作业阅读人数查询",
       roles: [2]

@@ -28,7 +28,7 @@ export default [{
     component: () => import('@/views/recipe/show'),
     meta: {
       keepAlive: true,
-      cookie: false,
+      cookie: true,
       isShare: false,
       title: '营养食谱详情',
       roles: [1, 2, 3]

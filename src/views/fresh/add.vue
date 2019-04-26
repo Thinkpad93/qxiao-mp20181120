@@ -82,8 +82,7 @@ export default {
         title: "",
         textContent: "",
         images: []
-      },
-      classList: []
+      }
     };
   },
   computed: {

@@ -42,8 +42,8 @@ export default {
     return {
       actives: 0,
       query: {
-        openId: this.$route.query.openId,
-        studentId: this.$route.query.studentId,
+        openId: this.$store.state.user.info.openId,
+        studentId: this.$store.state.user.info.openStudentId,
         lessonId: this.$route.query.lessonId,
         page: 1,
         pageSize: 20
@@ -66,8 +66,7 @@ export default {
         path: "/examPaper",
         query: {
           lessonId,
-          stageId,
-          openId: this.query.openId
+          stageId
         }
       });
     },
