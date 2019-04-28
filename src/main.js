@@ -8,9 +8,8 @@ import wxSdk from '@/config/wxsdk';
 
 import '@/vantUI'; //vant UI
 
-
-import VeLine from 'v-charts/lib/line.common';
-Vue.component(VeLine.name, VeLine);
+//import VeLine from 'v-charts/lib/line.common';
+//Vue.component(VeLine.name, VeLine);
 
 
 Vue.config.productionTip = false;

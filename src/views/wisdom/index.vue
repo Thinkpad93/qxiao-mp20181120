@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <figure class="figure figure-skin-one" v-for="(item,index) in list" :key="index">
+      <!-- <figure class="figure figure-skin-one" v-for="(item,index) in list" :key="index">
         <div class="figure-bd">
           <div
             class="figure-thumb-small"
@@ -26,7 +26,7 @@
             <h3>{{ item.title }}</h3>
           </div>
         </div>
-      </figure>
+      </figure>-->
     </div>
     <div class="flex-ft">
       <qxFooter></qxFooter>
