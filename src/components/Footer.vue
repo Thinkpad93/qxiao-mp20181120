@@ -5,11 +5,11 @@
         <div>小Q表现</div>
       </router-link>
     </div>
-    <div class="item">
+    <!-- <div class="item">
       <router-link to="/wisdom">
         <div>小Q智慧</div>
       </router-link>
-    </div>
+    </div>-->
     <div class="item">
       <router-link to="/home">
         <div>小Q班级</div>
@@ -46,7 +46,7 @@ export default {
       display: block;
       text-align: center;
       &.router-link-active {
-        color: #04b6ff;
+        color: #92cd36;
       }
     }
   }

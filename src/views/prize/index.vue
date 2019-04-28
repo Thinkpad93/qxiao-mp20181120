@@ -52,7 +52,7 @@
           ref="swipeCell"
           :right-width="60"
           v-for="(item, index) in list"
-          :key="item.itemId"
+          :key="index"
           :disabled="item.prizeType === 0"
           :on-close="onClose(index,item.itemId, item.prizeType)"
         >

@@ -19,7 +19,7 @@
                 <img class="teacher-icon" v-if="teacher.photo" :src="teacher.photo" alt>
                 <div class="icon-d" v-else></div>
               </div>
-              <div class="cell-bd">
+              <div class="cell-bd pl-20">
                 <p>{{ teacher.teacherName }}</p>
               </div>
               <div class="cell-ft">
@@ -36,7 +36,7 @@
                 <img class="teacher-icon" v-if="student.photo" :src="student.photo" alt>
                 <div class="icon-d" v-else></div>
               </div>
-              <div class="cell-bd">
+              <div class="cell-bd pl-20">
                 <p>{{ student.studentName }}</p>
               </div>
               <div class="cell-ft">
@@ -58,7 +58,7 @@ export default {
       index: 0,
       query: {
         classId: this.$route.query.classId,
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId
       },
       className: this.$route.query.className,
       teacherList: [],

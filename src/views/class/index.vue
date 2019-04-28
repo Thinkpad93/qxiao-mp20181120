@@ -29,7 +29,7 @@
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
-        v-for="(item, index) in classList"
+        v-for="(item, index) in list"
         :key="index"
         :on-close="onClose(index, item)"
       >
@@ -62,7 +62,7 @@ export default {
       className: "",
       schoolId: this.$store.state.user.info.id,
       openId: this.$store.state.user.info.openId,
-      classList: []
+      list: []
     };
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
                   openId: this.openId
                 });
                 if (res.errorCode === 0) {
-                  this.classList.splice(index, 1);
+                  this.list.splice(index, 1);
                 } else if (res.errorCode === -1) {
                   this.$toast(`${res.errorMsg}`);
                 }
@@ -132,7 +132,7 @@ export default {
     async queryClass(schoolId) {
       let res = await service.queryClass({ schoolId });
       if (res.errorCode === 0) {
-        this.classList = res.data;
+        this.list = res.data;
       }
     },
     //班级创建

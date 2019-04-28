@@ -10,7 +10,7 @@
         </div>
         <div class="info-box ml-30" v-if="openStudentName">
           <h3 size-17 class="username">{{ openStudentName }}</h3>
-          <div class="info-meta flex pt-30">
+          <div class="info-meta flex pt-20">
             <div class="mr-10">Q星: 500</div>
             <div class="mr-10">积分: 800</div>
           </div>
@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import service from "@/api";
 import qxFooter from "@/components/Footer";
 export default {
   name: "user",

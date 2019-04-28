@@ -2,9 +2,8 @@
   <div class="flex-page">
     <div class="flex-bd">
       <!-- -->
-      <van-dialog v-model="dialogVisible" title="评价标准" show-cancel-button @confirm="handleConfirm"></van-dialog>
       <van-collapse v-model="activeNames">
-        <van-collapse-item :name="item.id" v-for="item in list" :key="item.day">
+        <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
           <div slot="title">{{ item.day }} {{ item.starCount }}颗Q星</div>
           <div class="action-cells">
             <div
@@ -15,7 +14,6 @@
               <div class="action-cell-bd flex a-i-c j-c-s-b">
                 <div class="mr-40">
                   <span>{{ action.title }}</span>
-                  <van-icon name="question-o" size="16px"></van-icon>
                 </div>
                 <van-rate
                   v-model="action.starCount"
@@ -23,7 +21,8 @@
                   :size="22"
                   color="#09e2bb"
                   void-color="#e5eee0"
-                  :readonly="action.starCount !== 0"
+                  :readonly="item.starCount !== 0"
+                  @change="handleChangeRate(indexs)"
                 ></van-rate>
               </div>
             </div>
@@ -35,10 +34,8 @@
 </template>
 <script>
 import service from "@/api";
-import pageMixin from "@/mixins/page";
 export default {
   name: "actionHistory",
-  mixins: [pageMixin],
   data() {
     return {
       query: {
@@ -47,17 +44,62 @@ export default {
         page: 1,
         pageSize: 20
       },
-      activeNames: [0],
+      activeNames: [],
       list: []
     };
   },
   methods: {
-    handleConfirm() {},
+    //rate事件
+    handleChangeRate(indexs) {
+      let flag = false;
+
+      let actions = this.list[indexs].actions;
+      let len = actions.length;
+      actions.forEach(element => {
+        let { starCount, ...args } = element;
+        //说明该行为已经打了
+        if (starCount != 0) {
+          flag = true;
+          len -= 1;
+        }
+      });
+      if (flag && len === 0) {
+        let actionArray = [];
+        let day = this.list[indexs].day;
+        let { openId, studentId } = this.query;
+        actions.forEach(element => {
+          let { title, ...args } = element;
+          actionArray.push(args);
+        });
+        if (actionArray.length) {
+          this.$dialog
+            .confirm({
+              title: "提示",
+              message: "确定完成评价？确定后无法更改"
+            })
+            .then(() => {
+              let obj = Object.assign(
+                {},
+                { actionArray, day, openId, studentId }
+              );
+              this.actionStrike(obj);
+            })
+            .catch(() => {});
+        }
+      }
+    },
     //历史打星查询
     async historyStrikeQuery(params = {}) {
       let res = await service.historyStrikeQuery(params);
       if (res.errorCode === 0) {
         this.list = res.data.data || [];
+      }
+    },
+    //行为打星
+    async actionStrike(params = {}) {
+      let res = await service.actionStrike(params);
+      if (res.errorCode === 0) {
+        this.historyStrikeQuery(this.query);
       }
     }
   },
@@ -81,6 +123,6 @@ export default {
   }
 }
 .van-collapse-item {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 </style>

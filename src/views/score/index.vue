@@ -114,7 +114,7 @@ export default {
     background-color: #fff;
     box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
     a {
-      color: #04b6ff;
+      color: #92cd36;
     }
   }
 }

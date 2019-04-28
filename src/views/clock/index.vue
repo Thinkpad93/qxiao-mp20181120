@@ -183,13 +183,13 @@ export default {
     },
     //选择年月日
     handleShowDatePicker(value) {
-      let now = moment(new Date(value).getTime()).format("YYYY-MM-DD");
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.query.date = now;
       this.clockStat(this.query);
     },
     //选择年月
     handleChangeMonth(value) {
-      let month = moment(new Date(value).getTime()).format("YYYY-MM");
+      let month = dayjs(new Date(value).getTime()).format("YYYY-MM");
       this.querys.month = month;
       this.clockQuery(this.querys);
     },

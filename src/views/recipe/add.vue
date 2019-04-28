@@ -88,7 +88,9 @@
                   ></van-icon>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage"></div>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="40px"></van-icon>
+              </div>
             </div>
           </div>
         </div>

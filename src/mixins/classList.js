@@ -1,3 +1,4 @@
+//班级列表
 import {
   mapState
 } from "vuex";

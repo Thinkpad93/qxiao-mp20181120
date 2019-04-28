@@ -70,7 +70,8 @@
         </div>
         <div class="cells-title">
           <span></span>
-          <van-button type="info" size="small" @click="handleAddLinkMan">新增家长</van-button>
+          <a href="javascript:void(0);" class="btn btn-primary" @click="handleAddLinkMan">新增家长</a>
+          <!-- <van-button type="info" size="small" @click="handleAddLinkMan" url="" to="">新增家长</van-button> -->
         </div>
         <div class="cells" v-for="(link,index) in form.linkMan" :key="index">
           <div class="cell">
@@ -106,7 +107,8 @@
           </div>
           <div class="cells-footer" v-if="form.linkMan.length > 1">
             <div class="cell">
-              <van-button type="danger" size="small" @click="handleDelLinkMan(index)">删除</van-button>
+              <a href="javascript:void(0);" class="btn btn-warn" @click="handleDelLinkMan(index)">删除</a>
+              <!-- <van-button type="danger" size="small" @click="handleDelLinkMan(index)">删除</van-button> -->
             </div>
           </div>
         </div>
@@ -217,6 +219,8 @@ export default {
       let res = await service.addStudentWithStudentId(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

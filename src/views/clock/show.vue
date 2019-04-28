@@ -3,18 +3,10 @@
     <div class="page-hd">
       <div class="class-edit-head">
         <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
-        <div class="tab">
-          <a
-            href="javascript:;"
-            @click="handleTabClick(1)"
-            :class="[query.type === 1 ? 'curr': '']"
-          >已打卡</a>
-          <a
-            href="javascript:;"
-            @click="handleTabClick(0)"
-            :class="[query.type === 0 ? 'curr': '']"
-          >未打卡</a>
-        </div>
+        <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
+          <van-tab title="已打卡"></van-tab>
+          <van-tab title="未打卡"></van-tab>
+        </van-tabs>
       </div>
     </div>
     <div class="pae-bd">
@@ -39,10 +31,11 @@ export default {
   name: "clockShow",
   data() {
     return {
+      active: 0,
       className: this.$route.query.className,
       classClockList: [],
       query: {
-        type: 1, //0-缺勤 1-出勤
+        type: 0, //0-缺勤 1-出勤
         date: this.$route.query.date,
         classId: this.$route.query.classId
       }

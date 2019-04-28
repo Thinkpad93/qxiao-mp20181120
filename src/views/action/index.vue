@@ -47,7 +47,7 @@
             </div>
             <!-- -->
             <router-link :to="{path: '/action/add'}" tag="div" class="monodon">
-              <div class="monoceros" style="background-color:#04b6ff;color:#fff;">
+              <div class="monoceros" style="background-color:#92cd36;color:#fff;">
                 <van-icon name="plus"></van-icon>
                 <span class="ml-10">自定义</span>
               </div>
@@ -166,7 +166,7 @@ export default {
   justify-content: space-between;
   padding: 30px 30px 0 30px;
   a {
-    color: #04b6ff;
+    color: #92cd36;
   }
 }
 .narwhal {

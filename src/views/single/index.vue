@@ -39,8 +39,8 @@
               <div class="mod">
                 <!-- 今天的 -->
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
-                  <time>{{ query.day }}</time>
-                  <span>{{ start }}颗Q星</span>
+                  <time size-18>{{ query.day }}</time>
+                  <span size-18>{{ start }}颗Q星</span>
                 </router-link>
                 <div class="action-cells">
                   <div
@@ -48,7 +48,6 @@
                     v-for="(item, index) in myActions"
                     :key="index"
                   >
-                    <!-- <div class="action-cell-hd"></div> -->
                     <div class="action-cell-bd flex a-i-c j-c-s-b">
                       <div class="mr-40" @click="handleActionMore(item)">
                         <span>{{ item.title }}</span>
@@ -86,6 +85,9 @@
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
+                <div class="action-today">
+                  <time size-18>{{ query.day }}</time>
+                </div>
                 <!-- <table style="width: 100%">
                   <tr>
                     <th>课程</th>
@@ -99,10 +101,10 @@
                     v-for="item in lessonList"
                     :key="item.lessonId"
                   >
-                    <div class="action-cell-hd">
+                    <div class="action-cell-hd" @click="jumpScore(item.lessonId)">
                       <span>{{ item.title }}</span>
                     </div>
-                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpScore(item.lessonId)">
+                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView">
                       <van-rate
                         v-model="item.startCount"
                         :count="5"
@@ -160,13 +162,15 @@
                 </div>
               </div>
               <div class="mod">
-                <van-tabs v-model="actives">
+                <van-tabs v-model="actives" :line-height="2">
                   <van-tab title="个性分析">
                     <p>缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
                   </van-tab>
-                  <van-tab title="学习分析"></van-tab>
+                  <van-tab title="学习分析">
+                    <p>按时上学，课堂表现不错，但是考试成绩却不理想</p>
+                  </van-tab>
                 </van-tabs>
-                <van-button type="info">定制学习计划</van-button>
+                <van-button round type="info" size="small">定制学习计划</van-button>
               </div>
             </div>
           </van-tab>
@@ -289,6 +293,11 @@ export default {
         query: {
           lessonId
         }
+      });
+    },
+    jumpCourseView() {
+      this.$router.push({
+        path: "/course/view"
       });
     },
     //行为打星

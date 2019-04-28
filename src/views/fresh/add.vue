@@ -136,6 +136,7 @@ export default {
         this.freshAdd(obj);
       }
     },
+    //速报发送
     async freshAdd(params = {}) {
       let res = await service.freshAdd(params);
       if (res.errorCode === 0) {

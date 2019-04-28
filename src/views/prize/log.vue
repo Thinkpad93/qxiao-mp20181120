@@ -6,10 +6,10 @@
           <div class="cell-bd">
             <p>{{ item.textContent }}</p>
             <div size-14>x{{ item.times }}</div>
-            <time size-12>{{ item.postTime }}</time>
+            <time size-12 style="color:#7d7e80">{{ item.postTime }}</time>
           </div>
           <div class="cell-ft">
-            <span>{{ item.starCount }}颗</span>
+            <span>{{ item.starCount * item.times }}颗</span>
           </div>
         </div>
       </div>
