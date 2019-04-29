@@ -66,9 +66,9 @@ import service from "@/api";
 import dialog from "@/components/dialog";
 export default {
   name: "student",
-  components: {
-    "v-dialog": dialog
-  },
+  // components: {
+  //   "v-dialog": dialog
+  // },
   data() {
     return {
       visible: false,

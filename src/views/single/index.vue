@@ -33,12 +33,17 @@
             <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
           </div>
         </div>
-        <van-tabs v-model="active" :line-height="2">
+        <van-tabs v-model="active" :line-height="2" :lazy-render="false">
           <van-tab title="在家表现">
             <div class="container">
               <div class="mod">
                 <!-- 今天的 -->
-                <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
+                <router-link
+                  :to="{path: '/actionHistory'}"
+                  tag="div"
+                  class="action-today"
+                  v-if="myActions.length"
+                >
                   <time size-18>{{ query.day }}</time>
                   <span size-18>{{ start }}颗Q星</span>
                 </router-link>
@@ -76,17 +81,17 @@
                   </router-link>
                 </div>
               </div>
-              <div class="mod">
+              <div class="mod" ref="mod">
+                <van-button round type="info" size="small">选择</van-button>
                 <!-- 一周数据分析 -->
-                <div id="homeStat" style="width:100%;height:300px"></div>
-                <!-- <ve-line :data="chartData" :settings="chartSettings" height="340px"></ve-line> -->
+                <div id="homeStat" style="height:300px"></div>
               </div>
             </div>
           </van-tab>
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <div class="action-today">
+                <div class="action-today" v-if="lessonList.length">
                   <time size-18>{{ query.day }}</time>
                 </div>
                 <!-- <table style="width: 100%">
@@ -122,13 +127,9 @@
                 </div>
               </div>
               <div class="mod">
+                <van-button round type="info" size="small">选择</van-button>
                 <!-- 一周数据分析 -->
-                <!-- <ve-line
-                  :data="chartData"
-                  :settings="chartSettings"
-                  :judge-width="true"
-                  height="340px"
-                ></ve-line>-->
+                <div id="stateMent" style="height:300px"></div>
               </div>
             </div>
           </van-tab>
@@ -193,7 +194,6 @@ import service from "@/api";
 import qxFooter from "@/components/Footer";
 import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
-
 // 引入基本模板
 let echarts = require("echarts/lib/echarts");
 // 引入柱状图组件
@@ -210,6 +210,8 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
+      homeEcharts: null,
+      mentEcharts: null,
       active: 0,
       actives: 0,
       photo: this.$store.state.user.info.photo,
@@ -302,11 +304,11 @@ export default {
     },
     initHomeStat() {
       this.$nextTick(() => {
-        let homeStat = echarts.init(
+        this.homeEcharts = echarts.init(
           document.getElementById("homeStat"),
           "light"
         );
-        homeStat.setOption({
+        this.homeEcharts.setOption({
           tooltip: {
             trigger: "axis"
           },
@@ -316,7 +318,7 @@ export default {
           xAxis: {
             type: "category",
             boundaryGap: false,
-            data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+            data: []
           },
           yAxis: {
             type: "value"
@@ -334,7 +336,7 @@ export default {
           },
           series: [
             {
-              data: [100, 132, 201, 134, 290, 330, 320],
+              data: [],
               type: "line",
               name: "个人表现",
               stack: "总量",
@@ -342,7 +344,60 @@ export default {
               areaStyle: {}
             },
             {
-              data: [120, 132, 101, 134, 90, 230, 201],
+              data: [],
+              type: "line",
+              name: "班级平均值",
+              stack: "总量",
+              smooth: true,
+              areaStyle: {}
+            }
+          ]
+        });
+      });
+    },
+    initStateMent() {
+      this.$nextTick(() => {
+        let modWidth = this.$refs.mod.offsetWidth;
+        let dom = document.getElementById("stateMent");
+        dom.style.width = modWidth - 20 + "px";
+        this.mentEcharts = echarts.init(dom, "light");
+        this.mentEcharts.setOption({
+          tooltip: {
+            trigger: "axis"
+          },
+          legend: {
+            data: ["个人表现", "班级平均值"]
+          },
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: []
+          },
+          yAxis: {
+            type: "value"
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true
+          },
+          series: [
+            {
+              data: [],
+              type: "line",
+              name: "个人表现",
+              stack: "总量",
+              smooth: true,
+              areaStyle: {}
+            },
+            {
+              data: [],
               type: "line",
               name: "班级平均值",
               stack: "总量",
@@ -394,16 +449,61 @@ export default {
       }
     },
     //在家表现一周查询
-    async homeStatQuery(params = {}) {
+    async homeStatQuery() {
+      let params = {
+        studentId: this.query.studentId,
+        actionId: 1,
+        actionType: 0
+      };
       let res = await service.homeStatQuery(params);
+      if (res.errorCode === 0) {
+        let data = res.data;
+        this.homeEcharts.setOption({
+          xAxis: {
+            data: data.day
+          },
+          series: [
+            {
+              data: data.myStartCount
+            },
+            {
+              data: data.myStartCount
+            }
+          ]
+        });
+      }
     },
     //课堂表现一周查询
-    async lessonStatQuery(params = {}) {
-      let res = await service.lessonStatQuery(params);
+    async stateMentList() {
+      let params = {
+        openId: this.query.openId,
+        studentId: this.query.studentId,
+        lessonId: 1
+      };
+      let res = await service.stateMentList(params);
+      if (res.errorCode === 0) {
+        let data = res.data;
+        this.mentEcharts.setOption({
+          xAxis: {
+            data: data.day
+          },
+          series: [
+            {
+              data: data.myStartCount
+            },
+            {
+              data: data.aveStartCount
+            }
+          ]
+        });
+      }
     }
   },
   mounted() {
     this.initHomeStat();
+    this.initStateMent();
+    this.homeStatQuery();
+    this.stateMentList();
     this.actionListQuery(this.query);
     this.lessonQuery(this.query);
     this.newRemarkQuery();
@@ -434,10 +534,6 @@ export default {
 
 .action-today {
   text-align: center;
-}
-
-.action-cells {
-  min-height: 200px;
 }
 
 .action-cell {

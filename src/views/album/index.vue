@@ -1,11 +1,11 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <template v-if="albumData.length">
+      <template v-if="list.length">
         <div class="album flex j-c-s-b">
           <figure
             class="album-figure"
-            v-for="(album, index) in albumData"
+            v-for="(album, index) in list"
             :key="index"
             @click="jump(album)"
           >
@@ -35,7 +35,7 @@ export default {
         openId: this.$store.state.user.info.openId,
         roleType: this.$store.state.user.info.roleType
       },
-      albumData: []
+      list: []
     };
   },
   methods: {
@@ -55,7 +55,7 @@ export default {
     async albumClassQuery(params = {}) {
       let res = await service.albumClassQuery(params);
       if (res.errorCode === 0) {
-        this.albumData = res.data;
+        this.list = res.data;
       }
     }
   },

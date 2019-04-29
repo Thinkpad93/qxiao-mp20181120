@@ -54,10 +54,6 @@ export default {
     };
   },
   methods: {
-    handleDelImg() {
-      this.imagesList.splice(index, 1); //移除图片显示
-      this.serverId.splice(index, 1); //移除微信图片ID
-    },
     handleSubmit() {
       if (!this.serverId.length) {
         this.$toast("请上传图片");

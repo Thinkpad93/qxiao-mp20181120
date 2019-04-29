@@ -4,7 +4,10 @@
       <!-- -->
       <van-collapse v-model="activeNames">
         <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
-          <div slot="title">{{ item.day }} {{ item.starCount }}颗Q星</div>
+          <div slot="title">
+            {{ item.day }}
+            <strong style="color:#ff4d67;">{{ item.starCount }}</strong>颗Q星
+          </div>
           <div class="action-cells">
             <div
               class="action-cell flex a-i-c j-c-s-b"

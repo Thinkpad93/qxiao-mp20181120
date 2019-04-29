@@ -63,7 +63,6 @@
   </div>
 </template>
 <script>
-import { ImagePreview } from "vant";
 import service from "@/api";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
@@ -83,7 +82,7 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className: decodeURI(this.$store.state.user.info.className),
+      className: this.$store.state.user.info.className,
       isLoading: false,
       totalPage: 1, //总页数
       isOpen: this.$store.state.user.info.isOpen,

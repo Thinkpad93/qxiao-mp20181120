@@ -84,7 +84,7 @@
           <van-button type="default" @click="dialogVisible = true">新增评价标准</van-button>
         </div>
         <div class="tapeti-right">
-          <van-button type="info" @click="handleSave" :loading="loading">添加行为</van-button>
+          <van-button type="info" @click="handleSave">添加行为</van-button>
         </div>
       </div>
     </div>
@@ -98,7 +98,6 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
-      loading: false,
       form: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
@@ -164,14 +163,12 @@ export default {
         this.$toast("请给行为添加评价标准");
         return;
       }
-      this.loading = true;
       this.actionAdd(this.form);
     },
     //行为添加
     async actionAdd(params = {}) {
       let res = await service.actionAdd(params);
       if (res.errorCode === 0) {
-        this.loading = false;
         this.$router.go(-1);
       } else if (res.errorCode === -1) {
         this.$toast(`${res.errorMsg}`);

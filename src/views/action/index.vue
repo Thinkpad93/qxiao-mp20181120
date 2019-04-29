@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <!-- dialog -->
-      <van-dialog v-model="dialogVisible" title="行为说明" show-cancel-button @confirm="handleConfirm"></van-dialog>
+      <!-- <van-dialog v-model="dialogVisible" title="行为说明" show-cancel-button @confirm="handleConfirm"></van-dialog> -->
       <div class="wrap">
         <div class="mod">
           <div class="guanaco">
@@ -104,7 +104,7 @@ export default {
           }
         });
     },
-    handleConfirm() {},
+    //handleConfirm() {},
     //按行为查询已选中的规则
     async actionQuery(params = {}) {
       let res = await service.actionQuery(params);
