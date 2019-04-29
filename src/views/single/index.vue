@@ -201,6 +201,7 @@ require("echarts/lib/chart/line");
 // 引入提示框和title组件
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/title");
+require("echarts/lib/component/legend");
 export default {
   name: "home",
   components: {
@@ -301,24 +302,16 @@ export default {
     },
     initHomeStat() {
       this.$nextTick(() => {
-        let homeStat = echarts.init(document.getElementById("homeStat"));
+        let homeStat = echarts.init(
+          document.getElementById("homeStat"),
+          "light"
+        );
         homeStat.setOption({
           tooltip: {
             trigger: "axis"
           },
           legend: {
-            data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"]
-          },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
+            data: ["个人表现", "班级平均值"]
           },
           xAxis: {
             type: "category",
@@ -328,36 +321,33 @@ export default {
           yAxis: {
             type: "value"
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true
+          },
           series: [
             {
-              name: "邮件营销",
+              data: [100, 132, 201, 134, 290, 330, 320],
               type: "line",
+              name: "个人表现",
               stack: "总量",
-              data: [120, 132, 101, 134, 90, 230, 210]
+              smooth: true,
+              areaStyle: {}
             },
             {
-              name: "联盟广告",
+              data: [120, 132, 101, 134, 90, 230, 201],
               type: "line",
+              name: "班级平均值",
               stack: "总量",
-              data: [220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-              name: "视频广告",
-              type: "line",
-              stack: "总量",
-              data: [150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-              name: "直接访问",
-              type: "line",
-              stack: "总量",
-              data: [320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-              name: "搜索引擎",
-              type: "line",
-              stack: "总量",
-              data: [820, 932, 901, 934, 1290, 1330, 1320]
+              smooth: true,
+              areaStyle: {}
             }
           ]
         });
@@ -516,6 +506,7 @@ export default {
   }
   &-bd {
     padding: 30px;
+    min-height: 180px;
   }
   &-time {
     color: #b5b5b5;
