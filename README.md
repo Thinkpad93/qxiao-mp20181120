@@ -113,3 +113,5 @@ function getTagsMap() {
 - Release
 - Hotfix
 - Master
+
+## natapp -authtoken=a6260d5585826691

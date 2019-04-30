@@ -42,16 +42,20 @@
 <script>
 import service from "@/api";
 import qxFooter from "@/components/Footer";
+import { mapState } from "vuex";
 export default {
   name: "user",
   components: {
     qxFooter
   },
   data() {
-    return {
-      photo: this.$store.state.user.info.photo,
-      openStudentName: this.$store.state.user.info.openStudentName
-    };
+    return {};
+  },
+  computed: {
+    ...mapState("user", {
+      openStudentName: state => state.info.openStudentName,
+      photo: state => state.info.photo
+    })
   }
 };
 </script>
