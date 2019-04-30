@@ -30,6 +30,7 @@ import examPaperRouterConfig from './examPaper';
 import scoreRouterConfig from './score';
 import remarkRouterConfig from './remark';
 import courseRouterConfig from './course';
+import personalRouterConfig from './personal';
 import worksRounterConfig from './works';
 
 Vue.use(Router);
@@ -63,6 +64,8 @@ export const constantRouterMap = [
   ...scoreRouterConfig,
   ...remarkRouterConfig,
   ...courseRouterConfig,
+
+  ...personalRouterConfig,
   ...worksRounterConfig
 ]
 

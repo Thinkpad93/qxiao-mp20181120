@@ -5,9 +5,10 @@
         <router-link to="/child" tag="div" class="switch-children">
           <van-icon name="replay" size="16px"></van-icon>切换孩子
         </router-link>
-        <div class="avatar">
+        <router-link to="/personData" tag="div" class="avatar">个人资料</router-link>
+        <!-- <div class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
-        </div>
+        </div>-->
         <div class="info-box ml-30" v-if="openStudentName">
           <h3 size-17 class="username">{{ openStudentName }}</h3>
           <div class="info-meta flex pt-20">
@@ -26,13 +27,33 @@
           <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
         </div>
       </div>
-      <van-cell title="我的个性计划" is-link></van-cell>
-      <van-cell title="我的学习计划" is-link></van-cell>
-      <van-cell title="我的作品" is-link></van-cell>
-      <van-cell title="我的收藏" is-link></van-cell>
-      <van-cell title="我的下载" is-link></van-cell>
-      <van-cell title="我的课表" is-link></van-cell>
-      <van-cell title="帮助中心" is-link></van-cell>
+
+      <router-link to="/myPersonality">
+        <van-cell title="我的个性计划" is-link></van-cell>
+      </router-link>
+      <router-link to="/myStudy">
+        <van-cell title="我的学习计划" is-link></van-cell>
+      </router-link>
+      <router-link to="/myWord">
+        <van-cell title="我的作品" is-link></van-cell>
+      </router-link>
+      <!-- <van-cell title="我的个性计划" is-link></van-cell> -->
+      <router-link to="/myBraclet">
+        <van-cell title="我的手环" is-link></van-cell>
+      </router-link>
+      <!-- <router-link to="/collection" tag="van-cell" is-link title="我的收藏"></router-link> -->
+      <router-link to="/collection">
+        <van-cell title="我的收藏" is-link></van-cell>
+      </router-link>
+      <router-link to="/myDownload">
+        <van-cell title="我的下载" is-link></van-cell>
+      </router-link>
+      <router-link to="/mySchedule">
+        <van-cell title="我的课表" is-link></van-cell>
+      </router-link>
+      <router-link to="/helpCenter">
+        <van-cell title="帮助中心" is-link></van-cell>
+      </router-link>
     </div>
     <div class="flex-ft">
       <qxFooter></qxFooter>
