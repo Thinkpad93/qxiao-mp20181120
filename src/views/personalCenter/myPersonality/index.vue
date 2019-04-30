@@ -6,7 +6,7 @@
         <h2>我的定制</h2>
       </div>
       <div class="course">
-        <img src="http://dummyimage.com/500x300" alt>
+        <img src="http://dummyimage.com/440x200" alt>
         <div>
           <div>
             <p>1/30</p>
@@ -27,7 +27,7 @@
         <h2>个性计划推荐</h2>
       </div>
       <div class="course">
-        <img src="http://dummyimage.com/500x300" alt>
+        <img src="http://dummyimage.com/440x200" alt>
       </div>
     </div>
   </div>
@@ -49,12 +49,12 @@ export default {};
       left: 0;
       bottom: 0;
       i {
-        font-size: 60px;
+        font-size: 40px;
         margin-right: 20px;
         color: #61d2fa;
       }
       h2 {
-        font-size: 40px;
+        font-size: 30px;
       }
     }
   }
@@ -81,10 +81,10 @@ export default {};
       p {
         width: 100%;
         text-align: center;
-        font-size: 40px;
+        font-size: 30px;
         color: #fff;
         &:nth-of-type(1) {
-          font-size: 50px;
+          font-size: 40px;
         }
       }
     }

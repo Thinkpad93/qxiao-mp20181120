@@ -48,7 +48,7 @@ li {
   padding: 30px 0px;
   border-bottom: 1px solid #eee;
   p {
-    font-size: 40px;
+    font-size: 30px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -59,6 +59,7 @@ li {
     display: block;
     color: #aaa;
     margin-top: 20px;
+    font-size: 20px;
   }
   span {
     display: flex;
@@ -69,15 +70,18 @@ li {
       background: #2dbef8;
       color: #fff;
       border-radius: 30px;
-      padding: 10px 20px;
+      padding: 8px 20px;
       border: none;
-      font-size: 14px;
+      font-size: 12px;
     }
   }
   .single_image {
     display: flex;
     img {
       margin-right: 20px;
+    }
+    div {
+      flex: 1;
     }
   }
 }
