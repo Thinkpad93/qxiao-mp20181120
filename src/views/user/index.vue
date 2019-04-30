@@ -33,7 +33,7 @@
       <router-link to="/myStudy">
         <van-cell title="我的学习计划" is-link></van-cell>
       </router-link>
-      <router-link to="/myWord">
+      <router-link to="/works">
         <van-cell title="我的作品" is-link></van-cell>
       </router-link>
       <!-- <van-cell title="我的个性计划" is-link></van-cell> -->
