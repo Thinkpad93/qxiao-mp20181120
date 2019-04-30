@@ -64,20 +64,23 @@ export default {};
       justify-content: space-between;
       > div {
         h2 {
-          font-size: 35px;
+          font-size: 30px;
           margin: 20px 0px;
+        }
+        p {
+          font-size: 28px;
         }
       }
     }
   }
 }
 .custom-text {
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 600;
 }
 .van-cell__value,
 i {
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 </style>
