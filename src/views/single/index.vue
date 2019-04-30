@@ -9,20 +9,29 @@
         v-if="query.studentId == 0"
       ></div>
       <!-- dialog -->
-      <van-dialog v-model="dialogVisible" title="行为说明">
+      <van-dialog v-model="dialogVisible">
         <div class="actionView">
-          <h4>行为说明: {{ actionView.textContent }}</h4>
-          <p v-for="(item, index) in actionView.rules" :key="index">
-            <span>{{ item.ruleText }}</span>
-            <van-rate
-              v-model="item.stressFlag"
-              color="#f44"
-              void-color="#eee"
-              readonly
-              :count="1"
-              v-if="item.stressFlag"
-            />
-          </p>
+          <div class="mt-20">
+            <strong>行为说明:</strong>
+            {{ actionView.textContent }}
+          </div>
+          <div class="flex mt-20">
+            <strong>评价标准:</strong>
+            <div class="ml-20">
+              <p v-for="(item, index) in actionView.rules" :key="index">
+                <span>{{ item.ruleText }}</span>
+                <van-rate
+                  v-model="item.stressFlag"
+                  color="#09e2bb"
+                  void-color="#eee"
+                  readonly
+                  :count="1"
+                  :size="16"
+                  v-if="item.stressFlag"
+                />
+              </p>
+            </div>
+          </div>
         </div>
       </van-dialog>
       <div class="wrap">
