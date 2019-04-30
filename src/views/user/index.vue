@@ -5,10 +5,9 @@
         <router-link to="/child" tag="div" class="switch-children">
           <van-icon name="replay" size="16px"></van-icon>切换孩子
         </router-link>
-        <router-link to="/personData" tag="div" class="avatar">个人资料</router-link>
-        <!-- <div class="avatar">
+        <router-link to="/personData" tag="div" class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
-        </div>-->
+        </router-link>
         <div class="info-box ml-30" v-if="openStudentName">
           <h3 size-17 class="username">{{ openStudentName }}</h3>
           <div class="info-meta flex pt-20">
