@@ -39,7 +39,17 @@ export default {
       //更新cookie值
       let params = Object.assign({}, _cookie, obj);
       if (Object.keys(params).length) {
-        this.$store.dispatch("user/setInfo", params);
+        this.$store.dispatch("user/setInfo", params).then(data => {
+          if (data.success === "ok") {
+            this.$dialog
+              .alert({
+                message: "切换成功"
+              })
+              .then(() => {
+                this.$router.go(-1);
+              });
+          }
+        });
       }
     }
   },

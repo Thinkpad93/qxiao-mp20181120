@@ -116,12 +116,12 @@
                     v-for="item in lessonList"
                     :key="item.lessonId"
                   >
-                    <div class="action-cell-hd" @click="jumpScore(item.lessonId)">
-                      <span>{{ item.title }}</span>
+                    <div class="action-cell-hd">
+                      <span @click="jumpScore(item.lessonId)">{{ item.title }}</span>
                     </div>
                     <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView">
                       <van-rate
-                        v-model="item.startCount"
+                        v-model="item.starCount"
                         :count="5"
                         :size="22"
                         color="#09e2bb"
@@ -130,7 +130,7 @@
                       ></van-rate>
                     </div>
                     <div class="action-cell-ft">
-                      <span>{{ item.scoreRank }}</span>
+                      <span @click="jumpScore(item.lessonId)">{{ item.scoreRank }}</span>
                     </div>
                   </div>
                 </div>
@@ -203,6 +203,7 @@ import service from "@/api";
 import qxFooter from "@/components/Footer";
 import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
+import { mapState } from "vuex";
 // 引入基本模板
 let echarts = require("echarts/lib/echarts");
 // 引入柱状图组件
@@ -223,8 +224,6 @@ export default {
       mentEcharts: null,
       active: 0,
       actives: 0,
-      photo: this.$store.state.user.info.photo,
-      openStudentName: this.$store.state.user.info.openStudentName,
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
@@ -238,6 +237,10 @@ export default {
     };
   },
   computed: {
+    ...mapState("user", {
+      openStudentName: state => state.info.openStudentName,
+      photo: state => state.info.photo
+    }),
     //计算已选择的星星数
     start() {
       let n = 0;

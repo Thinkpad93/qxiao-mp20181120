@@ -79,11 +79,12 @@ export function examPaperComment(num = 20) {
 }
 
 
-export function wisdomList(num = 15) {
+export function wisdomList(num = 5) {
   let data = [];
   for (let i = 0; i < num; i++) {
     let template = {
       title: Random.ctitle(5, 25),
+      desc: Random.csentence(5, 50),
       photo: Random.image('50x50'),
     }
     data.push(template);

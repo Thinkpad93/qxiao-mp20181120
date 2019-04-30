@@ -181,7 +181,7 @@ export default {
   color: #7d7e80;
 }
 .comment-bd {
-  margin: 10px 0;
+  margin: 20px 0;
   p {
     line-height: 1.6;
   }

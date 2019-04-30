@@ -10,16 +10,19 @@ const actions = {
     state,
     dispatch
   }, info) {
-
-    state.info = Object.assign({}, info);
-    //设置Cookie
-    Cookies.set('info', info);
-    console.log("setInfo");
-    console.log(state.info);
-    await dispatch("queryClass/queryClassId", info, {
-      root: true
+    return new Promise(async resolve => {
+      state.info = Object.assign({}, info);
+      //设置Cookie
+      Cookies.set('info', info);
+      console.log("setInfo");
+      console.log(state.info);
+      await dispatch("queryClass/queryClassId", info, {
+        root: true
+      });
+      resolve({
+        success: 'ok'
+      });
     });
-
   },
   async getInfo({
     state,
