@@ -4,7 +4,7 @@
       <van-tabs v-model="active" :line-height="2">
         <van-tab title="优秀作品">
           <!-- 学生个人作品 -->
-          <div class="my-works mb-20">
+          <!-- <div class="my-works mb-20">
             <div class="my-works-hd flex a-i-c">
               <h4>我的上榜</h4>
               <div class="flex">
@@ -27,7 +27,7 @@
                 <div class="addax"></div>
               </div>
             </div>
-          </div>
+          </div>-->
         </van-tab>
         <van-tab title="我的上传">
           <div class="time-works mt-20">

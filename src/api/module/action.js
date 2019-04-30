@@ -84,3 +84,9 @@ export function queryMyAction(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//系统默认行为列表
+export function queryAllActionDefualt(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/queryAllActionDefualt.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

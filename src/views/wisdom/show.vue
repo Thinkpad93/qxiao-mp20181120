@@ -1,13 +1,15 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <!-- video视频区域 
+      <!-- video视频区域 -->
       <div class="video-mod">
-        <div class="video-mask">
+        <!-- <div class="video-mask">
           <van-icon name="play-circle" size="40px"></van-icon>
+        </div>-->
+        <div class="video-main">
+          <video ref="video" src="@/assets/video01.mp4" controls></video>
         </div>
       </div>
-      -->
       <article class="article">
         <div class="article-content">
           <h1>10种创意绘画方法,让孩子迷上美术活动!</h1>
@@ -17,9 +19,6 @@
           <p>做法：1.里用鸡蛋托造型，把鸡蛋托剪成蜜蜂、蜻蜓、蝴蝶、乌龟等形状；</p>
           <p>2.为自己的小昆虫涂上颜色；</p>
           <p>3.最后粘贴上眼睛和触角等。</p>
-          <p>
-            <img src="@/assets/109951163721592032.jpg" alt>
-          </p>
           <p>2.掌印画</p>
           <p>准备材料：卡纸、染料、画笔</p>
           <p>做法：1.用手掌或者脚掌蘸取染料，印在卡纸上；</p>

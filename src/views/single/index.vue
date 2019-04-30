@@ -1,6 +1,24 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="actionDefault"
+          show-toolbar
+          value-key="title"
+          @cancel="popupShow = false"
+          @confirm="handleActionConfirm"
+        ></van-picker>
+      </van-popup>
+      <van-popup v-model="popupShows" position="bottom">
+        <van-picker
+          :columns="lessonDefault"
+          show-toolbar
+          value-key="title"
+          @cancel="popupShows = false"
+          @confirm="handleLessonConfirm"
+        ></van-picker>
+      </van-popup>
       <!-- -->
       <div
         class="van-overlay"
@@ -91,7 +109,12 @@
                 </div>
               </div>
               <div class="mod" ref="mod">
-                <van-button round type="info" size="small">选择</van-button>
+                <van-button
+                  round
+                  type="info"
+                  size="small"
+                  @click="popupShow = true"
+                >{{ actionDefaultText }}</van-button>
                 <!-- 一周数据分析 -->
                 <div id="homeStat" style="height:300px"></div>
               </div>
@@ -136,7 +159,12 @@
                 </div>
               </div>
               <div class="mod">
-                <van-button round type="info" size="small">选择</van-button>
+                <van-button
+                  round
+                  type="info"
+                  size="small"
+                  @click="popupShows = true"
+                >{{ lessonDefaultText }}</van-button>
                 <!-- 一周数据分析 -->
                 <div id="stateMent" style="height:300px"></div>
               </div>
@@ -180,13 +208,20 @@
               <div class="mod">
                 <van-tabs v-model="actives" :line-height="2">
                   <van-tab title="个性分析">
-                    <p>缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
+                    <div class="eland">
+                      <p class="mb-20">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
+                      <van-button round type="info" size="small">定制个性计划</van-button>
+                    </div>
                   </van-tab>
                   <van-tab title="学习分析">
-                    <p>按时上学，课堂表现不错，但是考试成绩却不理想</p>
+                    <div class="eland">
+                      <p
+                        class="mb-20"
+                      >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
+                      <van-button round type="info" size="small">定制学习计划</van-button>
+                    </div>
                   </van-tab>
                 </van-tabs>
-                <van-button round type="info" size="small">定制学习计划</van-button>
               </div>
             </div>
           </van-tab>
@@ -220,6 +255,8 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
+      popupShow: false,
+      popupShows: false,
       homeEcharts: null,
       mentEcharts: null,
       active: 0,
@@ -233,7 +270,11 @@ export default {
       myActions: [], //我的行为列表
       lessonList: [],
       remark: {},
-      statu: 0 //今天是否已经打了
+      statu: 0, //今天是否已经打了
+      actionDefault: [], //默认行为
+      actionDefaultText: "选择",
+      lessonDefault: [],
+      lessonDefaultText: "选择"
     };
   },
   computed: {
@@ -249,6 +290,16 @@ export default {
     }
   },
   methods: {
+    handleActionConfirm(value, index) {
+      let { actionId, actionType, title } = value;
+      this.actionDefaultText = title;
+      this.homeStatQuery(actionId, actionType);
+    },
+    handleLessonConfirm(value, index) {
+      let { lessonId, title } = value;
+      this.lessonDefaultText = title;
+      this.stateMentList(lessonId);
+    },
     overlay() {
       if (this.query.studentId == 0) {
         this.$dialog
@@ -460,15 +511,31 @@ export default {
         this.remark = res.data || {};
       }
     },
+    //查询课程列表
+    async lessonInfoQuery(params = {}) {
+      let res = await service.lessonInfoQuery(params);
+      if (res.errorCode === 0) {
+        console.log(res.data);
+        this.lessonDefault = res.data;
+      }
+    },
+    //系统默认行为列表
+    async queryAllActionDefualt(params = {}) {
+      let res = await service.queryAllActionDefualt(params);
+      if (res.errorCode === 0) {
+        this.actionDefault = res.data;
+      }
+    },
     //在家表现一周查询
-    async homeStatQuery() {
+    async homeStatQuery(actionId = 1, actionType = 0) {
       let params = {
         studentId: this.query.studentId,
-        actionId: 1,
-        actionType: 0
+        actionId,
+        actionType
       };
       let res = await service.homeStatQuery(params);
       if (res.errorCode === 0) {
+        this.popupShow = false;
         let data = res.data;
         this.homeEcharts.setOption({
           xAxis: {
@@ -486,14 +553,15 @@ export default {
       }
     },
     //课堂表现一周查询
-    async stateMentList() {
+    async stateMentList(lessonId = 1) {
       let params = {
         openId: this.query.openId,
         studentId: this.query.studentId,
-        lessonId: 1
+        lessonId
       };
       let res = await service.stateMentList(params);
       if (res.errorCode === 0) {
+        this.popupShows = false;
         let data = res.data;
         this.mentEcharts.setOption({
           xAxis: {
@@ -519,6 +587,8 @@ export default {
     this.actionListQuery(this.query);
     this.lessonQuery(this.query);
     this.newRemarkQuery();
+    this.queryAllActionDefualt();
+    this.lessonInfoQuery();
   }
 };
 </script>
@@ -626,6 +696,14 @@ export default {
   p {
     flex: 1;
     line-height: 1.4;
+  }
+}
+
+.eland {
+  padding: 30px;
+  text-align: center;
+  p {
+    text-align: left;
   }
 }
 </style>
