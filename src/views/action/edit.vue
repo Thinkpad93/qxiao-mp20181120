@@ -27,7 +27,13 @@
           <div class="cell">
             <div class="cell-hd">行为名称</div>
             <div class="cell-bd">
-              <input placeholder="请输入行为名称" maxlength="4" class="input" v-model.trim="form.title">
+              <input
+                placeholder="请输入行为名称"
+                maxlength="4"
+                class="input"
+                v-model.trim="form.title"
+                :readonly="query.actionType == 0"
+              >
             </div>
           </div>
           <div class="cell">
@@ -38,6 +44,7 @@
                 maxlength="20"
                 class="input"
                 v-model.trim="form.textContent"
+                :readonly="query.actionType == 0"
               >
             </div>
           </div>
@@ -91,7 +98,11 @@
     <div class="page-ft">
       <div class="tapeti">
         <div class="tapeti-left">
-          <van-button type="default" @click="dialogVisible = true">新增评价标准</van-button>
+          <van-button
+            type="default"
+            @click="dialogVisible = true"
+            :disabled="query.actionType == 0"
+          >新增评价标准</van-button>
         </div>
         <div class="tapeti-right">
           <van-button type="info" @click="handleSave">确认</van-button>

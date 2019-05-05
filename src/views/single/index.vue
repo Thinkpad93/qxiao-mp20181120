@@ -65,14 +65,9 @@
             <div class="container">
               <div class="mod">
                 <!-- 今天的 -->
-                <router-link
-                  :to="{path: '/actionHistory'}"
-                  tag="div"
-                  class="action-today"
-                  v-if="myActions.length"
-                >
-                  <time size-18>{{ query.day }}</time>
-                  <span size-18>{{ start }}颗Q星</span>
+                <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
+                  <time size-16>{{ query.day }}</time>
+                  <span size-16>{{ start }}颗Q星</span>
                 </router-link>
                 <div class="action-cells">
                   <div
@@ -123,16 +118,14 @@
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <div class="action-today" v-if="lessonList.length">
-                  <time size-18>{{ query.day }}</time>
+                <div class="action-today mb-20">
+                  <time size-16>{{ query.day }}</time>
                 </div>
-                <!-- <table style="width: 100%">
-                  <tr>
-                    <th>课程</th>
-                    <th>课堂表现</th>
-                    <th>近期成绩</th>
-                  </tr>
-                </table>-->
+                <div class="action-table flex">
+                  <div class="flex-1 f-w">课程</div>
+                  <div class="flex-1 text-center f-w">课堂表现</div>
+                  <div class="flex-1 text-right f-w">近期成绩</div>
+                </div>
                 <div class="action-cells">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
@@ -684,7 +677,7 @@ export default {
   }
   &-bd {
     padding: 30px;
-    min-height: 180px;
+    min-height: 120px;
   }
   &-time {
     color: #b5b5b5;

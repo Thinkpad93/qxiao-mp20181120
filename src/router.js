@@ -1,18 +1,5 @@
-import Vue from 'vue';
-import App from './App';
-import store from './store';
 import router from './router';
 import Cookies from "js-cookie";
-
-import wxSdk from '@/config/wxsdk'; //微信sdk
-
-import '@/vantUI'; //vant UI
-
-//import './router'; //router
-
-Vue.config.productionTip = false;
-
-Vue.prototype.wxSdk = wxSdk;
 
 
 router.beforeEach((to, from, next) => {
@@ -74,14 +61,3 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
-
-/* eslint-disable no-new */
-new Vue({
-  store,
-  router,
-  components: {
-    App
-  },
-  template: '<App/>',
-  mounted() {}
-}).$mount('#app');

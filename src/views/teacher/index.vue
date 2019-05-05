@@ -27,7 +27,7 @@
               <div class="icon-d"></div>
             </template>
           </div>
-          <div class="cell-bd">
+          <div class="cell-bd pl-20">
             <p>
               {{ teacher.teacherName }}
               <span

@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/examPaper'),
     meta: {
       title: "试卷列表",
-      cookie: false,
+      cookie: true,
       keepAlive: true,
     }
   },
@@ -14,7 +14,7 @@ export default [{
     component: () => import('@/views/examPaper/show'),
     meta: {
       title: "试卷详情",
-      cookie: false,
+      cookie: true,
       keepAlive: false,
     }
   }

@@ -105,7 +105,7 @@
                 </li>
               </ul>
               <div class="uploader-input_box" @click="handleChooseImage">
-                <van-icon name="plus" size="40px"></van-icon>
+                <van-icon name="plus" size="30px"></van-icon>
               </div>
             </div>
           </div>

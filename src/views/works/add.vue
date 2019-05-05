@@ -37,6 +37,29 @@
               ></textarea>
             </div>
           </div>
+          <div class="cell">
+            <div class="cell-bd" style="padding-left:0">
+              <ul class="uploader-files">
+                <li
+                  class="uploader-file"
+                  @click="handlePreviewImage(item)"
+                  v-for="(item, index) in imagesList"
+                  :key="index"
+                  :style="{backgroundImage: `url(${item})`}"
+                >
+                  <van-icon
+                    name="clear"
+                    size="18px"
+                    class="clear"
+                    @click.stop="handleDelImg(index)"
+                  ></van-icon>
+                </li>
+              </ul>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="30px"></van-icon>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -47,10 +70,13 @@
 </template>
 <script>
 import service from "@/api";
+import wxHandle from "@/mixins/wx";
 export default {
   name: "worksAdd",
+  mixins: [wxHandle],
   data() {
     return {
+      selected: 1,
       worksTypeList: [
         {
           id: 1,
@@ -67,8 +93,32 @@ export default {
       ],
       form: {}
     };
+  },
+  methods: {
+    handleChooseImage() {}
+  },
+  mounted() {
+    this.wxSdk.wxShare();
   }
 };
 </script>
 <style lang="less" scoped>
+.uploader-file {
+  float: left;
+  width: 140px;
+  height: 140px;
+  position: relative;
+  background-size: cover;
+  margin: 20px 0 0 0;
+  border-radius: 4px;
+  margin-right: 20px;
+  i {
+    color: #8d8d8d;
+    font-size: 48px;
+    position: absolute;
+    top: -14%;
+    right: -10%;
+    z-index: 10;
+  }
+}
 </style>

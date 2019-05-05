@@ -15,7 +15,7 @@
         </div>
         <p>
           你可以点击
-          <a href="javascript:void(0);">课程回顾</a>，回顾本堂课程知识
+          <a href="javascript:void(0);" @click="jump">课程回顾</a>，回顾本堂课程知识
         </p>
       </div>
       <div class="cells-title">
@@ -54,7 +54,14 @@ export default {
       openStudentName: this.$store.state.user.info.openStudentName
     };
   },
-  methods: {}
+  methods: {
+    jump() {
+      this.$router.push({
+        path: "/course/show",
+        query: {}
+      });
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
