@@ -125,7 +125,8 @@ export default {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
         actionId: this.$route.query.actionId,
-        actionType: this.$route.query.actionType
+        actionType: this.$route.query.actionType,
+        choiceType: this.$route.query.choiceType
       },
       dialogForm: {
         openId: this.$store.state.user.info.openId,

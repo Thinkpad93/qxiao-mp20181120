@@ -8,7 +8,6 @@ import wxSdk from '@/config/wxsdk'; //微信sdk
 
 import '@/vantUI'; //vant UI
 
-//import './router'; //router
 
 Vue.config.productionTip = false;
 

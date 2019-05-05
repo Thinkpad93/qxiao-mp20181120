@@ -2,17 +2,18 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="user-info flex a-i-c">
-        <router-link to="/child" tag="div" class="switch-children">
-          <van-icon name="replay" size="16px"></van-icon>切换孩子
-        </router-link>
+        <router-link to="/child" tag="div" class="switch-children">切换孩子</router-link>
         <router-link to="/personData" tag="div" class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
         </router-link>
         <div class="info-box ml-30" v-if="openStudentName">
-          <h3 size-17 class="username">{{ openStudentName }}</h3>
+          <div class="flex a-i-c">
+            <h3 size-17 class="username">{{ openStudentName }}</h3>
+            <span>(家长)</span>
+          </div>
           <div class="info-meta flex pt-20">
             <div class="mr-10">Q星: 500</div>
-            <div class="mr-10">积分: 800</div>
+            <!-- <div class="mr-10">积分: 800</div> -->
           </div>
         </div>
       </div>
@@ -36,11 +37,9 @@
       <router-link to="/works">
         <van-cell title="我的作品" is-link></van-cell>
       </router-link>
-      <!-- <van-cell title="我的个性计划" is-link></van-cell> -->
       <router-link to="/myBraclet">
         <van-cell title="我的手环" is-link></van-cell>
       </router-link>
-      <!-- <router-link to="/collection" tag="van-cell" is-link title="我的收藏"></router-link> -->
       <router-link to="/collection">
         <van-cell title="我的收藏" is-link></van-cell>
       </router-link>

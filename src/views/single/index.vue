@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
-          :columns="actionDefault"
+          :columns="myActions"
           show-toolbar
           value-key="title"
           @cancel="popupShow = false"
@@ -60,7 +60,7 @@
             <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
           </div>
         </div>
-        <van-tabs v-model="active" :line-height="2" :lazy-render="false">
+        <van-tabs v-model="active" :line-height="2" :lazy-render="false" :key="1">
           <van-tab title="在家表现">
             <div class="container">
               <div class="mod">
@@ -104,12 +104,15 @@
                 </div>
               </div>
               <div class="mod" ref="mod">
-                <van-button
-                  round
-                  type="info"
-                  size="small"
-                  @click="popupShow = true"
-                >{{ actionDefaultText }}</van-button>
+                <div class="flex a-i-c mb-20">
+                  <span>近一周在家表现</span>
+                  <van-button
+                    round
+                    type="info"
+                    size="small"
+                    @click="popupShow = true"
+                  >{{ actionDefaultText }}</van-button>
+                </div>
                 <!-- 一周数据分析 -->
                 <div id="homeStat" style="height:300px"></div>
               </div>
@@ -152,12 +155,15 @@
                 </div>
               </div>
               <div class="mod">
-                <van-button
-                  round
-                  type="info"
-                  size="small"
-                  @click="popupShows = true"
-                >{{ lessonDefaultText }}</van-button>
+                <div class="flex a-i-c mb-20">
+                  <span>近一周在校表现</span>
+                  <van-button
+                    round
+                    type="info"
+                    size="small"
+                    @click="popupShows = true"
+                  >{{ lessonDefaultText }}</van-button>
+                </div>
                 <!-- 一周数据分析 -->
                 <div id="stateMent" style="height:300px"></div>
               </div>
@@ -171,7 +177,7 @@
                     <img src="@/assets/remark-icon@2x.png" width="20" height="20">
                     <span class="ml-10">评语</span>
                   </div>
-                  <router-link to="/remark" tag="div" class="remark-right flex">
+                  <router-link to="/remark" tag="div" class="remark-right flex a-i-c">
                     <span>往期评语</span>
                     <van-icon name="arrow" size="16px"></van-icon>
                   </router-link>
@@ -199,11 +205,11 @@
                 </div>
               </div>
               <div class="mod">
-                <van-tabs v-model="actives" :line-height="2">
+                <van-tabs v-model="actives" :line-height="2" :key="2">
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mb-20">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <van-button round type="info" size="small">定制个性计划</van-button>
+                      <van-button round type="info" size="small" to="/myPersonality">定制个性计划</van-button>
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -211,7 +217,7 @@
                       <p
                         class="mb-20"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <van-button round type="info" size="small">定制学习计划</van-button>
+                      <van-button round type="info" size="small" to="/myStudy">定制学习计划</van-button>
                     </div>
                   </van-tab>
                 </van-tabs>
@@ -264,7 +270,6 @@ export default {
       lessonList: [],
       remark: {},
       statu: 0, //今天是否已经打了
-      actionDefault: [], //默认行为
       actionDefaultText: "选择",
       lessonDefault: [],
       lessonDefaultText: "选择"
@@ -512,13 +517,6 @@ export default {
         this.lessonDefault = res.data;
       }
     },
-    //系统默认行为列表
-    async queryAllActionDefualt(params = {}) {
-      let res = await service.queryAllActionDefualt(params);
-      if (res.errorCode === 0) {
-        this.actionDefault = res.data;
-      }
-    },
     //在家表现一周查询
     async homeStatQuery(actionId = 1, actionType = 0) {
       let params = {
@@ -577,11 +575,12 @@ export default {
     this.initStateMent();
     this.homeStatQuery();
     this.stateMentList();
-    this.actionListQuery(this.query);
     this.lessonQuery(this.query);
     this.newRemarkQuery();
-    this.queryAllActionDefualt();
     this.lessonInfoQuery();
+  },
+  activated() {
+    this.actionListQuery(this.query);
   }
 };
 </script>

@@ -3,7 +3,7 @@ export default [{
     name: 'works',
     component: () => import('@/views/works'),
     meta: {
-      title: "作品展开",
+      title: "作品展",
       keepAlive: true,
       cookie: true,
     }
@@ -14,6 +14,16 @@ export default [{
     component: () => import('@/views/works/add'),
     meta: {
       title: "作品上传",
+      keepAlive: true,
+      cookie: true,
+    }
+  },
+  {
+    path: '/works/view',
+    name: 'worksView',
+    component: () => import('@/views/works/view'),
+    meta: {
+      title: "我的上榜作品",
       keepAlive: true,
       cookie: true,
     }
