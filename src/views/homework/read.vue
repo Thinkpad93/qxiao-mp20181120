@@ -9,7 +9,7 @@
                 <div class="cell-hd">
                   <img :src="read.photo" :alt="read.studentName">
                 </div>
-                <div class="cell-bd">
+                <div class="cell-bd pl-20">
                   <p class>{{ read.studentName }}</p>
                 </div>
                 <div class="cell-ft">
@@ -30,7 +30,7 @@
                   <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
                   <div class="icon-d" v-else></div>
                 </div>
-                <div class="cell-bd">
+                <div class="cell-bd pl-20">
                   <p class>{{ unread.studentName }}</p>
                 </div>
                 <div class="cell-ft">

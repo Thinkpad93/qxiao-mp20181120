@@ -37,7 +37,7 @@
               <div class="icon-d"></div>
             </template>
           </div>
-          <div class="cell-bd">
+          <div class="cell-bd pl-20">
             <p>
               {{ student.studentName }}
               <span
@@ -66,9 +66,9 @@ import service from "@/api";
 import dialog from "@/components/dialog";
 export default {
   name: "student",
-  // components: {
-  //   "v-dialog": dialog
-  // },
+  components: {
+    "v-dialog": dialog
+  },
   data() {
     return {
       visible: false,

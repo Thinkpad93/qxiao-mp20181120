@@ -42,7 +42,7 @@ export default {
     return {
       actives: 0,
       query: {
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.openId, 
         studentId: this.$store.state.user.info.openStudentId,
         lessonId: this.$route.query.lessonId,
         page: 1,

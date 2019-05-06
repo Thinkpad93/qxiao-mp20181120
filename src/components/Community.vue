@@ -43,20 +43,26 @@
               </div>
             </template>
             <template v-if="fuck.commentList.length">
-              <ul class="comment-list">
-                <li ref="li" v-for="(commen, index) in fuck.commentList" :key="index">
-                  <span>{{ commen.studentName }}:</span>
-                  <span style="color:#252525;">{{ commen.textContent }}</span>
-                </li>
-              </ul>
+              <transition name="fade" mode="out-in">
+                <ul class="comment-list">
+                  <li
+                    ref="li"
+                    v-for="(commen, index) in fuck.commentList.slice(0, fuck.showNumber)"
+                    :key="index"
+                  >
+                    <span>{{ commen.studentName }}:</span>
+                    <span style="color:#252525;">{{ commen.textContent }}</span>
+                  </li>
+                </ul>
+              </transition>
             </template>
-            <!-- 显示更多 -->
-            <div
-              v-if="fuck.commentList.length"
-              class="more-show"
-              @click="handleLiHeight(fuckIndex)"
-            >{{ fuck.showMore ? '收起':'查看更多'}}</div>
           </div>
+          <!-- 显示更多 -->
+          <div
+            v-if="fuck.commentList.length > 3"
+            class="more-show mt-20"
+            @click="handleLiHeight(fuck, fuckIndex)"
+          >{{ fuck.showMore ? '收起':'查看更多'}}</div>
         </div>
       </div>
     </div>
@@ -76,7 +82,6 @@ export default {
   },
   data() {
     return {
-      //showMore: false,
       //showNumber: 3,
       roleType: this.$store.state.user.info.roleType,
       openId: this.$store.state.user.info.openId
@@ -90,15 +95,14 @@ export default {
   },
   methods: {
     //查看更多评论
-    handleLiHeight(fuckIndex) {
-      // if (this.showMore) {
-      //   this.showNumber = 3;
-      //   this.showMore = false;
-      // } else {
-      //   let commentList = this.data[fuckIndex].commentList;
-      //   this.showNumber = commentList.length;
-      //   this.showMore = true;
-      // }
+    handleLiHeight(item, fuckIndex) {
+      if (item.showMore) {
+        item.showMore = false;
+        item.showNumber = 3;
+      } else {
+        item.showMore = true;
+        item.showNumber = item.commentList.length;
+      }
     },
     handlePreviewImage(index, images) {
       if (images.length) {
@@ -122,9 +126,7 @@ export default {
       this.$emit("on-comment", fuck, index);
     }
   },
-  mounted() {
-    //this.handleLiHeight();
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

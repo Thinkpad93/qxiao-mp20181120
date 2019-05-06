@@ -12,7 +12,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="isOpen">
-        <router-link :to="{path: '/community', query: this.$route.query}" class="release">
+        <router-link :to="{path: '/community'}" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -232,7 +232,14 @@ export default {
         this.totalPage = res.data.totalPage;
         this.isLoading = false;
         this.popupShow = false;
-        this.communityData = list;
+        //这里添加两个新的属性
+        this.communityData = list.map(item => {
+          return {
+            ...item,
+            showMore: false,
+            showNumber: 3
+          };
+        });
       }
     },
     //班级圈删除

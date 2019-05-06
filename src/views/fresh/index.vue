@@ -19,7 +19,7 @@
               <div class="cell-hd">
                 <img src="@/assets/image/kong.png" width="54" height="54">
               </div>
-              <div class="cell-bd">
+              <div class="cell-bd pl-20">
                 <p>{{ p.className }}</p>
               </div>
               <div class="cell-ft">
