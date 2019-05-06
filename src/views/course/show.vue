@@ -27,6 +27,9 @@
         </van-tab>
         <van-tab title="评价">
           <div class="comment-box mt-20">
+            <div class="comment-header flex a-i-c">
+              <p size-16>评论</p>
+            </div>
             <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
               <div class="comment-hd flex a-i-c">
                 <img :src="item.photo" width="40" height="40" radius="50">
@@ -126,6 +129,10 @@ export default {
 }
 .comment-box {
   background-color: #fff;
+}
+.comment-header {
+  min-height: 100px;
+  padding: 0 30px;
 }
 .comment-cell {
   padding: 20px 30px;

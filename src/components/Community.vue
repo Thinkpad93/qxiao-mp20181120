@@ -1,6 +1,6 @@
 <template>
   <div class="community">
-    <div class="box" v-for="(fuck, index) in data" :key="fuck.communityId">
+    <div class="box" v-for="(fuck, fuckIndex) in data" :key="fuck.communityId">
       <div class="cell flex">
         <div class="cell-hd">
           <img v-if="fuck.photo" :src="fuck.photo">
@@ -24,12 +24,12 @@
               <time>{{ fuck.postTime }}</time>
               <!-- 园长和管理员和老师才能删除 -->
               <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-                <span class="del" @click="handleCommunityDelete(fuck, index)">删除</span>
+                <span class="del" @click="handleCommunityDelete(fuck, fuckIndex)">删除</span>
               </template>
             </div>
             <div class="right">
-              <van-icon name="like" size="18px" @click="handlePraise(fuck, index)"></van-icon>
-              <van-icon name="comment" size="18px" @click="handleComment(fuck, index)"></van-icon>
+              <van-icon name="like" size="18px" @click="handlePraise(fuck, fuckIndex)"></van-icon>
+              <van-icon name="comment" size="18px" @click="handleComment(fuck, fuckIndex)"></van-icon>
             </div>
           </div>
           <div class="data">
@@ -51,9 +51,11 @@
               </ul>
             </template>
             <!-- 显示更多 -->
-            <!-- <div class="more-show">
-              <span>查看更多</span>
-            </div>-->
+            <div
+              v-if="fuck.commentList.length"
+              class="more-show"
+              @click="handleLiHeight(fuckIndex)"
+            >{{ fuck.showMore ? '收起':'查看更多'}}</div>
           </div>
         </div>
       </div>
@@ -74,7 +76,8 @@ export default {
   },
   data() {
     return {
-      showMore: false,
+      //showMore: false,
+      //showNumber: 3,
       roleType: this.$store.state.user.info.roleType,
       openId: this.$store.state.user.info.openId
     };
@@ -86,15 +89,16 @@ export default {
     }
   },
   methods: {
-    //
-    handleLiHeight() {
-      this.$nextTick(() => {
-        let li = this.$refs.li[0].height;
-        if (li) {
-          console.log(li);
-          console.log("OK");
-        }
-      });
+    //查看更多评论
+    handleLiHeight(fuckIndex) {
+      // if (this.showMore) {
+      //   this.showNumber = 3;
+      //   this.showMore = false;
+      // } else {
+      //   let commentList = this.data[fuckIndex].commentList;
+      //   this.showNumber = commentList.length;
+      //   this.showMore = true;
+      // }
     },
     handlePreviewImage(index, images) {
       if (images.length) {
@@ -123,7 +127,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .community {
   .box {
     border-top: 1px solid #f2f2f2;

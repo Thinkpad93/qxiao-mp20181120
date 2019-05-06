@@ -2,24 +2,26 @@
   <div class="flex-page">
     <div class="flex-bd">
       <template v-if="list.length">
-        <div class="album flex j-c-s-b">
-          <figure
-            class="album-figure"
-            v-for="(album, index) in list"
-            :key="index"
-            @click="jump(album)"
-          >
-            <a href="javascript:void(0);">
-              <div class="album-thumb">
-                <img v-if="album.image" :src="album.image" alt>
-                <img v-else src="@/assets/image/kong.png" alt>
-              </div>
-              <figcaption>
-                <p size-16>{{ album.className }}</p>
-                <p size-14>{{ album.imagesCount }}张</p>
-              </figcaption>
-            </a>
-          </figure>
+        <div class="album">
+          <div class="album-figrue-box flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
+            <figure
+              class="album-figure"
+              v-for="(album, index) in list"
+              :key="index"
+              @click="jump(album)"
+            >
+              <a href="javascript:void(0);">
+                <div class="album-thumb">
+                  <img v-if="album.image" :src="album.image" alt>
+                  <img v-else src="@/assets/image/kong.png" alt>
+                </div>
+                <figcaption>
+                  <p size-16>{{ album.className }}</p>
+                  <p size-14>{{ album.imagesCount }}张</p>
+                </figcaption>
+              </a>
+            </figure>
+          </div>
         </div>
       </template>
     </div>
@@ -66,15 +68,16 @@ export default {
 </script>
 <style lang="less" scoped>
 .album {
-  flex-wrap: wrap;
-  padding: 30px 40px 0 40px;
+  padding: 30px;
   background-color: #fff;
   .album-figure {
+    width: 50%;
+    padding: 0 20px;
     margin-bottom: 30px;
-    box-shadow: 0 0 14px 0 rgba(21, 21, 21, 0.2);
     > a {
       position: relative;
       display: block;
+      box-shadow: 0 0 14px 0 rgba(21, 21, 21, 0.2);
     }
     figcaption {
       padding: 20px;
@@ -86,7 +89,7 @@ export default {
     }
   }
   .album-thumb {
-    width: 310px;
+    // width: 310px;
     height: 310px;
     position: relative;
     padding-bottom: 100%;

@@ -60,7 +60,7 @@
             <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
           </div>
         </div>
-        <van-tabs v-model="active" :line-height="2" :lazy-render="false" :key="1">
+        <van-tabs v-model="active" :line-height="2" :key="1" :lazy-render="false">
           <van-tab title="在家表现">
             <div class="container">
               <div class="mod">
@@ -104,7 +104,7 @@
                 </div>
               </div>
               <div class="mod" ref="mod">
-                <div class="flex a-i-c mb-20">
+                <div class="flex a-i-c j-c-s-b mb-20">
                   <span>近一周在家表现</span>
                   <van-button
                     round
@@ -155,7 +155,7 @@
                 </div>
               </div>
               <div class="mod">
-                <div class="flex a-i-c mb-20">
+                <div class="flex a-i-c j-c-s-b mb-20">
                   <span>近一周在校表现</span>
                   <van-button
                     round
@@ -205,7 +205,7 @@
                 </div>
               </div>
               <div class="mod">
-                <van-tabs v-model="actives" :line-height="2" :key="2">
+                <van-tabs v-model="tabActive" :line-height="2" :key="2" :lazy-render="false">
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mb-20">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
@@ -259,7 +259,7 @@ export default {
       homeEcharts: null,
       mentEcharts: null,
       active: 0,
-      actives: 0,
+      tabActive: 0,
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,

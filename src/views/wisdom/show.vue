@@ -26,8 +26,15 @@
           <p>笑脸太阳：</p>
         </div>
       </article>
+      <!-- 推荐 -->
+      <div class>
+        <p>为你推荐</p>
+      </div>
       <!-- 评论 -->
       <div class="comment-box mt-20">
+        <div class="comment-header flex a-i-c">
+          <p size-16>评论</p>
+        </div>
         <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
           <div class="comment-hd flex a-i-c">
             <img :src="item.photo" width="40" height="40" radius="50">
@@ -93,6 +100,9 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 }
+.video-main {
+  height: 100%;
+}
 .handle {
   background-color: #fff;
   position: relative;
@@ -116,6 +126,10 @@ export default {
 }
 .comment-box {
   background-color: #fff;
+}
+.comment-header {
+  min-height: 100px;
+  padding: 0 30px;
 }
 .comment-cell {
   padding: 20px 30px;
