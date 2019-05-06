@@ -3,32 +3,23 @@
     <div class="flex-bd">
       <!-- video视频区域 -->
       <div class="video-mod">
-        <div class="video-mask">
+        <!-- <div class="video-mask">
           <van-icon name="play-circle" size="40px"></van-icon>
+        </div>-->
+        <div class="video-main">
+          <video ref="video" src="@/assets/video01.mp4" controls></video>
         </div>
       </div>
       <van-tabs v-model="actives" :line-height="2">
         <van-tab title="简介">
           <div class="section mb-20 mt-20">
-            <h3 class="mb-20">华南师范大学附属小学</h3>
-            <p>二年级上学期期中考试有助于学生创造性发挥，比较注重课改评价理念的践行。</p>
-            <span>下载量：160</span>
+            <h3 class="mb-20">{{ info.schoolName }}</h3>
+            <p>{{ info.title }}</p>
+            <span>下载量：{{ info.downloadCount }}</span>
           </div>
           <div class="section">
             <h4 class="mb-20">试卷说明：</h4>
-            <p>
-              总体而言，该试卷知识覆盖面较广，信息量大，贴近学生生活，
-              既考查了学生的语言积累，又检测了运用的能力。
-              题量偏大，偏难。依据课标，尊重教材。
-              同时，有一些题目如六题、七题、九题没有单一的答案，
-              有助于学生创造性发挥，比较注重课改评价理念的践行。
-            </p>
-            <p>
-              对许嵩的歌，我从高中开始一直喜欢，到大学后怕别人说幼稚非主流就慢慢不去听。
-              明明自己喜欢女色却装作正人君子，喜欢放肆却一本正经。
-              其实很多人都很虚伪，明明很喜欢的东西为害怕别人的评论而随波逐流。
-              总假装把自己放在道德制高点其实自己什么也不是。
-            </p>
+            <p>{{ info.textContent }}</p>
           </div>
         </van-tab>
         <van-tab title="评价">
@@ -60,7 +51,7 @@
           <div size-12>转发</div>
         </div>
         <div class="handle-down">
-          <van-button type="info" class="no-radius">下载试卷10元/套</van-button>
+          <van-button type="info" class="no-radius">试卷{{ info.fee }}元/套</van-button>
         </div>
       </div>
     </div>
@@ -91,19 +82,25 @@ export default {
     async examPaperDetail(params = {}) {
       let res = await service.examPaperDetail(params);
       if (res.errorCode === 0) {
+        this.info = res.data;
       }
     },
     //查询试卷评论
-    async examPaperCommentQuery() {
+    async examPaperCommentQuery(params = {}) {
       let res = await service.examPaperCommentQuery(params);
+      if (res.errorCode === 0) {
+        this.commentList = res.data;
+      }
     },
     //提交试卷评论
-    async examPaperComment() {
+    async examPaperComment(params = {}) {
       let res = await service.examPaperComment(params);
     }
   },
   mounted() {
-    this.commentList = examPaperComment();
+    this.examPaperDetail(this.query);
+    this.examPaperCommentQuery(this.query);
+    //this.commentList = examPaperComment();
   }
 };
 </script>
@@ -124,6 +121,9 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+}
+.video-main {
+  height: 100%;
 }
 .section {
   padding: 30px;

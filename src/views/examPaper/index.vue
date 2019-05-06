@@ -10,7 +10,7 @@
         :on-close="onClose(item, index)"
       >
         <van-cell-group>
-          <figure class="figure figure-skin-one">
+          <figure class="figure figure-skin-one" @click="jump(item)">
             <div class="figure-bd">
               <div
                 class="figure-thumb-small"
@@ -23,7 +23,7 @@
                 </figcaption>
                 <p size-15 class="text-ellipsis">{{ item.stageTitle}}</p>
                 <div class="metedata flex">
-                  <span class="name">下载量: {{ item.paperId }}</span>
+                  <span class="name">下载量: {{ item.downloadCount }}</span>
                   <van-button round type="primary" size="mini">成绩</van-button>
                 </div>
               </div>
@@ -53,6 +53,16 @@ export default {
   methods: {
     onClose() {
       return (clickPosition, instance) => {};
+    },
+    jump(params) {
+      let { paperId } = params;
+      this.$router.push({
+        path: "/examPaper/show",
+        query: {
+          paperId
+        }
+      });
+      console.log(params);
     },
     //试卷列表查询
     async examPaperQuery(params = {}) {
