@@ -90,7 +90,7 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$route.query.openId,
+        openId: this.$store.state.user.info.openId || this.$route.query.openId,
         tel: this.$route.query.tel
       },
       form: {}

@@ -17,7 +17,8 @@ Vue.prototype.wxSdk = wxSdk;
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
-    roleType
+    roleType,
+    openId
   } = store.state.user.info;
   console.log("路由");
   let _cookie = Cookies.getJSON('info') || {};
@@ -68,6 +69,12 @@ router.beforeEach((to, from, next) => {
     }
     if (roleType == 9 && to.path === '/home') {
       next(`/login?redirect`);
+      // next({
+      //   path: '/login',
+      //   query: {
+      //     openId
+      //   }
+      // })
       return false;
     }
   }
