@@ -1,6 +1,9 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker></van-picker>
+      </van-popup>
       <div class="user-info flex a-i-c">
         <router-link to="/child" tag="div" class="switch-children">切换孩子</router-link>
         <router-link to="/personData" tag="div" class="avatar">
@@ -8,9 +11,16 @@
         </router-link>
         <div class="info-box ml-30" v-if="openStudentName">
           <div class="flex a-i-c">
-            <h3 size-17 class="username">{{ openStudentName }}</h3>
-            <span>(家长)</span>
+            <h3 size-17 class="username pr-20">{{ openStudentName }}</h3>
+            <van-tag
+              type="danger"
+              v-if="roleList.length == 2"
+              @click="tagClick"
+            >{{ showRoleTypeText }}</van-tag>
+            <!-- <van-button round type="primary" size="mini">家长角色</van-button> -->
+            <!-- <span>(家长)</span> -->
           </div>
+
           <div class="info-meta flex pt-20">
             <div class="mr-10">Q星: 500</div>
             <!-- <div class="mr-10">积分: 800</div> -->
@@ -53,7 +63,7 @@
         <van-cell title="帮助中心" is-link></van-cell>
       </router-link>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <qxFooter></qxFooter>
     </div>
   </div>
@@ -68,13 +78,39 @@ export default {
     qxFooter
   },
   data() {
-    return {};
+    return {
+      popupShow: false,
+      roleList: []
+    };
   },
   computed: {
     ...mapState("user", {
       openStudentName: state => state.info.openStudentName,
-      photo: state => state.info.photo
-    })
+      photo: state => state.info.photo,
+      openId: state => state.info.openId,
+      roleType: state => state.info.roleType
+    }),
+    showRoleTypeText() {
+      let text = "";
+      if (this.roleType == 2) {
+        text = "老师";
+      } else if (this.roleType == 3) {
+        text = "家长";
+      }
+      return text;
+    }
+  },
+  methods: {
+    tagClick() {},
+    async queryRole(params = {}) {
+      let res = await service.queryRole(params);
+      if (res.errorCode === 0) {
+        this.roleList = res.data;
+      }
+    }
+  },
+  mounted() {
+    this.queryRole({ openId: this.openId });
   }
 };
 </script>

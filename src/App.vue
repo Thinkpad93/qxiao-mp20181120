@@ -26,7 +26,7 @@ export default {
 <style lang="less">
 @import "./styles/site.less";
 
-#app {
-  height: 100vh;
-}
+// #app {
+//   height: 100vh;
+// }
 </style>

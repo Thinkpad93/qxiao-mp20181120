@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="myActions"
@@ -227,7 +227,7 @@
         </van-tabs>
       </div>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <qxFooter></qxFooter>
     </div>
   </div>

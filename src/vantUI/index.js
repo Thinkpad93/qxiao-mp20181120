@@ -22,6 +22,7 @@ import {
   SwipeCell,
   Collapse,
   CollapseItem,
+  Tag
 } from 'vant';
 
 Vue.use(Radio)
@@ -45,4 +46,5 @@ Vue.use(Radio)
   .use(CellGroup)
   .use(SwipeCell)
   .use(Collapse)
-  .use(CollapseItem);
+  .use(CollapseItem)
+  .use(Tag);

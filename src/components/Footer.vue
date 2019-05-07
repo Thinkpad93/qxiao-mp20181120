@@ -32,10 +32,27 @@ export default {
 </script>
 <style lang="less" scoped>
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
   font-size: 28px;
   display: flex;
-  border-top: 1px solid #f6f8f9;
   background-color: #fff;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #e5e5e5;
+    color: #e5e5e5;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    z-index: 2;
+  }
   .item {
     flex: 1;
     display: flex;

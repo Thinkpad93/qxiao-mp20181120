@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -57,7 +57,7 @@
         </div>
       </van-dialog>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <qx-footer></qx-footer>
     </div>
   </div>
