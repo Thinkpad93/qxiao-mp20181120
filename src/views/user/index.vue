@@ -11,7 +11,7 @@
         </router-link>
         <div class="info-box ml-30">
           <div class="flex a-i-c">
-            <h3 size-17 class="username pr-20">{{ openStudentName }}</h3>
+            <h3 size-17 class="username pr-20" v-if="openStudentName">{{ openStudentName }}</h3>
             <van-tag
               type="danger"
               v-if="roleType == 2 || roleType == 3 || roleType == 9"
@@ -100,12 +100,17 @@ export default {
   },
   methods: {
     tagClick() {
-      const toast = this.$toast.loading({
-        mask: true,
-        message: "切换中...",
-        forbidClick: true, // 禁用背景点击
-        duration: 0 // 持续展示 toast
-      });
+      // const toast = this.$toast.loading({
+      //   mask: true,
+      //   message: "切换中...",
+      //   forbidClick: true, // 禁用背景点击
+      //   duration: 0 // 持续展示 toast
+      // });
+
+      //只有一种角色
+      if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
+        return;
+      }
       let _cookie = Cookies.getJSON("info");
       //获取当前角色
       let roleType = this.roleType;
@@ -115,7 +120,7 @@ export default {
       let obj = Object.assign({}, _cookie, args);
       this.$store.dispatch("user/setInfo", obj).then(data => {
         if (data.success === "ok") {
-          toast.clear();
+          //toast.clear();
         }
       });
     },
