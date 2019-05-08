@@ -44,6 +44,9 @@ router.beforeEach((to, from, next) => {
   if (to.meta.cookie) {
     //第二次进来
     if (Object.keys(_cookie).length && !roleType) {
+      //微信分享
+      wxSdk.wxShare();
+
       console.log("有cookie");
       let pms = getUrl();
       if (pms != -1) {

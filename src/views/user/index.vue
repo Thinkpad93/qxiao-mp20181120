@@ -5,7 +5,7 @@
         <van-picker></van-picker>
       </van-popup>
       <div class="user-info flex a-i-c">
-        <router-link to="/child" tag="div" class="switch-children" v-if="roleType != 2">切换孩子</router-link>
+        <router-link to="/child/add" tag="div" class="switch-children" v-if="roleType != 2">添加孩子</router-link>
         <router-link to="/personData" tag="div" class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
         </router-link>
@@ -24,6 +24,22 @@
           </div>
         </div>
       </div>
+      <!-- 孩子列表 -->
+      <!-- <div class="cells-title">孩子列表</div> -->
+      <van-radio-group v-model="openStudentId">
+        <van-cell-group>
+          <van-cell
+            :title="item.openStudentName"
+            clickable
+            v-for="(item, index) in studentList"
+            :key="index"
+            @click="openStudentId = item.openStudentId"
+          >
+            <van-radio :name="item.openStudentId"/>
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+      <!-- 孩子列表 -->
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -78,7 +94,9 @@ export default {
   data() {
     return {
       popupShow: false,
-      roleList: []
+      openStudentId: parseInt(this.$store.state.user.info.openStudentId),
+      roleList: [],
+      studentList: []
     };
   },
   computed: {
@@ -98,43 +116,65 @@ export default {
       return text;
     }
   },
+  watch: {
+    //学生切换
+    openStudentId(news, old) {
+      let roleType = this.roleType;
+      let _cookie = Cookies.getJSON("info");
+      let single = this.studentList.find(item => item.openStudentId === news);
+      let obj = null;
+      if (single.roleType == 9) {
+        obj = Object.assign({}, _cookie, single);
+      } else {
+        let { openStudentId, openStudentName } = single;
+        obj = Object.assign({}, _cookie, { openStudentId, openStudentName });
+      }
+      this.$store.dispatch("user/setInfo", obj).then(data => {
+        if (data.success === "ok") {
+        }
+      });
+    }
+  },
   methods: {
     tagClick() {
-      // const toast = this.$toast.loading({
-      //   mask: true,
-      //   message: "切换中...",
-      //   forbidClick: true, // 禁用背景点击
-      //   duration: 0 // 持续展示 toast
-      // });
-
       //只有一种角色
       if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
         return;
       }
       let _cookie = Cookies.getJSON("info");
-      //获取当前角色
-      let roleType = this.roleType;
       //选择要切换的角色
-      let single = this.roleList.find(item => item.roleType != roleType);
-      let { totalStarCount, ...args } = single;
-      let obj = Object.assign({}, _cookie, args);
+      let single = this.roleList.find(item => item.roleType != this.roleType);
+      let { id, roleType, classId, className } = single;
+      let obj = null;
+      if (this.roleType != 9) {
+        obj = Object.assign({}, _cookie, { id, roleType, classId, className });
+      } else {
+        obj = Object.assign({}, _cookie, { id, roleType });
+      }
       this.$store.dispatch("user/setInfo", obj).then(data => {
         if (data.success === "ok") {
           //toast.clear();
         }
       });
     },
+    //多角色列表
     async queryRole(params = {}) {
       let res = await service.queryRole(params);
       if (res.errorCode === 0) {
         this.roleList = res.data;
       }
+    },
+    //查询学生列表--开放版
+    async queryOpenStudentList(params = {}) {
+      let res = await service.queryOpenStudentList(params);
+      if (res.errorCode === 0) {
+        this.studentList = res.data;
+      }
     }
   },
   mounted() {
-    if (this.roleType == 2 || this.roleType == 3 || this.roleType == 9) {
-      this.queryRole({ openId: this.openId });
-    }
+    this.queryRole({ openId: this.openId });
+    this.queryOpenStudentList({ openId: this.openId });
   }
 };
 </script>
