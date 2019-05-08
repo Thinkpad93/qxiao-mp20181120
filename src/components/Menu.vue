@@ -12,12 +12,13 @@
   </nav>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "qmenu",
   data() {
     return {
-      roleType: this.$store.state.user.info.roleType,
-      type: this.$store.state.user.info.type,
+      //roleType: this.$store.state.user.info.roleType,
+      //type: this.$store.state.user.info.type,
       //学校类型
       recipeList: [
         {
@@ -89,6 +90,10 @@ export default {
     };
   },
   computed: {
+    ...mapState("user", {
+      type: state => state.info.type,
+      roleType: state => state.info.roleType
+    }),
     computedMenu() {
       //幼儿园 0   小学 1
       if (this.type == 0) {

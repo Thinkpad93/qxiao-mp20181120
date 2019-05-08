@@ -150,6 +150,7 @@ export default {
     },
     //加载分页数据
     handleLoadingMore(e) {
+      console.log(e);
       let scrollTop = 0;
       if (document.documentElement && document.documentElement.scrollTop) {
         scrollTop = document.documentElement.scrollTop;

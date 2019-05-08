@@ -3,7 +3,7 @@ export default [{
     name: 'fresh',
     component: () => import('@/views/fresh'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       cookie: true,
       isShare: false,
       title: '新鲜速报',

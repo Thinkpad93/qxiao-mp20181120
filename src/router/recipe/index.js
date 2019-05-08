@@ -3,7 +3,7 @@ export default [{
     name: 'recipe',
     component: () => import('@/views/recipe'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       cookie: true,
       isShare: false,
       title: '营养食谱',

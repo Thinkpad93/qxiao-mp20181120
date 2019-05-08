@@ -5,22 +5,19 @@
         <van-picker></van-picker>
       </van-popup>
       <div class="user-info flex a-i-c">
-        <router-link to="/child" tag="div" class="switch-children">切换孩子</router-link>
+        <router-link to="/child" tag="div" class="switch-children" v-if="roleType != 2">切换孩子</router-link>
         <router-link to="/personData" tag="div" class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
         </router-link>
-        <div class="info-box ml-30" v-if="openStudentName">
+        <div class="info-box ml-30">
           <div class="flex a-i-c">
             <h3 size-17 class="username pr-20">{{ openStudentName }}</h3>
             <van-tag
               type="danger"
-              v-if="roleList.length == 2"
+              v-if="roleType == 2 || roleType == 3 || roleType == 9"
               @click="tagClick"
             >{{ showRoleTypeText }}</van-tag>
-            <!-- <van-button round type="primary" size="mini">家长角色</van-button> -->
-            <!-- <span>(家长)</span> -->
           </div>
-
           <div class="info-meta flex pt-20">
             <div class="mr-10">Q星: 500</div>
             <!-- <div class="mr-10">积分: 800</div> -->
@@ -69,6 +66,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
@@ -94,14 +92,33 @@ export default {
       let text = "";
       if (this.roleType == 2) {
         text = "老师";
-      } else if (this.roleType == 3) {
+      } else if (this.roleType == 3 || this.roleType == 9) {
         text = "家长";
       }
       return text;
     }
   },
   methods: {
-    tagClick() {},
+    tagClick() {
+      const toast = this.$toast.loading({
+        mask: true,
+        message: "切换中...",
+        forbidClick: true, // 禁用背景点击
+        duration: 0 // 持续展示 toast
+      });
+      let _cookie = Cookies.getJSON("info");
+      //获取当前角色
+      let roleType = this.roleType;
+      //选择要切换的角色
+      let single = this.roleList.find(item => item.roleType != roleType);
+      let { totalStarCount, ...args } = single;
+      let obj = Object.assign({}, _cookie, args);
+      this.$store.dispatch("user/setInfo", obj).then(data => {
+        if (data.success === "ok") {
+          toast.clear();
+        }
+      });
+    },
     async queryRole(params = {}) {
       let res = await service.queryRole(params);
       if (res.errorCode === 0) {
@@ -110,7 +127,9 @@ export default {
     }
   },
   mounted() {
-    this.queryRole({ openId: this.openId });
+    if (this.roleType == 2 || this.roleType == 3 || this.roleType == 9) {
+      this.queryRole({ openId: this.openId });
+    }
   }
 };
 </script>

@@ -69,12 +69,6 @@ router.beforeEach((to, from, next) => {
     }
     if (roleType == 9 && to.path === '/home') {
       next(`/login?redirect`);
-      // next({
-      //   path: '/login',
-      //   query: {
-      //     openId
-      //   }
-      // })
       return false;
     }
   }

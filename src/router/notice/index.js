@@ -3,7 +3,7 @@ export default [{
     name: 'notice',
     component: () => import('@/views/notice'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       cookie: true,
       isShare: false,
       title: '通知公告',
