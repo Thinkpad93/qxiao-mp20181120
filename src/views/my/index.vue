@@ -194,7 +194,8 @@
                 <template v-else-if="patroarch.relation === 3">爷爷</template>
                 <template v-else-if="patroarch.relation === 4">奶奶</template>
                 <template v-else-if="patroarch.relation === 5">外公</template>
-                <template v-else>外婆</template>
+                <template v-else-if="patroarch.relation === 6">外婆</template>
+                <template v-else>监护人</template>
               </p>
             </div>
           </div>
