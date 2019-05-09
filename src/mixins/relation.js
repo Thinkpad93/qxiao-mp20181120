@@ -24,6 +24,10 @@ export default {
         {
           name: "外婆",
           id: 6
+        },
+        {
+          name: "监护人",
+          id: 7
         }
       ]
     }
