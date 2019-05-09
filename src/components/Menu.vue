@@ -73,7 +73,7 @@ export default {
         },
         {
           name: "亲子作业",
-          url: "/homework",
+          url: "/homeWork",
           icon: "./static/image/men-icon-5@2x.png"
         },
         {

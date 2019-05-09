@@ -5,21 +5,20 @@
         <van-picker></van-picker>
       </van-popup>
       <div class="user-info flex a-i-c">
-        <router-link to="/child/add" tag="div" class="switch-children" v-if="roleType != 2">添加孩子</router-link>
-        <router-link to="/personData" tag="div" class="avatar">
+        <router-link to="/child/add" tag="div" class="switch-children">添加孩子</router-link>
+        <div class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
-        </router-link>
+        </div>
+        <!-- <router-link to="/personData" tag="div" class="avatar">
+          <img :src="photo" width="50" height="50" radius="50">
+        </router-link>-->
         <div class="info-box ml-30">
           <div class="flex a-i-c">
             <h3 size-17 class="username pr-20" v-if="openStudentName">{{ openStudentName }}</h3>
-            <van-tag
-              type="danger"
-              v-if="roleType == 2 || roleType == 3 || roleType == 9"
-              @click="tagClick"
-            >{{ showRoleTypeText }}</van-tag>
+            <van-tag type="danger" @click="tagClick">{{ showRoleTypeText }}</van-tag>
           </div>
           <div class="info-meta flex pt-20">
-            <div class="mr-10">Q星: 500</div>
+            <div class="mr-10">Q星: {{ statrCount }}</div>
             <!-- <div class="mr-10">积分: 800</div> -->
           </div>
         </div>
@@ -94,7 +93,12 @@ export default {
   data() {
     return {
       popupShow: false,
+      statrCount: 0,
       openStudentId: parseInt(this.$store.state.user.info.openStudentId),
+      query: {
+        studentId: this.$store.state.user.info.openStudentId,
+        openId: this.$store.state.user.info.openId
+      },
       roleList: [],
       studentList: []
     };
@@ -108,10 +112,14 @@ export default {
     }),
     showRoleTypeText() {
       let text = "";
-      if (this.roleType == 2) {
+      if (this.roleType == 1) {
+        text = "校长";
+      } else if (this.roleType == 2) {
         text = "老师";
       } else if (this.roleType == 3 || this.roleType == 9) {
         text = "家长";
+      } else {
+        text = "管理员";
       }
       return text;
     }
@@ -123,7 +131,7 @@ export default {
       let _cookie = Cookies.getJSON("info");
       let single = this.studentList.find(item => item.openStudentId === news);
       let obj = null;
-      if (single.roleType == 9) {
+      if (roleType == 3 || roleType == 9) {
         obj = Object.assign({}, _cookie, single);
       } else {
         let { openStudentId, openStudentName } = single;
@@ -136,6 +144,7 @@ export default {
     }
   },
   methods: {
+    //角色切换
     tagClick() {
       //只有一种角色
       if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
@@ -144,10 +153,16 @@ export default {
       let _cookie = Cookies.getJSON("info");
       //选择要切换的角色
       let single = this.roleList.find(item => item.roleType != this.roleType);
-      let { id, roleType, classId, className } = single;
+      let { id, roleType, classId, className, studentId } = single;
       let obj = null;
       if (this.roleType != 9) {
-        obj = Object.assign({}, _cookie, { id, roleType, classId, className });
+        obj = Object.assign({}, _cookie, {
+          id,
+          roleType,
+          classId,
+          className,
+          studentId
+        });
       } else {
         obj = Object.assign({}, _cookie, { id, roleType });
       }
@@ -170,11 +185,19 @@ export default {
       if (res.errorCode === 0) {
         this.studentList = res.data;
       }
+    },
+    //获取可兑换星星数
+    async queryTotalCountStar(params = {}) {
+      let res = await service.queryTotalCountStar(params);
+      if (res.errorCode === 0) {
+        this.statrCount = res.data.totalCountStar;
+      }
     }
   },
   mounted() {
     this.queryRole({ openId: this.openId });
     this.queryOpenStudentList({ openId: this.openId });
+    this.queryTotalCountStar(this.query);
   }
 };
 </script>

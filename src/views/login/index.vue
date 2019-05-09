@@ -16,7 +16,7 @@
             <div class="cell-hd">
               <img class="ignore" src="@/assets/image/phone-icon@2x.png" alt>
             </div>
-            <div class="cell-bd">
+            <div class="cell-bd pl-20">
               <input
                 type="number"
                 class="input text-left"

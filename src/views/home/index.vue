@@ -128,6 +128,9 @@ export default {
     async handlePraise(community, index) {
       let openId = this.query.openId;
       let studentId = this.query.studentId;
+      let indexs;
+      console.log(openId);
+      console.log(studentId);
       let { communityId } = community;
       let res = await service.communityPraise({
         openId,
@@ -139,12 +142,17 @@ export default {
           this.communityData[index].praiseList = [];
         }
         if (!res.data) {
-          let praise = this.communityData[index].praiseList.filter(
-            elem => elem.openId !== openId && elem.studentId !== studentId
-          );
-          console.log(praise);
-          this.communityData[index].praiseList = praise.length ? praise : [];
+          //取消点赞
+          this.communityData[index].praiseList.forEach((elem, index) => {
+            if (elem.openId === openId && elem.studentId === studentId) {
+              indexs = index;
+            }
+          });
+          if (indexs != undefined) {
+            this.communityData[index].praiseList.splice(indexs, 1);
+          }
         } else {
+          //点赞
           this.communityData[index].praiseList.push(res.data);
         }
       }

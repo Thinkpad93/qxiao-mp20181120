@@ -3,7 +3,7 @@ export default [{
   component: () => import('@/views/user'),
   meta: {
     title: "个人中心",
-    keepAlive: true,
+    keepAlive: false,
     cookie: true,
   }
 }]
