@@ -142,9 +142,10 @@ export default {
           this.communityData[index].praiseList = [];
         }
         if (!res.data) {
+          console.log("取消点赞");
           //取消点赞
           this.communityData[index].praiseList.forEach((elem, index) => {
-            if (elem.openId === openId && elem.studentId === studentId) {
+            if (elem.openId == openId && elem.studentId == studentId) {
               indexs = index;
             }
           });
@@ -152,6 +153,7 @@ export default {
             this.communityData[index].praiseList.splice(indexs, 1);
           }
         } else {
+          console.log("点赞");
           //点赞
           this.communityData[index].praiseList.push(res.data);
         }
