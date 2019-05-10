@@ -64,13 +64,13 @@
             :on-close="onClose(index, item.ruleId)"
           >
             <van-cell-group>
-              <div class="cell min-h120">
+              <div class="cell min-h100">
                 <div class="cell-hd">
                   <van-checkbox-group v-model="chenkedList">
                     <van-checkbox
                       :key="item.ruleId"
                       :name="item.ruleId"
-                      checked-color="#1989fa"
+                      checked-color="#92cd36"
                       ref="checkboxes"
                     ></van-checkbox>
                   </van-checkbox-group>
@@ -95,7 +95,7 @@
         </div>
       </div>
     </div>
-    <div class="page-ft">
+    <div class="flex-ft">
       <div class="tapeti">
         <div class="tapeti-left">
           <van-button
@@ -268,6 +268,7 @@ export default {
   justify-content: space-between;
   height: 100px;
   padding: 0 20px;
+  margin-bottom: 0;
   background-color: #fff;
 }
 

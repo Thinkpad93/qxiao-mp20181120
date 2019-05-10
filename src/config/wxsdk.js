@@ -4,8 +4,8 @@ export default {
     let url = window.location.href.split("#")[0]; //获取当前url,传递到服务端进行签名
     let is_dev = process.env.NODE_ENV !== "production";
     let shareUrl = is_dev ?
-      `http://232a9x6385.51mypc.cn/#/share?roleType` :
-      `http://zc.qxiao.net/qxiao-mp/#/share?roleType`;
+      `http://232a9x6385.51mypc.cn/#/share` :
+      `http://zc.qxiao.net/qxiao-mp/#/share`;
     service.sign({
       url
     }).then(res => {

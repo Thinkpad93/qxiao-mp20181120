@@ -42,9 +42,11 @@ export default {
   },
   methods: {
     jump(item) {
-      if (item.imagesCount === 0) {
-        this.$toast("暂无班级图片查看");
-        return;
+      if (this.roleType != 2) {
+        if (item.imagesCount === 0) {
+          this.$toast("暂无班级图片查看");
+          return;
+        }
       }
       this.$router.push({
         path: "/album/view",

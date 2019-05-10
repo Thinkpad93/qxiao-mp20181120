@@ -71,14 +71,9 @@
           </div>
         </div>
       </form>
-      <!-- <div class="btn-group">
-        <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
-      </div>-->
     </div>
     <div class="flex-ft">
-      <div class="flex">
-        <van-button size="normal" type="info" class="no-radius flex-1" @click="handleSubmit">保存</van-button>
-      </div>
+      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
     </div>
   </div>
 </template>

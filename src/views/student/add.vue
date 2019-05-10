@@ -113,9 +113,9 @@
           </div>
         </div>
       </form>
-      <div class="btn-group">
-        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
-      </div>
+    </div>
+    <div class="flex-ft">
+      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
     </div>
   </div>
 </template>

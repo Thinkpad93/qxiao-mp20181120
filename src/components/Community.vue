@@ -82,7 +82,6 @@ export default {
   },
   data() {
     return {
-      //showNumber: 3,
       roleType: this.$store.state.user.info.roleType,
       openId: this.$store.state.user.info.openId
     };
@@ -133,8 +132,8 @@ export default {
 .community {
   .box {
     border-top: 1px solid #f2f2f2;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
   .cell {
     padding: 0 30px;
@@ -170,6 +169,7 @@ export default {
   }
   .data {
     margin-top: 20px;
+    border-radius: 4px;
     background-color: #f5f5f5;
   }
 }

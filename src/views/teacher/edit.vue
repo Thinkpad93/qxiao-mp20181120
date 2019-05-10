@@ -67,17 +67,11 @@
           </div>
         </div>
       </div>
-      <!-- <div class="btn-area btn-area-group">
-        <van-button size="normal" type="danger" @click="handleDel">删除</van-button>
-        <van-button size="normal" type="primary" @click="handleSubmit">保存</van-button>
-        <a href="javascript:void(0);" class="btn btn-warn" @click="handleDel">删除</a>
-        <a href="javascript:void(0);" class="btn btn-primary" @click="handleSubmit">保存</a>
-      </div>-->
     </div>
     <div class="flex-ft">
       <div class="flex">
-        <van-button size="normal" type="danger" class="no-radius flex-1" @click="handleDel">删除</van-button>
-        <van-button size="normal" type="info" class="no-radius flex-1" @click="handleSubmit">保存</van-button>
+        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
       </div>
     </div>
   </div>

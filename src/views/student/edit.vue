@@ -83,9 +83,11 @@
           </div>
         </div>
       </form>
-      <div class="btn-area flex">
-        <a href="javascript:;" class="btn btn-warn" @click="handleDel">删除</a>
-        <a href="javascript:;" class="btn btn-primary" @click="handleSubmit">保存</a>
+    </div>
+    <div class="flex-ft">
+      <div class="flex">
+        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
       </div>
     </div>
   </div>

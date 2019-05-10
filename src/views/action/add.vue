@@ -18,7 +18,7 @@
             ></textarea>
           </div>
           <div class="form-item">
-            <van-checkbox v-model="dialogForm.stressFlag">是否侧重</van-checkbox>
+            <van-checkbox v-model="dialogForm.stressFlag" checked-color="#92cd36">是否侧重</van-checkbox>
           </div>
         </form>
       </van-dialog>
@@ -57,7 +57,7 @@
             :on-close="onClose(index)"
           >
             <van-cell-group>
-              <div class="cell min-h120">
+              <div class="cell min-h100">
                 <div class="cell-bd">
                   <p>{{ item.ruleText }}</p>
                 </div>
@@ -203,6 +203,7 @@ export default {
   justify-content: space-between;
   height: 100px;
   padding: 0 20px;
+  margin-bottom: 0;
   background-color: #fff;
 }
 

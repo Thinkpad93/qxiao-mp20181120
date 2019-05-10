@@ -34,7 +34,7 @@
             :key="index"
             @click="openStudentId = item.openStudentId"
           >
-            <van-radio :name="item.openStudentId"/>
+            <van-radio :name="item.openStudentId" checked-color="#92cd36"/>
           </van-cell>
         </van-cell-group>
       </van-radio-group>
