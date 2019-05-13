@@ -6,12 +6,12 @@
       </van-popup>
       <div class="user-info flex a-i-c">
         <router-link to="/child/add" tag="div" class="switch-children">添加孩子</router-link>
-        <div class="avatar">
+        <!-- <div class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
-        </div>
-        <!-- <router-link to="/personData" tag="div" class="avatar">
+        </div>-->
+        <router-link to="/user/edit" tag="div" class="avatar">
           <img :src="photo" width="50" height="50" radius="50">
-        </router-link>-->
+        </router-link>
         <div class="info-box ml-30">
           <div class="flex a-i-c">
             <h3 size-17 class="username pr-20" v-if="openStudentName">{{ openStudentName }}</h3>
@@ -49,31 +49,13 @@
           <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
         </div>
       </div>
-
-      <router-link to="/myPersonality">
-        <van-cell title="我的个性计划" is-link></van-cell>
-      </router-link>
-      <router-link to="/myStudy">
-        <van-cell title="我的学习计划" is-link></van-cell>
-      </router-link>
-      <router-link to="/works">
-        <van-cell title="我的作品" is-link></van-cell>
-      </router-link>
-      <router-link to="/myBraclet">
-        <van-cell title="我的手环" is-link></van-cell>
-      </router-link>
-      <router-link to="/collection">
-        <van-cell title="我的收藏" is-link></van-cell>
-      </router-link>
-      <router-link to="/myDownload">
-        <van-cell title="我的下载" is-link></van-cell>
-      </router-link>
-      <router-link to="/mySchedule">
-        <van-cell title="我的课表" is-link></van-cell>
-      </router-link>
-      <router-link to="/helpCenter">
-        <van-cell title="帮助中心" is-link></van-cell>
-      </router-link>
+      <van-cell
+        :title="cell.title"
+        is-link
+        :to="cell.to"
+        v-for="(cell, index) in userMenu"
+        :key="index"
+      ></van-cell>
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>
@@ -100,7 +82,41 @@ export default {
         openId: this.$store.state.user.info.openId
       },
       roleList: [],
-      studentList: []
+      studentList: [],
+      userMenu: [
+        {
+          title: "我的个性计划",
+          to: "/myPersonality"
+        },
+        {
+          title: "我的学习计划",
+          to: "/myStudy"
+        },
+        {
+          title: "我的作品",
+          to: "/works"
+        },
+        {
+          title: "我的手环",
+          to: "/myBraclet"
+        },
+        {
+          title: "我的收藏",
+          to: "/collection"
+        },
+        {
+          title: "我的下载",
+          to: "/myDownload"
+        },
+        {
+          title: "我的课表",
+          to: "/mySchedule"
+        },
+        {
+          title: "帮助中心",
+          to: "/myPersonality"
+        }
+      ]
     };
   },
   computed: {
