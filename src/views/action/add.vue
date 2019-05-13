@@ -64,7 +64,7 @@
                 <div class="cell-ft">
                   <van-rate
                     v-model="item.stressFlag"
-                    color="#f44"
+                    color="#09e2bb"
                     void-color="#eee"
                     readonly
                     :count="1"

@@ -147,7 +147,7 @@ export default {
       querys: {
         studentId: this.$store.state.user.info.studentId,
         openId: this.$store.state.user.info.openId,
-        month: dayjs().format("YYYY-MM-DD")
+        month: dayjs().format("YYYY-MM")
       }
     };
   },
