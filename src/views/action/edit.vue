@@ -8,8 +8,20 @@
         show-cancel-button
         :before-close="handleSubmit"
       >
-        <form class="form" id="form" ref="form">
-          <div class="form-tiem">
+        <form class="form" ref="dialogForm">
+          <div class="cells" style="padding:15px 0 15px 0;">
+            <div class="cell">
+              <div class="cell-bd">
+                <textarea
+                  class="textarea"
+                  placeholder="请输入评价标准"
+                  rows="6"
+                  v-model.trim="dialogForm.ruleText"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-tiem">
             <textarea
               class="textarea min-h400"
               placeholder="请输入评价标准"
@@ -19,7 +31,7 @@
           </div>
           <div class="form-tiem">
             <van-checkbox v-model="dialogForm.stressFlag">是否侧重</van-checkbox>
-          </div>
+          </div>-->
         </form>
       </van-dialog>
       <div class="mod mb-30">
@@ -52,7 +64,7 @@
       </div>
       <div class="cells-title">
         <p>评价标准</p>
-        <a href="javascript:void(0);">侧重</a>
+        <!-- <a href="javascript:void(0);">侧重</a> -->
       </div>
       <div class="rule-list">
         <div class="cells">
@@ -78,7 +90,7 @@
                 <div class="cell-bd pl-20">
                   <p>{{ item.ruleText }}</p>
                 </div>
-                <div class="cell-ft">
+                <!-- <div class="cell-ft">
                   <van-rate
                     v-model="item.stressFlag"
                     color="#f44"
@@ -87,7 +99,7 @@
                     :count="1"
                     v-if="item.stressFlag"
                   />
-                </div>
+                </div>-->
               </div>
             </van-cell-group>
             <span slot="right">删除</span>
@@ -133,7 +145,7 @@ export default {
         actionId: this.$route.query.actionId,
         actionType: this.$route.query.actionType,
         ruleText: "",
-        stressFlag: true
+        stressFlag: 0
       }
     };
   },
@@ -174,12 +186,10 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          let { stressFlag, ...args } = this.dialogForm;
-          stressFlag ? (stressFlag = 1) : (stressFlag = 0);
+          //let { stressFlag, ...args } = this.dialogForm;
+          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
           //行为标准增加
-          let res = await service.ruleAdd(
-            Object.assign({}, args, { stressFlag })
-          );
+          let res = await service.ruleAdd(Object.assign({}, this.dialogForm));
           if (res.errorCode === 0) {
             this.dialogForm.ruleText = "";
             this.queryStudentRule(this.query);

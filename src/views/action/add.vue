@@ -9,7 +9,19 @@
         :before-close="handleSubmit"
       >
         <form class="form" ref="dialogForm">
-          <div class="form-item">
+          <div class="cells" style="padding:15px 0 15px 0;">
+            <div class="cell">
+              <div class="cell-bd">
+                <textarea
+                  class="textarea"
+                  placeholder="请输入评价标准..."
+                  rows="6"
+                  v-model.trim="dialogForm.ruleText"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-item">
             <textarea
               class="textarea min-h400"
               placeholder="请输入评价标准"
@@ -19,7 +31,7 @@
           </div>
           <div class="form-item">
             <van-checkbox v-model="dialogForm.stressFlag" checked-color="#92cd36">是否侧重</van-checkbox>
-          </div>
+          </div>-->
         </form>
       </van-dialog>
       <div class="mod mb-30">
@@ -45,7 +57,7 @@
       </div>
       <div class="cells-title">
         <p>评价标准</p>
-        <a href="javascript:void(0);">侧重</a>
+        <!-- <a href="javascript:void(0);">侧重</a> -->
       </div>
       <div class="rule-list">
         <div class="cells">
@@ -61,7 +73,7 @@
                 <div class="cell-bd">
                   <p>{{ item.ruleText }}</p>
                 </div>
-                <div class="cell-ft">
+                <!-- <div class="cell-ft">
                   <van-rate
                     v-model="item.stressFlag"
                     color="#09e2bb"
@@ -70,7 +82,7 @@
                     :count="1"
                     v-if="item.stressFlag"
                   />
-                </div>
+                </div>-->
               </div>
             </van-cell-group>
             <span slot="right">删除</span>
@@ -107,7 +119,7 @@ export default {
       },
       dialogForm: {
         ruleText: "",
-        stressFlag: true
+        stressFlag: 0
       }
     };
   },
@@ -139,9 +151,9 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          let { stressFlag, ...args } = this.dialogForm;
-          stressFlag ? (stressFlag = 1) : (stressFlag = 0);
-          this.form.rules.push(Object.assign({}, args, { stressFlag }));
+          //let { stressFlag, ...args } = this.dialogForm;
+          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
+          this.form.rules.push(Object.assign({}, this.dialogForm));
           this.dialogForm.ruleText = "";
           done();
         }
@@ -195,6 +207,7 @@ export default {
 }
 .form-item {
   margin: 30px;
+  position: relative;
 }
 
 .cells-title {

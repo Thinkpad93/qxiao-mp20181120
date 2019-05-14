@@ -3,6 +3,9 @@ import App from './App';
 import store from './store';
 import router from './router';
 import Cookies from "js-cookie";
+import {
+  urlSearch
+} from './utils/urlSearch';
 
 import wxSdk from '@/config/wxsdk'; //微信sdk
 
@@ -20,33 +23,13 @@ router.beforeEach((to, from, next) => {
     roleType,
     openId
   } = store.state.user.info;
-  console.log("路由");
   let _cookie = Cookies.getJSON('info') || {};
-  //获取地址栏参数
-  function getUrl() {
-    let href = decodeURIComponent(location.href);
-    let num = href.indexOf('?');
-    if (num != -1) {
-      let paramsArr = href.match(/\?\S+/)[0].replace('?', '').split('&');
-      let params = {};
-      for (let i = 0; i < paramsArr.length; i++) {
-        let tmp = paramsArr[i].split('=');
-        params[tmp[0]] = tmp[1];
-      }
-      if (Object.keys(params).length) {
-        return params || {};
-      }
-    } else {
-      return -1;
-    }
-  }
-
   if (to.meta.cookie) {
     //第二次进来
     if (Object.keys(_cookie).length && !roleType) {
       //微信分享
       wxSdk.wxShare();
-      let pms = getUrl();
+      let pms = urlSearch();
       if (pms != -1) {
         if (pms.openId || pms.roleType) {
           console.log(pms);
@@ -61,7 +44,7 @@ router.beforeEach((to, from, next) => {
       console.log("没有Cookie");
       if (to.path !== '/login') {
         //第一次进来
-        let params = getUrl();
+        let params = urlSearch();
         if (params != -1) {
           store.dispatch("user/setInfo", params);
         }
