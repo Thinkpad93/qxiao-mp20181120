@@ -228,15 +228,14 @@ export default {
     async prizeListQuery(params = {}) {
       let res = await service.prizeListQuery(params);
       if (res.errorCode === 0) {
-        if (res.data.data.length) {
-          let m = res.data.data.map(element => {
+        if (res.data.data) {
+          this.list = res.data.data.map(element => {
             return {
               ...element,
               checked: false,
               value: 1 //由于后端没有该字段返回，默认设置一个
             };
           });
-          this.list = m;
         }
       }
     }

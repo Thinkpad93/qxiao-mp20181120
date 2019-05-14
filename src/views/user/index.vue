@@ -124,12 +124,13 @@ export default {
       openStudentName: state => state.info.openStudentName,
       photo: state => state.info.photo,
       openId: state => state.info.openId,
-      roleType: state => state.info.roleType
+      roleType: state => state.info.roleType,
+      type: state => state.info.type
     }),
     showRoleTypeText() {
       let text = "";
       if (this.roleType == 1) {
-        text = "校长";
+        text = this.type == 0 ? "园长" : "校长";
       } else if (this.roleType == 2) {
         text = "老师";
       } else if (this.roleType == 3 || this.roleType == 9) {
@@ -213,7 +214,7 @@ export default {
   mounted() {
     this.queryRole({ openId: this.openId });
     this.queryOpenStudentList({ openId: this.openId });
-    this.queryTotalCountStar(this.query);
+    //this.queryTotalCountStar(this.query);
   }
 };
 </script>

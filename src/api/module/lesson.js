@@ -42,3 +42,9 @@ export function lessonInfoQuery(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//检查用户是否绑定手环
+export function checkBindBracelet(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/checkBindBracelet.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
