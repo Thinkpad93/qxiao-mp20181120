@@ -15,6 +15,8 @@ const actions = {
   async queryClassId({
     commit
   }, params) {
+    console.log("obj");
+    console.log(params);
     return new Promise(async resolve => {
       let {
         id = 0,

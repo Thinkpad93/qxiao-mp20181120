@@ -141,6 +141,13 @@ export default {
       if (res.errorCode === 0) {
         this.className = "";
         this.queryClass(this.schoolId);
+        //更新store
+        let obj = {
+          id: this.$store.state.user.info.id,
+          roleType: 1,
+          studentId: this.$store.state.user.info.studentId
+        };
+        this.$store.dispatch("queryClass/queryClassId", obj);
       }
     }
   },
