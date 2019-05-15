@@ -22,19 +22,19 @@
         <p>小Q手环数据分析</p>
       </div>
       <div class="cells">
-        <div class="cell min-100">
+        <div class="cell min-h100">
           <div class="cell-bd">
             <p>活跃时间</p>
           </div>
           <div class="cell-ft">15分钟</div>
         </div>
-        <div class="cell min-100">
+        <div class="cell min-h100">
           <div class="cell-bd">
             <p>前20分钟表现</p>
           </div>
           <div class="cell-ft">A</div>
         </div>
-        <div class="cell min-100">
+        <div class="cell min-h100">
           <div class="cell-bd">
             <p>后20分钟表现</p>
           </div>
