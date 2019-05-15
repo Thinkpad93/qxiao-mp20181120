@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- 孩子列表 -->
-      <!-- <div class="cells-title">孩子列表</div> -->
+      <!-- <div class="cells-title">孩子列表</div> @click="openStudentId = item.openStudentId" -->
       <van-radio-group v-model="openStudentId">
         <van-cell-group>
           <van-cell
@@ -32,7 +32,7 @@
             clickable
             v-for="(item, index) in studentList"
             :key="index"
-            @click="openStudentId = item.openStudentId"
+            @click="cellClick(item)"
           >
             <van-radio :name="item.openStudentId" checked-color="#92cd36"/>
           </van-cell>
@@ -114,7 +114,7 @@ export default {
         },
         {
           title: "帮助中心",
-          to: "/myPersonality"
+          to: "/helpCenter"
         }
       ]
     };
@@ -161,6 +161,15 @@ export default {
     }
   },
   methods: {
+    cellClick(item) {
+      let { openStudentId, openStudentName } = item;
+      this.$router.push({
+        path: "/child/edit",
+        query: {
+          openStudentId
+        }
+      });
+    },
     //角色切换
     tagClick() {
       //只有一种角色

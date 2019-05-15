@@ -9,7 +9,7 @@ import communityRouterConfig from './community';
 import freshRouterConfig from './fresh';
 import homeRouterConfig from './home';
 import loginRouterConfig from './login';
-import homeworkRouterConfig from './homework';
+import homeworkRouterConfig from './home-work';
 import noticeRouterConfig from './notice';
 import recipeRouterConfig from './recipe';
 import schoolRouterConfig from './school';

@@ -56,11 +56,13 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
+import { mapState } from "vuex";
 export default {
-  name: "",
+  name: "childAdd",
   mixins: [sex, relation],
   data() {
     return {
@@ -72,6 +74,11 @@ export default {
         relation: 1
       }
     };
+  },
+  computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType
+    })
   },
   methods: {
     handleSubmit() {
@@ -86,10 +93,28 @@ export default {
         this.$toast("请正确填写手机号");
       }
     },
+    //添加孩子
     async addStudentWithOpen(params = {}) {
       let res = await service.addStudentWithOpen(params);
       if (res.errorCode === 0) {
-        this.$router.go(-1);
+        let { roleType, openStudentId, openStudentName } = res.data;
+        let _cookie = Cookies.getJSON("info");
+        let obj = null;
+        if (this.roleType == 3) {
+          obj = Object.assign({}, _cookie, {
+            roleType,
+            openStudentId,
+            openStudentName
+          });
+        } else {
+          obj = Object.assign({}, _cookie, { openStudentId, openStudentName });
+        }
+        //只有家长角色添加孩子时，对需要更新roleType
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.go(-1);
+          }
+        });
       } else {
         this.$toast(`${res.errorMsg}`);
       }

@@ -12,7 +12,7 @@
                 </div>
                 <div class="cell-ft">
                   <van-radio-group v-model="studentId">
-                    <van-radio :name="item.studentId" checked-color="#04b6ff"></van-radio>
+                    <van-radio :name="item.studentId" checked-color="#92cd36"></van-radio>
                   </van-radio-group>
                 </div>
               </div>

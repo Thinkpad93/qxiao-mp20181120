@@ -38,7 +38,7 @@
               <div class="cell-hd">
                 <img class="icon" :src="comment.photo" alt>
               </div>
-              <div class="cell-bd">
+              <div class="cell-bd pl-20">
                 <span>{{ comment.name }}</span>
                 <p>{{ comment.textContent }}</p>
               </div>

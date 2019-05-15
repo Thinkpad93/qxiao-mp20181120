@@ -17,5 +17,15 @@ export default [{
       keepAlive: false,
       cookie: true,
     }
+  },
+  {
+    path: "/child/edit",
+    name: 'childEdit',
+    component: () => import('@/views/child/edit'),
+    meta: {
+      title: "编辑孩子信息",
+      keepAlive: false,
+      cookie: true,
+    }
   }
 ]

@@ -37,7 +37,7 @@ export default [{
     component: () => import('@/views/action/history'),
     meta: {
       title: "历史行为",
-      keepAlive: true,
+      keepAlive: false,
       cookie: true
     }
   }

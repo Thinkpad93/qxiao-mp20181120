@@ -1,7 +1,7 @@
 export default [{
-    path: '/homeWork',
+    path: '/home-work',
     name: 'homeWork',
-    component: () => import('@/views/homeWork'),
+    component: () => import('@/views/home-work'),
     meta: {
       keepAlive: true,
       cookie: true,
@@ -11,9 +11,9 @@ export default [{
     }
   },
   {
-    path: '/homeWork/show',
+    path: '/home-work/show',
     name: 'homeWorkShow',
-    component: () => import('@/views/homeWork/show'),
+    component: () => import('@/views/home-work/show'),
     meta: {
       keepAlive: true,
       cookie: true,
@@ -23,9 +23,9 @@ export default [{
     }
   },
   {
-    path: '/homeWork/add',
+    path: '/home-work/add',
     name: 'homeWorkAdd',
-    component: () => import('@/views/homeWork/add'),
+    component: () => import('@/views/home-work/add'),
     meta: {
       keepAlive: false,
       cookie: true,
@@ -35,9 +35,9 @@ export default [{
     }
   },
   {
-    path: '/homeWork/read',
+    path: '/home-work/read',
     name: 'homeWorkRead',
-    component: () => import('@/views/homeWork/read'),
+    component: () => import('@/views/home-work/read'),
     meta: {
       keepAlive: false,
       cookie: true,

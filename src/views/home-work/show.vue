@@ -81,7 +81,7 @@ export default {
         needConfirm: this.$route.query.needConfirm
       };
       this.$router.push({
-        path: "/homework/read",
+        path: "/home-work/read",
         query: obj
       });
     },

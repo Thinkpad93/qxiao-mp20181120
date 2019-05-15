@@ -256,8 +256,6 @@ export default {
       active: 0,
       tabActive: 0,
       query: {
-        openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
         day: dayjs().format("YYYY-MM-DD")
       },
       actionView: {},
@@ -273,6 +271,8 @@ export default {
   computed: {
     ...mapState("user", {
       openStudentName: state => state.info.openStudentName,
+      openId: state => state.info.openId,
+      studentId: state => state.info.openStudentId,
       photo: state => state.info.photo
     }),
     //计算已选择的星星数
@@ -334,7 +334,11 @@ export default {
             message: "确定完成评价？确定后无法更改"
           })
           .then(() => {
-            let obj = Object.assign({}, this.query, { actionArray });
+            let obj = Object.assign({}, this.query, {
+              actionArray,
+              openId: this.openId,
+              studentId: this.studentId
+            });
             this.actionStrike(obj);
           });
       }
@@ -468,12 +472,17 @@ export default {
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
-        this.actionListQuery(this.query);
+        this.actionListQuery();
       }
     },
     //行为列表查询
-    async actionListQuery(params = {}) {
-      let res = await service.actionListQuery(params);
+    async actionListQuery() {
+      let obj = {
+        day: this.query.day,
+        studentId: this.studentId,
+        openId: this.openId
+      };
+      let res = await service.actionListQuery(obj);
       if (res.errorCode === 0) {
         this.myActions = res.data.myActions;
         this.statu = res.data.statu;
@@ -488,8 +497,13 @@ export default {
       }
     },
     //学生课程列表查询
-    async lessonQuery(params = {}) {
-      let res = await service.lessonQuery(params);
+    async lessonQuery() {
+      let obj = {
+        day: this.query.day,
+        studentId: this.studentId,
+        openId: this.openId
+      };
+      let res = await service.lessonQuery(obj);
       if (res.errorCode === 0) {
         this.lessonList = res.data;
       }
@@ -497,8 +511,8 @@ export default {
     //最新评语
     async newRemarkQuery() {
       let res = await service.newRemarkQuery({
-        openId: this.query.openId,
-        studentId: this.query.studentId
+        openId: this.openId,
+        studentId: this.studentId
       });
       if (res.errorCode === 0) {
         this.remark = res.data || {};
@@ -508,14 +522,13 @@ export default {
     async lessonInfoQuery(params = {}) {
       let res = await service.lessonInfoQuery(params);
       if (res.errorCode === 0) {
-        console.log(res.data);
         this.lessonDefault = res.data;
       }
     },
     //在家表现一周查询
     async homeStatQuery(actionId = 1, actionType = 0) {
       let params = {
-        studentId: this.query.studentId,
+        studentId: this.studentId,
         actionId,
         actionType
       };
@@ -541,8 +554,8 @@ export default {
     //课堂表现一周查询
     async stateMentList(lessonId = 1) {
       let params = {
-        openId: this.query.openId,
-        studentId: this.query.studentId,
+        openId: this.openId,
+        studentId: this.studentId,
         lessonId
       };
       let res = await service.stateMentList(params);
@@ -570,12 +583,12 @@ export default {
     this.initStateMent();
     this.homeStatQuery();
     this.stateMentList();
-    this.lessonQuery(this.query);
     this.newRemarkQuery();
     this.lessonInfoQuery();
   },
   activated() {
-    this.actionListQuery(this.query);
+    this.actionListQuery();
+    this.lessonQuery();
   }
 };
 </script>

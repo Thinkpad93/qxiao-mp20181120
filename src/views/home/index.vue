@@ -82,7 +82,7 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      className: this.$store.state.user.info.className,
+      //className: this.$store.state.user.info.className,
       isLoading: false,
       totalPage: 1, //总页数
       isOpen: this.$store.state.user.info.isOpen,
@@ -104,6 +104,16 @@ export default {
         textContent: ""
       }
     };
+  },
+  computed: {
+    className: {
+      get() {
+        return this.$store.state.user.info.className;
+      },
+      set(newValue) {
+        return (this.$store.state.user.info.className = newValue);
+      }
+    }
   },
   filters: {
     capitalize(value) {
@@ -129,8 +139,6 @@ export default {
       let openId = this.query.openId;
       let studentId = this.query.studentId;
       let indexs;
-      console.log(openId);
-      console.log(studentId);
       let { communityId } = community;
       let res = await service.communityPraise({
         openId,
@@ -185,6 +193,7 @@ export default {
         done();
       }
     },
+    //删除该条班级圈
     handleCommunityDelete(community, index) {
       let { openId, communityId } = community;
       if (openId && communityId) {

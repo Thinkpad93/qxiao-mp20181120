@@ -23,7 +23,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link to="/homework/add" class="release">
+        <router-link to="/home-work/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
         </router-link>
       </template>
@@ -133,7 +133,7 @@ export default {
     go(homework) {
       let { classId, homeId, studentId, needConfirm } = homework;
       this.$router.push({
-        path: "/homework/show",
+        path: "/home-work/show",
         query: {
           classId,
           homeId,
