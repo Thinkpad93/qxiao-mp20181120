@@ -98,19 +98,19 @@
                   </router-link>
                 </div>
               </div>
-              <div class="mod" ref="mod">
-                <div class="flex a-i-c j-c-s-b mb-20">
-                  <span>近一周在家表现</span>
-                  <van-button
-                    round
-                    type="info"
-                    size="small"
-                    @click="popupShow = true"
-                  >{{ actionDefaultText }}</van-button>
-                </div>
-                <!-- 一周数据分析 -->
-                <div id="homeStat" style="height:300px"></div>
+            </div>
+            <div class="mod" ref="mod">
+              <div class="flex a-i-c j-c-s-b mb-20">
+                <span>近一周在家表现</span>
+                <van-button
+                  round
+                  type="info"
+                  size="small"
+                  @click="popupShow = true"
+                >{{ actionDefaultText }}</van-button>
               </div>
+              <!-- 一周数据分析 -->
+              <div id="homeStat" style="height:300px"></div>
             </div>
           </van-tab>
           <van-tab title="在校表现">
@@ -149,19 +149,19 @@
                   </div>
                 </div>
               </div>
-              <div class="mod">
-                <div class="flex a-i-c j-c-s-b mb-20">
-                  <span>近一周在校表现</span>
-                  <van-button
-                    round
-                    type="info"
-                    size="small"
-                    @click="popupShows = true"
-                  >{{ lessonDefaultText }}</van-button>
-                </div>
-                <!-- 一周数据分析 -->
-                <div id="stateMent" style="height:300px"></div>
+            </div>
+            <div class="mod">
+              <div class="flex a-i-c j-c-s-b mb-20">
+                <span>近一周在校表现</span>
+                <van-button
+                  round
+                  type="info"
+                  size="small"
+                  @click="popupShows = true"
+                >{{ lessonDefaultText }}</van-button>
               </div>
+              <!-- 一周数据分析 -->
+              <div id="stateMent" style="height:300px"></div>
             </div>
           </van-tab>
           <van-tab title="成长分析">
@@ -234,13 +234,18 @@ import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
 import { mapState } from "vuex";
 // 引入基本模板
-let echarts = require("echarts/lib/echarts");
+//let echarts = require("echarts/lib/echarts");
+import echarts from "echarts/lib/echarts";
 // 引入柱状图组件
-require("echarts/lib/chart/line");
+//require("echarts/lib/chart/line");
+import "echarts/lib/chart/line";
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/title";
+import "echarts/lib/component/legend";
 // 引入提示框和title组件
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/title");
-require("echarts/lib/component/legend");
+//require("echarts/lib/component/tooltip");
+//require("echarts/lib/component/title");
+//require("echarts/lib/component/legend");
 export default {
   name: "home",
   components: {
@@ -611,7 +616,7 @@ export default {
   margin-bottom: 20px;
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
 
 .action-today {

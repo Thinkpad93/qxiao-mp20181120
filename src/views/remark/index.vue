@@ -14,6 +14,10 @@
           <div class="remark-time">{{ item.sysTime }}</div>
         </div>
       </div>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/image/kong.png" alt>
+        <p>暂无评语</p>
+      </div>
     </div>
   </div>
 </template>

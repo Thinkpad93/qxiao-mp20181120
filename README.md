@@ -113,11 +113,9 @@ function getTagsMap() {
   }, {});
 }
 let praiseList = [
-  { openId: "oUQwt1XbQVmMlHXWK0a_dJlOIczQ", studentId: 8 },
-  { openId: "oUQwt1czMGjdHX56jVOX8f6fo0ck", studentId: 18 },
-  { openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", studentId: 0 },
-  { openId: "oUQwt1czMGjdHX56jVOX8f6fo0ck", studentId: 0 },
-  { openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", studentId: 7 }
+  { openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", studentId: 8 },
+  { openId: "oUQwt1XVT1Y0ohyXWNwrchLSYLa8", studentId: 18 },
+  { openId: "oUQwt1XVT1Y0ohyXWNwrchLSYLa8", studentId: 0 }
 ];
 let studentId = 7;
 let openId = "oUQwt1e9wv4_CbA6YcI-pefbcQdo";

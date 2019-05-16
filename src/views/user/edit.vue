@@ -23,7 +23,14 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入手机号" v-model="leaderInfo.tel" readonly>
+              <input
+                class="input"
+                placeholder="请输入手机号"
+                v-model="leaderInfo.tel"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
           <div class="cell">
@@ -79,7 +86,14 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入手机号" v-model="teacherInfo.tel" readonly>
+              <input
+                class="input"
+                placeholder="请输入手机号"
+                v-model="teacherInfo.tel"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
           <div class="cell">
@@ -87,7 +101,14 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校名称" v-model="teacherInfo.schoolName" readonly>
+              <input
+                class="input"
+                placeholder="请输入学校名称"
+                v-model="teacherInfo.schoolName"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
           <div class="cell">
@@ -95,7 +116,14 @@
               <label for class="label">学校ID码</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校ID码" v-model="teacherInfo.schoolCode" readonly>
+              <input
+                class="input"
+                placeholder="请输入学校ID码"
+                v-model="teacherInfo.schoolCode"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
           <div class="cell">
@@ -103,7 +131,14 @@
               <label for class="label">学校地址</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校地址" v-model="teacherInfo.location" readonly>
+              <input
+                class="input"
+                placeholder="请输入学校地址"
+                v-model="teacherInfo.location"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
         </div>
@@ -129,7 +164,14 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入手机号" v-model="patroarch.tel" readonly>
+              <input
+                class="input"
+                placeholder="请输入手机号"
+                v-model="patroarch.tel"
+                readonly
+                unselectable="on"
+                @focus="this.blur()"
+              >
             </div>
           </div>
           <div class="cell cell-select cell-select-after">

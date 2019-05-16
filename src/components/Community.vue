@@ -28,7 +28,17 @@
               </template>
             </div>
             <div class="right">
-              <van-icon name="like" size="18px" @click="handlePraise(fuck, fuckIndex)"></van-icon>
+              <template v-if="fuck.praiseList.some(item => item.openId == openId)">
+                <van-icon
+                  name="like"
+                  size="18px"
+                  color="#e64340"
+                  @click="handlePraise(fuck, fuckIndex)"
+                ></van-icon>
+              </template>
+              <template v-else>
+                <van-icon name="like" size="18px" @click="handlePraise(fuck, fuckIndex)"></van-icon>
+              </template>
               <van-icon name="comment" size="18px" @click="handleComment(fuck, fuckIndex)"></van-icon>
             </div>
           </div>
@@ -39,7 +49,7 @@
                 <span
                   v-for="(praise, index) in fuck.praiseList"
                   :key="index"
-                >{{ praise.studentName | capitalize }}</span>
+                >{{ praise.studentName}}</span>
               </div>
             </template>
             <template v-if="fuck.commentList.length">
@@ -85,12 +95,6 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       openId: this.$store.state.user.info.openId
     };
-  },
-  computed: {},
-  filters: {
-    capitalize(value) {
-      return `${value},`;
-    }
   },
   methods: {
     //查看更多评论
