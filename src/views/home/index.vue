@@ -1,6 +1,27 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!-- 用户信息 -->
+      <div class="flex a-i-c home-user gradient-two">
+        <div class="switch-children" v-if="roleList.length == 2">
+          <van-icon name="replay" size="16px"></van-icon>
+          <span>切换为家长</span>
+        </div>
+        <div class="flex a-i-c">
+          <div class="avatar">
+            <img :src="photo" width="60" height="60" radius="50">
+          </div>
+          <div class="pl-20">
+            <h3 class="mb-20" size-17>{{ name }}</h3>
+            <p size-12>感谢你无私的奉献，小Q祝您生活愉快</p>
+          </div>
+        </div>
+      </div>
+      <!-- 有关加入的学生 -->
+      <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3">
+        <p>我的小孩</p>
+        <van-icon name="arrow" size="16px"></van-icon>
+      </div>
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -69,6 +90,7 @@ import qxCommunity from "@/components/Community";
 import qxFooter from "@/components/Footer";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
+import { mapState } from "vuex";
 export default {
   name: "home",
   mixins: [scrollMixins, classList],
@@ -102,10 +124,15 @@ export default {
         studentId: this.$store.state.user.info.studentId,
         communityId: null,
         textContent: ""
-      }
+      },
+      roleList: []
     };
   },
   computed: {
+    ...mapState("user", {
+      photo: state => state.info.photo,
+      name: state => state.info.name
+    }),
     className: {
       get() {
         return this.$store.state.user.info.className;
@@ -265,12 +292,45 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
+    },
+    //多角色列表
+    async queryRole(params = {}) {
+      let res = await service.queryRole(params);
+      if (res.errorCode === 0) {
+        this.roleList = res.data;
+      }
     }
   },
   mounted() {
     this.communityQuery(this.query);
+    this.queryRole({ openId: this.query.openId });
   }
 };
 </script>
 <style lang="less" scoped>
+.home-user {
+  color: #fff;
+  min-height: 200px;
+  padding: 0 30px;
+  position: relative;
+}
+
+.switch-children {
+  color: #fff;
+  position: absolute;
+  top: 22px;
+  right: 0;
+  display: flex;
+  height: 60px;
+  padding: 0 30px;
+  align-items: center;
+  border-radius: 30px 0 0 30px;
+  background-color: #c1e77e;
+}
+.home-myStudent {
+  min-height: 120px;
+  padding: 0 30px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
 </style>

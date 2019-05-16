@@ -264,3 +264,9 @@ export function addStudentWithStudentId(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//学生删除（开放版）
+export function deleteOpenStudent(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/deleteOpenStudent.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

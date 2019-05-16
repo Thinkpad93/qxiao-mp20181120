@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="cells">
-        <div class="cell">
+        <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">姓名</label>
           </div>
@@ -10,7 +10,7 @@
             <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName">
           </div>
         </div>
-        <div class="cell cell-select cell-select-after">
+        <div class="cell cell-select cell-select-after min-h120">
           <div class="cell-hd">
             <label for class="label">性别</label>
           </div>
@@ -24,7 +24,7 @@
             </select>
           </div>
         </div>
-        <div class="cell">
+        <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">家长手机号码</label>
           </div>
@@ -32,7 +32,7 @@
             <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
           </div>
         </div>
-        <div class="cell cell-select cell-select-after">
+        <div class="cell cell-select cell-select-after min-h120">
           <div class="cell-hd">
             <label for class="label">关系</label>
           </div>

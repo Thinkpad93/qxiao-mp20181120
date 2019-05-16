@@ -49,12 +49,16 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <div class="home-user">
-          <img :src="photo" width="50" height="50" radius="50">
-          <div class="js-user-change">
-            <p>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
+        <router-link to="/child" tag="div" class="home-user gradient-one">
+          <div class="flex a-i-c">
+            <img :src="photo" width="60" height="60" radius="50">
+            <div class="js-user-change">
+              <p class="mb-20" size-17>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
+              <p class>Q星: {{ totalStarCount }}</p>
+            </div>
           </div>
-        </div>
+          <van-icon name="arrow" size="16px"></van-icon>
+        </router-link>
         <van-tabs v-model="active" :line-height="2" :key="1" :lazy-render="false">
           <van-tab title="在家表现">
             <div class="container">
@@ -233,19 +237,14 @@ import qxFooter from "@/components/Footer";
 import pageMixin from "@/mixins/page";
 import dayjs from "dayjs";
 import { mapState } from "vuex";
-// 引入基本模板
-//let echarts = require("echarts/lib/echarts");
 import echarts from "echarts/lib/echarts";
 // 引入柱状图组件
-//require("echarts/lib/chart/line");
+// 引入提示框和title组件
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
-// 引入提示框和title组件
-//require("echarts/lib/component/tooltip");
-//require("echarts/lib/component/title");
-//require("echarts/lib/component/legend");
+
 export default {
   name: "home",
   components: {
@@ -278,7 +277,8 @@ export default {
       openStudentName: state => state.info.openStudentName,
       openId: state => state.info.openId,
       studentId: state => state.info.openStudentId,
-      photo: state => state.info.photo
+      photo: state => state.info.photo,
+      totalStarCount: state => state.info.totalStarCount
     }),
     //计算已选择的星星数
     start() {
@@ -601,7 +601,10 @@ export default {
 .home-user {
   display: flex;
   align-items: center;
-  padding: 30px 30px 20px 30px;
+  justify-content: space-between;
+  height: 180px;
+  padding: 0 30px;
+  color: #fff;
   background-color: #fff;
   .js-user-change {
     margin-left: 30px;

@@ -32,6 +32,8 @@ import courseRouterConfig from './course';
 import personalRouterConfig from './personal';
 import worksRounterConfig from './works';
 
+import roleRouterConfig from './role';
+
 Vue.use(Router);
 
 export const constantRouterMap = [
@@ -64,7 +66,8 @@ export const constantRouterMap = [
   ...courseRouterConfig,
 
   ...personalRouterConfig,
-  ...worksRounterConfig
+  ...worksRounterConfig,
+  ...roleRouterConfig
 ]
 
 

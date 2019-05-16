@@ -152,7 +152,8 @@ export default {
   .langur {
     width: 25%;
     min-width: 0; /*解决方案*/
-    height: 168px;
+    height: 180px;
+    padding-top: 10px;
     text-align: center;
   }
 }

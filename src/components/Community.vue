@@ -162,8 +162,8 @@ export default {
   }
   .cell-hd {
     img {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
     }
   }

@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/child'),
     meta: {
       title: "已关联孩子列表",
-      keepAlive: true,
+      keepAlive: false,
       cookie: true,
     }
   },
@@ -14,6 +14,16 @@ export default [{
     component: () => import('@/views/child/add'),
     meta: {
       title: "添加孩子",
+      keepAlive: false,
+      cookie: true,
+    }
+  },
+  {
+    path: "/child/view",
+    name: 'childView',
+    component: () => import('@/views/child/view'),
+    meta: {
+      title: "修改孩子信息",
       keepAlive: false,
       cookie: true,
     }

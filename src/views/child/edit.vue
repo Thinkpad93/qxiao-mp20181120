@@ -4,10 +4,25 @@
       <div class="cells">
         <div class="cell">
           <div class="cell-hd">
-            <label class="label">姓名</label>
+            <label class="label">学生姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.openStudentName">
+            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName">
+          </div>
+        </div>
+        <div class="cell">
+          <div class="cell-hd">
+            <label for class="label">手机号</label>
+          </div>
+          <div class="cell-bd">
+            <input
+              class="input"
+              placeholder="请输入手机号"
+              v-model="form.tel"
+              readonly
+              unselectable="on"
+              @focus="this.blur()"
+            >
           </div>
         </div>
         <div class="cell cell-select cell-select-after">
@@ -43,7 +58,7 @@
       </div>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
+      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存修改</van-button>
     </div>
   </div>
 </template>
@@ -59,12 +74,33 @@ export default {
       form: {},
       query: {
         openId: this.$store.state.user.info.openId,
-        openStudentId: this.$route.query.openStudentId
+        studentId: this.$route.query.openStudentId
       }
     };
   },
   methods: {
-    handleSubmit() {}
+    async handleSubmit() {
+      let { studentName, tel, ...args } = this.form;
+      if (studentName == "") {
+        this.$toast("请完善学生名称");
+      } else {
+        let obj = Object.assign({}, args, { studentName });
+        let res = await service.studentInfoUpdate(obj);
+        if (res.errorCode === 0) {
+          this.$router.go(-1);
+        }
+      }
+    },
+    //学生信息查询
+    async studentQueryMe(params = {}) {
+      let res = await service.studentQueryMe(params);
+      if (res.errorCode === 0) {
+        this.form = res.data;
+      }
+    }
+  },
+  mounted() {
+    this.studentQueryMe(this.query);
   }
 };
 </script>
