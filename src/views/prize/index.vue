@@ -34,7 +34,7 @@
             </div>
             <div class="pichi-meta">
               <p>可交换Q星</p>
-              <strong size-20>{{ statrCount }}</strong>
+              <strong size-20>{{ totalStarCount }}</strong>
             </div>
           </div>
           <div class="pichi-btn">
@@ -59,7 +59,7 @@
           <van-cell-group>
             <div class="cell min-h160">
               <div class="cell-hd">
-                <van-checkbox v-model="item.checked" checked-color="#04b6ff" @change="chg"></van-checkbox>
+                <van-checkbox v-model="item.checked" checked-color="#92cd36" @change="chg"></van-checkbox>
               </div>
               <div class="cell-bd pl-20">
                 <p class="mb-20" size-16>{{ item.textContent }}</p>
@@ -89,12 +89,13 @@
 <script>
 import service from "@/api";
 import pageMixin from "@/mixins/page";
+import { mapState } from "vuex";
 export default {
   name: "action",
   mixins: [pageMixin],
   data() {
     return {
-      statrCount: 0,
+      //statrCount: 0,
       studentId: this.$store.state.user.info.openStudentId,
       query: {
         openId: this.$store.state.user.info.openId,
@@ -109,6 +110,11 @@ export default {
       list: [],
       total: 0
     };
+  },
+  computed: {
+    ...mapState("user", {
+      totalStarCount: state => state.info.totalStarCount
+    })
   },
   methods: {
     onClose(index, itemId, prizeType) {
@@ -177,7 +183,7 @@ export default {
         this.$toast("请勾选你要兑换的奖项");
         return;
       }
-      if (this.total > this.statrCount) {
+      if (this.total > this.totalStarCount) {
         this.$toast("你的Q星数量不够兑换的奖项哦");
         return;
       }
@@ -201,12 +207,12 @@ export default {
       }
     },
     //获取可兑换星星数
-    async queryTotalCountStar(params = {}) {
-      let res = await service.queryTotalCountStar(params);
-      if (res.errorCode === 0) {
-        this.statrCount = res.data.totalCountStar;
-      }
-    },
+    // async queryTotalCountStar(params = {}) {
+    //   let res = await service.queryTotalCountStar(params);
+    //   if (res.errorCode === 0) {
+    //     this.statrCount = res.data.totalCountStar;
+    //   }
+    // },
     //奖励兑换
     async prizeExchange(params = {}) {
       let res = await service.prizeExchange(params);
@@ -241,10 +247,10 @@ export default {
     }
   },
   mounted() {
-    this.queryTotalCountStar({
-      studentId: this.studentId,
-      openId: this.query.openId
-    });
+    // this.queryTotalCountStar({
+    //   studentId: this.studentId,
+    //   openId: this.query.openId
+    // });
     this.prizeListQuery(this.query);
   }
 };

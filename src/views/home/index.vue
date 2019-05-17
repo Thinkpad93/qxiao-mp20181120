@@ -3,12 +3,12 @@
     <div class="page-bd">
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
-        <div class="switch-children" v-if="roleList.length == 2">
+        <div class="switch-children" v-if="roleList.length == 2" @click="tagClick">
           <van-icon name="replay" size="16px"></van-icon>
-          <span>切换为家长</span>
+          <span>{{ roleType == 2 ? "切换为家长":"切换为老师" }}</span>
         </div>
         <div class="flex a-i-c">
-          <div class="avatar">
+          <div class="avatar" @click="jumpRole">
             <img :src="photo" width="60" height="60" radius="50">
           </div>
           <div class="pl-20">
@@ -18,7 +18,7 @@
         </div>
       </div>
       <!-- 有关加入的学生 -->
-      <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3">
+      <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3" @click="jump">
         <p>我的小孩</p>
         <van-icon name="arrow" size="16px"></van-icon>
       </div>
@@ -84,6 +84,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
@@ -104,12 +105,8 @@ export default {
       studentPicker: false,
       popupShow: false,
       dialogVisible: false,
-      //className: this.$store.state.user.info.className,
       isLoading: false,
       totalPage: 1, //总页数
-      isOpen: this.$store.state.user.info.isOpen,
-      roleType: this.$store.state.user.info.roleType,
-      id: this.$store.state.user.info.id,
       query: {
         classId: this.$store.state.user.info.classId,
         openId: this.$store.state.user.info.openId,
@@ -130,8 +127,10 @@ export default {
   },
   computed: {
     ...mapState("user", {
+      isOpen: state => state.info.isOpen,
       photo: state => state.info.photo,
-      name: state => state.info.name
+      name: state => state.info.name,
+      roleType: state => state.info.roleType
     }),
     className: {
       get() {
@@ -142,12 +141,49 @@ export default {
       }
     }
   },
-  filters: {
-    capitalize(value) {
-      return `${value},`;
-    }
-  },
   methods: {
+    jumpRole() {
+      if (this.roleType != 3) {
+        this.$router.push({
+          path: "role"
+        });
+      }
+    },
+    jump() {
+      this.$router.push({
+        path: "/baby"
+      });
+    },
+    //角色切换
+    tagClick() {
+      //只有一种角色
+      if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
+        return;
+      }
+      let _cookie = Cookies.getJSON("info");
+      //选择要切换的角色
+      let single = this.roleList.find(item => item.roleType != this.roleType);
+      let { id, roleType, classId, className, studentId, name } = single;
+      let obj = null;
+      if (this.roleType != 9) {
+        obj = Object.assign({}, _cookie, {
+          id,
+          roleType,
+          classId,
+          className,
+          studentId,
+          name
+        });
+      } else {
+        obj = Object.assign({}, _cookie, { id, roleType });
+      }
+      this.$store.dispatch("user/setInfo", obj).then(data => {
+        if (data.success === "ok") {
+          //重新刷新页面
+          location.reload();
+        }
+      });
+    },
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });

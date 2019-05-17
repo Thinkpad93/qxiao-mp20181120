@@ -67,15 +67,16 @@
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
                   <time size-16>{{ query.day }}</time>
                   <span size-16>{{ start }}颗Q星</span>
+                  <!-- <van-icon name="arrow" size="16px"></van-icon> -->
                 </router-link>
-                <div class="action-cells">
+                <div class="action-cells" @click.stop="handleStatus">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
                     v-for="(item, index) in myActions"
                     :key="index"
                   >
                     <div class="action-cell-bd flex a-i-c j-c-s-b">
-                      <div class="mr-40" @click="handleActionMore(item)">
+                      <div class="mr-40" @click.stop="handleActionMore(item)">
                         <span>{{ item.title }}</span>
                         <van-icon name="question-o" size="16px"></van-icon>
                       </div>
@@ -104,7 +105,7 @@
               </div>
             </div>
             <div class="mod" ref="mod">
-              <div class="flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在家表现</span>
                 <van-button
                   round
@@ -114,7 +115,8 @@
                 >{{ actionDefaultText }}</van-button>
               </div>
               <!-- 一周数据分析 -->
-              <div id="homeStat" style="height:300px"></div>
+              <qxChart id="homeStat" :option="homeOption"/>
+              <!-- <div id="homeStat" style="height:300px"></div> -->
             </div>
           </van-tab>
           <van-tab title="在校表现">
@@ -155,7 +157,7 @@
               </div>
             </div>
             <div class="mod">
-              <div class="flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在校表现</span>
                 <van-button
                   round
@@ -165,7 +167,8 @@
                 >{{ lessonDefaultText }}</van-button>
               </div>
               <!-- 一周数据分析 -->
-              <div id="stateMent" style="height:300px"></div>
+              <qxChart id="stateMent" :option="stateMentOption"/>
+              <!-- <div id="stateMent" style="height:300px"></div> -->
             </div>
           </van-tab>
           <van-tab title="成长分析">
@@ -232,25 +235,21 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import qxFooter from "@/components/Footer";
+import qxChart from "@/components/Myecharts";
 import pageMixin from "@/mixins/page";
+import echartMixin from "@/mixins/echarts";
 import dayjs from "dayjs";
 import { mapState } from "vuex";
-import echarts from "echarts/lib/echarts";
-// 引入柱状图组件
-// 引入提示框和title组件
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
-import "echarts/lib/component/legend";
-
 export default {
   name: "home",
   components: {
-    qxFooter
+    qxFooter,
+    qxChart
   },
-  mixins: [pageMixin],
+  mixins: [pageMixin, echartMixin],
   data() {
     return {
       popupShow: false,
@@ -313,6 +312,20 @@ export default {
           .catch(() => {});
       }
     },
+    //
+    handleStatus() {
+      //今天已经打过星星
+      if (this.statu == 1) {
+        this.$dialog
+          .alert({
+            title: "提示",
+            message: "今天已经完成评价啦~明天再来"
+          })
+          .then(() => {
+            // on close
+          });
+      }
+    },
     //rate事件
     handleChangeRate(count) {
       let flag = false;
@@ -367,116 +380,17 @@ export default {
         path: "/course/view"
       });
     },
-    initHomeStat() {
-      this.$nextTick(() => {
-        this.homeEcharts = echarts.init(
-          document.getElementById("homeStat"),
-          "light"
-        );
-        this.homeEcharts.setOption({
-          tooltip: {
-            trigger: "axis"
-          },
-          legend: {
-            data: ["个人表现", "班级平均值"]
-          },
-          xAxis: {
-            type: "category",
-            boundaryGap: false,
-            data: []
-          },
-          yAxis: {
-            type: "value"
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true
-          },
-          series: [
-            {
-              data: [],
-              type: "line",
-              name: "个人表现",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            },
-            {
-              data: [],
-              type: "line",
-              name: "班级平均值",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            }
-          ]
-        });
-      });
-    },
-    initStateMent() {
-      this.$nextTick(() => {
-        let modWidth = this.$refs.mod.offsetWidth;
-        let dom = document.getElementById("stateMent");
-        dom.style.width = modWidth - 20 + "px";
-        this.mentEcharts = echarts.init(dom, "light");
-        this.mentEcharts.setOption({
-          tooltip: {
-            trigger: "axis"
-          },
-          legend: {
-            data: ["个人表现", "班级平均值"]
-          },
-          xAxis: {
-            type: "category",
-            boundaryGap: false,
-            data: []
-          },
-          yAxis: {
-            type: "value"
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true
-          },
-          series: [
-            {
-              data: [],
-              type: "line",
-              name: "个人表现",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            },
-            {
-              data: [],
-              type: "line",
-              name: "班级平均值",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            }
-          ]
-        });
-      });
-    },
     //行为打星
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        //更新星星数量
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
         this.actionListQuery();
       }
     },
@@ -541,19 +455,9 @@ export default {
       if (res.errorCode === 0) {
         this.popupShow = false;
         let data = res.data;
-        this.homeEcharts.setOption({
-          xAxis: {
-            data: data.day
-          },
-          series: [
-            {
-              data: data.myStartCount
-            },
-            {
-              data: data.myStartCount
-            }
-          ]
-        });
+        this.homeOption.xAxis.data = data.day;
+        this.homeOption.series[0].data = data.myStartCount;
+        this.homeOption.series[1].data = data.aveStartCount;
       }
     },
     //课堂表现一周查询
@@ -567,25 +471,13 @@ export default {
       if (res.errorCode === 0) {
         this.popupShows = false;
         let data = res.data;
-        this.mentEcharts.setOption({
-          xAxis: {
-            data: data.day
-          },
-          series: [
-            {
-              data: data.myStartCount
-            },
-            {
-              data: data.aveStartCount
-            }
-          ]
-        });
+        this.stateMentOption.xAxis.data = data.day;
+        this.stateMentOption.series[0].data = data.myStartCount;
+        this.stateMentOption.series[1].data = data.aveStartCount;
       }
     }
   },
   mounted() {
-    this.initHomeStat();
-    this.initStateMent();
     this.homeStatQuery();
     this.stateMentList();
     this.newRemarkQuery();
@@ -611,21 +503,26 @@ export default {
   }
 }
 .container {
-  padding: 20px;
+  padding: 30px;
 }
 .mod {
   height: auto;
-  padding: 20px;
-  margin-bottom: 20px;
+  // padding: 20px;
+  // margin-bottom: 20px;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
-
+.action-table {
+  padding: 0 20px;
+}
 .action-today {
   text-align: center;
+  padding: 20px 20px 0 20px;
 }
-
+.action-cells {
+  padding: 20px;
+}
 .action-cell {
   position: relative;
   margin: 20px 0;
@@ -638,6 +535,21 @@ export default {
   }
 }
 .dhole {
+  min-height: 100px;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 1px;
+    border-top: 1px solid #e5e5e5;
+    color: #e5e5e5;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    z-index: 2;
+  }
   > a {
     font-size: 28px;
     width: 50%;
@@ -712,5 +624,9 @@ export default {
   p {
     text-align: left;
   }
+}
+
+.echarts-head {
+  padding: 20px 20px 0 20px;
 }
 </style>

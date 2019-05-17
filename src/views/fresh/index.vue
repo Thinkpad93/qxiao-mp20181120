@@ -89,13 +89,14 @@
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
+import { mapState } from "vuex";
 export default {
   name: "fresh",
   mixins: [scrollMixins, classList],
   data() {
     return {
       popupShow: false,
-      className: this.$store.state.user.info.className,
+      //className: this.$store.state.user.info.className,
       classId: this.$store.state.user.info.classId,
       isLoading: false,
       totalPage: 1, //总页数
@@ -109,6 +110,16 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
+  },
+  computed: {
+    className: {
+      get() {
+        return this.$store.state.user.info.className;
+      },
+      set(newValue) {
+        return (this.$store.state.user.info.className = newValue);
+      }
+    }
   },
   filters: {
     brReplace(value) {

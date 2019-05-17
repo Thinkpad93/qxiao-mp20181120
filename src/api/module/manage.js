@@ -270,3 +270,9 @@ export function deleteOpenStudent(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询学生列表--封闭版--切换
+export function queryClassStudentList(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassStudentList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

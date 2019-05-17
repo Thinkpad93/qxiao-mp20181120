@@ -3,7 +3,7 @@ export default [{
     name: 'baby',
     component: () => import('@/views/baby'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       cookie: true,
       isShare: false,
       title: '学生列表',

@@ -28,7 +28,9 @@
               </template>
             </div>
             <div class="right">
-              <template v-if="fuck.praiseList.some(item => item.openId == openId)">
+              <template
+                v-if="fuck.praiseList.some(item => item.openId == openId && item.studentId == studentId)"
+              >
                 <van-icon
                   name="like"
                   size="18px"
@@ -37,9 +39,19 @@
                 ></van-icon>
               </template>
               <template v-else>
-                <van-icon name="like" size="18px" @click="handlePraise(fuck, fuckIndex)"></van-icon>
+                <van-icon
+                  name="like"
+                  size="18px"
+                  color="#336d92"
+                  @click="handlePraise(fuck, fuckIndex)"
+                ></van-icon>
               </template>
-              <van-icon name="comment" size="18px" @click="handleComment(fuck, fuckIndex)"></van-icon>
+              <van-icon
+                name="comment"
+                size="18px"
+                color="#336d92"
+                @click="handleComment(fuck, fuckIndex)"
+              ></van-icon>
             </div>
           </div>
           <div class="data">
@@ -81,6 +93,7 @@
 <script>
 import service from "@/api";
 import { ImagePreview } from "vant";
+import { mapState } from "vuex";
 export default {
   name: "community",
   props: {
@@ -91,10 +104,14 @@ export default {
     }
   },
   data() {
-    return {
-      roleType: this.$store.state.user.info.roleType,
-      openId: this.$store.state.user.info.openId
-    };
+    return {};
+  },
+  computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType,
+      openId: state => state.info.openId,
+      studentId: state => state.info.studentId
+    })
   },
   methods: {
     //查看更多评论
@@ -174,7 +191,7 @@ export default {
   .data {
     margin-top: 20px;
     border-radius: 4px;
-    background-color: #f5f5f5;
+    background-color: #eaf0f4;
   }
 }
 .img-group {
@@ -202,24 +219,30 @@ export default {
   }
 }
 .zan-list {
-  color: #9aa4cb;
+  color: #336d92;
   padding: 12px;
   flex-wrap: wrap;
   line-height: 1.4;
+  font-size: 28px;
   i {
     font-size: 30px;
     color: #9aa4cb;
     margin-right: 10px;
   }
   span {
-    margin-right: 5px;
+    position: relative;
+    display: inline-block;
+    &::after {
+      content: ",";
+    }
   }
 }
 .comment-list {
   //height: 100px;
   position: relative;
-  color: #9aa4cb;
+  color: #336d92;
   padding: 20px;
+  font-size: 28px;
   overflow: hidden;
   transition: all ease 0.2s;
   &::before {
@@ -229,7 +252,7 @@ export default {
     top: 0;
     right: 0;
     height: 1px;
-    border-top: 1px solid #e7e7e7;
+    border-top: 1px solid #fff;
     color: #e7e7e7;
     transform-origin: 0 0;
     transform: scaleY(0.5);

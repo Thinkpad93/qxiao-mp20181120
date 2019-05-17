@@ -8,9 +8,9 @@
         <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img :src="photo" width="40" height="40" radius="50">
+              <img src="@/assets/student-icon.png" width="50" height="50" radius="50">
               <strong>{{ item.openStudentName }}</strong>
-              <span>Q星：{{ item.totalStarCount }}</span>
+              <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
           </div>
           <div class="cell-ft">
@@ -69,13 +69,12 @@ export default {
         let roleType = this.roleType;
         let _cookie = Cookies.getJSON("info");
         let single = this.studentList.find(item => item.openStudentId === news);
-        let obj = null;
-        if (roleType == 3 || roleType == 9) {
-          obj = Object.assign({}, _cookie, single);
-        } else {
-          let { openStudentId, openStudentName } = single;
-          obj = Object.assign({}, _cookie, { openStudentId, openStudentName });
-        }
+        let { openStudentId, openStudentName, totalStarCount } = single;
+        let obj = Object.assign({}, _cookie, {
+          openStudentId,
+          openStudentName,
+          totalStarCount
+        });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
             this.$router.go(-1);

@@ -15,14 +15,14 @@
             <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
           </div>
         </div>
-        <router-link to="/child" tag="div" class="avatar">
+        <div class="avatar">
           <img :src="photo" width="60" height="60" radius="50">
-        </router-link>
+        </div>
         <div class="info-box">
           <div class>
             <h3 size-17 class="username" v-if="openStudentName">{{ openStudentName }}</h3>
           </div>
-          <div class="info-meta pt-20">
+          <div class="info-meta pt-30">
             <div class>Q星: {{ totalStarCount }}</div>
             <!-- <div class="mr-10">积分: 800</div> -->
           </div>
@@ -62,6 +62,10 @@ export default {
       roleList: [],
       studentList: [],
       userMenu: [
+        {
+          title: "我的小孩",
+          to: "/child"
+        },
         {
           title: "我的个性计划",
           to: "/myPersonality"

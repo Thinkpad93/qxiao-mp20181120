@@ -1,11 +1,11 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <div class="cells-title">基础信息修改</div>
+      <div class="cells-title">基础信息</div>
       <!-- 园长 -->
       <template v-if="roleType == 1 || roleType == 4">
         <div class="cells">
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">姓名</label>
             </div>
@@ -18,7 +18,7 @@
               >
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">手机号</label>
             </div>
@@ -33,7 +33,7 @@
               >
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校名称</label>
             </div>
@@ -41,7 +41,7 @@
               <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">详细地址</label>
             </div>
@@ -54,7 +54,7 @@
       <!-- 老师 -->
       <template v-if="roleType == 2">
         <div class="cells">
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">姓名</label>
             </div>
@@ -67,7 +67,7 @@
               >
             </div>
           </div>
-          <div class="cell cell-select cell-select-after">
+          <div class="cell cell-select cell-select-after min-h120">
             <div class="cell-hd">
               <label for class="label">性别</label>
             </div>
@@ -81,7 +81,7 @@
               </select>
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">手机号</label>
             </div>
@@ -96,7 +96,7 @@
               >
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校名称</label>
             </div>
@@ -111,7 +111,7 @@
               >
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校ID码</label>
             </div>
@@ -126,7 +126,7 @@
               >
             </div>
           </div>
-          <div class="cell">
+          <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校地址</label>
             </div>
@@ -143,10 +143,10 @@
           </div>
         </div>
       </template>
-      <!-- 家长 -->
-      <template v-if="roleType == 3"></template>
     </div>
-    <div class="flex-ft"></div>
+    <div class="flex-ft">
+      <!-- <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button> -->
+    </div>
   </div>
 </template>
 <script>
@@ -155,8 +155,12 @@ import { sex, relation, schoolType } from "@/mixins/type";
 import { mapState } from "vuex";
 export default {
   name: "role",
+  mixins: [sex, relation, schoolType],
   data() {
-    return {};
+    return {
+      leaderInfo: {},
+      teacherInfo: {}
+    };
   },
   computed: {
     ...mapState("user", {
@@ -164,6 +168,30 @@ export default {
       roleType: state => state.info.roleType,
       studentId: state => state.info.studentId
     })
+  },
+  methods: {
+    handleSubmit() {},
+    //查询老师信息
+    async queryTeacherInfo(openId) {
+      let res = await service.queryTeacherInfo({ openId });
+      if (res.errorCode === 0) {
+        this.teacherInfo = res.data;
+      }
+    },
+    //查询管理信息
+    async queryInfo(openId) {
+      let res = await service.queryInfo({ openId });
+      if (res.errorCode === 0) {
+        this.leaderInfo = res.data;
+      }
+    }
+  },
+  mounted() {
+    if (this.roleType == 1 || this.roleType == 4) {
+      this.queryInfo(this.openId);
+    } else {
+      this.queryTeacherInfo(this.openId);
+    }
   }
 };
 </script>

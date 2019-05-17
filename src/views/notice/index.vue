@@ -91,17 +91,17 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 import service from "@/api";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
+import { mapState } from "vuex";
 export default {
   name: "notice",
   mixins: [scrollMixins, classList],
   data() {
     return {
       popupShow: false,
-      className: decodeURI(this.$store.state.user.info.className),
+      //className: decodeURI(this.$store.state.user.info.className),
       classId: this.$store.state.user.info.classId,
       index: 0,
       isLoading: false,
@@ -117,6 +117,16 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
+  },
+  computed: {
+    className: {
+      get() {
+        return this.$store.state.user.info.className;
+      },
+      set(newValue) {
+        return (this.$store.state.user.info.className = newValue);
+      }
+    }
   },
   filters: {
     brReplace(value) {
