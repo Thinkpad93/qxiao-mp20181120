@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
@@ -122,9 +123,15 @@ export default {
       let res = await service.studentSupply(params);
       if (res.errorCode === 0) {
         this.$refs.form.reset();
-        this.$store.dispatch("user/setInfo", res.data);
-        this.$router.replace({
-          path: "/home"
+        let _cookie = Cookies.getJSON("info");
+        let { tel, ...args } = res.data;
+        let obj = Object.assign({}, _cookie, args);
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.replace({
+              path: "/home"
+            });
+          }
         });
       } else {
         this.$toast(`${res.errorMsg}`);

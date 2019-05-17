@@ -18,9 +18,9 @@
         <div class="avatar">
           <img :src="photo" width="60" height="60" radius="50">
         </div>
-        <div class="info-box">
+        <div class="info-box" v-if="openStudentName">
           <div class>
-            <h3 size-17 class="username" v-if="openStudentName">{{ openStudentName }}</h3>
+            <h3 size-17 class="username">{{ openStudentName }}</h3>
           </div>
           <div class="info-meta pt-30">
             <div class>Q星: {{ totalStarCount }}</div>
@@ -108,36 +108,7 @@ export default {
       totalStarCount: state => state.info.totalStarCount
     })
   },
-  methods: {
-    //角色切换
-    // tagClick() {
-    //   //只有一种角色
-    //   if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
-    //     return;
-    //   }
-    //   let _cookie = Cookies.getJSON("info");
-    //   //选择要切换的角色
-    //   let single = this.roleList.find(item => item.roleType != this.roleType);
-    //   let { id, roleType, classId, className, studentId } = single;
-    //   let obj = null;
-    //   if (this.roleType != 9) {
-    //     obj = Object.assign({}, _cookie, {
-    //       id,
-    //       roleType,
-    //       classId,
-    //       className,
-    //       studentId
-    //     });
-    //   } else {
-    //     obj = Object.assign({}, _cookie, { id, roleType });
-    //   }
-    //   this.$store.dispatch("user/setInfo", obj).then(data => {
-    //     if (data.success === "ok") {
-    //       //toast.clear();
-    //     }
-    //   });
-    // },
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>

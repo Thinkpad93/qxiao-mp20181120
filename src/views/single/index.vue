@@ -24,7 +24,7 @@
         class="van-overlay"
         style="z-index: 900;background-color: rgba(0, 0, 0, 0);height: calc(100% - 50px)"
         @click="overlay"
-        v-if="query.studentId == 0"
+        v-if="studentId == 0"
       ></div>
       <!-- dialog -->
       <van-dialog v-model="dialogVisible" title="查看">
@@ -49,12 +49,15 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <router-link to="/child" tag="div" class="home-user gradient-one">
+        <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
             <img :src="photo" width="60" height="60" radius="50">
             <div class="js-user-change">
-              <p class="mb-20" size-17>{{ query.studentId == 0 ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
-              <p class>Q星: {{ totalStarCount }}</p>
+              <p
+                class="mb-20"
+                size-17
+              >{{ openStudentName == "" ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
+              <p class v-if="openStudentName">Q星: {{ totalStarCount }}</p>
             </div>
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
@@ -298,7 +301,7 @@ export default {
       this.stateMentList(lessonId);
     },
     overlay() {
-      if (this.query.studentId == 0) {
+      if (this.studentId == 0) {
         this.$dialog
           .confirm({
             title: "提示",
@@ -367,7 +370,7 @@ export default {
       this.actionQuery(args);
     },
     jumpScore(lessonId) {
-      let { openId, studentId } = this.query;
+      //let { openId, studentId } = this.query;
       this.$router.push({
         path: "/score",
         query: {
