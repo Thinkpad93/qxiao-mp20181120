@@ -95,6 +95,11 @@
                     </div>
                   </div>
                 </div>
+                <!-- 查看更多 -->
+                <div class="flex j-c-c mb-30 show-more">
+                  <span>点击展开更多</span>
+                  <van-icon name="arrow-down" size="16px"></van-icon>
+                </div>
                 <div class="dhole flex">
                   <router-link :to="{path: '/action'}">
                     <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
@@ -629,5 +634,10 @@ export default {
 
 .echarts-head {
   padding: 20px 20px 0 20px;
+}
+
+.show-more {
+  font-size: 24px;
+  color: #999;
 }
 </style>

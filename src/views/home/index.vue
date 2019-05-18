@@ -1,11 +1,13 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!-- 角色选择 -->
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
         <div class="switch-children" v-if="roleList.length == 2" @click="tagClick">
           <van-icon name="replay" size="16px"></van-icon>
-          <span>{{ roleType == 2 ? "切换为家长":"切换为老师" }}</span>
+          <span>切换角色</span>
+          <!-- <span>{{ roleType == 2 ? "切换为家长":"切换为老师" }}</span> -->
         </div>
         <div class="flex a-i-c">
           <div class="avatar" @click="jumpRole">
@@ -91,10 +93,11 @@ import qxCommunity from "@/components/Community";
 import qxFooter from "@/components/Footer";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
+import pageMixin from "@/mixins/page";
 import { mapState } from "vuex";
 export default {
   name: "home",
-  mixins: [scrollMixins, classList],
+  mixins: [pageMixin, scrollMixins, classList],
   components: {
     qxMenu,
     qxCommunity,
@@ -102,9 +105,9 @@ export default {
   },
   data() {
     return {
-      studentPicker: false,
+      //studentPicker: false,
       popupShow: false,
-      dialogVisible: false,
+      //dialogVisible: false,
       isLoading: false,
       totalPage: 1, //总页数
       query: {
@@ -145,7 +148,7 @@ export default {
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
-          path: "role"
+          path: "/role"
         });
       }
     },
@@ -156,32 +159,8 @@ export default {
     },
     //角色切换
     tagClick() {
-      //只有一种角色
-      if (this.roleList.length === 1 && this.roleList[0].roleType == 3) {
-        return;
-      }
-      let _cookie = Cookies.getJSON("info");
-      //选择要切换的角色
-      let single = this.roleList.find(item => item.roleType != this.roleType);
-      let { id, roleType, classId, className, studentId, name } = single;
-      let obj = null;
-      if (this.roleType != 9) {
-        obj = Object.assign({}, _cookie, {
-          id,
-          roleType,
-          classId,
-          className,
-          studentId,
-          name
-        });
-      } else {
-        obj = Object.assign({}, _cookie, { id, roleType });
-      }
-      this.$store.dispatch("user/setInfo", obj).then(data => {
-        if (data.success === "ok") {
-          //重新刷新页面
-          location.reload();
-        }
+      this.$router.push({
+        path: "/role/select"
       });
     },
     go(url, params) {
