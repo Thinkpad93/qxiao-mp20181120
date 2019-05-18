@@ -35,7 +35,8 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        roleType: this.$store.state.user.info.roleType
+        roleType: this.$store.state.user.info.roleType,
+        studentId: this.$store.state.user.info.studentId
       },
       list: []
     };
