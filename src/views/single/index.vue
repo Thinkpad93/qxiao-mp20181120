@@ -81,7 +81,7 @@
                     <div class="action-cell-bd flex a-i-c j-c-s-b">
                       <div class="mr-40" @click.stop="handleActionMore(item)">
                         <span>{{ item.title }}</span>
-                        <van-icon name="question-o" size="16px"></van-icon>
+                        <!-- <van-icon name="question-o" size="16px"></van-icon> -->
                       </div>
                       <van-rate
                         v-model="item.starCount"
@@ -214,7 +214,7 @@
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mb-20">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <van-button round type="info" size="small" to="/myPersonality">定制个性计划</van-button>
+                      <van-button round type="info" size="small" to="/personality-plan">定制个性计划</van-button>
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -222,7 +222,7 @@
                       <p
                         class="mb-20"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <van-button round type="info" size="small" to="/myStudy">定制学习计划</van-button>
+                      <van-button round type="info" size="small" to="/study-plan">定制学习计划</van-button>
                     </div>
                   </van-tab>
                 </van-tabs>
@@ -510,8 +510,6 @@ export default {
 }
 .mod {
   height: auto;
-  // padding: 20px;
-  // margin-bottom: 20px;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
@@ -524,11 +522,11 @@ export default {
   padding: 20px 20px 0 20px;
 }
 .action-cells {
-  padding: 20px;
+  padding: 20px 30px;
 }
 .action-cell {
   position: relative;
-  margin: 20px 0;
+  margin: 30px 0;
   i {
     vertical-align: top;
   }

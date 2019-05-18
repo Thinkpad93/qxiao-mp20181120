@@ -21,17 +21,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="form-tiem">
-            <textarea
-              class="textarea min-h400"
-              placeholder="请输入评价标准"
-              maxlength="20"
-              v-model.trim="dialogForm.ruleText"
-            ></textarea>
-          </div>
-          <div class="form-tiem">
-            <van-checkbox v-model="dialogForm.stressFlag">是否侧重</van-checkbox>
-          </div>-->
         </form>
       </van-dialog>
       <div class="mod mb-30">
@@ -64,7 +53,13 @@
       </div>
       <div class="cells-title">
         <p>评价标准</p>
-        <!-- <a href="javascript:void(0);">侧重</a> -->
+        <van-button
+          round
+          type="info"
+          size="small"
+          @click="dialogVisible = true"
+          :disabled="query.actionType == 0"
+        >添加</van-button>
       </div>
       <div class="rule-list">
         <div class="cells">
@@ -90,16 +85,6 @@
                 <div class="cell-bd pl-20">
                   <p>{{ item.ruleText }}</p>
                 </div>
-                <!-- <div class="cell-ft">
-                  <van-rate
-                    v-model="item.stressFlag"
-                    color="#f44"
-                    void-color="#eee"
-                    readonly
-                    :count="1"
-                    v-if="item.stressFlag"
-                  />
-                </div>-->
               </div>
             </van-cell-group>
             <span slot="right">删除</span>
@@ -108,18 +93,7 @@
       </div>
     </div>
     <div class="flex-ft">
-      <div class="tapeti">
-        <div class="tapeti-left">
-          <van-button
-            type="default"
-            @click="dialogVisible = true"
-            :disabled="query.actionType == 0"
-          >新增评价标准</van-button>
-        </div>
-        <div class="tapeti-right">
-          <van-button type="info" @click="handleSave">确认</van-button>
-        </div>
-      </div>
+      <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
     </div>
   </div>
 </template>

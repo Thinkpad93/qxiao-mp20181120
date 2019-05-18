@@ -28,6 +28,13 @@
                 ></van-icon>
               </div>
             </div>
+            <!-- -->
+            <router-link :to="{path: '/action/add'}" tag="div" class="monodon">
+              <div class="monoceros" style="background-color:#92cd36;color:#fff;">
+                <van-icon name="plus"></van-icon>
+                <span class="ml-10">自定义</span>
+              </div>
+            </router-link>
           </div>
         </div>
         <div class="mod">
@@ -45,13 +52,6 @@
                 <span>{{ item.title }}</span>
               </div>
             </div>
-            <!-- -->
-            <router-link :to="{path: '/action/add'}" tag="div" class="monodon">
-              <div class="monoceros" style="background-color:#92cd36;color:#fff;">
-                <van-icon name="plus"></van-icon>
-                <span class="ml-10">自定义</span>
-              </div>
-            </router-link>
           </div>
         </div>
       </div>
