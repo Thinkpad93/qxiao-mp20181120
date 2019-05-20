@@ -68,11 +68,11 @@ export default {
         },
         {
           title: "我的个性计划",
-          to: "/myPersonality"
+          to: "/personality-plan"
         },
         {
           title: "我的学习计划",
-          to: "/myStudy"
+          to: "/study-plan"
         },
         {
           title: "我的作品",
@@ -82,14 +82,14 @@ export default {
           title: "我的手环",
           to: "/myBraclet"
         },
-        {
-          title: "我的收藏",
-          to: "/collection"
-        },
-        {
-          title: "我的下载",
-          to: "/myDownload"
-        },
+        // {
+        //   title: "我的收藏",
+        //   to: "/collection"
+        // },
+        // {
+        //   title: "我的下载",
+        //   to: "/myDownload"
+        // },
         {
           title: "我的课表",
           to: "/mySchedule"

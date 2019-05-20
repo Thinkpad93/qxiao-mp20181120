@@ -56,7 +56,7 @@
               <p
                 class="mb-20"
                 size-17
-              >{{ openStudentName == "" ? '添加孩子，记录孩子成长表现': openStudentName }}</p>
+              >{{ openStudentName == "" ? '尚未有关注孩子，点击添加。': openStudentName }}</p>
               <p class v-if="openStudentName">Q星: {{ totalStarCount }}</p>
             </div>
           </div>
@@ -67,15 +67,19 @@
             <div class="container">
               <div class="mod">
                 <!-- 今天的 -->
-                <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today">
-                  <time size-16>{{ query.day }}</time>
-                  <span size-16>{{ start }}颗Q星</span>
-                  <!-- <van-icon name="arrow" size="16px"></van-icon> -->
+                <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
+                  <div class="cell-bd">
+                    <time size-16>{{ query.day }}</time>
+                    <span size-16>获得{{ start }}颗Q星</span>
+                  </div>
+                  <div class="cell-ft">
+                    <van-icon name="arrow" size="16px"></van-icon>
+                  </div>
                 </router-link>
                 <div class="action-cells" @click.stop="handleStatus">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
-                    v-for="(item, index) in myActions"
+                    v-for="(item, index) in myActions.slice(0, showNumber)"
                     :key="index"
                   >
                     <div class="action-cell-bd flex a-i-c j-c-s-b">
@@ -96,9 +100,19 @@
                   </div>
                 </div>
                 <!-- 查看更多 -->
-                <div class="flex j-c-c mb-30 show-more">
-                  <span>点击展开更多</span>
-                  <van-icon name="arrow-down" size="16px"></van-icon>
+                <div
+                  class="flex j-c-c mb-30 show-more"
+                  @click="handleShowMoreActions"
+                  v-if="myActions.length > 5"
+                >
+                  <template v-if="showNumber == 5">
+                    <van-icon name="arrow-down" size="16px"></van-icon>
+                    <span>点击展开更多</span>
+                  </template>
+                  <template v-else>
+                    <van-icon name="arrow-up" size="16px"></van-icon>
+                    <span>点击收起</span>
+                  </template>
                 </div>
                 <div class="dhole flex">
                   <router-link :to="{path: '/action'}">
@@ -124,7 +138,6 @@
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="homeStat" :option="homeOption"/>
-              <!-- <div id="homeStat" style="height:300px"></div> -->
             </div>
           </van-tab>
           <van-tab title="在校表现">
@@ -176,7 +189,6 @@
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="stateMent" :option="stateMentOption"/>
-              <!-- <div id="stateMent" style="height:300px"></div> -->
             </div>
           </van-tab>
           <van-tab title="成长分析">
@@ -262,8 +274,7 @@ export default {
     return {
       popupShow: false,
       popupShows: false,
-      homeEcharts: null,
-      mentEcharts: null,
+      showNumber: 5,
       active: 0,
       tabActive: 0,
       query: {
@@ -367,6 +378,14 @@ export default {
             });
             this.actionStrike(obj);
           });
+      }
+    },
+    //显示更多我的行为
+    handleShowMoreActions() {
+      if (this.showNumber == 5) {
+        this.showNumber = this.myActions.length;
+      } else {
+        this.showNumber = 5;
       }
     },
     //查看行为说明
@@ -524,7 +543,10 @@ export default {
 }
 .action-today {
   text-align: center;
-  padding: 20px 20px 0 20px;
+  padding: 30px 20px 0 20px;
+  i {
+    color: #999;
+  }
 }
 .action-cells {
   padding: 20px 30px;
@@ -633,11 +655,10 @@ export default {
 }
 
 .echarts-head {
-  padding: 20px 20px 0 20px;
+  padding: 30px 20px 0 20px;
 }
 
 .show-more {
-  font-size: 24px;
   color: #999;
 }
 </style>

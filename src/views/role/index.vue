@@ -145,7 +145,7 @@
       </template>
     </div>
     <div class="flex-ft">
-      <!-- <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button> -->
+      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
     </div>
   </div>
 </template>

@@ -3,8 +3,9 @@
     <div class="flex-bd">
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <van-icon name="like-o" size="22px"></van-icon>
-          <p size-17>我的定制</p>
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <!-- <van-icon name="like-o" size="22px"></van-icon> -->
+          <p class="ml-20" size-17>我的定制</p>
         </div>
         <div class="flex">
           <span>全部</span>
@@ -29,8 +30,9 @@
       <!-- swiper end -->
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <van-icon name="star-o" size="22px"></van-icon>
-          <p size-17>个性计划推荐</p>
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <!-- <van-icon name="star-o" size="22px"></van-icon> -->
+          <p class="ml-20" size-17>个性计划推荐</p>
         </div>
         <div class="flex">
           <span>全部</span>

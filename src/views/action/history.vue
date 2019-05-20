@@ -1,12 +1,27 @@
 <template>
   <div class="flex-page">
+    <div class="flex-hd mb-20">
+      <div class="cells">
+        <div class="cell min-h120">
+          <div class="cell-bd">
+            <p>
+              {{ openStudentName }}已经坚持习惯培养
+              <time style="color:#d33917;">{{ days }}</time>天
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="flex-bd">
       <!-- -->
       <van-collapse v-model="activeNames">
         <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
-          <div size-16 slot="title">
-            {{ item.day }}
-            <strong style="color:#ff4d67;">{{ item.starCount }}</strong>颗Q星
+          <div class="flex" size-16 slot="title">
+            <time>{{ item.day }}</time>
+            <div class="ml-30 flex">
+              <span>获得</span>
+              <span style="color:#d33917;">{{ item.starCount }}</span>颗Q星
+            </div>
           </div>
           <div class="action-cells">
             <div
@@ -37,6 +52,7 @@
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "actionHistory",
   data() {
@@ -51,11 +67,20 @@ export default {
       list: []
     };
   },
+  computed: {
+    ...mapState("user", {
+      openStudentName: state => state.info.openStudentName
+    }),
+    days() {
+      if (this.list.length) {
+        return this.list[0].days;
+      }
+    }
+  },
   methods: {
     //rate事件
     handleChangeRate(indexs) {
       let flag = false;
-
       let actions = this.list[indexs].actions;
       let len = actions.length;
       actions.forEach(element => {
