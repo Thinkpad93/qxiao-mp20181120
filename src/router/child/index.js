@@ -19,16 +19,6 @@ export default [{
     }
   },
   {
-    path: "/child/view",
-    name: 'childView',
-    component: () => import('@/views/child/view'),
-    meta: {
-      title: "修改孩子信息",
-      keepAlive: false,
-      cookie: true,
-    }
-  },
-  {
     path: "/child/edit",
     name: 'childEdit',
     component: () => import('@/views/child/edit'),

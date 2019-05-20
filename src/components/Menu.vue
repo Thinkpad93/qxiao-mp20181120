@@ -22,21 +22,24 @@ export default {
         {
           name: "营养食谱",
           url: "/recipe",
-          icon: "./static/image/men-icon-9@2x.png"
+          icon: require("../assets/men-icon-9@2x.png")
+          //icon: "./static/image/men-icon-9@2x.png"
         }
       ],
       shuttleList: [
         {
           name: "实时接送",
           url: "/shuttle",
-          icon: "./static/image/men-icon-6@2x.png"
+          icon: require("../assets/men-icon-6@2x.png")
+          //icon: "./static/image/men-icon-6@2x.png"
         }
       ],
       clockList: [
         {
           name: "考勤记录",
           url: "/clock",
-          icon: "./static/image/men-icon-3@2x.png"
+          icon: require("../assets/men-icon-3@2x.png")
+          //icon: "./static/image/men-icon-3@2x.png"
         }
       ],
       //学校
@@ -44,12 +47,14 @@ export default {
         {
           name: "班级管理",
           url: "/class",
-          icon: "./static/image/men-icon-1@2x.png"
+          icon: require("../assets/men-icon-1@2x.png")
+          //icon: require("../assets/men-icon-3@2x.png")
         },
         {
           name: "老师管理",
           url: "/teacher",
-          icon: "./static/image/men-icon-4@2x.png"
+          icon: require("../assets/men-icon-4@2x.png")
+          //icon: require("../assets/men-icon-3@2x.png")
         }
       ],
       //老师
@@ -57,7 +62,8 @@ export default {
         {
           name: "学生管理",
           url: "/student",
-          icon: "./static/image/men-icon-10@2x.png"
+          icon: require("../assets/men-icon-10@2x.png")
+          //icon: "./static/image/men-icon-10@2x.png"
         }
       ],
       //作业
@@ -67,22 +73,26 @@ export default {
         {
           name: "通知公告",
           url: "/notice",
-          icon: "./static/image/men-icon-7@2x.png"
+          icon: require("../assets/men-icon-7@2x.png")
+          //icon: "./static/image/men-icon-7@2x.png"
         },
         {
           name: "亲子作业",
           url: "/home-work",
-          icon: "./static/image/men-icon-5@2x.png"
+          icon: require("../assets/men-icon-5@2x.png")
+          //icon: "./static/image/men-icon-5@2x.png"
         },
         {
           name: "新鲜速报",
           url: "/fresh",
-          icon: "./static/image/men-icon-8@2x.png"
+          icon: require("../assets/men-icon-8@2x.png")
+          //icon: "./static/image/men-icon-8@2x.png"
         },
         {
           name: "班级相册",
           url: "/album",
-          icon: "./static/image/men-icon-2@2x.png"
+          icon: require("../assets/men-icon-2@2x.png")
+          //icon: "./static/image/men-icon-2@2x.png"
         }
       ]
     };

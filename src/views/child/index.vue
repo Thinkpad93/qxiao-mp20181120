@@ -1,14 +1,17 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <div class="handle-add flex a-i-c" @click="handleAdd">
-        <p size-17>点击添加孩子~</p>
-      </div>
       <div class="cells">
         <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img src="@/assets/student-icon.png" width="50" height="50" radius="50">
+              <img
+                src="@/assets/student-icon.png"
+                width="50"
+                height="50"
+                radius="50"
+                @click="jump(item)"
+              >
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
@@ -20,9 +23,8 @@
           </div>
         </div>
       </div>
-      <router-link to="/child/view" tag="div" class="handle-edit flex a-i-c j-c-f-e">
-        <van-icon name="records" size="22px"></van-icon>
-        <span>修改小孩信息</span>
+      <router-link to="/child/add" tag="div" class="handle-add flex a-i-c j-c-f-e">
+        <span>点击添加孩子</span>
       </router-link>
     </div>
     <div class="flex-ft">
@@ -57,9 +59,13 @@ export default {
     }
   },
   methods: {
-    handleAdd() {
+    jump(params) {
+      let { openStudentId } = params;
       this.$router.push({
-        path: "/child/add"
+        path: "/child/edit",
+        query: {
+          openStudentId
+        }
       });
     },
     //提交学生切换
@@ -115,13 +121,6 @@ export default {
 }
 .handle-add {
   color: #84ce09;
-  min-height: 160px;
-  margin-bottom: 10px;
-  padding-left: 30px;
-  background-color: #fff;
-}
-.handle-edit {
-  color: #999;
   margin-top: 40px;
   padding-right: 30px;
 }

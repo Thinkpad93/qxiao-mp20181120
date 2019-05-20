@@ -1,6 +1,18 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <!-- <p>{{ startDate }}</p> -->
+      <!-- popup -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-datetime-picker
+          @cancel="popupShow = false"
+          @confirm="handleConfirm"
+          v-model="startDate"
+          type="date"
+          :formatter="formatter"
+        ></van-datetime-picker>
+      </van-popup>
+      <!-- popup -->
       <div class="cells">
         <div class="cell min-h120">
           <div class="cell-hd">
@@ -8,21 +20,6 @@
           </div>
           <div class="cell-bd">
             <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName">
-          </div>
-        </div>
-        <div class="cell min-h120">
-          <div class="cell-hd">
-            <label for class="label">手机号</label>
-          </div>
-          <div class="cell-bd">
-            <input
-              class="input"
-              placeholder="请输入手机号"
-              v-model="form.tel"
-              readonly
-              unselectable="on"
-              @focus="this.blur()"
-            >
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -39,6 +36,43 @@
             </select>
           </div>
         </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">出生日期</div>
+          <div class="cell-bd">
+            <input
+              class="input"
+              placeholder="请选择出生日期"
+              @click="popupShow = true"
+              v-model="form.birthday"
+              readonly
+              maxlength="20"
+            >
+          </div>
+        </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">
+            <label class="label">地址</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address">
+          </div>
+        </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">
+            <label for class="label">家长手机号码</label>
+          </div>
+          <div class="cell-bd">
+            <input
+              class="input"
+              placeholder="请输入手机号"
+              v-model="form.tel"
+              readonly
+              unselectable="on"
+              @focus="this.blur()"
+            >
+          </div>
+        </div>
+
         <div class="cell cell-select cell-select-after min-h120">
           <div class="cell-hd">
             <label for class="label">关系</label>
@@ -64,6 +98,7 @@
 </template>
 <script>
 import service from "@/api";
+import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -71,6 +106,7 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
+      popupShow: false,
       form: {},
       query: {
         openId: this.$store.state.user.info.openId,
@@ -78,17 +114,44 @@ export default {
       }
     };
   },
+  computed: {
+    startDate() {
+      if ("birthday" in this.form) {
+        return new Date(dayjs(this.form.birthday));
+      }
+    }
+  },
   methods: {
+    //格式化函数
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      } else if (type === "month") {
+        return `${value}月`;
+      } else if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },
+    handleConfirm(value) {
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.birthday = now;
+      this.popupShow = false;
+    },
     async handleSubmit() {
-      let { studentName, tel, ...args } = this.form;
+      console.log(this.form);
+      let { studentName, address } = this.form;
       if (studentName == "") {
-        this.$toast("请完善学生名称");
-      } else {
-        let obj = Object.assign({}, args, { studentName });
-        let res = await service.studentInfoUpdate(obj);
-        if (res.errorCode === 0) {
-          this.$router.go(-1);
-        }
+        this.$toast("请输入姓名");
+        return;
+      }
+      if (address == "") {
+        this.$toast("请输入地址");
+        return;
+      }
+      let res = await service.studentInfoUpdate(this.form);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
       }
     },
     //学生信息查询

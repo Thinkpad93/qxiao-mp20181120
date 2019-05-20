@@ -1,7 +1,32 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <!-- popup -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-datetime-picker
+          @cancel="popupShow = false"
+          @confirm="handleConfirm"
+          v-model="startDate"
+          type="date"
+          :formatter="formatter"
+        ></van-datetime-picker>
+      </van-popup>
+      <!-- popup -->
       <div class="cells">
+        <!-- <div class="cell min-h120">
+          <div class="cell-hd">
+            <label class="label">
+              <template v-if="imagesList.length">
+                <img :src="imagesList[0]" width="50" height="50" radius="50">
+              </template>
+              <div class="icon-d" v-else @click.stop="handleDelImg(0)"></div>
+            </label>
+          </div>
+          <div class="cell-bd text-right">
+            <span v-if="imagesList.length">删除</span>
+            <span @click="handleChooseImage" v-else>点击添加</span>
+          </div>
+        </div>-->
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">姓名</label>
@@ -22,6 +47,27 @@
                 :key="index"
               >{{ option.name }}</option>
             </select>
+          </div>
+        </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">出生日期</div>
+          <div class="cell-bd">
+            <input
+              class="input"
+              placeholder="请选择出生日期"
+              @click="popupShow = true"
+              v-model="form.birthday"
+              readonly
+              maxlength="20"
+            >
+          </div>
+        </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">
+            <label class="label">地址</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address">
           </div>
         </div>
         <div class="cell min-h120">
@@ -57,8 +103,10 @@
 </template>
 <script>
 import Cookies from "js-cookie";
+import dayjs from "dayjs";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
+//import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 import { mapState } from "vuex";
 export default {
@@ -66,9 +114,14 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
+      popupShow: false,
+      startDate: new Date(),
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
+        photo: "",
+        birthday: "",
+        address: "",
         sex: 1,
         tel: "",
         relation: 1
@@ -81,10 +134,34 @@ export default {
     })
   },
   methods: {
+    //格式化函数
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      } else if (type === "month") {
+        return `${value}月`;
+      } else if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },
+    handleConfirm(value) {
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.birthday = now;
+      this.popupShow = false;
+    },
     handleSubmit() {
-      let { studentName, tel } = this.form;
+      let { studentName, birthday, address, tel } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
+        return;
+      }
+      if (birthday == "") {
+        this.$toast("请选择出生日期");
+        return;
+      }
+      if (address == "") {
+        this.$toast("请输入地址");
         return;
       }
       if (isPhone(tel)) {
@@ -98,24 +175,6 @@ export default {
       let res = await service.addStudentWithOpen(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
-        // let { roleType, openStudentId, openStudentName } = res.data;
-        // let _cookie = Cookies.getJSON("info");
-        // let obj = null;
-        // if (this.roleType == 3) {
-        //   obj = Object.assign({}, _cookie, {
-        //     roleType,
-        //     openStudentId,
-        //     openStudentName
-        //   });
-        // } else {
-        //   obj = Object.assign({}, _cookie, { openStudentId, openStudentName });
-        // }
-        // //只有家长角色添加孩子时，对需要更新roleType
-        // this.$store.dispatch("user/setInfo", obj).then(data => {
-        //   if (data.success === "ok") {
-        //     this.$router.go(-1);
-        //   }
-        // });
       } else {
         this.$toast(`${res.errorMsg}`);
       }

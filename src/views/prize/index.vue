@@ -33,7 +33,7 @@
               <img src="@/assets/rate-icon@2x.png" width="30" height="30">
             </div>
             <div class="pichi-meta">
-              <p>可交换Q星</p>
+              <p>{{ openStudentName }}可兑换Q星</p>
               <strong size-20>{{ totalStarCount }}</strong>
             </div>
           </div>
@@ -113,6 +113,7 @@ export default {
   },
   computed: {
     ...mapState("user", {
+      openStudentName: state => state.info.openStudentName,
       totalStarCount: state => state.info.totalStarCount
     })
   },
@@ -222,10 +223,10 @@ export default {
             message: "奖励兑换成功"
           })
           .then(() => {
-            this.queryTotalCountStar({
-              studentId: this.studentId,
-              openId: this.query.openId
-            });
+            // this.queryTotalCountStar({
+            //   studentId: this.studentId,
+            //   openId: this.query.openId
+            // });
             this.prizeListQuery(this.query);
           });
       }
@@ -247,10 +248,6 @@ export default {
     }
   },
   mounted() {
-    // this.queryTotalCountStar({
-    //   studentId: this.studentId,
-    //   openId: this.query.openId
-    // });
     this.prizeListQuery(this.query);
   }
 };

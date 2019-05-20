@@ -34,6 +34,7 @@ import worksRounterConfig from './works';
 import roleRouterConfig from './role';
 import personalityRouterConfig from './personality-plan';
 import studyRouterConfig from './study-plan';
+import helpRouterConfig from './help-center';
 
 
 Vue.use(Router);
@@ -71,7 +72,8 @@ export const constantRouterMap = [
   ...worksRounterConfig,
   ...roleRouterConfig,
   ...personalityRouterConfig,
-  ...studyRouterConfig
+  ...studyRouterConfig,
+  ...helpRouterConfig
 ]
 
 

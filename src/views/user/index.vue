@@ -59,20 +59,10 @@ export default {
         studentId: this.$store.state.user.info.openStudentId,
         openId: this.$store.state.user.info.openId
       },
-      roleList: [],
-      studentList: [],
       userMenu: [
         {
           title: "我的小孩",
           to: "/child"
-        },
-        {
-          title: "我的个性计划",
-          to: "/personality-plan"
-        },
-        {
-          title: "我的学习计划",
-          to: "/study-plan"
         },
         {
           title: "我的作品",
@@ -82,6 +72,14 @@ export default {
           title: "我的手环",
           to: "/myBraclet"
         },
+        {
+          title: "我的个性计划",
+          to: "/personality-plan"
+        },
+        {
+          title: "我的学习计划",
+          to: "/study-plan"
+        },
         // {
         //   title: "我的收藏",
         //   to: "/collection"
@@ -90,13 +88,13 @@ export default {
         //   title: "我的下载",
         //   to: "/myDownload"
         // },
-        {
-          title: "我的课表",
-          to: "/mySchedule"
-        },
+        // {
+        //   title: "我的课表",
+        //   to: "/mySchedule"
+        // },
         {
           title: "帮助中心",
-          to: "/helpCenter"
+          to: "/help-center"
         }
       ]
     };
