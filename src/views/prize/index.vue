@@ -87,6 +87,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import pageMixin from "@/mixins/page";
 import { mapState } from "vuex";
@@ -95,7 +96,6 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
-      //statrCount: 0,
       studentId: this.$store.state.user.info.openStudentId,
       query: {
         openId: this.$store.state.user.info.openId,
@@ -207,26 +207,22 @@ export default {
         this.prizeExchange(obj);
       }
     },
-    //获取可兑换星星数
-    // async queryTotalCountStar(params = {}) {
-    //   let res = await service.queryTotalCountStar(params);
-    //   if (res.errorCode === 0) {
-    //     this.statrCount = res.data.totalCountStar;
-    //   }
-    // },
     //奖励兑换
     async prizeExchange(params = {}) {
       let res = await service.prizeExchange(params);
       if (res.errorCode === 0) {
+        let totalStarCount = res.data;
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, { totalStarCount });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
         this.$dialog
           .alert({
             message: "奖励兑换成功"
           })
           .then(() => {
-            // this.queryTotalCountStar({
-            //   studentId: this.studentId,
-            //   openId: this.query.openId
-            // });
             this.prizeListQuery(this.query);
           });
       }

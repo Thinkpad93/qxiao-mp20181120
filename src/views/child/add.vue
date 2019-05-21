@@ -151,17 +151,9 @@ export default {
       this.popupShow = false;
     },
     handleSubmit() {
-      let { studentName, birthday, address, tel } = this.form;
+      let { studentName, tel } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
-        return;
-      }
-      if (birthday == "") {
-        this.$toast("请选择出生日期");
-        return;
-      }
-      if (address == "") {
-        this.$toast("请输入地址");
         return;
       }
       if (isPhone(tel)) {

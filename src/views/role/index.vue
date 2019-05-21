@@ -12,7 +12,7 @@
             <div class="cell-bd">
               <input
                 class="input"
-                placeholder="请输入园长名称"
+                placeholder="请输入姓名"
                 maxlength="20"
                 v-model="leaderInfo.leaderName"
               >
@@ -150,6 +150,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { sex, relation, schoolType } from "@/mixins/type";
 import { mapState } from "vuex";
@@ -170,7 +171,37 @@ export default {
     })
   },
   methods: {
-    handleSubmit() {},
+    handleSubmit() {
+      if (this.roleType == 1 || this.roleType == 4) {
+        this.updateSchool();
+      }
+    },
+    //园长信息修改
+    async updateSchool(params = {}) {
+      let { schoolName, location, leaderName } = this.leaderInfo;
+      if (leaderName == "") {
+        this.$toast("请完善姓名");
+        return;
+      }
+      if (schoolName == "") {
+        this.$toast("请完善学校名称");
+        return;
+      }
+      if (location == "") {
+        this.$toast("请完善地址");
+        return;
+      }
+      let res = await service.updateSchool(this.leaderInfo);
+      if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, { name: leaderName });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.go(-1);
+          }
+        });
+      }
+    },
     //查询老师信息
     async queryTeacherInfo(openId) {
       let res = await service.queryTeacherInfo({ openId });

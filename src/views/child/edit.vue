@@ -92,7 +92,11 @@
       </div>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存修改</van-button>
+      <div class="flex">
+        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
+      <!-- <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存修改</van-button> -->
     </div>
   </div>
 </template>
@@ -111,7 +115,8 @@ export default {
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.openStudentId
-      }
+      },
+      roleType: this.$route.query.roleType
     };
   },
   computed: {
@@ -138,18 +143,34 @@ export default {
       this.form.birthday = now;
       this.popupShow = false;
     },
+    handleDel() {
+      let params = {
+        openStudentId: this.query.studentId,
+        roleType: this.roleType
+      };
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除吗？"
+        })
+        .then(() => {
+          this.deleteOpenStudent(params);
+        });
+    },
     async handleSubmit() {
-      console.log(this.form);
       let { studentName, address } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
         return;
       }
-      if (address == "") {
-        this.$toast("请输入地址");
-        return;
-      }
       let res = await service.studentInfoUpdate(this.form);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      }
+    },
+    //学生删除（开放版）
+    async deleteOpenStudent(params = {}) {
+      let res = await service.deleteOpenStudent(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
