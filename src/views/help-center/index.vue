@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <van-cell title="使用帮助" is-link size="large"></van-cell>
+      <van-cell title="使用帮助" is-link size="large" to="/help-center/view"></van-cell>
       <van-cell title="关于我们" is-link size="large" to="/about"></van-cell>
       <van-cell title="客服电话" size="large">
         <div class="flex a-i-c j-c-f-e">
