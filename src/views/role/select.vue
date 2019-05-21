@@ -1,42 +1,20 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <!-- <div class="cells">
-        <div class="cell min-h160 role-item" v-for="(item, index) in roleList" :key="index">
-          <div class="cell-bd">
-            <div class="flex a-i-c">
-              <template v-if="item.roleType == 1 || roleType == 1">
-                <img src="@/assets/teacher@2x.png" width="50" height="50" radius="50">
-              </template>
-              <template v-if="item.roleType == 2">
-                <img src="@/assets/teacher@2x.png" width="50" height="50" radius="50">
-              </template>
-              <template v-if="item.roleType == 3">
-                <img src="@/assets/family@2x.png" width="50" height="50" radius="50">
-              </template>
-              <strong>{{ item.name }}</strong>
-            </div>
-          </div>
-          <div class="cell-ft">
-            <van-radio-group v-model="roleType">
-              <van-radio :name="item.roleType" checked-color="#92cd36"/>
-            </van-radio-group>
-          </div>
-        </div>
-      </div>-->
       <div class="role-box flex a-i-c j-c-c">
         <div class="role-list">
           <div
             class="item"
             v-for="(item, index) in roleList"
             :key="index"
-            @click="changeRole(item)"
+            @click.stop="changeRole(item)"
           >
             <div>
               <img src="@/assets/teacher@2x.png" v-if="item.roleType == 2">
               <img src="@/assets/family@2x.png" v-else>
             </div>
-            <p>{{ item.roleType == 2 ? "我是老师": "我是家长" }}</p>
+            <p v-if="item.roleType == 2">我是老师</p>
+            <p v-else-if="item.roleType == 3">我是家长</p>
           </div>
         </div>
       </div>
@@ -62,7 +40,6 @@ export default {
   },
   methods: {
     changeRole(item) {
-      console.log(item);
       //如果要切换的角色是当前角色，则不切换
       if (item.roleType == this.roleType) {
         this.$router.go(-1);

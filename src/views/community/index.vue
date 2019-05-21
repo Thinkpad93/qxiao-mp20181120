@@ -91,7 +91,7 @@ export default {
         return;
       }
       let params = {
-        openId: this.$store.getters.openId,
+        openId: this.form.openId,
         imgIds: this.serverId
       };
       let obj = Object.assign({}, args, { textContent });

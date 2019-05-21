@@ -51,7 +51,7 @@
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
-            <img :src="photo" width="60" height="60" radius="50">
+            <img :src="openPhoto" width="60" height="60" radius="50">
             <div class="js-user-change">
               <p
                 class="mb-20"
@@ -90,7 +90,7 @@
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
-                        :size="22"
+                        :size="20"
                         color="#09e2bb"
                         void-color="#e5eee0"
                         :readonly="statu === 1"
@@ -106,12 +106,12 @@
                   v-if="myActions.length > 5"
                 >
                   <template v-if="showNumber == 5">
-                    <van-icon name="arrow-down" size="16px"></van-icon>
-                    <span>点击展开更多</span>
+                    <van-icon name="arrow-down" size="14px"></van-icon>
+                    <span class="ml-10">点击展开更多</span>
                   </template>
                   <template v-else>
-                    <van-icon name="arrow-up" size="16px"></van-icon>
-                    <span>点击收起</span>
+                    <van-icon name="arrow-up" size="14px"></van-icon>
+                    <span class="ml-10">点击收起</span>
                   </template>
                 </div>
                 <div class="dhole flex">
@@ -293,9 +293,9 @@ export default {
   computed: {
     ...mapState("user", {
       openStudentName: state => state.info.openStudentName,
+      openPhoto: state => state.info.openPhoto,
       openId: state => state.info.openId,
       studentId: state => state.info.openStudentId,
-      photo: state => state.info.photo,
       totalStarCount: state => state.info.totalStarCount
     }),
     //计算已选择的星星数
@@ -534,7 +534,7 @@ export default {
 }
 .mod {
   height: auto;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
@@ -655,7 +655,7 @@ export default {
 }
 
 .echarts-head {
-  padding: 30px 20px 0 20px;
+  padding: 30px 30px 0 30px;
 }
 
 .show-more {

@@ -4,14 +4,20 @@
       <div class="cells">
         <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
           <div class="cell-bd">
-            <div class="flex a-i-c">
-              <img
-                src="@/assets/student-icon.png"
-                width="50"
-                height="50"
-                radius="50"
-                @click="jump(item)"
-              >
+            <div class="flex a-i-c" @click="jump(item)">
+              <template v-if="item.openPhoto">
+                <img :src="item.openPhoto" width="50" height="50" radius="50">
+              </template>
+              <template v-else>
+                <img
+                  v-if="item.sex == 1"
+                  src="@/assets/student-icon-boy.png"
+                  width="50"
+                  height="50"
+                  radius="50"
+                >
+                <img v-else src="@/assets/student-icon-girl.png" width="50" height="50" radius="50">
+              </template>
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
@@ -76,10 +82,16 @@ export default {
         let roleType = this.roleType;
         let _cookie = Cookies.getJSON("info");
         let single = this.studentList.find(item => item.openStudentId === news);
-        let { openStudentId, openStudentName, totalStarCount } = single;
+        let {
+          openStudentId,
+          openStudentName,
+          openPhoto,
+          totalStarCount
+        } = single;
         let obj = Object.assign({}, _cookie, {
           openStudentId,
           openStudentName,
+          openPhoto,
           totalStarCount
         });
         this.$store.dispatch("user/setInfo", obj).then(data => {

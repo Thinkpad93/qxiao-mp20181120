@@ -13,20 +13,20 @@
       </van-popup>
       <!-- popup -->
       <div class="cells">
-        <!-- <div class="cell min-h120">
+        <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
               <template v-if="imagesList.length">
                 <img :src="imagesList[0]" width="50" height="50" radius="50">
               </template>
-              <div class="icon-d" v-else @click.stop="handleDelImg(0)"></div>
+              <div class="icon-d" v-else></div>
             </label>
           </div>
           <div class="cell-bd text-right">
-            <span v-if="imagesList.length">删除</span>
+            <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
             <span @click="handleChooseImage" v-else>点击添加</span>
           </div>
-        </div>-->
+        </div>
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">姓名</label>
@@ -106,12 +106,12 @@ import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
-//import wxHandle from "@/mixins/wx";
+import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 import { mapState } from "vuex";
 export default {
   name: "childAdd",
-  mixins: [sex, relation],
+  mixins: [sex, relation, wxHandle],
   data() {
     return {
       popupShow: false,
@@ -151,13 +151,35 @@ export default {
       this.popupShow = false;
     },
     handleSubmit() {
+      let params = {
+        openId: this.form.openId,
+        imgIds: this.serverId
+      };
       let { studentName, tel } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
         return;
       }
       if (isPhone(tel)) {
-        this.addStudentWithOpen(this.form);
+        //如果有上传图片
+        if (this.serverId.length) {
+          //先上传图片ID给后端去下载图片
+          service.imgIds(params).then(res => {
+            if (res.errorCode === 0) {
+              this.form.photo = res.data.paths;
+              //提交保存
+              service.addStudentWithOpen(this.form).then(res => {
+                if (res.errorCode === 0) {
+                  this.$router.go(-1);
+                } else {
+                  this.$toast(`${res.errorMsg}`);
+                }
+              });
+            }
+          });
+        } else {
+          this.addStudentWithOpen(this.form);
+        }
       } else {
         this.$toast("请正确填写手机号");
       }

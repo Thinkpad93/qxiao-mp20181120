@@ -4,7 +4,7 @@
       <van-popup v-model="popupShow" position="bottom">
         <van-picker></van-picker>
       </van-popup>
-      <div class="user-info gradient-one">
+      <div class="user-info gradient-two">
         <div class="snail flex a-i-c j-c-s-b">
           <div class="snail-left flex a-i-c">
             <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="avatar">
-          <img :src="photo" width="60" height="60" radius="50">
+          <img :src="openPhoto" width="60" height="60" radius="50">
         </div>
         <div class="info-box" v-if="openStudentName">
           <div class>
@@ -70,7 +70,7 @@ export default {
         },
         {
           title: "我的手环",
-          to: "/myBraclet"
+          to: "/bracelet"
         },
         {
           title: "我的个性计划",
@@ -102,7 +102,7 @@ export default {
   computed: {
     ...mapState("user", {
       openStudentName: state => state.info.openStudentName,
-      photo: state => state.info.photo,
+      openPhoto: state => state.info.openPhoto,
       totalStarCount: state => state.info.totalStarCount
     })
   },

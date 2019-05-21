@@ -129,7 +129,7 @@ export default {
               }
             });
           } else {
-            alert("null");
+            this.$toast(`${res.errorMsg}`);
           }
         });
       } else {

@@ -16,6 +16,16 @@
       <div class="cells">
         <div class="cell min-h120">
           <div class="cell-hd">
+            <label class="label">
+              <img :src="form.openPhoto" width="50" height="50" radius="50">
+            </label>
+          </div>
+          <div class="cell-bd text-right">
+            <!-- <span>点击更换</span> -->
+          </div>
+        </div>
+        <div class="cell min-h120">
+          <div class="cell-hd">
             <label class="label">学生姓名</label>
           </div>
           <div class="cell-bd">
