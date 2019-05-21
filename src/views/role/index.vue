@@ -174,6 +174,25 @@ export default {
     handleSubmit() {
       if (this.roleType == 1 || this.roleType == 4) {
         this.updateSchool();
+      } else if (this.roleType == 2) {
+        this.teacherInfoUpdate();
+      }
+    },
+    //老师信息修改
+    async teacherInfoUpdate() {
+      let { teacherName, sex } = this.teacherInfo;
+      if (teacherName == "") {
+        this.$toast("请完善老师名称");
+      } else {
+        let obj = Object.assign({}, { teacherName, sex, openId: this.openId });
+        let res = await service.teacherInfoUpdate(obj);
+        if (res.errorCode === 0) {
+          let _cookie = Cookies.getJSON("info");
+          let objs = Object.assign({}, _cookie, { name: teacherName });
+          this.$store.dispatch("user/setInfo", objs).then(data => {
+            this.$router.go(-1);
+          });
+        }
       }
     },
     //园长信息修改

@@ -19,7 +19,7 @@
           <div class="form-item">
             <input
               type="number"
-              placeholder="请输入Q星数量"
+              placeholder="请输入兑换Q星数量"
               class="input input-border"
               v-model="form.starCount"
             >

@@ -119,7 +119,7 @@ export default {
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
-        photo: "",
+        openPhoto: "",
         birthday: "",
         address: "",
         sex: 1,
@@ -166,7 +166,7 @@ export default {
           //先上传图片ID给后端去下载图片
           service.imgIds(params).then(res => {
             if (res.errorCode === 0) {
-              this.form.photo = res.data.paths;
+              this.form.openPhoto = res.data.paths;
               //提交保存
               service.addStudentWithOpen(this.form).then(res => {
                 if (res.errorCode === 0) {
