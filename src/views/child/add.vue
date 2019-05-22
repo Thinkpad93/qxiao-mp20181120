@@ -8,6 +8,7 @@
           @confirm="handleConfirm"
           v-model="startDate"
           type="date"
+          :min-date="minDate"
           :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
@@ -115,6 +116,7 @@ export default {
   data() {
     return {
       popupShow: false,
+      minDate: new Date(1966, 10, 1),
       startDate: new Date(),
       form: {
         openId: this.$store.state.user.info.openId,

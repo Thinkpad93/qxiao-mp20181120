@@ -1,8 +1,13 @@
 <template>
   <div class="flex-page">
-    <div class="flex-bd"></div>
+    <div class="flex-bd">
+      <div class="bracelets">
+        <img src="@/assets/bracelet@2x.png">
+        <p class="mt-30">小Q智能手环紧锣密鼓进行中,敬请期待...</p>
+      </div>
+    </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius">去绑定</van-button>
+      <!-- <van-button type="info" size="large" class="no-radius">去绑定</van-button> -->
     </div>
   </div>
 </template>
@@ -31,9 +36,23 @@ export default {
     }
   },
   mounted() {
-    this.checkBindBracelet({ openId: this.openId, studentId: this.studentId });
+    //this.checkBindBracelet({ openId: this.openId, studentId: this.studentId });
   }
 };
 </script>
 <style lang="less" scoped>
+.bracelets {
+  width: 100%;
+  color: #999;
+  font-size: 30px;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  img {
+    width: 482px;
+    height: 278px;
+  }
+}
 </style>

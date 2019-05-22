@@ -14,7 +14,7 @@ export default [{
     component: () => import('@/views/works/add'),
     meta: {
       title: "作品上传",
-      keepAlive: true,
+      keepAlive: false,
       cookie: true,
     }
   },

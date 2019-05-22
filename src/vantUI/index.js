@@ -22,7 +22,8 @@ import {
   SwipeCell,
   Collapse,
   CollapseItem,
-  Tag
+  Tag,
+  Uploader
 } from 'vant';
 
 Vue.use(Radio)
@@ -47,4 +48,5 @@ Vue.use(Radio)
   .use(SwipeCell)
   .use(Collapse)
   .use(CollapseItem)
-  .use(Tag);
+  .use(Tag)
+  .use(Uploader);

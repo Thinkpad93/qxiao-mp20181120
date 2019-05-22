@@ -134,7 +134,7 @@ export default {
 }
 .handle-add {
   color: #84ce09;
-  margin-top: 40px;
+  margin: 40px 0;
   padding-right: 30px;
 }
 </style>

@@ -8,7 +8,7 @@
               <label for class="label">作品类别</label>
             </div>
             <div class="cell-bd">
-              <select class="select" name="select" dir="rtl" v-model="selected">
+              <select class="select" name="select" dir="rtl" v-model="form.type">
                 <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
                 <option
@@ -42,10 +42,9 @@
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
-                  @click="handlePreviewImage(item)"
                   v-for="(item, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${item})`}"
+                  :style="{backgroundImage: `url(${item.content})`}"
                 >
                   <van-icon
                     name="clear"
@@ -55,8 +54,11 @@
                   ></van-icon>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-                <van-icon name="plus" size="30px"></van-icon>
+              <div class="uploader-input_box">
+                <van-uploader :after-read="handleRead" accept="image/*" multiple>
+                  <van-icon name="plus" size="30px"></van-icon>
+                </van-uploader>
+                <!-- <van-icon name="plus" size="30px"></van-icon> -->
               </div>
             </div>
           </div>
@@ -64,19 +66,25 @@
       </form>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius">确定</van-button>
+      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">确定</van-button>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
-import wxHandle from "@/mixins/wx";
+import { ImagePreview } from "vant";
+import { mapState } from "vuex";
 export default {
   name: "worksAdd",
-  mixins: [wxHandle],
   data() {
     return {
-      selected: 1,
+      form: {
+        type: 1,
+        title: "",
+        studentId: this.$store.state.user.info.openStudentId,
+        images: []
+      },
+      imagesList: [],
       worksTypeList: [
         {
           id: 1,
@@ -90,16 +98,66 @@ export default {
           id: 3,
           name: "精选优品"
         }
-      ],
-      form: {}
+      ]
     };
   },
-  methods: {
-    handleChooseImage() {}
+  computed: {
+    ...mapState("user", {
+      openId: state => state.info.openId
+    })
   },
-  mounted() {
-    this.wxSdk.wxShare();
-  }
+  methods: {
+    handleRead(file, detail) {
+      if (Array.isArray(file)) {
+        file.forEach(elem => {
+          this.imagesList.push(elem);
+        });
+      } else {
+        //如果用户是单选的图片
+        this.imagesList.push(file);
+      }
+    },
+    handleDelImg(index) {
+      this.imagesList.splice(index, 1);
+    },
+    handlePreviewImage(index, images) {
+      if (images.length) {
+      }
+    },
+    async handleSubmit() {
+      let { title } = this.form;
+      if (title == "") {
+        this.$toast("请输入作品标题");
+        return;
+      }
+      if (!this.imagesList.length) {
+        this.$toast("请上传作品图片");
+        return;
+      }
+      //配置上传头部信息
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      let formData = new FormData();
+      this.imagesList.forEach(elem => {
+        formData.append("files", elem.file);
+      });
+      //开始上传文件
+      let res = await service.uploadFile(formData, config);
+      if (res.errorCode === 0) {
+        this.form.images = res.data;
+        //进行作品上传
+        service.uploadWorks(this.form).then(res => {
+          if (res.errorCode === 0) {
+            this.$router.go(-1);
+          }
+        });
+      }
+    }
+  },
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

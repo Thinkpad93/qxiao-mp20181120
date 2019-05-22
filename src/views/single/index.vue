@@ -53,11 +53,16 @@
           <div class="flex a-i-c">
             <img :src="openPhoto" width="60" height="60" radius="50">
             <div class="js-user-change">
-              <p
+              <h3 size-18 class="mb-20" v-if="openStudentName">
+                {{ openStudentName }}
+                <small>Q星: {{ totalStarCount }}</small>
+              </h3>
+              <!-- <p
                 class="mb-20"
                 size-17
               >{{ openStudentName == "" ? '尚未有关注孩子，点击添加。': openStudentName }}</p>
-              <p class v-if="openStudentName">Q星: {{ totalStarCount }}</p>
+              <p class v-if="openStudentName">Q星: {{ totalStarCount }}</p>-->
+              <p>行动养成习惯，习惯形成性格。</p>
             </div>
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
@@ -77,27 +82,36 @@
                   </div>
                 </router-link>
                 <div class="action-cells" @click.stop="handleStatus">
-                  <div
-                    class="action-cell flex a-i-c j-c-s-b"
-                    v-for="(item, index) in myActions.slice(0, showNumber)"
-                    :key="index"
-                  >
-                    <div class="action-cell-bd flex a-i-c j-c-s-b">
-                      <div class="mr-40" @click.stop="handleActionMore(item)">
-                        <span>{{ item.title }}</span>
-                        <!-- <van-icon name="question-o" size="16px"></van-icon> -->
+                  <!-- 无数据提示 -->
+                  <template v-if="myActions.length">
+                    <div
+                      class="action-cell flex a-i-c j-c-s-b"
+                      v-for="(item, index) in myActions.slice(0, showNumber)"
+                      :key="index"
+                    >
+                      <div class="action-cell-bd flex a-i-c j-c-s-b">
+                        <div class="action-cell-label" @click.stop="handleActionMore(item)">
+                          <span>{{ item.title }}</span>
+                        </div>
+                        <van-rate
+                          class="action-cell-rate"
+                          v-model="item.starCount"
+                          :count="5"
+                          :size="22"
+                          color="#09e2bb"
+                          void-color="#e5eee0"
+                          :readonly="statu === 1"
+                          @change="handleChangeRate"
+                        ></van-rate>
                       </div>
-                      <van-rate
-                        v-model="item.starCount"
-                        :count="5"
-                        :size="20"
-                        color="#09e2bb"
-                        void-color="#e5eee0"
-                        :readonly="statu === 1"
-                        @change="handleChangeRate"
-                      ></van-rate>
                     </div>
-                  </div>
+                  </template>
+                  <template v-else>
+                    <div class="bracelets">
+                      <img src="@/assets/action@2x.png">
+                      <p class="mt-30">好的行为习惯从添加开始哟~</p>
+                    </div>
+                  </template>
                 </div>
                 <!-- 查看更多 -->
                 <div
@@ -153,7 +167,7 @@
                 </div>
                 <div class="action-cells">
                   <div
-                    class="action-cell flex a-i-c j-c-s-b"
+                    class="action-cell course flex a-i-c j-c-s-b"
                     v-for="item in lessonList"
                     :key="item.lessonId"
                   >
@@ -205,15 +219,21 @@
                   </router-link>
                 </div>
                 <div class="remark-bd">
-                  <div class="flex mb-20" v-if="remark.teacherText">
-                    <span>老师:</span>
-                    <p class="ml-20">{{ remark.teacherText }}</p>
-                  </div>
-                  <div class="flex mb-20" v-if="remark.sysText">
-                    <span>系统:</span>
-                    <p class="ml-20">{{ remark.sysText }}</p>
-                  </div>
-                  <div class="remark-time">{{ remark.sysTime }}</div>
+                  <!-- 没有数据展示 -->
+                  <template v-if="remark.teacherText">
+                    <div class="flex mb-20">
+                      <span>老师:</span>
+                      <p class="ml-20">{{ remark.teacherText }}</p>
+                    </div>
+                    <div class="flex mb-20">
+                      <span>系统:</span>
+                      <p class="ml-20">{{ remark.sysText }}</p>
+                    </div>
+                    <div class="remark-time">{{ remark.sysTime }}</div>
+                  </template>
+                  <template v-else>
+                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦~</p>
+                  </template>
                 </div>
               </div>
               <div class="snail flex j-c-s-b a-i-c mb-20">
@@ -507,7 +527,7 @@ export default {
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
-    this.newRemarkQuery();
+    //this.newRemarkQuery();
     this.lessonInfoQuery();
   },
   activated() {
@@ -539,7 +559,7 @@ export default {
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
 .action-table {
-  padding: 0 20px;
+  padding: 0 30px;
 }
 .action-today {
   text-align: center;
@@ -549,7 +569,10 @@ export default {
   }
 }
 .action-cells {
-  padding: 20px 30px;
+  padding: 20px 0;
+}
+.course {
+  padding: 0 30px;
 }
 .action-cell {
   position: relative;
@@ -557,9 +580,14 @@ export default {
   i {
     vertical-align: top;
   }
-
   &-bd {
     flex: 1;
+  }
+  &-label {
+    margin-left: 75px;
+  }
+  &-rate {
+    margin-right: 130px;
   }
 }
 .dhole {
@@ -597,13 +625,13 @@ export default {
 .snail {
   height: 80px;
   padding: 0 20px;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
 }
 
 .remark {
-  border-radius: 8px;
+  border-radius: 20px;
   margin-bottom: 20px;
   text-align: justify;
   background-color: #fff;
@@ -660,5 +688,15 @@ export default {
 
 .show-more {
   color: #999;
+}
+
+.bracelets {
+  padding: 70px 0;
+  color: #999;
+  text-align: center;
+  img {
+    width: 366px;
+    height: 204px;
+  }
 }
 </style>

@@ -4,40 +4,38 @@
       <van-tabs v-model="active" :line-height="2">
         <van-tab title="优秀作品">
           <!-- 学生个人作品 -->
-          <!-- <div class="my-works mb-20">
-            <div class="my-works-hd flex a-i-c">
-              <h4>我的上榜</h4>
-              <div class="flex">
-                <span>更多</span>
-                <van-icon name="arrow" size="16px"></van-icon>
-              </div>
-            </div>
-            <div class="my-works-bd flex">
-              <div class="item" v-for="item in 3" :key="item">
-                <div class></div>
-              </div>
+          <div class="cells-title a-i-c">
+            <p size-17>我的上榜</p>
+            <div class="flex">
+              <span>更多</span>
+              <van-icon name="arrow" size="16px"></van-icon>
             </div>
           </div>
-          <div class="all-works">
-            <div class="all-works-hd">
-              <h4>优秀作品展</h4>
-            </div>
-            <div class="all-works-bd">
-              <div class="flex">
-                <div class="addax"></div>
-              </div>
-            </div>
-          </div>-->
+          <div class="page-swiper">
+            <swiper :options="swiperOption" ref="mySwiper">
+              <swiper-slide class="slide" v-for="(item, index) in onLineList" :key="index">
+                <div
+                  :style="{backgroundImage: `url(${item.imageUrl})`}"
+                  @click="handlePreviewImage(index, onLineList)"
+                ></div>
+              </swiper-slide>
+            </swiper>
+          </div>
+          <div class="cells-title">
+            <p size-17>优秀作品展示</p>
+          </div>
         </van-tab>
         <van-tab title="我的上传">
           <div class="time-works mt-20">
-            <div class="item" v-for="(item, index) in 1" :key="index">
-              <time size-16>2019年4月30号</time>
+            <div class="item" v-for="(item, index) in list" :key="index">
+              <time size-16>{{ item.postTime }}</time>
               <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
-                <div class="suni-box mt-30" v-for="(suni, i) in 6" :key="i">
-                  <div class="suni">
-                    <img src="@/assets/works.png" alt>
-                    <div class="works-status" size-12>审核中</div>
+                <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
+                  <div class="suni" @click="handlePreviewImage(i, item.works)">
+                    <img :src="work.smallUrl" alt>
+                    <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
+                    <div class="works-status" size-12 v-else-if="work.verifyStatus == 1">审核通过</div>
+                    <div class="works-status" size-12 v-else>审核不通过</div>
                   </div>
                 </div>
               </div>
@@ -54,16 +52,104 @@
 <script>
 import service from "@/api";
 import { ImagePreview } from "vant";
+import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
   name: "works",
+  components: {
+    swiper,
+    swiperSlide
+  },
   data() {
     return {
-      active: 0
+      active: 0,
+      swiperOption: {
+        slidesPerView: "auto",
+        freeMode: true,
+        spaceBetween: 12,
+        observer: true
+      },
+      query: {
+        studentId: this.$store.state.user.info.openStudentId
+      },
+      list: [], //我的上传
+      onLineList: [], //上榜作品
+      worksList: [] //优秀作品展
     };
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper;
+    }
+  },
+  methods: {
+    handlePreviewImage(index, images) {
+      console.log(images);
+      if (images.length) {
+        let resule = [];
+        images.forEach(item => {
+          resule.push(item.imageUrl);
+        });
+        ImagePreview({
+          images: resule,
+          startPosition: index
+        });
+      }
+    },
+    handleDelImage() {},
+    //删除作品
+    async deleteImage(params = {}) {
+      let res = await service.deleteImage(params);
+      if (res.errorCode === 0) {
+      }
+    },
+    //查询优秀上传作品
+    async queryOnLineList(params = {}) {
+      let res = await service.queryOnLineList(params);
+      if (res.errorCode === 0) {
+        this.onLineList = res.data.onLineList || [];
+        this.worksList = res.data.worksList || [];
+      }
+    },
+    //查询我的上传作品
+    async queryMyUpload(params = {}) {
+      let res = await service.queryMyUpload(params);
+      if (res.errorCode === 0) {
+        this.list = res.data;
+      }
+    }
+  },
+  mounted() {
+    this.queryOnLineList(this.query);
+    this.queryMyUpload(this.query);
   }
 };
 </script>
 <style lang="less" scoped>
+.cells-title {
+  margin: 20px 0 0 0;
+  padding: 30px;
+  background-color: #fff;
+}
+.page-swiper {
+  position: relative;
+  padding-bottom: 40px;
+  background-color: #fff;
+}
+.slide {
+  width: 260px;
+  height: 180px;
+
+  > div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
 .time-works {
   background-color: #fff;
   .item {
@@ -89,6 +175,16 @@ export default {
     .suni {
       position: relative;
       overflow: hidden;
+      padding-bottom: 100%;
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
     }
     .works-status {
       color: #fff;
