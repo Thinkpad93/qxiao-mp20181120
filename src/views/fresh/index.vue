@@ -36,9 +36,10 @@
         </div>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link to="/fresh/add" class="release">
+        <!-- <router-link to="/fresh/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
-        </router-link>
+        </router-link>-->
+        <qxRelease url="/fresh/add"/>
       </template>
       <van-swipe-cell
         ref="swipeCell"
@@ -87,17 +88,20 @@
 </template>
 <script>
 import service from "@/api";
+import qxRelease from "@/components/Release";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 import { mapState } from "vuex";
 export default {
   name: "fresh",
   mixins: [scrollMixins, classList],
+  components: {
+    qxRelease
+  },
   data() {
     return {
       popupShow: false,
-      //className: this.$store.state.user.info.className,
-      classId: this.$store.state.user.info.classId,
+      classId: parseInt(this.$store.state.user.info.classId),
       isLoading: false,
       totalPage: 1, //总页数
       query: {

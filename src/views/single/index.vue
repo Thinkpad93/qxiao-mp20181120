@@ -51,19 +51,20 @@
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
-            <img :src="openPhoto" width="60" height="60" radius="50">
-            <div class="js-user-change">
-              <h3 size-18 class="mb-20" v-if="openStudentName">
-                {{ openStudentName }}
-                <small>Q星: {{ totalStarCount }}</small>
-              </h3>
-              <!-- <p
-                class="mb-20"
-                size-17
-              >{{ openStudentName == "" ? '尚未有关注孩子，点击添加。': openStudentName }}</p>
-              <p class v-if="openStudentName">Q星: {{ totalStarCount }}</p>-->
-              <p>行动养成习惯，习惯形成性格。</p>
-            </div>
+            <template v-if="openStudentName || openPhoto">
+              <img :src="openPhoto" width="60" height="60" radius="50">
+              <div class="js-user-change">
+                <h3 size-18 class="mb-20">
+                  {{ openStudentName }}
+                  <small>Q星: {{ totalStarCount }}</small>
+                </h3>
+                <p>行动养成习惯，习惯形成性格。</p>
+              </div>
+            </template>
+            <template v-else>
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+              <p class="ml-20">尚未有关注孩子，点击添加。</p>
+            </template>
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
         </router-link>
@@ -140,7 +141,7 @@
                 </div>
               </div>
             </div>
-            <div class="mod" ref="mod">
+            <div class="mod no-radius" ref="mod">
               <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在家表现</span>
                 <van-button
@@ -191,7 +192,7 @@
                 </div>
               </div>
             </div>
-            <div class="mod">
+            <div class="mod no-radius">
               <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在校表现</span>
                 <van-button

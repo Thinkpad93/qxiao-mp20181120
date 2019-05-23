@@ -38,9 +38,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="isOpen">
-        <router-link :to="{path: '/community'}" class="release">
-          <van-icon name="description" size="24px"></van-icon>
-        </router-link>
+        <qxRelease url="/community"/>
       </template>
       <main class="main">
         <div class="classId">
@@ -93,6 +91,7 @@ import Cookies from "js-cookie";
 import service from "@/api";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
+import qxRelease from "@/components/Release";
 import qxFooter from "@/components/Footer";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
@@ -104,6 +103,7 @@ export default {
   components: {
     qxMenu,
     qxCommunity,
+    qxRelease,
     qxFooter
   },
   data() {

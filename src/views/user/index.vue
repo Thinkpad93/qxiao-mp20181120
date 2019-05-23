@@ -16,26 +16,34 @@
           </div>
         </div>
         <div class="avatar">
-          <img :src="openPhoto" width="60" height="60" radius="50">
-        </div>
-        <div class="info-box" v-if="openStudentName">
-          <div class>
-            <h3 size-17 class="username">{{ openStudentName }}</h3>
-          </div>
-          <div class="info-meta pt-30">
-            <div class>Q星: {{ totalStarCount }}</div>
-            <!-- <div class="mr-10">积分: 800</div> -->
-          </div>
+          <template v-if="openStudentName">
+            <img :src="openPhoto" width="60" height="60" radius="50">
+            <div class="info-box">
+              <h3 size-17 class="mt-20 username">{{ openStudentName }}</h3>
+              <div class="info-meta mt-20">
+                <div class>Q星: {{ totalStarCount }}</div>
+                <!-- <div class="mr-10">积分: 800</div> -->
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+          </template>
         </div>
       </div>
       <van-cell
+        class="a-i-c"
         size="large"
         :title="cell.title"
         is-link
         :to="cell.to"
         v-for="(cell, index) in userMenu"
         :key="index"
-      ></van-cell>
+      >
+        <template slot="icon">
+          <img :src="cell.icon" class="user-icon">
+        </template>
+      </van-cell>
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>
@@ -62,23 +70,28 @@ export default {
       userMenu: [
         {
           title: "我的小孩",
-          to: "/child"
+          to: "/child",
+          icon: require("../../assets/user-icon-2@2x.png")
         },
         {
           title: "我的作品",
-          to: "/works"
+          to: "/works",
+          icon: require("../../assets/user-icon-5@2x.png")
         },
         {
           title: "我的手环",
-          to: "/bracelet"
+          to: "/bracelet",
+          icon: require("../../assets/user-icon-2@2x.png")
         },
         {
           title: "我的个性计划",
-          to: "/personality-plan"
+          to: "/personality-plan",
+          icon: require("../../assets/user-icon-3@2x.png")
         },
         {
           title: "我的学习计划",
-          to: "/study-plan"
+          to: "/study-plan",
+          icon: require("../../assets/user-icon-4@2x.png")
         },
         // {
         //   title: "我的收藏",
@@ -94,7 +107,8 @@ export default {
         // },
         {
           title: "帮助中心",
-          to: "/help-center"
+          to: "/help-center",
+          icon: require("../../assets/user-icon-2@2x.png")
         }
       ]
     };
@@ -145,8 +159,18 @@ export default {
 }
 
 .avatar {
-  padding-top: 30px;
-  padding-bottom: 25px;
+  // padding-top: 30px;
+  // padding-bottom: 25px;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+}
+
+.user-icon {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
 }
 </style>
 

@@ -6,17 +6,11 @@
           <div class="cell-bd">
             <div class="flex a-i-c" @click="jump(item)">
               <template v-if="item.openPhoto">
-                <img :src="item.openPhoto" width="50" height="50" radius="50">
+                <img :src="item.openPhoto" radius="50">
               </template>
               <template v-else>
-                <img
-                  v-if="item.sex == 1"
-                  src="@/assets/student-icon-boy.png"
-                  width="50"
-                  height="50"
-                  radius="50"
-                >
-                <img v-else src="@/assets/student-icon-girl.png" width="50" height="50" radius="50">
+                <img v-if="item.sex == 1" src="@/assets/student-icon-boy.png" radius="50">
+                <img v-else src="@/assets/student-icon-girl.png" radius="50">
               </template>
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
@@ -122,6 +116,10 @@ export default {
 <style lang="less" scoped>
 .student-box {
   height: 120px;
+  img {
+    width: 100px;
+    height: 100px;
+  }
   strong {
     font-weight: normal;
     color: #2e2e2e;

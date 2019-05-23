@@ -23,9 +23,10 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <router-link to="/home-work/add" class="release">
+        <!-- <router-link to="/home-work/add" class="release">
           <van-icon name="description" size="24px"></van-icon>
-        </router-link>
+        </router-link>-->
+        <qxRelease url="/home-work/add"/>
       </template>
       <van-swipe-cell
         ref="swipeCell"
@@ -73,11 +74,15 @@
 </template>
 <script>
 import service from "@/api";
+import qxRelease from "@/components/Release";
 import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 export default {
   name: "homeWork",
   mixins: [scrollMixins, classList],
+  components: {
+    qxRelease
+  },
   data() {
     return {
       popupShow: false,

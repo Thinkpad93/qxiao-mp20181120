@@ -2,9 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <template v-if="roleType == 1 || roleType == 4">
-        <router-link to="/recipe/add" class="release">
-          <van-icon name="description" size="24px"></van-icon>
-        </router-link>
+        <qxRelease url="/recipe/add"/>
       </template>
       <van-swipe-cell
         ref="swipeCell"
@@ -50,8 +48,12 @@
 </template>
 <script>
 import service from "@/api";
+import qxRelease from "@/components/Release";
 export default {
   name: "recipe",
+  components: {
+    qxRelease
+  },
   data() {
     return {
       query: {

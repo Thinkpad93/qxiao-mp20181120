@@ -39,16 +39,6 @@ export default [{
     }
   },
   {
-    path: "/helpCenter",
-    name: 'helpCenter',
-    component: () => import('@/views/personalCenter/helpCenter'),
-    meta: {
-      title: "帮助中心",
-      keepAlive: false,
-      cookie: true,
-    }
-  },
-  {
     path: "/myBraclet",
     name: 'myBraclet',
     component: () => import('@/views/personalCenter/myBraclet'),
@@ -58,35 +48,5 @@ export default [{
       cookie: true,
     }
   },
-  {
-    path: "/myPersonality",
-    name: 'myPersonality',
-    component: () => import('@/views/personalCenter/myPersonality'),
-    meta: {
-      title: "我的个性计划",
-      keepAlive: false,
-      cookie: true,
-    }
-  },
-  {
-    path: "/myStudy",
-    name: 'myStudy',
-    component: () => import('@/views/personalCenter/myStudy'),
-    meta: {
-      title: "我的学习计划",
-      keepAlive: false,
-      cookie: true,
-    }
-  },
-  {
-    path: "/myWord",
-    name: 'myWord',
-    component: () => import('@/views/personalCenter/myWord'),
-    meta: {
-      title: "我的作品",
-      keepAlive: false,
-      cookie: true,
-    }
-  }
 
 ]
