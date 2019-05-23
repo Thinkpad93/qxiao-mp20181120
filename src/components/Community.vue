@@ -15,7 +15,7 @@
                 :style="{backgroundImage: `url(${img.imageUrl})`}"
                 v-for="(img, index) in fuck.images"
                 :key="index"
-                @click="handlePreviewImage(index, fuck.images)"
+                @click="handlePreviewImage(img.imageUrl, fuck.images)"
               ></div>
             </div>
           </template>
@@ -92,7 +92,7 @@
 </template>
 <script>
 import service from "@/api";
-import { ImagePreview } from "vant";
+//import { ImagePreview } from "vant";
 import { mapState } from "vuex";
 export default {
   name: "community",
@@ -124,18 +124,34 @@ export default {
         item.showNumber = item.commentList.length;
       }
     },
-    handlePreviewImage(index, images) {
+    //预览图片
+    handlePreviewImage(imgUrl, images) {
+      let imgArray = [];
       if (images.length) {
-        let resule = [];
         images.forEach(item => {
-          resule.push(item.imageUrl);
-        });
-        ImagePreview({
-          images: resule,
-          startPosition: index
+          imgArray.push(item.imageUrl);
         });
       }
+      if (!imgArray.length) {
+        imgArray.push(imgUrl);
+      }
+      wx.previewImage({
+        current: encodeURI(imgUrl),
+        urls: imgArray
+      });
     },
+    // handlePreviewImage(index, images) {
+    //   if (images.length) {
+    //     let resule = [];
+    //     images.forEach(item => {
+    //       resule.push(item.imageUrl);
+    //     });
+    //     ImagePreview({
+    //       images: resule,
+    //       startPosition: index
+    //     });
+    //   }
+    // },
     handleCommunityDelete(fuck, index) {
       this.$emit("on-del", fuck, index);
     },

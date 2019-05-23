@@ -88,7 +88,7 @@ export default {
     font-weight: normal;
     color: #2e2e2e;
     display: inline-block;
-    margin: 0 40px;
+    margin: 0 40px 0 0;
   }
   span {
     color: #999;

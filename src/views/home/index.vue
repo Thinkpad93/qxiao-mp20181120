@@ -4,10 +4,13 @@
       <!-- 角色选择 -->
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
-        <div class="switch-children" v-if="roleList.length == 2" @click="tagClick">
+        <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
           <!-- <span>{{ roleType == 2 ? "切换为家长":"切换为老师" }}</span> -->
+        </div>
+        <div class="switch-children" @click="jump" v-if="roleType == 3">
+          <van-icon name="arrow" size="18px"></van-icon>
         </div>
         <div class="flex a-i-c">
           <div class="avatar" @click="jumpRole">
@@ -20,10 +23,10 @@
         </div>
       </div>
       <!-- 有关加入的学生 -->
-      <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3" @click="jump">
+      <!-- <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3" @click="jump">
         <p>我的小孩</p>
         <van-icon name="arrow" size="16px"></van-icon>
-      </div>
+      </div>-->
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -330,7 +333,7 @@ export default {
   position: relative;
 }
 
-.switch-children {
+.switch-role {
   color: #fff;
   position: absolute;
   top: 22px;
@@ -342,6 +345,12 @@ export default {
   border-radius: 30px 0 0 30px;
   background-color: #c1e77e;
 }
+.switch-children {
+  position: absolute;
+  right: 20px;
+  bottom: 14%;
+}
+
 .home-myStudent {
   min-height: 120px;
   padding: 0 30px;

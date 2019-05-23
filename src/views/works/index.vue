@@ -15,14 +15,35 @@
             <swiper :options="swiperOption" ref="mySwiper">
               <swiper-slide class="slide" v-for="(item, index) in onLineList" :key="index">
                 <div
+                  class="slide-img"
                   :style="{backgroundImage: `url(${item.imageUrl})`}"
-                  @click="handlePreviewImage(index, onLineList)"
+                  @click="handlePreviewImage(item.imageUrl, onLineList)"
                 ></div>
+                <div class="zan flex a-i-c" v-if="item.praise">
+                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                  <span>{{ item.praise }}</span>
+                </div>
               </swiper-slide>
             </swiper>
           </div>
-          <div class="cells-title">
+          <div class="cells-title a-i-c">
             <p size-17>优秀作品展示</p>
+            <div class="flex">
+              <span>更多</span>
+              <van-icon name="arrow" size="16px"></van-icon>
+            </div>
+          </div>
+          <!-- 优秀作品 -->
+          <div class="good-works">
+            <div class="item" v-for="(item, index) in worksList" :key="index">
+              <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
+                <img :src="item.imageUrl" alt>
+                <div class="zan flex a-i-c" v-if="item.praise">
+                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                  <span>{{ item.praise }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </van-tab>
         <van-tab title="我的上传">
@@ -31,11 +52,21 @@
               <time size-16>{{ item.postTime }}</time>
               <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
                 <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
-                  <div class="suni" @click="handlePreviewImage(i, item.works)">
+                  <div class="suni" @click="handlePreviewImage(work.smallUrl, item.works)">
                     <img :src="work.smallUrl" alt>
                     <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
-                    <div class="works-status" size-12 v-else-if="work.verifyStatus == 1">审核通过</div>
-                    <div class="works-status" size-12 v-else>审核不通过</div>
+                    <!-- <div
+                      class="works-status"
+                      size-12
+                      v-else-if="work.verifyStatus == 1"
+                      style="background-color:#07c160;"
+                    >通过</div>-->
+                    <div
+                      class="works-status"
+                      size-12
+                      v-if="work.verifyStatus == 2"
+                      style="background-color:#e64340;"
+                    >不通过</div>
                   </div>
                 </div>
               </div>
@@ -51,7 +82,6 @@
 </template>
 <script>
 import service from "@/api";
-import { ImagePreview } from "vant";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
@@ -83,18 +113,21 @@ export default {
     }
   },
   methods: {
-    handlePreviewImage(index, images) {
-      console.log(images);
+    //预览图片
+    handlePreviewImage(imgUrl, images) {
+      let imgArray = [];
       if (images.length) {
-        let resule = [];
         images.forEach(item => {
-          resule.push(item.imageUrl);
-        });
-        ImagePreview({
-          images: resule,
-          startPosition: index
+          imgArray.push(item.imageUrl);
         });
       }
+      if (!imgArray.length) {
+        imgArray.push(imgUrl);
+      }
+      wx.previewImage({
+        current: encodeURI(imgUrl),
+        urls: imgArray
+      });
     },
     handleDelImage() {},
     //删除作品
@@ -108,7 +141,7 @@ export default {
       let res = await service.queryOnLineList(params);
       if (res.errorCode === 0) {
         this.onLineList = res.data.onLineList || [];
-        this.worksList = res.data.worksList || [];
+        this.worksList = res.data.works || [];
       }
     },
     //查询我的上传作品
@@ -139,8 +172,8 @@ export default {
 .slide {
   width: 260px;
   height: 180px;
-
-  > div {
+  position: relative;
+  .slide-img {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -148,6 +181,48 @@ export default {
     border-radius: 10px;
     background-size: cover;
     background-repeat: no-repeat;
+  }
+}
+.zan {
+  position: absolute;
+  right: 8%;
+  bottom: 8%;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  span {
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+.good-works {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background-color: #fff;
+  .item {
+    width: 50%;
+    padding: 0 30px;
+    position: relative;
+    margin-bottom: 30px;
+  }
+  .good-image {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
   }
 }
 .time-works {

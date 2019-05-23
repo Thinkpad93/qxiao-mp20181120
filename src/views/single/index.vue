@@ -527,7 +527,7 @@ export default {
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
-    //this.newRemarkQuery();
+    this.newRemarkQuery();
     this.lessonInfoQuery();
   },
   activated() {
