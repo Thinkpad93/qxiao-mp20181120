@@ -17,7 +17,7 @@
             <img :src="photo" width="60" height="60" radius="50">
           </div>
           <div class="pl-20">
-            <h3 class="mb-20" size-17>{{ name }}</h3>
+            <h3 class="mb-20" size-18>{{ name }}</h3>
             <p size-12>感谢你无私的奉献，小Q祝您生活愉快</p>
           </div>
         </div>
@@ -41,7 +41,8 @@
         <qxRelease url="/community"/>
       </template>
       <main class="main">
-        <div class="classId">
+        <div class="classId flex a-i-c j-c-s-b">
+          <p>班级圈</p>
           <div @click="popupShow = true">
             <span class="mr-10">{{ className }}</span>
             <van-icon name="arrow-down" size="16px"></van-icon>
@@ -328,7 +329,7 @@ export default {
 <style lang="less" scoped>
 .home-user {
   color: #fff;
-  min-height: 200px;
+  height: 180px;
   padding: 0 30px;
   position: relative;
 }

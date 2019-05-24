@@ -15,12 +15,9 @@
 <script>
 export default {
   name: "App",
-  data() {
-    return {};
-  },
   watch: {
     $route(to, from) {
-      console.log(to);
+      //console.log(to);
     }
   }
 };
@@ -28,8 +25,4 @@ export default {
 
 <style lang="less">
 @import "./styles/site.less";
-
-// #app {
-//   height: 100vh;
-// }
 </style>

@@ -23,7 +23,8 @@ export default {
             "downloadImage",
             "getLocalImgData",
             "onMenuShareAppMessage",
-            "hideMenuItems"
+            "hideMenuItems",
+            "chooseWXPay"
           ] // 必填，需要使用的JS接口列表
         });
         //config信息验证后会执行ready方法

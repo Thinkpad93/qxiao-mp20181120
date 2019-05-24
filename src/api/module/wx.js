@@ -12,3 +12,15 @@ export function imgIds(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//用户支付
+export function paySign(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/weixin/paySign.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//用户支付
+export function userPay(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/pay/userPay.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

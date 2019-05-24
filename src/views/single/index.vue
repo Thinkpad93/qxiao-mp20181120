@@ -54,11 +54,11 @@
             <template v-if="openStudentName || openPhoto">
               <img :src="openPhoto" width="60" height="60" radius="50">
               <div class="js-user-change">
-                <h3 size-18 class="mb-20">
+                <h3 class="mb-20" size-18>
                   {{ openStudentName }}
                   <small>Q星: {{ totalStarCount }}</small>
                 </h3>
-                <p>行动养成习惯，习惯形成性格。</p>
+                <p size-12>行动养成习惯，习惯形成性格。</p>
               </div>
             </template>
             <template v-else>
@@ -130,11 +130,11 @@
                   </template>
                 </div>
                 <div class="dhole flex">
-                  <router-link :to="{path: '/action'}">
+                  <router-link to="/action">
                     <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">行为管理</span>
                   </router-link>
-                  <router-link :to="{path: '/prize'}">
+                  <router-link to="/prize">
                     <img src="@/assets/prize-icon-1@2x.png" width="20" height="20">
                     <span class="ml-10">奖励兑换</span>
                   </router-link>
@@ -243,7 +243,7 @@
                   <div class="ml-10">竞争力(广州)</div>
                 </div>
                 <div class="flex a-i-c">
-                  <span class="mr-10">60</span>
+                  <span class="mr-10">80</span>
                   <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
                 </div>
               </div>
@@ -251,16 +251,28 @@
                 <van-tabs v-model="tabActive" :line-height="2" :key="2" :lazy-render="false">
                   <van-tab title="个性分析">
                     <div class="eland">
-                      <p class="mb-20">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <van-button round type="info" size="small" to="/personality-plan">定制个性计划</van-button>
+                      <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
+                      <van-button
+                        round
+                        type="info"
+                        size="small"
+                        to="/personality-plan"
+                        style="width:200px;"
+                      >定制个性计划</van-button>
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
                     <div class="eland">
                       <p
-                        class="mb-20"
+                        class="mt-10"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <van-button round type="info" size="small" to="/study-plan">定制学习计划</van-button>
+                      <van-button
+                        round
+                        type="info"
+                        size="small"
+                        to="/study-plan"
+                        style="width:200px;"
+                      >定制学习计划</van-button>
                     </div>
                   </van-tab>
                 </van-tabs>
@@ -545,7 +557,6 @@ export default {
   height: 180px;
   padding: 0 30px;
   color: #fff;
-  background-color: #fff;
   .js-user-change {
     margin-left: 30px;
   }
@@ -679,6 +690,7 @@ export default {
   padding: 30px;
   text-align: center;
   p {
+    margin-bottom: 80px;
     text-align: left;
   }
 }

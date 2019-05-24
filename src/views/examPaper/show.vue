@@ -51,7 +51,7 @@
           <div size-12>转发</div>
         </div>
         <div class="handle-down">
-          <van-button type="info" class="no-radius">试卷{{ info.fee }}元/套</van-button>
+          <van-button type="info" class="no-radius" @click="handleUserPay">试卷{{ info.fee }}元/套</van-button>
         </div>
       </div>
     </div>
@@ -74,10 +74,48 @@ export default {
         textContent: ""
       },
       info: {},
-      commentList: []
+      commentList: [],
+      params: {
+        outTradeNo: "yolo",
+        openId: this.$store.state.user.info.openId,
+        totalFee: 1
+      }
     };
   },
   methods: {
+    //发起支付
+    async handleUserPay() {
+      let that = this;
+      let params = {
+        outTradeNo: Math.random()
+          .toString(36)
+          .substring(2), //模拟测试
+        openId: this.$store.state.user.info.openId,
+        totalFee: 1
+      };
+      let res = await service.userPay(params);
+      if (Object.keys(res).length) {
+        wx.chooseWXPay({
+          timestamp: res.timeStamp,
+          nonceStr: res.nonceStr,
+          package: res.package,
+          signType: res.signType,
+          paySign: res.paySign,
+          success: function(res) {
+            that.$toast("支付成功");
+          },
+          complete: function(res) {
+            //that.$toast("无论成功或失败都会执行");
+          },
+          cancel: function(res) {
+            that.$toast("已取消支付");
+          },
+          fail: function(res) {
+            that.$toast("购买失败，请重新创建订单");
+          }
+        });
+      }
+    },
     //试卷详情查询
     async examPaperDetail(params = {}) {
       let res = await service.examPaperDetail(params);
@@ -100,7 +138,6 @@ export default {
   mounted() {
     this.examPaperDetail(this.query);
     this.examPaperCommentQuery(this.query);
-    //this.commentList = examPaperComment();
   }
 };
 </script>

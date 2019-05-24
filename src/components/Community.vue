@@ -57,7 +57,7 @@
           <div class="data">
             <template v-if="fuck.praiseList.length">
               <div class="zan-list flex a-i-c">
-                <i class="iconfont icon-zantong"></i>
+                <van-icon name="like" size="12px" color="#336d92"></van-icon>
                 <span
                   v-for="(praise, index) in fuck.praiseList"
                   :key="index"
@@ -180,9 +180,12 @@ export default {
       display: none;
     }
   }
+  time {
+    color: #999;
+  }
   h5 {
     font-weight: bold;
-    color: #656895;
+    color: #336d92;
   }
   .cell-bd {
     flex: 1;
@@ -201,7 +204,7 @@ export default {
     }
   }
   .del {
-    color: #ff87b7;
+    color: #336d92;
     margin-left: 20px;
   }
   .data {
@@ -240,6 +243,18 @@ export default {
   flex-wrap: wrap;
   line-height: 1.4;
   font-size: 28px;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 20px solid #eaf0f4;
+  }
   i {
     font-size: 30px;
     color: #9aa4cb;

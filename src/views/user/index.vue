@@ -4,8 +4,17 @@
       <van-popup v-model="popupShow" position="bottom">
         <van-picker></van-picker>
       </van-popup>
-      <div class="user-info gradient-two">
-        <div class="snail flex a-i-c j-c-s-b">
+      <div class="flex a-i-c user-info gradient-two">
+        <router-link to="/child" tag="div" class="flex a-i-c">
+          <img :src="openPhoto" width="60" height="60" radius="50">
+          <div class="js-user-change">
+            <h3 size-18 class="mb-20 username">{{ openStudentName }}</h3>
+            <div class="info-meta">
+              <div class>Q星: {{ totalStarCount }}</div>
+            </div>
+          </div>
+        </router-link>
+        <!-- <div class="snail flex a-i-c j-c-s-b">
           <div class="snail-left flex a-i-c">
             <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
             <div class="ml-10">竞争力(广州)</div>
@@ -14,21 +23,37 @@
             <span class="mr-10">60</span>
             <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
           </div>
-        </div>
-        <div class="avatar">
-          <template v-if="openStudentName">
+        </div>-->
+        <!-- <div class="avatar">
+          <template v-if="openPhoto">
             <img :src="openPhoto" width="60" height="60" radius="50">
             <div class="info-box">
               <h3 size-17 class="mt-20 username">{{ openStudentName }}</h3>
               <div class="info-meta mt-20">
                 <div class>Q星: {{ totalStarCount }}</div>
-                <!-- <div class="mr-10">积分: 800</div> -->
+                <div class="mr-10">积分: 800</div>
               </div>
             </div>
           </template>
           <template v-else>
-            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+            <img
+              src="@/assets/child-default@2x.png"
+              width="80"
+              height="80"
+              radius="50"
+              class="mt-20"
+            >
           </template>
+        </div>-->
+      </div>
+      <div class="snail flex a-i-c j-c-s-b">
+        <div class="snail-left flex a-i-c">
+          <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+          <div class="ml-10">竞争力(广州)</div>
+        </div>
+        <div class="snail-right flex a-i-c">
+          <span class="mr-10">80</span>
+          <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
         </div>
       </div>
       <van-cell
@@ -68,11 +93,11 @@ export default {
         openId: this.$store.state.user.info.openId
       },
       userMenu: [
-        {
-          title: "我的小孩",
-          to: "/child",
-          icon: require("../../assets/user-icon-2@2x.png")
-        },
+        // {
+        //   title: "我的小孩",
+        //   to: "/child",
+        //   icon: require("../../assets/user-icon-2@2x.png")
+        // },
         {
           title: "我的作品",
           to: "/works",
@@ -125,24 +150,34 @@ export default {
 </script>
 <style lang="less" scoped>
 .user-info {
+  padding: 0 30px;
   color: #fff;
   position: relative;
-  height: 390px;
-  margin-bottom: 100px;
-  text-align: center;
+  height: 180px;
+  // margin-bottom: 100px;
+  .js-user-change {
+    margin-left: 30px;
+  }
 }
 .snail {
-  position: absolute;
-  left: 50%;
-  bottom: -75px;
-  height: 150px;
+  height: 80px;
   width: calc(100% - 60px);
+  margin: 30px auto;
   padding: 0 20px;
-  border-radius: 20px;
-  color: #2e2e2e;
+  border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0px 0px 12px 4px rgba(204, 204, 204, 0.5);
-  transform: translateX(-50%);
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
+  // position: absolute;
+  // left: 50%;
+  // bottom: -75px;
+  // height: 150px;
+  // width: calc(100% - 60px);
+  // padding: 0 20px;
+  // border-radius: 20px;
+  // color: #2e2e2e;
+  // background-color: #fff;
+  // box-shadow: 0px 0px 12px 4px rgba(204, 204, 204, 0.5);
+  // transform: translateX(-50%);
 }
 .switch-children {
   color: #fff;

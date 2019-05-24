@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex-page">
     <div class="flex-bd">
       <div class="class-head">
         <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">添加班级</a>

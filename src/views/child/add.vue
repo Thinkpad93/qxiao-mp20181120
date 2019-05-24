@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- popup -->
       <van-popup v-model="popupShow" position="bottom">
         <van-datetime-picker
@@ -20,12 +20,12 @@
               <template v-if="imagesList.length">
                 <img :src="imagesList[0]" width="50" height="50" radius="50">
               </template>
-              <div class="icon-d" v-else></div>
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
             </label>
           </div>
           <div class="cell-bd text-right">
             <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
-            <span @click="handleChooseImage" v-else>点击添加</span>
+            <span @click="handleChooseImage" v-else>点击更换</span>
           </div>
         </div>
         <div class="cell min-h120">
@@ -76,7 +76,13 @@
             <label class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+            <input
+              class="input"
+              type="number"
+              pattern="[0-9]*"
+              placeholder="请输入手机号"
+              v-model="form.tel"
+            >
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -97,8 +103,10 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -199,4 +207,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.fixed-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 </style>

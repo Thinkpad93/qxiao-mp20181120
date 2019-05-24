@@ -116,6 +116,9 @@ export default {
       return this.$refs.mySwiper.swiper;
     }
   },
+  methods: {
+    jump() {}
+  },
   mounted() {
     //this.swiper.slideTo(3, 1000, false);
   }

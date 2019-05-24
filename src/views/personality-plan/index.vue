@@ -16,12 +16,14 @@
       <div class="page-swiper">
         <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
-            <img src="@/assets/swiper-slide@2x.png">
-            <div class="slide-info">
-              <p class="text-ellipsis mb-20" size-16>写天2019年的跑步运动培养计划...</p>
-              <div class="flex slide-meta">
-                <div class="mr-40">课程：0/6</div>
-                <div class="mr-40">时间：1/30</div>
+            <div class @click="jump">
+              <img src="@/assets/swiper-slide@2x.png">
+              <div class="slide-info">
+                <p class="text-ellipsis" size-16>该如何培养孩子的自控力</p>
+                <div class="flex slide-meta">
+                  <!-- <div class="mr-40">课程：0/6</div>
+                  <div class="mr-40">时间：1/30</div>-->
+                </div>
               </div>
             </div>
           </swiper-slide>
@@ -43,13 +45,31 @@
       <div class="page-swiper">
         <swiper :options="params" ref="plan">
           <swiper-slide class="plan-slide">
-            <img src="@/assets/swiper-slide-2@2x.png">
+            <div class="plan" @click="jump">
+              <img src="@/assets/swiper-slide-2@2x.png">
+              <div class="plan-info">
+                <h3 class="text-ellipsis">如何培养孩子的阅读习惯？</h3>
+                <p class="text-ellipsis">必须培养他懂得这些科学计划方法。</p>
+              </div>
+            </div>
           </swiper-slide>
           <swiper-slide class="plan-slide">
-            <img src="@/assets/swiper-slide-2@2x.png">
+            <div class="plan" @click="jump">
+              <img src="@/assets/swiper-slide-2@2x.png">
+              <div class="plan-info">
+                <h3 class="text-ellipsis">让孩子个性化学习</h3>
+                <p class="text-ellipsis">必须培养他懂得这些科学计划方法。写天2019年的跑步运动培养计划...</p>
+              </div>
+            </div>
           </swiper-slide>
           <swiper-slide class="plan-slide">
-            <img src="@/assets/swiper-slide-2@2x.png">
+            <div class="plan" @click="jump">
+              <img src="@/assets/swiper-slide-2@2x.png">
+              <div class="plan-info">
+                <h3 class="text-ellipsis">学生行为养成十大教育内容</h3>
+                <p class="text-ellipsis">学生文明行为习惯养成教育主要内容</p>
+              </div>
+            </div>
           </swiper-slide>
         </swiper>
       </div>
@@ -85,6 +105,14 @@ export default {
     },
     plan() {
       return this.$refs.plan.swiper;
+    }
+  },
+  methods: {
+    jump() {
+      this.$router.push({
+        path: "/personality-plan/show",
+        query: {}
+      });
     }
   },
   mounted() {
@@ -128,6 +156,22 @@ export default {
 .plan-slide {
   padding: 30px 0;
   width: 537px;
+  .plan {
+    position: relative;
+    overflow: hidden;
+    &-info {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      color: #fff;
+      width: 100%;
+      padding-left: 20px;
+      padding-bottom: 20px;
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
+  }
   img {
     width: 100%;
     height: 315px;

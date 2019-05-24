@@ -1,7 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
-      <!-- <p>{{ startDate }}</p> -->
+  <div class="page">
+    <div class="page-bd">
       <!-- popup -->
       <van-popup v-model="popupShow" position="bottom">
         <van-datetime-picker
@@ -18,11 +17,15 @@
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
-              <img :src="form.openPhoto" width="50" height="50" radius="50">
+              <template v-if="imagesList.length">
+                <img :src="imagesList[0]" width="50" height="50" radius="50">
+              </template>
+              <img :src="form.openPhoto" width="50" height="50" radius="50" v-else>
             </label>
           </div>
           <div class="cell-bd text-right">
-            <!-- <span>点击更换</span> -->
+            <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
+            <span @click="handleChooseImage" v-else>点击更换</span>
           </div>
         </div>
         <div class="cell min-h120">
@@ -45,6 +48,22 @@
                 :key="index"
               >{{ option.name }}</option>
             </select>
+          </div>
+        </div>
+        <div class="cell min-h120" v-if="form.schoolName">
+          <div class="cell-hd">
+            <label class="label">就读学校</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" v-model="form.schoolName" disabled>
+          </div>
+        </div>
+        <div class="cell min-h120" v-if="form.className">
+          <div class="cell-hd">
+            <label class="label">所在班级</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" v-model="form.className" disabled>
           </div>
         </div>
         <div class="cell min-h120">
@@ -102,12 +121,13 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <div class="flex">
-        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
-        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom">
+        <div class="flex">
+          <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+          <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+        </div>
       </div>
-      <!-- <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存修改</van-button> -->
     </div>
   </div>
 </template>
@@ -115,10 +135,11 @@
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
+import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "childEdit",
-  mixins: [sex, relation],
+  mixins: [sex, relation, wxHandle],
   data() {
     return {
       popupShow: false,
@@ -170,15 +191,36 @@ export default {
         });
     },
     async handleSubmit() {
+      let params = {
+        openId: this.query.openId,
+        imgIds: this.serverId
+      };
       let { studentName, address } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
         return;
       }
-      let res = await service.studentInfoUpdate(this.form);
-      if (res.errorCode === 0) {
-        this.$router.go(-1);
+      //如果有上传图片
+      if (this.serverId.length) {
+        //先上传图片ID给后端去下载图片
+        service.imgIds(params).then(res => {
+          if (res.errorCode === 0) {
+            this.form.openPhoto = res.data.paths[0].imageUrl;
+            //提交保存
+            service.studentInfoUpdate(this.form).then(res => {
+              if (res.errorCode === 0) {
+                this.$router.go(-1);
+              } else {
+                this.$toast(`${res.errorMsg}`);
+              }
+            });
+          }
+        });
       }
+      // let res = await service.studentInfoUpdate(this.form);
+      // if (res.errorCode === 0) {
+      //   this.$router.go(-1);
+      // }
     },
     //学生删除（开放版）
     async deleteOpenStudent(params = {}) {
@@ -201,4 +243,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.fixed-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 </style>
