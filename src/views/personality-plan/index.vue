@@ -16,7 +16,7 @@
       <div class="page-swiper">
         <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
-            <div class @click="jump">
+            <div class @click="jump('/personality-plan/show')">
               <img src="@/assets/swiper-slide@2x.png">
               <div class="slide-info">
                 <p class="text-ellipsis" size-16>该如何培养孩子的自控力</p>
@@ -45,7 +45,7 @@
       <div class="page-swiper">
         <swiper :options="params" ref="plan">
           <swiper-slide class="plan-slide">
-            <div class="plan" @click="jump">
+            <div class="plan" @click="jump('/personality-plan/show3')">
               <img src="@/assets/swiper-slide-2@2x.png">
               <div class="plan-info">
                 <h3 class="text-ellipsis">如何培养孩子的阅读习惯？</h3>
@@ -54,7 +54,7 @@
             </div>
           </swiper-slide>
           <swiper-slide class="plan-slide">
-            <div class="plan" @click="jump">
+            <div class="plan" @click="jump('/personality-plan/show2')">
               <img src="@/assets/swiper-slide-2@2x.png">
               <div class="plan-info">
                 <h3 class="text-ellipsis">让孩子个性化学习</h3>
@@ -63,7 +63,7 @@
             </div>
           </swiper-slide>
           <swiper-slide class="plan-slide">
-            <div class="plan" @click="jump">
+            <div class="plan" @click="jump('/personality-plan/show4')">
               <img src="@/assets/swiper-slide-2@2x.png">
               <div class="plan-info">
                 <h3 class="text-ellipsis">学生行为养成十大教育内容</h3>
@@ -108,9 +108,9 @@ export default {
     }
   },
   methods: {
-    jump() {
+    jump(url) {
       this.$router.push({
-        path: "/personality-plan/show",
+        path: url,
         query: {}
       });
     }

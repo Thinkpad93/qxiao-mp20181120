@@ -1,13 +1,43 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <!-- 评论 -->
+      <van-dialog
+        title="评论"
+        v-model="dialogVisible"
+        @cancel="dialogVisible = false"
+        show-cancel-button
+        :before-close="handleSubmit"
+      >
+        <div class="comment-form">
+          <form ref="form" action method="post">
+            <div class="cells" style="padding:15px 0 15px 0;">
+              <div class="cell">
+                <div class="cell-bd" style="padding-left:0">
+                  <textarea
+                    class="textarea"
+                    placeholder="请输入评论内容..."
+                    rows="6"
+                    v-model="form.textContent"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </van-dialog>
       <!-- video视频区域 -->
       <div class="video-mod">
-        <!-- <div class="video-mask">
-          <van-icon name="play-circle" size="40px"></van-icon>
-        </div>-->
         <div class="video-main">
-          <video ref="video" src="@/assets/video01.mp4" controls></video>
+          <template v-if="info.videoUrl">
+            <video ref="video" :src="info.videoUrl" controls></video>
+          </template>
+          <template v-else>
+            <div class="video-mask">
+              <van-icon name="play-circle" size="40px"></van-icon>
+              <p class="ml-20">暂无视频播放~</p>
+            </div>
+          </template>
         </div>
       </div>
       <van-tabs v-model="actives" :line-height="2">
@@ -42,16 +72,21 @@
     </div>
     <div class="flex-ft">
       <div class="handle flex a-i-c">
-        <div class="handle-comment">
+        <div class="handle-comment" @click="dialogVisible = true">
           <van-icon name="comment-o" size="20px"></van-icon>
           <div size-12>评论</div>
         </div>
-        <div class="handle-share">
+        <!-- <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
-        </div>
+        </div>-->
         <div class="handle-down">
-          <van-button type="info" class="no-radius" @click="handleUserPay">试卷{{ info.fee }}元/套</van-button>
+          <van-button
+            type="info"
+            class="no-radius"
+            @click="handleUserPay"
+            style="width:100%"
+          >试卷{{ info.fee }}元/套</van-button>
         </div>
       </div>
     </div>
@@ -59,9 +94,10 @@
 </template>
 <script>
 import service from "@/api";
-import { examPaperComment } from "@/mock";
+import pageMixin from "@/mixins/page";
 export default {
-  name: "",
+  name: "examPaperShow",
+  mixins: [pageMixin],
   data() {
     return {
       actives: 0,
@@ -70,7 +106,9 @@ export default {
         paperId: this.$route.query.paperId
       },
       form: {
+        openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
+        paperId: this.$route.query.paperId,
         textContent: ""
       },
       info: {},
@@ -83,6 +121,25 @@ export default {
     };
   },
   methods: {
+    //评论
+    async handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.form.textContent == "") {
+          this.$toast("请输入评论内容");
+          done(false);
+        } else {
+          let res = await service.examPaperComment(this.form);
+          if (res.errorCode === 0) {
+            this.dialogVisible = false;
+            this.form.textContent = "";
+            this.examPaperCommentQuery(this.query);
+            done();
+          }
+        }
+      } else {
+        done();
+      }
+    },
     //发起支付
     async handleUserPay() {
       let that = this;
@@ -129,10 +186,6 @@ export default {
       if (res.errorCode === 0) {
         this.commentList = res.data;
       }
-    },
-    //提交试卷评论
-    async examPaperComment(params = {}) {
-      let res = await service.examPaperComment(params);
     }
   },
   mounted() {
@@ -145,7 +198,7 @@ export default {
 .video-mod {
   min-height: 360px;
   position: relative;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
 }
 .video-mask {
@@ -157,10 +210,17 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
+  color: #fff;
   background-color: rgba(0, 0, 0, 0.3);
 }
 .video-main {
   height: 100%;
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 .section {
   padding: 30px;

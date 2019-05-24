@@ -3,8 +3,16 @@
     <div class="flex-bd">
       <!-- video视频区域 -->
       <div class="video-mod">
-        <div class="video-mask">
-          <van-icon name="play-circle" size="40px"></van-icon>
+        <div class="video-main">
+          <template v-if="0">
+            <video ref="video" :src="info.videoUrl" controls></video>
+          </template>
+          <template v-else>
+            <div class="video-mask">
+              <van-icon name="play-circle" size="40px"></van-icon>
+              <p class="ml-20">暂无视频播放~</p>
+            </div>
+          </template>
         </div>
       </div>
       <van-tabs v-model="actives" :line-height="2">
@@ -48,14 +56,21 @@
     </div>
     <div class="flex-ft">
       <div class="handle flex a-i-c">
-        <div class="handle-share">
+        <div class="handle-comment" @click="dialogVisible = true">
+          <van-icon name="comment-o" size="20px"></van-icon>
+          <div size-12>评论</div>
+        </div>
+        <div class="handle-down">
+          <van-button type="info" class="no-radius" @click="handleUserPay" style="width:100%">购买</van-button>
+        </div>
+        <!-- <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
         </div>
         <div class="handle-comment">
           <van-icon name="like-o" size="20px"></van-icon>
           <div size-12>收藏</div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -71,6 +86,9 @@ export default {
       commentList: []
     };
   },
+  methods: {
+    handleUserPay() {}
+  },
   mounted() {
     this.commentList = examPaperComment();
   }
@@ -80,7 +98,7 @@ export default {
 .video-mod {
   min-height: 360px;
   position: relative;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
 }
 .video-mask {
@@ -92,7 +110,17 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
+  color: #fff;
   background-color: rgba(0, 0, 0, 0.3);
+}
+.video-main {
+  height: 100%;
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 .section {
   padding: 30px;
