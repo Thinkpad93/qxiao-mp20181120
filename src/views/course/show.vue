@@ -56,10 +56,10 @@
     </div>
     <div class="flex-ft">
       <div class="handle flex a-i-c">
-        <div class="handle-comment" @click="dialogVisible = true">
+        <!-- <div class="handle-comment" @click="dialogVisible = true">
           <van-icon name="comment-o" size="20px"></van-icon>
           <div size-12>评论</div>
-        </div>
+        </div>-->
         <div class="handle-down">
           <van-button type="info" class="no-radius" @click="handleUserPay" style="width:100%">购买</van-button>
         </div>

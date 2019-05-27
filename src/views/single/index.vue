@@ -48,6 +48,8 @@
         </div>
       </van-dialog>
       <div class="wrap">
+        <!-- 提示 -->
+        <div class="today-tip" v-show="statu == 0">今天尚未评价，目标完成了别忘记评价~</div>
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
@@ -185,7 +187,7 @@
                         readonly
                       ></van-rate>
                     </div>
-                    <div class="action-cell-ft">
+                    <div class="action-cell-ft pr-20">
                       <span @click="jumpScore(item.lessonId)">{{ item.scoreRank }}</span>
                     </div>
                   </div>
@@ -371,7 +373,7 @@ export default {
         this.$dialog
           .alert({
             title: "提示",
-            message: "今天已经完成评价啦~明天再来"
+            message: "今天已经评价过啦，明天别忘记继续坚持~"
           })
           .then(() => {
             // on close
@@ -401,7 +403,7 @@ export default {
         this.$dialog
           .confirm({
             title: "提示",
-            message: "确定完成评价？确定后无法更改"
+            message: "今天又向前跨一步了，确认提交无法更改哦~"
           })
           .then(() => {
             let obj = Object.assign({}, this.query, {
@@ -716,6 +718,26 @@ export default {
   img {
     width: 366px;
     height: 204px;
+  }
+}
+.today-tip {
+  color: #fff;
+  text-align: center;
+  padding: 20px 20px;
+  position: relative;
+  background-color: #f44;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 1px;
+    border-top: 1px solid #e5e5e5;
+    color: #e5e5e5;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    z-index: 2;
   }
 }
 </style>

@@ -18,7 +18,7 @@
         <swiper :options="swiperOption" ref="mySwiper">
           <!-- slides -->
           <swiper-slide class="slide" v-for="(item, index) in newsLists" :key="index">
-            <div @click="jump(item)">
+            <div @click="jump(item.url)">
               <img :src="item.imageUrl" width="136" height="89">
               <p class="text-ellipsis mt-20">{{ item.title }}</p>
             </div>
@@ -39,7 +39,12 @@
       </div>
       <!-- figure start -->
       <div class="news">
-        <div class="news-item" @click="jump(item)" v-for="(item, index) in newsList" :key="index">
+        <div
+          class="news-item"
+          @click="jump(item.url)"
+          v-for="(item, index) in newsList"
+          :key="index"
+        >
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
               <img :src="item.imageUrl">
@@ -77,37 +82,40 @@ export default {
       },
       newsLists: [
         {
-          title: "数学方程知识点...",
+          title: "英文学习计划",
           author: "南华",
-          imageUrl: require("../../assets/study-plan-4@2x.png")
+          url: "/study-plan/show3",
+          imageUrl: require("../../assets/study-plan-6@2x.png")
         },
         {
-          title: "阅读说明",
+          title: "培养学生音乐学习的习惯计划",
           author: "李三才",
-          imageUrl: require("../../assets/study-plan-2@2x.png")
-        },
-        {
-          title: "作文分析",
-          author: "李进忠",
-          imageUrl: require("../../assets/study-plan-3@2x.png")
+          url: "/study-plan/show4",
+          imageUrl: require("../../assets/study-plan-7@2x.png")
         }
+        // {
+        //   title: "作文分析",
+        //   author: "李进忠",
+        //   imageUrl: require("../../assets/study-plan-3@2x.png")
+        // }
       ],
       newsList: [
         {
-          title: "英语知识概要",
+          title: "小学最强学习计划和作息时间表",
           author: "赵南星",
-          imageUrl: require("../../assets/study-plan-1@2x.png")
-        },
-        {
-          title: "数学多边形知识点",
-          author: "赵南星",
-          imageUrl: require("../../assets/study-plan-3@2x.png")
-        },
-        {
-          title: "数学知识点",
-          author: "李四",
-          imageUrl: require("../../assets/study-plan-3@2x.png")
+          url: "/study-plan/show2",
+          imageUrl: require("../../assets/study-plan-5@2x.png")
         }
+        // {
+        //   title: "数学多边形知识点",
+        //   author: "赵南星",
+        //   imageUrl: require("../../assets/study-plan-3@2x.png")
+        // }
+        // {
+        //   title: "数学知识点",
+        //   author: "李四",
+        //   imageUrl: require("../../assets/study-plan-3@2x.png")
+        // }
       ]
     };
   },
@@ -117,14 +125,11 @@ export default {
     }
   },
   methods: {
-    jump(item) {
-      let { title, author } = item;
+    jump(url) {
+      //let { title, author } = item;
       this.$router.push({
-        path: "/study-plan/show",
-        query: {
-          title,
-          author
-        }
+        path: url
+        //path: "/study-plan/show2"
       });
     }
   },
@@ -162,6 +167,7 @@ export default {
     img {
       width: 272px;
       height: 178px;
+      border-radius: 12px;
     }
   }
   &-info {
@@ -213,5 +219,8 @@ export default {
   padding-top: 30px;
   position: relative;
   overflow: hidden;
+  img {
+    border-radius: 12px;
+  }
 }
 </style>
