@@ -217,10 +217,6 @@ export default {
           }
         });
       }
-      // let res = await service.studentInfoUpdate(this.form);
-      // if (res.errorCode === 0) {
-      //   this.$router.go(-1);
-      // }
     },
     //学生删除（开放版）
     async deleteOpenStudent(params = {}) {

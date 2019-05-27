@@ -114,14 +114,6 @@ function getTagsMap() {
     return a;
   }, {});
 }
-let praiseList = [
-  { openId: "oUQwt1e9wv4_CbA6YcI-pefbcQdo", studentId: 8 },
-  { openId: "oUQwt1XVT1Y0ohyXWNwrchLSYLa8", studentId: 18 },
-  { openId: "oUQwt1XVT1Y0ohyXWNwrchLSYLa8", studentId: 0 }
-];
-let studentId = 7;
-let openId = "oUQwt1e9wv4_CbA6YcI-pefbcQdo";
-let n = [];
 ```
 
 ## git 分支命名
@@ -133,6 +125,10 @@ let n = [];
 
 ## natapp -authtoken=a6260d5585826691
 
-> 大家好，我是梁朝伟，我曾经在东成西就电影里扮演过西毒欧阳锋，请多多指教
-
 > 1.班级圈查看图片时，按返回键返回的上一页，正常应该是退出图片查看模式
+
+> 2.重新设计打卡流程功能？
+
+> 3.当开放版孩子删除后，从微信推送里面进去应该是失效的
+
+> 4.在校表现是需要带上手环才能检测出数据表现的

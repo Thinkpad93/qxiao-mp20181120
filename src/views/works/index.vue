@@ -47,20 +47,30 @@
           </div>
         </van-tab>
         <van-tab title="我的上传">
+          <!-- 操作 -->
+          <div class="works-tool">
+            <van-button type="default" size="small" @click="mask = false" v-show="mask">取消</van-button>
+            <van-button type="primary" size="small" @click="mask = true">选择</van-button>
+            <van-button type="danger" size="small" @click="handleDelImage">删除</van-button>
+          </div>
           <div class="time-works mt-20">
             <div class="item" v-for="(item, index) in list" :key="index">
               <time size-16>{{ item.postTime }}</time>
               <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
                 <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
                   <div class="suni" @click="handlePreviewImage(work.smallUrl, item.works)">
+                    <!-- 删除蒙版 -->
+                    <div class="works-mask" style="z-index: 9527" v-show="mask">
+                      <van-checkbox-group v-model="checkList">
+                        <van-checkbox
+                          :key="work.worksId"
+                          :name="work.worksId"
+                          checked-color="#92cd36"
+                        ></van-checkbox>
+                      </van-checkbox-group>
+                    </div>
                     <img :src="work.smallUrl" alt>
                     <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
-                    <!-- <div
-                      class="works-status"
-                      size-12
-                      v-else-if="work.verifyStatus == 1"
-                      style="background-color:#07c160;"
-                    >通过</div>-->
                     <div
                       class="works-status"
                       size-12
@@ -93,6 +103,7 @@ export default {
   data() {
     return {
       active: 0,
+      mask: false,
       swiperOption: {
         slidesPerView: "auto",
         freeMode: true,
@@ -104,7 +115,8 @@ export default {
       },
       list: [], //我的上传
       onLineList: [], //上榜作品
-      worksList: [] //优秀作品展
+      worksList: [], //优秀作品展
+      checkList: []
     };
   },
   computed: {
@@ -129,11 +141,20 @@ export default {
         urls: imgArray
       });
     },
-    handleDelImage() {},
+    handleDelImage() {
+      if (this.checkList.length) {
+        this.deleteImage({ images: this.checkList });
+      } else {
+        this.$toast("没有选择图片");
+      }
+    },
     //删除作品
     async deleteImage(params = {}) {
       let res = await service.deleteImage(params);
       if (res.errorCode === 0) {
+        this.mask = false;
+        this.checkList = [];
+        this.queryMyUpload(this.query);
       }
     },
     //查询优秀上传作品
@@ -260,6 +281,7 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
+        border-radius: 8px;
       }
     }
     .works-status {
@@ -272,5 +294,20 @@ export default {
       background-color: #252525;
     }
   }
+}
+.works-tool {
+  margin-top: 20px;
+  padding-right: 20px;
+  text-align: right;
+}
+.works-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  padding: 10px 10px 0 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 </style>

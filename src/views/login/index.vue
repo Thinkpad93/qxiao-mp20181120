@@ -119,8 +119,6 @@ export default {
       let res = await service.userTeleLogin(params);
       if (res.errorCode === 0) {
         let { roleType } = res.data;
-        console.log("定时器清除");
-        console.log(roleType);
         //定时器清除
         this.second = 60;
         this.hidden = false;
