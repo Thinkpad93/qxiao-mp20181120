@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="section mb-20 mt-20">
-        <h3 class="mb-20">小学一年级英语知识讲解</h3>
-        <p style="color:#999">主讲：张三</p>
+        <h3 class="mb-20">{{ this.$route.query.title }}</h3>
+        <p style="color:#999">主讲：{{ this.$route.query.author }}</p>
         <span style="color:#84ce09">免费</span>
       </div>
       <div class="section">

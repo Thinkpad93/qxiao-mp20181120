@@ -17,22 +17,10 @@
         <!-- <p class="no-swiper">您还没有定制自己的学习课程</p> -->
         <swiper :options="swiperOption" ref="mySwiper">
           <!-- slides -->
-          <swiper-slide class="slide">
-            <div @click="jump">
-              <img src="@/assets/study-plan-4@2x.png" width="136" height="89">
-              <p class="text-ellipsis mt-20">数学方程知识点...</p>
-            </div>
-          </swiper-slide>
-          <swiper-slide class="slide">
-            <div @click="jump">
-              <img src="@/assets/study-plan-2@2x.png" width="136" height="89">
-              <p class="text-ellipsis mt-20">阅读说明</p>
-            </div>
-          </swiper-slide>
-          <swiper-slide class="slide">
-            <div @click="jump">
-              <img src="@/assets/study-plan-3@2x.png" width="136" height="89">
-              <p class="text-ellipsis mt-20">作文分析</p>
+          <swiper-slide class="slide" v-for="(item, index) in newsLists" :key="index">
+            <div @click="jump(item)">
+              <img :src="item.imageUrl" width="136" height="89">
+              <p class="text-ellipsis mt-20">{{ item.title }}</p>
             </div>
           </swiper-slide>
         </swiper>
@@ -51,38 +39,14 @@
       </div>
       <!-- figure start -->
       <div class="news">
-        <div class="news-item" @click="jump">
+        <div class="news-item" @click="jump(item)" v-for="(item, index) in newsList" :key="index">
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
-              <img src="@/assets/study-plan-1@2x.png">
+              <img :src="item.imageUrl">
             </div>
             <div class="news-info">
-              <h3 class="text-ellipsis mb-20">英语知识概要</h3>
-              <div class="lecturer mb-20">主讲：赵南星</div>
-              <span class="pay">付费</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-item">
-          <div class="news-bd flex a-i-c">
-            <div class="news-thumb">
-              <img src="@/assets/study-plan-3@2x.png">
-            </div>
-            <div class="news-info">
-              <h3 class="text-ellipsis mb-20">数学多边形知识点</h3>
-              <div class="lecturer mb-20">主讲：李四</div>
-              <span class="pay">付费</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-item">
-          <div class="news-bd flex a-i-c">
-            <div class="news-thumb">
-              <img src="@/assets/study-plan-3@2x.png">
-            </div>
-            <div class="news-info">
-              <h3 class="text-ellipsis mb-20">让你从头到尾把promise整的明明白白</h3>
-              <div class="lecturer mb-20">主讲：王家屏</div>
+              <h3 class="text-ellipsis mb-20">{{ item.title }}</h3>
+              <div class="lecturer mb-20">主讲：{{ item.author }}</div>
               <span class="free">免费</span>
             </div>
           </div>
@@ -110,7 +74,41 @@ export default {
         //centeredSlides: true,
         spaceBetween: 12,
         observer: true
-      }
+      },
+      newsLists: [
+        {
+          title: "数学方程知识点...",
+          author: "南华",
+          imageUrl: require("../../assets/study-plan-4@2x.png")
+        },
+        {
+          title: "阅读说明",
+          author: "李三才",
+          imageUrl: require("../../assets/study-plan-2@2x.png")
+        },
+        {
+          title: "作文分析",
+          author: "李进忠",
+          imageUrl: require("../../assets/study-plan-3@2x.png")
+        }
+      ],
+      newsList: [
+        {
+          title: "英语知识概要",
+          author: "赵南星",
+          imageUrl: require("../../assets/study-plan-1@2x.png")
+        },
+        {
+          title: "数学多边形知识点",
+          author: "赵南星",
+          imageUrl: require("../../assets/study-plan-3@2x.png")
+        },
+        {
+          title: "数学知识点",
+          author: "李四",
+          imageUrl: require("../../assets/study-plan-3@2x.png")
+        }
+      ]
     };
   },
   computed: {
@@ -119,9 +117,14 @@ export default {
     }
   },
   methods: {
-    jump() {
+    jump(item) {
+      let { title, author } = item;
       this.$router.push({
-        path: "/study-plan/show"
+        path: "/study-plan/show",
+        query: {
+          title,
+          author
+        }
       });
     }
   },
