@@ -6,9 +6,9 @@
         <!-- <div class="video-mask">
           <van-icon name="play-circle" size="40px"></van-icon>
         </div>-->
-        <div class="video-main">
+        <!-- <div class="video-main">
           <video ref="video" src="@/assets/video01.mp4" controls></video>
-        </div>
+        </div> -->
       </div>
       <article class="article">
         <div class="article-content">

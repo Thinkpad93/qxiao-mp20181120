@@ -9,7 +9,6 @@
             </div>
             <div class="cell-bd">
               <select class="select" name="select" dir="rtl" v-model="form.type">
-                <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
                 <option
                   :value="option.id"
@@ -27,7 +26,7 @@
               <input class="input" placeholder="请输入作品标题" v-model="form.title" maxlength="30">
             </div>
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <textarea
                 class="textarea"
@@ -36,7 +35,7 @@
                 v-model="form.textContent"
               ></textarea>
             </div>
-          </div>
+          </div>-->
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
@@ -58,10 +57,12 @@
                 <van-uploader :after-read="handleRead" accept="image/*" multiple>
                   <van-icon name="plus" size="30px"></van-icon>
                 </van-uploader>
-                <!-- <van-icon name="plus" size="30px"></van-icon> -->
               </div>
             </div>
           </div>
+          <p
+            class="works-desc"
+          >将您优秀作品上传到平台，将有机会在全市科普电子屏上展示，还将有机会获得神秘大奖。行动起来吧！(最多可上传10作品，格式：jpg/png)...</p>
         </div>
       </form>
     </div>
@@ -120,10 +121,6 @@ export default {
     handleDelImg(index) {
       this.imagesList.splice(index, 1);
     },
-    handlePreviewImage(index, images) {
-      if (images.length) {
-      }
-    },
     async handleSubmit() {
       let { title } = this.form;
       if (title == "") {
@@ -178,5 +175,12 @@ export default {
     right: -10%;
     z-index: 10;
   }
+}
+
+.works-desc {
+  line-height: 1.4;
+  color: #999;
+  font-size: 24px;
+  padding: 0 30px 30px 30px;
 }
 </style>

@@ -307,7 +307,7 @@ export default {
     return {
       popupShow: false,
       popupShows: false,
-      showNumber: 5,
+      showNumber: 0,
       active: 0,
       tabActive: 0,
       query: {
@@ -415,11 +415,16 @@ export default {
     },
     //显示更多我的行为
     handleShowMoreActions() {
-      if (this.showNumber == 5) {
-        this.showNumber = this.myActions.length;
-      } else {
+      if (this.showNumber === this.myActions.length) {
         this.showNumber = 5;
+      } else {
+        this.showNumber = this.myActions.length;
       }
+      // if (this.showNumber == 5) {
+      //   this.showNumber = this.myActions.length;
+      // } else {
+      //   this.showNumber = 5;
+      // }
     },
     //查看行为说明
     handleActionMore(params = {}) {
@@ -465,6 +470,7 @@ export default {
       if (res.errorCode === 0) {
         this.myActions = res.data.myActions;
         this.statu = res.data.statu;
+        this.showNumber = this.myActions.length;
       }
     },
     //按行为查询已选中的规则

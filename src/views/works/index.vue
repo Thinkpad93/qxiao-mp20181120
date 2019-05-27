@@ -166,6 +166,7 @@ export default {
 }
 .page-swiper {
   position: relative;
+  padding-left: 30px;
   padding-bottom: 40px;
   background-color: #fff;
 }

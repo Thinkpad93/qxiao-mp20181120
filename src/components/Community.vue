@@ -248,12 +248,12 @@ export default {
     content: "";
     position: absolute;
     left: 20px;
-    top: -20px;
+    top: -16px;
     width: 0;
     height: 0;
     border-left: 14px solid transparent;
     border-right: 14px solid transparent;
-    border-bottom: 20px solid #eaf0f4;
+    border-bottom: 16px solid #eaf0f4;
   }
   i {
     font-size: 30px;

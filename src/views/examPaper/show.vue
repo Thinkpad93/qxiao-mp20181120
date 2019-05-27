@@ -168,7 +168,7 @@ export default {
             that.$toast("已取消支付");
           },
           fail: function(res) {
-            that.$toast("购买失败，请重新创建订单");
+            that.$toast("购买失败，请重新支付");
           }
         });
       }

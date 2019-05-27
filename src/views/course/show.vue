@@ -87,7 +87,38 @@ export default {
     };
   },
   methods: {
-    handleUserPay() {}
+    async handleUserPay() {
+      let that = this;
+      let params = {
+        outTradeNo: Math.random()
+          .toString(36)
+          .substring(2), //模拟测试
+        openId: this.$store.state.user.info.openId,
+        totalFee: 1
+      };
+      let res = await service.userPay(params);
+      if (Object.keys(res).length) {
+        wx.chooseWXPay({
+          timestamp: res.timeStamp,
+          nonceStr: res.nonceStr,
+          package: res.package,
+          signType: res.signType,
+          paySign: res.paySign,
+          success: function(res) {
+            that.$toast("支付成功");
+          },
+          complete: function(res) {
+            //that.$toast("无论成功或失败都会执行");
+          },
+          cancel: function(res) {
+            that.$toast("已取消支付");
+          },
+          fail: function(res) {
+            that.$toast("购买失败，请重新支付");
+          }
+        });
+      }
+    }
   },
   mounted() {
     this.commentList = examPaperComment();

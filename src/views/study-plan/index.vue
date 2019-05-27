@@ -18,20 +18,22 @@
         <swiper :options="swiperOption" ref="mySwiper">
           <!-- slides -->
           <swiper-slide class="slide">
-            <img src="@/assets/study.png" width="136" height="89">
-            <p class="text-ellipsis mt-20">生活中的自制乐器与演奏</p>
+            <div @click="jump">
+              <img src="@/assets/study-plan-4@2x.png" width="136" height="89">
+              <p class="text-ellipsis mt-20">数学方程知识点...</p>
+            </div>
           </swiper-slide>
           <swiper-slide class="slide">
-            <img src="@/assets/study.png" width="136" height="89">
-            <p class="text-ellipsis mt-20">嵌入式系统</p>
+            <div @click="jump">
+              <img src="@/assets/study-plan-2@2x.png" width="136" height="89">
+              <p class="text-ellipsis mt-20">阅读说明</p>
+            </div>
           </swiper-slide>
           <swiper-slide class="slide">
-            <img src="@/assets/study.png" width="136" height="89">
-            <p class="text-ellipsis mt-20">电气工程基础</p>
-          </swiper-slide>
-          <swiper-slide class="slide">
-            <img src="@/assets/study.png" width="136" height="89">
-            <p class="text-ellipsis mt-20">原理及应用</p>
+            <div @click="jump">
+              <img src="@/assets/study-plan-3@2x.png" width="136" height="89">
+              <p class="text-ellipsis mt-20">作文分析</p>
+            </div>
           </swiper-slide>
         </swiper>
       </div>
@@ -49,10 +51,10 @@
       </div>
       <!-- figure start -->
       <div class="news">
-        <div class="news-item">
+        <div class="news-item" @click="jump">
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
-              <img src="@/assets/study.png">
+              <img src="@/assets/study-plan-1@2x.png">
             </div>
             <div class="news-info">
               <h3 class="text-ellipsis mb-20">英语知识概要</h3>
@@ -64,7 +66,7 @@
         <div class="news-item">
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
-              <img src="@/assets/study.png">
+              <img src="@/assets/study-plan-3@2x.png">
             </div>
             <div class="news-info">
               <h3 class="text-ellipsis mb-20">数学多边形知识点</h3>
@@ -76,7 +78,7 @@
         <div class="news-item">
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
-              <img src="@/assets/study.png">
+              <img src="@/assets/study-plan-3@2x.png">
             </div>
             <div class="news-info">
               <h3 class="text-ellipsis mb-20">让你从头到尾把promise整的明明白白</h3>
@@ -117,7 +119,11 @@ export default {
     }
   },
   methods: {
-    jump() {}
+    jump() {
+      this.$router.push({
+        path: "/study-plan/show"
+      });
+    }
   },
   mounted() {
     //this.swiper.slideTo(3, 1000, false);
