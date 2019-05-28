@@ -20,7 +20,7 @@
               <span>获得</span>
               <span style="color:#f44;">{{ item.starCount }}</span>颗Q星
             </div>
-            <span v-show="item.starCount == 0" style="color:#f44">补评价</span>
+            <span v-show="item.comment === 0" style="color:#f44">补评价</span>
           </div>
           <div class="action-cells">
             <div
@@ -38,7 +38,7 @@
                   :size="22"
                   color="#09e2bb"
                   void-color="#e5eee0"
-                  :readonly="item.starCount !== 0"
+                  :readonly="item.comment === 1"
                   @change="handleChangeRate(indexs)"
                 ></van-rate>
               </div>
