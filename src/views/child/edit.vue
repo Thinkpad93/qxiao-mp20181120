@@ -124,7 +124,13 @@
     <div class="page-ft">
       <div class="fixed-bottom">
         <div class="flex">
-          <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+          <van-button
+            size="large"
+            type="danger"
+            class="no-radius"
+            @click="handleDel"
+            v-if="!form.schoolName || !form.className"
+          >删除</van-button>
           <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
         </div>
       </div>

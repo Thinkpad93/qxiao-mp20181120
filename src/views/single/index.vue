@@ -180,7 +180,7 @@
                         readonly
                       ></van-rate>
                     </div>
-                    <div class="action-cell-ft pr-20">
+                    <div class="action-cell-ft pr-40">
                       <span @click="jumpScore(item.lessonId)">{{ item.scoreRank }}</span>
                     </div>
                   </div>

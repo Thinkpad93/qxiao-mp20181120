@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer" style="z-index: 100;">
     <div class="item">
       <router-link to="/single">
         <div>小Q表现</div>
@@ -35,7 +35,6 @@ export default {
   position: fixed;
   left: 0;
   bottom: 0;
-  z-index: 100;
   width: 100%;
   font-size: 28px;
   display: flex;
