@@ -34,8 +34,12 @@
           </template>
           <template v-else>
             <div class="video-mask">
-              <van-icon name="play-circle" size="40px"></van-icon>
-              <p class="ml-20">暂无视频播放~</p>
+              <template>
+                <div class="text-center">
+                  <p class="mb-20">付费视频，本试卷讲解费用{{ info.fee }}元</p>
+                  <van-button round type="info" size="small" @click="handleUserPay">购买</van-button>
+                </div>
+              </template>
             </div>
           </template>
         </div>
@@ -52,7 +56,7 @@
             <p>{{ info.textContent }}</p>
           </div>
         </van-tab>
-        <van-tab title="评价">
+        <van-tab title="评论列表">
           <div class="comment-box mt-20">
             <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
               <div class="comment-hd flex a-i-c">
@@ -72,22 +76,28 @@
     </div>
     <div class="flex-ft">
       <div class="handle flex a-i-c">
-        <div class="handle-comment" @click="dialogVisible = true">
+        <van-button
+          type="info"
+          class="no-radius"
+          style="width:100%"
+          @click="dialogVisible = true"
+        >评论</van-button>
+        <!-- <div class="handle-comment" @click="dialogVisible = true">
           <van-icon name="comment-o" size="20px"></van-icon>
           <div size-12>评论</div>
-        </div>
+        </div>-->
         <!-- <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
         </div>-->
-        <div class="handle-down">
+        <!-- <div class="handle-down">
           <van-button
             type="info"
             class="no-radius"
             @click="handleUserPay"
             style="width:100%"
           >试卷{{ info.fee }}元/套</van-button>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -101,6 +111,7 @@ export default {
   data() {
     return {
       actives: 0,
+      payStatus: false,
       query: {
         openId: this.$store.state.user.info.openId,
         paperId: this.$route.query.paperId

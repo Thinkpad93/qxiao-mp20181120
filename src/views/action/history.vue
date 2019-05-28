@@ -1,27 +1,26 @@
 <template>
   <div class="flex-page">
-    <div class="flex-hd mb-20">
-      <div class="cells">
+    <div class="flex-bd">
+      <div class="cells mb-20">
         <div class="cell min-h120">
           <div class="cell-bd">
             <p>
               {{ openStudentName }}已经坚持习惯培养
-              <time style="color:#d33917;">{{ days }}</time>天
+              <time style="color:#f44;">{{ days }}</time>天
             </p>
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex-bd">
       <!-- -->
       <van-collapse v-model="activeNames">
         <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
           <div class="flex" size-16 slot="title">
             <time>{{ item.day }}</time>
-            <div class="ml-30 flex">
+            <div class="ml-20 mr-20 flex">
               <span>获得</span>
-              <span style="color:#d33917;">{{ item.starCount }}</span>颗Q星
+              <span style="color:#f44;">{{ item.starCount }}</span>颗Q星
             </div>
+            <span v-show="item.starCount == 0" style="color:#f44">补评价</span>
           </div>
           <div class="action-cells">
             <div
@@ -51,6 +50,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { mapState } from "vuex";
 export default {
@@ -127,6 +127,13 @@ export default {
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        //更新星星数量
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
         this.historyStrikeQuery(this.query);
       }
     }

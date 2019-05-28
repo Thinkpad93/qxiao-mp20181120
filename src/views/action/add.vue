@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <div class="cells-title">
+      <div class="cells-title" size-16>
         <p>评价标准</p>
         <van-button round type="info" size="small" @click="dialogVisible = true">添加</van-button>
       </div>
@@ -183,6 +183,7 @@ export default {
 }
 
 .cells-title {
+  color: #252525;
   display: flex;
   align-items: center;
   justify-content: space-between;

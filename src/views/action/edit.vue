@@ -51,14 +51,14 @@
           </div>
         </div>
       </div>
-      <div class="cells-title">
+      <div class="cells-title" size-16>
         <p>评价标准</p>
         <van-button
+          v-if="query.actionType != 0"
           round
           type="info"
           size="small"
           @click="dialogVisible = true"
-          :disabled="query.actionType == 0"
         >添加</van-button>
       </div>
       <div class="rule-list">
@@ -71,7 +71,7 @@
             :on-close="onClose(index, item.ruleId)"
           >
             <van-cell-group>
-              <div class="cell min-h100">
+              <div class="cell rule-cell">
                 <div class="cell-hd">
                   <van-checkbox-group v-model="chenkedList">
                     <van-checkbox
@@ -91,6 +91,12 @@
           </van-swipe-cell>
         </div>
       </div>
+      <!-- tip -->
+      <p
+        style="color:#999;font-size:12px;"
+        class="ml-20"
+        v-show="query.actionType == 0"
+      >默认行为无法修改，不一样的培养标准请自定义哦</p>
     </div>
     <div class="flex-ft">
       <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
@@ -247,6 +253,7 @@ export default {
 }
 
 .cells-title {
+  color: #252525;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -258,5 +265,10 @@ export default {
 
 .rule-list {
   margin-bottom: 20px;
+  .rule-cell {
+    min-height: 100px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
 }
 </style>

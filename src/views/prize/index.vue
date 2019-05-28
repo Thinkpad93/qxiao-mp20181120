@@ -11,7 +11,8 @@
         <form class="form">
           <div class="form-item">
             <textarea
-              class="textarea min-h400"
+              rows="5"
+              class="textarea textarea-border"
               placeholder="请输入与孩子约定奖项内容,例如奖励20分钟游戏时间..."
               v-model="form.textContent"
             ></textarea>
@@ -19,6 +20,7 @@
           <div class="form-item">
             <input
               type="number"
+              pattern="[0-9]*"
               placeholder="请输入兑换Q星数量"
               class="input input-border"
               v-model="form.starCount"
@@ -172,6 +174,8 @@ export default {
         let res = await service.prizeAdd(this.form);
         if (res.errorCode === 0) {
           done();
+          this.form.textContent = "";
+          this.form.starCount = "";
           this.dialogVisible = false;
           this.prizeListQuery(this.query);
         }

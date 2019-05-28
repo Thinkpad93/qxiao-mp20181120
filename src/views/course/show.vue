@@ -4,13 +4,17 @@
       <!-- video视频区域 -->
       <div class="video-mod">
         <div class="video-main">
-          <template v-if="0">
+          <template v-if="payStatus">
             <video ref="video" :src="info.videoUrl" controls></video>
           </template>
           <template v-else>
             <div class="video-mask">
-              <van-icon name="play-circle" size="40px"></van-icon>
-              <p class="ml-20">暂无视频播放~</p>
+              <template>
+                <div class="text-center">
+                  <p class="mb-20">付费视频，本节课程5元/节</p>
+                  <van-button round type="info" size="small" @click="handleUserPay">购买</van-button>
+                </div>
+              </template>
             </div>
           </template>
         </div>
@@ -33,11 +37,11 @@
             </p>
           </div>
         </van-tab>
-        <van-tab title="评价">
+        <van-tab title="评论列表">
           <div class="comment-box mt-20">
-            <div class="comment-header flex a-i-c">
+            <!-- <div class="comment-header flex a-i-c">
               <p size-16>评论</p>
-            </div>
+            </div>-->
             <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
               <div class="comment-hd flex a-i-c">
                 <img :src="item.photo" width="40" height="40" radius="50">
@@ -55,23 +59,23 @@
       </van-tabs>
     </div>
     <div class="flex-ft">
-      <div class="handle flex a-i-c">
-        <!-- <div class="handle-comment" @click="dialogVisible = true">
+      <!-- <div class="handle flex a-i-c"> -->
+      <!-- <div class="handle-comment" @click="dialogVisible = true">
           <van-icon name="comment-o" size="20px"></van-icon>
           <div size-12>评论</div>
-        </div>-->
-        <div class="handle-down">
+      </div>-->
+      <!-- <div class="handle-down">
           <van-button type="info" class="no-radius" @click="handleUserPay" style="width:100%">购买</van-button>
-        </div>
-        <!-- <div class="handle-share">
+      </div>-->
+      <!-- <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>
           <div size-12>转发</div>
         </div>
         <div class="handle-comment">
           <van-icon name="like-o" size="20px"></van-icon>
           <div size-12>收藏</div>
-        </div>-->
-      </div>
+      </div>-->
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -83,6 +87,11 @@ export default {
   data() {
     return {
       actives: 0,
+      payStatus: false, //支付状态
+      info: {
+        videoUrl:
+          "http://113.113.69.164/vcloud1049.tc.qq.com/1049_M0110200001LW2ZS3D2fyc1001637139.f9844.mp4?vkey=BEC176D7EB1C232292B073BCFCA41EF0A086EC9B9B6C05BBCF6EDEAC74E0CE6D92B1A50F49388715EF07BE2800CBEA7C36EF84007DEE5F092C1168A7953E476784CE0098C89FB9D281028620355AAF935CC63AB6A1F52954"
+      },
       commentList: []
     };
   },
@@ -106,14 +115,13 @@ export default {
           paySign: res.paySign,
           success: function(res) {
             that.$toast("支付成功");
-          },
-          complete: function(res) {
-            //that.$toast("无论成功或失败都会执行");
+            that.payStatus = true;
           },
           cancel: function(res) {
             that.$toast("已取消支付");
           },
           fail: function(res) {
+            that.payStatus = false;
             that.$toast("购买失败，请重新支付");
           }
         });

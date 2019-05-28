@@ -27,29 +27,21 @@
         v-if="studentId == 0"
       ></div>
       <!-- dialog -->
-      <van-dialog v-model="dialogVisible" title="查看">
-        <div class="cells" style="padding:15px 0 15px 0;">
-          <div class="cell">
-            <div class="cell-bd">
-              <div class="mt-20">
-                <strong>行为说明:</strong>
-                {{ actionView.textContent }}
-              </div>
-              <div class="flex mt-20">
-                <strong>评价标准:</strong>
-                <div class="ml-20">
-                  <p v-for="(item, index) in actionView.rules" :key="index">
-                    <span>{{ item.ruleText }}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+      <van-dialog v-model="dialogVisible">
+        <div class="actionView">
+          <div class="flex">
+            <strong>行为说明:</strong>
+            <div class="ml-20">{{ actionView.textContent }}</div>
+          </div>
+          <div class>
+            <strong>评价标准</strong>
+            <ul class="ml-20 disc">
+              <li v-for="(item, index) in actionView.rules" :key="index">{{ item.ruleText }}</li>
+            </ul>
           </div>
         </div>
       </van-dialog>
       <div class="wrap">
-        <!-- 提示 -->
-        <div class="today-tip" v-show="statu == 0">今天尚未评价，目标完成了别忘记评价~</div>
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
@@ -77,8 +69,9 @@
                 <!-- 今天的 -->
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
                   <div class="cell-bd">
-                    <time size-16>{{ query.day }}</time>
-                    <span size-16>获得{{ start }}颗Q星</span>
+                    <span>今日表现{{ start }}颗Q星</span>
+                    <!-- <time size-16>{{ query.day }}</time>
+                    <span size-16>获得{{ start }}颗Q星</span>-->
                   </div>
                   <div class="cell-ft">
                     <van-icon name="arrow" size="16px"></van-icon>
@@ -373,7 +366,7 @@ export default {
         this.$dialog
           .alert({
             title: "提示",
-            message: "今天已经评价过啦，明天别忘记继续坚持~"
+            message: "今天已经评价过啦，明天继续坚持~"
           })
           .then(() => {
             // on close
@@ -636,10 +629,8 @@ export default {
 }
 
 .actionView {
-  p {
-    display: flex;
-    align-items: center;
-  }
+  padding: 30px;
+  line-height: 1.6;
 }
 
 .snail {
@@ -698,8 +689,9 @@ export default {
   padding: 30px;
   text-align: center;
   p {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     text-align: left;
+    line-height: 1.6;
   }
 }
 
@@ -720,24 +712,9 @@ export default {
     height: 204px;
   }
 }
-.today-tip {
-  color: #fff;
-  text-align: center;
-  padding: 20px 20px;
-  position: relative;
-  background-color: #f44;
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    height: 1px;
-    border-top: 1px solid #e5e5e5;
-    color: #e5e5e5;
-    transform-origin: 0 0;
-    transform: scaleY(0.5);
-    z-index: 2;
-  }
+
+.disc {
+  padding-left: 20px;
+  list-style-type: disc;
 }
 </style>

@@ -28,10 +28,10 @@
           </div>
           <div class="cells-title a-i-c">
             <p size-17>优秀作品展示</p>
-            <div class="flex">
+            <!-- <div class="flex">
               <span>更多</span>
               <van-icon name="arrow" size="16px"></van-icon>
-            </div>
+            </div>-->
           </div>
           <!-- 优秀作品 -->
           <div class="good-works">
