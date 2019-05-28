@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <div class="qcode">
         <div class="qcode-box">
-          <img src="@/assets/image/qcode.png" alt>
+          <img src="@/assets/qcode.png" alt>
           <p size-18>亲爱的用户您好，请按以下方法加入小Q智慧:</p>
           <ul>
             <li>1、长按识别二维码，关注小Q智慧公众号。</li>

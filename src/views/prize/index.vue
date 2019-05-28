@@ -29,14 +29,15 @@
         </form>
       </van-dialog>
       <div class="mod">
-        <div class="pichi flex a-i-c">
+        <div class="pichi flex a-i-c gradient-three">
           <div class="pichi-box">
             <div class="pichi-figure flex a-i-c" radius="50">
               <img src="@/assets/rate-icon@2x.png" width="30" height="30">
             </div>
             <div class="pichi-meta">
-              <p>{{ openStudentName }}可兑换Q星</p>
-              <strong size-20>{{ totalStarCount }}</strong>
+              <p size-16>{{ openStudentName }}</p>
+              <span size-12>可兑换Q星：{{ totalStarCount }}</span>
+              <!-- <strong size-20>{{ totalStarCount }}</strong> -->
             </div>
           </div>
           <div class="pichi-btn">
@@ -46,7 +47,7 @@
         </div>
       </div>
       <div class="cells-title">
-        <p>奖励列表</p>
+        <p>选择兑换奖项</p>
       </div>
       <div class="cells mb-30">
         <!-- 缺省的奖励不可删除 -->
@@ -292,9 +293,12 @@ export default {
   width: calc(100% - 90px);
   height: 200px;
   margin: 0 auto;
-  background-image: url("~@/assets/prize-bg@2x.png");
-  background-repeat: no-repeat;
-  background-size: cover;
+  border-radius: 12px;
+  &-meta {
+    p {
+      margin-bottom: 6px;
+    }
+  }
   &-figure {
     justify-content: center;
     width: 86px;
@@ -320,7 +324,7 @@ export default {
       text-align: center;
       padding: 0 15px;
       font-size: 24px;
-      color: #04b6ff;
+      color: #84ce09;
       border-radius: 20px;
       background-color: #fff;
     }

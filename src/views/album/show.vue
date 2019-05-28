@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="empty" v-if="!albumInfo.items.length">
-          <img src="@/assets/image/kong.png" alt>
+          <img src="@/assets/kong.png" alt>
           <p>暂无相册</p>
         </div>
       </article>

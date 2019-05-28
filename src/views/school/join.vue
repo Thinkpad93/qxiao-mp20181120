@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <div class="cover">
-        <img src="@/assets/image/login-bg@2x.png" alt>
+        <img src="@/assets/login-bg@2x.png" alt>
       </div>
       <form action ref="form" class="join-form">
         <div class="join-head">
@@ -11,7 +11,7 @@
             <small>(ID码: {{ info.schoolCode }})</small>
           </h2>
           <div class="address flex text-ellipsis">
-            <img src="@/assets/image/map.png" alt>
+            <img src="@/assets/map.png" alt>
             <span>{{ info.location }}</span>
           </div>
         </div>

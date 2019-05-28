@@ -13,7 +13,7 @@
               <a href="javascript:void(0);">
                 <div class="album-thumb">
                   <img v-if="album.image" :src="album.image" alt>
-                  <img v-else src="@/assets/image/kong.png" alt>
+                  <img v-else src="@/assets/kong.png" alt>
                 </div>
                 <figcaption>
                   <p size-16>{{ album.className }}</p>

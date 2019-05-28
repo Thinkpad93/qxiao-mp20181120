@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/image/kong.png" alt>
+        <img src="@/assets/kong.png" alt>
         <p>暂无评语</p>
       </div>
     </div>

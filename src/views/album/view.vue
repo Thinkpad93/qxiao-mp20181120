@@ -31,7 +31,7 @@
         >
           <div class="album-thumb">
             <img v-if="channel.image" :src="channel.image" alt>
-            <img v-else src="@/assets/image/kong.png" alt>
+            <img v-else src="@/assets/kong.png" alt>
           </div>
           <div class="album-box">
             <p size-16>{{ channel.title }}</p>
@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="empty" v-if="!albumChannel.length">
-        <img src="@/assets/image/kong.png" alt>
+        <img src="@/assets/kong.png" alt>
         <p>暂无相册列表</p>
       </div>
     </div>

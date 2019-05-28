@@ -17,7 +17,7 @@
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
-          <img src="@/assets/image/share-tip.png">
+          <img src="@/assets/share-tip.png">
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>

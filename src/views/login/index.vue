@@ -2,19 +2,19 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="cover">
-        <img src="@/assets/image/login-bg@2x.png" alt>
+        <img src="@/assets/login-bg@2x.png" alt>
       </div>
       <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">
-            <img src="@/assets/image/qlogocdr12.png" alt>
+            <img src="@/assets/qlogocdr12.png" alt>
             <p size-18>小Q智慧</p>
           </div>
         </div>
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <img class="ignore" src="@/assets/image/phone-icon@2x.png" alt>
+              <img class="ignore" src="@/assets/phone-icon@2x.png" alt>
             </div>
             <div class="cell-bd pl-20">
               <input

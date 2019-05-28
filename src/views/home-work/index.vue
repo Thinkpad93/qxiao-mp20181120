@@ -66,7 +66,7 @@
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/image/kong.png" alt>
+        <img src="@/assets/kong.png" alt>
         <p>暂无亲子作业</p>
       </div>
     </div>

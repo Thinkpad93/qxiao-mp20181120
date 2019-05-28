@@ -17,7 +17,7 @@
           <div class="cells">
             <div class="cell popup-box" v-for="(p, index) in classList" :key="index">
               <div class="cell-hd">
-                <img src="@/assets/image/kong.png" width="54" height="54">
+                <img src="@/assets/kong.png" width="54" height="54">
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ p.className }}</p>
@@ -80,7 +80,7 @@
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/image/kong.png" alt>
+        <img src="@/assets/kong.png" alt>
         <p>暂无新鲜速报</p>
       </div>
     </div>
