@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <article class="article">
         <div class="article-content">
           <h1>该如何培养孩子的自控力</h1>

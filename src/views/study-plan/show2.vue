@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <article class="article">
         <div class="article-content">
           <h1>小学最强学习计划和作息时间表</h1>

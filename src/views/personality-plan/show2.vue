@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <article class="article">
         <div class="article-content">
           <h1>让孩子个性化发展学习</h1>

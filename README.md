@@ -114,6 +114,22 @@ function getTagsMap() {
     return a;
   }, {});
 }
+
+data: {
+  day: ['周一','周二','周三','周四','周五','周六','周日'],
+  homeStat: [
+    {
+      type: 'line',
+      data: [5, 5, 5, 5, 5, 5, 5]
+    },
+    {
+      type: 'line',
+      data: [5, 5, 5, 5, 5, 5, 5]
+    }
+  ]
+}
+
+
 ```
 
 ## git 分支命名

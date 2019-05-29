@@ -9,6 +9,7 @@ import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
+import "echarts/lib/component/legendScroll";
 export default {
   name: "Myecharts",
   props: {
@@ -33,7 +34,8 @@ export default {
             trigger: "axis"
           },
           legend: {
-            data: ["个人表现", "班级平均值"]
+            type: "scroll",
+            data: []
           },
           xAxis: {
             type: "category",
@@ -54,24 +56,7 @@ export default {
             bottom: "3%",
             containLabel: true
           },
-          series: [
-            {
-              data: [],
-              type: "line",
-              name: "个人表现",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            },
-            {
-              data: [],
-              type: "line",
-              name: "班级平均值",
-              stack: "总量",
-              smooth: true,
-              areaStyle: {}
-            }
-          ]
+          series: []
         };
       }
     }

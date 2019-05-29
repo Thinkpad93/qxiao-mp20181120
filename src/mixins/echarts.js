@@ -7,7 +7,9 @@ export default {
           trigger: "axis"
         },
         legend: {
-          data: ["个人表现", "班级平均值"]
+          //type: 'scroll',
+          //bottom: 10,
+          data: []
         },
         xAxis: {
           type: "category",
@@ -28,23 +30,7 @@ export default {
           bottom: "3%",
           containLabel: true
         },
-        series: [{
-            data: [],
-            type: "line",
-            name: "个人表现",
-            stack: "总量",
-            smooth: true,
-            areaStyle: {}
-          },
-          {
-            data: [],
-            type: "line",
-            name: "班级平均值",
-            stack: "总量",
-            smooth: true,
-            areaStyle: {}
-          }
-        ]
+        series: []
       },
       stateMentOption: {
         tooltip: {
@@ -78,7 +64,6 @@ export default {
             name: "个人表现",
             stack: "总量",
             smooth: true,
-            areaStyle: {}
           },
           {
             data: [],
@@ -86,7 +71,6 @@ export default {
             name: "班级平均值",
             stack: "总量",
             smooth: true,
-            areaStyle: {}
           }
         ]
       }

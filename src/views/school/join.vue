@@ -11,7 +11,7 @@
             <small>(ID码: {{ info.schoolCode }})</small>
           </h2>
           <div class="address flex text-ellipsis">
-            <img src="@/assets/map.png" alt>
+            <van-icon name="location-o" size="16px"></van-icon>
             <span>{{ info.location }}</span>
           </div>
         </div>

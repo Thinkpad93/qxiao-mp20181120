@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <article class="article">
         <div class="article-content">
           <h1>英文学习计划</h1>

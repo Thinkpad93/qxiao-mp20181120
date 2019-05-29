@@ -43,41 +43,49 @@
           </div>
         </van-tab>
         <van-tab title="我的上传">
-          <!-- 操作 -->
-          <div class="works-tool">
-            <van-button type="default" size="small" @click="mask = false" v-show="mask">取消</van-button>
-            <van-button type="primary" size="small" @click="mask = true">选择</van-button>
-            <van-button type="danger" size="small" @click="handleDelImage">删除</van-button>
-          </div>
-          <div class="time-works mt-20">
-            <div class="item" v-for="(item, index) in list" :key="index">
-              <time size-16>{{ item.postTime }}</time>
-              <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
-                <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
-                  <div class="suni" @click="handlePreviewImage(work.smallUrl, item.works)">
-                    <!-- 删除蒙版 -->
-                    <div class="works-mask" style="z-index: 9527" v-show="mask">
-                      <van-checkbox-group v-model="checkList">
-                        <van-checkbox
-                          :key="work.worksId"
-                          :name="work.worksId"
-                          checked-color="#92cd36"
-                        ></van-checkbox>
-                      </van-checkbox-group>
+          <template v-if="list.length">
+            <!-- 操作 -->
+            <div class="works-tool">
+              <van-button type="default" size="small" v-show="mask" @click="handleCancel">取消</van-button>
+              <van-button type="primary" size="small" v-show="!mask" @click="mask = true">选择</van-button>
+              <van-button type="danger" size="small" @click="handleDelImage">删除</van-button>
+            </div>
+            <div class="time-works mt-20">
+              <div class="item" v-for="(item, index) in list" :key="index">
+                <time size-16>{{ item.postTime }}</time>
+                <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
+                  <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
+                    <div class="suni" @click="handlePreviewImage(work.smallUrl, item.works)">
+                      <!-- 删除蒙版 -->
+                      <div class="works-mask" style="z-index: 9527" v-show="mask">
+                        <van-checkbox-group v-model="checkList">
+                          <van-checkbox
+                            :key="work.worksId"
+                            :name="work.worksId"
+                            checked-color="#92cd36"
+                          ></van-checkbox>
+                        </van-checkbox-group>
+                      </div>
+                      <img :src="work.smallUrl" alt>
+                      <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
+                      <div
+                        class="works-status"
+                        size-12
+                        v-if="work.verifyStatus == 2"
+                        style="background-color:#e64340;"
+                      >不通过</div>
                     </div>
-                    <img :src="work.smallUrl" alt>
-                    <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
-                    <div
-                      class="works-status"
-                      size-12
-                      v-if="work.verifyStatus == 2"
-                      style="background-color:#e64340;"
-                    >不通过</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </template>
+          <template v-else>
+            <div class="works-null">
+              <img src="@/assets/works@2x.png">
+              <p class="mt-30">您还没有上传作品，小Q期待您的作品哦~</p>
+            </div>
+          </template>
         </van-tab>
       </van-tabs>
     </div>
@@ -112,7 +120,7 @@ export default {
       list: [], //我的上传
       onLineList: [], //上榜作品
       worksList: [], //优秀作品展
-      checkList: []
+      checkList: [] //checkbox 选中项
     };
   },
   computed: {
@@ -143,6 +151,10 @@ export default {
       } else {
         this.$toast("没有选择图片");
       }
+    },
+    handleCancel() {
+      this.mask = false;
+      this.checkList = [];
     },
     //删除作品
     async deleteImage(params = {}) {
@@ -305,5 +317,15 @@ export default {
   text-align: right;
   padding: 10px 10px 0 0;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.works-null {
+  color: #999;
+  text-align: center;
+  margin-top: 200px;
+  img {
+    width: 486px;
+    height: 270px;
+  }
 }
 </style>

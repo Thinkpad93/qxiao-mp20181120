@@ -14,37 +14,6 @@
             </div>
           </div>
         </router-link>
-        <!-- <div class="snail flex a-i-c j-c-s-b">
-          <div class="snail-left flex a-i-c">
-            <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-            <div class="ml-10">竞争力(广州)</div>
-          </div>
-          <div class="snail-right flex a-i-c">
-            <span class="mr-10">60</span>
-            <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
-          </div>
-        </div>-->
-        <!-- <div class="avatar">
-          <template v-if="openPhoto">
-            <img :src="openPhoto" width="60" height="60" radius="50">
-            <div class="info-box">
-              <h3 size-17 class="mt-20 username">{{ openStudentName }}</h3>
-              <div class="info-meta mt-20">
-                <div class>Q星: {{ totalStarCount }}</div>
-                <div class="mr-10">积分: 800</div>
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <img
-              src="@/assets/child-default@2x.png"
-              width="80"
-              height="80"
-              radius="50"
-              class="mt-20"
-            >
-          </template>
-        </div>-->
       </div>
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
@@ -93,11 +62,6 @@ export default {
         openId: this.$store.state.user.info.openId
       },
       userMenu: [
-        // {
-        //   title: "我的小孩",
-        //   to: "/child",
-        //   icon: require("../../assets/user-icon-2@2x.png")
-        // },
         {
           title: "我的作品",
           to: "/works",
@@ -118,18 +82,6 @@ export default {
           to: "/study-plan",
           icon: require("../../assets/user-icon-4@2x.png")
         },
-        // {
-        //   title: "我的收藏",
-        //   to: "/collection"
-        // },
-        // {
-        //   title: "我的下载",
-        //   to: "/myDownload"
-        // },
-        // {
-        //   title: "我的课表",
-        //   to: "/mySchedule"
-        // },
         {
           title: "帮助中心",
           to: "/help-center",
@@ -154,7 +106,6 @@ export default {
   color: #fff;
   position: relative;
   height: 180px;
-  // margin-bottom: 100px;
   .js-user-change {
     margin-left: 30px;
   }
@@ -167,17 +118,6 @@ export default {
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
-  // position: absolute;
-  // left: 50%;
-  // bottom: -75px;
-  // height: 150px;
-  // width: calc(100% - 60px);
-  // padding: 0 20px;
-  // border-radius: 20px;
-  // color: #2e2e2e;
-  // background-color: #fff;
-  // box-shadow: 0px 0px 12px 4px rgba(204, 204, 204, 0.5);
-  // transform: translateX(-50%);
 }
 .switch-children {
   color: #fff;
@@ -194,8 +134,6 @@ export default {
 }
 
 .avatar {
-  // padding-top: 30px;
-  // padding-bottom: 25px;
   position: absolute;
   top: 10%;
   left: 0;

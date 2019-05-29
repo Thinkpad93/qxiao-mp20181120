@@ -7,10 +7,10 @@
           <!-- <van-icon name="like-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>我的定制</p>
         </div>
-        <div class="flex a-i-c">
+        <!-- <div class="flex a-i-c">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div>
+        </div> -->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">
@@ -36,10 +36,10 @@
           <!-- <van-icon name="star-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>个性计划推荐</p>
         </div>
-        <div class="flex a-i-c">
+        <!-- <div class="flex a-i-c">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div>
+        </div> -->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">

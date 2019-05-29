@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page-page">
+    <div class="bd">
       <article class="article">
         <div class="article-content">
           <h1>学生文明行为习惯养成十大教育内容</h1>

@@ -127,6 +127,7 @@ export default {
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        this.historyStrikeQuery(this.query);
         //更新星星数量
         let _cookie = Cookies.getJSON("info");
         let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
@@ -134,7 +135,6 @@ export default {
           if (data.success === "ok") {
           }
         });
-        this.historyStrikeQuery(this.query);
       }
     }
   },

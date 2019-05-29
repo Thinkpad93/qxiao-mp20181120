@@ -7,7 +7,6 @@
         <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
-          <!-- <span>{{ roleType == 2 ? "切换为家长":"切换为老师" }}</span> -->
         </div>
         <div class="switch-children" @click="jump" v-if="roleType == 3">
           <van-icon name="arrow" size="18px"></van-icon>
@@ -22,11 +21,6 @@
           </div>
         </div>
       </div>
-      <!-- 有关加入的学生 -->
-      <!-- <div class="home-myStudent flex a-i-c j-c-s-b" v-if="roleType == 3" @click="jump">
-        <p>我的小孩</p>
-        <van-icon name="arrow" size="16px"></van-icon>
-      </div>-->
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -109,9 +103,7 @@ export default {
   },
   data() {
     return {
-      //studentPicker: false,
       popupShow: false,
-      //dialogVisible: false,
       isLoading: false,
       totalPage: 1, //总页数
       query: {

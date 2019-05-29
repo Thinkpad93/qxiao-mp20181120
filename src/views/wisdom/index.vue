@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd">
       <!-- layout one -->
-      <div class="wisdom-user flex a-i-c j-c-c">
+      <div class="wisdom-user flex a-i-c j-c-c gradient-three">
         <div class="wisdom-box">
           <div class="flex a-i-c j-c-c">
             <img :src="photo" width="50" height="50" radius="50">
@@ -73,9 +73,6 @@ export default {
   color: #fff;
   position: relative;
   height: 240px;
-  background-image: url("~@/assets/user-center-bg@2x.png");
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 .news {
   position: relative;

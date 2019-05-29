@@ -7,10 +7,10 @@
           <!-- <van-icon name="like-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>我的课程</p>
         </div>
-        <div class="flex">
+        <!-- <div class="flex">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div>
+        </div> -->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">
@@ -32,10 +32,10 @@
           <!-- <van-icon name="star-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>学习课程推荐</p>
         </div>
-        <div class="flex">
+        <!-- <div class="flex">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div>
+        </div> -->
       </div>
       <!-- figure start -->
       <div class="news">

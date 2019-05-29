@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <van-popup v-model="popupShow" position="bottom">
+      <!-- <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="myActions"
           show-toolbar
@@ -9,8 +9,8 @@
           @cancel="popupShow = false"
           @confirm="handleActionConfirm"
         ></van-picker>
-      </van-popup>
-      <van-popup v-model="popupShows" position="bottom">
+      </van-popup>-->
+      <!-- <van-popup v-model="popupShows" position="bottom">
         <van-picker
           :columns="lessonDefault"
           show-toolbar
@@ -18,7 +18,7 @@
           @cancel="popupShows = false"
           @confirm="handleLessonConfirm"
         ></van-picker>
-      </van-popup>
+      </van-popup>-->
       <!-- -->
       <div
         class="van-overlay"
@@ -139,12 +139,12 @@
             <div class="mod no-radius" ref="mod">
               <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在家表现</span>
-                <van-button
+                <!-- <van-button
                   round
                   type="info"
                   size="small"
                   @click="popupShow = true"
-                >{{ actionDefaultText }}</van-button>
+                >{{ actionDefaultText }}</van-button>-->
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="homeStat" :option="homeOption"/>
@@ -300,7 +300,7 @@ export default {
   mixins: [pageMixin, echartMixin],
   data() {
     return {
-      popupShow: false,
+      //popupShow: false,
       popupShows: false,
       showNumber: 0,
       active: 0,
@@ -313,7 +313,7 @@ export default {
       lessonList: [],
       remark: {},
       statu: 0, //今天是否已经打了
-      actionDefaultText: "选择",
+      //actionDefaultText: "选择",
       lessonDefault: [],
       lessonDefaultText: "选择"
     };
@@ -334,16 +334,16 @@ export default {
     }
   },
   methods: {
-    handleActionConfirm(value, index) {
-      let { actionId, actionType, title } = value;
-      this.actionDefaultText = title;
-      this.homeStatQuery(actionId, actionType);
-    },
-    handleLessonConfirm(value, index) {
-      let { lessonId, title } = value;
-      this.lessonDefaultText = title;
-      this.stateMentList(lessonId);
-    },
+    // handleActionConfirm(value, index) {
+    //   let { actionId, actionType, title } = value;
+    //   this.actionDefaultText = title;
+    //   this.homeStatQuery(actionId, actionType);
+    // },
+    // handleLessonConfirm(value, index) {
+    //   let { lessonId, title } = value;
+    //   this.lessonDefaultText = title;
+    //   this.stateMentList(lessonId);
+    // },
     overlay() {
       if (this.studentId == 0) {
         this.$dialog
@@ -415,11 +415,6 @@ export default {
       } else {
         this.showNumber = this.myActions.length;
       }
-      // if (this.showNumber == 5) {
-      //   this.showNumber = this.myActions.length;
-      // } else {
-      //   this.showNumber = 5;
-      // }
     },
     //查看行为说明
     handleActionMore(params = {}) {
@@ -427,7 +422,6 @@ export default {
       this.actionQuery(args);
     },
     jumpScore(lessonId) {
-      //let { openId, studentId } = this.query;
       this.$router.push({
         path: "/score",
         query: {
@@ -445,13 +439,13 @@ export default {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
         //更新星星数量
+        this.actionListQuery();
         let _cookie = Cookies.getJSON("info");
         let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
           }
         });
-        this.actionListQuery();
       }
     },
     //行为列表查询
@@ -506,19 +500,25 @@ export default {
       }
     },
     //在家表现一周查询
-    async homeStatQuery(actionId = 1, actionType = 0) {
+    async homeStatQuery() {
       let params = {
         studentId: this.studentId,
-        actionId,
-        actionType
+        openId: this.openId,
+        date: this.query.day
       };
       let res = await service.homeStatQuery(params);
       if (res.errorCode === 0) {
-        this.popupShow = false;
-        let data = res.data;
-        this.homeOption.xAxis.data = data.day;
-        this.homeOption.series[0].data = data.myStartCount;
-        this.homeOption.series[1].data = data.aveStartCount;
+        let result = res.data;
+        if (result.day.length) {
+          this.homeOption.xAxis.data = result.day; //一周时间数据
+          this.homeOption.legend.data = result.homeStar.map(item => item.name);
+          this.homeOption.series = result.homeStar.map(item => {
+            return {
+              ...item,
+              smooth: true
+            };
+          });
+        }
       }
     },
     //课堂表现一周查询
