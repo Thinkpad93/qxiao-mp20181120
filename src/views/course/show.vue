@@ -39,9 +39,6 @@
         </van-tab>
         <van-tab title="评论列表">
           <div class="comment-box mt-20">
-            <!-- <div class="comment-header flex a-i-c">
-              <p size-16>评论</p>
-            </div>-->
             <div class="comment-cell" v-for="(item, index) in commentList" :key="index">
               <div class="comment-hd flex a-i-c">
                 <img :src="item.photo" width="40" height="40" radius="50">
@@ -81,7 +78,7 @@
 </template>
 <script>
 import service from "@/api";
-import { examPaperComment } from "@/mock";
+//import { examPaperComment } from "@/mock";
 export default {
   name: "courseShow",
   data() {
@@ -92,7 +89,26 @@ export default {
         videoUrl:
           "http://113.113.69.164/vcloud1049.tc.qq.com/1049_M0110200001LW2ZS3D2fyc1001637139.f9844.mp4?vkey=BEC176D7EB1C232292B073BCFCA41EF0A086EC9B9B6C05BBCF6EDEAC74E0CE6D92B1A50F49388715EF07BE2800CBEA7C36EF84007DEE5F092C1168A7953E476784CE0098C89FB9D281028620355AAF935CC63AB6A1F52954"
       },
-      commentList: []
+      commentList: [
+        {
+          photo: "http://dummyimage.com/50x50",
+          name: "L陆嘉诚",
+          textContent: "讲解到位，家里孩子喜欢看呢~",
+          postTime: "2019-03-16 12:40:13"
+        },
+        {
+          photo: "http://dummyimage.com/50x50",
+          name: "四凡啊",
+          textContent: "接下来最好的事莫过于多看看这个视频",
+          postTime: "2019-04-01 13:00:47"
+        },
+        {
+          photo: "http://dummyimage.com/50x50",
+          name: "往南是片海",
+          textContent: "嗓音早就有了",
+          postTime: "2019-05-28 09:52:30"
+        }
+      ]
     };
   },
   methods: {
@@ -129,7 +145,7 @@ export default {
     }
   },
   mounted() {
-    this.commentList = examPaperComment();
+    //this.commentList = examPaperComment();
   }
 };
 </script>

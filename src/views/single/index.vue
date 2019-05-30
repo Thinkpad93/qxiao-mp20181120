@@ -45,8 +45,10 @@
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
-            <template v-if="openStudentName || openPhoto">
-              <img :src="openPhoto" width="60" height="60" radius="50">
+            <template v-if="openStudentName">
+              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+              <!-- 如果用户没有上传头像 -->
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
               <div class="js-user-change">
                 <h3 class="mb-20" size-18>
                   {{ openStudentName }}
@@ -62,7 +64,7 @@
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
         </router-link>
-        <van-tabs v-model="active" :line-height="2" :key="1" :lazy-render="false">
+        <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
             <div class="container">
               <div class="mod">
@@ -243,7 +245,7 @@
                 </div>
               </div>
               <div class="mod">
-                <van-tabs v-model="tabActive" :line-height="2" :key="2" :lazy-render="false">
+                <van-tabs v-model="tabActive" :line-height="2">
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
