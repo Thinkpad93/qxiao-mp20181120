@@ -6,7 +6,8 @@
       </van-popup>
       <div class="flex a-i-c user-info gradient-two">
         <router-link to="/child" tag="div" class="flex a-i-c">
-          <img :src="openPhoto" width="60" height="60" radius="50">
+          <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+          <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
           <div class="js-user-change">
             <h3 size-18 class="mb-20 username">{{ openStudentName }}</h3>
             <div class="info-meta">

@@ -23,7 +23,6 @@ export default {
           name: "营养食谱",
           url: "/recipe",
           icon: require("../assets/men-icon-9@2x.png")
-          //icon: "./static/image/men-icon-9@2x.png"
         }
       ],
       shuttleList: [
@@ -31,7 +30,6 @@ export default {
           name: "实时接送",
           url: "/shuttle",
           icon: require("../assets/men-icon-6@2x.png")
-          //icon: "./static/image/men-icon-6@2x.png"
         }
       ],
       clockList: [
@@ -39,7 +37,6 @@ export default {
           name: "考勤记录",
           url: "/clock",
           icon: require("../assets/men-icon-3@2x.png")
-          //icon: "./static/image/men-icon-3@2x.png"
         }
       ],
       //学校
@@ -48,13 +45,11 @@ export default {
           name: "班级管理",
           url: "/class",
           icon: require("../assets/men-icon-1@2x.png")
-          //icon: require("../assets/men-icon-3@2x.png")
         },
         {
           name: "老师管理",
           url: "/teacher",
           icon: require("../assets/men-icon-4@2x.png")
-          //icon: require("../assets/men-icon-3@2x.png")
         }
       ],
       //老师
@@ -63,7 +58,6 @@ export default {
           name: "学生管理",
           url: "/student",
           icon: require("../assets/men-icon-10@2x.png")
-          //icon: "./static/image/men-icon-10@2x.png"
         }
       ],
       //作业
@@ -71,28 +65,24 @@ export default {
       //共用的菜单
       menuList: [
         {
-          name: "通知公告",
+          name: "通知",
           url: "/notice",
           icon: require("../assets/men-icon-7@2x.png")
-          //icon: "./static/image/men-icon-7@2x.png"
         },
         {
-          name: "亲子作业",
+          name: "作业",
           url: "/home-work",
           icon: require("../assets/men-icon-5@2x.png")
-          //icon: "./static/image/men-icon-5@2x.png"
         },
         {
-          name: "新鲜速报",
+          name: "班级速报",
           url: "/fresh",
           icon: require("../assets/men-icon-8@2x.png")
-          //icon: "./static/image/men-icon-8@2x.png"
         },
         {
           name: "班级相册",
           url: "/album",
           icon: require("../assets/men-icon-2@2x.png")
-          //icon: "./static/image/men-icon-2@2x.png"
         }
       ]
     };

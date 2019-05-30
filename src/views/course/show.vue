@@ -11,7 +11,7 @@
             <div class="video-mask">
               <template>
                 <div class="text-center">
-                  <p class="mb-20">付费视频，本节课程5元/节</p>
+                  <p class="mb-20">付费视频，本节课程0.1元/节</p>
                   <van-button round type="info" size="small" @click="handleUserPay">购买</van-button>
                 </div>
               </template>
@@ -87,7 +87,7 @@ export default {
       payStatus: false, //支付状态
       info: {
         videoUrl:
-          "http://113.113.69.164/vcloud1049.tc.qq.com/1049_M0110200001LW2ZS3D2fyc1001637139.f9844.mp4?vkey=BEC176D7EB1C232292B073BCFCA41EF0A086EC9B9B6C05BBCF6EDEAC74E0CE6D92B1A50F49388715EF07BE2800CBEA7C36EF84007DEE5F092C1168A7953E476784CE0098C89FB9D281028620355AAF935CC63AB6A1F52954"
+          "http://ax.qxiao.net/video/f925dce4-3ef8-47e1-846b-d5c2db28829d.mp4"
       },
       commentList: [
         {
