@@ -14,10 +14,18 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: []
+          data: [],
+          // axisLabel: {
+          //   showMinLabel: true,
+          //   showMaxLabel: false
+          // }
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          // axisLabel: {
+          //   showMinLabel: true,
+          //   showMaxLabel: false
+          // }
         },
         toolbox: {
           feature: {

@@ -222,6 +222,8 @@ export default {
             });
           }
         });
+      } else {
+        this.studentInfoUpdate(this.form);
       }
     },
     //学生删除（开放版）
@@ -236,6 +238,13 @@ export default {
       let res = await service.studentQueryMe(params);
       if (res.errorCode === 0) {
         this.form = res.data;
+      }
+    },
+    //学生修改
+    async studentInfoUpdate(params = {}) {
+      let res = await service.studentInfoUpdate(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
       }
     }
   },

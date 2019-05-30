@@ -71,6 +71,7 @@
                 <!-- 今天的 -->
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
                   <div class="cell-bd">
+                    <time size-16>{{ query.day }}</time>
                     <span>今日表现{{ start }}颗Q星</span>
                     <!-- <time size-16>{{ query.day }}</time>
                     <span size-16>获得{{ start }}颗Q星</span>-->
