@@ -24,7 +24,7 @@
                 <p size-15 class="text-ellipsis">{{ item.stageTitle}}</p>
                 <div class="metedata flex">
                   <span class="name">下载量: {{ item.downloadCount }}</span>
-                  <van-button round type="primary" size="mini">成绩</van-button>
+                  <van-button round type="primary" size="mini">点击收看</van-button>
                 </div>
               </div>
             </div>

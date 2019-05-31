@@ -30,7 +30,7 @@
       <div class="video-mod">
         <div class="video-main">
           <template v-if="info.videoUrl">
-            <video ref="video" :src="info.videoUrl" controls></video>
+            <video ref="video" :src="info.videoUrl" controls preload="auto"></video>
           </template>
           <template v-else>
             <div class="video-mask">

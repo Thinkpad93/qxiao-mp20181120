@@ -17,7 +17,7 @@
           </div>
           <div class="pl-20">
             <h3 class="mb-20" size-18>{{ name }}</h3>
-            <p size-12>感谢你无私的奉献，小Q祝您生活愉快</p>
+            <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
       </div>

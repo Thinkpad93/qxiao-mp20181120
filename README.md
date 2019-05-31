@@ -129,6 +129,10 @@ data: {
   ]
 }
 
+let url = "http://qxiao.natapp1.cc/qxiao-mp/#/single?openId=oUQwt1e9wv4_CbA6YcI-pefbcQdo&roleType=1&studentId=0&photo=http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FCttmTaYSYkTkAsiccYYzMeAc9YmB2h30Du9tGgNicmnPLkZI1ibvehb90GRn9zJYF5oObNvcjUvjjGibZcqeNvk7Dg%2F132&id=1&classId=1&className=%E7%B3%AF%E7%B1%B3%E7%8F%AD&type=0&isOpen=true&openStudentId=1&openStudentName=%E5%BC%A0%E5%B0%8F%E5%87%A1&name=%E9%97%A8%E5%89%8D%E6%B8%85%E5%B0%8F%E9%A3%8E%28%E5%9B%AD%E9%95%BF%29&totalStarCount=376&openPhoto=http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FCttmTaYSYkTkAsiccYYzMeAc9YmB2h30Du9tGgNicmnPLkZI1ibvehb90GRn9zJYF5oObNvcjUvjjGibZcqeNvk7Dg%2F132";
+
+let uurl = "http://ax.qxiao.net/qxiao-mp/?scene=0&clicktime=1559265109#/single?openId=ohkYoxOlCh_krYE5DEsVo5H25wRo&photo=http://thirdwx.qlogo.cn/mmopen/Jr7rTHcwniaFC2gupt7uGYHYicX7tnCfvxYLItOLFS1ENx4O1DuXmPzq30KdpXCkyda3fd0t7uwZtmV5cpjZicj1LJ33Up9Aqgz/132&roleType=9&openStudentId=58&openStudentName=%E9%BB%84%E5%BE%B7%E5%8D%8E";
+
 
 ```
 

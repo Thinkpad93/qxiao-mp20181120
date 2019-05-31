@@ -11,7 +11,7 @@
             <div class="video-mask">
               <template>
                 <div class="text-center">
-                  <p class="mb-20">付费视频，本节课程0.1元/节</p>
+                  <p class="mb-20">观看本课程需支付0.01元</p>
                   <van-button round type="info" size="small" @click="handleUserPay">购买</van-button>
                 </div>
               </template>

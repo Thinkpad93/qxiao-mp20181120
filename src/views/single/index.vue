@@ -399,7 +399,7 @@ export default {
         this.$dialog
           .confirm({
             title: "提示",
-            message: "今天又向前跨一步了，确认提交无法更改哦~"
+            message: "今天又向前跨一步了，提交无法更改哦~"
           })
           .then(() => {
             let obj = Object.assign({}, this.query, {

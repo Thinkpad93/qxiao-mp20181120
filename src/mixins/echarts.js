@@ -15,17 +15,9 @@ export default {
           type: "category",
           boundaryGap: false,
           data: [],
-          // axisLabel: {
-          //   showMinLabel: true,
-          //   showMaxLabel: false
-          // }
         },
         yAxis: {
           type: "value",
-          // axisLabel: {
-          //   showMinLabel: true,
-          //   showMaxLabel: false
-          // }
         },
         toolbox: {
           feature: {
@@ -66,21 +58,7 @@ export default {
           bottom: "3%",
           containLabel: true
         },
-        series: [{
-            data: [],
-            type: "line",
-            name: "个人表现",
-            stack: "总量",
-            smooth: true,
-          },
-          {
-            data: [],
-            type: "line",
-            name: "班级平均值",
-            stack: "总量",
-            smooth: true,
-          }
-        ]
+        series: []
       }
     }
   }

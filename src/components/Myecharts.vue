@@ -41,17 +41,9 @@ export default {
             type: "category",
             boundaryGap: false,
             data: []
-            // axisLabel: {
-            //   showMinLabel: true,
-            //   showMaxLabel: false
-            // }
           },
           yAxis: {
             type: "value"
-            // axisLabel: {
-            //   showMinLabel: true,
-            //   showMaxLabel: false
-            // }
           },
           toolbox: {
             feature: {
