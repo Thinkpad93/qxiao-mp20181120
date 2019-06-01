@@ -37,7 +37,7 @@ import studyRouterConfig from './study-plan';
 import helpRouterConfig from './help-center';
 import aboutRouterConfig from './about';
 import braceletRouterConfig from './bracelet';
-
+import welcomeRouterConfig from './welcome';
 
 Vue.use(Router);
 
@@ -77,7 +77,8 @@ export const constantRouterMap = [
   ...studyRouterConfig,
   ...helpRouterConfig,
   ...aboutRouterConfig,
-  ...braceletRouterConfig
+  ...braceletRouterConfig,
+  ...welcomeRouterConfig
 ]
 
 

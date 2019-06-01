@@ -166,4 +166,18 @@ export default {
     background-color: #92cd36;
   }
 }
+.release {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 5%;
+  bottom: 12%;
+  z-index: 100;
+  color: #fff;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #9acb4d;
+}
 </style>

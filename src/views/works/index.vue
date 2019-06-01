@@ -44,12 +44,6 @@
         </van-tab>
         <van-tab title="我的上传">
           <template v-if="list.length">
-            <!-- 操作 -->
-            <div class="works-tool">
-              <van-button type="default" size="small" v-show="mask" @click="handleCancel">取消</van-button>
-              <van-button type="primary" size="small" v-show="!mask" @click="mask = true">选择</van-button>
-              <van-button type="danger" size="small" @click="handleDelImage">删除</van-button>
-            </div>
             <div class="time-works mt-20">
               <div class="item" v-for="(item, index) in list" :key="index">
                 <time size-16>{{ item.postTime }}</time>
@@ -90,7 +84,35 @@
       </van-tabs>
     </div>
     <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
+      <template v-if="active == 0">
+        <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
+      </template>
+      <template v-else>
+        <div class="flex">
+          <van-button
+            size="large"
+            type="default"
+            class="no-radius"
+            v-show="mask"
+            @click="handleCancel"
+          >取消</van-button>
+          <van-button
+            size="large"
+            type="default"
+            class="no-radius"
+            v-show="!mask"
+            @click="mask = true"
+          >编辑</van-button>
+          <van-button
+            size="large"
+            type="danger"
+            class="no-radius"
+            v-show="mask"
+            @click="handleDelImage"
+          >删除</van-button>
+          <van-button size="large" type="info" class="no-radius" v-show="!mask" to="/works/add">上传作品</van-button>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -303,11 +325,6 @@ export default {
     }
   }
 }
-.works-tool {
-  margin-top: 20px;
-  padding-right: 20px;
-  text-align: right;
-}
 .works-mask {
   position: absolute;
   left: 0;
@@ -315,6 +332,7 @@ export default {
   width: 100%;
   height: 100%;
   text-align: right;
+  border-radius: 8px;
   padding: 10px 10px 0 0;
   background-color: rgba(0, 0, 0, 0.7);
 }

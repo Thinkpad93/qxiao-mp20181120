@@ -37,7 +37,7 @@ export default {
           trigger: "axis"
         },
         legend: {
-          data: ["个人表现", "班级平均值"]
+          data: []
         },
         xAxis: {
           type: "category",

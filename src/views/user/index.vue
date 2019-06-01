@@ -1,11 +1,8 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <van-popup v-model="popupShow" position="bottom">
-        <van-picker></van-picker>
-      </van-popup>
-      <div class="flex a-i-c user-info gradient-two">
-        <router-link to="/child" tag="div" class="flex a-i-c">
+      <router-link to="/child" tag="div" class="flex a-i-c user-info gradient-two">
+        <div class="flex a-i-c">
           <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
           <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
           <div class="js-user-change">
@@ -14,8 +11,9 @@
               <div class>Q星: {{ totalStarCount }}</div>
             </div>
           </div>
-        </router-link>
-      </div>
+        </div>
+        <van-icon name="arrow" size="16px"></van-icon>
+      </router-link>
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -57,7 +55,6 @@ export default {
   },
   data() {
     return {
-      popupShow: false,
       query: {
         studentId: this.$store.state.user.info.openStudentId,
         openId: this.$store.state.user.info.openId
@@ -107,6 +104,7 @@ export default {
   color: #fff;
   position: relative;
   height: 180px;
+  justify-content: space-between;
   .js-user-change {
     margin-left: 30px;
   }
