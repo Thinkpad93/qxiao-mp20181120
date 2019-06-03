@@ -114,7 +114,6 @@ import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
-//import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 import { mapState } from "vuex";
 export default {
@@ -194,6 +193,8 @@ export default {
               this.$toast(`${res.errorMsg}`);
             }
           }
+        } else {
+          this.addStudentWithOpen(this.form);
         }
       } else {
         this.$toast("请正确填写手机号");

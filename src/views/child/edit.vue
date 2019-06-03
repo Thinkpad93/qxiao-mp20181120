@@ -12,24 +12,20 @@
           :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
+      <p v-if="testStr">123</p>
       <!-- popup -->
       <div class="cells">
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
-              <img :src="form.openPhoto" width="50" height="50" radius="50">
-              <!-- <template v-if="imagesList.length">
-                <img :src="imagesList[0]" width="50" height="50" radius="50">
-              </template>
-              <img :src="form.openPhoto" width="50" height="50" radius="50" v-else>-->
+              <img :src="form.openPhoto" width="50" height="50" radius="50" v-if="form.openPhoto">
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
             </label>
           </div>
           <div class="cell-bd text-right">
             <van-uploader :after-read="handleRead" accept="image/*">
               <span>点击更换</span>
             </van-uploader>
-            <!-- <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
-            <span @click="handleChooseImage" v-else>点击更换</span>-->
           </div>
         </div>
         <div class="cell min-h120">
@@ -145,13 +141,13 @@
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
-//import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "childEdit",
   mixins: [sex, relation],
   data() {
     return {
+      testStr: "",
       popupShow: false,
       minDate: new Date(1966, 10, 1),
       filesObj: null,
