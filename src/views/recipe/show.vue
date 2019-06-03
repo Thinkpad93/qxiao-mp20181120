@@ -1,7 +1,11 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <article class="article">
+      <div class="empty" v-if="parseInt(info.isDel)">
+        <img src="@/assets/kong.png" alt>
+        <p>内容已被删除了~</p>
+      </div>
+      <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
@@ -43,15 +47,7 @@ export default {
     async recipeDetail(params = {}) {
       let res = await service.recipeDetail(params);
       if (res.errorCode === 0) {
-        let { isDel } = res.data;
-        if (isDel) {
-          this.$dialog.alert({
-            showConfirmButton: false,
-            message: "内容已被删除"
-          });
-        } else {
-          this.info = res.data;
-        }
+        this.info = res.data;
       }
     }
   },

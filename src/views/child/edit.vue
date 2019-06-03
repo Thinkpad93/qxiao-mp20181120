@@ -17,15 +17,19 @@
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
-              <template v-if="imagesList.length">
+              <img :src="form.openPhoto" width="50" height="50" radius="50">
+              <!-- <template v-if="imagesList.length">
                 <img :src="imagesList[0]" width="50" height="50" radius="50">
               </template>
-              <img :src="form.openPhoto" width="50" height="50" radius="50" v-else>
+              <img :src="form.openPhoto" width="50" height="50" radius="50" v-else>-->
             </label>
           </div>
           <div class="cell-bd text-right">
-            <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
-            <span @click="handleChooseImage" v-else>点击更换</span>
+            <van-uploader :after-read="handleRead" accept="image/*">
+              <span>点击更换</span>
+            </van-uploader>
+            <!-- <span v-if="imagesList.length" @click.stop="handleDelImg(0)">删除</span>
+            <span @click="handleChooseImage" v-else>点击更换</span>-->
           </div>
         </div>
         <div class="cell min-h120">
@@ -141,15 +145,16 @@
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
-import wxHandle from "@/mixins/wx";
+//import wxHandle from "@/mixins/wx";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "childEdit",
-  mixins: [sex, relation, wxHandle],
+  mixins: [sex, relation],
   data() {
     return {
       popupShow: false,
       minDate: new Date(1966, 10, 1),
+      filesObj: null,
       form: {},
       query: {
         openId: this.$store.state.user.info.openId,
@@ -196,32 +201,37 @@ export default {
           this.deleteOpenStudent(params);
         });
     },
+    handleRead(file, detail) {
+      this.form.openPhoto = file.content;
+      this.filesObj = file.file;
+    },
     async handleSubmit() {
-      let params = {
-        openId: this.query.openId,
-        imgIds: this.serverId
-      };
       let { studentName, address } = this.form;
       if (studentName == "") {
         this.$toast("请输入姓名");
         return;
       }
-      //如果有上传图片
-      if (this.serverId.length) {
-        //先上传图片ID给后端去下载图片
-        service.imgIds(params).then(res => {
-          if (res.errorCode === 0) {
-            this.form.openPhoto = res.data.paths[0].imageUrl;
-            //提交保存
-            service.studentInfoUpdate(this.form).then(res => {
-              if (res.errorCode === 0) {
-                this.$router.go(-1);
-              } else {
-                this.$toast(`${res.errorMsg}`);
-              }
-            });
+      if (this.filesObj) {
+        //配置上传头部信息
+        let config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
           }
-        });
+        };
+        let formData = new FormData();
+        formData.append("file", this.filesObj);
+        //开始上传文件
+        let res = await service.addImage(formData, config);
+        if (res.errorCode === 0) {
+          this.form.openPhoto = res.data.url;
+          //提交保存
+          let result = await service.studentInfoUpdate(this.form);
+          if (result.errorCode === 0) {
+            this.$router.go(-1);
+          } else {
+            this.$toast(`${res.errorMsg}`);
+          }
+        }
       } else {
         this.studentInfoUpdate(this.form);
       }

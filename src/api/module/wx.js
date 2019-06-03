@@ -24,3 +24,9 @@ export function userPay(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//上传头像
+export function addImage(params, config) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/upload/addImage.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

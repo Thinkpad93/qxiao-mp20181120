@@ -1,7 +1,11 @@
 <template>
   <div class="flex-page">
-    <div class="flex-bd" v-show="!parseInt(info.isDel)">
-      <article class="article">
+    <div class="flex-bd">
+      <div class="empty" v-if="parseInt(info.isDel)">
+        <img src="@/assets/kong.png" alt>
+        <p>内容已被删除了~</p>
+      </div>
+      <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
@@ -22,7 +26,7 @@
         </div>
       </article>
     </div>
-    <div class="flex-ft">
+    <div class="flex-ft" v-show="!parseInt(info.isDel)">
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
         <section class="mamba">
           <p
@@ -89,15 +93,7 @@ export default {
     async noticeDetail(params = {}) {
       let res = await service.noticeDetail(params);
       if (res.errorCode === 0) {
-        let { isDel } = res.data;
-        if (isDel) {
-          this.$dialog.alert({
-            showConfirmButton: false,
-            message: "内容已被删除"
-          });
-        } else {
-          this.info = res.data;
-        }
+        this.info = res.data;
       }
     },
     //公告确认
