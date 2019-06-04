@@ -54,8 +54,6 @@
                   <div class="cell-bd">
                     <time size-16>{{ query.day }}</time>
                     <span>今日表现{{ start }}颗Q星</span>
-                    <!-- <time size-16>{{ query.day }}</time>
-                    <span size-16>获得{{ start }}颗Q星</span>-->
                   </div>
                   <div class="cell-ft">
                     <van-icon name="arrow" size="16px"></van-icon>
@@ -123,12 +121,6 @@
             <div class="mod no-radius" ref="mod">
               <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在家表现</span>
-                <!-- <van-button
-                  round
-                  type="info"
-                  size="small"
-                  @click="popupShow = true"
-                >{{ actionDefaultText }}</van-button>-->
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="homeStat" :option="homeOption"/>
@@ -174,12 +166,6 @@
             <div class="mod no-radius">
               <div class="echarts-head flex a-i-c j-c-s-b mb-20">
                 <span>近一周在校表现</span>
-                <!-- <van-button
-                  round
-                  type="info"
-                  size="small"
-                  @click="popupShows = true"
-                >{{ lessonDefaultText }}</van-button>-->
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="stateMent" :option="stateMentOption"/>
@@ -200,7 +186,7 @@
                 </div>
                 <div class="remark-bd">
                   <!-- 没有数据展示 -->
-                  <template v-if="remark.teacherText">
+                  <template v-if="Object.keys(remark).length">
                     <div class="flex mb-20">
                       <span>老师:</span>
                       <p class="ml-20">{{ remark.teacherText }}</p>
@@ -407,10 +393,12 @@ export default {
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        let { totalStarCount, statu } = res.data;
+        this.statu = statu;
         //更新星星数量
-        this.actionListQuery();
+        //this.actionListQuery();
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
+        let obj = Object.assign({}, _cookie, { totalStarCount });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
           }

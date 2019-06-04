@@ -199,7 +199,7 @@ export default {
     async queryMyUpload(params = {}) {
       let res = await service.queryMyUpload(params);
       if (res.errorCode === 0) {
-        this.list = res.data;
+        this.list = res.data || [];
       }
     }
   },

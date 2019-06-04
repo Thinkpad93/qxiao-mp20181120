@@ -31,6 +31,10 @@
           </figure>
         </van-cell-group>
       </van-swipe-cell>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt>
+        <p>暂无试卷内容~</p>
+      </div>
     </div>
   </div>
 </template>

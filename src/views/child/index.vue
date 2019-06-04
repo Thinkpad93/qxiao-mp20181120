@@ -9,8 +9,7 @@
                 <img :src="item.openPhoto" radius="50">
               </template>
               <template v-else>
-                <img v-if="item.sex == 1" src="@/assets/student-icon-boy.png" radius="50">
-                <img v-else src="@/assets/student-icon-girl.png" radius="50">
+                <img src="@/assets/child-default@2x.png" radius="50">
               </template>
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>

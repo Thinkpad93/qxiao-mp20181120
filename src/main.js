@@ -20,29 +20,20 @@ Vue.prototype.wxSdk = wxSdk;
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
-    roleType,
+    roleType
   } = store.state.user.info;
   let _cookie = Cookies.getJSON('info') || {};
+  //获取地址栏参数
+  let params = urlSearch();
   if (to.meta.cookie) {
-    //刷新处理
+    //第二次进来
     if (Object.keys(_cookie).length && !roleType) {
       //微信分享
       wxSdk.wxShare();
-      //获取地址栏参数
-      let pms = urlSearch();
-      // if (pms != -1) {
-      //   if (pms.totalStarCount != _cookie.totalStarCount) {
-      //     store.dispatch("user/getInfo");
-      //   } else {
-      //     store.dispatch("user/setInfo", pms);
-      //   } 
-      // }else {
-      //   store.dispatch("user/getInfo");
-      // }
-      if (pms != -1) {
-        if (pms.openId || pms.roleType) {
-          console.log(pms);
-          store.dispatch("user/setInfo", pms);
+      if (params != -1) {
+        if (params.openId || params.roleType) {
+          console.log(params);
+          store.dispatch("user/setInfo", params);
         } else {
           store.dispatch("user/getInfo");
         }
@@ -53,7 +44,6 @@ router.beforeEach((to, from, next) => {
       console.log("没有Cookie");
       if (to.path !== '/login') {
         //第一次进来
-        let params = urlSearch();
         if (params != -1) {
           store.dispatch("user/setInfo", params);
         }
