@@ -467,51 +467,6 @@ export default {
       if (res.errorCode === 0) {
         this.lessonDefault = res.data;
       }
-    },
-    //在家表现一周查询
-    async homeStatQuery() {
-      let params = {
-        studentId: this.studentId,
-        openId: this.openId,
-        date: this.query.day
-      };
-      let res = await service.homeStatQuery(params);
-      if (res.errorCode === 0) {
-        let result = res.data;
-        if (result.day.length) {
-          this.homeOption.xAxis.data = result.day; //一周时间数据
-          this.homeOption.legend.data = result.homeStar.map(item => item.name);
-          this.homeOption.series = result.homeStar.map(item => {
-            return {
-              ...item,
-              smooth: true
-            };
-          });
-        }
-      }
-    },
-    //课堂表现一周查询
-    async stateMentList() {
-      let params = {
-        openId: this.openId,
-        studentId: this.studentId
-      };
-      let res = await service.stateMentList(params);
-      if (res.errorCode === 0) {
-        let result = res.data;
-        if (result.day.length) {
-          this.stateMentOption.xAxis.data = result.day;
-          this.stateMentOption.legend.data = result.lessonStar.map(
-            item => item.name
-          );
-          this.stateMentOption.series = result.lessonStar.map(item => {
-            return {
-              ...item,
-              smooth: true
-            };
-          });
-        }
-      }
     }
   },
   mounted() {

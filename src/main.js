@@ -21,15 +21,24 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
     roleType,
-    openId
   } = store.state.user.info;
   let _cookie = Cookies.getJSON('info') || {};
   if (to.meta.cookie) {
-    //第二次进来
+    //刷新处理
     if (Object.keys(_cookie).length && !roleType) {
       //微信分享
       wxSdk.wxShare();
+      //获取地址栏参数
       let pms = urlSearch();
+      // if (pms != -1) {
+      //   if (pms.totalStarCount != _cookie.totalStarCount) {
+      //     store.dispatch("user/getInfo");
+      //   } else {
+      //     store.dispatch("user/setInfo", pms);
+      //   } 
+      // }else {
+      //   store.dispatch("user/getInfo");
+      // }
       if (pms != -1) {
         if (pms.openId || pms.roleType) {
           console.log(pms);
