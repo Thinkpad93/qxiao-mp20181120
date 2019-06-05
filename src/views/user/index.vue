@@ -10,7 +10,7 @@
               {{ openStudentName }}
               <small>Q星: {{ totalStarCount }}</small>
             </h3>
-            <p size-12>行动养成习惯，习惯形成性格。</p>
+            <p size-12>您的坚持和鼓励是开启孩子好习惯养成的钥匙！</p>
           </div>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
