@@ -18,3 +18,9 @@ export function experience(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//学生加入班级
+export function studentJoinClass(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/process/studentJoinClass.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

@@ -147,7 +147,13 @@ export default {
       return value;
     },
     handleConfirm(value) {},
-    handleSubmit() {}
+    handleSubmit() {},
+    //学生加入班级
+    async studentJoinClass(params = {}) {
+      let res = await service.studentJoinClass(params);
+      if (res.errorCode === 0) {
+      }
+    }
   }
 };
 </script>
