@@ -19,6 +19,9 @@ export default {
         },
         yAxis: {
           type: "value",
+          axisLabel: {
+            formatter: "{value}星"
+          }
         },
         toolbox: {
           feature: {
@@ -46,7 +49,10 @@ export default {
           data: []
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          axisLabel: {
+            formatter: "{value}星"
+          }
         },
         toolbox: {
           feature: {

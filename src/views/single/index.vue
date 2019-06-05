@@ -53,7 +53,7 @@
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
                   <div class="cell-bd">
                     <time size-16>{{ query.day }}</time>
-                    <span>今日表现{{ start }}颗Q星</span>
+                    <span>日表现{{ start }}颗Q星</span>
                   </div>
                   <div class="cell-ft">
                     <van-icon name="arrow" size="16px"></van-icon>
@@ -119,7 +119,7 @@
               </div>
             </div>
             <div class="mod no-radius" ref="mod">
-              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在家表现</span>
               </div>
               <!-- 一周数据分析 -->
@@ -164,7 +164,7 @@
               </div>
             </div>
             <div class="mod no-radius">
-              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在校表现</span>
               </div>
               <!-- 一周数据分析 -->
@@ -205,7 +205,7 @@
               <div class="snail flex j-c-s-b a-i-c mb-20">
                 <div class="flex a-i-c">
                   <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-                  <div class="ml-10">竞争力(广州)</div>
+                  <div class="ml-10">综合竞争力排名(广州)</div>
                 </div>
                 <div class="flex a-i-c">
                   <span class="mr-10">80</span>
@@ -615,6 +615,7 @@ export default {
 }
 
 .echarts-head {
+  text-align: center;
   padding: 30px 30px 0 30px;
 }
 

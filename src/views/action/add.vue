@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-hd">行为说明</div>
+            <div class="cell-hd">行为目标</div>
             <div class="cell-bd">
               <input
                 placeholder="例如: 培养孩子坚持力"

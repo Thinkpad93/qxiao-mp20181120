@@ -128,7 +128,7 @@ export default {
             return this.menuList.concat(this.teacherList);
             break;
           case 3:
-            return this.menuList;
+            return this.menuList.concat(this.recipeList).concat(this.clockList);
             break;
           default:
             return this.menuList.concat(this.schoolList);

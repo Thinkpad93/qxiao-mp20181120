@@ -13,10 +13,10 @@
             readonly
           ></van-rate>
         </div>
-        <p>
+        <!-- <p>
           点击
           <a href="javascript:void(0);" style="color:#92cd36" @click="jump">课程回顾</a>本堂课知识
-        </p>
+        </p>-->
       </div>
       <div class="cells-title">
         <p>小Q手环数据分析</p>

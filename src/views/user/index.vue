@@ -6,10 +6,11 @@
           <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
           <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
           <div class="js-user-change">
-            <h3 size-18 class="mb-20 username">{{ openStudentName }}</h3>
-            <div class="info-meta">
-              <div class>Q星: {{ totalStarCount }}</div>
-            </div>
+            <h3 size-18 class="mb-20 username">
+              {{ openStudentName }}
+              <small>Q星: {{ totalStarCount }}</small>
+            </h3>
+            <p size-12>行动养成习惯，习惯形成性格。</p>
           </div>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
@@ -17,7 +18,7 @@
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-          <div class="ml-10">竞争力(广州)</div>
+          <div class="ml-10">综合竞争力排名(广州)</div>
         </div>
         <div class="snail-right flex a-i-c">
           <span class="mr-10">80</span>
