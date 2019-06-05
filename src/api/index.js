@@ -18,6 +18,8 @@ import * as remark from './module/remark';
 import * as role from './module/role';
 import * as works from './module/works';
 
+import * as process from './module/process';
+
 export default {
   ...album,
   ...clock,
@@ -36,5 +38,6 @@ export default {
   ...lesson,
   ...remark,
   ...role,
-  ...works
+  ...works,
+  ...process
 }

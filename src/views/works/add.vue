@@ -75,6 +75,7 @@
 import service from "@/api";
 import { ImagePreview } from "vant";
 import { mapState } from "vuex";
+import eventBus from "@/utils/eventBus";
 export default {
   name: "worksAdd",
   data() {
@@ -148,6 +149,7 @@ export default {
         //进行作品上传
         service.uploadWorks(this.form).then(res => {
           if (res.errorCode === 0) {
+            eventBus.$emit("tabMessage", 1);
             this.$router.go(-1);
           }
         });

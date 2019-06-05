@@ -34,4 +34,16 @@ export default [{
       roles: [1]
     }
   },
+  {
+    path: '/teacher/createClass',
+    name: 'teacherCreateClass',
+    component: () => import('@/views/teacher/createClass'),
+    meta: {
+      keepAlive: false,
+      cookie: true,
+      isShare: false,
+      title: '创建班级',
+      roles: [1]
+    }
+  },
 ]

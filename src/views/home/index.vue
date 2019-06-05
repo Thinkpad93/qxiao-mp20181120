@@ -341,7 +341,8 @@ export default {
 .switch-children {
   position: absolute;
   right: 20px;
-  bottom: 14%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .home-myStudent {

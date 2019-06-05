@@ -457,15 +457,14 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted() {},
+  activated() {
+    this.actionListQuery();
+    this.lessonQuery();
     this.homeStatQuery();
     this.stateMentList();
     this.newRemarkQuery();
     this.lessonInfoQuery();
-  },
-  activated() {
-    this.actionListQuery();
-    this.lessonQuery();
   }
 };
 </script>

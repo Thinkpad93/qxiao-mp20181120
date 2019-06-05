@@ -120,6 +120,7 @@
 import service from "@/api";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import eventBus from "@/utils/eventBus";
 export default {
   name: "works",
   components: {
@@ -206,7 +207,14 @@ export default {
   mounted() {
     this.queryOnLineList(this.query);
     this.queryMyUpload(this.query);
-  }
+    // eventBus.$on("tabMessage", msg => {
+    //   this.$nextTick(() => {
+    //     console.log(this.list);
+    //     this.active = msg;
+    //   });
+    // });
+  },
+  activated() {}
 };
 </script>
 <style lang="less" scoped>
