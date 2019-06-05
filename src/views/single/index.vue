@@ -217,13 +217,13 @@
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <van-button
+                      <!-- <van-button
                         round
                         type="info"
                         size="small"
                         to="/personality-plan"
                         style="width:200px;"
-                      >定制个性计划</van-button>
+                      >定制个性计划</van-button> -->
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -231,13 +231,13 @@
                       <p
                         class="mt-10"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <van-button
+                      <!-- <van-button
                         round
                         type="info"
                         size="small"
                         to="/study-plan"
                         style="width:200px;"
-                      >定制学习计划</van-button>
+                      >定制学习计划</van-button> -->
                     </div>
                   </van-tab>
                 </van-tabs>
