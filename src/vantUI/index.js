@@ -23,7 +23,8 @@ import {
   Collapse,
   CollapseItem,
   Tag,
-  Uploader
+  Uploader,
+  NoticeBar
 } from 'vant';
 
 Vue.use(Radio)
@@ -49,4 +50,5 @@ Vue.use(Radio)
   .use(Collapse)
   .use(CollapseItem)
   .use(Tag)
-  .use(Uploader);
+  .use(Uploader)
+  .use(NoticeBar);

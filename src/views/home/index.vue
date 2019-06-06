@@ -34,6 +34,10 @@
       <template v-if="isOpen">
         <qxRelease url="/community"/>
       </template>
+      <div class="experience" v-if="experience">
+        <p>快去邀请老师成为班级管理员吧</p>
+        <van-button type="primary" size="small" @click="handleShare">邀请</van-button>
+      </div>
       <main class="main">
         <div class="classId flex a-i-c j-c-s-b">
           <p>班级圈</p>
@@ -129,7 +133,8 @@ export default {
       isOpen: state => state.info.isOpen,
       photo: state => state.info.photo,
       name: state => state.info.name,
-      roleType: state => state.info.roleType
+      roleType: state => state.info.roleType,
+      experience: state => state.info.experience
     }),
     className: {
       get() {
@@ -141,6 +146,9 @@ export default {
     }
   },
   methods: {
+    handleShare() {
+      this.$toast("请点击右上角发送给好友");
+    },
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
@@ -350,5 +358,17 @@ export default {
   padding: 0 30px;
   background-color: #fff;
   margin-bottom: 10px;
+}
+
+.experience {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  color: #ed6a0c;
+  padding: 0 20px;
+  position: relative;
+  margin-top: 20px;
+  background-color: #fffbe8;
 }
 </style>

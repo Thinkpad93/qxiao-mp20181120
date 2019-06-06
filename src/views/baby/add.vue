@@ -129,6 +129,12 @@ export default {
       minDate: new Date(1966, 10, 1),
       startDate: new Date(),
       form: {
+        studentName: "",
+        classId: "",
+        birthday: "",
+        address: "",
+        tel: "",
+        openId: "",
         sex: 1,
         relation: 1
       }

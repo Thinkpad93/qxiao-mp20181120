@@ -3,14 +3,20 @@
     <div class="page-bd">
       <router-link to="/child" tag="div" class="flex a-i-c user-info gradient-two">
         <div class="flex a-i-c">
-          <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
-          <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
-          <div class="js-user-change">
-            <h3 size-18 class="mb-20 username">{{ openStudentName }}</h3>
-            <div class="info-meta">
-              <div class>Q星: {{ totalStarCount }}</div>
+          <template v-if="openStudentName">
+            <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+            <div class="js-user-change">
+              <h3 size-18 class="mb-20 username">{{ openStudentName }}</h3>
+              <div class="info-meta">
+                <div class>Q星: {{ totalStarCount }}</div>
+              </div>
             </div>
-          </div>
+          </template>
+          <template v-else>
+            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+            <p class="ml-20">尚未有关注孩子，点击添加。</p>
+          </template>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
       </router-link>
@@ -48,6 +54,7 @@ import Cookies from "js-cookie";
 import service from "@/api";
 import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
+import wxapi from "@/config/wxapi";
 export default {
   name: "user",
   components: {
@@ -95,7 +102,30 @@ export default {
       totalStarCount: state => state.info.totalStarCount
     })
   },
-  methods: {}
+  methods: {
+    wxRegCallback() {
+      //用于微信JS-SDK回调
+      this.wxShareAppMessage();
+    },
+    wxShareAppMessage() {
+      let that = this;
+      let option = {
+        title: "限时团购周挑战最低价", // 分享标题
+        desc: "小Q智慧欢迎您的加入", // 分享描述
+        link: window.location.href.split("#")[0], // 分享链接，根据自身项目决定是否需要split
+        success: () => {
+          that.$toast("分享成功");
+        },
+        error: () => {
+          that.$toast("已取消分享");
+        }
+      };
+      wxapi.wxShareAppMessage(option);
+    }
+  },
+  mounted() {
+    wxapi.wxRegister(this.wxRegCallback);
+  }
 };
 </script>
 <style lang="less" scoped>

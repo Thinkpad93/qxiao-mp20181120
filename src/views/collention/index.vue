@@ -9,7 +9,9 @@ export default {
   name: "collention",
   data() {
     return {};
-  }
+  },
+  methods: {},
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

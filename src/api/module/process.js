@@ -24,3 +24,9 @@ export function studentJoinClass(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//版本跳转
+export function myExperience(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/experience/myExperience.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
