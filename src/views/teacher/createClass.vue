@@ -70,6 +70,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -83,7 +84,7 @@ export default {
         teacherName: "",
         tel: "",
         code: "",
-        openId: null
+        openId: this.$route.query.openId
       },
       schoolList: []
     };

@@ -13,26 +13,20 @@
         ></van-datetime-picker>
       </van-popup>
       <!-- popup -->
-      <div class="cells">
-        <div class="cell min-h120">
-          <div class="cell-hd">
-            <label class="label">学校名称</label>
-          </div>
+      <div class="cells mb-20">
+        <div class="cell min-h100">
           <div class="cell-bd">
-            <p>华南政工大学</p>
+            <p>{{ schoolName }}</p>
           </div>
         </div>
-        <div class="cell min-h120">
-          <div class="cell-hd">
-            <label class="label">班级</label>
-          </div>
+        <div class="cell min-h100">
           <div class="cell-bd">
-            <p>一年级一班</p>
+            <p>{{ className }}</p>
           </div>
         </div>
       </div>
       <div class="cells">
-        <div class="cell min-h120">
+        <div class="cell min-h100">
           <div class="cell-hd">
             <label class="label">姓名</label>
           </div>
@@ -42,7 +36,7 @@
             </div>
           </div>
         </div>
-        <div class="cell cell-select cell-select-after min-h120">
+        <div class="cell cell-select cell-select-after min-h100">
           <div class="cell-hd">
             <label for class="label">性别</label>
           </div>
@@ -56,7 +50,7 @@
             </select>
           </div>
         </div>
-        <div class="cell min-h120">
+        <div class="cell min-h100">
           <div class="cell-hd">出生日期</div>
           <div class="cell-bd">
             <input
@@ -69,7 +63,7 @@
             >
           </div>
         </div>
-        <div class="cell min-h120">
+        <div class="cell min-h100">
           <div class="cell-hd">
             <label class="label">地址</label>
           </div>
@@ -77,7 +71,7 @@
             <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address">
           </div>
         </div>
-        <div class="cell min-h120">
+        <div class="cell min-h100">
           <div class="cell-hd">
             <label class="label">家长手机号码</label>
           </div>
@@ -91,7 +85,7 @@
             >
           </div>
         </div>
-        <div class="cell cell-select cell-select-after min-h120">
+        <div class="cell cell-select cell-select-after min-h100">
           <div class="cell-hd">
             <label for class="label">关系</label>
           </div>
@@ -117,8 +111,10 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import dayjs from "dayjs";
+import { isPhone } from "@/utils/validator";
 import { sex, relation } from "@/mixins/type";
 export default {
   name: "babyAdd",
@@ -128,13 +124,15 @@ export default {
       popupShow: false,
       minDate: new Date(1966, 10, 1),
       startDate: new Date(),
+      schoolName: this.$route.query.schoolName,
+      className: this.$route.query.className,
       form: {
         studentName: "",
-        classId: "",
+        classId: this.$route.query.classId,
         birthday: "",
         address: "",
         tel: "",
-        openId: "",
+        openId: this.$route.query.openId,
         sex: 1,
         relation: 1
       }
@@ -152,8 +150,22 @@ export default {
       }
       return value;
     },
-    handleConfirm(value) {},
-    handleSubmit() {},
+    handleConfirm(value) {
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.birthday = now;
+      this.popupShow = false;
+    },
+    handleSubmit() {
+      let { studentName, tel } = this.form;
+      if (studentName == "") {
+        this.$toast("请输入姓名");
+        return;
+      }
+      if (isPhone(tel)) {
+      } else {
+        this.$toast("请正确填写手机号");
+      }
+    },
     //学生加入班级
     async studentJoinClass(params = {}) {
       let res = await service.studentJoinClass(params);

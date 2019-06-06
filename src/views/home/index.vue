@@ -4,13 +4,20 @@
       <!-- 角色选择 -->
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
-        <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
+        <!-- <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
-        </div>
-        <div class="switch-children" @click="jump" v-if="roleType == 3">
+        </div>-->
+        <router-link to="/role/select" class="switch-role" v-if="roleList.length == 2">
+          <van-icon name="replay" size="16px"></van-icon>
+          <span>切换角色</span>
+        </router-link>
+        <!-- <div class="switch-children" @click="jump" v-if="roleType == 3">
           <van-icon name="arrow" size="18px"></van-icon>
-        </div>
+        </div>-->
+        <router-link tag="div" class="switch-children" to="/baby" v-if="roleType == 3">
+          <van-icon name="arrow" size="18px"></van-icon>
+        </router-link>
         <div class="flex a-i-c">
           <div class="avatar" @click="jumpRole">
             <img :src="photo" width="60" height="60" radius="50">
@@ -34,7 +41,7 @@
       <template v-if="isOpen">
         <qxRelease url="/community"/>
       </template>
-      <div class="experience" v-if="experience">
+      <div class="experience" v-if="experience == 1">
         <p>快去邀请老师成为班级管理员吧</p>
         <van-button type="primary" size="small" @click="handleShare">邀请</van-button>
       </div>
@@ -88,6 +95,7 @@
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import wxapi from "@/config/wxapi";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxRelease from "@/components/Release";
@@ -146,6 +154,25 @@ export default {
     }
   },
   methods: {
+    wxRegCallback() {
+      //用于微信JS-SDK回调
+      this.wxShareAppMessage();
+    },
+    wxShareAppMessage() {
+      let that = this;
+      let option = {
+        title: "限时团购周挑战最低价", // 分享标题
+        desc: "小Q智慧欢迎您的加入", // 分享描述
+        link: window.location.href.split("#")[0], // 分享链接，根据自身项目决定是否需要split
+        success: () => {
+          that.$toast("分享成功");
+        },
+        error: () => {
+          that.$toast("已取消分享");
+        }
+      };
+      wxapi.wxShareAppMessage(option);
+    },
     handleShare() {
       this.$toast("请点击右上角发送给好友");
     },
@@ -156,17 +183,17 @@ export default {
         });
       }
     },
-    jump() {
-      this.$router.push({
-        path: "/baby"
-      });
-    },
+    // jump() {
+    //   this.$router.push({
+    //     path: "/baby"
+    //   });
+    // },
     //角色切换
-    tagClick() {
-      this.$router.push({
-        path: "/role/select"
-      });
-    },
+    // tagClick() {
+    //   this.$router.push({
+    //     path: "/role/select"
+    //   });
+    // },
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
