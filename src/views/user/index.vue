@@ -54,7 +54,6 @@ import Cookies from "js-cookie";
 import service from "@/api";
 import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
-import wxapi from "@/config/wxapi";
 export default {
   name: "user",
   components: {
@@ -102,30 +101,7 @@ export default {
       totalStarCount: state => state.info.totalStarCount
     })
   },
-  methods: {
-    wxRegCallback() {
-      //用于微信JS-SDK回调
-      this.wxShareAppMessage();
-    },
-    wxShareAppMessage() {
-      let that = this;
-      let option = {
-        title: "限时团购周挑战最低价", // 分享标题
-        desc: "小Q智慧欢迎您的加入", // 分享描述
-        link: window.location.href.split("#")[0], // 分享链接，根据自身项目决定是否需要split
-        success: () => {
-          that.$toast("分享成功");
-        },
-        error: () => {
-          that.$toast("已取消分享");
-        }
-      };
-      wxapi.wxShareAppMessage(option);
-    }
-  },
-  mounted() {
-    wxapi.wxRegister(this.wxRegCallback);
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>

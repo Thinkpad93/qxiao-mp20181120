@@ -46,4 +46,28 @@ export default [{
       roles: [1]
     }
   },
+  {
+    path: '/teacher/share',
+    name: 'teacherShare',
+    component: () => import('@/views/teacher/share'),
+    meta: {
+      keepAlive: false,
+      cookie: true,
+      isShare: false,
+      title: '分享',
+      roles: [1]
+    }
+  },
+  {
+    path: '/teacher/success',
+    name: 'teacherSuccess',
+    component: () => import('@/views/teacher/success'),
+    meta: {
+      keepAlive: false,
+      cookie: true,
+      isShare: false,
+      title: '分享',
+      roles: [1]
+    }
+  },
 ]

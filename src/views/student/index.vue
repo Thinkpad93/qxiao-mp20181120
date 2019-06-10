@@ -2,7 +2,8 @@
   <div class="flex-page">
     <div class="flex-hd">
       <div class="student-head">
-        <router-link to="/student/add" class="btn btn-primary">录入学生信息</router-link>
+        <router-link to="/student/add" class="btn btn-primary" v-if="openDirection == 0">录入学生信息</router-link>
+        <a href="javascript:void(0);" class="btn btn-primary">分享链接</a>
       </div>
     </div>
     <div class="flex-bd">
@@ -64,6 +65,9 @@
 <script>
 import service from "@/api";
 import dialog from "@/components/dialog";
+import { mapState } from "vuex";
+import { API_ROOT } from "@/config/isdev";
+import wxapi from "@/config/wxapi";
 export default {
   name: "student",
   components: {
@@ -80,9 +84,39 @@ export default {
   computed: {
     studentCount() {
       return this.studentList.length;
-    }
+    },
+    ...mapState("user", {
+      classId: state => state.info.classId,
+      experience: state => state.info.experience,
+      openDirection: state => state.info.openDirection // 0-小Q班级流程加入 1-分享流程加入
+    })
   },
   methods: {
+    wxRegCallback() {
+      //用于微信JS-SDK回调
+      this.wxShareAppMessage();
+    },
+    wxShareAppMessage() {
+      let that = this;
+      let shareUrl = "";
+      if (this.openDirection == 0) {
+        shareUrl = API_ROOT + "#/share";
+      } else {
+        shareUrl = API_ROOT + "#/baby/share?classId=" + this.classId;
+      }
+      let option = {
+        title: "亲爱的用户您好", // 分享标题
+        desc: "小Q智慧欢迎您的加入", // 分享描述
+        link: shareUrl, // 分享链接，根据自身项目决定是否需要split
+        success: () => {
+          that.$toast("分享成功");
+        },
+        error: () => {
+          that.$toast("已取消分享");
+        }
+      };
+      wxapi.wxShareAppMessage(option);
+    },
     handleOnCancel(state) {
       this.visible = state;
     },
@@ -109,9 +143,9 @@ export default {
   },
   mounted() {
     this.queryStudentList(this.teacherId);
-    this.wxSdk.wxShare();
-  },
-  activated() {}
+    wxapi.wxRegister(this.wxRegCallback);
+    //this.wxSdk.wxShare();
+  }
 };
 </script>
 <style lang="less" scoped>

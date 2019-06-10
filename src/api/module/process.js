@@ -30,3 +30,9 @@ export function myExperience(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//二维码链接
+export function getRQcode(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/upload/getRQcode.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

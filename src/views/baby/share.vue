@@ -17,12 +17,12 @@
 <script>
 import service from "@/api";
 export default {
-  name: "teacherShare",
+  name: "",
   data() {
     return {
       imgUrl: "",
       query: {
-        classId: 0
+        classId: this.$route.query.classId
       }
     };
   },

@@ -114,7 +114,7 @@ export default {
     },
     //获取验证码
     async telVeriftCode(tel) {
-      let res = await service.telVeriftCode({ tel });
+      let res = await service.telVeriftCode({ tel, codeType: 1 });
       if (res.errorCode === 0) {
         this.$toast("验证码已经发送，请注意查收");
         this.hidden = true;

@@ -4,17 +4,10 @@
       <!-- 角色选择 -->
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
-        <!-- <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
-          <van-icon name="replay" size="16px"></van-icon>
-          <span>切换角色</span>
-        </div>-->
         <router-link to="/role/select" class="switch-role" v-if="roleList.length == 2">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
         </router-link>
-        <!-- <div class="switch-children" @click="jump" v-if="roleType == 3">
-          <van-icon name="arrow" size="18px"></van-icon>
-        </div>-->
         <router-link tag="div" class="switch-children" to="/baby" v-if="roleType == 3">
           <van-icon name="arrow" size="18px"></van-icon>
         </router-link>
@@ -104,6 +97,7 @@ import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 import pageMixin from "@/mixins/page";
 import { mapState } from "vuex";
+import { API_ROOT } from "@/config/isdev";
 export default {
   name: "home",
   mixins: [pageMixin, scrollMixins, classList],
@@ -156,14 +150,16 @@ export default {
   methods: {
     wxRegCallback() {
       //用于微信JS-SDK回调
+
       this.wxShareAppMessage();
     },
     wxShareAppMessage() {
       let that = this;
+      let shareUrl = API_ROOT + "#/teacher/share";
       let option = {
-        title: "限时团购周挑战最低价", // 分享标题
+        title: "亲爱的用户您好", // 分享标题
         desc: "小Q智慧欢迎您的加入", // 分享描述
-        link: window.location.href.split("#")[0], // 分享链接，根据自身项目决定是否需要split
+        link: shareUrl, // 分享链接，根据自身项目决定是否需要split
         success: () => {
           that.$toast("分享成功");
         },
@@ -183,17 +179,6 @@ export default {
         });
       }
     },
-    // jump() {
-    //   this.$router.push({
-    //     path: "/baby"
-    //   });
-    // },
-    //角色切换
-    // tagClick() {
-    //   this.$router.push({
-    //     path: "/role/select"
-    //   });
-    // },
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
@@ -350,6 +335,9 @@ export default {
   mounted() {
     this.communityQuery(this.query);
     this.queryRole({ openId: this.query.openId });
+    if (this.experience == 1) {
+      wxapi.wxRegister(this.wxRegCallback);
+    }
   }
 };
 </script>

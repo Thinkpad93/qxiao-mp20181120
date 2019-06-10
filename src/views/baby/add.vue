@@ -15,13 +15,19 @@
       <!-- popup -->
       <div class="cells mb-20">
         <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for>学校名称</label>
+          </div>
           <div class="cell-bd">
-            <p>{{ schoolName }}</p>
+            <input class="input" v-model="schoolName" readonly>
           </div>
         </div>
         <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for>班级</label>
+          </div>
           <div class="cell-bd">
-            <p>{{ className }}</p>
+            <input class="input" v-model="className" readonly>
           </div>
         </div>
       </div>
@@ -129,6 +135,7 @@ export default {
       form: {
         studentName: "",
         classId: this.$route.query.classId,
+        className: this.$route.query.className,
         birthday: "",
         address: "",
         tel: "",
@@ -162,6 +169,8 @@ export default {
         return;
       }
       if (isPhone(tel)) {
+        console.log(this.form);
+        this.studentJoinClass(this.form);
       } else {
         this.$toast("请正确填写手机号");
       }
@@ -170,6 +179,13 @@ export default {
     async studentJoinClass(params = {}) {
       let res = await service.studentJoinClass(params);
       if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, res.data);
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.replace({ path: "/home" });
+          }
+        });
       }
     }
   }

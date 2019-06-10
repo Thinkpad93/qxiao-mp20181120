@@ -20,7 +20,7 @@ export default [{
   },
   {
     path: '/study-plan/show2',
-    name: "studyPlanShow",
+    name: "studyPlanShow2",
     component: () => import('@/views/study-plan/show2'),
     meta: {
       title: "学习计划详情",
@@ -30,7 +30,7 @@ export default [{
   },
   {
     path: '/study-plan/show3',
-    name: "studyPlanShow",
+    name: "studyPlanShow3",
     component: () => import('@/views/study-plan/show3'),
     meta: {
       title: "学习计划详情",
@@ -40,7 +40,7 @@ export default [{
   },
   {
     path: '/study-plan/show4',
-    name: "studyPlanShow",
+    name: "studyPlanShow4",
     component: () => import('@/views/study-plan/show4'),
     meta: {
       title: "学习计划详情",
