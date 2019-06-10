@@ -5,7 +5,11 @@
         <img src="@/assets/create-success.png" alt>
         <div class="okapi">
           <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="jump">进入班级</a>
-          <a href="javascript:void(0);" class="btn btn-large btn-primary">邀请家长加入</a>
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="handleShare"
+          >邀请家长加入</a>
         </div>
         <p>分享至家长群批量邀请家长加入班级</p>
       </div>
@@ -23,6 +27,9 @@ export default {
     };
   },
   methods: {
+    handleShare() {
+      this.$toast("请点击右上角按钮发送给朋友吧~");
+    },
     jump() {
       this.$router.replace({
         path: "/home"
@@ -35,7 +42,6 @@ export default {
     wxShareAppMessage() {
       let that = this;
       let shareUrl = API_ROOT + "#/baby/share?classId=" + this.classId;
-      //"http://yolo1993.natapp1.cc/#/baby/share?classId=" + this.classId;
       let option = {
         title: "亲爱的用户您好", // 分享标题
         desc: "小Q智慧欢迎您的加入", // 分享描述
@@ -51,7 +57,6 @@ export default {
     }
   },
   mounted() {
-    console.log(API_ROOT);
     wxapi.wxRegister(this.wxRegCallback);
   }
 };
