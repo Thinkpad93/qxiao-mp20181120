@@ -13,6 +13,10 @@
           </div>
         </div>
       </div>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt>
+        <p>您还没有任何兑换记录哦~</p>
+      </div>
     </div>
   </div>
 </template>

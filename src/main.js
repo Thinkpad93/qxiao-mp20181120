@@ -20,16 +20,30 @@ Vue.prototype.wxSdk = wxSdk;
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
-    roleType
+    roleType,
+    experience
   } = store.state.user.info;
   let _cookie = Cookies.getJSON('info') || {};
   //获取地址栏参数
   let params = urlSearch();
   if (to.meta.cookie) {
-    //第二次进来
+    //游客模式
+    if (to.path === '/single' || to.path === '/user') {
+      if (experience == 1 || _cookie.experience == 1) {
+        console.log("游客模式");
+        store.dispatch('experience/experience', {
+          tel: _cookie.tel
+        }).then(res => {
+          if (res) {
+            let params = Object.assign({}, _cookie, res);
+            store.dispatch("user/setInfo", params);
+          }
+        });
+      }
+    }
     if (Object.keys(_cookie).length && !roleType) {
       //微信分享
-      wxSdk.wxShare();
+      //wxSdk.wxShare();
       if (params != -1) {
         if (params.openId || params.roleType) {
           console.log(params);

@@ -72,16 +72,6 @@ export default {
           icon: require("../../assets/user-icon-2@2x.png")
         },
         {
-          title: "我的个性计划",
-          to: "/personality-plan",
-          icon: require("../../assets/user-icon-3@2x.png")
-        },
-        {
-          title: "我的学习计划",
-          to: "/study-plan",
-          icon: require("../../assets/user-icon-4@2x.png")
-        },
-        {
           title: "帮助中心",
           to: "/help-center",
           icon: require("../../assets/user-icon-2@2x.png")

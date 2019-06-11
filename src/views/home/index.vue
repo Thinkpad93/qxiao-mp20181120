@@ -34,6 +34,16 @@
       <template v-if="isOpen">
         <qxRelease url="/community"/>
       </template>
+      <div class="experience flex" v-if="experience == 1">
+        <div class="item">
+          <p>创建班级</p>
+          <span size-12>我是老师我要创建班级</span>
+        </div>
+        <div class="item" @click="handleShare">
+          <p>邀请老师</p>
+          <span size-12>我是家长邀请老师创建班级</span>
+        </div>
+      </div>
       <main class="main">
         <div class="classId flex a-i-c j-c-s-b">
           <p>班级圈</p>
@@ -84,6 +94,7 @@
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import wxapi from "@/config/wxapi";
 import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxRelease from "@/components/Release";
@@ -92,6 +103,7 @@ import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 import pageMixin from "@/mixins/page";
 import { mapState } from "vuex";
+import { API_ROOT } from "@/config/isdev";
 export default {
   name: "home",
   mixins: [pageMixin, scrollMixins, classList],
@@ -129,7 +141,8 @@ export default {
       isOpen: state => state.info.isOpen,
       photo: state => state.info.photo,
       name: state => state.info.name,
-      roleType: state => state.info.roleType
+      roleType: state => state.info.roleType,
+      experience: state => state.info.experience
     }),
     className: {
       get() {
@@ -141,6 +154,29 @@ export default {
     }
   },
   methods: {
+    wxRegCallback() {
+      //用于微信JS-SDK回调
+      this.wxShareAppMessage();
+    },
+    wxShareAppMessage() {
+      let that = this;
+      let shareUrl = API_ROOT + "#/teacher/share";
+      let option = {
+        title: "亲爱的用户您好", // 分享标题
+        desc: "小Q智慧欢迎您的加入", // 分享描述
+        link: shareUrl, // 分享链接，根据自身项目决定是否需要split
+        success: () => {
+          that.$toast("分享成功");
+        },
+        error: () => {
+          that.$toast("已取消分享");
+        }
+      };
+      wxapi.wxShareAppMessage(option);
+    },
+    handleShare() {
+      this.$toast("请点击右上角发送给好友");
+    },
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
@@ -304,6 +340,9 @@ export default {
   mounted() {
     this.communityQuery(this.query);
     this.queryRole({ openId: this.query.openId });
+    if (this.experience == 1) {
+      wxapi.wxRegister(this.wxRegCallback);
+    }
   }
 };
 </script>
@@ -338,5 +377,21 @@ export default {
   padding: 0 30px;
   background-color: #fff;
   margin-bottom: 10px;
+}
+
+.experience {
+  color: #84ce09;
+  font-size: 32px;
+  padding: 36px 20px;
+  position: relative;
+  margin-top: 20px;
+  background-color: #fff;
+  .item {
+    flex: 1;
+    text-align: center;
+    span {
+      color: #999;
+    }
+  }
 }
 </style>

@@ -33,5 +33,17 @@ export default [{
       title: '学生添加',
       roles: [3]
     }
+  },
+  {
+    path: '/baby/share',
+    name: 'babyShare',
+    component: () => import('@/views/baby/share'),
+    meta: {
+      keepAlive: false,
+      cookie: true,
+      isShare: false,
+      title: '分享',
+      roles: [3]
+    }
   }
 ]

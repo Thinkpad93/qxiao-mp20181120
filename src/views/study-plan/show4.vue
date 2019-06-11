@@ -5,7 +5,7 @@
         <div class="article-content">
           <h1>培养学生音乐学习的习惯计划</h1>
           <p>
-            <img src="@/assets/study-plan-7@2x.png">
+            <!-- <img src="@/assets/study-plan-7@2x.png"> -->
           </p>
           <h3>一、音乐课歌唱习惯的培养</h3>
           <p>1、聆听的习惯</p>

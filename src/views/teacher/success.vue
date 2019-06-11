@@ -51,7 +51,6 @@ export default {
     }
   },
   mounted() {
-    console.log(API_ROOT);
     wxapi.wxRegister(this.wxRegCallback);
   }
 };

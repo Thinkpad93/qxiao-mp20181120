@@ -13,7 +13,7 @@
             但对于如何能使得小家伙爱上阅读，这对家长来说，是个难题！
           </p>
           <p>
-            <img src="@/assets/personality-plan-1.png" alt>
+            <!-- <img src="@/assets/personality-plan-1.png" alt> -->
           </p>
           <p>
             不少宝爸宝妈们会照着老师提的意见去图书馆中给小家伙借书，
@@ -30,7 +30,7 @@
             而激发不起小家伙的阅读兴趣，如何能使得他们养成阅读习惯！
           </p>
           <p>
-            <img src="@/assets/personality-plan-2.png" alt>
+            <!-- <img src="@/assets/personality-plan-2.png" alt> -->
           </p>
           <h3>一、 参与感</h3>
           <p>
@@ -40,13 +40,13 @@
             更不用在过程中因为想到自己要把整本书读完而纠结分心。
           </p>
           <p>
-            <img src="@/assets/personality-plan-3.png" alt>
+            <!-- <img src="@/assets/personality-plan-3.png" alt> -->
           </p>
           <p>当然，也可以是采用另一种方式，宝爸宝妈们和小家伙分段读，或是分饰书中的角色，这样也能让小家伙感受到读书的乐趣，还能间接增进亲子感情。而这其中的道理就在于，很多大人都没办法读完一本书，更何况是让一个意志力、控制力还不强的孩子去读完一本书呢！</p>
           <h3>二、发现有趣事物</h3>
           <p>宝爸宝妈应该多开让小家伙去发现一些书本中的有趣事物，同时在阅读之前，给他们提些较简单的问题，让小家伙带着问题去阅读，这样小家伙的兴致便会较高。此外，也要让小家伙多关注生活中的有趣事物，让小家伙将阅读与生活联系在一起！</p>
           <p>
-            <img src="@/assets/personality-plan-4.png" alt>
+            <!-- <img src="@/assets/personality-plan-4.png" alt> -->
           </p>
         </div>
       </article>

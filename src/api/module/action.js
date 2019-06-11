@@ -54,6 +54,12 @@ export function actionStrike(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//历史打星
+export function actionStrikeList(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/actionStrikeList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //历史打星查询
 export function historyStrikeQuery(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/historyStrikeQuery.do', params)

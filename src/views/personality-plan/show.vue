@@ -10,7 +10,7 @@
             比如沉迷游戏等。那么该怎么培养孩子的自控力呢？
           </p>
           <p>
-            <img src="@/assets/personality-plan-7.png" alt>
+            <!-- <img src="@/assets/personality-plan-7.png" alt> -->
           </p>
           <h3>1、培养孩子的规则意识</h3>
           <p>

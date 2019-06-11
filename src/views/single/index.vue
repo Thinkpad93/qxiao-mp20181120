@@ -53,13 +53,13 @@
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
                   <div class="cell-bd">
                     <time size-16>{{ query.day }}</time>
-                    <span>日表现{{ start }}颗Q星</span>
+                    <span>日获得Q星{{ start }}颗</span>
                   </div>
                   <div class="cell-ft">
                     <van-icon name="arrow" size="16px"></van-icon>
                   </div>
                 </router-link>
-                <div class="action-cells" @click.stop="handleStatus">
+                <div class="action-cells">
                   <!-- 无数据提示 -->
                   <template v-if="myActions.length">
                     <div
@@ -78,8 +78,7 @@
                           :size="22"
                           color="#09e2bb"
                           void-color="#e5eee0"
-                          :readonly="statu === 1"
-                          @change="handleChangeRate"
+                          @change="handleChangeRate(index)"
                         ></van-rate>
                       </div>
                     </div>
@@ -217,13 +216,6 @@
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <!-- <van-button
-                        round
-                        type="info"
-                        size="small"
-                        to="/personality-plan"
-                        style="width:200px;"
-                      >定制个性计划</van-button>-->
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -231,13 +223,6 @@
                       <p
                         class="mt-10"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <!-- <van-button
-                        round
-                        type="info"
-                        size="small"
-                        to="/study-plan"
-                        style="width:200px;"
-                      >定制学习计划</van-button>-->
                     </div>
                   </van-tab>
                 </van-tabs>
@@ -274,6 +259,7 @@ export default {
       active: 0,
       tabActive: 0,
       query: {
+        openId: this.$store.state.user.info.openId,
         day: dayjs().format("YYYY-MM-DD")
       },
       actionView: {},
@@ -314,53 +300,18 @@ export default {
           .catch(() => {});
       }
     },
-    //
-    handleStatus() {
-      //今天已经打过星星
-      if (this.statu == 1) {
-        this.$dialog
-          .alert({
-            title: "提示",
-            message: "今天已经评价过啦，明天继续坚持~"
-          })
-          .then(() => {
-            // on close
-          });
-      }
-    },
     //rate事件
-    handleChangeRate(count) {
-      let flag = false;
-      let len = this.myActions.length;
-      let actionArray = [];
-      this.myActions.forEach(element => {
-        let { starCount, ...args } = element;
-        //说明该行为已经打了
-        if (starCount != 0) {
-          flag = true;
-          len -= 1;
-        }
-      });
-      if (flag && len === 0) {
-        this.myActions.forEach(element => {
-          let { starCount, actionId, actionType } = element;
-          if (starCount != 0) {
-            actionArray.push({ starCount, actionId, actionType });
-          }
+    handleChangeRate(index) {
+      let action = this.myActions[index];
+      if (action) {
+        let { studentId, actionId, actionType, starCount } = action;
+        let obj = Object.assign({}, this.query, {
+          studentId,
+          actionId,
+          actionType,
+          starCount
         });
-        this.$dialog
-          .confirm({
-            title: "提示",
-            message: "今天又向前跨一步了，提交无法更改哦~"
-          })
-          .then(() => {
-            let obj = Object.assign({}, this.query, {
-              actionArray,
-              openId: this.openId,
-              studentId: this.studentId
-            });
-            this.actionStrike(obj);
-          });
+        this.actionStrike(obj);
       }
     },
     //显示更多我的行为
@@ -393,10 +344,8 @@ export default {
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
-        let { totalStarCount, statu } = res.data;
-        this.statu = statu;
+        let { totalStarCount } = res.data;
         //更新星星数量
-        //this.actionListQuery();
         let _cookie = Cookies.getJSON("info");
         let obj = Object.assign({}, _cookie, { totalStarCount });
         this.$store.dispatch("user/setInfo", obj).then(data => {
@@ -415,7 +364,6 @@ export default {
       let res = await service.actionListQuery(obj);
       if (res.errorCode === 0) {
         this.myActions = res.data.myActions;
-        this.statu = res.data.statu;
         this.showNumber = this.myActions.length;
       }
     },

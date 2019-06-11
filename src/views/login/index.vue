@@ -1,9 +1,6 @@
 <template>
   <div class="flex-page">
-    <div class="flex-bd">
-      <div class="cover">
-        <img src="@/assets/login-bg@2x.png" alt>
-      </div>
+    <div class="flex-bd cover">
       <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">
@@ -53,11 +50,15 @@
         <div class="btn-group">
           <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登陆</a>
         </div>
+        <div class="text-center">
+          <span style="color:#84ce09" @click="handleTourist">未加入班级点击抢先体验</span>
+        </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
 export default {
@@ -94,6 +95,21 @@ export default {
         this.userTeleLogin(this.form);
       } else {
         this.$toast("请正确填写手机号");
+      }
+    },
+    //游客模式进入小Q班级
+    async handleTourist() {
+      let _cookie = Cookies.getJSON("info");
+      let res = await service.experience({});
+      if (res.errorCode === 0) {
+        let obj = Object.assign({}, _cookie, res.data);
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.replace({ path: "/home" });
+          }
+        });
+      } else {
+        this.$toast("发生了错误，请重试");
       }
     },
     //获取验证码
@@ -177,17 +193,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .cover {
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
   background-color: #cbf4fa;
-  img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
 }
 .login-form {
   background-color: #fff;

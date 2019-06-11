@@ -5,7 +5,7 @@
         <div class="article-content">
           <h1>英文学习计划</h1>
           <p>
-            <img src="@/assets/study-plan-6@2x.png">
+            <!-- <img src="@/assets/study-plan-6@2x.png"> -->
           </p>
           <p>想使小学生学习英语养成一些好的习惯，家长要指导学生勤听、敢说、多读、写的习惯，带着问题进行课前探索性预习，课上积极参与学习，课后及时复习和运用。</p>
           <h3>1、培养开口的习惯。</h3>

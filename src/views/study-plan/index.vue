@@ -10,7 +10,7 @@
         <!-- <div class="flex">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div> -->
+        </div>-->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">
@@ -35,7 +35,7 @@
         <!-- <div class="flex">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div> -->
+        </div>-->
       </div>
       <!-- figure start -->
       <div class="news">
@@ -85,13 +85,13 @@ export default {
           title: "英文学习计划",
           author: "南华",
           url: "/study-plan/show3",
-          imageUrl: require("../../assets/study-plan-6@2x.png")
+          imageUrl: require("../../assets/study-plan-4@2x.png")
         },
         {
           title: "培养学生音乐学习的习惯计划",
           author: "李三才",
           url: "/study-plan/show4",
-          imageUrl: require("../../assets/study-plan-7@2x.png")
+          imageUrl: require("../../assets/study-plan-4@2x.png")
         }
         // {
         //   title: "作文分析",
@@ -104,7 +104,7 @@ export default {
           title: "小学最强学习计划和作息时间表",
           author: "赵南星",
           url: "/study-plan/show2",
-          imageUrl: require("../../assets/study-plan-5@2x.png")
+          imageUrl: require("../../assets/study-plan-4@2x.png")
         }
         // {
         //   title: "数学多边形知识点",

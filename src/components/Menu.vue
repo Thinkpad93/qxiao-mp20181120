@@ -94,7 +94,7 @@ export default {
     }),
     computedMenu() {
       //幼儿园 0   小学 1
-      if (this.type == 0) {
+      if (this.type == 0 || this.type == 1) {
         switch (parseInt(this.roleType)) {
           case 1:
             return this.menuList
@@ -117,21 +117,6 @@ export default {
               .concat(this.recipeList)
               .concat(this.clockList)
               .concat(this.schoolList);
-            break;
-        }
-      } else if (this.type == 1) {
-        switch (parseInt(this.roleType)) {
-          case 1:
-            return this.menuList.concat(this.schoolList);
-            break;
-          case 2:
-            return this.menuList.concat(this.teacherList);
-            break;
-          case 3:
-            return this.menuList.concat(this.recipeList).concat(this.clockList);
-            break;
-          default:
-            return this.menuList.concat(this.schoolList);
             break;
         }
       }

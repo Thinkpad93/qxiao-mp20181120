@@ -29,8 +29,8 @@
       <!-- video视频区域 -->
       <div class="video-mod">
         <div class="video-main">
-          <template v-if="info.videoUrl">
-            <video ref="video" :src="info.videoUrl" loop controls preload="auto"></video>
+          <template v-if="payStatus">
+            <video ref="video" :src="info.videoUrl" controls></video>
           </template>
           <template v-else>
             <div class="video-mask">
@@ -105,6 +105,7 @@
 <script>
 import service from "@/api";
 import pageMixin from "@/mixins/page";
+import wxapi from "@/config/wxapi";
 export default {
   name: "examPaperShow",
   mixins: [pageMixin],
@@ -203,6 +204,7 @@ export default {
   mounted() {
     this.examPaperDetail(this.query);
     this.examPaperCommentQuery(this.query);
+    wxapi.wxRegister();
   }
 };
 </script>
