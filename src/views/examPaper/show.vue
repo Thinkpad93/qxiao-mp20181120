@@ -171,6 +171,7 @@ export default {
           paySign: res.paySign,
           success: function(res) {
             that.$toast("支付成功");
+            that.payStatus = true;
           },
           complete: function(res) {
             //that.$toast("无论成功或失败都会执行");

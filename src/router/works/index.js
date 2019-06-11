@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/works'),
     meta: {
       title: "作品展",
-      keepAlive: true,
+      keepAlive: false,
       cookie: true,
     }
   },
@@ -24,7 +24,7 @@ export default [{
     component: () => import('@/views/works/view'),
     meta: {
       title: "我的上榜作品",
-      keepAlive: true,
+      keepAlive: false,
       cookie: true,
     }
   }

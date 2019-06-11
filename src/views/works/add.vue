@@ -75,6 +75,7 @@
 import service from "@/api";
 import { ImagePreview } from "vant";
 import { mapState } from "vuex";
+import eventBus from "@/utils/eventBus";
 export default {
   name: "worksAdd",
   data() {
@@ -154,7 +155,17 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {},
+  activated() {
+    console.log("activated");
+  },
+  beforeDestory() {
+    console.log("beforeDestory");
+  },
+  destroyed() {
+    console.log("destroyed10");
+    //eventBus.$emit("tabMessage", 1);
+  }
 };
 </script>
 <style lang="less" scoped>

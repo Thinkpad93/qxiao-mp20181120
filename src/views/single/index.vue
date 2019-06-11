@@ -35,7 +35,7 @@
                   {{ openStudentName }}
                   <small>Q星: {{ totalStarCount }}</small>
                 </h3>
-                <p size-12>您的坚持和鼓励是开启孩子好习惯养成的钥匙！</p>
+                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
               </div>
             </template>
             <template v-else>
@@ -205,7 +205,7 @@
               <div class="snail flex j-c-s-b a-i-c mb-20">
                 <div class="flex a-i-c">
                   <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-                  <div class="ml-10">综合竞争力排名(广州)</div>
+                  <div class="ml-10">综合竞争力排名</div>
                 </div>
                 <div class="flex a-i-c">
                   <span class="mr-10">80</span>
@@ -223,7 +223,7 @@
                         size="small"
                         to="/personality-plan"
                         style="width:200px;"
-                      >定制个性计划</van-button> -->
+                      >定制个性计划</van-button>-->
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -237,7 +237,7 @@
                         size="small"
                         to="/study-plan"
                         style="width:200px;"
-                      >定制学习计划</van-button> -->
+                      >定制学习计划</van-button>-->
                     </div>
                   </van-tab>
                 </van-tabs>

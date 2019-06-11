@@ -31,6 +31,10 @@
           </div>
         </template>
       </div>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt>
+        <p>尚未有成绩发布</p>
+      </div>
     </div>
   </div>
 </template>
@@ -42,7 +46,7 @@ export default {
     return {
       actives: 0,
       query: {
-        openId: this.$store.state.user.info.openId, 
+        openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
         lessonId: this.$route.query.lessonId,
         page: 1,

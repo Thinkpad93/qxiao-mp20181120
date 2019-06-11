@@ -7,6 +7,7 @@
           v-for="(item, index) in studentList"
           :key="index"
           :class="[item.openStudentId == openStudentId ? 'curr-student': '']"
+          @click="handleStudentChange(item)"
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
@@ -14,13 +15,12 @@
                 :src="item.openPhoto"
                 radius="50"
                 v-if="item.openPhoto"
-                @click="handleStudentChange(item)"
               >
               <img
                 src="@/assets/child-default@2x.png"
                 radius="50"
                 v-else
-                @click="handleStudentChange(item)"
+                
               >
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>

@@ -120,6 +120,7 @@
 import service from "@/api";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import eventBus from "@/utils/eventBus";
 export default {
   name: "works",
   components: {
@@ -150,6 +151,15 @@ export default {
       return this.$refs.mySwiper.swiper;
     }
   },
+  watch: {
+    $route: {
+      handler(val, oldVal) {
+        console.log(val);
+        console.log(oldVal);
+      },
+      deep: true
+    }
+  },
   methods: {
     //预览图片
     handlePreviewImage(imgUrl, images) {
@@ -178,6 +188,10 @@ export default {
       this.mask = false;
       this.checkList = [];
     },
+    handleVal(v) {
+      console.log(v);
+      this.active = v;
+    },
     //删除作品
     async deleteImage(params = {}) {
       let res = await service.deleteImage(params);
@@ -203,9 +217,35 @@ export default {
       }
     }
   },
+  beforeRouteLeave(to, from, next) {
+    next();
+  },
+  beforeRouteEnter(to, from, next) {
+    if (to.path === "/works" && from.path === "/works/add") {
+      next(vm => {
+        vm.active = 1;
+      });
+      return;
+    }
+    next();
+  },
+  created() {
+    console.log("created");
+  },
   mounted() {
     this.queryOnLineList(this.query);
     this.queryMyUpload(this.query);
+  },
+  activated() {
+    console.log("activated");
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy20");
+    //eventBus.$off("tabMessage", this.handleVal);
+  },
+  destroyed() {
+    console.log("destroyed20");
+    //eventBus.$on("tabMessage", this.handleVal);
   }
 };
 </script>

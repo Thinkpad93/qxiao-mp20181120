@@ -4,13 +4,13 @@
       <!-- 角色选择 -->
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
-        <div class="switch-role" v-if="roleList.length == 2" @click="tagClick">
+        <router-link to="/role/select" class="switch-role" v-if="roleList.length == 2">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
-        </div>
-        <div class="switch-children" @click="jump" v-if="roleType == 3">
+        </router-link>
+        <router-link tag="div" class="switch-children" to="/baby" v-if="roleType == 3">
           <van-icon name="arrow" size="18px"></van-icon>
-        </div>
+        </router-link>
         <div class="flex a-i-c">
           <div class="avatar" @click="jumpRole">
             <img :src="photo" width="60" height="60" radius="50">
@@ -147,17 +147,6 @@ export default {
           path: "/role"
         });
       }
-    },
-    jump() {
-      this.$router.push({
-        path: "/baby"
-      });
-    },
-    //角色切换
-    tagClick() {
-      this.$router.push({
-        path: "/role/select"
-      });
     },
     go(url, params) {
       if (url) {

@@ -10,7 +10,7 @@
               {{ openStudentName }}
               <small>Q星: {{ totalStarCount }}</small>
             </h3>
-            <p size-12>您的坚持和鼓励是开启孩子好习惯养成的钥匙！</p>
+            <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
           </div>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
@@ -18,7 +18,7 @@
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-          <div class="ml-10">综合竞争力排名(广州)</div>
+          <div class="ml-10">综合竞争力排名</div>
         </div>
         <div class="snail-right flex a-i-c">
           <span class="mr-10">80</span>
