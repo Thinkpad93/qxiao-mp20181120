@@ -22,7 +22,8 @@ export default {
     return {
       imgUrl: "",
       query: {
-        classId: this.$route.query.classId
+        classId: this.$route.query.classId,
+        id: this.$route.query.id
       }
     };
   },
@@ -36,6 +37,8 @@ export default {
     }
   },
   mounted() {
+    alert(this.query.classId);
+    alert(this.query.id);
     this.getRQcode(this.query);
   }
 };

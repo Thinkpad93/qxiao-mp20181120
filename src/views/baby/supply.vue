@@ -68,14 +68,13 @@
             <div class="cell-bd"></div>
             <div class="cell-ft">
               <p class="cell-p">{{ form.className }}</p>
-              <!-- <span v-for="(cla, index) in classList" :key="index">{{ cla.className }}</span> -->
             </div>
           </div>
         </div>
       </form>
-      <div class="btn-group">
-        <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">提交</a>
-      </div>
+    </div>
+    <div class="flex-ft">
+      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">提交</van-button>
     </div>
   </div>
 </template>

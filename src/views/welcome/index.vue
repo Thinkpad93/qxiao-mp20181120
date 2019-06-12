@@ -6,7 +6,7 @@
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-1@2x.png">
-              <img src="@/assets/welcome-slide-4@2x.png" width="140" height="22" class="channel">
+              <img src="@/assets/welcome-slide-4@2x.png" width="160" height="25" class="channel">
               <p>
                 个性添加培养目标
                 <br>兑换奖励法培养习惯养成
@@ -16,23 +16,22 @@
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-2@2x.png">
-              <img src="@/assets/welcome-slide-5@2x.png" width="93" height="22" class="channel">
+              <img src="@/assets/welcome-slide-5@2x.png" width="160" height="25" class="channel">
               <p>
-                科学、个性引导孩子全面发展
-                <br>助力孩子茁壮成长
+                随时关注孩子
+                <br>课堂动态
               </p>
             </div>
           </swiper-slide>
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-3@2x.png">
-              <img src="@/assets/welcome-slide-6@2x.png" width="86" height="22" class="channel">
+              <img src="@/assets/welcome-slide-6@2x.png" width="98" height="24" class="channel">
               <p>
                 实时掌握孩子
-                <br>学校动态、在校表现
+                <br>学校动态
               </p>
               <button class="experience" @click="jump">立即体验</button>
-              <!-- <van-button type="primary" size="small" @click="jump">立即体验</van-button> -->
             </div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
@@ -80,6 +79,7 @@ export default {
   text-align: center;
   p {
     color: #999;
+    line-height: 1.4;
   }
   .channel {
     margin-top: 80px;

@@ -25,7 +25,7 @@ export default {
 <style lang="less" scoped>
 .qcode {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   background-color: #cbf4fa;

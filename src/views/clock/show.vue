@@ -4,8 +4,8 @@
       <div class="class-edit-head">
         <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
         <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
-          <van-tab title="已打卡"></van-tab>
           <van-tab title="未打卡"></van-tab>
+          <van-tab title="已打卡"></van-tab>
         </van-tabs>
       </div>
     </div>

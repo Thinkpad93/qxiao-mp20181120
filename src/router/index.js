@@ -38,6 +38,8 @@ import helpRouterConfig from './help-center';
 import aboutRouterConfig from './about';
 import braceletRouterConfig from './bracelet';
 import welcomeRouterConfig from './welcome';
+import focusJoinRouteConfig from './focus-join';
+
 
 Vue.use(Router);
 
@@ -78,7 +80,8 @@ export const constantRouterMap = [
   ...helpRouterConfig,
   ...aboutRouterConfig,
   ...braceletRouterConfig,
-  ...welcomeRouterConfig
+  ...welcomeRouterConfig,
+  ...focusJoinRouteConfig
 ]
 
 

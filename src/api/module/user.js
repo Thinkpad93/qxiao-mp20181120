@@ -3,7 +3,7 @@ import ax from '../axios';
 //用户注册
 //首页1 公告2 速报3
 export function registerUser() {
-  //http://zc.qxiao.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1
+  //http://ax.qxiao.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1
   return ax.get('http://qxiao.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1')
     .then(res => res.data)
     .catch(e => console.log(e));

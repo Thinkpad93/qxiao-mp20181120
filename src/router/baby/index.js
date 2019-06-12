@@ -35,6 +35,18 @@ export default [{
     }
   },
   {
+    path: '/baby/edit',
+    name: 'babyEdit',
+    component: () => import('@/views/baby/edit'),
+    meta: {
+      keepAlive: false,
+      cookie: true,
+      isShare: false,
+      title: '学生信息',
+      roles: [3]
+    }
+  },
+  {
     path: '/baby/share',
     name: 'babyShare',
     component: () => import('@/views/baby/share'),

@@ -143,8 +143,8 @@ export default {
         return false;
       }
       if (isPhone(tel)) {
-        console.log(this.form);
-        //this.addPlaySchoolWithTemplate(this.form);
+        //console.log(this.form);
+        this.addPlaySchoolWithTemplate(this.form);
       } else {
         this.$toast("请正确填写手机号");
       }

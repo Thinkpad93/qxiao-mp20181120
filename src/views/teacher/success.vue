@@ -1,13 +1,23 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/share-tip.png">
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
       <div class="create-success">
         <img src="@/assets/create-success.png" alt>
         <div class="okapi">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="jump">进入班级</a>
-          <a href="javascript:void(0);" class="btn btn-large btn-primary">邀请家长加入</a>
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="visibility = true"
+          >邀请家长加入</a>
         </div>
-        <p>分享至家长群批量邀请家长加入班级</p>
+        <p>分享至微信家长群可批量邀请家长加入</p>
       </div>
     </div>
   </div>
@@ -19,6 +29,7 @@ export default {
   name: "teacherSuccess",
   data() {
     return {
+      visibility: false,
       classId: this.$route.query.classId
     };
   },
@@ -65,7 +76,7 @@ export default {
   }
   .okapi {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 185px;
     margin-bottom: 95px;
     padding: 0 30px;

@@ -17,7 +17,13 @@
             </div>
             <strong class="mt-20 mb-20">{{ item.score }}分</strong>
             <div>
-              <van-button round type="info" size="small" @click="jump(item)">试卷讲解</van-button>
+              <van-button
+                round
+                type="info"
+                size="small"
+                @click="jump(item)"
+                style="width:170px;"
+              >试卷讲解</van-button>
             </div>
           </div>
         </template>
@@ -25,9 +31,9 @@
           <div class="item flex j-c-s-b a-i-c mb-20">
             <div class="info">
               <p class="mb-20">{{ item.stageTitle }}</p>
-              <a href="javascript:void(0);" @click="jump(item)">试卷讲解</a>
+              <div class="goal">{{ item.score }}分</div>
             </div>
-            <div class="goal">{{ item.score }}分</div>
+            <van-button round type="info" size="small" @click="jump(item)" style="width:80px;">试卷讲解</van-button>
           </div>
         </template>
       </div>
@@ -111,8 +117,7 @@ export default {
     }
   }
   .item {
-    margin: 0 20px;
-    min-height: 120px;
+    min-height: 160px;
     padding: 0 30px;
     border-radius: 8px;
     background-color: #fff;
@@ -120,6 +125,10 @@ export default {
     a {
       color: #92cd36;
     }
+  }
+  .goal {
+    color: #ff4d67;
+    font-size: 40px;
   }
 }
 </style>

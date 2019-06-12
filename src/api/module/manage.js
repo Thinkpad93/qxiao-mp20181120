@@ -156,6 +156,18 @@ export function queryStudentList(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询班级学生
+export function queryStudentByClassId(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryStudentByClassId.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询老师管理的班级
+export function queryClassNameList(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassNameList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //查询对应学校的所有班级
 export function queryClass(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClass.do', params)
@@ -273,6 +285,18 @@ export function deleteOpenStudent(params) {
 //查询学生列表--封闭版--切换
 export function queryClassStudentList(params) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryClassStudentList.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//根据家长id查所有孩子
+export function queryStudentByParId(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryStudentByParId.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//根据家长id查所有孩子
+export function joinStudent(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/joinStudent.do', params)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
