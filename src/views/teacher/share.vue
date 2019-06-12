@@ -22,7 +22,8 @@ export default {
     return {
       imgUrl: "",
       query: {
-        classId: 0
+        classId: 0,
+        id: 0
       }
     };
   },

@@ -38,6 +38,7 @@
 <script>
 import service from "@/api";
 import wxHandle from "@/mixins/wx";
+import wxapi from "@/config/wxapi";
 export default {
   name: "albumAdd",
   mixins: [wxHandle],
@@ -78,7 +79,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare();
+    wxapi.wxRegister();
   }
 };
 </script>

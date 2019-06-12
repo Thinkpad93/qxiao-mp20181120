@@ -35,7 +35,7 @@
         <qxRelease url="/community"/>
       </template>
       <div class="experience flex" v-if="experience == 1">
-        <div class="item">
+        <div class="item" @click="handleCreateClass">
           <p>创建班级</p>
           <span size-12>我是老师我要创建班级</span>
         </div>
@@ -142,7 +142,8 @@ export default {
       photo: state => state.info.photo,
       name: state => state.info.name,
       roleType: state => state.info.roleType,
-      experience: state => state.info.experience
+      experience: state => state.info.experience,
+      tel: state => state.info.tel
     }),
     className: {
       get() {
@@ -173,6 +174,14 @@ export default {
         }
       };
       wxapi.wxShareAppMessage(option);
+    },
+    handleCreateClass() {
+      this.$router.push({
+        path: "/teacher/createClass",
+        query: {
+          openId: this.tel
+        }
+      });
     },
     handleShare() {
       this.$toast("请点击右上角发送给好友");

@@ -3,7 +3,7 @@
     <div class="flex-hd">
       <div class="student-head">
         <router-link to="/student/add" class="btn btn-primary" v-if="openDirection == 0">录入学生信息</router-link>
-        <a href="javascript:void(0);" class="btn btn-primary">点击邀请家长加入</a>
+        <a href="javascript:void(0);" class="btn btn-primary" v-else>点击邀请家长加入</a>
       </div>
     </div>
     <div class="flex-bd">
@@ -144,7 +144,6 @@ export default {
   mounted() {
     this.queryStudentList(this.teacherId);
     wxapi.wxRegister(this.wxRegCallback);
-    //this.wxSdk.wxShare();
   },
   activated() {}
 };

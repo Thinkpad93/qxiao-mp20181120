@@ -7,14 +7,14 @@ import {
   urlSearch
 } from './utils/urlSearch';
 
-import wxSdk from '@/config/wxsdk'; //微信sdk
+//import wxSdk from '@/config/wxsdk'; //微信sdk
 
 import '@/vantUI'; //vant UI
 
 
 Vue.config.productionTip = false;
 
-Vue.prototype.wxSdk = wxSdk;
+//Vue.prototype.wxSdk = wxSdk;
 
 
 router.beforeEach((to, from, next) => {

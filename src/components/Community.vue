@@ -110,7 +110,8 @@ export default {
     ...mapState("user", {
       roleType: state => state.info.roleType,
       openId: state => state.info.openId,
-      studentId: state => state.info.studentId
+      studentId: state => state.info.studentId,
+      experience: state => state.info.experience //0否 1体验
     })
   },
   methods: {
@@ -140,25 +141,21 @@ export default {
         urls: imgArray
       });
     },
-    // handlePreviewImage(index, images) {
-    //   if (images.length) {
-    //     let resule = [];
-    //     images.forEach(item => {
-    //       resule.push(item.imageUrl);
-    //     });
-    //     ImagePreview({
-    //       images: resule,
-    //       startPosition: index
-    //     });
-    //   }
-    // },
     handleCommunityDelete(fuck, index) {
       this.$emit("on-del", fuck, index);
     },
     handlePraise(fuck, index) {
+      if (this.experience == 1) {
+        this.$toast("体验版，不能点赞");
+        return false;
+      }
       this.$emit("on-praise", fuck, index);
     },
     handleComment(fuck, index) {
+      if (this.experience == 1) {
+        this.$toast("体验版，不能评论");
+        return false;
+      }
       this.$emit("on-comment", fuck, index);
     }
   },

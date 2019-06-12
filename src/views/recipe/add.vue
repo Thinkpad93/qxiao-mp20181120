@@ -106,6 +106,7 @@ import dayjs from "dayjs";
 import service from "@/api";
 import { textReplace } from "@/utils/string";
 import wxHandle from "@/mixins/wx";
+import wxapi from "@/config/wxapi";
 export default {
   name: "recipeAdd",
   mixins: [wxHandle],
@@ -205,7 +206,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare();
+    wxapi.wxRegister();
   }
 };
 </script>
