@@ -4,7 +4,7 @@ export default [{
   component: () => import('@/views/bracelet'),
   meta: {
     title: "我的手环",
-    keepAlive: false,
+    keepAlive: true,
     cookie: true,
   }
 }]

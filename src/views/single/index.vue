@@ -45,6 +45,7 @@
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
         </router-link>
+        <!-- 用户 -->
         <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
             <div class="container">
@@ -275,7 +276,8 @@ export default {
       openPhoto: state => state.info.openPhoto,
       openId: state => state.info.openId,
       studentId: state => state.info.openStudentId,
-      totalStarCount: state => state.info.totalStarCount
+      totalStarCount: state => state.info.totalStarCount,
+      isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
     }),
     //计算已选择的星星数
     start() {
@@ -336,9 +338,16 @@ export default {
       });
     },
     jumpCourseView() {
-      this.$router.push({
-        path: "/course/view"
-      });
+      //如果没有绑定手环
+      if (this.isBindBracelet == 0) {
+        this.$router.push({
+          path: "/bracelet"
+        });
+      } else {
+        this.$router.push({
+          path: "/course/view"
+        });
+      }
     },
     //行为打星
     async actionStrike(params = {}) {

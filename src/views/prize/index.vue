@@ -66,7 +66,7 @@
               </div>
               <div class="cell-bd pl-20">
                 <p class="mb-20" size-16>{{ item.textContent }}</p>
-                <p style="color:#ff4d67">{{ item.starCount }}颗</p>
+                <p style="color:#ff4d67">{{ item.starCount }}颗Q星</p>
               </div>
               <div class="cell-ft">
                 <van-stepper v-model="item.value" @change="chg"></van-stepper>
@@ -116,6 +116,7 @@ export default {
   },
   computed: {
     ...mapState("user", {
+      openPhoto: state => state.info.openPhoto,
       openStudentName: state => state.info.openStudentName,
       totalStarCount: state => state.info.totalStarCount
     })

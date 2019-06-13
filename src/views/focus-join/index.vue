@@ -85,12 +85,25 @@ export default {
     async joinStudent(params = {}) {
       let res = await service.joinStudent(params);
       if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, res.data);
         this.$dialog
           .confirm({
             title: "提示",
-            message: "关注成功~"
+            message: "关注成功，是否进入小Q智慧？"
           })
-          .then(() => {});
+          .then(() => {
+            this.$store.dispatch("user/setInfo", obj).then(data => {
+              if (data.success === "ok") {
+                this.$router.replace({
+                  path: "/single"
+                });
+              }
+            });
+          })
+          .catch(() => {
+            this.form.tel = "";
+          });
       }
     }
   },

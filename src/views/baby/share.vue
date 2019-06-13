@@ -37,8 +37,6 @@ export default {
     }
   },
   mounted() {
-    alert(this.query.classId);
-    alert(this.query.id);
     this.getRQcode(this.query);
   }
 };

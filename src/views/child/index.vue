@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells">
         <div
           class="cell student-box"
@@ -11,17 +11,8 @@
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img
-                :src="item.openPhoto"
-                radius="50"
-                v-if="item.openPhoto"
-              >
-              <img
-                src="@/assets/child-default@2x.png"
-                radius="50"
-                v-else
-                
-              >
+              <img :src="item.openPhoto" radius="50" v-if="item.openPhoto">
+              <img src="@/assets/child-default@2x.png" radius="50" v-else>
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
@@ -32,8 +23,10 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" to="/child/add">添加</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom">
+        <van-button type="info" size="large" class="no-radius" to="/child/add">添加</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -73,7 +66,8 @@ export default {
         openStudentId,
         openStudentName,
         openPhoto,
-        totalStarCount
+        totalStarCount,
+        isBindBracelet
       } = params;
       if (openStudentId == this.openStudentId) {
         this.$router.go(-1);
@@ -83,7 +77,8 @@ export default {
           openStudentId,
           openStudentName,
           openPhoto,
-          totalStarCount
+          totalStarCount,
+          isBindBracelet
         });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
@@ -122,13 +117,15 @@ export default {
     color: #999;
   }
 }
-.handle-add {
-  color: #84ce09;
-  margin: 40px 0;
-  padding-right: 30px;
-}
 
 .curr-student {
   border-left: 8px solid #84ce09;
+}
+.fixed-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
 }
 </style>

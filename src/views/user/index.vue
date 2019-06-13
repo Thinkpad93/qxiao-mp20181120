@@ -8,20 +8,28 @@
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
-      <router-link to="/child" tag="div" class="flex a-i-c user-info gradient-two">
+      <!-- 用户 -->
+      <router-link to="/child" tag="div" class="home-user gradient-two">
         <div class="flex a-i-c">
-          <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
-          <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
-          <div class="js-user-change">
-            <h3 size-18 class="mb-20 username">
-              {{ openStudentName }}
-              <small>Q星: {{ totalStarCount }}</small>
-            </h3>
-            <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
-          </div>
+          <template v-if="openStudentName">
+            <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+            <div class="js-user-change">
+              <h3 class="mb-20" size-18>
+                {{ openStudentName }}
+                <small>Q星: {{ totalStarCount }}</small>
+              </h3>
+              <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
+            </div>
+          </template>
+          <template v-else>
+            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+            <p class="ml-20">尚未有关注孩子，点击添加。</p>
+          </template>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
       </router-link>
+      <!-- 用户 -->
       <div class="snail flex a-i-c j-c-s-b">
         <div class="snail-left flex a-i-c">
           <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -32,7 +40,11 @@
           <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
         </div>
       </div>
-      <van-cell class="mb-20" size="large" title="邀请亲人关注" is-link @click="visibility = true"></van-cell>
+      <van-cell class="mb-20" size="large" title="邀请亲人关注" is-link @click="visibility = true">
+        <template slot="icon">
+          <img src="@/assets/user-icon-6@2x.png" class="user-icon">
+        </template>
+      </van-cell>
       <van-cell
         class="a-i-c"
         size="large"
@@ -123,12 +135,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.user-info {
+.home-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 180px;
   padding: 0 30px;
   color: #fff;
-  position: relative;
-  height: 180px;
-  justify-content: space-between;
   .js-user-change {
     margin-left: 30px;
   }
@@ -155,14 +168,6 @@ export default {
   background-color: rgba(0, 0, 0, 0.2);
   transform: translateY(-50%);
 }
-
-.avatar {
-  position: absolute;
-  top: 10%;
-  left: 0;
-  width: 100%;
-}
-
 .user-icon {
   width: 60px;
   height: 60px;

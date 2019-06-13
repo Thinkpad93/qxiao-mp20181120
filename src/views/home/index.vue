@@ -2,17 +2,13 @@
   <div class="page">
     <div class="page-bd">
       <!-- 角色选择 -->
-      <!-- 用户信息 -->
-      <div class="flex a-i-c home-user gradient-two">
-        <router-link to="/role/select" class="switch-role" v-if="roleList.length == 2">
+      <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
+        <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
-        </router-link>
-        <router-link tag="div" class="switch-children" to="/baby" v-if="roleType == 3">
-          <van-icon name="arrow" size="18px"></van-icon>
-        </router-link>
+        </div>
         <div class="flex a-i-c">
-          <div class="avatar" @click="jumpRole">
+          <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
           </div>
           <div class="pl-20">
@@ -20,7 +16,10 @@
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
+        <van-icon name="arrow" size="16px" v-if="roleType == 3"></van-icon>
       </div>
+      <!-- 用户信息 -->
+      <!-- 菜单 -->
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -191,15 +190,21 @@ export default {
         this.$router.push({
           path: "/role"
         });
+      } else {
+        this.$router.push({
+          path: "/baby"
+        });
       }
+    },
+    jumpRoleSelect() {
+      this.$router.push({
+        path: "/role/select"
+      });
     },
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
       }
-    },
-    onChange(picker, values) {
-      picker.setColumnValues(1, citys[values[0]]);
     },
     handleClassConfirm(value, index) {
       this.className = value.className;
@@ -361,12 +366,13 @@ export default {
   height: 180px;
   padding: 0 30px;
   position: relative;
+  justify-content: space-between;
 }
 
 .switch-role {
   color: #fff;
   position: absolute;
-  top: 22px;
+  top: 0;
   right: 0;
   display: flex;
   height: 60px;
@@ -374,18 +380,6 @@ export default {
   align-items: center;
   border-radius: 30px 0 0 30px;
   background-color: #c1e77e;
-}
-.switch-children {
-  position: absolute;
-  right: 20px;
-  bottom: 14%;
-}
-
-.home-myStudent {
-  min-height: 120px;
-  padding: 0 30px;
-  background-color: #fff;
-  margin-bottom: 10px;
 }
 
 .experience {

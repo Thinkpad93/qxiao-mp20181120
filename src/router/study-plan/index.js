@@ -18,34 +18,34 @@ export default [{
       cookie: true
     }
   },
-  {
-    path: '/study-plan/show2',
-    name: "studyPlanShow",
-    component: () => import('@/views/study-plan/show2'),
-    meta: {
-      title: "学习计划详情",
-      keepAlive: true,
-      cookie: true
-    }
-  },
-  {
-    path: '/study-plan/show3',
-    name: "studyPlanShow",
-    component: () => import('@/views/study-plan/show3'),
-    meta: {
-      title: "学习计划详情",
-      keepAlive: true,
-      cookie: true
-    }
-  },
-  {
-    path: '/study-plan/show4',
-    name: "studyPlanShow",
-    component: () => import('@/views/study-plan/show4'),
-    meta: {
-      title: "学习计划详情",
-      keepAlive: true,
-      cookie: true
-    }
-  },
+  // {
+  //   path: '/study-plan/show2',
+  //   name: "studyPlanShow",
+  //   component: () => import('@/views/study-plan/show2'),
+  //   meta: {
+  //     title: "学习计划详情",
+  //     keepAlive: true,
+  //     cookie: true
+  //   }
+  // },
+  // {
+  //   path: '/study-plan/show3',
+  //   name: "studyPlanShow",
+  //   component: () => import('@/views/study-plan/show3'),
+  //   meta: {
+  //     title: "学习计划详情",
+  //     keepAlive: true,
+  //     cookie: true
+  //   }
+  // },
+  // {
+  //   path: '/study-plan/show4',
+  //   name: "studyPlanShow",
+  //   component: () => import('@/views/study-plan/show4'),
+  //   meta: {
+  //     title: "学习计划详情",
+  //     keepAlive: true,
+  //     cookie: true
+  //   }
+  // },
 ]
