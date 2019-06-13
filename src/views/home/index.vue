@@ -58,6 +58,10 @@
           @on-praise="handlePraise"
           @on-comment="handleComment"
         ></qx-community>
+        <div class="empty" v-if="!communityData.length">
+          <img src="@/assets/kong.png" alt>
+          <p>快来分享精彩的内容吧~</p>
+        </div>
       </main>
       <!-- 评论 -->
       <van-dialog
