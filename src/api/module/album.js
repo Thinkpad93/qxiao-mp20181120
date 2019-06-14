@@ -1,38 +1,50 @@
 import ax from '../axios';
 
 //查询相册所属班级
-export function albumClassQuery(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumClassQuery.do', params)
+export function albumClassQuery(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumClassQuery.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //查询班级所属的相册栏目
-export function albumChannelQuery(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumChannelQuery.do', params)
+export function albumChannelQuery(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumChannelQuery.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //查询相册栏目详情
-export function albumChannelDetail(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumChannelDetail.do', params)
+export function albumChannelDetail(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumChannelDetail.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //相册照片或视频删除
-export function imageDelete(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/imageDelete.do', params)
+export function imageDelete(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/imageDelete.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //相册图片或视频上传
-export function albumImageAdd(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumImageAdd.do', params)
+export function albumImageAdd(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumImageAdd.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //新增栏目
-export function addChannel(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/addChannel.do', params)
+export function addChannel(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/addChannel.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

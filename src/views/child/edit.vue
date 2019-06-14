@@ -211,7 +211,8 @@ export default {
         let config = {
           headers: {
             "Content-Type": "multipart/form-data"
-          }
+          },
+          showLoading: true
         };
         let formData = new FormData();
         formData.append("file", this.filesObj);

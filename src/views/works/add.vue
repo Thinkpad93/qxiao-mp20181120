@@ -136,7 +136,8 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data"
-        }
+        },
+        showLoading: true
       };
       let formData = new FormData();
       this.imagesList.forEach(elem => {

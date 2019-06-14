@@ -91,7 +91,7 @@ export default {
         {
           title: "我的手环",
           to: "/bracelet",
-          icon: require("../../assets/user-icon-2@2x.png")
+          icon: require("../../assets/user-icon-7@2x.png")
         },
         {
           title: "帮助中心",

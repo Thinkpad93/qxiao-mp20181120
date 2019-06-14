@@ -1,26 +1,34 @@
 import ax from '../axios';
 
 //上传作品
-export function uploadWorks(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/uploadWorks.do', params)
+export function uploadWorks(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/uploadWorks.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //查询审核通过上传作品
-export function queryOnLineList(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/queryOnLineList.do', params)
+export function queryOnLineList(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/queryOnLineList.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //查询我的上传作品
-export function queryMyUpload(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/queryMyUpload.do', params)
+export function queryMyUpload(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/queryMyUpload.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //删除作品
-export function deleteImage(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/deleteImage.do', params)
+export function deleteImage(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/deleteImage.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

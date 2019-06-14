@@ -22,13 +22,13 @@
                 type="info"
                 size="small"
                 @click="jump(item)"
-                style="width:170px;"
+                style="width:170px;height:35px;font-size:18px;"
               >试卷讲解</van-button>
             </div>
           </div>
         </template>
         <template v-else>
-          <div class="item flex j-c-s-b a-i-c mb-20">
+          <div class="item flex j-c-s-b a-i-c">
             <div class="info flex-1">
               <p class="mb-20">{{ item.stageTitle }}</p>
               <div class="goal flex j-c-s-b">
@@ -38,7 +38,7 @@
                   type="info"
                   size="mini"
                   @click="jump(item)"
-                  style="width:80px;"
+                  style="width:80px;height:22px;"
                 >试卷讲解</van-button>
               </div>
             </div>
@@ -116,7 +116,6 @@ export default {
     padding: 30px 0;
     min-height: 400px;
     background-color: #fff;
-    box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
 
     strong {
       display: inline-block;
