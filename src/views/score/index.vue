@@ -58,7 +58,7 @@ export default {
   name: "score",
   data() {
     return {
-      actives: 0,
+      actives: parseInt(this.$route.query.index),
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,

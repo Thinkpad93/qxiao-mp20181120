@@ -300,3 +300,9 @@ export function joinStudent(params) {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//最后登录状态
+export function switchingState(params) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/switchingState.do', params)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

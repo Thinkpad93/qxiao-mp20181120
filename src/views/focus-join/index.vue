@@ -1,10 +1,14 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <div class="cells mb-20">
-        <div class="cell min-h120" v-for="(item, index) in studentList" :key="index">
-          <div class="cell-hd">
-            <label class="label">{{ item.studentName }}</label>
+      <p class="tip">您的亲人邀请您一起关注孩子成长</p>
+      <div class="container" v-if="studentList.length">
+        <p>孩子列表</p>
+        <div class="cells">
+          <div class="cell min-h100" v-for="(item, index) in studentList" :key="index">
+            <div class="cell-hd">
+              <label class="label">{{ item.studentName }}</label>
+            </div>
           </div>
         </div>
       </div>
@@ -113,4 +117,27 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.container {
+  margin: 0 30px;
+  border-radius: 20px;
+  background-color: #fff;
+  padding-top: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0px 3px 8px 0px rgba(204, 204, 204, 0.35);
+  .cells {
+    border-radius: 0 0 20px 20px;
+  }
+  > p {
+    padding-left: 20px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    border-left: 4px solid #84ce09;
+  }
+}
+.tip {
+  font-size: 36px;
+  text-align: center;
+  color: #84ce09;
+  padding: 30px 0;
+}
 </style>

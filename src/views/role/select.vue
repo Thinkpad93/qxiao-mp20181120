@@ -40,14 +40,14 @@ export default {
   },
   methods: {
     changeRole(item) {
+      console.log(item);
       //如果要切换的角色是当前角色，则不切换
       if (item.roleType == this.roleType) {
         this.$router.go(-1);
         return;
       }
       let _cookie = Cookies.getJSON("info");
-      let single = this.roleList.find(item => item.roleType != this.roleType);
-      let { id, roleType, classId, className, studentId, name } = single;
+      let { id, roleType, classId, className, studentId, name } = item;
       let obj = Object.assign({}, _cookie, {
         id,
         roleType,
@@ -58,6 +58,12 @@ export default {
       });
       this.$store.dispatch("user/setInfo", obj).then(data => {
         if (data.success === "ok") {
+          let params = {
+            openId: this.openId,
+            studentId: studentId,
+            type: 2
+          };
+          this.switchingState(params);
           this.$router.go(-1);
         }
       });
@@ -67,6 +73,12 @@ export default {
       let res = await service.queryRole(params);
       if (res.errorCode === 0) {
         this.roleList = res.data;
+      }
+    },
+    //最后登录状态记录
+    async switchingState(params = {}) {
+      let res = await service.switchingState(params);
+      if (res.errorCode === 0) {
       }
     }
   },

@@ -140,13 +140,13 @@
                 <div class="action-cells">
                   <div
                     class="action-cell course flex a-i-c j-c-s-b"
-                    v-for="item in lessonList"
-                    :key="item.lessonId"
+                    v-for="(item, index) in lessonList"
+                    :key="index"
                   >
                     <div class="action-cell-hd">
                       <span @click="jumpScore(item.lessonId)">{{ item.title }}</span>
                     </div>
-                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView">
+                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView(item)">
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
@@ -157,7 +157,7 @@
                       ></van-rate>
                     </div>
                     <div class="action-cell-ft pr-40">
-                      <span @click="jumpScore(item.lessonId)">{{ item.scoreRank }}</span>
+                      <span @click="jumpScore(item, index)">{{ item.scoreRank }}</span>
                     </div>
                   </div>
                 </div>
@@ -266,8 +266,7 @@ export default {
       actionView: {},
       myActions: [], //我的行为列表
       lessonList: [],
-      remark: {},
-      statu: 0 //今天是否已经打了
+      remark: {}
     };
   },
   computed: {
@@ -329,15 +328,17 @@ export default {
       let { title, starCount, ...args } = params;
       this.actionQuery(args);
     },
-    jumpScore(lessonId) {
+    jumpScore(params, index) {
+      let { lessonId } = params;
       this.$router.push({
         path: "/score",
         query: {
-          lessonId
+          lessonId,
+          index
         }
       });
     },
-    jumpCourseView() {
+    jumpCourseView(params) {
       //如果没有绑定手环
       if (this.isBindBracelet == 0) {
         this.$router.push({
@@ -345,7 +346,10 @@ export default {
         });
       } else {
         this.$router.push({
-          path: "/course/view"
+          path: "/course/view",
+          query: {
+            title: params.title
+          }
         });
       }
     },

@@ -28,22 +28,29 @@
           </div>
         </form>
       </van-dialog>
-      <div class="mod">
-        <div class="pichi flex a-i-c gradient-three">
-          <div class="pichi-box">
-            <div class="pichi-figure flex a-i-c" radius="50">
-              <img src="@/assets/rate-icon@2x.png" width="30" height="30">
-            </div>
-            <div class="pichi-meta">
-              <p size-16>{{ openStudentName }}</p>
-              <span size-12>可兑换Q星：{{ totalStarCount }}</span>
-              <!-- <strong size-20>{{ totalStarCount }}</strong> -->
-            </div>
+      <div class="pichi gradient-two">
+        <div class="pichi-head">
+          <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">
+          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
+          <p size-16 class="ml-20">{{ openStudentName }}</p>
+        </div>
+        <div class="pichi-body">
+          <div class="flex a-i-c j-c-c mb-30">
+            <img src="@/assets/rate-icon@2x.png" width="30" height="30">
+            <strong class="ml-10">{{ totalStarCount }}</strong>
           </div>
-          <div class="pichi-btn">
-            <a href="javascript:void(0);" @click="dialogVisible = true">添加奖励</a>
-            <router-link :to="{path: '/prize/log'}">兑换记录</router-link>
-          </div>
+          <p class="mb-30">可兑换Q星数量</p>
+          <p>手指勾勾约定好，奖励兑现要做到！</p>
+        </div>
+        <div class="pichi-ft">
+          <a href="javascript:void(0);" @click="dialogVisible = true">
+            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt>
+            <span class="ml-10">添加奖项</span>
+          </a>
+          <router-link :to="{path: '/prize/log'}">
+            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt>
+            <span class="ml-10">兑换记录</span>
+          </router-link>
         </div>
       </div>
       <div class="cells-title">
@@ -275,15 +282,11 @@ export default {
   margin: 30px;
 }
 
-.mod {
-  padding: 40px 0;
-  background-color: #fff;
-}
-
 .cells-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #2e2e2e;
   height: 40px;
   padding: 0 20px;
   background-color: #f6f8f9;
@@ -291,43 +294,34 @@ export default {
 .pichi {
   position: relative;
   color: #fff;
-  width: calc(100% - 90px);
-  height: 200px;
-  margin: 0 auto;
-  border-radius: 12px;
-  &-meta {
-    p {
-      margin-bottom: 6px;
-    }
-  }
-  &-figure {
-    justify-content: center;
-    width: 86px;
-    height: 86px;
-    border-radius: 50%;
-    margin-left: 60px;
-    margin-right: 30px;
-    background-color: #fff;
-  }
-  &-box {
+  margin: 20px;
+  border-radius: 20px;
+  &-head {
     display: flex;
     align-items: center;
+    padding: 30px 0 0 30px;
   }
-  &-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 40px;
-    a {
-      display: inline-block;
-      min-width: 120px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      padding: 0 15px;
-      font-size: 24px;
-      color: #84ce09;
-      border-radius: 20px;
-      background-color: #fff;
+  &-body {
+    text-align: center;
+    padding-bottom: 30px;
+    div {
+    }
+    strong {
+      font-size: 72px;
+    }
+  }
+  &-ft {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    color: #2e2e2e;
+    border-radius: 0 0 20px 20px;
+    background-color: #fff;
+    > a {
+      display: flex;
+      width: 50%;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

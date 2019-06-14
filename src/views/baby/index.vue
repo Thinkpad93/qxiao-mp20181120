@@ -61,6 +61,12 @@ export default {
         let obj = Object.assign({}, _cookie, args);
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
+            let params = {
+              openId: this.openId,
+              studentId: args.studentId,
+              type: 1
+            };
+            this.switchingState(params);
             this.$router.go(-1);
           }
         });
@@ -71,6 +77,12 @@ export default {
       let res = await service.queryClassStudentList(params);
       if (res.errorCode === 0) {
         this.studentList = res.data;
+      }
+    },
+    //最后登录状态记录
+    async switchingState(params = {}) {
+      let res = await service.switchingState(params);
+      if (res.errorCode === 0) {
       }
     }
   },

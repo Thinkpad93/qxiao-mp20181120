@@ -114,26 +114,6 @@ function getTagsMap() {
     return a;
   }, {});
 }
-
-data: {
-  day: ['周一','周二','周三','周四','周五','周六','周日'],
-  homeStat: [
-    {
-      type: 'line',
-      data: [5, 5, 5, 5, 5, 5, 5]
-    },
-    {
-      type: 'line',
-      data: [5, 5, 5, 5, 5, 5, 5]
-    }
-  ]
-}
-
-let url = "http://qxiao.natapp1.cc/qxiao-mp/#/single?openId=oUQwt1e9wv4_CbA6YcI-pefbcQdo&roleType=1&studentId=0&photo=http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FCttmTaYSYkTkAsiccYYzMeAc9YmB2h30Du9tGgNicmnPLkZI1ibvehb90GRn9zJYF5oObNvcjUvjjGibZcqeNvk7Dg%2F132&id=1&classId=1&className=%E7%B3%AF%E7%B1%B3%E7%8F%AD&type=0&isOpen=true&openStudentId=1&openStudentName=%E5%BC%A0%E5%B0%8F%E5%87%A1&name=%E9%97%A8%E5%89%8D%E6%B8%85%E5%B0%8F%E9%A3%8E%28%E5%9B%AD%E9%95%BF%29&totalStarCount=376&openPhoto=http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FCttmTaYSYkTkAsiccYYzMeAc9YmB2h30Du9tGgNicmnPLkZI1ibvehb90GRn9zJYF5oObNvcjUvjjGibZcqeNvk7Dg%2F132";
-
-let uurl = "http://ax.qxiao.net/qxiao-mp/?scene=0&clicktime=1559265109#/single?openId=ohkYoxOlCh_krYE5DEsVo5H25wRo&photo=http://thirdwx.qlogo.cn/mmopen/Jr7rTHcwniaFC2gupt7uGYHYicX7tnCfvxYLItOLFS1ENx4O1DuXmPzq30KdpXCkyda3fd0t7uwZtmV5cpjZicj1LJ33Up9Aqgz/132&roleType=9&openStudentId=58&openStudentName=%E9%BB%84%E5%BE%B7%E5%8D%8E";
-
-
 ```
 
 ## git 分支命名
@@ -144,11 +124,3 @@ let uurl = "http://ax.qxiao.net/qxiao-mp/?scene=0&clicktime=1559265109#/single?o
 - Master
 
 ## natapp -authtoken=a6260d5585826691
-
-> 1.班级圈查看图片时，按返回键返回的上一页，正常应该是退出图片查看模式
-
-> 2.重新设计打卡流程功能？
-
-> 3.当开放版孩子删除后，从微信推送里面进去应该是失效的
-
-> 4.在校表现是需要带上手环才能检测出数据表现的
