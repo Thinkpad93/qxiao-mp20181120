@@ -1,11 +1,6 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <template v-if="roleType == 2">
-        <a href="javascript:;" class="release" @click="handleBlumAdd">
-          <van-icon name="records" size="24px"></van-icon>
-        </a>
-      </template>
       <article class="article">
         <h1 size-24>{{ albumInfo.title }}</h1>
         <div class="article-hd flex">
@@ -19,10 +14,10 @@
               class="album-img"
               v-for="(pic, index) in albumInfo.items"
               :key="index"
-              @click="handlePreviewImage(index, albumInfo.items)"
+              @click="handlePreviewImage(pic.imageUrl, albumInfo.items)"
             >
               <!-- 删除 -->
-              <div class="album-mask" v-if="isShow" style="z-index: 500" @click.stop>
+              <div class="album-mask" v-show="mask" style="z-index: 9527">
                 <van-checkbox-group v-model="albumCheckList">
                   <van-checkbox :key="pic.itemId" :name="pic.itemId" checked-color="#92cd36"></van-checkbox>
                 </van-checkbox-group>
@@ -36,17 +31,38 @@
           <p>暂无相册</p>
         </div>
       </article>
-      <template v-if="roleType == 1 ||roleType == 2 || roleType == 4">
-        <div class="_confirm" v-if="albumInfo.items.length">
-          <div class="album-tool flex">
-            <span @click="handleCancel">取消</span>
-            <template>
-              <span @click="isShow = true" v-if="!isShow">删除图片</span>
-              <span v-if="isShow" @click="handleConfirm">确认删除</span>
-            </template>
-          </div>
-        </div>
-      </template>
+    </div>
+    <div class="flex-ft">
+      <div class="flex" v-if="roleType == 2">
+        <van-button
+          size="large"
+          type="default"
+          class="no-radius"
+          v-show="mask"
+          @click="handleCancel"
+        >取消</van-button>
+        <van-button
+          size="large"
+          type="default"
+          class="no-radius"
+          v-show="!mask"
+          @click="mask = true"
+        >编辑</van-button>
+        <van-button
+          size="large"
+          type="danger"
+          class="no-radius"
+          v-show="mask"
+          @click="handleConfirm"
+        >删除</van-button>
+        <van-button
+          size="large"
+          type="info"
+          class="no-radius"
+          v-show="!mask"
+          @click="handleBlumAdd"
+        >上传相片</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -57,7 +73,7 @@ export default {
   name: "albumDetail",
   data() {
     return {
-      isShow: false,
+      mask: false,
       roleType: this.$store.state.user.info.roleType,
       query: {
         openId: this.$store.state.user.info.openId,
@@ -75,7 +91,7 @@ export default {
       });
     },
     handleCancel() {
-      this.isShow = false;
+      this.mask = false;
       this.albumCheckList = [];
     },
     handleConfirm() {
@@ -89,18 +105,20 @@ export default {
       }
     },
     //预览图片
-    handlePreviewImage(index, images) {
-      if (Array.isArray(images)) {
-        let result = [];
-        images.forEach(elem => {
-          result.push(elem.imageUrl);
-        });
-        this.instance = ImagePreview({
-          images: result,
-          startPosition: index,
-          onClose: () => {}
+    handlePreviewImage(imgUrl, images) {
+      let imgArray = [];
+      if (images.length) {
+        images.forEach(item => {
+          imgArray.push(item.imageUrl);
         });
       }
+      if (!imgArray.length) {
+        imgArray.push(imgUrl);
+      }
+      wx.previewImage({
+        current: encodeURI(imgUrl),
+        urls: imgArray
+      });
     },
     //相册照片或视频删除
     async imageDelete(params = {}) {
@@ -115,7 +133,7 @@ export default {
       if (res.errorCode === 0) {
         this.albumInfo = res.data;
         this.albumCheckList = [];
-        this.isShow = false;
+        this.mask = false;
       }
     }
   },
@@ -154,30 +172,5 @@ export default {
   padding: 10px;
   text-align: right;
   background-color: rgba(0, 0, 0, 0.8);
-}
-.album-tool {
-  padding: 0 20px;
-  justify-content: space-between;
-  span {
-    display: inline-block;
-    padding: 15px 30px;
-    color: #fff;
-    border-radius: 30px;
-    background-color: #92cd36;
-  }
-}
-.release {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  right: 5%;
-  bottom: 12%;
-  z-index: 100;
-  color: #fff;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #9acb4d;
 }
 </style>

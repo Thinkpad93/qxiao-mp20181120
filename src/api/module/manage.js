@@ -314,7 +314,7 @@ export function updateSchool(params, config = {
 }
 //查询学生详细信息
 export function studentInfoQuery(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/studentInfoQuery.do', params, config)
     .then(res => res.data)

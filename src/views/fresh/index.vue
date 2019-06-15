@@ -70,7 +70,7 @@
                 <van-icon name="eye-o" size="16px"></van-icon>
                 <b>{{ fresh.classReadCount }}</b>
               </div>
-              <div class="figure-icon">
+              <div class="figure-icon" v-if="fresh.classCommentCount">
                 <van-icon name="comment-o" size="16px"></van-icon>
                 <b>{{ fresh.classCommentCount }}</b>
               </div>
