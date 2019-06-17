@@ -4,6 +4,6 @@ export default [{
   meta: {
     title: "欢迎使用小Q智慧",
     keepAlive: true,
-    cookie: true,
+    isShare: false,
   }
 }]

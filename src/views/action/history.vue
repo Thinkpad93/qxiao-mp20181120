@@ -38,8 +38,8 @@
                   :size="22"
                   color="#09e2bb"
                   void-color="#e5eee0"
-                  :readonly="item.comment === 1"
-                  @change="handleChangeRate(indexs)"
+                  :readonly="action.comment === 1"
+                  @change="handleChangeRate(action)"
                 ></van-rate>
               </div>
             </div>
@@ -79,41 +79,13 @@ export default {
   },
   methods: {
     //rate事件
-    handleChangeRate(indexs) {
-      let flag = false;
-      let actions = this.list[indexs].actions;
-      let len = actions.length;
-      let actionArray = [];
-      actions.forEach(element => {
-        let { starCount, ...args } = element;
-        //说明该行为已经打了
-        if (starCount != 0) {
-          flag = true;
-          len -= 1;
-        }
-      });
-      if (flag && len === 0) {
-        let day = this.list[indexs].day;
-        let { openId, studentId } = this.query;
-        actions.forEach(element => {
-          let { title, ...args } = element;
-          actionArray.push(args);
+    handleChangeRate(params = {}) {
+      if (params) {
+        let { comment, title, ...args } = params;
+        let obj = Object.assign({}, args, {
+          openId: this.query.openId
         });
-        if (actionArray.length) {
-          this.$dialog
-            .confirm({
-              title: "提示",
-              message: "确定完成评价？确定后无法更改"
-            })
-            .then(() => {
-              let obj = Object.assign(
-                {},
-                { actionArray, day, openId, studentId }
-              );
-              this.actionStrikeList(obj);
-            })
-            .catch(() => {});
-        }
+        this.actionStrike(obj);
       }
     },
     //历史打星查询
@@ -124,13 +96,14 @@ export default {
       }
     },
     //行为打星
-    async actionStrikeList(params = {}) {
-      let res = await service.actionStrikeList(params);
+    async actionStrike(params = {}) {
+      let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
-        this.historyStrikeQuery(this.query);
+        let { totalStarCount } = res.data;
+        //this.historyStrikeQuery(this.query);
         //更新星星数量
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, { totalStarCount: res.data });
+        let obj = Object.assign({}, _cookie, { totalStarCount });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
           }

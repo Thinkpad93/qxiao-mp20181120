@@ -4,7 +4,7 @@ export default [{
   component: () => import('@/views/focus-join'),
   meta: {
     title: "关注加入",
-    cookie: true,
     keepAlive: true,
+    isShare: false,
   }
 }]

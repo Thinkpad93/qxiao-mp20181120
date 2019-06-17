@@ -4,10 +4,8 @@ export default [{
     component: () => import('@/views/course/view'),
     meta: {
       keepAlive: true,
-      cookie: true,
       isShare: false,
       title: '课堂表现',
-      roles: [1]
     }
   },
   {
@@ -16,9 +14,7 @@ export default [{
     component: () => import('@/views/course/show'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
-      title: '课堂回顾',
     }
   }
 ]

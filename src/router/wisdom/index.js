@@ -5,7 +5,7 @@ export default [{
     meta: {
       title: "小Q智慧",
       keepAlive: true,
-      cookie: true,
+      isShare: false,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "小Q智慧详情",
       keepAlive: true,
-      cookie: true,
+      isShare: false,
     }
   }
 ]

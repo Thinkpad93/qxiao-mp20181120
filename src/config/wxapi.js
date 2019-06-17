@@ -22,6 +22,8 @@ export default {
             "getLocalImgData",
             "onMenuShareAppMessage",
             "hideMenuItems",
+            "hideOptionMenu",
+            "showOptionMenu",
             "chooseWXPay"
           ] // 必填，需要使用的JS接口列表
         });
@@ -42,6 +44,14 @@ export default {
         callback()
       }
     });
+  },
+  //隐藏右上角菜单接口
+  wxHideOptionMenu() {
+    wx.hideOptionMenu();
+  },
+  //显示右上角菜单接口
+  wxShowOptionMenu() {
+    wx.showOptionMenu();
   },
   //微信分享到朋友圈
   wxShareTimeline(option) {

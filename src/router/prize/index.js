@@ -5,7 +5,7 @@ export default [{
     meta: {
       title: "奖励兑换",
       keepAlive: false,
-      cookie: true,
+      isShare: false,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "兑换记录",
       keepAlive: false,
-      cookie: true,
+      isShare: false,
     }
   }
 ]

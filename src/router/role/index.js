@@ -4,8 +4,8 @@ export default [{
     component: () => import('@/views/role'),
     meta: {
       keepAlive: false,
-      cookie: true,
       title: '资料修改',
+      isShare: false,
     }
   },
   {
@@ -14,8 +14,8 @@ export default [{
     component: () => import('@/views/role/select'),
     meta: {
       keepAlive: false,
-      cookie: true,
       title: '选择角色',
+      isShare: false,
     }
   }
 ]

@@ -5,6 +5,6 @@ export default [{
   meta: {
     title: "考试成绩",
     keepAlive: true,
-    cookie: true,
+    isShare: false,
   }
 }]

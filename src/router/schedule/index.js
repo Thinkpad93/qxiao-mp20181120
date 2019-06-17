@@ -5,6 +5,6 @@ export default [{
   meta: {
     title: "我的课表",
     keepAlive: true,
-    cookie: true
+    isShare: false,
   }
 }]

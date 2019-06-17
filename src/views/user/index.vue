@@ -117,7 +117,7 @@ export default {
     wxShareAppMessage() {
       let option = {
         title: "亲爱的用户您好", // 分享标题
-        desc: "快来一起关注孩子吧~", // 分享描述
+        desc: "邀请您一起关注孩子成长吧~", // 分享描述
         link: API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId, // 分享链接，根据自身项目决定是否需要split
         success: () => {
           that.$toast("分享成功");

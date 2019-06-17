@@ -5,7 +5,7 @@ export default [{
     meta: {
       title: "帮助中心",
       keepAlive: true,
-      cookie: true
+      isShare: false,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "使用帮助",
       keepAlive: true,
-      cookie: true
+      isShare: false,
     }
   },
 ]

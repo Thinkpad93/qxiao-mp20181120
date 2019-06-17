@@ -5,7 +5,7 @@ export default [{
     meta: {
       title: "作品展",
       keepAlive: false,
-      cookie: true,
+      isShare: false,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "作品上传",
       keepAlive: false,
-      cookie: true,
+      isShare: false,
     }
   },
   {
@@ -25,7 +25,7 @@ export default [{
     meta: {
       title: "我的上榜作品",
       keepAlive: false,
-      cookie: true,
+      isShare: false,
     }
   }
 ]
