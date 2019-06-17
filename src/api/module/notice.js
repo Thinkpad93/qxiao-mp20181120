@@ -1,38 +1,50 @@
 import ax from '../axios';
 
 //公告通知列表查询
-export function noticeQuery(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeQuery.do', params)
+export function noticeQuery(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeQuery.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //公告通知详情
-export function noticeDetail(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeDetail.do', params)
+export function noticeDetail(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeDetail.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //公告阅读人员查询
-export function noticeReaders(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeReaders.do', params)
+export function noticeReaders(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeReaders.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //公告发送
-export function noticeAdd(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeAdd.do', params)
+export function noticeAdd(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/noticeAdd.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //公告确认
-export function noticeConfirm(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/confirm.do', params)
+export function noticeConfirm(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/confirm.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
 //公告删除
-export function deleteNotice(params) {
-  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/deleteNotice.do', params)
+export function deleteNotice(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/deleteNotice.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

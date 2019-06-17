@@ -84,6 +84,7 @@ import service from "@/api";
 import { textReplace } from "@/utils/string";
 import classList from "@/mixins/classList";
 import wxHandle from "@/mixins/wx";
+import wxapi from "@/config/wxapi";
 export default {
   name: "homeWorkAdd",
   mixins: [wxHandle, classList],
@@ -157,7 +158,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare();
+    wxapi.wxRegister();
   }
 };
 </script>

@@ -32,7 +32,7 @@
             就如同被蒙上了眼睛绕着磨盘转圈的驴子，而为了获取知识和自我发展而学习，那便是那取得真经的马。
           </p>
           <p>
-            <img src="@/assets/personality-plan-5.png" alt>
+            <!-- <img src="@/assets/personality-plan-5.png" alt> -->
           </p>
           <p>
             学习的过程中，首要的一点就是要确立目标，而且是明晰科学的目标。

@@ -136,7 +136,8 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data"
-        }
+        },
+        showLoading: true
       };
       let formData = new FormData();
       this.imagesList.forEach(elem => {
@@ -156,7 +157,17 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {},
+  activated() {
+    console.log("activated");
+  },
+  beforeDestory() {
+    console.log("beforeDestory");
+  },
+  destroyed() {
+    console.log("destroyed10");
+    //eventBus.$emit("tabMessage", 1);
+  }
 };
 </script>
 <style lang="less" scoped>

@@ -2,8 +2,13 @@
   <div class="flex-page">
     <div class="flex-bd">
       <div class="gazelle">
-        <p>小Q手环提醒你，{{ openStudentName }}本堂课的表现</p>
-        <div class="mt-20 mb-20">
+        <div class="gazelle-head">
+          <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">
+          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
+          <p size-16 class="ml-20">{{ openStudentName }}</p>
+        </div>
+        <div class="gazelle-body">
+          <p class="tip">小Q手环温馨提示您</p>
           <van-rate
             v-model="startCount"
             :count="5"
@@ -12,11 +17,9 @@
             void-color="#e5eee0"
             readonly
           ></van-rate>
+          <p class="tips">{{ title }}课堂表现</p>
         </div>
-        <p>
-          点击
-          <a href="javascript:void(0);" style="color:#92cd36" @click="jump">课程回顾</a>本堂课知识
-        </p>
+        <div class="gazelle-ft"></div>
       </div>
       <div class="cells-title">
         <p>小Q手环数据分析</p>
@@ -46,13 +49,20 @@
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "courseView",
   data() {
     return {
       startCount: 5,
-      openStudentName: this.$store.state.user.info.openStudentName
+      title: this.$route.query.title
     };
+  },
+  computed: {
+    ...mapState("user", {
+      openPhoto: state => state.info.openPhoto,
+      openStudentName: state => state.info.openStudentName
+    })
   },
   methods: {
     jump() {
@@ -66,8 +76,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .gazelle {
-  padding: 40px 0;
-  text-align: center;
+  position: relative;
+  margin: 20px;
+  border-radius: 20px;
   background-color: #fff;
+  &-head {
+    display: flex;
+    align-items: center;
+    padding: 30px 0 0 30px;
+  }
+  &-body {
+    color: #999;
+    text-align: center;
+    padding-bottom: 30px;
+    .tip {
+      font-size: 36px;
+      color: #84ce09;
+      margin-top: 20px;
+      margin-bottom: 60px;
+    }
+    .tips {
+      margin-top: 30px;
+    }
+  }
+}
+.cells-title {
+  color: #2e2e2e;
 }
 </style>

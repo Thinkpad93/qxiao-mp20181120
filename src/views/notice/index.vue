@@ -40,7 +40,7 @@
           </div>
         </div>
       </van-popup>
-      <template v-if="roleType == 1 || roleType == 4">
+      <template v-if="roleType != 3">
         <qxRelease url="/notice/add"/>
       </template>
       <van-swipe-cell
@@ -239,7 +239,6 @@ export default {
     }
   },
   mounted() {
-    //this.wxSdk.wxShare(this.roleType);
     this.noticeQuery(this.query);
   }
 };

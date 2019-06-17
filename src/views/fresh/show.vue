@@ -14,10 +14,10 @@
           <div class="article-cell">
             <time>{{ info.postTime }}</time>
           </div>
-          <div class="article-cell">
+          <!-- <div class="article-cell">
             <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.classReadCount }}</b>
-          </div>
+          </div>-->
         </div>
         <section size-16 class="article-content">
           <p v-html="info.textContent"></p>

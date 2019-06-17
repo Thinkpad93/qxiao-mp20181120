@@ -50,9 +50,10 @@
     </div>
     <div class="flex-ft">
       <template v-if="roleType == 2">
-        <section class="mamba">
+        <van-button type="info" size="large" class="no-radius" @click="dialogVisible = true">新增栏目</van-button>
+        <!-- <section class="mamba">
           <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
-        </section>
+        </section>-->
       </template>
     </div>
   </div>
@@ -168,14 +169,14 @@ export default {
   }
 }
 
-.mamba {
-  padding: 20px 0;
-  text-align: center;
-  box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
-  background-color: #fff;
+// .mamba {
+//   padding: 20px 0;
+//   text-align: center;
+//   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
+//   background-color: #fff;
 
-  > a {
-    width: 500px;
-  }
-}
+//   > a {
+//     width: 500px;
+//   }
+// }
 </style>

@@ -141,6 +141,7 @@ import moment from "moment";
 import { textReplace } from "@/utils/string";
 import service from "@/api";
 import wxHandle from "@/mixins/wx";
+import wxapi from "@/config/wxapi";
 export default {
   namae: "noticeAdd",
   mixins: [wxHandle],
@@ -321,6 +322,7 @@ export default {
   mounted() {
     this.classInfo();
     this.classTeacher();
+    wxapi.wxRegister();
   }
 };
 </script>

@@ -6,7 +6,7 @@
       <div class="wrap">
         <div class="mod">
           <div class="guanaco">
-            <h4>我的行为</h4>
+            <h4>我的行为培养</h4>
             <a href="javascript:void(0);" @click="isShow = !isShow">{{ isShow ? '编辑':'完成' }}</a>
           </div>
           <div class="narwhal">
@@ -39,7 +39,7 @@
         </div>
         <div class="mod">
           <div class="guanaco">
-            <h4>推荐行为</h4>
+            <h4>小Q推荐行为</h4>
           </div>
           <div class="narwhal">
             <div

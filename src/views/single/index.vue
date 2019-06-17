@@ -35,7 +35,7 @@
                   {{ openStudentName }}
                   <small>Q星: {{ totalStarCount }}</small>
                 </h3>
-                <p size-12>行动养成习惯，习惯形成性格。</p>
+                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
               </div>
             </template>
             <template v-else>
@@ -45,6 +45,7 @@
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
         </router-link>
+        <!-- 用户 -->
         <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
             <div class="container">
@@ -53,13 +54,13 @@
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
                   <div class="cell-bd">
                     <time size-16>{{ query.day }}</time>
-                    <span>今日表现{{ start }}颗Q星</span>
+                    <span>日获得Q星{{ start }}颗</span>
                   </div>
                   <div class="cell-ft">
                     <van-icon name="arrow" size="16px"></van-icon>
                   </div>
                 </router-link>
-                <div class="action-cells" @click.stop="handleStatus">
+                <div class="action-cells">
                   <!-- 无数据提示 -->
                   <template v-if="myActions.length">
                     <div
@@ -78,8 +79,7 @@
                           :size="22"
                           color="#09e2bb"
                           void-color="#e5eee0"
-                          :readonly="statu === 1"
-                          @change="handleChangeRate"
+                          @change="handleChangeRate(index)"
                         ></van-rate>
                       </div>
                     </div>
@@ -119,7 +119,7 @@
               </div>
             </div>
             <div class="mod no-radius" ref="mod">
-              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在家表现</span>
               </div>
               <!-- 一周数据分析 -->
@@ -140,13 +140,13 @@
                 <div class="action-cells">
                   <div
                     class="action-cell course flex a-i-c j-c-s-b"
-                    v-for="item in lessonList"
-                    :key="item.lessonId"
+                    v-for="(item, index) in lessonList"
+                    :key="index"
                   >
                     <div class="action-cell-hd">
                       <span @click="jumpScore(item.lessonId)">{{ item.title }}</span>
                     </div>
-                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView">
+                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView(item)">
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
@@ -157,14 +157,14 @@
                       ></van-rate>
                     </div>
                     <div class="action-cell-ft pr-40">
-                      <span @click="jumpScore(item.lessonId)">{{ item.scoreRank }}</span>
+                      <span @click="jumpScore(item, index)">{{ item.scoreRank }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="mod no-radius">
-              <div class="echarts-head flex a-i-c j-c-s-b mb-20">
+              <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在校表现</span>
               </div>
               <!-- 一周数据分析 -->
@@ -205,7 +205,7 @@
               <div class="snail flex j-c-s-b a-i-c mb-20">
                 <div class="flex a-i-c">
                   <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-                  <div class="ml-10">竞争力(广州)</div>
+                  <div class="ml-10">综合竞争力排名</div>
                 </div>
                 <div class="flex a-i-c">
                   <span class="mr-10">80</span>
@@ -217,13 +217,6 @@
                   <van-tab title="个性分析">
                     <div class="eland">
                       <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                      <van-button
-                        round
-                        type="info"
-                        size="small"
-                        to="/personality-plan"
-                        style="width:200px;"
-                      >定制个性计划</van-button>
                     </div>
                   </van-tab>
                   <van-tab title="学习分析">
@@ -231,13 +224,6 @@
                       <p
                         class="mt-10"
                       >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                      <van-button
-                        round
-                        type="info"
-                        size="small"
-                        to="/study-plan"
-                        style="width:200px;"
-                      >定制学习计划</van-button>
                     </div>
                   </van-tab>
                 </van-tabs>
@@ -274,13 +260,13 @@ export default {
       active: 0,
       tabActive: 0,
       query: {
+        openId: this.$store.state.user.info.openId,
         day: dayjs().format("YYYY-MM-DD")
       },
       actionView: {},
       myActions: [], //我的行为列表
       lessonList: [],
-      remark: {},
-      statu: 0 //今天是否已经打了
+      remark: {}
     };
   },
   computed: {
@@ -289,7 +275,8 @@ export default {
       openPhoto: state => state.info.openPhoto,
       openId: state => state.info.openId,
       studentId: state => state.info.openStudentId,
-      totalStarCount: state => state.info.totalStarCount
+      totalStarCount: state => state.info.totalStarCount,
+      isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
     }),
     //计算已选择的星星数
     start() {
@@ -314,53 +301,18 @@ export default {
           .catch(() => {});
       }
     },
-    //
-    handleStatus() {
-      //今天已经打过星星
-      if (this.statu == 1) {
-        this.$dialog
-          .alert({
-            title: "提示",
-            message: "今天已经评价过啦，明天继续坚持~"
-          })
-          .then(() => {
-            // on close
-          });
-      }
-    },
     //rate事件
-    handleChangeRate(count) {
-      let flag = false;
-      let len = this.myActions.length;
-      let actionArray = [];
-      this.myActions.forEach(element => {
-        let { starCount, ...args } = element;
-        //说明该行为已经打了
-        if (starCount != 0) {
-          flag = true;
-          len -= 1;
-        }
-      });
-      if (flag && len === 0) {
-        this.myActions.forEach(element => {
-          let { starCount, actionId, actionType } = element;
-          if (starCount != 0) {
-            actionArray.push({ starCount, actionId, actionType });
-          }
+    handleChangeRate(index) {
+      let action = this.myActions[index];
+      if (action) {
+        let { studentId, actionId, actionType, starCount } = action;
+        let obj = Object.assign({}, this.query, {
+          studentId,
+          actionId,
+          actionType,
+          starCount
         });
-        this.$dialog
-          .confirm({
-            title: "提示",
-            message: "今天又向前跨一步了，提交无法更改哦~"
-          })
-          .then(() => {
-            let obj = Object.assign({}, this.query, {
-              actionArray,
-              openId: this.openId,
-              studentId: this.studentId
-            });
-            this.actionStrike(obj);
-          });
+        this.actionStrike(obj);
       }
     },
     //显示更多我的行为
@@ -376,27 +328,37 @@ export default {
       let { title, starCount, ...args } = params;
       this.actionQuery(args);
     },
-    jumpScore(lessonId) {
+    jumpScore(params, index) {
+      let { lessonId } = params;
       this.$router.push({
         path: "/score",
         query: {
-          lessonId
+          lessonId,
+          index
         }
       });
     },
-    jumpCourseView() {
-      this.$router.push({
-        path: "/course/view"
-      });
+    jumpCourseView(params) {
+      //如果没有绑定手环
+      if (this.isBindBracelet == 0) {
+        this.$router.push({
+          path: "/bracelet"
+        });
+      } else {
+        this.$router.push({
+          path: "/course/view",
+          query: {
+            title: params.title
+          }
+        });
+      }
     },
     //行为打星
     async actionStrike(params = {}) {
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
-        let { totalStarCount, statu } = res.data;
-        this.statu = statu;
+        let { totalStarCount } = res.data;
         //更新星星数量
-        //this.actionListQuery();
         let _cookie = Cookies.getJSON("info");
         let obj = Object.assign({}, _cookie, { totalStarCount });
         this.$store.dispatch("user/setInfo", obj).then(data => {
@@ -415,7 +377,6 @@ export default {
       let res = await service.actionListQuery(obj);
       if (res.errorCode === 0) {
         this.myActions = res.data.myActions;
-        this.statu = res.data.statu;
         this.showNumber = this.myActions.length;
       }
     },
@@ -614,6 +575,7 @@ export default {
 }
 
 .echarts-head {
+  text-align: center;
   padding: 30px 30px 0 30px;
 }
 

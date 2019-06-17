@@ -1,9 +1,6 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
-      <div class="cover">
-        <img src="@/assets/login-bg@2x.png" alt>
-      </div>
+  <div class="flex-page">
+    <div class="flex-bd cover">
       <form action ref="form" class="join-form">
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
@@ -121,17 +118,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .cover {
-  height: 100vh;
-  padding-bottom: 100%;
-  overflow: hidden;
-  position: relative;
-  img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
+  background-color: #cbf4fa;
 }
 .join-form {
   z-index: 10;
@@ -154,11 +141,6 @@ export default {
   align-items: center;
   span {
     margin-left: 10px;
-  }
-}
-.page-ft {
-  a {
-    width: 500px;
   }
 }
 </style>

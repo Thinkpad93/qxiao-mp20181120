@@ -22,7 +22,12 @@ export default {
     return {
       imgUrl: "",
       query: {
+<<<<<<< HEAD
         classId: this.$route.query.classId
+=======
+        classId: this.$route.query.classId,
+        id: this.$route.query.id
+>>>>>>> open-dev
       }
     };
   },

@@ -13,7 +13,10 @@ const service = axios.create({
 
 //request
 service.interceptors.request.use(config => {
-  toast = Toast.loading();
+  console.log(config);
+  if (config.showLoading) {
+    toast = Toast.loading();
+  }
   return config;
 }, error => {
   return Promise.reject(error);
@@ -21,8 +24,11 @@ service.interceptors.request.use(config => {
 
 //response
 service.interceptors.response.use(response => {
+  console.log(response);
   if (response.data.errorCode === 0) {
-    toast.clear();
+    if (response.config.showLoading) {
+      toast.clear();
+    }
   }
   return response;
 }, error => {

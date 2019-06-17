@@ -28,6 +28,19 @@ export default {
       }
     });
     wx.ready(() => {
+<<<<<<< HEAD
+=======
+      //要隐藏的菜单项
+      wx.hideMenuItems({
+        menuList: [
+          "menuItem:share:timeline",
+          "menuItem:share:qq",
+          "menuItem:share:weiboApp",
+          "menuItem:share:QZone",
+          "menuItem:favorite"
+        ]
+      });
+>>>>>>> open-dev
       if (callback) {
         callback()
       }

@@ -2,6 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <!-- 角色选择 -->
+<<<<<<< HEAD
       <!-- 用户信息 -->
       <div class="flex a-i-c home-user gradient-two">
         <router-link to="/role/select" class="switch-role" v-if="roleList.length == 2">
@@ -11,8 +12,15 @@
         <router-link tag="div" class="switch-children" to="/baby" v-if="roleType == 3">
           <van-icon name="arrow" size="18px"></van-icon>
         </router-link>
+=======
+      <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
+        <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
+          <van-icon name="replay" size="16px"></van-icon>
+          <span>切换角色</span>
+        </div>
+>>>>>>> open-dev
         <div class="flex a-i-c">
-          <div class="avatar" @click="jumpRole">
+          <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
           </div>
           <div class="pl-20">
@@ -20,7 +28,10 @@
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
+        <van-icon name="arrow" size="16px" v-if="roleType == 3"></van-icon>
       </div>
+      <!-- 用户信息 -->
+      <!-- 菜单 -->
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -34,9 +45,21 @@
       <template v-if="isOpen">
         <qxRelease url="/community"/>
       </template>
+<<<<<<< HEAD
       <div class="experience" v-if="experience == 1">
         <p>快去邀请老师成为班级管理员吧</p>
         <van-button type="primary" size="small" @click="handleShare">邀请</van-button>
+=======
+      <div class="experience flex" v-if="experience == 1">
+        <div class="item" @click="handleCreateClass">
+          <p>创建班级</p>
+          <span size-12>我是老师我要创建班级</span>
+        </div>
+        <div class="item" @click="handleShare">
+          <p>邀请老师</p>
+          <span size-12>我是家长邀请老师创建班级</span>
+        </div>
+>>>>>>> open-dev
       </div>
       <main class="main">
         <div class="classId flex a-i-c j-c-s-b">
@@ -53,6 +76,10 @@
           @on-praise="handlePraise"
           @on-comment="handleComment"
         ></qx-community>
+        <div class="empty" v-if="!communityData.length">
+          <img src="@/assets/kong.png" alt>
+          <p>快来分享精彩的内容吧~</p>
+        </div>
       </main>
       <!-- 评论 -->
       <van-dialog
@@ -136,7 +163,12 @@ export default {
       photo: state => state.info.photo,
       name: state => state.info.name,
       roleType: state => state.info.roleType,
+<<<<<<< HEAD
       experience: state => state.info.experience
+=======
+      experience: state => state.info.experience,
+      tel: state => state.info.tel
+>>>>>>> open-dev
     }),
     className: {
       get() {
@@ -150,7 +182,10 @@ export default {
   methods: {
     wxRegCallback() {
       //用于微信JS-SDK回调
+<<<<<<< HEAD
 
+=======
+>>>>>>> open-dev
       this.wxShareAppMessage();
     },
     wxShareAppMessage() {
@@ -169,6 +204,17 @@ export default {
       };
       wxapi.wxShareAppMessage(option);
     },
+<<<<<<< HEAD
+=======
+    handleCreateClass() {
+      this.$router.push({
+        path: "/teacher/createClass",
+        query: {
+          openId: this.tel
+        }
+      });
+    },
+>>>>>>> open-dev
     handleShare() {
       this.$toast("请点击右上角发送给好友");
     },
@@ -177,15 +223,24 @@ export default {
         this.$router.push({
           path: "/role"
         });
+      } else {
+        this.$router.push({
+          path: "/baby"
+        });
       }
     },
+<<<<<<< HEAD
+=======
+    jumpRoleSelect() {
+      this.$router.push({
+        path: "/role/select"
+      });
+    },
+>>>>>>> open-dev
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
       }
-    },
-    onChange(picker, values) {
-      picker.setColumnValues(1, citys[values[0]]);
     },
     handleClassConfirm(value, index) {
       this.className = value.className;
@@ -347,12 +402,13 @@ export default {
   height: 180px;
   padding: 0 30px;
   position: relative;
+  justify-content: space-between;
 }
 
 .switch-role {
   color: #fff;
   position: absolute;
-  top: 22px;
+  top: 0;
   right: 0;
   display: flex;
   height: 60px;
@@ -361,18 +417,30 @@ export default {
   border-radius: 30px 0 0 30px;
   background-color: #c1e77e;
 }
+<<<<<<< HEAD
 .switch-children {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
 }
+=======
+>>>>>>> open-dev
 
-.home-myStudent {
-  min-height: 120px;
-  padding: 0 30px;
+.experience {
+  color: #84ce09;
+  font-size: 32px;
+  padding: 36px 20px;
+  position: relative;
+  margin-top: 20px;
   background-color: #fff;
-  margin-bottom: 10px;
+  .item {
+    flex: 1;
+    text-align: center;
+    span {
+      color: #999;
+    }
+  }
 }
 
 .experience {

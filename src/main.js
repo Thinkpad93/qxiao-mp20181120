@@ -7,15 +7,11 @@ import {
   urlSearch
 } from './utils/urlSearch';
 
-import wxSdk from '@/config/wxsdk'; //微信sdk
 
 import '@/vantUI'; //vant UI
 
 
 Vue.config.productionTip = false;
-
-Vue.prototype.wxSdk = wxSdk;
-
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
@@ -42,8 +38,11 @@ router.beforeEach((to, from, next) => {
       }
     }
     if (Object.keys(_cookie).length && !roleType) {
+<<<<<<< HEAD
       //微信分享
       //wxSdk.wxShare();
+=======
+>>>>>>> open-dev
       if (params != -1) {
         if (params.openId || params.roleType) {
           console.log(params);

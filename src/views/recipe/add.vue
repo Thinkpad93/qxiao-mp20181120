@@ -25,7 +25,7 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">起始日期</div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <input
                 class="input"
                 placeholder="请选择起始日期"
@@ -38,7 +38,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd">结束日期</div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <input
                 class="input"
                 placeholder="请选择结束日期"
@@ -51,7 +51,7 @@
           </div>
           <div class="cell">
             <div class="cell-hd"></div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <input
                 class="input"
                 placeholder="请输入食谱标题"
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <textarea
                 class="textarea"
                 rows="6"
@@ -71,8 +71,24 @@
               ></textarea>
             </div>
           </div>
+          <div class="cell cell-select cell-select-after">
+            <div class="cell-hd">
+              <label for class="label">发送班级</label>
+            </div>
+            <div class="cell-bd">
+              <select class="select" name="select" dir="rtl" v-model="selected" multiple size="1">
+                <!-- 兼容性问题修改 -->
+                <optgroup disabled hidden></optgroup>
+                <option
+                  :value="option.classId"
+                  v-for="(option,index) in classList"
+                  :key="index"
+                >{{ option.className }}</option>
+              </select>
+            </div>
+          </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
@@ -104,13 +120,16 @@
 <script>
 import dayjs from "dayjs";
 import service from "@/api";
+import classList from "@/mixins/classList";
 import { textReplace } from "@/utils/string";
 import wxHandle from "@/mixins/wx";
+import wxapi from "@/config/wxapi";
 export default {
   name: "recipeAdd",
-  mixins: [wxHandle],
+  mixins: [classList, wxHandle],
   data() {
     return {
+      selected: [],
       startTimeShow: false,
       endTimeShow: false,
       startDate: new Date(),
@@ -121,7 +140,8 @@ export default {
         textContent: "",
         images: [],
         startDate: "",
-        endDate: ""
+        endDate: "",
+        senders: []
       }
     };
   },
@@ -167,13 +187,10 @@ export default {
         this.$toast("请输入食谱内容或者上传图片");
         return;
       } else {
-        textContent = textReplace(textContent) || "";
+        this.form.textContent = textReplace(textContent) || "";
       }
-      let obj = Object.assign({}, args, {
-        startDate,
-        endDate,
-        title,
-        textContent
+      this.form.senders = this.selected.map(item => {
+        return { classId: item };
       });
       let params = {
         openId: this.form.openId,
@@ -183,9 +200,9 @@ export default {
       if (this.serverId.length) {
         service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            obj.images = res.data.paths;
+            this.form.images = res.data.paths;
             //食谱发布
-            service.recipeAdd(obj).then(res => {
+            service.recipeAdd(this.form).then(res => {
               if (res.errorCode === 0) {
                 this.$refs.form.reset();
                 this.$router.go(-1);
@@ -194,7 +211,7 @@ export default {
           }
         });
       } else {
-        this.recipeAdd(obj);
+        this.recipeAdd(this.form);
       }
     },
     async recipeAdd(params = {}) {
@@ -205,7 +222,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare();
+    wxapi.wxRegister();
   }
 };
 </script>

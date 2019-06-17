@@ -1,6 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+<<<<<<< HEAD
       <div class="create-success">
         <img src="@/assets/create-success.png" alt>
         <div class="okapi">
@@ -12,6 +13,25 @@
           >邀请家长加入</a>
         </div>
         <p>分享至家长群批量邀请家长加入班级</p>
+=======
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/share-tip.png">
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
+      <div class="create-success">
+        <img src="@/assets/create-success.png" alt>
+        <div class="okapi">
+          <a
+            href="javascript:void(0);"
+            class="btn btn-large btn-primary"
+            @click="visibility = true"
+          >邀请家长加入</a>
+        </div>
+        <p>分享至微信家长群可批量邀请家长加入</p>
+>>>>>>> open-dev
       </div>
     </div>
   </div>
@@ -23,13 +43,20 @@ export default {
   name: "teacherSuccess",
   data() {
     return {
+<<<<<<< HEAD
+=======
+      visibility: false,
+>>>>>>> open-dev
       classId: this.$route.query.classId
     };
   },
   methods: {
+<<<<<<< HEAD
     handleShare() {
       this.$toast("请点击右上角按钮发送给朋友吧~");
     },
+=======
+>>>>>>> open-dev
     jump() {
       this.$router.replace({
         path: "/home"
@@ -72,7 +99,11 @@ export default {
   }
   .okapi {
     display: flex;
+<<<<<<< HEAD
     justify-content: space-between;
+=======
+    justify-content: center;
+>>>>>>> open-dev
     margin-top: 185px;
     margin-bottom: 95px;
     padding: 0 30px;

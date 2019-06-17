@@ -22,7 +22,12 @@ export default {
     return {
       imgUrl: "",
       query: {
+<<<<<<< HEAD
         classId: 0
+=======
+        classId: 0,
+        id: 0
+>>>>>>> open-dev
       }
     };
   },

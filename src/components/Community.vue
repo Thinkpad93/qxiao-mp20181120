@@ -141,18 +141,6 @@ export default {
         urls: imgArray
       });
     },
-    // handlePreviewImage(index, images) {
-    //   if (images.length) {
-    //     let resule = [];
-    //     images.forEach(item => {
-    //       resule.push(item.imageUrl);
-    //     });
-    //     ImagePreview({
-    //       images: resule,
-    //       startPosition: index
-    //     });
-    //   }
-    // },
     handleCommunityDelete(fuck, index) {
       this.$emit("on-del", fuck, index);
     },

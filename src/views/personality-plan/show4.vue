@@ -21,7 +21,7 @@
             9、集合做到“快、静、齐”，观看比赛文明喝采。
           </p>
           <p>
-            <img src="@/assets/personality-plan-6.png" alt>
+            <!-- <img src="@/assets/personality-plan-6.png" alt> -->
           </p>
           <h3>二、诚实守信的习惯</h3>
           <p>

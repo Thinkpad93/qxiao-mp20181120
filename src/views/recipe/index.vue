@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="roleType == 1 || roleType == 4">
+      <template v-if="roleType != 3">
         <qxRelease url="/recipe/add"/>
       </template>
       <van-swipe-cell

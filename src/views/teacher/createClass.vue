@@ -1,7 +1,19 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
+<<<<<<< HEAD
       <van-popup v-model="popupShow" position="bottom"></van-popup>
+=======
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="schoolList"
+          show-toolbar
+          value-key="schoolTemplateName"
+          @cancel="popupShow = false"
+          @confirm="handleConfirm"
+        ></van-picker>
+      </van-popup>
+>>>>>>> open-dev
       <div class="cells-title">基础信息</div>
       <div class="cells mb-20">
         <div class="cell min-h120">
@@ -101,6 +113,14 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
+=======
+    handleConfirm(value, index) {
+      this.form.schoolName = value.schoolTemplateName;
+      this.form.id = value.id;
+      this.popupShow = false;
+    },
+>>>>>>> open-dev
     handleSearch(e) {
       this.querySchoolName(e.target.value);
     },
@@ -130,7 +150,11 @@ export default {
         return false;
       }
       if (isPhone(tel)) {
+<<<<<<< HEAD
         console.log(this.form);
+=======
+        //console.log(this.form);
+>>>>>>> open-dev
         this.addPlaySchoolWithTemplate(this.form);
       } else {
         this.$toast("请正确填写手机号");
@@ -157,7 +181,13 @@ export default {
     //查询学校模板
     async querySchoolName(schoolName) {
       let res = await service.querySchoolName({ schoolName });
+<<<<<<< HEAD
       if (res.errorCode === 0) {
+=======
+      if (res.errorCode === 0 && res.data.length) {
+        this.popupShow = true;
+        this.schoolList = res.data;
+>>>>>>> open-dev
       }
     },
     //创建班级

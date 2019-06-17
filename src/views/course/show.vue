@@ -73,7 +73,6 @@
 </template>
 <script>
 import service from "@/api";
-//import { examPaperComment } from "@/mock";
 export default {
   name: "courseShow",
   data() {
@@ -139,9 +138,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //this.commentList = examPaperComment();
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

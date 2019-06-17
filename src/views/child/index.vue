@@ -1,33 +1,32 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells">
-        <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
+        <div
+          class="cell student-box"
+          v-for="(item, index) in studentList"
+          :key="index"
+          :class="[item.openStudentId == openStudentId ? 'curr-student': '']"
+          @click="handleStudentChange(item)"
+        >
           <div class="cell-bd">
-            <div class="flex a-i-c" @click="jump(item)">
-              <template v-if="item.openPhoto">
-                <img :src="item.openPhoto" radius="50">
-              </template>
-              <template v-else>
-                <img src="@/assets/child-default@2x.png" radius="50">
-              </template>
+            <div class="flex a-i-c">
+              <img :src="item.openPhoto" radius="50" v-if="item.openPhoto">
+              <img src="@/assets/child-default@2x.png" radius="50" v-else>
               <strong>{{ item.openStudentName }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
           </div>
           <div class="cell-ft">
-            <van-radio-group v-model="openStudentId">
-              <van-radio :name="item.openStudentId" checked-color="#92cd36"/>
-            </van-radio-group>
+            <span size-12 @click.stop="jump(item)">完善资料</span>
           </div>
         </div>
       </div>
-      <router-link to="/child/add" tag="div" class="handle-add flex a-i-c j-c-f-e">
-        <span>点击添加孩子</span>
-      </router-link>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">确定</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom">
+        <van-button type="info" size="large" class="no-radius" to="/child/add">添加</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +40,6 @@ export default {
     return {
       openId: this.$store.state.user.info.openId,
       openStudentId: parseInt(this.$store.state.user.info.openStudentId),
-      isSwitch: false,
       studentList: []
     };
   },
@@ -50,12 +48,6 @@ export default {
       roleType: state => state.info.roleType,
       photo: state => state.info.photo
     })
-  },
-  watch: {
-    //学生切换
-    openStudentId(news, old) {
-      this.isSwitch = true;
-    }
   },
   methods: {
     jump(params) {
@@ -68,32 +60,37 @@ export default {
         }
       });
     },
-    //提交学生切换
-    handleSubmit() {
-      if (this.isSwitch) {
-        let news = this.openStudentId;
-        let roleType = this.roleType;
+    //点击孩子进行切换操作
+    handleStudentChange(params = {}) {
+      let {
+        openStudentId,
+        openStudentName,
+        openPhoto,
+        totalStarCount,
+        isBindBracelet
+      } = params;
+      if (openStudentId == this.openStudentId) {
+        this.$router.go(-1);
+      } else {
         let _cookie = Cookies.getJSON("info");
-        let single = this.studentList.find(item => item.openStudentId === news);
-        let {
-          openStudentId,
-          openStudentName,
-          openPhoto,
-          totalStarCount
-        } = single;
         let obj = Object.assign({}, _cookie, {
           openStudentId,
           openStudentName,
           openPhoto,
-          totalStarCount
+          totalStarCount,
+          isBindBracelet
         });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
+            let params = {
+              openId: this.openId,
+              studentId: openStudentId,
+              type: 0
+            };
+            this.switchingState(params);
             this.$router.go(-1);
           }
         });
-      } else {
-        this.$router.go(-1);
       }
     },
     //查询学生列表--开放版
@@ -102,13 +99,16 @@ export default {
       if (res.errorCode === 0) {
         this.studentList = res.data;
       }
+    },
+    //最后登录状态记录
+    async switchingState(params = {}) {
+      let res = await service.switchingState(params);
+      if (res.errorCode === 0) {
+      }
     }
   },
   mounted() {
     this.queryOpenStudentList({ openId: this.openId });
-  },
-  destroyed() {
-    this.isSwitch = false;
   }
 };
 </script>
@@ -129,9 +129,15 @@ export default {
     color: #999;
   }
 }
-.handle-add {
-  color: #84ce09;
-  margin: 40px 0;
-  padding-right: 30px;
+
+.curr-student {
+  border-left: 8px solid #84ce09;
+}
+.fixed-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
 }
 </style>

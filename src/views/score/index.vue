@@ -9,27 +9,45 @@
       <div class="score" v-for="(item, index) in list" :key="index">
         <template v-if="index === 0">
           <div class="score-content mt-20 mb-20">
-            <p class="mb-20" size-17>{{ item.stageTitle }}</p>
-            <div class>
+            <p class="mb-30" size-17>{{ item.stageTitle }}</p>
+            <div class="score-meta">
               <span>班级: {{ item.scoreRank }}</span>
               <span>学校: {{ item.schoolRank }}</span>
               <span>同城: {{ item.regionRank }}</span>
             </div>
-            <strong class="mt-20 mb-20">{{ item.score }}分</strong>
+            <strong class="mt-30 mb-30">{{ item.score }}分</strong>
             <div>
-              <van-button round type="info" size="small" @click="jump(item)">试卷讲解</van-button>
+              <van-button
+                round
+                type="info"
+                size="small"
+                @click="jump(item)"
+                style="width:170px;height:35px;font-size:18px;"
+              >试卷讲解</van-button>
             </div>
           </div>
         </template>
         <template v-else>
-          <div class="item flex j-c-s-b a-i-c mb-20">
-            <div class="info">
+          <div class="item flex j-c-s-b a-i-c">
+            <div class="info flex-1">
               <p class="mb-20">{{ item.stageTitle }}</p>
-              <a href="javascript:void(0);" @click="jump(item)">试卷讲解</a>
+              <div class="goal flex j-c-s-b">
+                <span>{{ item.score }}分</span>
+                <van-button
+                  round
+                  type="info"
+                  size="mini"
+                  @click="jump(item)"
+                  style="width:80px;height:22px;"
+                >试卷讲解</van-button>
+              </div>
             </div>
-            <div class="goal">{{ item.score }}分</div>
           </div>
         </template>
+      </div>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt>
+        <p>尚未有成绩发布</p>
       </div>
     </div>
   </div>
@@ -40,9 +58,9 @@ export default {
   name: "score",
   data() {
     return {
-      actives: 0,
+      actives: parseInt(this.$route.query.index),
       query: {
-        openId: this.$store.state.user.info.openId, 
+        openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
         lessonId: this.$route.query.lessonId,
         page: 1,
@@ -96,9 +114,8 @@ export default {
   &-content {
     text-align: center;
     padding: 30px 0;
-    min-height: 310px;
+    min-height: 400px;
     background-color: #fff;
-    box-shadow: 0 1px 10px 0 rgba(204, 204, 204, 0.5);
 
     strong {
       display: inline-block;
@@ -106,9 +123,11 @@ export default {
       color: #ff4d67;
     }
   }
+  &-meta {
+    color: #999;
+  }
   .item {
-    margin: 0 20px;
-    min-height: 120px;
+    min-height: 160px;
     padding: 0 30px;
     border-radius: 8px;
     background-color: #fff;
@@ -116,6 +135,10 @@ export default {
     a {
       color: #92cd36;
     }
+  }
+  .goal {
+    color: #ff4d67;
+    font-size: 40px;
   }
 }
 </style>

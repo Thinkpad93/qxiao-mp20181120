@@ -177,7 +177,8 @@ export default {
           let config = {
             headers: {
               "Content-Type": "multipart/form-data"
-            }
+            },
+            showLoading: true
           };
           let formData = new FormData();
           formData.append("file", this.filesObj);
@@ -218,5 +219,6 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
+  z-index: 1;
 }
 </style>

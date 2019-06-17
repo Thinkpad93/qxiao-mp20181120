@@ -83,6 +83,7 @@ export default {
       let flag = false;
       let actions = this.list[indexs].actions;
       let len = actions.length;
+      let actionArray = [];
       actions.forEach(element => {
         let { starCount, ...args } = element;
         //说明该行为已经打了
@@ -92,7 +93,6 @@ export default {
         }
       });
       if (flag && len === 0) {
-        let actionArray = [];
         let day = this.list[indexs].day;
         let { openId, studentId } = this.query;
         actions.forEach(element => {
@@ -110,7 +110,7 @@ export default {
                 {},
                 { actionArray, day, openId, studentId }
               );
-              this.actionStrike(obj);
+              this.actionStrikeList(obj);
             })
             .catch(() => {});
         }
@@ -124,8 +124,8 @@ export default {
       }
     },
     //行为打星
-    async actionStrike(params = {}) {
-      let res = await service.actionStrike(params);
+    async actionStrikeList(params = {}) {
+      let res = await service.actionStrikeList(params);
       if (res.errorCode === 0) {
         this.historyStrikeQuery(this.query);
         //更新星星数量

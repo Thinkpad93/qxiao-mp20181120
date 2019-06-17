@@ -10,7 +10,7 @@
         <!-- <div class="flex a-i-c">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div> -->
+        </div>-->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">
@@ -39,14 +39,14 @@
         <!-- <div class="flex a-i-c">
           <span>全部</span>
           <van-icon name="arrow" size="16px"></van-icon>
-        </div> -->
+        </div>-->
       </div>
       <!-- swiper start -->
       <div class="page-swiper">
         <swiper :options="params" ref="plan">
           <swiper-slide class="plan-slide">
             <div class="plan" @click="jump('/personality-plan/show3')">
-              <img src="@/assets/personality-plan-1.png">
+              <!-- <img src="@/assets/personality-plan-1.png"> -->
               <div class="plan-info">
                 <h3 class="text-ellipsis">如何培养孩子的阅读习惯？</h3>
                 <p class="text-ellipsis">必须培养他懂得这些科学计划方法。</p>
@@ -55,7 +55,7 @@
           </swiper-slide>
           <swiper-slide class="plan-slide">
             <div class="plan" @click="jump('/personality-plan/show2')">
-              <img src="@/assets/swiper-slide-2@2x.png">
+              <!-- <img src="@/assets/swiper-slide-2@2x.png"> -->
               <div class="plan-info">
                 <h3 class="text-ellipsis">让孩子个性化学习</h3>
                 <p class="text-ellipsis">必须培养他懂得这些科学计划方法。写天2019年的跑步运动培养计划...</p>
@@ -64,7 +64,7 @@
           </swiper-slide>
           <swiper-slide class="plan-slide">
             <div class="plan" @click="jump('/personality-plan/show4')">
-              <img src="@/assets/personality-plan-6.png">
+              <!-- <img src="@/assets/personality-plan-6.png"> -->
               <div class="plan-info">
                 <h3 class="text-ellipsis">学生行为养成十大教育内容</h3>
                 <p class="text-ellipsis">学生文明行为习惯养成教育主要内容</p>

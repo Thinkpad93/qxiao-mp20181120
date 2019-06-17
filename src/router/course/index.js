@@ -3,7 +3,7 @@ export default [{
     name: 'courseView',
     component: () => import('@/views/course/view'),
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       cookie: true,
       isShare: false,
       title: '课堂表现',

@@ -76,6 +76,7 @@ import service from "@/api";
 import classList from "@/mixins/classList";
 import wxHandle from "@/mixins/wx";
 import { textReplace } from "@/utils/string";
+import wxapi from "@/config/wxapi";
 export default {
   name: "freshAdd",
   mixins: [wxHandle, classList],
@@ -146,7 +147,7 @@ export default {
     }
   },
   mounted() {
-    this.wxSdk.wxShare();
+    wxapi.wxRegister();
   }
 };
 </script>
