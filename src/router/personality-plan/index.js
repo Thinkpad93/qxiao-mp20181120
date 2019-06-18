@@ -5,7 +5,7 @@ export default [{
     meta: {
       title: "个性计划",
       keepAlive: true,
-      cookie: true
+      isShare: false,
     }
   },
   {
@@ -15,7 +15,7 @@ export default [{
     meta: {
       title: "个性计划详情查看",
       keepAlive: true,
-      cookie: true
+      isShare: false,
     }
   },
   // {

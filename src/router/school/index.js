@@ -4,10 +4,8 @@ export default [{
     component: () => import('@/views/school/create'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '创建学校',
-      roles: [1]
     }
   },
   {
@@ -16,10 +14,8 @@ export default [{
     component: () => import('@/views/school/join'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '学校加入',
-      roles: [2]
     }
   }
 ]

@@ -13,8 +13,8 @@
           </div>
         </div>
       </div>
-      <div class="prize-null" v-if="!list.length">
-        <img src="@/assets/prize-null@2x.png" alt>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt>
         <p class="mt-30">您还没有任何兑换记录哦~</p>
       </div>
     </div>
@@ -50,18 +50,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.prize-null {
-  width: 100%;
-  color: #999;
-  font-size: 30px;
-  text-align: center;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(0, -50%);
-  img {
-    width: 392px;
-    height: 200px;
-  }
-}
 </style>

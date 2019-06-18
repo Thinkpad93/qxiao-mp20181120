@@ -104,7 +104,7 @@ export default {
   },
   mounted() {
     this.queryTeacher(this.schoolId);
-    wxapi.wxRegister(this.wxRegCallback);
+    //wxapi.wxRegister(this.wxRegCallback);
   }
 };
 </script>

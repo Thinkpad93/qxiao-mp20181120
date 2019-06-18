@@ -159,13 +159,13 @@ export default {
   },
   mounted() {},
   activated() {
-    console.log("activated");
+    //console.log("activated");
   },
   beforeDestory() {
-    console.log("beforeDestory");
+    //console.log("beforeDestory");
   },
   destroyed() {
-    console.log("destroyed10");
+    //console.log("destroyed10");
     //eventBus.$emit("tabMessage", 1);
   }
 };

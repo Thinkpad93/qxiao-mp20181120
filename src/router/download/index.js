@@ -5,6 +5,6 @@ export default [{
   meta: {
     title: "我的下载",
     keepAlive: true,
-    cookie: true
+    isShare: false,
   }
 }]

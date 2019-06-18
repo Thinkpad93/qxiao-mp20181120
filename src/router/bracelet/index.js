@@ -6,5 +6,6 @@ export default [{
     title: "我的手环",
     keepAlive: true,
     cookie: true,
+    isShare: false,
   }
 }]

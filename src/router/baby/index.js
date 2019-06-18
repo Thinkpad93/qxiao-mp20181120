@@ -4,10 +4,8 @@ export default [{
     component: () => import('@/views/baby'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '学生列表',
-      roles: [3]
     }
   },
   {
@@ -16,10 +14,8 @@ export default [{
     component: () => import('@/views/baby/supply'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '完善学生信息',
-      roles: [3]
     }
   },
   {
@@ -28,10 +24,8 @@ export default [{
     component: () => import('@/views/baby/add'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '学生添加',
-      roles: [3]
     }
   },
   {
@@ -42,10 +36,8 @@ export default [{
     component: () => import('@/views/baby/edit'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '学生信息',
-      roles: [3]
     }
   },
   {
@@ -55,10 +47,8 @@ export default [{
     component: () => import('@/views/baby/share'),
     meta: {
       keepAlive: false,
-      cookie: true,
       isShare: false,
       title: '分享',
-      roles: [3]
     }
   }
 ]

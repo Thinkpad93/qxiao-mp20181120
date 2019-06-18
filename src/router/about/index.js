@@ -5,6 +5,6 @@ export default [{
   meta: {
     title: "关于我们",
     keepAlive: false,
-    cookie: true,
+    isShare: false,
   }
 }]

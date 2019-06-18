@@ -1,8 +1,8 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <div class="bracelets">
-        <img src="@/assets/bracelet@2x.png">
+      <div class="empty">
+        <img src="@/assets/kong.png" alt>
         <p class="mt-30">小Q智能手环紧锣密鼓进行中,敬请期待...</p>
       </div>
     </div>

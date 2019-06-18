@@ -29,7 +29,6 @@ import examPaperRouterConfig from './examPaper';
 import scoreRouterConfig from './score';
 import remarkRouterConfig from './remark';
 import courseRouterConfig from './course';
-//import personalRouterConfig from './personal';
 import worksRounterConfig from './works';
 import roleRouterConfig from './role';
 import personalityRouterConfig from './personality-plan';

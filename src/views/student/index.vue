@@ -15,15 +15,6 @@
         </a>
 >>>>>>> open-dev
       </div>
-      <!-- <div class="student-head">
-        <router-link to="/student/add" class="btn btn-primary" v-if="openDirection == 0">录入学生信息</router-link>
-        <a href="javascript:void(0);" class="btn btn-primary" v-else>点击邀请家长加入</a>
-        <p @click="popupShow = true">点击</p>
-        <div>
-          <span class="mr-10">{{ className }}</span>
-          <van-icon name="arrow-down" size="16px"></van-icon>
-        </div>
-      </div>-->
     </div>
     <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
