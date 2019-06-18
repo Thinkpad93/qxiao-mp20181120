@@ -121,7 +121,7 @@
       </div>
     </div>
     <div class="page-ft">
-      <div class="fixed-bottom">
+      <div class="fixed-bottom" style="z-index: 100;">
         <div class="flex">
           <van-button
             size="large"

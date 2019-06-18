@@ -48,7 +48,7 @@
             <span class="ml-10">添加奖项</span>
           </a>
           <router-link :to="{path: '/prize/log'}">
-            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt>
+            <img src="@/assets/prize-icon-3@2x.png" width="20" height="20" alt>
             <span class="ml-10">兑换记录</span>
           </router-link>
         </div>

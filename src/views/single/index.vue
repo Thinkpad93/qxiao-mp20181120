@@ -85,8 +85,8 @@
                     </div>
                   </template>
                   <template v-else>
-                    <div class="bracelets">
-                      <img src="@/assets/action@2x.png">
+                    <div class="empty">
+                      <img src="@/assets/kong.png" alt>
                       <p class="mt-30">好的行为习惯从添加开始哟~</p>
                     </div>
                   </template>
@@ -582,16 +582,6 @@ export default {
 
 .show-more {
   color: #999;
-}
-
-.bracelets {
-  padding: 70px 0;
-  color: #999;
-  text-align: center;
-  img {
-    width: 366px;
-    height: 204px;
-  }
 }
 
 .disc {

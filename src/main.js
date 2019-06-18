@@ -10,6 +10,8 @@ import wxapi from "@/config/wxapi";
 import {
   API_ROOT
 } from "@/config/isdev";
+
+
 import '@/vantUI'; //vant UI
 
 
@@ -70,15 +72,9 @@ router.beforeEach((to, from, next) => {
 
 //全局后置钩子
 router.afterEach((to, from) => {
-  //console.log(to);
   // 非ios设备，切换路由时候进行重新签名
-  if (window.__wxjs_is_wkwebview !== true) {
-    // console.log("android");
-    // if (to.meta.isShare === false) {
-    //   wxapi.wxRegister(wxapi.wxHideOptionMenu);
-    // }
-  }
-  //if (window.__wxjs_is_wkwebview === true) {
+  //if (window.__wxjs_is_wkwebview !== true) {}
+  //if (window.__wxjs_is_wkwebview === true) {}
   //在不需要分享的页面统一处理
   if (to.meta.isShare === false) {
     function wxShareAppMessage() {
@@ -93,7 +89,7 @@ router.afterEach((to, from) => {
     }
     wxapi.wxRegister(wxShareAppMessage);
   }
-  //}
+
 });
 
 /* eslint-disable no-new */

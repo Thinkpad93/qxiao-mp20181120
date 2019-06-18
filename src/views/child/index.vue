@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="page-ft">
-      <div class="fixed-bottom">
+      <div class="fixed-bottom" style="z-index: 100;">
         <van-button type="info" size="large" class="no-radius" to="/child/add">添加</van-button>
       </div>
     </div>
@@ -69,6 +69,7 @@ export default {
         totalStarCount,
         isBindBracelet
       } = params;
+      //当前关联的不切换
       if (openStudentId == this.openStudentId) {
         this.$router.go(-1);
       } else {
@@ -88,7 +89,9 @@ export default {
               type: 0
             };
             this.switchingState(params);
-            this.$router.go(-1);
+            this.$router.push({
+              path: "/single"
+            });
           }
         });
       }

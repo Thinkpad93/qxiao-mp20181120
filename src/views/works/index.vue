@@ -75,8 +75,8 @@
             </div>
           </template>
           <template v-else>
-            <div class="works-null">
-              <img src="@/assets/works@2x.png">
+            <div class="empty">
+              <img src="@/assets/kong.png" alt>
               <p class="mt-30">您还没有上传作品，小Q期待您的作品哦~</p>
             </div>
           </template>
@@ -149,15 +149,6 @@ export default {
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
-    }
-  },
-  watch: {
-    $route: {
-      handler(val, oldVal) {
-        console.log(val);
-        console.log(oldVal);
-      },
-      deep: true
     }
   },
   methods: {
@@ -237,14 +228,14 @@ export default {
     this.queryMyUpload(this.query);
   },
   activated() {
-    console.log("activated");
+    //console.log("activated");
   },
   beforeDestroy() {
-    console.log("beforeDestroy20");
+    //console.log("beforeDestroy20");
     //eventBus.$off("tabMessage", this.handleVal);
   },
   destroyed() {
-    console.log("destroyed20");
+    //console.log("destroyed20");
     //eventBus.$on("tabMessage", this.handleVal);
   }
 };
@@ -375,15 +366,5 @@ export default {
   border-radius: 8px;
   padding: 10px 10px 0 0;
   background-color: rgba(0, 0, 0, 0.7);
-}
-
-.works-null {
-  color: #999;
-  text-align: center;
-  margin-top: 200px;
-  img {
-    width: 486px;
-    height: 270px;
-  }
 }
 </style>
