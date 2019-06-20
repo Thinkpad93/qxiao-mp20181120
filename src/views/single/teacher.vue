@@ -14,6 +14,16 @@
         </div>
       </div>
       <!-- 角色选择 -->
+      <!-- 日期选择 -->
+      <van-popup v-model="popupShowDate" position="bottom">
+        <van-datetime-picker
+          v-model="startDate"
+          type="date"
+          @cancel="popupShowDate = false"
+          @confirm="handleDateConfirm"
+        ></van-datetime-picker>
+      </van-popup>
+      <!-- 日期选择 -->
       <!-- 班级选择菜单 -->
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -26,9 +36,8 @@
       </van-popup>
       <!-- 班级选择菜单 -->
       <div class="classId flex a-i-c j-c-s-b">
-        <!-- <p>班级</p> -->
-        <div>
-          <span class="mr-10">{{ query.day }}</span>
+        <div @click="popupShowDate = true">
+          <span class="mr-10">{{ query.date }}</span>
           <van-icon name="arrow-down" size="16px"></van-icon>
         </div>
         <div @click="popupShow = true">
@@ -41,33 +50,18 @@
           <div class="container">
             <div class="mod">
               <!-- 数据分析 -->
-              <qxChart id="homeOption" :option="homeOption"/>
-              <!-- <div class="cells">
-                <div class="cell circle" v-for="(item, index) in list" :key="index">
-                  <div class="cell-hd">
-                    <label class="label">{{ item.title }}</label>
-                  </div>
-                  <div class="cell-bd">
-                    <van-circle
-                      v-for="(items, i) in item.circle"
-                      :key="i"
-                      v-model="items.rate"
-                      :rate="items.rate"
-                      :speed="100"
-                      :text="items.rate.toFixed(0) + '%'"
-                      size="50px"
-                      :color="items.color"
-                      layer-color="#ebedf0"
-                      :stroke-width="70"
-                      class="ml-20"
-                    ></van-circle>
-                  </div>
-                </div>
-              </div>-->
+              <qxChart id="homeOption" :option="homeOption" @on-click="handleClick"/>
             </div>
           </div>
         </van-tab>
-        <van-tab title="在校表现"></van-tab>
+        <van-tab title="在校表现">
+          <div class="container">
+            <!-- 数据分析 -->
+            <div class="mod">
+              <qxChart id="schoolOption" :option="schoolOption" @on-click="handleClick"/>
+            </div>
+          </div>
+        </van-tab>
       </van-tabs>
     </div>
     <div class="page-ft">
@@ -92,102 +86,73 @@ export default {
   },
   data() {
     return {
-      currentRate: 0,
+      popupShowDate: false,
       popupShow: false,
+      startDate: new Date(),
       tabActive: 0,
       query: {
         classId: this.$store.state.user.info.classId,
-        day: dayjs().format("YYYY-MM-DD")
+        date: dayjs().format("YYYY-MM-DD")
       },
+      roleList: [],
       homeOption: {
-        title: {
-          text: "某站点用户访问来源",
-          subtext: "纯属虚构",
-          x: "center",
-          show: false
-        },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          orient: "vertical",
-          left: "left",
-          data: ["阅读", "书法", "家务", "作息", "做作业"],
-          show: false
+          triggerOn: "click",
+          formatter: function(a) {
+            return (
+              a["name"] +
+              "<br/>优秀: " +
+              a["data"].datas[0] +
+              "人" +
+              "<br/>良好: " +
+              a["data"].datas[1] +
+              "人" +
+              "<br/>一般: " +
+              a["data"].datas[2] +
+              "人"
+            );
+          }
         },
         series: [
           {
             name: "在家表现",
             type: "pie",
-            radius: "75%",
+            radius: "60%",
             center: ["50%", "50%"],
-            data: [
-              { value: 33, name: "阅读" },
-              { value: 10, name: "书法" },
-              { value: 34, name: "家务" },
-              { value: 35, name: "作息" },
-              { value: 48, name: "做作业" }
-            ]
+            data: []
+          }
+        ]
+      },
+      schoolOption: {
+        tooltip: {
+          trigger: "item",
+          triggerOn: "click",
+          formatter: function(a) {
+            return (
+              a["name"] +
+              "<br/>优秀: " +
+              a["data"].datas[0] +
+              "人" +
+              "<br/>良好: " +
+              a["data"].datas[1] +
+              "人" +
+              "<br/>一般: " +
+              a["data"].datas[2] +
+              "人"
+            );
+          }
+        },
+        series: [
+          {
+            name: "在校表现",
+            type: "pie",
+            radius: "60%",
+            center: ["50%", "50%"],
+            data: []
           }
         ]
       }
-      // list: [
-      //   {
-      //     count: 2,
-      //     title: "阅读",
-      //     circle: [
-      //       {
-      //         rate: 80,
-      //         color: "#16d0ff"
-      //       },
-      //       {
-      //         rate: 15,
-      //         color: "#3699ff"
-      //       },
-      //       {
-      //         rate: 13,
-      //         color: "#07c160"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     count: 20,
-      //     title: "书法",
-      //     circle: [
-      //       {
-      //         rate: 10,
-      //         color: "#16d0ff"
-      //       },
-      //       {
-      //         rate: 15,
-      //         color: "#3699ff"
-      //       },
-      //       {
-      //         rate: 13,
-      //         color: "#07c160"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     count: 42,
-      //     title: "做作业",
-      //     circle: [
-      //       {
-      //         rate: 10,
-      //         color: "#16d0ff"
-      //       },
-      //       {
-      //         rate: 15,
-      //         color: "#3699ff"
-      //       },
-      //       {
-      //         rate: 13,
-      //         color: "#07c160"
-      //       }
-      //     ]
-      //   }
-      // ]
     };
   },
   computed: {
@@ -206,16 +171,73 @@ export default {
     }
   },
   methods: {
-    handleClassConfirm(value, index) {},
+    handleClick(params) {
+      //tab
+      let tabIndex = this.tabActive;
+      //行为Id
+      let id = params.data.id;
+      this.$router.push({
+        path: "/single/view",
+        query: {
+          id,
+          tabIndex,
+          ...this.query
+        }
+      });
+    },
+    handleDateConfirm(value, index) {
+      this.query.date = dayjs(value).format("YYYY-MM-DD");
+      if (this.tabActive == 0) {
+        this.queryActionWithHome(this.query);
+      } else {
+        this.queryLessonWithSchool(this.query);
+      }
+    },
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      if (this.tabActive == 0) {
+        this.queryActionWithHome(this.query);
+      } else {
+        this.queryLessonWithSchool(this.query);
+      }
+    },
+    analysis(data) {
+      var end_obj = [];
+      for (var i in data) {
+        var obj = { name: "", datas: [] };
+        obj.name = data[i].name;
+        obj.value = data[i]["count"];
+        obj.id = data[i]["id"];
+        obj.datas[0] = data[i]["excellent"]; // 优秀
+        obj.datas[1] = data[i]["ordinary"]; // 一般
+        obj.datas[2] = data[i]["good"]; // 良好
+        end_obj.push(obj);
+      }
+      return end_obj;
+    },
     //查询在家表现
     async queryActionWithHome(params = {}) {
       let res = await service.queryActionWithHome(params);
       if (res.errorCode === 0) {
+        this.popupShowDate = false;
+        this.popupShow = false;
+        this.homeOption.series[0].data = this.analysis(res.data);
+      }
+    },
+    //查询在校表现
+    async queryLessonWithSchool(params = {}) {
+      let res = await service.queryLessonWithSchool(params);
+      if (res.errorCode === 0) {
+        this.popupShowDate = false;
+        this.popupShow = false;
+        this.schoolOption.series[0].data = this.analysis(res.data);
       }
     }
   },
   mounted() {
-    //this.queryActionWithHome(this.query);
+    this.queryActionWithHome(this.query);
+    this.queryLessonWithSchool(this.query);
   }
 };
 </script>
@@ -226,12 +248,6 @@ export default {
   padding: 0 30px;
   position: relative;
   justify-content: space-between;
-}
-.circle {
-  min-height: 160px;
-  .cell-bd {
-    text-align: right;
-  }
 }
 </style>
 

@@ -95,10 +95,13 @@ export default {
   },
   methods: {
     init() {
-      //this.$nextTick(() => {
       this.chart = echarts.init(document.getElementById(this.id), "light");
       this.chart.setOption(this.option);
-      //});
+
+      //点击事件
+      this.chart.on("click", params => {
+        this.$emit("on-click", params);
+      });
     }
   },
   mounted() {

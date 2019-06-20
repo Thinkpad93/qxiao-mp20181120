@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <van-button type="danger" round size="normal" class="no-radius" @click="handleDeleteUser">删除用户</van-button>
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -8,56 +9,94 @@
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
-      <!-- 用户 -->
-      <router-link to="/child" tag="div" class="home-user gradient-two">
-        <div class="flex a-i-c">
-          <template v-if="openStudentName">
-            <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
-            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
-            <div class="js-user-change">
-              <h3 class="mb-20" size-18>
-                {{ openStudentName }}
-                <small>Q星: {{ totalStarCount }}</small>
-              </h3>
-              <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
+      <!-- 老师 -->
+      <template v-if="roleType == 2">
+        <div class="flex a-i-c home-user gradient-two">
+          <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
+            <van-icon name="replay" size="16px"></van-icon>
+            <span>切换角色</span>
+          </div>
+          <div class="flex a-i-c">
+            <div class="avatar">
+              <img :src="photo" width="60" height="60" radius="50">
             </div>
+            <div class="pl-20">
+              <h3 class="mb-20" size-18>{{ name }}</h3>
+              <p size-12>知识是智慧的火炬</p>
+            </div>
+          </div>
+        </div>
+        <van-cell
+          class="a-i-c"
+          size="large"
+          :title="cell.title"
+          is-link
+          :to="cell.to"
+          v-for="(cell, index) in teacherMenu"
+          :key="index"
+        >
+          <template slot="icon">
+            <img :src="cell.icon" class="user-icon">
           </template>
-          <template v-else>
-            <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
-            <p class="ml-20">尚未有关注孩子，点击添加。</p>
+        </van-cell>
+      </template>
+      <!-- 家长 -->
+      <template v-if="roleType == 3">
+        <!-- 用户 -->
+        <router-link to="/child" tag="div" class="home-user gradient-two">
+          <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
+            <van-icon name="replay" size="16px"></van-icon>
+            <span>切换角色</span>
+          </div>
+          <div class="flex a-i-c">
+            <template v-if="openStudentName">
+              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+              <div class="js-user-change">
+                <h3 class="mb-20" size-18>
+                  {{ openStudentName }}
+                  <small>Q星: {{ totalStarCount }}</small>
+                </h3>
+                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
+              </div>
+            </template>
+            <template v-else>
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+              <p class="ml-20">尚未有关注孩子，点击添加。</p>
+            </template>
+          </div>
+          <van-icon name="arrow" size="16px"></van-icon>
+        </router-link>
+        <!-- 用户 -->
+        <div class="snail flex a-i-c j-c-s-b">
+          <div class="snail-left flex a-i-c">
+            <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+            <div class="ml-10">综合竞争力排名</div>
+          </div>
+          <div class="snail-right flex a-i-c">
+            <span class="mr-10">80</span>
+            <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
+          </div>
+        </div>
+        <van-cell class="mb-20" size="large" title="邀请亲人关注" is-link @click="visibility = true">
+          <template slot="icon">
+            <img src="@/assets/user-icon-6@2x.png" class="user-icon">
           </template>
-        </div>
-        <van-icon name="arrow" size="16px"></van-icon>
-      </router-link>
-      <!-- 用户 -->
-      <div class="snail flex a-i-c j-c-s-b">
-        <div class="snail-left flex a-i-c">
-          <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
-          <div class="ml-10">综合竞争力排名</div>
-        </div>
-        <div class="snail-right flex a-i-c">
-          <span class="mr-10">80</span>
-          <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
-        </div>
-      </div>
-      <van-cell class="mb-20" size="large" title="邀请亲人关注" is-link @click="visibility = true">
-        <template slot="icon">
-          <img src="@/assets/user-icon-6@2x.png" class="user-icon">
-        </template>
-      </van-cell>
-      <van-cell
-        class="a-i-c"
-        size="large"
-        :title="cell.title"
-        is-link
-        :to="cell.to"
-        v-for="(cell, index) in userMenu"
-        :key="index"
-      >
-        <template slot="icon">
-          <img :src="cell.icon" class="user-icon">
-        </template>
-      </van-cell>
+        </van-cell>
+        <van-cell
+          class="a-i-c"
+          size="large"
+          :title="cell.title"
+          is-link
+          :to="cell.to"
+          v-for="(cell, index) in userMenu"
+          :key="index"
+        >
+          <template slot="icon">
+            <img :src="cell.icon" class="user-icon">
+          </template>
+        </van-cell>
+      </template>
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>
@@ -78,10 +117,23 @@ export default {
   data() {
     return {
       visibility: false,
-      query: {
-        studentId: this.$store.state.user.info.openStudentId,
-        openId: this.$store.state.user.info.openId
-      },
+      roleList: [],
+      // query: {
+      //   studentId: this.$store.state.user.info.openStudentId,
+      //   //openId: this.$store.state.user.info.openId
+      // },
+      teacherMenu: [
+        {
+          title: "学生作品",
+          to: "/works/teacher",
+          icon: require("../../assets/user-icon-5@2x.png")
+        },
+        {
+          title: "帮助中心",
+          to: "/help-center",
+          icon: require("../../assets/user-icon-2@2x.png")
+        }
+      ],
       userMenu: [
         {
           title: "我的作品",
@@ -103,6 +155,9 @@ export default {
   },
   computed: {
     ...mapState("user", {
+      openId: state => state.info.openId,
+      name: state => state.info.name,
+      photo: state => state.info.photo,
       openStudentName: state => state.info.openStudentName,
       openPhoto: state => state.info.openPhoto,
       totalStarCount: state => state.info.totalStarCount,
@@ -111,6 +166,14 @@ export default {
     })
   },
   methods: {
+    handleDeleteUser() {
+      this.deleteUser({ openId: this.openId });
+    },
+    jumpRoleSelect() {
+      this.$router.push({
+        path: "/role/select"
+      });
+    },
     wxRegCallback() {
       //用于微信JS-SDK回调
       this.wxShareAppMessage();
@@ -128,10 +191,26 @@ export default {
         }
       };
       wxapi.wxShareAppMessage(option);
+    },
+    //多角色列表
+    async queryRole(params = {}) {
+      let res = await service.queryRole(params);
+      if (res.errorCode === 0) {
+        this.roleList = res.data;
+      }
+    },
+    //删除用户
+    async deleteUser(params = {}) {
+      let res = await service.deleteUser(params);
+      if (res.errorCode === 0) {
+        //关闭当前网页窗口接口
+        wx.closeWindow();
+      }
     }
   },
   mounted() {
     wxapi.wxRegister(this.wxRegCallback);
+    this.queryRole({ openId: this.openId });
   }
 };
 </script>
@@ -173,6 +252,18 @@ export default {
   width: 60px;
   height: 60px;
   margin-right: 20px;
+}
+.switch-role {
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  height: 60px;
+  padding: 0 30px;
+  align-items: center;
+  border-radius: 30px 0 0 30px;
+  background-color: #c1e77e;
 }
 </style>
 

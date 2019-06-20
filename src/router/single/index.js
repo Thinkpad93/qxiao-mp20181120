@@ -17,7 +17,17 @@ export default [{
     component: () => import('@/views/single/teacher'),
     meta: {
       keepAlive: true,
-      title: '小Q表现-老师端',
+      title: '小Q表现',
+      isShare: false,
+    }
+  },
+  {
+    path: '/single/view',
+    name: 'singleView',
+    component: () => import('@/views/single/view'),
+    meta: {
+      keepAlive: true,
+      title: '行为表现数据',
       isShare: false,
     }
   },

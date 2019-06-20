@@ -26,7 +26,6 @@ router.beforeEach((to, from, next) => {
   let _cookie = Cookies.getJSON('info') || {};
   //获取地址栏参数
   let params = urlSearch();
-  //if (to.meta.cookie) {
   //游客模式
   if (to.path === '/single' || to.path === '/user') {
     if (experience == 1 || _cookie.experience == 1) {
@@ -61,11 +60,16 @@ router.beforeEach((to, from, next) => {
       }
     }
   }
+  //用户没有加入小Q班级
   if (roleType == 9 && to.path === '/home') {
     next(`/login?redirect`);
     return false;
   }
-  //}
+  //用户如果是老师角色
+  if (roleType == 2 && to.path === '/single') {
+    next(`/single/teacher`);
+    return false;
+  }
   next();
 });
 

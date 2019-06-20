@@ -3,10 +3,10 @@
     <div class="page-bd">
       <!-- 角色选择 -->
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
-        <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
+        <!-- <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
-        </div>
+        </div>-->
         <div class="flex a-i-c">
           <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
@@ -357,7 +357,7 @@ export default {
   },
   mounted() {
     this.communityQuery(this.query);
-    this.queryRole({ openId: this.query.openId });
+    //this.queryRole({ openId: this.query.openId });
     if (this.experience == 1) {
       wxapi.wxRegister(this.wxRegCallback);
     }

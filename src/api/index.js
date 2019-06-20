@@ -17,9 +17,9 @@ import * as lesson from './module/lesson';
 import * as remark from './module/remark';
 import * as role from './module/role';
 import * as works from './module/works';
-
 import * as process from './module/process';
-
+import * as teacher from './module/teacher';
+import * as deletes from './module/delete';
 export default {
   ...album,
   ...clock,
@@ -39,5 +39,7 @@ export default {
   ...remark,
   ...role,
   ...works,
-  ...process
+  ...process,
+  ...teacher,
+  ...deletes
 }
