@@ -6,6 +6,7 @@ import echarts from "echarts/lib/echarts";
 // 引入柱状图组件
 // 引入提示框和title组件
 import "echarts/lib/chart/line";
+import "echarts/lib/chart/pie";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";

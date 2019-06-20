@@ -106,7 +106,8 @@ export default {
       openStudentName: state => state.info.openStudentName,
       openPhoto: state => state.info.openPhoto,
       totalStarCount: state => state.info.totalStarCount,
-      patriarchId: state => state.info.patriarchId
+      patriarchId: state => state.info.patriarchId,
+      roleType: state => state.info.roleType
     })
   },
   methods: {

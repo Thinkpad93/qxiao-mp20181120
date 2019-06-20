@@ -121,6 +121,7 @@ import service from "@/api";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import eventBus from "@/utils/eventBus";
+import { mapState } from "vuex";
 export default {
   name: "works",
   components: {
@@ -147,6 +148,9 @@ export default {
     };
   },
   computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType
+    }),
     swiper() {
       return this.$refs.mySwiper.swiper;
     }
@@ -178,10 +182,6 @@ export default {
     handleCancel() {
       this.mask = false;
       this.checkList = [];
-    },
-    handleVal(v) {
-      console.log(v);
-      this.active = v;
     },
     //删除作品
     async deleteImage(params = {}) {
@@ -220,9 +220,7 @@ export default {
     }
     next();
   },
-  created() {
-    console.log("created");
-  },
+  created() {},
   mounted() {
     this.queryOnLineList(this.query);
     this.queryMyUpload(this.query);
@@ -232,11 +230,9 @@ export default {
   },
   beforeDestroy() {
     //console.log("beforeDestroy20");
-    //eventBus.$off("tabMessage", this.handleVal);
   },
   destroyed() {
     //console.log("destroyed20");
-    //eventBus.$on("tabMessage", this.handleVal);
   }
 };
 </script>
