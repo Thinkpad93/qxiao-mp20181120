@@ -11,8 +11,9 @@
       </template>
       <template v-else>
         <div class="button-sp-area flex" size-17>
-          <a href="javascript:void(0);" @click="popupTwo = true">
-            <span id="data1">{{ querys.month }}</span>
+          <a href="javascript:void(0);" class="flex j-c-c a-i-c" @click="popupTwo = true">
+            <span id="data1" class="mr-10">{{ querys.month }}</span>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </template>
@@ -100,7 +101,7 @@
               v-for="(month, index) in clockMonthList"
               :key="index"
             >
-              <div class="cell-bd" style="padding-left:0;">{{ month }}已打卡</div>
+              <div class="cell-bd" style="padding-left:0;">{{ month.postTime }}已打卡</div>
               <div class="cell-ft" style="color:#92cd36;" @click="handleClockDay(month)">查看详情</div>
             </div>
           </div>
@@ -165,20 +166,20 @@ export default {
     },
     //一键接送
     handleAddPunch() {
-      let { studentId } = this.querys;
+      let { openId, studentId } = this.querys;
       this.$dialog
         .confirm({
           title: "提示",
           message: "确定接送孩子吗？"
         })
         .then(() => {
-          this.addPunch(studentId);
+          this.addPunch({ openId, studentId });
         });
     },
     handleClockDay(month) {
       this.$router.push({
         path: "/clock/day",
-        query: { day: month }
+        query: { ...month }
       });
     },
     //选择年月日
@@ -241,8 +242,8 @@ export default {
       }
     },
     //打卡按钮
-    async addPunch(studentId) {
-      let res = await service.addPunch({ studentId });
+    async addPunch(params = {}) {
+      let res = await service.addPunch(params);
       if (res.errorCode === 0) {
         this.$toast(`${res.errorMsg}`);
       } else {

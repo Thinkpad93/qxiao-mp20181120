@@ -144,7 +144,7 @@ export default {
                   show: true,
                   position: "inside",
                   formatter: function(a) {
-                    return a["value"] + "人";
+                    return a["name"] + " : " + a["value"] + "人";
                   }
                 }
               }
@@ -191,7 +191,7 @@ export default {
                   show: true,
                   position: "inside",
                   formatter: function(a) {
-                    return a["value"] + "人";
+                    return a["name"] + " : " + a["value"] + "人";
                   }
                 }
               }
