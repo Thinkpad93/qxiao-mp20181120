@@ -10,7 +10,7 @@ export function queryActionWithHome(params, config = {
 }
 //查询在校表现
 export function queryLessonWithSchool(params, config = {
-  showLoading: false
+  showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/teacher/queryLessonWithSchool.do', params, config)
     .then(res => res.data)

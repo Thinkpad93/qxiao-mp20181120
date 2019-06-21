@@ -3,10 +3,6 @@
     <div class="page-bd">
       <!-- 角色选择 -->
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
-        <!-- <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
-          <van-icon name="replay" size="16px"></van-icon>
-          <span>切换角色</span>
-        </div>-->
         <div class="flex a-i-c">
           <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
@@ -200,11 +196,6 @@ export default {
         });
       }
     },
-    jumpRoleSelect() {
-      this.$router.push({
-        path: "/role/select"
-      });
-    },
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
@@ -346,18 +337,10 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
-    },
-    //多角色列表
-    async queryRole(params = {}) {
-      let res = await service.queryRole(params);
-      if (res.errorCode === 0) {
-        this.roleList = res.data;
-      }
     }
   },
   mounted() {
     this.communityQuery(this.query);
-    //this.queryRole({ openId: this.query.openId });
     if (this.experience == 1) {
       wxapi.wxRegister(this.wxRegCallback);
     }
@@ -372,20 +355,6 @@ export default {
   position: relative;
   justify-content: space-between;
 }
-
-.switch-role {
-  color: #fff;
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  height: 60px;
-  padding: 0 30px;
-  align-items: center;
-  border-radius: 30px 0 0 30px;
-  background-color: #c1e77e;
-}
-
 .experience {
   color: #84ce09;
   font-size: 32px;

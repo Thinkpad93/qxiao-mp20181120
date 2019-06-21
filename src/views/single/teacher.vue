@@ -36,10 +36,7 @@
       </van-popup>
       <!-- 班级选择菜单 -->
       <div class="classId flex a-i-c j-c-s-b">
-        <div @click="popupShowDate = true">
-          <span class="mr-10">{{ query.date }}</span>
-          <van-icon name="arrow-down" size="16px"></van-icon>
-        </div>
+        <p>班级</p>
         <div @click="popupShow = true">
           <span class="mr-10">{{ className }}</span>
           <van-icon name="arrow-down" size="16px"></van-icon>
@@ -49,16 +46,29 @@
         <van-tab title="在家表现">
           <div class="container">
             <div class="mod">
+              <div class="flex j-c-c a-i-c today" @click="popupShowDate = true">
+                <time class="mr-20" size-16>{{ query.date }}</time>
+                <van-icon name="arrow-down" size="14px"></van-icon>
+              </div>
               <!-- 数据分析 -->
-              <qxChart id="homeOption" :option="homeOption" @on-click="handleClick"/>
+              <qxChart id="homeOption" height="350px" :option="homeOption" @on-click="handleClick"/>
             </div>
           </div>
         </van-tab>
         <van-tab title="在校表现">
           <div class="container">
-            <!-- 数据分析 -->
             <div class="mod">
-              <qxChart id="schoolOption" :option="schoolOption" @on-click="handleClick"/>
+              <div class="flex j-c-c a-i-c today" @click="popupShowDate = true">
+                <time class="mr-20" size-16>{{ query.date }}</time>
+                <van-icon name="arrow-down" size="14px"></van-icon>
+              </div>
+              <!-- 数据分析 -->
+              <qxChart
+                id="schoolOption"
+                height="350px"
+                :option="schoolOption"
+                @on-click="handleClick"
+              />
             </div>
           </div>
         </van-tab>
@@ -114,13 +124,31 @@ export default {
             );
           }
         },
+        legend: {
+          orient: "horizontal",
+          left: "center",
+          bottom: 0,
+          data: [],
+          show: true
+        },
         series: [
           {
             name: "在家表现",
             type: "pie",
-            radius: "60%",
-            center: ["50%", "50%"],
-            data: []
+            radius: "80%",
+            center: ["50%", "40%"],
+            data: [],
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: "inside",
+                  formatter: function(a) {
+                    return a["value"] + "人";
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -143,13 +171,31 @@ export default {
             );
           }
         },
+        legend: {
+          orient: "horizontal",
+          left: "center",
+          bottom: 0,
+          data: [],
+          show: true
+        },
         series: [
           {
             name: "在校表现",
             type: "pie",
-            radius: "60%",
-            center: ["50%", "50%"],
-            data: []
+            radius: "80%",
+            center: ["50%", "40%"],
+            data: [],
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: "inside",
+                  formatter: function(a) {
+                    return a["value"] + "人";
+                  }
+                }
+              }
+            }
           }
         ]
       }
@@ -219,19 +265,21 @@ export default {
     //查询在家表现
     async queryActionWithHome(params = {}) {
       let res = await service.queryActionWithHome(params);
-      if (res.errorCode === 0) {
+      if (res.errorCode === 0 && res.data.length) {
         this.popupShowDate = false;
         this.popupShow = false;
         this.homeOption.series[0].data = this.analysis(res.data);
+        this.homeOption.legend.data = res.data.map(item => item.name);
       }
     },
     //查询在校表现
     async queryLessonWithSchool(params = {}) {
       let res = await service.queryLessonWithSchool(params);
-      if (res.errorCode === 0) {
+      if (res.errorCode === 0 && res.data.length) {
         this.popupShowDate = false;
         this.popupShow = false;
         this.schoolOption.series[0].data = this.analysis(res.data);
+        this.schoolOption.legend.data = res.data.map(item => item.name);
       }
     }
   },
@@ -248,6 +296,22 @@ export default {
   padding: 0 30px;
   position: relative;
   justify-content: space-between;
+}
+.classId {
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+.today {
+  padding: 30px 0 30px 0;
+}
+.container {
+  margin-top: 10px;
+}
+.mod {
+  height: auto;
+  padding-bottom: 30px;
+  background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
 </style>
 

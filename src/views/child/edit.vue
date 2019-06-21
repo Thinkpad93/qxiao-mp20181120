@@ -260,11 +260,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fixed-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
-}
 </style>

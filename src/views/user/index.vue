@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <van-button type="danger" round size="normal" class="no-radius" @click="handleDeleteUser">删除用户</van-button>
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -41,7 +40,7 @@
         </van-cell>
       </template>
       <!-- 家长 -->
-      <template v-if="roleType == 3">
+      <template v-if="roleType == 3 || roleType == 9">
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
@@ -97,6 +96,9 @@
           </template>
         </van-cell>
       </template>
+      <div class="mt-20 text-center">
+        <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button>
+      </div>
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>
@@ -118,10 +120,6 @@ export default {
     return {
       visibility: false,
       roleList: [],
-      // query: {
-      //   studentId: this.$store.state.user.info.openStudentId,
-      //   //openId: this.$store.state.user.info.openId
-      // },
       teacherMenu: [
         {
           title: "学生作品",
@@ -166,8 +164,17 @@ export default {
     })
   },
   methods: {
+    //删除用户
     handleDeleteUser() {
-      this.deleteUser({ openId: this.openId });
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除用户数据吗？"
+        })
+        .then(() => {
+          this.deleteUser({ openId: this.openId });
+        })
+        .catch(() => {});
     },
     jumpRoleSelect() {
       this.$router.push({
@@ -222,6 +229,7 @@ export default {
   height: 180px;
   padding: 0 30px;
   color: #fff;
+  position: relative;
   .js-user-change {
     margin-left: 30px;
   }
@@ -234,19 +242,6 @@ export default {
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.3);
-}
-.switch-children {
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  right: 0;
-  display: flex;
-  height: 60px;
-  padding: 0 30px;
-  align-items: center;
-  border-radius: 30px 0 0 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-  transform: translateY(-50%);
 }
 .user-icon {
   width: 60px;

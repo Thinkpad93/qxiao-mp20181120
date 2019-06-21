@@ -209,23 +209,6 @@ export default {
   align-items: center;
   background-color: #fff;
 }
-// .student-head {
-//   padding: 30px 0;
-//   text-align: center;
-//   background-color: #fff;
-//   > a {
-//     width: 240px;
-//   }
-//   .tab {
-//     margin-top: 30px;
-//     text-align: center;
-//     display: flex;
-//     a {
-//       height: auto;
-//       flex: 1;
-//     }
-//   }
-// }
 .student-box {
   height: 120px;
 }
@@ -233,12 +216,5 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.fixed-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
 }
 </style>

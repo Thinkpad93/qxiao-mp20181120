@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- -->
       <van-dialog
         v-model="dialogVisible"
@@ -98,8 +98,10 @@
         v-show="query.actionType == 0"
       >默认行为无法修改，不一样的培养标准请自定义哦</p>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
