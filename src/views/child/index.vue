@@ -38,15 +38,15 @@ export default {
   name: "childList",
   data() {
     return {
-      openId: this.$store.state.user.info.openId,
-      openStudentId: parseInt(this.$store.state.user.info.openStudentId),
       studentList: []
     };
   },
   computed: {
     ...mapState("user", {
       roleType: state => state.info.roleType,
-      photo: state => state.info.photo
+      photo: state => state.info.photo,
+      openId: state => state.info.openId,
+      openStudentId: state => state.info.openStudentId
     })
   },
   methods: {
