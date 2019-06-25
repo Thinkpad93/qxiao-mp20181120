@@ -38,7 +38,9 @@
                   :size="22"
                   color="#09e2bb"
                   void-color="#e5eee0"
-                  :readonly="action.comment === 1"
+                  disabled-color="#09e2bb"
+                  :readonly="rateReadonly"
+                  :disabled="action.comment === 1"
                   @change="handleChangeRate(action)"
                 ></van-rate>
               </div>
@@ -57,6 +59,7 @@ export default {
   name: "actionHistory",
   data() {
     return {
+      rateReadonly: false,
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$store.state.user.info.openStudentId,
@@ -97,8 +100,10 @@ export default {
     },
     //行为打星
     async actionStrike(params = {}) {
+      this.rateReadonly = true;
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        this.rateReadonly = false;
         let { totalStarCount } = res.data;
         this.historyStrikeQuery(this.query);
         //更新星星数量

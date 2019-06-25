@@ -200,10 +200,20 @@ export default {
       this.wxShareAppMessage();
     },
     wxShareAppMessage() {
+      let that = this;
+      let shareUrl = "";
+      let shareDesc = "";
+      if (this.roleType == 2) {
+        shareUrl = API_ROOT + "#/share";
+        shareDesc = "小Q智慧欢迎您的加入";
+      } else {
+        shareUrl = API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId;
+        shareDesc = "邀请您一起关注孩子成长吧";
+      }
       let option = {
         title: "亲爱的用户您好", // 分享标题
-        desc: "邀请您一起关注孩子成长吧~", // 分享描述
-        link: API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId, // 分享链接，根据自身项目决定是否需要split
+        desc: shareDesc, // 分享描述
+        link: shareUrl, // 分享链接，根据自身项目决定是否需要split
         success: () => {
           that.$toast("分享成功");
         },

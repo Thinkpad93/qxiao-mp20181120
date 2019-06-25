@@ -12,7 +12,14 @@
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
           <div class="avatar">
-            <img :src="photo" width="60" height="60" radius="50">
+            <img
+              src="@/assets/child-default@2x.png"
+              width="60"
+              height="60"
+              radius="50"
+              v-if="experience == 1"
+            >
+            <img :src="photo" width="60" height="60" radius="50" v-else>
           </div>
           <div class="js-user-change">
             <h3 class="mb-20" size-18>{{ name }}</h3>
