@@ -1,8 +1,6 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd">
-      <!-- dialog -->
-      <!-- <van-dialog v-model="dialogVisible" title="行为说明" show-cancel-button @confirm="handleConfirm"></van-dialog> -->
       <div class="wrap">
         <div class="mod">
           <div class="guanaco">

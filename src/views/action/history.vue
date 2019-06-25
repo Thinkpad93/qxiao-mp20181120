@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells mb-20">
         <div class="cell min-h120">
           <div class="cell-bd">

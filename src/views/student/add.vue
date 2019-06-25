@@ -204,6 +204,8 @@ export default {
             this.$refs.form.reset();
             this.$router.go(-1);
           });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //查询存在的学生

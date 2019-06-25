@@ -181,9 +181,9 @@ export default {
             });
             break;
           default:
-            console.log("default");
+            this.$toast(`${res.errorMsg}`);
         }
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }

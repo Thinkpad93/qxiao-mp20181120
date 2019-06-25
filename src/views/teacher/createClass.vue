@@ -20,7 +20,7 @@
             <div class="cell-bd">
               <input
                 class="input"
-                placeholder="请输入学校名称"
+                placeholder="请输入学校全称"
                 v-model="form.schoolName"
                 @blur="handleSearch($event)"
               >
@@ -33,7 +33,7 @@
           </div>
           <div class="cell-bd">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称" v-model="form.className">
+              <input class="input" placeholder="请输入班级名称，如一年级（1）班" v-model="form.className">
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default {
     handleSubmit() {
       let { schoolName, className, teacherName, tel, code } = this.form;
       if (schoolName == "") {
-        this.$toast("请输入学校名称");
+        this.$toast("请输入学校全称");
         return false;
       }
       if (className == "") {

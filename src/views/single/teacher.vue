@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <!-- 角色选择 -->
-      <div class="flex a-i-c home-user gradient-two">
+      <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
         <div class="flex a-i-c">
           <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
@@ -12,6 +12,7 @@
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
+        <van-icon name="arrow" size="16px"></van-icon>
       </div>
       <!-- 角色选择 -->
       <!-- 日期选择 -->
@@ -144,7 +145,7 @@ export default {
                   show: true,
                   position: "inside",
                   formatter: function(a) {
-                    return a["name"] + " : " + a["value"] + "人";
+                    return a["name"] + ": " + a["value"] + "人";
                   }
                 }
               }
@@ -191,7 +192,7 @@ export default {
                   show: true,
                   position: "inside",
                   formatter: function(a) {
-                    return a["name"] + " : " + a["value"] + "人";
+                    return a["name"] + ": " + a["value"] + "人";
                   }
                 }
               }
@@ -205,7 +206,8 @@ export default {
     ...mapState("user", {
       photo: state => state.info.photo,
       name: state => state.info.name,
-      openId: state => state.info.openId
+      openId: state => state.info.openId,
+      roleType: state => state.info.roleType
     }),
     className: {
       get() {
@@ -217,6 +219,14 @@ export default {
     }
   },
   methods: {
+    //角色跳转
+    handleRoleJump() {
+      if (this.roleType == 2) {
+        this.$router.push({
+          path: "/role"
+        });
+      }
+    },
     handleClick(params) {
       //tab
       let tabIndex = this.tabActive;
@@ -256,8 +266,8 @@ export default {
         obj.value = data[i]["count"];
         obj.id = data[i]["id"];
         obj.datas[0] = data[i]["excellent"]; // 优秀
-        obj.datas[1] = data[i]["ordinary"]; // 一般
-        obj.datas[2] = data[i]["good"]; // 良好
+        obj.datas[1] = data[i]["good"]; // 良好
+        obj.datas[2] = data[i]["ordinary"]; // 一般
         end_obj.push(obj);
       }
       return end_obj;

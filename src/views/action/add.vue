@@ -125,8 +125,6 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          //let { stressFlag, ...args } = this.dialogForm;
-          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
           this.form.rules.push(Object.assign({}, this.dialogForm));
           this.dialogForm.ruleText = "";
           done();

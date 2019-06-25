@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="paeg-bd">
       <!-- dialog -->
       <van-dialog
         v-model="dialogVisible"
@@ -84,13 +84,15 @@
         </van-swipe-cell>
       </div>
     </div>
-    <div class="flex-ft">
-      <div class="tapeti">
-        <div class="tapeti-left">
-          <p class="pl-20">合计Q星: {{ total }}</p>
-        </div>
-        <div class="tapeti-right">
-          <van-button type="info" @click="handleSave">兑换</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="tapeti">
+          <div class="tapeti-left">
+            <p class="pl-20">合计Q星: {{ total }}</p>
+          </div>
+          <div class="tapeti-right">
+            <van-button type="info" @click="handleSave">兑换</van-button>
+          </div>
         </div>
       </div>
     </div>
@@ -289,7 +291,6 @@ export default {
   color: #2e2e2e;
   height: 40px;
   padding: 0 20px;
-  background-color: #f6f8f9;
 }
 .pichi {
   position: relative;

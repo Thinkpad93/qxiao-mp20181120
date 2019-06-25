@@ -88,6 +88,8 @@ export default {
         } else {
           this.readList = res.data.readers || []; //后端有可能返回null
         }
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

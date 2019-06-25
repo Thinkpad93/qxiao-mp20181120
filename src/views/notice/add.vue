@@ -302,6 +302,8 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //根据OpenId获取学校的班级信息

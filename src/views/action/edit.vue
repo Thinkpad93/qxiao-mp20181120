@@ -68,6 +68,7 @@
             :right-width="60"
             v-for="(item, index) in form.rules"
             :key="index"
+            :disabled="parseInt(query.actionType) === 0"
             :on-close="onClose(index, item.ruleId)"
           >
             <van-cell-group>
@@ -168,8 +169,6 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          //let { stressFlag, ...args } = this.dialogForm;
-          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
           //行为标准增加
           let res = await service.ruleAdd(Object.assign({}, this.dialogForm));
           if (res.errorCode === 0) {

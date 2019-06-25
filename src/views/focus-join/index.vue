@@ -29,7 +29,7 @@
         </div>
         <div class="cell cell-select cell-select-after min-h120">
           <div class="cell-hd">
-            <label for class="label">关系</label>
+            <label for class="label">您与孩子的关系</label>
           </div>
           <div class="cell-bd">
             <select class="select" name dir="rtl" v-model="form.relation">

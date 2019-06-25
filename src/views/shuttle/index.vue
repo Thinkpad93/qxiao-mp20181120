@@ -219,6 +219,8 @@ export default {
       if (res.errorCode === 0) {
         this.popupShow = false;
         this.classClockData = res.data;
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

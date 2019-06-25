@@ -45,7 +45,8 @@ export default {
     },
     wxShareAppMessage() {
       let that = this;
-      let shareUrl = API_ROOT + "#/baby/share?classId=" + this.classId;
+      let shareUrl =
+        API_ROOT + "#/baby/share?classId=" + this.classId + "&id=0";
       let option = {
         title: "亲爱的用户您好", // 分享标题
         desc: "小Q智慧欢迎您的加入", // 分享描述

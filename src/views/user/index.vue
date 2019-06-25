@@ -8,23 +8,48 @@
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
-      <!-- 老师 -->
-      <template v-if="roleType == 2">
-        <div class="flex a-i-c home-user gradient-two">
-          <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
-            <van-icon name="replay" size="16px"></van-icon>
-            <span>切换角色</span>
-          </div>
-          <div class="flex a-i-c">
-            <div class="avatar">
+      <!-- 用户 -->
+      <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
+        <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
+          <van-icon name="replay" size="16px"></van-icon>
+          <span>切换角色</span>
+        </div>
+        <div class="flex a-i-c">
+          <div class="avatar flex a-i-c">
+            <template v-if="roleType == 3 || roleType == 9">
+              <template v-if="openStudentName">
+                <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+              </template>
+              <template v-else>
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+                <p class="ml-20">尚未有关注孩子，点击添加。</p>
+              </template>
+            </template>
+            <template v-else>
               <img :src="photo" width="60" height="60" radius="50">
-            </div>
-            <div class="pl-20">
+            </template>
+          </div>
+          <div class="js-user-change">
+            <template v-if="roleType == 3 || roleType == 9">
+              <template v-if="openStudentName">
+                <h3 class="mb-20" size-18>
+                  {{ openStudentName }}
+                  <small>Q星: {{ totalStarCount }}</small>
+                </h3>
+                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
+              </template>
+            </template>
+            <template v-else>
               <h3 class="mb-20" size-18>{{ name }}</h3>
               <p size-12>知识是智慧的火炬</p>
-            </div>
+            </template>
           </div>
         </div>
+        <van-icon name="arrow" size="16px"></van-icon>
+      </div>
+      <!-- 用户 -->
+      <template v-if="roleType == 2">
         <van-cell
           class="a-i-c"
           size="large"
@@ -39,34 +64,7 @@
           </template>
         </van-cell>
       </template>
-      <!-- 家长 -->
-      <template v-if="roleType == 3 || roleType == 9">
-        <!-- 用户 -->
-        <router-link to="/child" tag="div" class="home-user gradient-two">
-          <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
-            <van-icon name="replay" size="16px"></van-icon>
-            <span>切换角色</span>
-          </div>
-          <div class="flex a-i-c">
-            <template v-if="openStudentName">
-              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
-              <div class="js-user-change">
-                <h3 class="mb-20" size-18>
-                  {{ openStudentName }}
-                  <small>Q星: {{ totalStarCount }}</small>
-                </h3>
-                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
-              </div>
-            </template>
-            <template v-else>
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
-              <p class="ml-20">尚未有关注孩子，点击添加。</p>
-            </template>
-          </div>
-          <van-icon name="arrow" size="16px"></van-icon>
-        </router-link>
-        <!-- 用户 -->
+      <template v-else>
         <div class="snail flex a-i-c j-c-s-b">
           <div class="snail-left flex a-i-c">
             <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
@@ -164,6 +162,27 @@ export default {
     })
   },
   methods: {
+    handleRoleJump() {
+      if (this.openStudentName == "") {
+        this.$router.push({
+          path: "/child"
+        });
+      } else if (this.roleType == 2) {
+        this.$router.push({
+          path: "/role"
+        });
+      } else {
+        this.$router.push({
+          path: "/child"
+        });
+      }
+    },
+    //角色切换页面
+    jumpRoleSelect() {
+      this.$router.push({
+        path: "/role/select"
+      });
+    },
     //删除用户
     handleDeleteUser() {
       this.$dialog
@@ -175,11 +194,6 @@ export default {
           this.deleteUser({ openId: this.openId });
         })
         .catch(() => {});
-    },
-    jumpRoleSelect() {
-      this.$router.push({
-        path: "/role/select"
-      });
     },
     wxRegCallback() {
       //用于微信JS-SDK回调
@@ -231,7 +245,7 @@ export default {
   color: #fff;
   position: relative;
   .js-user-change {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 }
 .snail {

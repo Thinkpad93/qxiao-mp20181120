@@ -186,6 +186,8 @@ export default {
             this.$router.replace({ path: "/home" });
           }
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   }

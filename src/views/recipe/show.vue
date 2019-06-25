@@ -9,11 +9,21 @@
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
-            <time>{{ info.postTime }}</time>
+            <time>发布时间: {{ info.postTime }}</time>
           </div>
           <div class="article-cell">
             <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.readCount }}</b>
+          </div>
+        </div>
+        <div class="article-hd">
+          <div class="article-cell">
+            开始时间:
+            <time>{{ info.startDate }}</time>
+          </div>
+          <div class="article-cell">
+            结束时间:
+            <time>{{ info.endDate }}</time>
           </div>
         </div>
         <div size-16 class="article-content">

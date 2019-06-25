@@ -218,6 +218,8 @@ export default {
       let res = await service.recipeAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

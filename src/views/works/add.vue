@@ -151,8 +151,12 @@ export default {
         service.uploadWorks(this.form).then(res => {
           if (res.errorCode === 0) {
             this.$router.go(-1);
+          }else {
+            this.$toast(`${res.errorMsg}`);
           }
         });
+      }else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },
@@ -170,25 +174,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.uploader-file {
-  float: left;
-  width: 140px;
-  height: 140px;
-  position: relative;
-  background-size: cover;
-  margin: 20px 0 0 0;
-  border-radius: 4px;
-  margin-right: 20px;
-  i {
-    color: #8d8d8d;
-    font-size: 48px;
-    position: absolute;
-    top: -14%;
-    right: -10%;
-    z-index: 10;
-  }
-}
-
 .works-desc {
   line-height: 1.4;
   color: #999;

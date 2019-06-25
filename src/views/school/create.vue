@@ -195,7 +195,7 @@ export default {
               this.$router.replace({ path: "/home" });
             }
           });
-        } else if (res.errorCode === -1) {
+        } else {
           this.$toast(`${res.errorMsg}`);
         }
       }

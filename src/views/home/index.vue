@@ -1,18 +1,25 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/share-tip.png">
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
       <!-- 角色选择 -->
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
           <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
           </div>
-          <div class="pl-20">
+          <div class="js-user-change">
             <h3 class="mb-20" size-18>{{ name }}</h3>
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
-        <van-icon name="arrow" size="16px" v-if="roleType == 3"></van-icon>
+        <van-icon name="arrow" size="16px"></van-icon>
       </div>
       <!-- 用户信息 -->
       <!-- 菜单 -->
@@ -34,7 +41,7 @@
           <p>创建班级</p>
           <span size-12>我是老师我要创建班级</span>
         </div>
-        <div class="item" @click="handleShare">
+        <div class="item" @click="visibility = true">
           <p>邀请老师</p>
           <span size-12>我是家长邀请老师创建班级</span>
         </div>
@@ -114,6 +121,7 @@ export default {
   },
   data() {
     return {
+      visibility: false,
       popupShow: false,
       isLoading: false,
       totalPage: 1, //总页数
@@ -182,15 +190,15 @@ export default {
         }
       });
     },
-    handleShare() {
-      this.$toast("请点击右上角发送给好友");
-    },
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
           path: "/role"
         });
       } else {
+        if (this.experience == 1) {
+          return false;
+        }
         this.$router.push({
           path: "/baby"
         });
@@ -304,7 +312,12 @@ export default {
               let list = res.data.data;
               if (list.length) {
                 list.forEach(element => {
-                  this.communityData.push(element);
+                  let obj = {
+                    ...element,
+                    showMore: false,
+                    showNumber: 3
+                  };
+                  this.communityData.push(obj);
                 });
               }
             }
@@ -354,6 +367,9 @@ export default {
   padding: 0 30px;
   position: relative;
   justify-content: space-between;
+  .js-user-change {
+    margin-left: 20px;
+  }
 }
 .experience {
   color: #84ce09;

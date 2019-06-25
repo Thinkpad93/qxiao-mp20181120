@@ -148,6 +148,8 @@ export default {
           studentId: this.$store.state.user.info.studentId
         };
         this.$store.dispatch("queryClass/queryClassId", obj);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

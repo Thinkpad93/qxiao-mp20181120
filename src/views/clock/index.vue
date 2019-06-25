@@ -101,20 +101,18 @@
               v-for="(month, index) in clockMonthList"
               :key="index"
             >
-              <div class="cell-bd" style="padding-left:0;">{{ month.postTime }}已打卡</div>
+              <div class="cell-bd" style="padding-left:0;">{{ month.day }}已打卡</div>
               <div class="cell-ft" style="color:#92cd36;" @click="handleClockDay(month)">查看详情</div>
             </div>
           </div>
         </div>
       </template>
+    </div>
+    <div class="page-ft">
       <!-- 打卡按钮 -->
       <template v-if="roleType == 3">
-        <div class="_confirm">
-          <a
-            href="javascript:void(0);"
-            class="btn btn-large btn-primary"
-            @click="handleAddPunch"
-          >打卡接送</a>
+        <div class="fixed-bottom" style="z-index: 100;">
+          <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
         </div>
       </template>
     </div>

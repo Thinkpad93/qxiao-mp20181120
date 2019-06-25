@@ -439,7 +439,7 @@ export default {
   padding: 0 30px;
   color: #fff;
   .js-user-change {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 }
 .container {
