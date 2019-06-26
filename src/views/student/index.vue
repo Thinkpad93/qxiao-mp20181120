@@ -77,7 +77,7 @@
           type="info"
           size="large"
           class="no-radius"
-          to="/student/add"
+          @click="handleJumpRoute"
           v-if="openDirection == 0"
         >录入学生</van-button>
         <van-button
@@ -168,7 +168,16 @@ export default {
         query: {
           tel: student.tel,
           studentId: student.studentId,
-          classId: student.classId
+          classId: student.classId,
+          openDirection: this.openDirection
+        }
+      });
+    },
+    handleJumpRoute() {
+      this.$router.push({
+        path: "/student/add",
+        query: {
+          openDirection: this.openDirection
         }
       });
     },

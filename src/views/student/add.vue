@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- 查询开放版是否有录入学生 -->
       <van-popup v-model="popupShow" position="bottom">
         <div class="popup-page">
@@ -114,8 +114,10 @@
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -123,14 +125,18 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import classList from "@/mixins/classList";
+//import classList from "@/mixins/classList";
 export default {
   name: "studentAdd",
-  mixins: [sex, relation, classList],
+  mixins: [sex, relation],
   data() {
     return {
       popupShow: false,
       studentId: null,
+      openDirection: this.$route.query.openDirection,
+      query: {
+        teacherId: this.$store.state.user.info.id
+      },
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
@@ -138,6 +144,7 @@ export default {
         linkMan: [{ relation: 1, tel: "" }],
         classId: null
       },
+      classList: [],
       studentList: []
     };
   },
@@ -224,9 +231,18 @@ export default {
       } else {
         this.$toast(`${res.errorMsg}`);
       }
+    },
+    //查询老师能预录入学生的班级
+    async queryTeacherClass(params = {}) {
+      let res = await service.queryTeacherClass(params);
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryTeacherClass(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>

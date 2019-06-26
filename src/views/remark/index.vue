@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="remark" v-for="(item, index) in list" :key="index">
         <div class="remark-bd">
           <div class="remark-teacher flex mb-30">

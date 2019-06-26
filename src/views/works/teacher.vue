@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-hd">
+  <div class="page">
+    <div class="page-hd">
       <!-- 班级选择菜单 -->
       <div class="classId flex a-i-c j-c-s-b">
         <p>班级</p>
@@ -11,7 +11,7 @@
       </div>
       <!-- 班级选择菜单 -->
     </div>
-    <div class="flex-bd">
+    <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="classList"
@@ -93,7 +93,7 @@ export default {
   background-color: #fff;
 }
 .list {
-  padding: 30px;
+  padding: 0 30px 30px 30px;
 }
 .suni {
   width: 50%;

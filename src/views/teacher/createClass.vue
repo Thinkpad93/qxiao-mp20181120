@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="schoolList"
@@ -49,6 +49,20 @@
             </div>
           </div>
         </div>
+        <div class="cell min-h120 cell-select cell-select-after">
+          <div class="cell-hd">
+            <label for class="label">性别</label>
+          </div>
+          <div class="cell-bd">
+            <select class="select" name dir="rtl" v-model="form.sex">
+              <option
+                :value="option.id"
+                v-for="(option,index) in sexList"
+                :key="index"
+              >{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">手机号</label>
@@ -79,17 +93,21 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">提交</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">提交</van-button>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import { sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "createClass",
+  mixins: [sex],
   data() {
     return {
       hidden: false,
@@ -99,6 +117,7 @@ export default {
       form: {
         schoolName: "",
         id: 0,
+        sex: 1,
         className: "",
         teacherName: "",
         tel: "",

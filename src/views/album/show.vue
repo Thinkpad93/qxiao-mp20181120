@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <article class="article">
         <h1 size-24>{{ albumInfo.title }}</h1>
         <div class="article-hd flex">
@@ -32,36 +32,38 @@
         </div>
       </article>
     </div>
-    <div class="flex-ft">
-      <div class="flex" v-if="roleType == 2">
-        <van-button
-          size="large"
-          type="default"
-          class="no-radius"
-          v-show="mask"
-          @click="handleCancel"
-        >取消</van-button>
-        <van-button
-          size="large"
-          type="default"
-          class="no-radius"
-          v-show="!mask"
-          @click="mask = true"
-        >编辑</van-button>
-        <van-button
-          size="large"
-          type="danger"
-          class="no-radius"
-          v-show="mask"
-          @click="handleConfirm"
-        >删除</van-button>
-        <van-button
-          size="large"
-          type="info"
-          class="no-radius"
-          v-show="!mask"
-          @click="handleBlumAdd"
-        >上传相片</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="flex" v-if="roleType == 2">
+          <van-button
+            size="large"
+            type="default"
+            class="no-radius"
+            v-show="mask"
+            @click="handleCancel"
+          >取消</van-button>
+          <van-button
+            size="large"
+            type="default"
+            class="no-radius"
+            v-show="!mask"
+            @click="mask = true"
+          >编辑</van-button>
+          <van-button
+            size="large"
+            type="danger"
+            class="no-radius"
+            v-show="mask"
+            @click="handleConfirm"
+          >删除</van-button>
+          <van-button
+            size="large"
+            type="info"
+            class="no-radius"
+            v-show="!mask"
+            @click="handleBlumAdd"
+          >上传相片</van-button>
+        </div>
       </div>
     </div>
   </div>

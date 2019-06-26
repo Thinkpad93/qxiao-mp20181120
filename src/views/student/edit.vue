@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
@@ -84,10 +84,12 @@
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <div class="flex">
-        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
-        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="flex">
+          <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+          <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+        </div>
       </div>
     </div>
   </div>
@@ -96,18 +98,22 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import classList from "@/mixins/classList";
+//import classList from "@/mixins/classList";
 export default {
   name: "studentEdit",
-  mixins: [sex, relation, classList],
+  mixins: [sex, relation],
   data() {
     return {
+      query: {
+        teacherId: this.$store.state.user.info.id
+      },
       querys: {
         openId: this.$store.state.user.info.openId,
         tel: this.$route.query.tel,
         studentId: this.$route.query.studentId
       },
-      form: {}
+      form: {},
+      studentList: []
     };
   },
   methods: {
@@ -188,9 +194,17 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
+    },
+    //查询老师能预录入学生的班级
+    async queryTeacherClass(params = {}) {
+      let res = await service.queryTeacherClass(params);
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
   mounted() {
+    this.queryTeacherClass(this.query);
     this.studentInfoQuery(this.querys);
   }
 };

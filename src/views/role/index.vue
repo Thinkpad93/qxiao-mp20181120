@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells-title">基础信息</div>
       <!-- 园长 -->
       <template v-if="roleType == 1 || roleType == 4">
@@ -111,21 +111,6 @@
               >
             </div>
           </div>
-          <!-- <div class="cell min-h120">
-            <div class="cell-hd">
-              <label for class="label">学校ID码</label>
-            </div>
-            <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校ID码"
-                v-model="teacherInfo.schoolCode"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
-            </div>
-          </div>-->
           <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校地址</label>
@@ -144,8 +129,10 @@
         </div>
       </template>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
     </div>
   </div>
 </template>

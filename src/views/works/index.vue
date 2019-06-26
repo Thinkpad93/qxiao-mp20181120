@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="paeg-bd">
       <van-tabs v-model="active" :line-height="2">
         <van-tab title="优秀作品">
           <!-- 学生个人作品 -->
@@ -83,36 +83,44 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="flex-ft">
-      <template v-if="active == 0">
-        <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
-      </template>
-      <template v-else>
-        <div class="flex">
-          <van-button
-            size="large"
-            type="default"
-            class="no-radius"
-            v-show="mask"
-            @click="handleCancel"
-          >取消</van-button>
-          <van-button
-            size="large"
-            type="default"
-            class="no-radius"
-            v-show="!mask"
-            @click="mask = true"
-          >编辑</van-button>
-          <van-button
-            size="large"
-            type="danger"
-            class="no-radius"
-            v-show="mask"
-            @click="handleDelImage"
-          >删除</van-button>
-          <van-button size="large" type="info" class="no-radius" v-show="!mask" to="/works/add">上传作品</van-button>
-        </div>
-      </template>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <template v-if="active == 0">
+          <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
+        </template>
+        <template v-else>
+          <div class="flex">
+            <van-button
+              size="large"
+              type="default"
+              class="no-radius"
+              v-show="mask"
+              @click="handleCancel"
+            >取消</van-button>
+            <van-button
+              size="large"
+              type="default"
+              class="no-radius"
+              v-show="!mask"
+              @click="mask = true"
+            >编辑</van-button>
+            <van-button
+              size="large"
+              type="danger"
+              class="no-radius"
+              v-show="mask"
+              @click="handleDelImage"
+            >删除</van-button>
+            <van-button
+              size="large"
+              type="info"
+              class="no-radius"
+              v-show="!mask"
+              to="/works/add"
+            >上传作品</van-button>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>

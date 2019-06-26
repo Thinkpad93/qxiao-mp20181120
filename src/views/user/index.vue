@@ -16,7 +16,10 @@
         </div>
         <div class="flex a-i-c">
           <div class="avatar flex a-i-c">
-            <template v-if="roleType == 3 || roleType == 9">
+            <template v-if="roleType == 2">
+              <img :src="photo" width="60" height="60" radius="50">
+            </template>
+            <template v-else>
               <template v-if="openStudentName">
                 <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
                 <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
@@ -26,12 +29,35 @@
                 <p class="ml-20">尚未有关注孩子，点击添加。</p>
               </template>
             </template>
-            <template v-else>
-              <img :src="photo" width="60" height="60" radius="50">
+            <!-- <template v-if="roleType == 3 || roleType == 9"> -->
+            <!-- <template v-if="openStudentName">
+              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
             </template>
+            <template v-else>
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+              <p class="ml-20">尚未有关注孩子，点击添加。</p>
+            </template>-->
+            <!-- </template> -->
+            <!-- <template v-else>
+              <img :src="photo" width="60" height="60" radius="50">
+            </template>-->
           </div>
           <div class="js-user-change">
-            <template v-if="roleType == 3 || roleType == 9">
+            <template v-if="roleType == 2">
+              <h3 class="mb-20" size-18>{{ name }}</h3>
+              <p size-12>知识是智慧的火炬</p>
+            </template>
+            <template v-else>
+              <template v-if="openStudentName">
+                <h3 class="mb-20" size-18>
+                  {{ openStudentName }}
+                  <small>Q星: {{ totalStarCount }}</small>
+                </h3>
+                <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
+              </template>
+            </template>
+            <!-- <template v-if="roleType == 3 || roleType == 9">
               <template v-if="openStudentName">
                 <h3 class="mb-20" size-18>
                   {{ openStudentName }}
@@ -43,7 +69,7 @@
             <template v-else>
               <h3 class="mb-20" size-18>{{ name }}</h3>
               <p size-12>知识是智慧的火炬</p>
-            </template>
+            </template>-->
           </div>
         </div>
         <van-icon name="arrow" size="16px"></van-icon>
@@ -75,7 +101,14 @@
             <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
           </div>
         </div>
-        <van-cell class="mb-20" size="large" title="邀请亲人关注" is-link @click="visibility = true">
+        <van-cell
+          class="mb-20"
+          size="large"
+          title="邀请亲人关注"
+          is-link
+          @click="visibility = true"
+          v-if="patriarchId"
+        >
           <template slot="icon">
             <img src="@/assets/user-icon-6@2x.png" class="user-icon">
           </template>
@@ -163,11 +196,7 @@ export default {
   },
   methods: {
     handleRoleJump() {
-      if (this.openStudentName == "") {
-        this.$router.push({
-          path: "/child"
-        });
-      } else if (this.roleType == 2) {
+      if (this.roleType == 2) {
         this.$router.push({
           path: "/role"
         });
@@ -176,6 +205,19 @@ export default {
           path: "/child"
         });
       }
+      // if (this.openStudentName == "") {
+      //   this.$router.push({
+      //     path: "/child"
+      //   });
+      // } else if (this.roleType == 2) {
+      //   this.$router.push({
+      //     path: "/role"
+      //   });
+      // } else {
+      //   this.$router.push({
+      //     path: "/child"
+      //   });
+      // }
     },
     //角色切换页面
     jumpRoleSelect() {

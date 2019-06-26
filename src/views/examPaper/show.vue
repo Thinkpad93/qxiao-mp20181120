@@ -29,7 +29,7 @@
       <!-- video视频区域 -->
       <div class="video-mod">
         <div class="video-main">
-          <template v-if="payStatus">
+          <template v-if="info.status == 1">
             <video ref="video" :src="info.videoUrl" controls></video>
           </template>
           <template v-else>
@@ -112,10 +112,10 @@ export default {
   data() {
     return {
       actives: 0,
-      payStatus: false,
       query: {
         openId: this.$store.state.user.info.openId,
-        paperId: this.$route.query.paperId
+        paperId: this.$route.query.paperId,
+        studentId: this.$store.state.user.info.openStudentId
       },
       form: {
         openId: this.$store.state.user.info.openId,
@@ -124,12 +124,7 @@ export default {
         textContent: ""
       },
       info: {},
-      commentList: [],
-      params: {
-        outTradeNo: "yolo",
-        openId: this.$store.state.user.info.openId,
-        totalFee: 1
-      }
+      commentList: []
     };
   },
   methods: {
@@ -160,7 +155,10 @@ export default {
           .toString(36)
           .substring(2), //模拟测试
         openId: this.$store.state.user.info.openId,
-        totalFee: 1
+        totalFee: this.info.fee || 1,
+        type: 0,
+        orderId: this.query.paperId,
+        studentId: this.query.studentId
       };
       let res = await service.userPay(params);
       if (Object.keys(res).length) {
@@ -172,7 +170,7 @@ export default {
           paySign: res.paySign,
           success: function(res) {
             that.$toast("支付成功");
-            that.payStatus = true;
+            that.examPaperDetail(that.query);
           },
           complete: function(res) {
             //that.$toast("无论成功或失败都会执行");

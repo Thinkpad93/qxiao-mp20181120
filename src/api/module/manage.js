@@ -224,6 +224,14 @@ export function queryClassNameList(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询老师能预录入学生的班级
+export function queryTeacherClass(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryTeacherClass.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //查询对应学校的所有班级
 export function queryClass(params, config = {
   showLoading: true
