@@ -52,7 +52,7 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart id="homeOption" height="350px" :option="homeOption" @on-click="handleClick"/>
+              <qxChart id="homeOption" height="300px" :option="homeOption" @on-click="handleClick"/>
             </div>
           </div>
         </van-tab>
@@ -66,7 +66,7 @@
               <!-- 数据分析 -->
               <qxChart
                 id="schoolOption"
-                height="350px"
+                height="300px"
                 :option="schoolOption"
                 @on-click="handleClick"
               />
@@ -137,7 +137,7 @@ export default {
             name: "在家表现",
             type: "pie",
             radius: "80%",
-            center: ["50%", "40%"],
+            center: ["50%", "42%"],
             data: [],
             itemStyle: {
               normal: {
@@ -275,21 +275,31 @@ export default {
     //查询在家表现
     async queryActionWithHome(params = {}) {
       let res = await service.queryActionWithHome(params);
-      if (res.errorCode === 0 && res.data.length) {
+      if (res.errorCode === 0) {
         this.popupShowDate = false;
         this.popupShow = false;
-        this.homeOption.series[0].data = this.analysis(res.data);
-        this.homeOption.legend.data = res.data.map(item => item.name);
+        if (res.data.length) {
+          this.homeOption.series[0].data = this.analysis(res.data);
+          this.homeOption.legend.data = res.data.map(item => item.name);
+        } else {
+          this.homeOption.series[0].data = [];
+          this.homeOption.legend.data = [];
+        }
       }
     },
     //查询在校表现
     async queryLessonWithSchool(params = {}) {
       let res = await service.queryLessonWithSchool(params);
-      if (res.errorCode === 0 && res.data.length) {
+      if (res.errorCode === 0) {
         this.popupShowDate = false;
         this.popupShow = false;
-        this.schoolOption.series[0].data = this.analysis(res.data);
-        this.schoolOption.legend.data = res.data.map(item => item.name);
+        if (res.data.length) {
+          this.schoolOption.series[0].data = this.analysis(res.data);
+          this.schoolOption.legend.data = res.data.map(item => item.name);
+        } else {
+          this.schoolOption.series[0].data = [];
+          this.schoolOption.legend.data = [];
+        }
       }
     }
   },

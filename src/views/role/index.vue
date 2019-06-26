@@ -111,7 +111,7 @@
               >
             </div>
           </div>
-          <div class="cell min-h120">
+          <!-- <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校ID码</label>
             </div>
@@ -125,7 +125,7 @@
                 @focus="this.blur()"
               >
             </div>
-          </div>
+          </div>-->
           <div class="cell min-h120">
             <div class="cell-hd">
               <label for class="label">学校地址</label>

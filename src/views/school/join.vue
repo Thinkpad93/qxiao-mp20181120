@@ -5,7 +5,7 @@
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
             {{ info.schoolName }}
-            <small>(ID码: {{ info.schoolCode }})</small>
+            <!-- <small>(ID码: {{ info.schoolCode }})</small> -->
           </h2>
           <div class="address flex text-ellipsis">
             <van-icon name="location-o" size="16px"></van-icon>
