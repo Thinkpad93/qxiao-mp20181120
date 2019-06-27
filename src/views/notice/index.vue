@@ -48,7 +48,7 @@
         :right-width="60"
         v-for="(notice, index) in list"
         :key="index"
-        :disabled="roleType == 3 || roleType == 2"
+        :disabled="roleType == 3"
         :on-close="onClose(notice, index)"
       >
         <van-cell-group>

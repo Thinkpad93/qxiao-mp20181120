@@ -1,5 +1,5 @@
 <template>
-  <div class="pagea">
+  <div class="page">
     <!-- 发送的班级和老师 -->
     <div class="panel" style="z-index: 999" :class="{'panel-on': isActive}">
       <div class="panel-hd">

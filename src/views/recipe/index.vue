@@ -9,7 +9,7 @@
         :right-width="60"
         v-for="(recipe, index) in list"
         :key="index"
-        :disabled="roleType == 3 || roleType == 2"
+        :disabled="roleType == 3"
         :on-close="onClose(recipe, index)"
       >
         <van-cell-group>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <template v-if="list.length">
         <div class="album">
           <div class="album-figrue-box flex f-w-w" style="margin-left: -10px; margin-right: -10px;">

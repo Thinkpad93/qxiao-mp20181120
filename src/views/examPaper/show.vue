@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- 评论 -->
       <van-dialog
         title="评论"
@@ -74,31 +74,33 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="flex-ft">
-      <div class="handle flex a-i-c">
-        <van-button
-          type="info"
-          class="no-radius"
-          style="width:100%"
-          @click="dialogVisible = true"
-        >评论</van-button>
-        <!-- <div class="handle-comment" @click="dialogVisible = true">
-          <van-icon name="comment-o" size="20px"></van-icon>
-          <div size-12>评论</div>
-        </div>-->
-        <!-- <div class="handle-share">
-          <van-icon name="share" size="20px"></van-icon>
-          <div size-12>转发</div>
-        </div>-->
-        <!-- <div class="handle-down">
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="handle flex a-i-c">
           <van-button
             type="info"
             class="no-radius"
-            @click="handleUserPay"
             style="width:100%"
-          >试卷{{ info.fee }}元/套</van-button>
-        </div>-->
-      </div>
+            @click="dialogVisible = true"
+          >评论</van-button>
+          <!-- <div class="handle-comment" @click="dialogVisible = true">
+            <van-icon name="comment-o" size="20px"></van-icon>
+            <div size-12>评论</div>
+          </div>-->
+          <!-- <div class="handle-share">
+            <van-icon name="share" size="20px"></van-icon>
+            <div size-12>转发</div>
+          </div>-->
+          <!-- <div class="handle-down">
+            <van-button
+              type="info"
+              class="no-radius"
+              @click="handleUserPay"
+              style="width:100%"
+            >试卷{{ info.fee }}元/套</van-button>
+          </div>-->
+        </div>
+      </div>  
     </div>
   </div>
 </template>

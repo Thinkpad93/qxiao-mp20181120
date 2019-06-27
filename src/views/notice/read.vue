@@ -28,7 +28,13 @@
               <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                 <div class="cell-hd">
                   <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
-                  <div class="icon-d" v-else></div>
+                  <img
+                    src="@/assets/child-default@2x.png"
+                    width="50"
+                    height="50"
+                    radius="50"
+                    v-else
+                  >
                 </div>
                 <div class="cell-bd pl-20">
                   <p class>{{ unread.studentName }}</p>
