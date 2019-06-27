@@ -1,9 +1,9 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
-      <div class="teacher-head">
+  <div class="page">
+    <div class="page-bd">
+      <!-- <div class="teacher-head">
         <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
-      </div>
+      </div>-->
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
@@ -14,17 +14,17 @@
       <div class="cells-title">老师列表({{ list.length }})</div>
       <div class="cells">
         <div
-          class="cell teacher-box"
+          class="cell min-h120"
           v-for="(teacher, index) in list"
           :key="index"
           @click="handleEditTeacher(teacher)"
         >
           <div class="cell-hd">
             <template v-if="teacher.photo">
-              <img class="teacher-icon" :src="teacher.photo" alt>
+              <img :src="teacher.photo" width="50" height="50" radius="50">
             </template>
             <template v-else>
-              <div class="icon-d"></div>
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
             </template>
           </div>
           <div class="cell-bd pl-20">
@@ -51,6 +51,11 @@
             </template>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" to="/teacher/add">添加新老师</van-button>
       </div>
     </div>
   </div>
@@ -109,31 +114,31 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.teacher-head {
-  padding: 30px 0;
-  text-align: center;
-  background-color: #fff;
-  > a {
-    width: 240px;
-  }
-  .tab {
-    margin-top: 30px;
-    text-align: center;
-    display: flex;
-    a {
-      height: auto;
-      flex: 1;
-    }
-  }
-}
-.teacher-box {
-  min-height: 120px;
-}
-.teacher-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
+// .teacher-head {
+//   padding: 30px 0;
+//   text-align: center;
+//   background-color: #fff;
+//   > a {
+//     width: 240px;
+//   }
+//   .tab {
+//     margin-top: 30px;
+//     text-align: center;
+//     display: flex;
+//     a {
+//       height: auto;
+//       flex: 1;
+//     }
+//   }
+// }
+// .teacher-box {
+//   min-height: 120px;
+// }
+// .teacher-icon {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+// }
 .status {
   color: #ff87b7;
 }

@@ -112,8 +112,10 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">发布</van-button>
+      </div>
     </div>
   </div>
 </template>

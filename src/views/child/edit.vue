@@ -12,7 +12,6 @@
           :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
-      <p v-if="testStr">123</p>
       <!-- popup -->
       <div class="cells">
         <div class="cell min-h120">
@@ -146,7 +145,6 @@ export default {
   mixins: [sex, relation],
   data() {
     return {
-      testStr: "",
       popupShow: false,
       minDate: new Date(1966, 10, 1),
       filesObj: null,

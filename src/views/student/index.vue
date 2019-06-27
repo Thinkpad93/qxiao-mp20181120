@@ -46,7 +46,7 @@
               <img class="student-icon" :src="student.photo" alt>
             </template>
             <template v-else>
-              <div class="icon-d"></div>
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
             </template>
           </div>
           <div class="cell-bd pl-20">

@@ -71,7 +71,6 @@ export const constantRouterMap = [
   ...remarkRouterConfig,
   ...courseRouterConfig,
 
-  //...personalRouterConfig,
   ...worksRounterConfig,
   ...roleRouterConfig,
   ...personalityRouterConfig,

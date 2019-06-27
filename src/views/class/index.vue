@@ -1,9 +1,9 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
-      <div class="class-head">
+  <div class="page">
+    <div class="page-bd">
+      <!-- <div class="class-head">
         <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">添加班级</a>
-      </div>
+      </div>-->
       <!-- -->
       <van-dialog
         v-model="dialogVisible"
@@ -35,7 +35,7 @@
       >
         <van-cell-group>
           <div class="cells">
-            <div class="cell class-boxs" @click="handleEditClass(item)">
+            <div class="cell min-h120" @click="handleEditClass(item)">
               <div class="cell-bd">
                 <p size-17 class="text-ellipsis">{{ item.className }}</p>
                 <p>
@@ -48,6 +48,11 @@
         </van-cell-group>
         <span slot="right">删除</span>
       </van-swipe-cell>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="dialogVisible = true">添加班级</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -159,22 +164,22 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.class-head {
-  padding: 30px 0;
-  margin-bottom: 20px;
-  text-align: center;
-  background-color: #fff;
-  > a {
-    width: 240px;
-  }
-}
-.class-boxs {
-  height: 120px;
-  margin-bottom: 0;
-  .cell-bd {
-    padding-left: 0;
-  }
-}
+// .class-head {
+//   padding: 30px 0;
+//   margin-bottom: 20px;
+//   text-align: center;
+//   background-color: #fff;
+//   > a {
+//     width: 240px;
+//   }
+// }
+// .class-boxs {
+//   height: 120px;
+//   margin-bottom: 0;
+//   .cell-bd {
+//     padding-left: 0;
+//   }
+// }
 span.t {
   color: #409eff;
 }

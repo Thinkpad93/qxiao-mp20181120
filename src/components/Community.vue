@@ -55,6 +55,7 @@
             </div>
           </div>
           <div class="data">
+            <!-- 点赞列表 -->
             <template v-if="fuck.praiseList.length">
               <div class="zan-list flex a-i-c">
                 <van-icon name="like" size="12px" color="#336d92"></van-icon>
@@ -64,6 +65,7 @@
                 >{{ praise.studentName}}</span>
               </div>
             </template>
+            <!-- 评论列表 -->
             <template v-if="fuck.commentList.length">
               <transition name="fade" mode="out-in">
                 <ul class="comment-list">

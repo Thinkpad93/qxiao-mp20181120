@@ -131,8 +131,10 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">发布</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -353,17 +355,17 @@ export default {
 }
 .panel-ft {
 }
-.teacher-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
-}
+// .teacher-icon {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+// }
+// .icon-d {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+//   background-color: #f2f2f2;
+// }
 
 .tabbar {
   height: 100px;
