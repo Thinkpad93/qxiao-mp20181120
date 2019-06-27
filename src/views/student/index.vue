@@ -199,13 +199,13 @@ export default {
           this.classId = res.data[0].classId;
           this.openDirection = res.data[0].openDirection;
           this.queryStudentByClassId(res.data[0].classId);
+          wxapi.wxRegister(this.wxRegCallback);
         }
       }
     }
   },
   mounted() {
     this.queryClassNameList(this.teacherId);
-    wxapi.wxRegister(this.wxRegCallback);
   },
   activated() {}
 };

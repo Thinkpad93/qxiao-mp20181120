@@ -355,18 +355,6 @@ export default {
 }
 .panel-ft {
 }
-// .teacher-icon {
-//   width: 100px;
-//   height: 100px;
-//   border-radius: 50%;
-// }
-// .icon-d {
-//   width: 100px;
-//   height: 100px;
-//   border-radius: 50%;
-//   background-color: #f2f2f2;
-// }
-
 .tabbar {
   height: 100px;
   font-size: 32px;
