@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells">
         <div class="cell min-h160" v-for="item in list" :key="item.exchangeId">
           <div class="cell-bd">

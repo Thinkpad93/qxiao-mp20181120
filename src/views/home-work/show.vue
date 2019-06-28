@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="empty" v-if="parseInt(info.isDel)">
         <img src="@/assets/kong.png" alt>
         <p>内容已被删除了~</p>
@@ -26,29 +26,28 @@
         </section>
       </article>
     </div>
-    <div class="flex-ft" v-if="!parseInt(info.isDel)">
-      <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-        <section class="mamba">
-          <p
-            style="color:#92cd36;margin: 4px 0"
-            size-16
-            @click="handleReaders(info)"
-          >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
-        </section>
-      </template>
-      <template v-if="roleType == 3">
-        <!-- 确认标志 0-无需确认 1-需要确认 -->
-        <template v-if="needConfirm">
+    <div class="page-ft" v-if="!parseInt(info.isDel)">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <template v-if="roleType != 3">
           <section class="mamba">
-            <a
-              :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
-              href="javascript:void(0);"
-              class="btn"
-              @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确认':'确认' }}</a>
+            <p
+              @click="handleReaders(info)"
+            >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
           </section>
         </template>
-      </template>
+        <template v-if="roleType == 3">
+          <!-- 确认标志 0-无需确认 1-需要确认 -->
+          <template v-if="needConfirm">
+            <van-button
+              type="info"
+              size="large"
+              class="no-radius"
+              :disabled="info.confirmFlag == 1"
+              @click="handleConfirmFlag"
+            >{{ info.confirmFlag ? '已确认':'确认' }}</van-button>
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -115,12 +114,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .mamba {
-  padding: 20px 0;
+  font-size: 32px;
+  color: #92cd36;
+  padding: 30px 0;
   text-align: center;
   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
   background-color: #fff;
-  > a {
-    width: 500px;
-  }
 }
 </style>

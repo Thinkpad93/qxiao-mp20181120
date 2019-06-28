@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="empty" v-if="parseInt(info.isDel)">
         <img src="@/assets/kong.png" alt>
         <p>内容已被删除了~</p>

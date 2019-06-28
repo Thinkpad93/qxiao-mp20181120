@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd"></div>
+  <div class="page">
+    <div class="page-bd"></div>
   </div>
 </template>
 <script>

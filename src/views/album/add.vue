@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <form action ref="form" method="post">
         <div class="cells mb-20">
           <div class="cell">
@@ -25,13 +25,17 @@
               </div>
             </div>
           </div>
+          <p class="works-desc">上传班级相册，行动起来吧...</p>
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <div class="mamba">
-        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
       </div>
+      <!-- <div class="mamba">
+        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
+      </div>-->
     </div>
   </div>
 </template>
@@ -84,14 +88,20 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.mamba {
-  padding: 20px 0;
-  text-align: center;
-  box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
-  background-color: #fff;
-
-  > a {
-    width: 500px;
-  }
+.works-desc {
+  line-height: 1.4;
+  color: #999;
+  font-size: 24px;
+  padding: 0 30px 30px 30px;
 }
+// .mamba {
+//   padding: 20px 0;
+//   text-align: center;
+//   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
+//   background-color: #fff;
+
+//   > a {
+//     width: 500px;
+//   }
+// }
 </style>

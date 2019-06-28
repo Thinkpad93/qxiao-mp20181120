@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="gazelle">
         <div class="gazelle-head">
           <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">

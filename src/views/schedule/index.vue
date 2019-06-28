@@ -1,10 +1,12 @@
 <template>
-  <div class></div>
+  <div class="page">
+    <div class="page-bd"></div>
+  </div>
 </template>
 <script>
 import service from "@/api";
 export default {
-  name: "",
+  name: "schedule",
   data() {
     return {};
   }
