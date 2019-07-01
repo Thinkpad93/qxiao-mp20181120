@@ -61,7 +61,7 @@ export default {
       actives: parseInt(this.$route.query.index),
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         lessonId: this.$route.query.lessonId,
         page: 1,
         pageSize: 20

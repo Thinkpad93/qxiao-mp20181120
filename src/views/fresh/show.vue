@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="empty" v-if="parseInt(info.isDel)">
         <img src="@/assets/kong.png" alt>
-        <p>内容已被删除了~</p>
+        <p>内容已被删除了</p>
       </div>
       <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>

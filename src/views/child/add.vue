@@ -17,8 +17,8 @@
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
-              <img :src="imageUrl" width="50" height="50" radius="50" v-if="imageUrl">
-              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
+              <img :src="imageUrl" width="50" height="50" radius="50" v-if="imageUrl" />
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
             </label>
           </div>
           <div class="cell-bd text-right">
@@ -32,7 +32,7 @@
             <label class="label">姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName">
+            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName" />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -59,7 +59,7 @@
               v-model="form.birthday"
               readonly
               maxlength="20"
-            >
+            />
           </div>
         </div>
         <div class="cell min-h120">
@@ -67,7 +67,7 @@
             <label class="label">地址</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address">
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address" />
           </div>
         </div>
         <div class="cell min-h120">
@@ -81,7 +81,7 @@
               pattern="[0-9]*"
               placeholder="请输入手机号"
               v-model="form.tel"
-            >
+            />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -114,11 +114,12 @@ import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
+import formatter from "@/mixins/date-formatter";
 import { isPhone } from "@/utils/validator";
 import { mapState } from "vuex";
 export default {
   name: "childAdd",
-  mixins: [sex, relation],
+  mixins: [sex, relation, formatter],
   data() {
     return {
       popupShow: false,
@@ -129,7 +130,7 @@ export default {
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
-        openPhoto: "",
+        photo: "",
         birthday: "",
         address: "",
         sex: 1,
@@ -144,17 +145,6 @@ export default {
     })
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     handleConfirm(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.form.birthday = now;
@@ -185,11 +175,22 @@ export default {
           //开始上传文件
           let res = await service.addImage(formData, config);
           if (res.errorCode === 0) {
-            this.form.openPhoto = res.data.url;
+            this.form.photo = res.data.url;
             //添加孩子
             let result = await service.addStudentWithOpen(this.form);
             if (result.errorCode === 0) {
-              this.$router.go(-1);
+              let { first, ...args } = result.data;
+              if (first) {
+                let _cookie = Cookies.getJSON("info");
+                let obj = Object.assign({}, _cookie, args);
+                this.$store.dispatch("user/setInfo", obj).then(data => {
+                  if (data.success === "ok") {
+                    this.$router.go(-1);
+                  }
+                });
+              } else {
+                this.$router.go(-1);
+              }
             } else {
               this.$toast(`${res.errorMsg}`);
             }
@@ -205,7 +206,19 @@ export default {
     async addStudentWithOpen(params = {}) {
       let res = await service.addStudentWithOpen(params);
       if (res.errorCode === 0) {
-        this.$router.go(-1);
+        let { first, ...args } = res.data;
+        //如果是第一个添加的孩子，则自动关联上
+        if (first) {
+          let _cookie = Cookies.getJSON("info");
+          let obj = Object.assign({}, _cookie, args);
+          this.$store.dispatch("user/setInfo", obj).then(data => {
+            if (data.success === "ok") {
+              this.$router.go(-1);
+            }
+          });
+        } else {
+          this.$router.go(-1);
+        }
       } else {
         this.$toast(`${res.errorMsg}`);
       }

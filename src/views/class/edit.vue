@@ -17,7 +17,7 @@
             <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
               <div class="cell-hd">
                 <img class="teacher-icon" v-if="teacher.photo" :src="teacher.photo" alt>
-                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
+                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ teacher.teacherName }}</p>
@@ -34,7 +34,7 @@
             <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
               <div class="cell-hd">
                 <img class="teacher-icon" v-if="student.photo" :src="student.photo" alt>
-                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
+                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ student.studentName }}</p>

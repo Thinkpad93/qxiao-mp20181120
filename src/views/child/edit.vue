@@ -17,8 +17,8 @@
         <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">
-              <img :src="form.openPhoto" width="50" height="50" radius="50" v-if="form.openPhoto">
-              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
+              <img :src="form.photo" width="50" height="50" radius="50" v-if="form.photo" />
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
             </label>
           </div>
           <div class="cell-bd text-right">
@@ -32,7 +32,7 @@
             <label class="label">学生姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName">
+            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName" />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -54,7 +54,7 @@
             <label class="label">就读学校</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="form.schoolName" disabled>
+            <input class="input" v-model="form.schoolName" disabled />
           </div>
         </div>
         <div class="cell min-h120" v-if="form.className">
@@ -62,7 +62,7 @@
             <label class="label">所在班级</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="form.className" disabled>
+            <input class="input" v-model="form.className" disabled />
           </div>
         </div>
         <div class="cell min-h120">
@@ -75,7 +75,7 @@
               v-model="form.birthday"
               readonly
               maxlength="20"
-            >
+            />
           </div>
         </div>
         <div class="cell min-h120">
@@ -83,7 +83,7 @@
             <label class="label">地址</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address">
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address" />
           </div>
         </div>
         <div class="cell min-h120">
@@ -91,14 +91,7 @@
             <label for class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
-            <input
-              class="input"
-              placeholder="请输入手机号"
-              v-model="form.tel"
-              readonly
-              unselectable="on"
-              @focus="this.blur()"
-            >
+            <input class="input" placeholder="请输入手机号" v-model="form.tel" disabled />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -139,10 +132,11 @@
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
+import formatter from "@/mixins/date-formatter";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "childEdit",
-  mixins: [sex, relation],
+  mixins: [sex, relation, formatter],
   data() {
     return {
       popupShow: false,
@@ -151,7 +145,7 @@ export default {
       form: {},
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$route.query.openStudentId
+        studentId: this.$route.query.studentId
       },
       roleType: this.$route.query.roleType
     };
@@ -164,17 +158,6 @@ export default {
     }
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     handleConfirm(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.form.birthday = now;
@@ -182,7 +165,7 @@ export default {
     },
     handleDel() {
       let params = {
-        openStudentId: this.query.studentId,
+        studentId: this.query.studentId,
         roleType: this.roleType
       };
       this.$dialog
@@ -195,7 +178,7 @@ export default {
         });
     },
     handleRead(file, detail) {
-      this.form.openPhoto = file.content;
+      this.form.photo = file.content;
       this.filesObj = file.file;
     },
     async handleSubmit() {
@@ -217,7 +200,7 @@ export default {
         //开始上传文件
         let res = await service.addImage(formData, config);
         if (res.errorCode === 0) {
-          this.form.openPhoto = res.data.url;
+          this.form.photo = res.data.url;
           //提交保存
           let result = await service.studentInfoUpdate(this.form);
           if (result.errorCode === 0) {

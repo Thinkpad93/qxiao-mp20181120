@@ -10,7 +10,7 @@
           <template v-else>
             <div class="video-mask">
               <van-icon name="play-circle" size="40px"></van-icon>
-              <p class="ml-20">暂无视频播放~</p>
+              <p class="ml-20">暂无视频播放</p>
             </div>
           </template>
         </div>

@@ -36,7 +36,7 @@
       </div>
       <div class="empty" v-else>
         <img src="@/assets/kong.png" alt>
-        <p class="mt-30">暂无学生作品~</p>
+        <p class="mt-30">暂无学生作品</p>
       </div>
     </div>
   </div>

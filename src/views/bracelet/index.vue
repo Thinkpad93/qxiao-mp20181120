@@ -22,7 +22,7 @@ export default {
   computed: {
     ...mapState("user", {
       openId: state => state.info.openId,
-      studentId: state => state.info.openStudentId
+      studentId: state => state.info.studentId
     })
   },
   methods: {

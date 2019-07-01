@@ -33,7 +33,7 @@
                 v-model="form.startDate"
                 readonly
                 maxlength="20"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -46,7 +46,7 @@
                 v-model="form.endDate"
                 readonly
                 maxlength="20"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -58,7 +58,7 @@
                 v-model="form.title"
                 maxlength="30"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -123,12 +123,13 @@
 import dayjs from "dayjs";
 import service from "@/api";
 import classList from "@/mixins/classList";
+import formatter from "@/mixins/date-formatter";
 import { textReplace } from "@/utils/string";
 import wxHandle from "@/mixins/wx";
 import wxapi from "@/config/wxapi";
 export default {
   name: "recipeAdd",
-  mixins: [classList, wxHandle],
+  mixins: [classList, wxHandle, formatter],
   data() {
     return {
       selected: [],
@@ -148,17 +149,6 @@ export default {
     };
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     //选择开始时间
     handleConfirmStartTime(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");

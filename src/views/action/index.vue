@@ -67,7 +67,7 @@ export default {
       isShow: true,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       },
       myActions: [],
       recommends: []
@@ -86,7 +86,7 @@ export default {
     handleActionDelete(index, params) {
       let obj = {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         actionId: params.actionId,
         actionType: params.actionType
       };

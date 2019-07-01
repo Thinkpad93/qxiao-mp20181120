@@ -118,7 +118,7 @@ export default {
       chenkedList: [],
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         actionId: this.$route.query.actionId,
         actionType: this.$route.query.actionType,
         choiceType: this.$route.query.choiceType

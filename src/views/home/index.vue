@@ -17,7 +17,7 @@
               width="60"
               height="60"
               radius="50"
-              v-if="experience == 1"
+              v-if="experience == 1 || photo == ''"
             >
             <img :src="photo" width="60" height="60" radius="50" v-else>
           </div>
@@ -70,7 +70,7 @@
         ></qx-community>
         <div class="empty" v-if="!communityData.length">
           <img src="@/assets/kong.png" alt>
-          <p>快来分享精彩的内容吧~</p>
+          <p>快来分享精彩的内容吧</p>
         </div>
       </main>
       <!-- 评论 -->

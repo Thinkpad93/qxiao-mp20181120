@@ -3,7 +3,7 @@
     <div class="box" v-for="(fuck, fuckIndex) in data" :key="fuck.communityId">
       <div class="cell flex">
         <div class="cell-hd">
-          <img v-if="fuck.photo" :src="fuck.photo">
+          <img v-if="fuck.photo" :src="fuck.photo" />
         </div>
         <div class="cell-bd">
           <h5 size-15>{{ fuck.name }}</h5>
@@ -148,14 +148,14 @@ export default {
     },
     handlePraise(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版，不能点赞");
+        this.$toast("体验版不能点赞");
         return false;
       }
       this.$emit("on-praise", fuck, index);
     },
     handleComment(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版，不能评论");
+        this.$toast("体验版不能评论");
         return false;
       }
       this.$emit("on-comment", fuck, index);

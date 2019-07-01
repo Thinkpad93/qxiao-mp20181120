@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       query: {
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       }
     };
   },

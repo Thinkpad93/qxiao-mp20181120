@@ -15,7 +15,7 @@
       </div>
       <div class="empty" v-if="!list.length">
         <img src="@/assets/kong.png" alt>
-        <p class="mt-30">您还没有任何兑换记录哦~</p>
+        <p class="mt-30">您还没有任何兑换记录哦</p>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 10
       },

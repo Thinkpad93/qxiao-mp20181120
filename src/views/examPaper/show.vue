@@ -100,7 +100,7 @@
             >试卷{{ info.fee }}元/套</van-button>
           </div>-->
         </div>
-      </div>  
+      </div>
     </div>
   </div>
 </template>
@@ -117,11 +117,11 @@ export default {
       query: {
         openId: this.$store.state.user.info.openId,
         paperId: this.$route.query.paperId,
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       },
       form: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         paperId: this.$route.query.paperId,
         textContent: ""
       },

@@ -29,7 +29,7 @@ export default {
     return {
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 20
       },

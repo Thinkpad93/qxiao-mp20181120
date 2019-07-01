@@ -65,7 +65,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .album {
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   background-color: #fff;
   .album-figure {
     width: 50%;

@@ -7,14 +7,14 @@
           class="cell student-box"
           v-for="(item, index) in studentList"
           :key="index"
-          :class="[item.openStudentId == openStudentId ? 'curr-student': '']"
+          :class="[item.studentId == studentId ? 'curr-student': '']"
           @click="handleStudentChange(item)"
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img :src="item.openPhoto" radius="50" v-if="item.openPhoto">
+              <img :src="item.photo" radius="50" v-if="item.photo">
               <img src="@/assets/child-default@2x.png" radius="50" v-else>
-              <strong>{{ item.openStudentName }}</strong>
+              <strong>{{ item.name }}</strong>
               <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
             </div>
           </div>
@@ -47,16 +47,16 @@ export default {
       roleType: state => state.info.roleType,
       photo: state => state.info.photo,
       openId: state => state.info.openId,
-      openStudentId: state => state.info.openStudentId
+      studentId: state => state.info.studentId
     })
   },
   methods: {
     jump(params) {
-      let { openStudentId, roleType } = params;
+      let { studentId, roleType } = params;
       this.$router.push({
         path: "/child/edit",
         query: {
-          openStudentId,
+          studentId,
           roleType
         }
       });
@@ -64,29 +64,31 @@ export default {
     //点击孩子进行切换操作
     handleStudentChange(params = {}) {
       let {
-        openStudentId,
-        openStudentName,
-        openPhoto,
+        studentId,
+        name,
+        photo,
         totalStarCount,
-        isBindBracelet
+        isBindBracelet,
+        roleType
       } = params;
       //当前关联的不切换
-      if (openStudentId == this.openStudentId) {
+      if (studentId == this.studentId) {
         this.$router.go(-1);
       } else {
         let _cookie = Cookies.getJSON("info");
         let obj = Object.assign({}, _cookie, {
-          openStudentId,
-          openStudentName,
-          openPhoto,
+          studentId,
+          name,
+          photo,
           totalStarCount,
-          isBindBracelet
+          isBindBracelet,
+          roleType
         });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
             let params = {
               openId: this.openId,
-              studentId: openStudentId,
+              studentId: studentId,
               type: 0
             };
             this.switchingState(params);

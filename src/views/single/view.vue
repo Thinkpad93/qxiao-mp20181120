@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-tabs v-model="tabActive" :line-height="2">
         <van-tab title="优秀">
           <div class="cells">
@@ -68,6 +68,8 @@ export default {
         this.excellentList = res.data.excellentList;
         this.ordinaryList = res.data.ordinaryList;
         this.goodList = res.data.goodList;
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     async queryLessonStudent(params = {}) {
@@ -76,6 +78,8 @@ export default {
         this.excellentList = res.data.excellentList;
         this.ordinaryList = res.data.ordinaryList;
         this.goodList = res.data.goodList;
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

@@ -34,18 +34,14 @@ export default {
       roleType: state => state.info.roleType
     }),
     singleUrl() {
-      if (this.roleType == 2) {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
         return `/single/teacher`;
       } else {
         return `/single`;
       }
     },
     homeUrl() {
-      if (this.roleType == 9) {
-        return `/login?redirect`;
-      } else {
-        return `/home`;
-      }
+      return this.roleType == 9 ? "/login?redirect" : "/home";
     }
   }
 };

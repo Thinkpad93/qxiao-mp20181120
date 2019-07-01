@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <!-- 角色选择 -->
-      <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
+      <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
           <div class="avatar">
             <img :src="photo" width="60" height="60" radius="50">
@@ -220,8 +220,8 @@ export default {
   },
   methods: {
     //角色跳转
-    handleRoleJump() {
-      if (this.roleType == 2) {
+    jumpRole() {
+      if (this.roleType != 2) {
         this.$router.push({
           path: "/role"
         });

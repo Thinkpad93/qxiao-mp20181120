@@ -75,7 +75,7 @@ export default {
       form: {
         type: 1,
         title: "",
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         images: []
       },
       imagesList: [],

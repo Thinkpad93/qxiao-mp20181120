@@ -100,12 +100,6 @@ export default {
       list: []
     };
   },
-  filters: {
-    brReplace(value) {
-      if (!value) return "";
-      return value.replace(/<br\/>/g, "");
-    }
-  },
   methods: {
     onClose(homework, index) {
       return (clickPosition, instance) => {

@@ -125,12 +125,6 @@ export default {
       }
     }
   },
-  filters: {
-    brReplace(value) {
-      if (!value) return "";
-      return value.replace(/<br\/>/g, "");
-    }
-  },
   methods: {
     onClose(fresh, index) {
       return (clickPosition, instance) => {

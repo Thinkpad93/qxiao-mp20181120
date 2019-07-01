@@ -5,7 +5,7 @@
         <div class="cell min-h120">
           <div class="cell-bd">
             <p>
-              {{ openStudentName }}已经坚持习惯培养
+              {{ name }}已经坚持习惯培养
               <time style="color:#f44;">{{ days }}</time>天
             </p>
           </div>
@@ -62,7 +62,7 @@ export default {
       rateReadonly: false,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 20
       },
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openStudentName: state => state.info.openStudentName
+      name: state => state.info.name
     }),
     days() {
       if (this.list.length) {

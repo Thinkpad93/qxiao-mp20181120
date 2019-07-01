@@ -77,7 +77,7 @@
           <template v-else>
             <div class="empty">
               <img src="@/assets/kong.png" alt>
-              <p class="mt-30">您还没有上传作品，小Q期待您的作品哦~</p>
+              <p class="mt-30">您还没有上传作品，小Q期待您的作品哦</p>
             </div>
           </template>
         </van-tab>
@@ -147,7 +147,7 @@ export default {
         observer: true
       },
       query: {
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       },
       list: [], //我的上传
       onLineList: [], //上榜作品

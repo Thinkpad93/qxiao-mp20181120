@@ -129,12 +129,6 @@ export default {
       }
     }
   },
-  filters: {
-    brReplace(value) {
-      if (!value) return "";
-      return value.replace(/<br\/>/g, "");
-    }
-  },
   methods: {
     onClose(notice, index) {
       return (clickPosition, instance) => {

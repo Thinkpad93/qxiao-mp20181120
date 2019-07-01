@@ -11,7 +11,7 @@
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <strong>{{ item.openStudentName }}</strong>
+              <strong>{{ item.name }}</strong>
               <span>{{ item.className }}</span>
             </div>
           </div>
@@ -53,7 +53,7 @@ export default {
     },
     //点击孩子进行切换操作
     handleStudentChange(params = {}) {
-      let { openStudentId, openStudentName, totalStarCount, ...args } = params;
+      let { studentId, name, totalStarCount, ...args } = params;
       if (args.studentId == this.studentId) {
         this.$router.go(-1);
       } else {

@@ -15,7 +15,7 @@
                 placeholder="请输入姓名"
                 maxlength="20"
                 v-model="leaderInfo.leaderName"
-              >
+              />
             </div>
           </div>
           <div class="cell min-h120">
@@ -23,14 +23,7 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入手机号"
-                v-model="leaderInfo.tel"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入手机号" v-model="leaderInfo.tel" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -38,7 +31,7 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
+              <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -46,7 +39,7 @@
               <label for class="label">详细地址</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入详细地址" v-model="leaderInfo.location">
+              <input class="input" placeholder="请输入详细地址" v-model="leaderInfo.location" />
             </div>
           </div>
         </div>
@@ -64,7 +57,7 @@
                 placeholder="请输入老师姓名"
                 maxlength="20"
                 v-model="teacherInfo.teacherName"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after min-h120">
@@ -86,14 +79,7 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入手机号"
-                v-model="teacherInfo.tel"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入手机号" v-model="teacherInfo.tel" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -101,14 +87,7 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校名称"
-                v-model="teacherInfo.schoolName"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入学校名称" v-model="teacherInfo.schoolName" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -116,14 +95,7 @@
               <label for class="label">学校地址</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校地址"
-                v-model="teacherInfo.location"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入学校地址" v-model="teacherInfo.location" disabled />
             </div>
           </div>
         </div>

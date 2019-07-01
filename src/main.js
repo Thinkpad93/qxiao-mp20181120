@@ -5,6 +5,8 @@ import router from './router';
 
 Vue.config.productionTip = false;
 
+import './filters'; //全局注册过滤器
+
 import '@/vantUI'; //vant UI
 
 import './permission'; //路由控制

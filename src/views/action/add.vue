@@ -86,7 +86,7 @@ export default {
     return {
       form: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         title: "",
         textContent: "",
         rules: []

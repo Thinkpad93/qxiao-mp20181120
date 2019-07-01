@@ -26,13 +26,13 @@
         <!-- 用户 -->
         <router-link to="/child" tag="div" class="home-user gradient-two">
           <div class="flex a-i-c">
-            <template v-if="openStudentName">
-              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+            <template v-if="name">
+              <img :src="photo" width="60" height="60" radius="50" v-if="photo">
               <!-- 如果用户没有上传头像 -->
               <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
               <div class="js-user-change">
                 <h3 class="mb-20" size-18>
-                  {{ openStudentName }}
+                  {{ name }}
                   <small>Q星: {{ totalStarCount }}</small>
                 </h3>
                 <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
@@ -88,7 +88,7 @@
                   <template v-else>
                     <div class="empty">
                       <img src="@/assets/kong.png" alt>
-                      <p class="mt-30">好的行为习惯从添加开始哟~</p>
+                      <p class="mt-30">好的行为习惯从添加开始哟</p>
                     </div>
                   </template>
                 </div>
@@ -199,7 +199,7 @@
                     <div class="remark-time">{{ remark.sysTime }}</div>
                   </template>
                   <template v-else>
-                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦~</p>
+                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦</p>
                   </template>
                 </div>
               </div>
@@ -273,10 +273,10 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openStudentName: state => state.info.openStudentName,
-      openPhoto: state => state.info.openPhoto,
+      name: state => state.info.name,
+      photo: state => state.info.photo,
       openId: state => state.info.openId,
-      studentId: state => state.info.openStudentId,
+      studentId: state => state.info.studentId,
       totalStarCount: state => state.info.totalStarCount,
       isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
     }),
@@ -304,7 +304,7 @@ export default {
       }
     },
     //rate事件
-    handleChangeRate(index) {
+    async handleChangeRate(index) {
       let action = this.myActions[index];
       if (action) {
         let { studentId, actionId, actionType, starCount } = action;
@@ -314,7 +314,21 @@ export default {
           actionType,
           starCount
         });
-        this.actionStrike(obj);
+        //行为打星
+        this.rateReadonly = true;
+        let res = await service.actionStrike(obj);
+        if (res.errorCode === 0) {
+          let { totalStarCount, star } = res.data;
+          this.rateReadonly = false;
+          action.starCount = star;
+          //更新星星数量
+          let _cookie = Cookies.getJSON("info");
+          let obj = Object.assign({}, _cookie, { totalStarCount });
+          this.$store.dispatch("user/setInfo", obj).then(data => {
+            if (data.success === "ok") {
+            }
+          });
+        }
       }
     },
     //显示更多我的行为
@@ -351,22 +365,6 @@ export default {
           path: "/course/view",
           query: {
             title: params.title
-          }
-        });
-      }
-    },
-    //行为打星
-    async actionStrike(params = {}) {
-      this.rateReadonly = true;
-      let res = await service.actionStrike(params);
-      if (res.errorCode === 0) {
-        this.rateReadonly = false;
-        let { totalStarCount } = res.data;
-        //更新星星数量
-        let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, { totalStarCount });
-        this.$store.dispatch("user/setInfo", obj).then(data => {
-          if (data.success === "ok") {
           }
         });
       }

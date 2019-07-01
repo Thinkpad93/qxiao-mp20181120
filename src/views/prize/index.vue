@@ -30,9 +30,9 @@
       </van-dialog>
       <div class="pichi gradient-two">
         <div class="pichi-head">
-          <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">
+          <img :src="photo" width="40" height="40" radius="50" v-if="photo">
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
-          <p size-16 class="ml-20">{{ openStudentName }}</p>
+          <p size-16 class="ml-20">{{ name }}</p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">
@@ -108,7 +108,7 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
-      studentId: this.$store.state.user.info.openStudentId,
+      studentId: this.$store.state.user.info.studentId,
       query: {
         openId: this.$store.state.user.info.openId,
         page: 1,
@@ -125,8 +125,8 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openPhoto: state => state.info.openPhoto,
-      openStudentName: state => state.info.openStudentName,
+      photo: state => state.info.photo,
+      name: state => state.info.name,
       totalStarCount: state => state.info.totalStarCount
     })
   },
@@ -215,7 +215,7 @@ export default {
       });
       if (itemArray.length) {
         let obj = {
-          studentId: this.$store.state.user.info.openStudentId,
+          studentId: this.$store.state.user.info.studentId,
           openId: this.query.openId,
           itemArray
         };

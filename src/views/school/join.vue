@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd cover">
+  <div class="page">
+    <div class="page-bd cover">
       <form action ref="form" class="join-form">
         <div class="join-head">
           <h2 size-18 class="text-ellipsis text-center">
@@ -51,10 +51,15 @@
             </div>
           </div>
         </div>
-        <div class="btn-group">
+        <!-- <div class="btn-group">
           <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">申请加入</a>
-        </div>
+        </div>-->
       </form>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -117,17 +122,17 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.cover {
-  background-color: #cbf4fa;
-}
-.join-form {
-  z-index: 10;
-  width: 100%;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
+// .cover {
+//   background-color: #cbf4fa;
+// }
+// .join-form {
+//   z-index: 10;
+//   width: 100%;
+//   overflow: hidden;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+// }
 .join-head {
   padding-top: 75px;
   padding-left: 20px;
