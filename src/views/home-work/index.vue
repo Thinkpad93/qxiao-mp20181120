@@ -23,10 +23,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <!-- <router-link to="/home-work/add" class="release">
-          <van-icon name="description" size="24px"></van-icon>
-        </router-link>-->
-        <qxRelease url="/home-work/add"/>
+        <qxRelease url="/home-work/add" />
       </template>
       <van-swipe-cell
         ref="swipeCell"
@@ -66,7 +63,7 @@
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>暂无亲子作业</p>
       </div>
     </div>

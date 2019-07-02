@@ -129,11 +129,13 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
 import formatter from "@/mixins/date-formatter";
 import { isPhone } from "@/utils/validator";
+import { mapState } from "vuex";
 export default {
   name: "childEdit",
   mixins: [sex, relation, formatter],
@@ -151,6 +153,9 @@ export default {
     };
   },
   computed: {
+    ...mapState("user", {
+      studentId: state => state.info.studentId
+    }),
     startDate() {
       if ("birthday" in this.form) {
         return new Date(dayjs(this.form.birthday));
@@ -204,7 +209,22 @@ export default {
           //提交保存
           let result = await service.studentInfoUpdate(this.form);
           if (result.errorCode === 0) {
-            this.$router.go(-1);
+            if (this.studentId == this.query.studentId) {
+              //编辑的是当前关联的学生
+              let _cookie = Cookies.getJSON("info");
+              let user = {
+                name: this.form.studentName,
+                photo: this.form.photo
+              };
+              let obj = Object.assign({}, _cookie, user);
+              this.$store.dispatch("user/setInfo", obj).then(data => {
+                if (data.success === "ok") {
+                  this.$router.go(-1);
+                }
+              });
+            } else {
+              this.$router.go(-1);
+            }
           } else {
             this.$toast(`${res.errorMsg}`);
           }
@@ -231,7 +251,22 @@ export default {
     async studentInfoUpdate(params = {}) {
       let res = await service.studentInfoUpdate(params);
       if (res.errorCode === 0) {
-        this.$router.go(-1);
+        if (this.studentId == this.query.studentId) {
+          //编辑的是当前关联的学生
+          let _cookie = Cookies.getJSON("info");
+          let user = {
+            name: this.form.studentName,
+            photo: this.form.photo
+          };
+          let obj = Object.assign({}, _cookie, user);
+          this.$store.dispatch("user/setInfo", obj).then(data => {
+            if (data.success === "ok") {
+              this.$router.go(-1);
+            }
+          });
+        } else {
+          this.$router.go(-1);
+        }
       } else {
         this.$toast(`${res.errorMsg}`);
       }

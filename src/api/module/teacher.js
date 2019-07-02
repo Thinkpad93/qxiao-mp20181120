@@ -18,7 +18,7 @@ export function queryLessonWithSchool(params, config = {
 }
 //查询在家表现详细学生
 export function queryStudentActionUsers(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/teacher/queryStudentActionUsers.do', params, config)
     .then(res => res.data)
@@ -26,9 +26,17 @@ export function queryStudentActionUsers(params, config = {
 }
 //查询在校表现详细学生
 export function queryLessonStudent(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/teacher/queryLessonStudent.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询班级学生所有行为
+export function classActionList(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/teacher/classActionList.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

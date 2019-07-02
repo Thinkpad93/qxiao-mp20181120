@@ -24,19 +24,19 @@
               placeholder="请输入兑换Q星数量"
               class="input input-border"
               v-model="form.starCount"
-            >
+            />
           </div>
         </form>
       </van-dialog>
       <div class="pichi gradient-two">
         <div class="pichi-head">
-          <img :src="photo" width="40" height="40" radius="50" v-if="photo">
-          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
+          <img :src="photo" width="40" height="40" radius="50" v-if="photo" />
+          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
           <p size-16 class="ml-20">{{ name }}</p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">
-            <img src="@/assets/rate-icon@2x.png" width="30" height="30">
+            <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
             <strong class="ml-10">{{ totalStarCount }}</strong>
           </div>
           <p class="mb-30">可兑换Q星数量</p>
@@ -44,11 +44,11 @@
         </div>
         <div class="pichi-ft">
           <a href="javascript:void(0);" @click="dialogVisible = true">
-            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt>
+            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt />
             <span class="ml-10">添加奖项</span>
           </a>
           <router-link :to="{path: '/prize/log'}">
-            <img src="@/assets/prize-icon-3@2x.png" width="20" height="20" alt>
+            <img src="@/assets/prize-icon-3@2x.png" width="20" height="20" alt />
             <span class="ml-10">兑换记录</span>
           </router-link>
         </div>
@@ -219,7 +219,15 @@ export default {
           openId: this.query.openId,
           itemArray
         };
-        this.prizeExchange(obj);
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "兑换后，当天评价不能更改哦~"
+          })
+          .then(() => {
+            this.prizeExchange(obj);
+          })
+          .catch(() => {});
       }
     },
     //奖励兑换

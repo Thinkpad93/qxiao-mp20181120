@@ -4,7 +4,7 @@
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
-          <img src="@/assets/share-tip.png">
+          <img src="@/assets/share-tip.png" />
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
@@ -18,7 +18,7 @@
           </div>
           <div class="flex a-i-c">
             <div class="avatar flex a-i-c">
-              <img :src="photo" width="60" height="60" radius="50">
+              <img :src="photo" width="60" height="60" radius="50" />
             </div>
             <div class="js-user-change">
               <h3 class="mb-20" size-18>{{ name }}</h3>
@@ -37,7 +37,7 @@
           :key="index"
         >
           <template slot="icon">
-            <img :src="cell.icon" class="user-icon">
+            <img :src="cell.icon" class="user-icon" />
           </template>
         </van-cell>
       </template>
@@ -50,11 +50,11 @@
           <div class="flex a-i-c">
             <div class="avatar flex a-i-c">
               <template v-if="name">
-                <img :src="photo" width="60" height="60" radius="50" v-if="photo">
-                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+                <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
               </template>
               <template v-else>
-                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" />
                 <p class="ml-20">尚未有关注孩子，点击添加。</p>
               </template>
             </div>
@@ -72,12 +72,12 @@
         </div>
         <div class="snail flex a-i-c j-c-s-b">
           <div class="snail-left flex a-i-c">
-            <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+            <img src="@/assets/snail-icon@2x.png" alt width="20" height="20" />
             <div class="ml-10">综合竞争力排名</div>
           </div>
           <div class="snail-right flex a-i-c">
             <span class="mr-10">80</span>
-            <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
+            <img src="@/assets/arrow-up@2x.png" alt width="8" height="18" />
           </div>
         </div>
         <van-cell
@@ -89,7 +89,7 @@
           v-if="patriarchId"
         >
           <template slot="icon">
-            <img src="@/assets/user-icon-6@2x.png" class="user-icon">
+            <img src="@/assets/user-icon-6@2x.png" class="user-icon" />
           </template>
         </van-cell>
         <van-cell
@@ -102,7 +102,7 @@
           :key="index"
         >
           <template slot="icon">
-            <img :src="cell.icon" class="user-icon">
+            <img :src="cell.icon" class="user-icon" />
           </template>
         </van-cell>
       </template>
@@ -209,12 +209,12 @@ export default {
       let that = this;
       let shareUrl = "";
       let shareDesc = "";
-      if (this.roleType == 2) {
-        shareUrl = API_ROOT + "#/share";
-        shareDesc = "小Q智慧欢迎您的加入";
-      } else {
+      if (this.patriarchId) {
         shareUrl = API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId;
         shareDesc = "邀请您一起关注孩子成长吧";
+      } else {
+        shareUrl = API_ROOT + "#/share";
+        shareDesc = "小Q智慧欢迎您的加入";
       }
       let option = {
         title: "亲爱的用户您好", // 分享标题

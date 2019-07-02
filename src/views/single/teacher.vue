@@ -5,7 +5,7 @@
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
           <div class="avatar">
-            <img :src="photo" width="60" height="60" radius="50">
+            <img :src="photo" width="60" height="60" radius="50" />
           </div>
           <div class="pl-20">
             <h3 class="mb-20" size-18>{{ name }}</h3>
@@ -22,6 +22,7 @@
           type="date"
           @cancel="popupShowDate = false"
           @confirm="handleDateConfirm"
+          :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
       <!-- 日期选择 -->
@@ -52,7 +53,7 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart id="homeOption" height="300px" :option="homeOption" @on-click="handleClick"/>
+              <qxChart id="homeOption" height="300px" :option="homeOption" @on-click="handleClick" />
             </div>
           </div>
         </van-tab>
@@ -81,16 +82,16 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
 import service from "@/api";
 import dayjs from "dayjs";
 import qxChart from "@/components/Myecharts";
 import qxFooter from "@/components/Footer";
 import classList from "@/mixins/classList";
+import formatter from "@/mixins/date-formatter";
 import { mapState } from "vuex";
 export default {
   name: "singleTeacher",
-  mixins: [classList],
+  mixins: [classList, formatter],
   components: {
     qxChart,
     qxFooter
@@ -221,22 +222,20 @@ export default {
   methods: {
     //角色跳转
     jumpRole() {
-      if (this.roleType != 2) {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
         this.$router.push({
           path: "/role"
         });
       }
     },
     handleClick(params) {
-      //tab
       let tabIndex = this.tabActive;
-      //行为Id
-      let id = params.data.id;
+      let { datas, value, ...args } = params.data;
       this.$router.push({
         path: "/single/view",
         query: {
-          id,
           tabIndex,
+          ...args,
           ...this.query
         }
       });
@@ -265,6 +264,7 @@ export default {
         obj.name = data[i].name;
         obj.value = data[i]["count"];
         obj.id = data[i]["id"];
+        obj.actionType = data[i]["actionType"];
         obj.datas[0] = data[i]["excellent"]; // 优秀
         obj.datas[1] = data[i]["good"]; // 良好
         obj.datas[2] = data[i]["ordinary"]; // 一般

@@ -103,7 +103,7 @@
       </div>
     </div>
     <div class="page-ft">
-      <div class="fixed-bottom">
+      <div class="fixed-bottom" style="z-index: 100;">
         <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
       </div>
     </div>

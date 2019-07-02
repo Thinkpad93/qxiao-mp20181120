@@ -12,10 +12,10 @@
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img :src="item.photo" radius="50" v-if="item.photo">
-              <img src="@/assets/child-default@2x.png" radius="50" v-else>
+              <img :src="item.photo" radius="50" v-if="item.photo" />
+              <img src="@/assets/child-default@2x.png" radius="50" v-else />
               <strong>{{ item.name }}</strong>
-              <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
+              <span size-12>Q星: {{ item.totalStarCount }}</span>
             </div>
           </div>
           <div class="cell-ft">
@@ -63,38 +63,22 @@ export default {
     },
     //点击孩子进行切换操作
     handleStudentChange(params = {}) {
-      let {
-        studentId,
-        name,
-        photo,
-        totalStarCount,
-        isBindBracelet,
-        roleType
-      } = params;
       //当前关联的不切换
-      if (studentId == this.studentId) {
+      if (this.studentId == params.studentId) {
         this.$router.go(-1);
       } else {
+        let { sex, ...args } = params;
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, {
-          studentId,
-          name,
-          photo,
-          totalStarCount,
-          isBindBracelet,
-          roleType
-        });
+        let obj = Object.assign({}, _cookie, args);
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
-            let params = {
+            let param = {
               openId: this.openId,
-              studentId: studentId,
-              type: 0
+              studentId: obj.studentId,
+              type: 1
             };
-            this.switchingState(params);
-            this.$router.push({
-              path: "/single"
-            });
+            this.switchingState(param);
+            this.$router.go(-1);
           }
         });
       }
@@ -113,7 +97,19 @@ export default {
       }
     }
   },
+  // beforeRouteLeave(to, from, next) {
+  //   console.log(to);
+  //   console.log(from);
+  //   next();
+  //   // if (to.path === "/single") {
+  //   //   next();
+  //   // }
+  //   // if (to.path === "/user") {
+  //   //   next();
+  //   // }
+  // },
   mounted() {
+    //console.log(this.$route);
     this.queryOpenStudentList({ openId: this.openId });
   }
 };

@@ -6,10 +6,10 @@
           <!-- 学生个人作品 -->
           <div class="cells-title a-i-c">
             <p size-17>我的上榜</p>
-            <div class="flex">
+            <!-- <div class="flex">
               <span>更多</span>
               <van-icon name="arrow" size="16px"></van-icon>
-            </div>
+            </div>-->
           </div>
           <div class="page-swiper">
             <swiper :options="swiperOption" ref="mySwiper">
@@ -33,7 +33,7 @@
           <div class="good-works">
             <div class="item" v-for="(item, index) in worksList" :key="index">
               <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
-                <img :src="item.imageUrl" alt>
+                <img :src="item.imageUrl" alt />
                 <div class="zan flex a-i-c" v-if="item.praise">
                   <van-icon name="like" size="14px" color="#e64340"></van-icon>
                   <span>{{ item.praise }}</span>
@@ -42,7 +42,7 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="我的上传">
+        <van-tab title="我的上传" :disabled="studentId == 0">
           <template v-if="list.length">
             <div class="time-works mt-20">
               <div class="item" v-for="(item, index) in list" :key="index">
@@ -60,7 +60,7 @@
                           ></van-checkbox>
                         </van-checkbox-group>
                       </div>
-                      <img :src="work.smallUrl" alt>
+                      <img :src="work.smallUrl" alt />
                       <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
                       <div
                         class="works-status"
@@ -76,7 +76,7 @@
           </template>
           <template v-else>
             <div class="empty">
-              <img src="@/assets/kong.png" alt>
+              <img src="@/assets/kong.png" alt />
               <p class="mt-30">您还没有上传作品，小Q期待您的作品哦</p>
             </div>
           </template>
@@ -86,7 +86,7 @@
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <template v-if="active == 0">
-          <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
+          <van-button type="info" size="large" class="no-radius" @click="handleWorkAdd">上传作品</van-button>
         </template>
         <template v-else>
           <div class="flex">
@@ -157,13 +157,23 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      roleType: state => state.info.roleType
+      roleType: state => state.info.roleType,
+      studentId: state => state.info.studentId
     }),
     swiper() {
       return this.$refs.mySwiper.swiper;
     }
   },
   methods: {
+    handleWorkAdd() {
+      if (this.studentId == 0) {
+        this.$toast("您尚未关注小孩，请先关注");
+      } else {
+        this.$router.push({
+          path: "/works/add"
+        });
+      }
+    },
     //预览图片
     handlePreviewImage(imgUrl, images) {
       let imgArray = [];
