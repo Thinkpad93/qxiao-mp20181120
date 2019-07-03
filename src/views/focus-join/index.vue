@@ -7,7 +7,7 @@
         <div class="cells">
           <div class="cell min-h100" v-for="(item, index) in studentList" :key="index">
             <div class="cell-hd">
-              <label class="label">{{ item.studentName }}</label>
+              <label class="label">{{ item.name }}</label>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
               pattern="[0-9]*"
               placeholder="请输入手机号"
               v-model="form.tel"
-            >
+            />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">

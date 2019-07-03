@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="cells-title">基础信息</div>
       <!-- 园长 -->
-      <template v-if="roleType == 1 || roleType == 4">
+      <template v-if="roleType == 1">
         <div class="cells">
           <div class="cell min-h120">
             <div class="cell-hd">
@@ -44,8 +44,8 @@
           </div>
         </div>
       </template>
-      <!-- 老师 -->
-      <template v-if="roleType == 2">
+      <!-- 老师 or 管理员 -->
+      <template v-if="roleType == 2 || roleType == 4">
         <div class="cells">
           <div class="cell min-h120">
             <div class="cell-hd">
@@ -131,9 +131,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (this.roleType == 1 || this.roleType == 4) {
+      if (this.roleType == 1) {
         this.updateSchool();
-      } else if (this.roleType == 2) {
+      } else if (this.roleType == 2 || this.roleType == 4) {
         this.teacherInfoUpdate();
       }
     },
@@ -196,7 +196,7 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType == 1 || this.roleType == 4) {
+    if (this.roleType == 1) {
       this.queryInfo(this.openId);
     } else {
       this.queryTeacherInfo(this.openId);

@@ -32,14 +32,14 @@
         <div class="pichi-head">
           <img :src="photo" width="40" height="40" radius="50" v-if="photo" />
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
-          <p size-16 class="ml-20">{{ name }}</p>
+          <p size-16 class="ml-20">{{ name }}总Q星: {{ totalStarCount }}</p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">
             <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
-            <strong class="ml-10">{{ totalStarCount }}</strong>
+            <strong class="ml-10">{{ todayStarTotal }}</strong>
           </div>
-          <p class="mb-30">可兑换Q星数量</p>
+          <p class="mb-30">(可兑换Q星数量)</p>
           <p>手指勾勾约定好，奖励兑现要做到！</p>
         </div>
         <div class="pichi-ft">
@@ -108,8 +108,8 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
-      studentId: this.$store.state.user.info.studentId,
       query: {
+        studentId: this.$store.state.user.info.studentId,
         openId: this.$store.state.user.info.openId,
         page: 1,
         pageSize: 20
@@ -120,7 +120,8 @@ export default {
         starCount: ""
       },
       list: [],
-      total: 0
+      total: 0,
+      todayStarTotal: 0 //当天可兑换Q星数
     };
   },
   computed: {
@@ -199,7 +200,7 @@ export default {
         this.$toast("请勾选你要兑换的奖项");
         return;
       }
-      if (this.total > this.totalStarCount) {
+      if (this.total > this.todayStarTotal) {
         this.$toast("你的Q星数量不够兑换的奖项哦");
         return;
       }
@@ -215,19 +216,11 @@ export default {
       });
       if (itemArray.length) {
         let obj = {
-          studentId: this.$store.state.user.info.studentId,
+          studentId: this.query.studentId,
           openId: this.query.openId,
           itemArray
         };
-        this.$dialog
-          .confirm({
-            title: "提示",
-            message: "兑换后，当天评价不能更改哦~"
-          })
-          .then(() => {
-            this.prizeExchange(obj);
-          })
-          .catch(() => {});
+        this.prizeExchange(obj);
       }
     },
     //奖励兑换
@@ -255,6 +248,7 @@ export default {
       let res = await service.prizeListQuery(params);
       if (res.errorCode === 0) {
         if (res.data.data) {
+          this.todayStarTotal = res.data.data[0].todayTotal;
           this.list = res.data.data.map(element => {
             return {
               ...element,

@@ -24,7 +24,7 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <router-link to="/child" tag="div" class="home-user gradient-two">
+        <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
           <div class="flex a-i-c">
             <template v-if="name">
               <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
@@ -44,7 +44,7 @@
             </template>
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
-        </router-link>
+        </div>
         <!-- 用户 -->
         <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
@@ -301,6 +301,20 @@ export default {
             });
           })
           .catch(() => {});
+      }
+    },
+    handleRoleJump() {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
+        this.$router.push({
+          path: "/role"
+        });
+      } else {
+        this.$router.push({
+          path: "/child",
+          query: {
+            search: "single"
+          }
+        });
       }
     },
     //rate事件

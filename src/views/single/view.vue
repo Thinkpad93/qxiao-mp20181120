@@ -91,7 +91,6 @@ export default {
   },
   methods: {
     handleClassConfirm(value) {
-      console.log(value);
       this.name = value.title;
       this.query.id = value.id;
       this.query.actionType = value.actionType;

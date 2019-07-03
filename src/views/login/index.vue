@@ -155,9 +155,17 @@ export default {
             this.$toast("此手机号码还没有录入");
             break;
           case 1:
+            this.$router.push({ path: "/home" });
+            break;
           case 2:
           case 3:
-            this.$router.push({ path: "/home" });
+            let _cookie = Cookies.getJSON("info");
+            let obj = Object.assign({}, _cookie, res.data);
+            this.$store.dispatch("user/setInfo", obj).then(data => {
+              if (data.success === "ok") {
+                this.$router.push({ path: "/home" });
+              }
+            });
             break;
           case 4:
             //进入注册页面

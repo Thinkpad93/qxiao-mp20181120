@@ -219,6 +219,29 @@ option = {
     }
   ]
 };
+
+let styleList = [
+  {
+    id: 1,
+    name: "日式",
+    selected: true
+  },
+  {
+    id: 2,
+    name: "写实",
+    selected: false
+  },
+  {
+    id: 3,
+    name: "人物",
+    selected: false
+  },
+  {
+    id: 4,
+    name: "场景",
+    selected: false
+  }
+];
 ```
 
 ## git 分支命名

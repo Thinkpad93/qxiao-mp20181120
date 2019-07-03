@@ -179,7 +179,10 @@ export default {
         });
       } else {
         this.$router.push({
-          path: "/child"
+          path: "/child",
+          query: {
+            search: "user"
+          }
         });
       }
     },

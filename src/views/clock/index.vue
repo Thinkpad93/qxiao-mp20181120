@@ -37,6 +37,7 @@
           type="year-month"
           @confirm="handleChangeMonth"
           @cancel="popupTwo = false"
+          :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">

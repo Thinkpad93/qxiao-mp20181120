@@ -8,7 +8,7 @@
             <div class="cells">
               <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
                 <div class="cell-bd">
-                  <p>{{ item.studentName }}</p>
+                  <p>{{ item.name }}</p>
                 </div>
                 <div class="cell-ft">
                   <van-radio-group v-model="studentId">
@@ -34,7 +34,7 @@
               <label class="label">学生姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学生姓名" maxlength="5" v-model="form.studentName">
+              <input class="input" placeholder="请输入学生姓名" maxlength="5" v-model="form.studentName" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -86,7 +86,7 @@
                 placeholder="请输入手机号"
                 v-model="link.tel"
                 @input="changeTel(link)"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">

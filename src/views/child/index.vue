@@ -78,7 +78,13 @@ export default {
               type: 1
             };
             this.switchingState(param);
-            this.$router.go(-1);
+            if (this.$route.query.search === "user") {
+              this.$router.go(-1);
+            } else {
+              this.$router.push({
+                path: "/single"
+              });
+            }
           }
         });
       }
@@ -97,19 +103,7 @@ export default {
       }
     }
   },
-  // beforeRouteLeave(to, from, next) {
-  //   console.log(to);
-  //   console.log(from);
-  //   next();
-  //   // if (to.path === "/single") {
-  //   //   next();
-  //   // }
-  //   // if (to.path === "/user") {
-  //   //   next();
-  //   // }
-  // },
   mounted() {
-    //console.log(this.$route);
     this.queryOpenStudentList({ openId: this.openId });
   }
 };
