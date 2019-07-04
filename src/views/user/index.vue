@@ -86,7 +86,7 @@
           title="邀请亲人关注"
           is-link
           @click="visibility = true"
-          v-if="patriarchId"
+          v-if="patriarchId != 0"
         >
           <template slot="icon">
             <img src="@/assets/user-icon-6@2x.png" class="user-icon" />
@@ -212,7 +212,7 @@ export default {
       let that = this;
       let shareUrl = "";
       let shareDesc = "";
-      if (this.patriarchId) {
+      if (this.patriarchId != 0) {
         shareUrl = API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId;
         shareDesc = "邀请您一起关注孩子成长吧";
       } else {

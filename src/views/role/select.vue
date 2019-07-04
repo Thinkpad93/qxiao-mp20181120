@@ -13,8 +13,8 @@
               <img
                 src="@/assets/teacher@2x.png"
                 v-if="item.roleType == 1 || item.roleType == 2 || item.roleType == 4"
-              >
-              <img src="@/assets/family@2x.png" v-else>
+              />
+              <img src="@/assets/family@2x.png" v-else />
             </div>
             <p v-if="item.roleType == 1 || item.roleType == 2 || item.roleType == 4">我是老师</p>
             <p v-else-if="item.roleType == 3 || item.roleType == 9">我是家长</p>
@@ -49,21 +49,12 @@ export default {
         return;
       }
       let _cookie = Cookies.getJSON("info");
-      let { id, roleType, classId, className, studentId, name, photo } = item;
-      let obj = Object.assign({}, _cookie, {
-        id,
-        roleType,
-        classId,
-        className,
-        studentId,
-        name,
-        photo
-      });
+      let obj = Object.assign({}, _cookie, item);
       this.$store.dispatch("user/setInfo", obj).then(data => {
         if (data.success === "ok") {
           let params = {
             openId: this.openId,
-            studentId: studentId,
+            studentId: obj.studentId,
             type: 2
           };
           this.switchingState(params);

@@ -17,7 +17,7 @@
           <div class="cells">
             <div class="cell popup-box" v-for="(p, index) in classList" :key="index">
               <div class="cell-hd">
-                <img src="@/assets/kong.png" width="54" height="54">
+                <img src="@/assets/kong.png" width="54" height="54" />
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ p.className }}</p>
@@ -36,10 +36,7 @@
         </div>
       </van-popup>
       <template v-if="roleType == 2">
-        <!-- <router-link to="/fresh/add" class="release">
-          <van-icon name="description" size="24px"></van-icon>
-        </router-link>-->
-        <qxRelease url="/fresh/add"/>
+        <qxRelease url="/fresh/add" />
       </template>
       <van-swipe-cell
         ref="swipeCell"
@@ -80,7 +77,7 @@
         <span slot="right" style="line-height: 80px;">删除</span>
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>暂无新鲜速报</p>
       </div>
     </div>
@@ -169,6 +166,7 @@ export default {
     handleClassConfirm(obj) {
       this.popupShow = false;
       this.className = obj.className;
+      this.query.page = 1;
       this.query.classId = obj.classId;
       this.freshQuery(this.query);
     },

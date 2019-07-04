@@ -82,7 +82,6 @@
 <script>
 import service from "@/api";
 import qxRelease from "@/components/Release";
-//import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 export default {
   name: "homeWork",
@@ -179,9 +178,10 @@ export default {
       this.className = value.className;
       this.query.classId = value.classId;
       this.query.page = 1;
+      //当切换班级时，重新设置为没有全部加载完成
+      this.finished = false;
       this.homeworkQuery(this.query);
     },
-
     //作业列表查询
     async homeworkQuery(params = {}) {
       let res = await service.homeworkQuery(params);

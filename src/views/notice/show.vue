@@ -2,8 +2,12 @@
   <div class="page">
     <div class="page-bd">
       <div class="empty" v-if="parseInt(info.isDel)">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>内容已被删除了</p>
+      </div>
+      <!-- 返回首页 -->
+      <div class="back-home" @click="handleBackHome">
+        <van-icon name="home-o" size="24px"></van-icon>
       </div>
       <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
@@ -20,7 +24,7 @@
           <p v-html="info.textContent"></p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
-              <img :src="img.imageUrl">
+              <img :src="img.imageUrl" />
             </p>
           </template>
         </div>
@@ -51,6 +55,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 export default {
   name: "noticeShow",
@@ -69,6 +74,15 @@ export default {
     };
   },
   methods: {
+    handleBackHome() {
+      let obj = {
+        id: this.$store.state.user.info.id,
+        openId: this.query.openId,
+        roleType: this.roleType,
+        studentId: this.query.studentId
+      };
+      this.backPage(obj);
+    },
     handleConfirmFlag() {
       //0-无需确认 1-需要确认
       if (!this.info.confirmFlag) {
@@ -103,6 +117,21 @@ export default {
           this.info.confirmFlag = 1;
           this.$toast("通知确认成功");
         }
+      }
+    },
+    //返回首页
+    async backPage(params = {}) {
+      let res = await service.backPage(params);
+      if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, res.data);
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.push({
+              path: "/single"
+            });
+          }
+        });
       }
     }
   },

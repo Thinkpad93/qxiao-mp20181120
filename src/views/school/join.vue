@@ -3,10 +3,7 @@
     <div class="page-bd cover">
       <form action ref="form" class="join-form">
         <div class="join-head">
-          <h2 size-18 class="text-ellipsis text-center">
-            {{ info.schoolName }}
-            <!-- <small>(ID码: {{ info.schoolCode }})</small> -->
-          </h2>
+          <h2 size-18 class="text-ellipsis text-center">{{ info.schoolName }}</h2>
           <div class="address flex text-ellipsis">
             <van-icon name="location-o" size="16px"></van-icon>
             <span>{{ info.location }}</span>
@@ -18,7 +15,7 @@
               <label class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="info.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="info.teacherName" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -47,7 +44,7 @@
                 placeholder="请输入手机号"
                 readonly
                 v-model="info.tel"
-              >
+              />
             </div>
           </div>
         </div>
@@ -122,17 +119,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-// .cover {
-//   background-color: #cbf4fa;
-// }
-// .join-form {
-//   z-index: 10;
-//   width: 100%;
-//   overflow: hidden;
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-// }
 .join-head {
   padding-top: 75px;
   padding-left: 20px;
