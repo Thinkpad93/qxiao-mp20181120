@@ -72,6 +72,7 @@ export default {
       timer: null,
       second: 60,
       form: {
+        openId: this.$store.state.user.info.openId, //登陆openId
         tel: "",
         verifyCode: ""
       }

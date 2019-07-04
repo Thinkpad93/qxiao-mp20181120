@@ -86,7 +86,7 @@
           title="邀请亲人关注"
           is-link
           @click="visibility = true"
-          v-if="patriarchId != 0"
+          v-if="studentId != 0"
         >
           <template slot="icon">
             <img src="@/assets/user-icon-6@2x.png" class="user-icon" />
@@ -167,7 +167,8 @@ export default {
       name: state => state.info.name,
       photo: state => state.info.photo,
       totalStarCount: state => state.info.totalStarCount,
-      patriarchId: state => state.info.patriarchId,
+      id: state => state.info.id,
+      studentId: state => state.info.studentId,
       roleType: state => state.info.roleType
     })
   },
@@ -212,8 +213,8 @@ export default {
       let that = this;
       let shareUrl = "";
       let shareDesc = "";
-      if (this.patriarchId != 0) {
-        shareUrl = API_ROOT + "#/baby/share?classId=0&id=" + this.patriarchId;
+      if (this.studentId != 0) {
+        shareUrl = API_ROOT + "#/baby/share?classId=0&id=" + this.id;
         shareDesc = "邀请您一起关注孩子成长吧";
       } else {
         shareUrl = API_ROOT + "#/share";
