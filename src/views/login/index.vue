@@ -2,7 +2,7 @@
   <div class="flex-page">
     <div class="flex-bd cover">
       <!-- 提示语 -->
-      <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p>
+      <!-- <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p> -->
       <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">

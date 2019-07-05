@@ -99,7 +99,7 @@
 
 .main {
   margin-top: 20px;
-  background-color: #fff;
+  // background-color: #fff;
 }
 
 /**************************************/
@@ -114,7 +114,9 @@
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   display: -webkit-box;
+  /*! autoprefixer: off */
   -webkit-box-orient: vertical;
+  /* autoprefixer: on */
 }
 
 .text-left {
@@ -174,9 +176,9 @@
   color: inherit;
   text-align: right;
 
-  &[disabled] {
-    color: #999;
-  }
+  // &[disabled] {
+  //   color: #999;
+  // }
 }
 
 .input-border {
@@ -250,6 +252,7 @@
   padding: 30px;
   display: flex;
   justify-content: space-between;
+  background-color: #fff;
 
   div {
     display: flex;

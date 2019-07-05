@@ -94,7 +94,6 @@
 </template>
 <script>
 import service from "@/api";
-//import { ImagePreview } from "vant";
 import { mapState } from "vuex";
 export default {
   name: "community",
@@ -166,6 +165,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .community {
+  background-color: #fff;
   .box {
     border-top: 1px solid #f2f2f2;
     padding-top: 30px;
