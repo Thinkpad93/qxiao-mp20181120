@@ -1,7 +1,7 @@
 
 <template>
   <div class="page">
-    <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
+    <template v-if="roleType != 3">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">

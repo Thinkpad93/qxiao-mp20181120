@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <template v-if="roleType == 1 || roleType == 4 || roleType == 2">
+      <template v-if="roleType != 3">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
@@ -22,7 +22,7 @@
           <div class="cells">
             <div class="cell popup-box" v-for="(p, index) in classList" :key="index">
               <div class="cell-hd">
-                <img src="@/assets/kong.png" width="54" height="54">
+                <img src="@/assets/kong.png" width="54" height="54" />
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ p.className }}</p>
@@ -41,48 +41,58 @@
         </div>
       </van-popup>
       <template v-if="roleType != 3">
-        <qxRelease url="/notice/add"/>
+        <qxRelease url="/notice/add" />
       </template>
-      <van-swipe-cell
-        ref="swipeCell"
-        :right-width="60"
-        v-for="(notice, index) in list"
-        :key="index"
-        :disabled="roleType == 3"
-        :on-close="onClose(notice, index)"
+      <!-- list -->
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :immediate-check="false"
+        :offset="100"
+        @load="onLoad"
       >
-        <van-cell-group>
-          <figure class="figure figure-skin-one" @click="go(notice)">
-            <div class="figure-bd">
-              <div
-                class="figure-thumb-small"
-                v-if="notice.topImage"
-                :style="{backgroundImage: `url(${notice.topImage})`}"
-              ></div>
-              <div class="figure-info">
-                <figcaption class="text-ellipsis">
-                  <i v-if="!notice.status" style="width:6px;height:6px;"></i>
-                  <span size-18>{{ notice.title }}</span>
-                </figcaption>
-                <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
-                <div class="metedata flex">
-                  <span class="name">{{ notice.name }}</span>
-                  <time class="time">{{ notice.postTime }}</time>
+        <van-swipe-cell
+          ref="swipeCell"
+          :right-width="60"
+          v-for="(notice, index) in list"
+          :key="index"
+          :disabled="roleType == 3"
+          :on-close="onClose(notice, index)"
+        >
+          <van-cell-group>
+            <figure class="figure figure-skin-one" @click="go(notice)">
+              <div class="figure-bd">
+                <div
+                  class="figure-thumb-small"
+                  v-if="notice.topImage"
+                  :style="{backgroundImage: `url(${notice.topImage})`}"
+                ></div>
+                <div class="figure-info">
+                  <figcaption class="text-ellipsis">
+                    <i v-if="!notice.status" style="width:6px;height:6px;"></i>
+                    <span size-18>{{ notice.title }}</span>
+                  </figcaption>
+                  <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
+                  <div class="metedata flex">
+                    <span class="name">{{ notice.name }}</span>
+                    <time class="time">{{ notice.postTime }}</time>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="figure-ft">
-              <div class="figure-total">
-                <span>已读{{ notice.classReadCount }}人</span>
-                <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
+              <div class="figure-ft">
+                <div class="figure-total">
+                  <span>已读{{ notice.classReadCount }}人</span>
+                  <span v-if="roleType == 1 || roleType == 4">共{{ notice.totalCount }}人</span>
+                </div>
               </div>
-            </div>
-          </figure>
-        </van-cell-group>
-        <span slot="right" style="line-height: 80px;">删除</span>
-      </van-swipe-cell>
+            </figure>
+          </van-cell-group>
+          <span slot="right" style="line-height: 80px;">删除</span>
+        </van-swipe-cell>
+      </van-list>
+      <!-- list -->
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>暂无通知公告</p>
       </div>
     </div>
@@ -91,21 +101,21 @@
 <script>
 import service from "@/api";
 import qxRelease from "@/components/Release";
-import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 import { mapState } from "vuex";
 export default {
   name: "notice",
-  mixins: [scrollMixins, classList],
+  mixins: [classList],
   components: {
     qxRelease
   },
   data() {
     return {
+      loading: false,
+      finished: false,
       popupShow: false,
       classId: parseInt(this.$store.state.user.info.classId),
       index: 0,
-      isLoading: false,
       totalPage: 1, //总页数
       query: {
         openId: this.$store.state.user.info.openId,
@@ -130,6 +140,29 @@ export default {
     }
   },
   methods: {
+    onLoad() {
+      if (this.query.page < this.totalPage) {
+        //加载数据
+        this.query.page += 1;
+        service.noticeQuery(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.list.push(list[i]);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     onClose(notice, index) {
       return (clickPosition, instance) => {
         switch (clickPosition) {
@@ -184,41 +217,10 @@ export default {
       this.popupShow = false;
       this.className = obj.className;
       this.query.classId = obj.classId;
+      this.query.page = 1;
+      //当切换班级时，重新设置为没有全部加载完成
+      this.finished = false;
       this.noticeQuery(this.query);
-    },
-    //加载分页数据
-    handleLoadingMore(e) {
-      let scrollTop = 0;
-      if (document.documentElement && document.documentElement.scrollTop) {
-        scrollTop = document.documentElement.scrollTop;
-      } else if (document.body) {
-        scrollTop = document.body.scrollTop;
-      }
-      let bottom =
-        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
-      if (bottom && this.isLoading === false) {
-        //判断总页数
-        if (this.query.page < this.totalPage) {
-          this.isLoading = true;
-          this.query.page += 1;
-          let classId =
-            this.roleType === 1 ? 0 : this.$store.state.users.classId;
-          let obj = Object.assign({}, this.query, { classId });
-          service.noticeQuery(obj).then(res => {
-            if (res.errorCode === 0) {
-              this.totalPage = res.data.totalPage;
-              this.query.page = res.data.page;
-              this.isLoading = false;
-              let list = res.data.data;
-              if (list.length) {
-                list.forEach(element => {
-                  this.list.push(element);
-                });
-              }
-            }
-          });
-        }
-      }
     },
     //公告通知列表查询
     async noticeQuery(params = {}) {
@@ -227,7 +229,6 @@ export default {
         this.popupShow = false;
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
-        this.isLoading = false;
         this.list = res.data.data || [];
       }
     }
