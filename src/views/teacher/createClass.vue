@@ -1,9 +1,14 @@
 <template>
+<<<<<<< HEAD
   <div class="flex-page">
     <div class="flex-bd">
 <<<<<<< HEAD
       <van-popup v-model="popupShow" position="bottom"></van-popup>
 =======
+=======
+  <div class="page">
+    <div class="page-bd">
+>>>>>>> open-dev-190701
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
           :columns="schoolList"
@@ -24,7 +29,7 @@
             <div class="cell-bd">
               <input
                 class="input"
-                placeholder="请输入学校名称"
+                placeholder="请输入学校全称"
                 v-model="form.schoolName"
                 @blur="handleSearch($event)"
               >
@@ -37,7 +42,7 @@
           </div>
           <div class="cell-bd">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称" v-model="form.className">
+              <input class="input" placeholder="请输入班级名称，如一年级（1）班" v-model="form.className">
             </div>
           </div>
         </div>
@@ -51,6 +56,20 @@
             <div class="cell-bd">
               <input class="input" placeholder="请输入老师姓名" maxlength="5" v-model="form.teacherName">
             </div>
+          </div>
+        </div>
+        <div class="cell min-h120 cell-select cell-select-after">
+          <div class="cell-hd">
+            <label for class="label">性别</label>
+          </div>
+          <div class="cell-bd">
+            <select class="select" name dir="rtl" v-model="form.sex">
+              <option
+                :value="option.id"
+                v-for="(option,index) in sexList"
+                :key="index"
+              >{{ option.name }}</option>
+            </select>
           </div>
         </div>
         <div class="cell min-h120">
@@ -83,17 +102,21 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">提交</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">提交</van-button>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import { sex } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
 export default {
   name: "createClass",
+  mixins: [sex],
   data() {
     return {
       hidden: false,
@@ -103,6 +126,7 @@ export default {
       form: {
         schoolName: "",
         id: 0,
+        sex: 1,
         className: "",
         teacherName: "",
         tel: "",
@@ -134,7 +158,7 @@ export default {
     handleSubmit() {
       let { schoolName, className, teacherName, tel, code } = this.form;
       if (schoolName == "") {
-        this.$toast("请输入学校名称");
+        this.$toast("请输入学校全称");
         return false;
       }
       if (className == "") {
@@ -151,10 +175,13 @@ export default {
       }
       if (isPhone(tel)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         console.log(this.form);
 =======
         //console.log(this.form);
 >>>>>>> open-dev
+=======
+>>>>>>> open-dev-190701
         this.addPlaySchoolWithTemplate(this.form);
       } else {
         this.$toast("请正确填写手机号");

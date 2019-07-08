@@ -1,5 +1,5 @@
 <template>
-  <div class="pagea">
+  <div class="page">
     <!-- 发送的班级和老师 -->
     <div class="panel" style="z-index: 999" :class="{'panel-on': isActive}">
       <div class="panel-hd">
@@ -131,8 +131,10 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">发布</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -302,6 +304,8 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //根据OpenId获取学校的班级信息
@@ -351,18 +355,6 @@ export default {
 }
 .panel-ft {
 }
-.teacher-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-.icon-d {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f2f2f2;
-}
-
 .tabbar {
   height: 100px;
   font-size: 32px;

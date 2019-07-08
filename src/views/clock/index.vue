@@ -11,8 +11,9 @@
       </template>
       <template v-else>
         <div class="button-sp-area flex" size-17>
-          <a href="javascript:void(0);" @click="popupTwo = true">
-            <span id="data1">{{ querys.month }}</span>
+          <a href="javascript:void(0);" class="flex j-c-c a-i-c" @click="popupTwo = true">
+            <span id="data1" class="mr-10">{{ querys.month }}</span>
+            <van-icon name="arrow-down" size="16px"></van-icon>
           </a>
         </div>
       </template>
@@ -36,6 +37,7 @@
           type="year-month"
           @confirm="handleChangeMonth"
           @cancel="popupTwo = false"
+          :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
@@ -100,20 +102,18 @@
               v-for="(month, index) in clockMonthList"
               :key="index"
             >
-              <div class="cell-bd" style="padding-left:0;">{{ month }}已打卡</div>
+              <div class="cell-bd" style="padding-left:0;">{{ month.day }}已打卡</div>
               <div class="cell-ft" style="color:#92cd36;" @click="handleClockDay(month)">查看详情</div>
             </div>
           </div>
         </div>
       </template>
+    </div>
+    <div class="page-ft">
       <!-- 打卡按钮 -->
       <template v-if="roleType == 3">
-        <div class="_confirm">
-          <a
-            href="javascript:void(0);"
-            class="btn btn-large btn-primary"
-            @click="handleAddPunch"
-          >打卡接送</a>
+        <div class="fixed-bottom" style="z-index: 100;">
+          <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
         </div>
       </template>
     </div>
@@ -122,9 +122,11 @@
 <script>
 import dayjs from "dayjs";
 import service from "@/api";
+import formatter from "@/mixins/date-formatter";
 import { mapState } from "vuex";
 export default {
   name: "clock",
+  mixins: [formatter],
   data() {
     return {
       popupOne: false,
@@ -152,33 +154,22 @@ export default {
     };
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     //一键接送
     handleAddPunch() {
-      let { studentId } = this.querys;
+      let { openId, studentId } = this.querys;
       this.$dialog
         .confirm({
           title: "提示",
           message: "确定接送孩子吗？"
         })
         .then(() => {
-          this.addPunch(studentId);
+          this.addPunch({ openId, studentId });
         });
     },
     handleClockDay(month) {
       this.$router.push({
         path: "/clock/day",
-        query: { day: month }
+        query: { ...month }
       });
     },
     //选择年月日
@@ -241,8 +232,8 @@ export default {
       }
     },
     //打卡按钮
-    async addPunch(studentId) {
-      let res = await service.addPunch({ studentId });
+    async addPunch(params = {}) {
+      let res = await service.addPunch(params);
       if (res.errorCode === 0) {
         this.$toast(`${res.errorMsg}`);
       } else {

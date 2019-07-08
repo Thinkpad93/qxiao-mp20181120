@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
         <van-tab title="已读">
           <div class="tab-warp">
@@ -28,7 +28,13 @@
               <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                 <div class="cell-hd">
                   <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
-                  <div class="icon-d" v-else></div>
+                  <img
+                    src="@/assets/child-default@2x.png"
+                    width="50"
+                    height="50"
+                    radius="50"
+                    v-else
+                  >
                 </div>
                 <div class="cell-bd pl-20">
                   <p class>{{ unread.studentName }}</p>
@@ -88,6 +94,8 @@ export default {
         } else {
           this.readList = res.data.readers || []; //后端有可能返回null
         }
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

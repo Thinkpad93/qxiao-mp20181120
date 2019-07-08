@@ -1,15 +1,15 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="paeg-bd">
       <van-tabs v-model="active" :line-height="2">
         <van-tab title="优秀作品">
           <!-- 学生个人作品 -->
           <div class="cells-title a-i-c">
             <p size-17>我的上榜</p>
-            <div class="flex">
+            <!-- <div class="flex">
               <span>更多</span>
               <van-icon name="arrow" size="16px"></van-icon>
-            </div>
+            </div>-->
           </div>
           <div class="page-swiper">
             <swiper :options="swiperOption" ref="mySwiper">
@@ -33,7 +33,7 @@
           <div class="good-works">
             <div class="item" v-for="(item, index) in worksList" :key="index">
               <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
-                <img :src="item.imageUrl" alt>
+                <img :src="item.imageUrl" alt />
                 <div class="zan flex a-i-c" v-if="item.praise">
                   <van-icon name="like" size="14px" color="#e64340"></van-icon>
                   <span>{{ item.praise }}</span>
@@ -42,7 +42,7 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="我的上传">
+        <van-tab title="我的上传" :disabled="studentId == 0">
           <template v-if="list.length">
             <div class="time-works mt-20">
               <div class="item" v-for="(item, index) in list" :key="index">
@@ -60,7 +60,7 @@
                           ></van-checkbox>
                         </van-checkbox-group>
                       </div>
-                      <img :src="work.smallUrl" alt>
+                      <img :src="work.smallUrl" alt />
                       <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
                       <div
                         class="works-status"
@@ -76,43 +76,51 @@
           </template>
           <template v-else>
             <div class="empty">
-              <img src="@/assets/kong.png" alt>
-              <p class="mt-30">您还没有上传作品，小Q期待您的作品哦~</p>
+              <img src="@/assets/kong.png" alt />
+              <p class="mt-30">您还没有上传作品，小Q期待您的作品哦</p>
             </div>
           </template>
         </van-tab>
       </van-tabs>
     </div>
-    <div class="flex-ft">
-      <template v-if="active == 0">
-        <van-button type="info" size="large" class="no-radius" to="/works/add">上传作品</van-button>
-      </template>
-      <template v-else>
-        <div class="flex">
-          <van-button
-            size="large"
-            type="default"
-            class="no-radius"
-            v-show="mask"
-            @click="handleCancel"
-          >取消</van-button>
-          <van-button
-            size="large"
-            type="default"
-            class="no-radius"
-            v-show="!mask"
-            @click="mask = true"
-          >编辑</van-button>
-          <van-button
-            size="large"
-            type="danger"
-            class="no-radius"
-            v-show="mask"
-            @click="handleDelImage"
-          >删除</van-button>
-          <van-button size="large" type="info" class="no-radius" v-show="!mask" to="/works/add">上传作品</van-button>
-        </div>
-      </template>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <template v-if="active == 0">
+          <van-button type="info" size="large" class="no-radius" @click="handleWorkAdd">上传作品</van-button>
+        </template>
+        <template v-else>
+          <div class="flex">
+            <van-button
+              size="large"
+              type="default"
+              class="no-radius"
+              v-show="mask"
+              @click="handleCancel"
+            >取消</van-button>
+            <van-button
+              size="large"
+              type="default"
+              class="no-radius"
+              v-show="!mask"
+              @click="mask = true"
+            >编辑</van-button>
+            <van-button
+              size="large"
+              type="danger"
+              class="no-radius"
+              v-show="mask"
+              @click="handleDelImage"
+            >删除</van-button>
+            <van-button
+              size="large"
+              type="info"
+              class="no-radius"
+              v-show="!mask"
+              to="/works/add"
+            >上传作品</van-button>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -121,6 +129,7 @@ import service from "@/api";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import eventBus from "@/utils/eventBus";
+import { mapState } from "vuex";
 export default {
   name: "works",
   components: {
@@ -138,7 +147,7 @@ export default {
         observer: true
       },
       query: {
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       },
       list: [], //我的上传
       onLineList: [], //上榜作品
@@ -147,11 +156,24 @@ export default {
     };
   },
   computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType,
+      studentId: state => state.info.studentId
+    }),
     swiper() {
       return this.$refs.mySwiper.swiper;
     }
   },
   methods: {
+    handleWorkAdd() {
+      if (this.studentId == 0) {
+        this.$toast("您尚未关注小孩，请先关注");
+      } else {
+        this.$router.push({
+          path: "/works/add"
+        });
+      }
+    },
     //预览图片
     handlePreviewImage(imgUrl, images) {
       let imgArray = [];
@@ -178,10 +200,6 @@ export default {
     handleCancel() {
       this.mask = false;
       this.checkList = [];
-    },
-    handleVal(v) {
-      console.log(v);
-      this.active = v;
     },
     //删除作品
     async deleteImage(params = {}) {
@@ -220,9 +238,7 @@ export default {
     }
     next();
   },
-  created() {
-    console.log("created");
-  },
+  created() {},
   mounted() {
     this.queryOnLineList(this.query);
     this.queryMyUpload(this.query);
@@ -242,11 +258,9 @@ export default {
   },
   beforeDestroy() {
     //console.log("beforeDestroy20");
-    //eventBus.$off("tabMessage", this.handleVal);
   },
   destroyed() {
     //console.log("destroyed20");
-    //eventBus.$on("tabMessage", this.handleVal);
   }
 >>>>>>> open-dev
 };

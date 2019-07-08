@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells mb-20">
         <div class="cell min-h120">
           <div class="cell-bd">
             <p>
-              {{ openStudentName }}已经坚持习惯培养
+              {{ name }}已经坚持习惯培养
               <time style="color:#f44;">{{ days }}</time>天
             </p>
           </div>
@@ -38,7 +38,9 @@
                   :size="22"
                   color="#09e2bb"
                   void-color="#e5eee0"
-                  :readonly="action.comment === 1"
+                  disabled-color="#09e2bb"
+                  :readonly="rateReadonly"
+                  :disabled="action.comment === 1"
                   @change="handleChangeRate(action)"
                 ></van-rate>
               </div>
@@ -57,9 +59,10 @@ export default {
   name: "actionHistory",
   data() {
     return {
+      rateReadonly: false,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 20
       },
@@ -69,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openStudentName: state => state.info.openStudentName
+      name: state => state.info.name
     }),
     days() {
       if (this.list.length) {
@@ -97,8 +100,10 @@ export default {
     },
     //行为打星
     async actionStrike(params = {}) {
+      this.rateReadonly = true;
       let res = await service.actionStrike(params);
       if (res.errorCode === 0) {
+        this.rateReadonly = false;
         let { totalStarCount } = res.data;
         this.historyStrikeQuery(this.query);
         //更新星星数量

@@ -33,7 +33,7 @@
                 v-model="form.startDate"
                 readonly
                 maxlength="20"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -46,7 +46,7 @@
                 v-model="form.endDate"
                 readonly
                 maxlength="20"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -58,7 +58,7 @@
                 v-model="form.title"
                 maxlength="30"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -112,8 +112,10 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">发布</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -121,12 +123,13 @@
 import dayjs from "dayjs";
 import service from "@/api";
 import classList from "@/mixins/classList";
+import formatter from "@/mixins/date-formatter";
 import { textReplace } from "@/utils/string";
 import wxHandle from "@/mixins/wx";
 import wxapi from "@/config/wxapi";
 export default {
   name: "recipeAdd",
-  mixins: [classList, wxHandle],
+  mixins: [classList, wxHandle, formatter],
   data() {
     return {
       selected: [],
@@ -146,17 +149,6 @@ export default {
     };
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     //选择开始时间
     handleConfirmStartTime(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
@@ -218,6 +210,8 @@ export default {
       let res = await service.recipeAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

@@ -112,19 +112,17 @@
         </div>
       </form>
     </div>
-    <div class="btn-group">
-      <a
-        v-if="!views"
-        hclaref="javascript:;"
-        class="btn btn-large btn-primary"
-        @click="handleNextClick"
-      >下一步</a>
-      <a
-        v-if="views"
-        hclaref="javascript:;"
-        class="btn btn-large btn-primary"
-        @click="handleSubmit"
-      >完成</a>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button
+          type="info"
+          size="large"
+          class="no-radius"
+          @click="handleNextClick"
+          v-if="!views"
+        >下一步</van-button>
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit" v-else>完成</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -195,7 +193,7 @@ export default {
               this.$router.replace({ path: "/home" });
             }
           });
-        } else if (res.errorCode === -1) {
+        } else {
           this.$toast(`${res.errorMsg}`);
         }
       }

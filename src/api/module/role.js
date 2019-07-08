@@ -8,3 +8,11 @@ export function queryRole(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//返回首页
+export function backPage(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/role/backPage.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

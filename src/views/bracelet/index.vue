@@ -1,12 +1,12 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="empty">
         <img src="@/assets/kong.png" alt>
         <p class="mt-30">小Q智能手环紧锣密鼓进行中,敬请期待...</p>
       </div>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <!-- <van-button type="info" size="large" class="no-radius">去绑定</van-button> -->
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
   computed: {
     ...mapState("user", {
       openId: state => state.info.openId,
-      studentId: state => state.info.openStudentId
+      studentId: state => state.info.studentId
     })
   },
   methods: {

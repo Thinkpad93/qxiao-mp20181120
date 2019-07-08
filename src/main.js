@@ -2,21 +2,10 @@ import Vue from 'vue';
 import App from './App';
 import store from './store';
 import router from './router';
-import Cookies from "js-cookie";
-import {
-  urlSearch
-} from './utils/urlSearch';
-import wxapi from "@/config/wxapi";
-import {
-  API_ROOT
-} from "@/config/isdev";
-
-
-import '@/vantUI'; //vant UI
-
 
 Vue.config.productionTip = false;
 
+<<<<<<< HEAD
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
@@ -96,28 +85,13 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+=======
+import './filters'; //全局注册过滤器
+>>>>>>> open-dev-190701
 
-//全局后置钩子
-router.afterEach((to, from) => {
-  // 非ios设备，切换路由时候进行重新签名
-  //if (window.__wxjs_is_wkwebview !== true) {}
-  //if (window.__wxjs_is_wkwebview === true) {}
-  //在不需要分享的页面统一处理
-  if (to.meta.isShare === false) {
-    function wxShareAppMessage() {
-      let option = {
-        title: "亲爱的用户您好", // 分享标题
-        desc: "小Q智慧欢迎您的加入~", // 分享描述
-        link: API_ROOT + "#/share", // 分享链接
-        success: () => {},
-        error: () => {}
-      }
-      wxapi.wxShareAppMessage(option);
-    }
-    wxapi.wxRegister(wxShareAppMessage);
-  }
+import '@/vantUI'; //vant UI
 
-});
+import './permission'; //路由控制
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- 评论 -->
       <van-dialog
         title="评论"
@@ -29,7 +29,7 @@
       <!-- video视频区域 -->
       <div class="video-mod">
         <div class="video-main">
-          <template v-if="payStatus">
+          <template v-if="info.status == 1">
             <video ref="video" :src="info.videoUrl" controls></video>
           </template>
           <template v-else>
@@ -74,30 +74,32 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="flex-ft">
-      <div class="handle flex a-i-c">
-        <van-button
-          type="info"
-          class="no-radius"
-          style="width:100%"
-          @click="dialogVisible = true"
-        >评论</van-button>
-        <!-- <div class="handle-comment" @click="dialogVisible = true">
-          <van-icon name="comment-o" size="20px"></van-icon>
-          <div size-12>评论</div>
-        </div>-->
-        <!-- <div class="handle-share">
-          <van-icon name="share" size="20px"></van-icon>
-          <div size-12>转发</div>
-        </div>-->
-        <!-- <div class="handle-down">
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="handle flex a-i-c">
           <van-button
             type="info"
             class="no-radius"
-            @click="handleUserPay"
             style="width:100%"
-          >试卷{{ info.fee }}元/套</van-button>
-        </div>-->
+            @click="dialogVisible = true"
+          >评论</van-button>
+          <!-- <div class="handle-comment" @click="dialogVisible = true">
+            <van-icon name="comment-o" size="20px"></van-icon>
+            <div size-12>评论</div>
+          </div>-->
+          <!-- <div class="handle-share">
+            <van-icon name="share" size="20px"></van-icon>
+            <div size-12>转发</div>
+          </div>-->
+          <!-- <div class="handle-down">
+            <van-button
+              type="info"
+              class="no-radius"
+              @click="handleUserPay"
+              style="width:100%"
+            >试卷{{ info.fee }}元/套</van-button>
+          </div>-->
+        </div>
       </div>
     </div>
   </div>
@@ -112,24 +114,19 @@ export default {
   data() {
     return {
       actives: 0,
-      payStatus: false,
       query: {
         openId: this.$store.state.user.info.openId,
-        paperId: this.$route.query.paperId
+        paperId: this.$route.query.paperId,
+        studentId: this.$store.state.user.info.studentId
       },
       form: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         paperId: this.$route.query.paperId,
         textContent: ""
       },
       info: {},
-      commentList: [],
-      params: {
-        outTradeNo: "yolo",
-        openId: this.$store.state.user.info.openId,
-        totalFee: 1
-      }
+      commentList: []
     };
   },
   methods: {
@@ -160,7 +157,10 @@ export default {
           .toString(36)
           .substring(2), //模拟测试
         openId: this.$store.state.user.info.openId,
-        totalFee: 1
+        totalFee: this.info.fee || 1,
+        type: 0,
+        orderId: this.query.paperId,
+        studentId: this.query.studentId
       };
       let res = await service.userPay(params);
       if (Object.keys(res).length) {
@@ -172,7 +172,7 @@ export default {
           paySign: res.paySign,
           success: function(res) {
             that.$toast("支付成功");
-            that.payStatus = true;
+            that.examPaperDetail(that.query);
           },
           complete: function(res) {
             //that.$toast("无论成功或失败都会执行");

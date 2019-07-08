@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
@@ -33,7 +33,7 @@
       </van-swipe-cell>
       <div class="empty" v-if="!list.length">
         <img src="@/assets/kong.png" alt>
-        <p>暂无试卷内容~</p>
+        <p>暂无试卷内容</p>
       </div>
     </div>
   </div>

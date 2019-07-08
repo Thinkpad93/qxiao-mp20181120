@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-hd">
+  <div class="page">
+    <div class="page-hd">
       <van-tabs :line-height="2" v-model="actives" @click="handleTab">
         <van-tab :title="item.title" v-for="item in tabList" :key="item.lessonId"></van-tab>
       </van-tabs>
     </div>
-    <div class="flex-bd">
+    <div class="page-bd">
       <div class="score" v-for="(item, index) in list" :key="index">
         <template v-if="index === 0">
           <div class="score-content mt-20 mb-20">
@@ -61,7 +61,7 @@ export default {
       actives: parseInt(this.$route.query.index),
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         lessonId: this.$route.query.lessonId,
         page: 1,
         pageSize: 20

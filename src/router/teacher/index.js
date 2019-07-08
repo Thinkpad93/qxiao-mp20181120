@@ -54,7 +54,7 @@ export default [{
     component: () => import('@/views/teacher/success'),
     meta: {
       keepAlive: false,
-      isShare: false,
+      isShare: true,
       title: '分享',
     }
   },

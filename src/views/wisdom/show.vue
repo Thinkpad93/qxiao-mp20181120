@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page-page">
+    <div class="page-bd">
       <!-- video视频区域 -->
       <div class="video-mod">
         <!-- <div class="video-mask">
@@ -8,7 +8,7 @@
         </div>-->
         <!-- <div class="video-main">
           <video ref="video" src="@/assets/video01.mp4" controls></video>
-        </div> -->
+        </div>-->
       </div>
       <article class="article">
         <div class="article-content">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <div class="handle flex a-i-c">
         <div class="handle-share">
           <van-icon name="share" size="20px"></van-icon>

@@ -54,7 +54,7 @@
               <img class="student-icon" :src="student.photo" alt>
             </template>
             <template v-else>
-              <div class="icon-d"></div>
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
             </template>
           </div>
           <div class="cell-bd pl-20">
@@ -85,7 +85,7 @@
           type="info"
           size="large"
           class="no-radius"
-          to="/student/add"
+          @click="handleJumpRoute"
           v-if="openDirection == 0"
         >录入学生</van-button>
         <van-button
@@ -189,7 +189,16 @@ export default {
         query: {
           tel: student.tel,
           studentId: student.studentId,
-          classId: student.classId
+          classId: student.classId,
+          openDirection: this.openDirection
+        }
+      });
+    },
+    handleJumpRoute() {
+      this.$router.push({
+        path: "/student/add",
+        query: {
+          openDirection: this.openDirection
         }
       });
     },
@@ -211,6 +220,7 @@ export default {
           this.classId = res.data[0].classId;
           this.openDirection = res.data[0].openDirection;
           this.queryStudentByClassId(res.data[0].classId);
+          wxapi.wxRegister(this.wxRegCallback);
         }
       }
     }
@@ -223,7 +233,6 @@ export default {
   }
 =======
     this.queryClassNameList(this.teacherId);
-    wxapi.wxRegister(this.wxRegCallback);
   },
   activated() {}
 >>>>>>> open-dev
@@ -237,23 +246,6 @@ export default {
   align-items: center;
   background-color: #fff;
 }
-// .student-head {
-//   padding: 30px 0;
-//   text-align: center;
-//   background-color: #fff;
-//   > a {
-//     width: 240px;
-//   }
-//   .tab {
-//     margin-top: 30px;
-//     text-align: center;
-//     display: flex;
-//     a {
-//       height: auto;
-//       flex: 1;
-//     }
-//   }
-// }
 .student-box {
   height: 120px;
 }
@@ -261,12 +253,5 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.fixed-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
 }
 </style>

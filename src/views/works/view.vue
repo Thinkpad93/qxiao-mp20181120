@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd"></div>
+  <div class="page">
+    <div class="page-bd"></div>
   </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       query: {
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       }
     };
   },

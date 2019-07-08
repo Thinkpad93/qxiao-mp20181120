@@ -1,17 +1,19 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd cover">
+      <!-- 提示语 -->
+      <!-- <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p> -->
       <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">
-            <img src="@/assets/qlogocdr12.png" alt>
+            <img src="@/assets/qlogocdr12.png" alt />
             <p size-18>小Q智慧</p>
           </div>
         </div>
         <div class="cells">
           <div class="cell">
             <div class="cell-hd">
-              <img class="ignore" src="@/assets/phone-icon@2x.png" alt>
+              <img class="ignore" src="@/assets/phone-icon@2x.png" alt />
             </div>
             <div class="cell-bd pl-20">
               <input
@@ -21,7 +23,7 @@
                 placeholder="请输入手机号"
                 autofocus
                 v-model="form.tel"
-              >
+              />
             </div>
             <div class="cell-ft">
               <a
@@ -43,7 +45,7 @@
                 pattern="[0-9]*"
                 placeholder="请输入验证码"
                 v-model="form.verifyCode"
-              >
+              />
             </div>
           </div>
         </div>
@@ -61,6 +63,7 @@
 import Cookies from "js-cookie";
 import service from "@/api";
 import { isPhone } from "@/utils/validator";
+import { mapState } from "vuex";
 export default {
   name: "login",
   data() {
@@ -69,10 +72,17 @@ export default {
       timer: null,
       second: 60,
       form: {
+        openId: this.$store.state.user.info.openId, //登陆openId
         tel: "",
         verifyCode: ""
       }
     };
+  },
+  computed: {
+    ...mapState("user", {
+      name: state => state.info.name,
+      studentId: state => state.info.studentId
+    })
   },
   methods: {
     handleSecond() {
@@ -146,9 +156,17 @@ export default {
             this.$toast("此手机号码还没有录入");
             break;
           case 1:
+            this.$router.push({ path: "/home" });
+            break;
           case 2:
           case 3:
-            this.$router.push({ path: "/home" });
+            let _cookie = Cookies.getJSON("info");
+            let obj = Object.assign({}, _cookie, res.data);
+            this.$store.dispatch("user/setInfo", obj).then(data => {
+              if (data.success === "ok") {
+                this.$router.push({ path: "/home" });
+              }
+            });
             break;
           case 4:
             //进入注册页面
@@ -181,9 +199,9 @@ export default {
             });
             break;
           default:
-            console.log("default");
+            this.$toast(`${res.errorMsg}`);
         }
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }
@@ -213,5 +231,10 @@ export default {
   justify-content: center;
   padding-top: 50px;
   padding-bottom: 50px;
+}
+.tip {
+  color: #fff;
+  padding: 20px 0;
+  background-color: #f00;
 }
 </style>

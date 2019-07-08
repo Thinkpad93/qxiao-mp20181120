@@ -24,27 +24,27 @@
       </van-dialog>
       <div class="wrap">
         <!-- 用户 -->
-        <router-link to="/child" tag="div" class="home-user gradient-two">
+        <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
           <div class="flex a-i-c">
-            <template v-if="openStudentName">
-              <img :src="openPhoto" width="60" height="60" radius="50" v-if="openPhoto">
+            <template v-if="name">
+              <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
               <!-- 如果用户没有上传头像 -->
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else>
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
               <div class="js-user-change">
                 <h3 class="mb-20" size-18>
-                  {{ openStudentName }}
+                  {{ name }}
                   <small>Q星: {{ totalStarCount }}</small>
                 </h3>
                 <p size-12>您的坚持和鼓励是开启孩子好习惯的钥匙</p>
               </div>
             </template>
             <template v-else>
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50">
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" />
               <p class="ml-20">尚未有关注孩子，点击添加。</p>
             </template>
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
-        </router-link>
+        </div>
         <!-- 用户 -->
         <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
@@ -79,6 +79,7 @@
                           :size="22"
                           color="#09e2bb"
                           void-color="#e5eee0"
+                          :readonly="rateReadonly"
                           @change="handleChangeRate(index)"
                         ></van-rate>
                       </div>
@@ -86,8 +87,8 @@
                   </template>
                   <template v-else>
                     <div class="empty">
-                      <img src="@/assets/kong.png" alt>
-                      <p class="mt-30">好的行为习惯从添加开始哟~</p>
+                      <img src="@/assets/kong.png" alt />
+                      <p class="mt-30">好的行为习惯从添加开始哟</p>
                     </div>
                   </template>
                 </div>
@@ -108,11 +109,11 @@
                 </div>
                 <div class="dhole flex">
                   <router-link to="/action">
-                    <img src="@/assets/action-icon-1@2x.png" width="20" height="20">
+                    <img src="@/assets/action-icon-1@2x.png" width="20" height="20" />
                     <span class="ml-10">行为管理</span>
                   </router-link>
                   <router-link to="/prize">
-                    <img src="@/assets/prize-icon-1@2x.png" width="20" height="20">
+                    <img src="@/assets/prize-icon-1@2x.png" width="20" height="20" />
                     <span class="ml-10">奖励兑换</span>
                   </router-link>
                 </div>
@@ -123,7 +124,7 @@
                 <span>近一周在家表现</span>
               </div>
               <!-- 一周数据分析 -->
-              <qxChart id="homeStat" :option="homeOption"/>
+              <qxChart id="homeStat" :option="homeOption" />
             </div>
           </van-tab>
           <van-tab title="在校表现">
@@ -168,7 +169,7 @@
                 <span>近一周在校表现</span>
               </div>
               <!-- 一周数据分析 -->
-              <qxChart id="stateMent" :option="stateMentOption"/>
+              <qxChart id="stateMent" :option="stateMentOption" />
             </div>
           </van-tab>
           <van-tab title="成长分析">
@@ -176,7 +177,7 @@
               <div class="remark">
                 <div class="remark-hd flex j-c-s-b a-i-c">
                   <div class="remark-left flex a-i-c">
-                    <img src="@/assets/remark-icon@2x.png" width="20" height="20">
+                    <img src="@/assets/remark-icon@2x.png" width="20" height="20" />
                     <span class="ml-10">评语</span>
                   </div>
                   <router-link to="/remark" tag="div" class="remark-right flex a-i-c">
@@ -198,18 +199,18 @@
                     <div class="remark-time">{{ remark.sysTime }}</div>
                   </template>
                   <template v-else>
-                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦~</p>
+                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦</p>
                   </template>
                 </div>
               </div>
               <div class="snail flex j-c-s-b a-i-c mb-20">
                 <div class="flex a-i-c">
-                  <img src="@/assets/snail-icon@2x.png" alt width="20" height="20">
+                  <img src="@/assets/snail-icon@2x.png" alt width="20" height="20" />
                   <div class="ml-10">综合竞争力排名</div>
                 </div>
                 <div class="flex a-i-c">
                   <span class="mr-10">80</span>
-                  <img src="@/assets/arrow-up@2x.png" alt width="8" height="18">
+                  <img src="@/assets/arrow-up@2x.png" alt width="8" height="18" />
                 </div>
               </div>
               <div class="mod">
@@ -256,6 +257,7 @@ export default {
   mixins: [pageMixin, echartMixin],
   data() {
     return {
+      rateReadonly: false,
       showNumber: 0,
       active: 0,
       tabActive: 0,
@@ -271,10 +273,10 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openStudentName: state => state.info.openStudentName,
-      openPhoto: state => state.info.openPhoto,
+      name: state => state.info.name,
+      photo: state => state.info.photo,
       openId: state => state.info.openId,
-      studentId: state => state.info.openStudentId,
+      studentId: state => state.info.studentId,
       totalStarCount: state => state.info.totalStarCount,
       isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
     }),
@@ -301,8 +303,22 @@ export default {
           .catch(() => {});
       }
     },
+    handleRoleJump() {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
+        this.$router.push({
+          path: "/role"
+        });
+      } else {
+        this.$router.push({
+          path: "/child",
+          query: {
+            search: "single"
+          }
+        });
+      }
+    },
     //rate事件
-    handleChangeRate(index) {
+    async handleChangeRate(index) {
       let action = this.myActions[index];
       if (action) {
         let { studentId, actionId, actionType, starCount } = action;
@@ -312,7 +328,21 @@ export default {
           actionType,
           starCount
         });
-        this.actionStrike(obj);
+        //行为打星
+        this.rateReadonly = true;
+        let res = await service.actionStrike(obj);
+        if (res.errorCode === 0) {
+          let { totalStarCount, star } = res.data;
+          this.rateReadonly = false;
+          action.starCount = star;
+          //更新星星数量
+          let _cookie = Cookies.getJSON("info");
+          let obj = Object.assign({}, _cookie, { totalStarCount });
+          this.$store.dispatch("user/setInfo", obj).then(data => {
+            if (data.success === "ok") {
+            }
+          });
+        }
       }
     },
     //显示更多我的行为
@@ -349,20 +379,6 @@ export default {
           path: "/course/view",
           query: {
             title: params.title
-          }
-        });
-      }
-    },
-    //行为打星
-    async actionStrike(params = {}) {
-      let res = await service.actionStrike(params);
-      if (res.errorCode === 0) {
-        let { totalStarCount } = res.data;
-        //更新星星数量
-        let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, { totalStarCount });
-        this.$store.dispatch("user/setInfo", obj).then(data => {
-          if (data.success === "ok") {
           }
         });
       }
@@ -438,7 +454,7 @@ export default {
   padding: 0 30px;
   color: #fff;
   .js-user-change {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 }
 .container {

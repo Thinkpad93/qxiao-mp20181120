@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="paeg-bd">
       <!-- dialog -->
       <van-dialog
         v-model="dialogVisible"
@@ -24,31 +24,31 @@
               placeholder="请输入兑换Q星数量"
               class="input input-border"
               v-model="form.starCount"
-            >
+            />
           </div>
         </form>
       </van-dialog>
       <div class="pichi gradient-two">
         <div class="pichi-head">
-          <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">
-          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
-          <p size-16 class="ml-20">{{ openStudentName }}</p>
+          <img :src="photo" width="40" height="40" radius="50" v-if="photo" />
+          <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
+          <p size-16 class="ml-20">{{ name }}总Q星: {{ totalStarCount }}</p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">
-            <img src="@/assets/rate-icon@2x.png" width="30" height="30">
-            <strong class="ml-10">{{ totalStarCount }}</strong>
+            <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
+            <strong class="ml-10">{{ todayStarTotal }}</strong>
           </div>
-          <p class="mb-30">可兑换Q星数量</p>
+          <p class="mb-30">(可兑换Q星数量)</p>
           <p>手指勾勾约定好，奖励兑现要做到！</p>
         </div>
         <div class="pichi-ft">
           <a href="javascript:void(0);" @click="dialogVisible = true">
-            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt>
+            <img src="@/assets/prize-icon-2@2x.png" width="20" height="20" alt />
             <span class="ml-10">添加奖项</span>
           </a>
           <router-link :to="{path: '/prize/log'}">
-            <img src="@/assets/prize-icon-3@2x.png" width="20" height="20" alt>
+            <img src="@/assets/prize-icon-3@2x.png" width="20" height="20" alt />
             <span class="ml-10">兑换记录</span>
           </router-link>
         </div>
@@ -84,13 +84,15 @@
         </van-swipe-cell>
       </div>
     </div>
-    <div class="flex-ft">
-      <div class="tapeti">
-        <div class="tapeti-left">
-          <p class="pl-20">合计Q星: {{ total }}</p>
-        </div>
-        <div class="tapeti-right">
-          <van-button type="info" @click="handleSave">兑换</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="tapeti">
+          <div class="tapeti-left">
+            <p class="pl-20">合计Q星: {{ total }}</p>
+          </div>
+          <div class="tapeti-right">
+            <van-button type="info" @click="handleSave">兑换</van-button>
+          </div>
         </div>
       </div>
     </div>
@@ -106,8 +108,8 @@ export default {
   mixins: [pageMixin],
   data() {
     return {
-      studentId: this.$store.state.user.info.openStudentId,
       query: {
+        studentId: this.$store.state.user.info.studentId,
         openId: this.$store.state.user.info.openId,
         page: 1,
         pageSize: 20
@@ -118,13 +120,14 @@ export default {
         starCount: ""
       },
       list: [],
-      total: 0
+      total: 0,
+      todayStarTotal: 0 //当天可兑换Q星数
     };
   },
   computed: {
     ...mapState("user", {
-      openPhoto: state => state.info.openPhoto,
-      openStudentName: state => state.info.openStudentName,
+      photo: state => state.info.photo,
+      name: state => state.info.name,
       totalStarCount: state => state.info.totalStarCount
     })
   },
@@ -197,7 +200,7 @@ export default {
         this.$toast("请勾选你要兑换的奖项");
         return;
       }
-      if (this.total > this.totalStarCount) {
+      if (this.total > this.todayStarTotal) {
         this.$toast("你的Q星数量不够兑换的奖项哦");
         return;
       }
@@ -213,7 +216,7 @@ export default {
       });
       if (itemArray.length) {
         let obj = {
-          studentId: this.$store.state.user.info.openStudentId,
+          studentId: this.query.studentId,
           openId: this.query.openId,
           itemArray
         };
@@ -245,6 +248,7 @@ export default {
       let res = await service.prizeListQuery(params);
       if (res.errorCode === 0) {
         if (res.data.data) {
+          this.todayStarTotal = res.data.data[0].todayTotal;
           this.list = res.data.data.map(element => {
             return {
               ...element,
@@ -289,7 +293,6 @@ export default {
   color: #2e2e2e;
   height: 40px;
   padding: 0 20px;
-  background-color: #f6f8f9;
 }
 .pichi {
   position: relative;

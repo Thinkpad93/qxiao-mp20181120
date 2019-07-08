@@ -1,12 +1,9 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd cover">
+  <div class="page">
+    <div class="page-bd cover">
       <form action ref="form" class="join-form">
         <div class="join-head">
-          <h2 size-18 class="text-ellipsis text-center">
-            {{ info.schoolName }}
-            <small>(ID码: {{ info.schoolCode }})</small>
-          </h2>
+          <h2 size-18 class="text-ellipsis text-center">{{ info.schoolName }}</h2>
           <div class="address flex text-ellipsis">
             <van-icon name="location-o" size="16px"></van-icon>
             <span>{{ info.location }}</span>
@@ -18,7 +15,7 @@
               <label class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="info.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="info.teacherName" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -47,14 +44,19 @@
                 placeholder="请输入手机号"
                 readonly
                 v-model="info.tel"
-              >
+              />
             </div>
           </div>
         </div>
-        <div class="btn-group">
+        <!-- <div class="btn-group">
           <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">申请加入</a>
-        </div>
+        </div>-->
       </form>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">添加</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +108,7 @@ export default {
             });
           }
         });
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }
@@ -117,17 +119,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.cover {
-  background-color: #cbf4fa;
-}
-.join-form {
-  z-index: 10;
-  width: 100%;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
 .join-head {
   padding-top: 75px;
   padding-left: 20px;

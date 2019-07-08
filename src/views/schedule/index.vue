@@ -1,10 +1,20 @@
 <template>
-  <div class></div>
+  <div class="page">
+    <div class="page-bd">
+      <div class="schedule">
+        <div class="schedule-hd"></div>
+        <div class="schedule-bd">
+          <div class="item"></div>
+        </div>
+        <div class="schedule-ft"></div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import service from "@/api";
 export default {
-  name: "",
+  name: "schedule",
   data() {
     return {};
   }

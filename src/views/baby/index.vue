@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells">
         <div
           class="cell student-box"
@@ -11,8 +11,10 @@
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <strong>{{ item.openStudentName }}</strong>
-              <span>{{ item.className }}</span>
+              <img :src="item.photo" radius="50" v-if="item.photo" />
+              <img src="@/assets/child-default@2x.png" radius="50" v-else />
+              <strong>{{ item.name }}</strong>
+              <span size-12>Q星: {{ item.totalStarCount }}</span>
             </div>
           </div>
           <div class="cell-ft">
@@ -31,14 +33,14 @@ export default {
   name: "boby",
   data() {
     return {
-      studentId: parseInt(this.$store.state.user.info.studentId),
       studentList: []
     };
   },
   computed: {
     ...mapState("user", {
       roleType: state => state.info.roleType,
-      openId: state => state.info.openId
+      openId: state => state.info.openId,
+      studentId: state => state.info.studentId
     })
   },
   methods: {
@@ -53,20 +55,20 @@ export default {
     },
     //点击孩子进行切换操作
     handleStudentChange(params = {}) {
-      let { openStudentId, openStudentName, totalStarCount, ...args } = params;
-      if (args.studentId == this.studentId) {
+      //当前关联的不切换
+      if (this.studentId == params.studentId) {
         this.$router.go(-1);
       } else {
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, args);
+        let obj = Object.assign({}, _cookie, params);
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
-            let params = {
+            let param = {
               openId: this.openId,
-              studentId: args.studentId,
+              studentId: obj.studentId,
               type: 1
             };
-            this.switchingState(params);
+            this.switchingState(param);
             this.$router.go(-1);
           }
         });
@@ -94,11 +96,15 @@ export default {
 <style lang="less" scoped>
 .student-box {
   height: 120px;
+  img {
+    width: 100px;
+    height: 100px;
+  }
   strong {
     font-weight: normal;
     color: #2e2e2e;
     display: inline-block;
-    margin: 0 40px 0 0;
+    margin: 0 40px;
   }
   span {
     color: #999;

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <form action ref="form">
         <div class="cells-title">基础信息</div>
         <div class="cells">
@@ -72,8 +72,10 @@
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -125,7 +127,7 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$router.go(-1);
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }

@@ -1,7 +1,7 @@
 
 <template>
   <div class="page">
-    <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
+    <template v-if="roleType != 3">
       <div class="page-hd">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
@@ -23,50 +23,57 @@
         ></van-picker>
       </van-popup>
       <template v-if="roleType == 2">
-        <!-- <router-link to="/home-work/add" class="release">
-          <van-icon name="description" size="24px"></van-icon>
-        </router-link>-->
-        <qxRelease url="/home-work/add"/>
+        <qxRelease url="/home-work/add" />
       </template>
-      <van-swipe-cell
-        ref="swipeCell"
-        :right-width="60"
-        v-for="(homework, index) in list"
-        :key="index"
-        :disabled="roleType == 3"
-        :on-close="onClose(homework, index)"
+      <!-- list -->
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :immediate-check="false"
+        :offset="100"
+        @load="onLoad"
       >
-        <van-cell-group>
-          <figure class="figure figure-skin-two" @click="go(homework)">
-            <div class="figure-bd">
-              <div class="figure-info">
-                <figcaption size-18 class="text-ellipsis">
-                  <i v-if="!homework.status"></i>
-                  <span>{{ homework.title }}</span>
-                </figcaption>
-                <div class="metedata flex">
-                  <time class="time">{{ homework.postTime }}</time>
+        <van-swipe-cell
+          ref="swipeCell"
+          :right-width="60"
+          v-for="(homework, index) in list"
+          :key="index"
+          :disabled="roleType == 3"
+          :on-close="onClose(homework, index)"
+        >
+          <van-cell-group>
+            <figure class="figure figure-skin-two" @click="go(homework)">
+              <div class="figure-bd">
+                <div class="figure-info">
+                  <figcaption size-18 class="text-ellipsis">
+                    <i v-if="!homework.status"></i>
+                    <span>{{ homework.title }}</span>
+                  </figcaption>
+                  <div class="metedata flex">
+                    <time class="time">{{ homework.postTime }}</time>
+                  </div>
+                  <div
+                    class="figure-thumb-medium"
+                    v-if="homework.topImage"
+                    :style="{backgroundImage: `url(${homework.topImage})`}"
+                  ></div>
+                  <p class="line-clamp">{{ homework.textContent | brReplace }}</p>
                 </div>
-                <div
-                  class="figure-thumb-medium"
-                  v-if="homework.topImage"
-                  :style="{backgroundImage: `url(${homework.topImage})`}"
-                ></div>
-                <p class="line-clamp">{{ homework.textContent | brReplace }}</p>
               </div>
-            </div>
-            <div class="figure-ft">
-              <div class="figure-icon">
-                <van-icon name="eye-o" size="16px"></van-icon>
-                <b>{{ homework.classReadCount }}</b>
+              <div class="figure-ft">
+                <div class="figure-icon">
+                  <van-icon name="eye-o" size="16px"></van-icon>
+                  <b>{{ homework.classReadCount }}</b>
+                </div>
               </div>
-            </div>
-          </figure>
-        </van-cell-group>
-        <span slot="right" style="line-height: 80px;">删除</span>
-      </van-swipe-cell>
+            </figure>
+          </van-cell-group>
+          <span slot="right" style="line-height: 80px;">删除</span>
+        </van-swipe-cell>
+      </van-list>
+      <!-- list -->
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>暂无亲子作业</p>
       </div>
     </div>
@@ -75,19 +82,19 @@
 <script>
 import service from "@/api";
 import qxRelease from "@/components/Release";
-import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 export default {
   name: "homeWork",
-  mixins: [scrollMixins, classList],
+  mixins: [classList],
   components: {
     qxRelease
   },
   data() {
     return {
+      loading: false,
+      finished: false,
       popupShow: false,
       className: decodeURI(this.$store.state.user.info.className),
-      isLoading: false,
       totalPage: 1, //总页数
       query: {
         openId: this.$store.state.user.info.openId,
@@ -100,13 +107,32 @@ export default {
       list: []
     };
   },
-  filters: {
-    brReplace(value) {
-      if (!value) return "";
-      return value.replace(/<br\/>/g, "");
-    }
-  },
   methods: {
+    onLoad() {
+      console.log("onLoad");
+      //当组件滚动到底部时，会触发load事件
+      if (this.query.page < this.totalPage) {
+        //加载数据
+        this.query.page += 1;
+        service.homeworkQuery(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.list.push(list[i]);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     onClose(homework, index) {
       return (clickPosition, instance) => {
         switch (clickPosition) {
@@ -151,38 +177,10 @@ export default {
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
+      this.query.page = 1;
+      //当切换班级时，重新设置为没有全部加载完成
+      this.finished = false;
       this.homeworkQuery(this.query);
-    },
-    //加载分页数据
-    handleLoadingMore(e) {
-      console.log(e);
-      let scrollTop = 0;
-      if (document.documentElement && document.documentElement.scrollTop) {
-        scrollTop = document.documentElement.scrollTop;
-      } else if (document.body) {
-        scrollTop = document.body.scrollTop;
-      }
-      let bottom =
-        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
-      if (bottom && this.isLoading === false) {
-        if (this.query.page < this.totalPage) {
-          this.isLoading = true;
-          this.query.page += 1;
-          service.homeworkQuery(this.query).then(res => {
-            if (res.errorCode === 0) {
-              this.totalPage = res.data.totalPage;
-              this.query.page = res.data.page;
-              this.isLoading = false;
-              let list = res.data.data;
-              if (list.length) {
-                list.forEach(element => {
-                  this.list.push(element);
-                });
-              }
-            }
-          });
-        }
-      }
     },
     //作业列表查询
     async homeworkQuery(params = {}) {
@@ -191,7 +189,6 @@ export default {
         this.popupShow = false;
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
-        this.isLoading = false;
         this.list = res.data.data;
       }
     }

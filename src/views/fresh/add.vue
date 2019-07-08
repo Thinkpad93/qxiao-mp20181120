@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <input
                 class="input"
                 placeholder="请输入速报标题"
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <textarea
                 class="textarea"
                 placeholder="请输入速报内容..."
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
@@ -51,7 +51,7 @@
             <div class="cell-hd">
               <label for class="label">发送班级</label>
             </div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <select class="select" name="select" dir="rtl" v-model="selected" multiple size="1">
                 <!-- 兼容性问题修改 -->
                 <optgroup disabled hidden></optgroup>
@@ -65,8 +65,10 @@
           </div>
         </div>
       </form>
-      <div class="btn-group">
-        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">发布</a>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">发布</van-button>
       </div>
     </div>
   </div>
@@ -143,6 +145,8 @@ export default {
       if (res.errorCode === 0) {
         this.$refs.form.reset();
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

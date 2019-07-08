@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       query: {
+        studentId: this.$route.query.studentId,
         openId: this.$store.state.user.info.openId,
         data: this.$route.query.day
       },

@@ -1,20 +1,21 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <div class="cells-title">点击选择关联孩子</div>
       <div class="cells">
         <div
           class="cell student-box"
           v-for="(item, index) in studentList"
           :key="index"
-          :class="[item.openStudentId == openStudentId ? 'curr-student': '']"
+          :class="[item.studentId == studentId ? 'curr-student': '']"
           @click="handleStudentChange(item)"
         >
           <div class="cell-bd">
             <div class="flex a-i-c">
-              <img :src="item.openPhoto" radius="50" v-if="item.openPhoto">
-              <img src="@/assets/child-default@2x.png" radius="50" v-else>
-              <strong>{{ item.openStudentName }}</strong>
-              <span v-show="item.totalStarCount">Q星：{{ item.totalStarCount }}</span>
+              <img :src="item.photo" radius="50" v-if="item.photo" />
+              <img src="@/assets/child-default@2x.png" radius="50" v-else />
+              <strong>{{ item.name }}</strong>
+              <span size-12>Q星: {{ item.totalStarCount }}</span>
             </div>
           </div>
           <div class="cell-ft">
@@ -38,60 +39,52 @@ export default {
   name: "childList",
   data() {
     return {
-      openId: this.$store.state.user.info.openId,
-      openStudentId: parseInt(this.$store.state.user.info.openStudentId),
       studentList: []
     };
   },
   computed: {
     ...mapState("user", {
       roleType: state => state.info.roleType,
-      photo: state => state.info.photo
+      photo: state => state.info.photo,
+      openId: state => state.info.openId,
+      studentId: state => state.info.studentId
     })
   },
   methods: {
     jump(params) {
-      let { openStudentId, roleType } = params;
+      let { studentId, roleType } = params;
       this.$router.push({
         path: "/child/edit",
         query: {
-          openStudentId,
+          studentId,
           roleType
         }
       });
     },
     //点击孩子进行切换操作
     handleStudentChange(params = {}) {
-      let {
-        openStudentId,
-        openStudentName,
-        openPhoto,
-        totalStarCount,
-        isBindBracelet
-      } = params;
       //当前关联的不切换
-      if (openStudentId == this.openStudentId) {
+      if (this.studentId == params.studentId) {
         this.$router.go(-1);
       } else {
+        let { sex, ...args } = params;
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, {
-          openStudentId,
-          openStudentName,
-          openPhoto,
-          totalStarCount,
-          isBindBracelet
-        });
+        let obj = Object.assign({}, _cookie, args);
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
-            let params = {
+            let param = {
               openId: this.openId,
-              studentId: openStudentId,
-              type: 0
+              studentId: obj.studentId,
+              type: 1
             };
-            this.switchingState(params);
-            this.$router.push({
-              path: "/single"
-            });
+            this.switchingState(param);
+            if (this.$route.query.search === "user") {
+              this.$router.go(-1);
+            } else {
+              this.$router.push({
+                path: "/single"
+              });
+            }
           }
         });
       }
@@ -135,12 +128,5 @@ export default {
 
 .curr-student {
   border-left: 8px solid #84ce09;
-}
-.fixed-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
 }
 </style>

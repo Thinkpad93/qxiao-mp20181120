@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- -->
       <van-dialog
         v-model="dialogVisible"
@@ -68,6 +68,7 @@
             :right-width="60"
             v-for="(item, index) in form.rules"
             :key="index"
+            :disabled="parseInt(query.actionType) === 0"
             :on-close="onClose(index, item.ruleId)"
           >
             <van-cell-group>
@@ -98,8 +99,10 @@
         v-show="query.actionType == 0"
       >默认行为无法修改，不一样的培养标准请自定义哦</p>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -115,7 +118,7 @@ export default {
       chenkedList: [],
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         actionId: this.$route.query.actionId,
         actionType: this.$route.query.actionType,
         choiceType: this.$route.query.choiceType
@@ -166,8 +169,6 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          //let { stressFlag, ...args } = this.dialogForm;
-          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
           //行为标准增加
           let res = await service.ruleAdd(Object.assign({}, this.dialogForm));
           if (res.errorCode === 0) {

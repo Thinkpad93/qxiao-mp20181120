@@ -10,11 +10,14 @@
             @click.stop="changeRole(item)"
           >
             <div>
-              <img src="@/assets/teacher@2x.png" v-if="item.roleType == 2">
-              <img src="@/assets/family@2x.png" v-else>
+              <img
+                src="@/assets/teacher@2x.png"
+                v-if="item.roleType == 1 || item.roleType == 2 || item.roleType == 4"
+              />
+              <img src="@/assets/family@2x.png" v-else />
             </div>
-            <p v-if="item.roleType == 2">我是老师</p>
-            <p v-else-if="item.roleType == 3">我是家长</p>
+            <p v-if="item.roleType == 1 || item.roleType == 2 || item.roleType == 4">我是老师</p>
+            <p v-else-if="item.roleType == 3 || item.roleType == 9">我是家长</p>
           </div>
         </div>
       </div>
@@ -40,27 +43,18 @@ export default {
   },
   methods: {
     changeRole(item) {
-      console.log(item);
       //如果要切换的角色是当前角色，则不切换
       if (item.roleType == this.roleType) {
         this.$router.go(-1);
         return;
       }
       let _cookie = Cookies.getJSON("info");
-      let { id, roleType, classId, className, studentId, name } = item;
-      let obj = Object.assign({}, _cookie, {
-        id,
-        roleType,
-        classId,
-        className,
-        studentId,
-        name
-      });
+      let obj = Object.assign({}, _cookie, item);
       this.$store.dispatch("user/setInfo", obj).then(data => {
         if (data.success === "ok") {
           let params = {
             openId: this.openId,
-            studentId: studentId,
+            studentId: obj.studentId,
             type: 2
           };
           this.switchingState(params);

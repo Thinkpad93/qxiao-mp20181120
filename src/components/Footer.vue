@@ -1,7 +1,7 @@
 <template>
   <div class="footer" style="z-index: 100;">
     <div class="item">
-      <router-link to="/single">
+      <router-link :to="{ path: singleUrl }">
         <div>小Q表现</div>
       </router-link>
     </div>
@@ -11,7 +11,7 @@
       </router-link>
     </div>-->
     <div class="item">
-      <router-link to="/home">
+      <router-link :to="{ path: homeUrl }">
         <div>小Q班级</div>
       </router-link>
     </div>
@@ -23,10 +23,26 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "qxFooter",
   data() {
     return {};
+  },
+  computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType
+    }),
+    singleUrl() {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
+        return `/single/teacher`;
+      } else {
+        return `/single`;
+      }
+    },
+    homeUrl() {
+      return this.roleType == 9 ? "/login?redirect" : "/home";
+    }
   }
 };
 </script>

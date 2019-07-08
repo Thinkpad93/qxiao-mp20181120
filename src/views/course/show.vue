@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- video视频区域 -->
       <div class="video-mod">
         <div class="video-main">
@@ -50,7 +50,7 @@
         </van-tab>
       </van-tabs>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <!-- <div class="handle flex a-i-c"> -->
       <!-- <div class="handle-comment" @click="dialogVisible = true">
           <van-icon name="comment-o" size="20px"></van-icon>

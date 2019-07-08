@@ -1,12 +1,12 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- layout one -->
       <div class="wisdom-user flex a-i-c j-c-c gradient-three">
         <div class="wisdom-box">
           <div class="flex a-i-c j-c-c">
             <img :src="photo" width="50" height="50" radius="50">
-            <div class="js-user-change ml-20">{{ openStudentName }}</div>
+            <div class="js-user-change ml-20">{{ name }}</div>
           </div>
           <p size-12 class="mt-20 mb-20">当你在平台上分享你的作品，不可思议的事件就会让你成长</p>
           <router-link to="/works" tag="div" class="text-center">
@@ -31,7 +31,7 @@
       </div>
       <!-- 文章 end -->
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <qxFooter></qxFooter>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       photo: this.$store.state.user.info.photo,
-      openStudentName: this.$store.state.user.info.openStudentName,
+      name: this.$store.state.user.info.name,
       list: []
     };
   },

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <template v-if="list.length">
         <div class="album">
           <div class="album-figrue-box flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
@@ -65,7 +65,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .album {
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   background-color: #fff;
   .album-figure {
     width: 50%;

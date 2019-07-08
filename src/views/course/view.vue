@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="gazelle">
         <div class="gazelle-head">
-          <img :src="openPhoto" width="40" height="40" radius="50" v-if="openPhoto">
+          <img :src="photo" width="40" height="40" radius="50" v-if="photo">
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else>
-          <p size-16 class="ml-20">{{ openStudentName }}</p>
+          <p size-16 class="ml-20">{{ name }}</p>
         </div>
         <div class="gazelle-body">
           <p class="tip">小Q手环温馨提示您</p>
@@ -60,8 +60,8 @@ export default {
   },
   computed: {
     ...mapState("user", {
-      openPhoto: state => state.info.openPhoto,
-      openStudentName: state => state.info.openStudentName
+      photo: state => state.info.photo,
+      name: state => state.info.name
     })
   },
   methods: {

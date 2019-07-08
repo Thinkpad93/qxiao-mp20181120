@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells-title">基础信息</div>
       <div class="cells">
         <div class="cell">
@@ -68,10 +68,12 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <div class="flex">
-        <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
-        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <div class="flex">
+          <van-button size="large" type="danger" class="no-radius" @click="handleDel">删除</van-button>
+          <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+        </div>
       </div>
     </div>
   </div>
@@ -137,7 +139,7 @@ export default {
       let res = await service.teacherUpdate(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     },

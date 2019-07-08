@@ -1,8 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
-      <!-- dialog -->
-      <!-- <van-dialog v-model="dialogVisible" title="行为说明" show-cancel-button @confirm="handleConfirm"></van-dialog> -->
+  <div class="page">
+    <div class="page-bd">
       <div class="wrap">
         <div class="mod">
           <div class="guanaco">
@@ -69,7 +67,7 @@ export default {
       isShow: true,
       query: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId
+        studentId: this.$store.state.user.info.studentId
       },
       myActions: [],
       recommends: []
@@ -88,7 +86,7 @@ export default {
     handleActionDelete(index, params) {
       let obj = {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         actionId: params.actionId,
         actionType: params.actionType
       };

@@ -24,7 +24,11 @@ import {
   CollapseItem,
   Tag,
   Uploader,
+<<<<<<< HEAD
   NoticeBar
+=======
+  List
+>>>>>>> open-dev-190701
 } from 'vant';
 
 Vue.use(Radio)
@@ -51,4 +55,8 @@ Vue.use(Radio)
   .use(CollapseItem)
   .use(Tag)
   .use(Uploader)
+<<<<<<< HEAD
   .use(NoticeBar);
+=======
+  .use(List);
+>>>>>>> open-dev-190701

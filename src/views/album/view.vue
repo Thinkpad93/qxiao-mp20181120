@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-dialog
         v-model="dialogVisible"
         title="相册名称"
@@ -48,12 +48,11 @@
         <p>暂无相册列表</p>
       </div>
     </div>
-    <div class="flex-ft">
+    <div class="page-ft">
       <template v-if="roleType == 2">
-        <van-button type="info" size="large" class="no-radius" @click="dialogVisible = true">新增栏目</van-button>
-        <!-- <section class="mamba">
-          <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">新增栏目</a>
-        </section>-->
+        <div class="fixed-bottom" style="z-index: 100;">
+          <van-button type="info" size="large" class="no-radius" @click="dialogVisible = true">新增栏目</van-button>
+        </div>
       </template>
     </div>
   </div>

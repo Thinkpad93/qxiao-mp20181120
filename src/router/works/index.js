@@ -27,5 +27,15 @@ export default [{
       keepAlive: false,
       isShare: false,
     }
+  },
+  {
+    path: '/works/teacher',
+    name: 'worksTeacher',
+    component: () => import('@/views/works/teacher'),
+    meta: {
+      title: "学生作品",
+      keepAlive: false,
+      isShare: false,
+    }
   }
 ]

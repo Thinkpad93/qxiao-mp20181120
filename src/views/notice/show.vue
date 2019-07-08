@@ -1,9 +1,13 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="empty" v-if="parseInt(info.isDel)">
-        <img src="@/assets/kong.png" alt>
-        <p>内容已被删除了~</p>
+        <img src="@/assets/kong.png" alt />
+        <p>内容已被删除了</p>
+      </div>
+      <!-- 返回首页 -->
+      <div class="back-home" @click="handleBackHome">
+        <van-icon name="home-o" size="24px"></van-icon>
       </div>
       <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
@@ -20,38 +24,38 @@
           <p v-html="info.textContent"></p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
-              <img :src="img.imageUrl">
+              <img :src="img.imageUrl" />
             </p>
           </template>
         </div>
       </article>
     </div>
-    <div class="flex-ft" v-show="!parseInt(info.isDel)">
-      <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
-        <section class="mamba">
-          <p
-            style="color:#92cd36;margin: 4px 0"
-            size-16
-            @click="handleReaders(info)"
-          >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
-        </section>
-      </template>
-      <template v-if="roleType == 3">
-        <template v-if="needConfirm">
+    <div class="page-ft" v-show="!parseInt(info.isDel)">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <template v-if="roleType != 3">
           <section class="mamba">
-            <a
-              :class="[ info.confirmFlag ? 'btn-default': 'btn-primary' ]"
-              href="javascript:void(0);"
-              class="btn btn-large"
-              @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确认':'确认阅读' }}</a>
+            <p
+              @click="handleReaders(info)"
+            >班级已读{{ info.classReadCount }}人，共{{ info.totalCount }}人，查看详情</p>
           </section>
         </template>
-      </template>
+        <template v-if="roleType == 3">
+          <template v-if="needConfirm">
+            <van-button
+              type="info"
+              size="large"
+              class="no-radius"
+              :disabled="info.confirmFlag == 1"
+              @click="handleConfirmFlag"
+            >{{ info.confirmFlag ? '已确认':'确认' }}</van-button>
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 export default {
   name: "noticeShow",
@@ -70,6 +74,15 @@ export default {
     };
   },
   methods: {
+    handleBackHome() {
+      let obj = {
+        id: this.$store.state.user.info.id,
+        openId: this.query.openId,
+        roleType: this.roleType,
+        studentId: this.query.studentId
+      };
+      this.backPage(obj);
+    },
     handleConfirmFlag() {
       //0-无需确认 1-需要确认
       if (!this.info.confirmFlag) {
@@ -105,6 +118,21 @@ export default {
           this.$toast("通知确认成功");
         }
       }
+    },
+    //返回首页
+    async backPage(params = {}) {
+      let res = await service.backPage(params);
+      if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, res.data);
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+            this.$router.push({
+              path: "/home"
+            });
+          }
+        });
+      }
     }
   },
   activated() {
@@ -119,12 +147,11 @@ export default {
   border-radius: 50%;
 }
 .mamba {
-  padding: 20px 0;
+  font-size: 32px;
+  color: #92cd36;
+  padding: 30px 0;
   text-align: center;
   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
   background-color: #fff;
-  > a {
-    width: 500px;
-  }
 }
 </style>

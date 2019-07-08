@@ -3,7 +3,7 @@
     <div class="box" v-for="(fuck, fuckIndex) in data" :key="fuck.communityId">
       <div class="cell flex">
         <div class="cell-hd">
-          <img v-if="fuck.photo" :src="fuck.photo">
+          <img v-if="fuck.photo" :src="fuck.photo" />
         </div>
         <div class="cell-bd">
           <h5 size-15>{{ fuck.name }}</h5>
@@ -55,6 +55,7 @@
             </div>
           </div>
           <div class="data">
+            <!-- 点赞列表 -->
             <template v-if="fuck.praiseList.length">
               <div class="zan-list flex a-i-c">
                 <van-icon name="like" size="12px" color="#336d92"></van-icon>
@@ -64,6 +65,7 @@
                 >{{ praise.studentName}}</span>
               </div>
             </template>
+            <!-- 评论列表 -->
             <template v-if="fuck.commentList.length">
               <transition name="fade" mode="out-in">
                 <ul class="comment-list">
@@ -92,7 +94,6 @@
 </template>
 <script>
 import service from "@/api";
-//import { ImagePreview } from "vant";
 import { mapState } from "vuex";
 export default {
   name: "community",
@@ -146,14 +147,14 @@ export default {
     },
     handlePraise(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版，不能点赞");
+        this.$toast("体验版不能点赞");
         return false;
       }
       this.$emit("on-praise", fuck, index);
     },
     handleComment(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版，不能评论");
+        this.$toast("体验版不能评论");
         return false;
       }
       this.$emit("on-comment", fuck, index);
@@ -164,6 +165,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .community {
+  background-color: #fff;
   .box {
     border-top: 1px solid #f2f2f2;
     padding-top: 30px;

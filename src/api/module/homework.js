@@ -10,7 +10,7 @@ export function homeworkQuery(params, config = {
 }
 //作业详情查询
 export function homeworkDetail(params, config = {
-  showLoading: false
+  showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/homework/homeworkDetail.do', params, config)
     .then(res => res.data)

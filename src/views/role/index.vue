@@ -1,9 +1,9 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <div class="cells-title">基础信息</div>
       <!-- 园长 -->
-      <template v-if="roleType == 1 || roleType == 4">
+      <template v-if="roleType == 1">
         <div class="cells">
           <div class="cell min-h120">
             <div class="cell-hd">
@@ -15,7 +15,7 @@
                 placeholder="请输入姓名"
                 maxlength="20"
                 v-model="leaderInfo.leaderName"
-              >
+              />
             </div>
           </div>
           <div class="cell min-h120">
@@ -23,14 +23,7 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入手机号"
-                v-model="leaderInfo.tel"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入手机号" v-model="leaderInfo.tel" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -38,7 +31,7 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName">
+              <input class="input" placeholder="请输入学校名称" v-model="leaderInfo.schoolName" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -46,13 +39,13 @@
               <label for class="label">详细地址</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入详细地址" v-model="leaderInfo.location">
+              <input class="input" placeholder="请输入详细地址" v-model="leaderInfo.location" />
             </div>
           </div>
         </div>
       </template>
-      <!-- 老师 -->
-      <template v-if="roleType == 2">
+      <!-- 老师 or 管理员 -->
+      <template v-if="roleType == 2 || roleType == 4">
         <div class="cells">
           <div class="cell min-h120">
             <div class="cell-hd">
@@ -64,7 +57,7 @@
                 placeholder="请输入老师姓名"
                 maxlength="20"
                 v-model="teacherInfo.teacherName"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after min-h120">
@@ -86,14 +79,7 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入手机号"
-                v-model="teacherInfo.tel"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入手机号" v-model="teacherInfo.tel" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -101,29 +87,7 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校名称"
-                v-model="teacherInfo.schoolName"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
-            </div>
-          </div>
-          <div class="cell min-h120">
-            <div class="cell-hd">
-              <label for class="label">学校ID码</label>
-            </div>
-            <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校ID码"
-                v-model="teacherInfo.schoolCode"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入学校名称" v-model="teacherInfo.schoolName" disabled />
             </div>
           </div>
           <div class="cell min-h120">
@@ -131,21 +95,16 @@
               <label for class="label">学校地址</label>
             </div>
             <div class="cell-bd">
-              <input
-                class="input"
-                placeholder="请输入学校地址"
-                v-model="teacherInfo.location"
-                readonly
-                unselectable="on"
-                @focus="this.blur()"
-              >
+              <input class="input" placeholder="请输入学校地址" v-model="teacherInfo.location" disabled />
             </div>
           </div>
         </div>
       </template>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -172,9 +131,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (this.roleType == 1 || this.roleType == 4) {
+      if (this.roleType == 1) {
         this.updateSchool();
-      } else if (this.roleType == 2) {
+      } else if (this.roleType == 2 || this.roleType == 4) {
         this.teacherInfoUpdate();
       }
     },
@@ -237,7 +196,7 @@ export default {
     }
   },
   mounted() {
-    if (this.roleType == 1 || this.roleType == 4) {
+    if (this.roleType == 1) {
       this.queryInfo(this.openId);
     } else {
       this.queryTeacherInfo(this.openId);

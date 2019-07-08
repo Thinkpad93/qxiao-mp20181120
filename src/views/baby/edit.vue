@@ -1,6 +1,18 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
+      <!-- popup -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-datetime-picker
+          @cancel="popupShow = false"
+          @confirm="handleConfirm"
+          v-model="startDate"
+          type="date"
+          :min-date="minDate"
+          :formatter="formatter"
+        ></van-datetime-picker>
+      </van-popup>
+      <!-- popup -->
       <div class="cells">
         <div class="cell min-h120">
           <div class="cell-hd">
@@ -11,7 +23,7 @@
               class="input"
               placeholder="请输入姓名"
               maxlength="5"
-              v-model="info.studentName"
+              v-model="form.studentName"
               readonly
             >
           </div>
@@ -21,7 +33,7 @@
             <label for class="label">性别</label>
           </div>
           <div class="cell-bd">
-            <select class="select" name dir="rtl" v-model="info.sex" disabled>
+            <select class="select" name dir="rtl" v-model="form.sex">
               <option
                 :value="option.id"
                 v-for="(option,index) in sexList"
@@ -30,20 +42,20 @@
             </select>
           </div>
         </div>
-        <div class="cell min-h120" v-if="info.schoolName">
+        <div class="cell min-h120" v-if="form.schoolName">
           <div class="cell-hd">
             <label class="label">就读学校</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="info.schoolName" readonly>
+            <input class="input" v-model="form.schoolName" disabled>
           </div>
         </div>
-        <div class="cell min-h120" v-if="info.className">
+        <div class="cell min-h120" v-if="form.className">
           <div class="cell-hd">
             <label class="label">所在班级</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="info.className" readonly>
+            <input class="input" v-model="form.className" disabled>
           </div>
         </div>
         <div class="cell min-h120">
@@ -52,7 +64,8 @@
             <input
               class="input"
               placeholder="请选择出生日期"
-              v-model="info.birthday"
+              @click="popupShow = true"
+              v-model="form.birthday"
               readonly
               maxlength="20"
             >
@@ -67,7 +80,7 @@
               class="input"
               placeholder="请输入地址"
               maxlength="100"
-              v-model="info.address"
+              v-model="form.address"
               readonly
             >
           </div>
@@ -77,7 +90,7 @@
             <label for class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入手机号" v-model="info.tel" readonly unselectable="on">
+            <input class="input" placeholder="请输入手机号" v-model="form.tel" disabled unselectable="on">
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -85,7 +98,7 @@
             <label for class="label">关系</label>
           </div>
           <div class="cell-bd">
-            <select class="select" name dir="rtl" v-model="info.relation" disabled>
+            <select class="select" name dir="rtl" v-model="form.relation">
               <!-- 兼容性问题修改 -->
               <optgroup disabled hidden></optgroup>
               <option
@@ -98,29 +111,72 @@
         </div>
       </div>
     </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
 export default {
   name: "babyEdit",
   mixins: [sex, relation],
   data() {
     return {
+      popupShow: false,
+      minDate: new Date(1966, 10, 1),
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.studentId
       },
-      info: {}
+      form: {}
     };
   },
+  computed: {
+    startDate() {
+      if ("birthday" in this.form) {
+        return new Date(dayjs(this.form.birthday));
+      }
+    }
+  },
   methods: {
+    //格式化函数
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      } else if (type === "month") {
+        return `${value}月`;
+      } else if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },
+    handleConfirm(value) {
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.form.birthday = now;
+      this.popupShow = false;
+    },
+    handleSubmit() {
+      this.studentInfoUpdate(this.form);
+    },
     //查询学生信息
     async studentQueryMe(params = {}) {
       let res = await service.studentQueryMe(params);
       if (res.errorCode === 0) {
-        this.info = res.data;
+        this.form = res.data;
+      }
+    },
+    //学生修改
+    async studentInfoUpdate(params = {}) {
+      let res = await service.studentInfoUpdate(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

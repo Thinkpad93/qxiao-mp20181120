@@ -24,7 +24,8 @@ export default {
             "hideMenuItems",
             "hideOptionMenu",
             "showOptionMenu",
-            "chooseWXPay"
+            "chooseWXPay",
+            "closeWindow",
           ] // 必填，需要使用的JS接口列表
         });
       }

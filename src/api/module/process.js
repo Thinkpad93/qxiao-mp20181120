@@ -52,6 +52,14 @@ export function studentJoinClass(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//小Q表现学生加入班级
+export function studentIdJoinClass(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/process/studentIdJoinClass.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //版本跳转
 <<<<<<< HEAD
 export function myExperience(params) {

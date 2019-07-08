@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- -->
       <van-dialog
         v-model="dialogVisible"
@@ -69,8 +69,10 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -84,7 +86,7 @@ export default {
     return {
       form: {
         openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         title: "",
         textContent: "",
         rules: []
@@ -123,8 +125,6 @@ export default {
           this.$toast("请输入评价标准");
           done(false);
         } else {
-          //let { stressFlag, ...args } = this.dialogForm;
-          //stressFlag ? (stressFlag = 1) : (stressFlag = 0);
           this.form.rules.push(Object.assign({}, this.dialogForm));
           this.dialogForm.ruleText = "";
           done();

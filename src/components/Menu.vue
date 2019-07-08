@@ -6,7 +6,7 @@
       :key="index"
       @click="chanage(menu.url)"
     >
-      <img :src="menu.icon" width="57" height="57">
+      <img :src="menu.icon" width="57" height="57" />
       <div class="text-ellipsis">{{ menu.name }}</div>
     </div>
   </nav>
@@ -60,8 +60,6 @@ export default {
           icon: require("../assets/men-icon-10@2x.png")
         }
       ],
-      //作业
-      homeworkList: [],
       //共用的菜单
       menuList: [
         {
@@ -93,32 +91,29 @@ export default {
       roleType: state => state.info.roleType
     }),
     computedMenu() {
-      //幼儿园 0   小学 1
-      if (this.type == 0 || this.type == 1) {
-        switch (parseInt(this.roleType)) {
-          case 1:
-            return this.menuList
-              .concat(this.recipeList)
-              .concat(this.clockList)
-              .concat(this.schoolList);
-            break;
-          case 2:
-            return this.menuList
-              .concat(this.recipeList)
-              .concat(this.clockList)
-              .concat(this.teacherList)
-              .concat(this.shuttleList);
-            break;
-          case 3:
-            return this.menuList.concat(this.recipeList).concat(this.clockList);
-            break;
-          default:
-            return this.menuList
-              .concat(this.recipeList)
-              .concat(this.clockList)
-              .concat(this.schoolList);
-            break;
-        }
+      switch (parseInt(this.roleType)) {
+        case 1:
+          return this.menuList
+            .concat(this.recipeList)
+            .concat(this.clockList)
+            .concat(this.schoolList);
+          break;
+        case 2:
+          return this.menuList
+            .concat(this.recipeList)
+            .concat(this.clockList)
+            .concat(this.teacherList)
+            .concat(this.shuttleList);
+          break;
+        case 3:
+          return this.menuList.concat(this.recipeList).concat(this.clockList);
+          break;
+        default:
+          return this.menuList
+            .concat(this.recipeList)
+            .concat(this.clockList)
+            .concat(this.schoolList);
+          break;
       }
     }
   },

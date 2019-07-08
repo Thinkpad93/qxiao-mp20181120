@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/child'),
     meta: {
       title: "已关联孩子列表",
-      keepAlive: false,
+      keepAlive: true,
       isShare: false,
     }
   },
@@ -13,7 +13,7 @@ export default [{
     name: 'childAdd',
     component: () => import('@/views/child/add'),
     meta: {
-      title: "添加孩子",
+      title: "添加",
       keepAlive: false,
       isShare: false,
     }
@@ -23,7 +23,7 @@ export default [{
     name: 'childEdit',
     component: () => import('@/views/child/edit'),
     meta: {
-      title: "编辑孩子信息",
+      title: "编辑",
       keepAlive: false,
       isShare: false,
     }

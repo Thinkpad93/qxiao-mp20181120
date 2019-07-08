@@ -1,6 +1,13 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <template v-if="visibility">
+        <div class="overlay" @click="visibility = false"></div>
+        <div class="share-tip">
+          <img src="@/assets/share-tip.png" />
+          <p size-18>请点击右上角按钮邀请好友吧</p>
+        </div>
+      </template>
       <!-- 角色选择 -->
 <<<<<<< HEAD
       <!-- 用户信息 -->
@@ -14,21 +21,31 @@
         </router-link>
 =======
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
+<<<<<<< HEAD
         <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
           <van-icon name="replay" size="16px"></van-icon>
           <span>切换角色</span>
         </div>
 >>>>>>> open-dev
+=======
+>>>>>>> open-dev-190701
         <div class="flex a-i-c">
           <div class="avatar">
-            <img :src="photo" width="60" height="60" radius="50">
+            <img
+              src="@/assets/child-default@2x.png"
+              width="60"
+              height="60"
+              radius="50"
+              v-if="experience == 1 || photo == ''"
+            />
+            <img :src="photo" width="60" height="60" radius="50" v-else />
           </div>
-          <div class="pl-20">
+          <div class="js-user-change">
             <h3 class="mb-20" size-18>{{ name }}</h3>
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
-        <van-icon name="arrow" size="16px" v-if="roleType == 3"></van-icon>
+        <van-icon name="arrow" size="16px"></van-icon>
       </div>
       <!-- 用户信息 -->
       <!-- 菜单 -->
@@ -43,7 +60,7 @@
         ></van-picker>
       </van-popup>
       <template v-if="isOpen">
-        <qxRelease url="/community"/>
+        <qxRelease url="/community" />
       </template>
 <<<<<<< HEAD
       <div class="experience" v-if="experience == 1">
@@ -55,7 +72,7 @@
           <p>创建班级</p>
           <span size-12>我是老师我要创建班级</span>
         </div>
-        <div class="item" @click="handleShare">
+        <div class="item" @click="visibility = true">
           <p>邀请老师</p>
           <span size-12>我是家长邀请老师创建班级</span>
         </div>
@@ -70,15 +87,24 @@
           </div>
         </div>
         <!-- 班级圈 -->
-        <qx-community
-          :data="communityData"
-          @on-del="handleCommunityDelete"
-          @on-praise="handlePraise"
-          @on-comment="handleComment"
-        ></qx-community>
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          :immediate-check="false"
+          :offset="100"
+          @load="onLoad"
+        >
+          <qx-community
+            :data="communityData"
+            @on-del="handleCommunityDelete"
+            @on-praise="handlePraise"
+            @on-comment="handleComment"
+          ></qx-community>
+        </van-list>
+
         <div class="empty" v-if="!communityData.length">
-          <img src="@/assets/kong.png" alt>
-          <p>快来分享精彩的内容吧~</p>
+          <img src="@/assets/kong.png" alt />
+          <p>快来分享精彩的内容吧</p>
         </div>
       </main>
       <!-- 评论 -->
@@ -120,14 +146,13 @@ import qxMenu from "@/components/Menu";
 import qxCommunity from "@/components/Community";
 import qxRelease from "@/components/Release";
 import qxFooter from "@/components/Footer";
-import { scrollMixins } from "@/mixins/scroll";
 import classList from "@/mixins/classList";
 import pageMixin from "@/mixins/page";
 import { mapState } from "vuex";
 import { API_ROOT } from "@/config/isdev";
 export default {
   name: "home",
-  mixins: [pageMixin, scrollMixins, classList],
+  mixins: [pageMixin, classList],
   components: {
     qxMenu,
     qxCommunity,
@@ -136,8 +161,10 @@ export default {
   },
   data() {
     return {
+      visibility: false,
       popupShow: false,
-      isLoading: false,
+      loading: false,
+      finished: false,
       totalPage: 1, //总页数
       query: {
         classId: this.$store.state.user.info.classId,
@@ -180,6 +207,35 @@ export default {
     }
   },
   methods: {
+    //加载更多班级圈
+    onLoad() {
+      //当组件滚动到底部时，会触发load事件
+      if (this.query.page < this.totalPage) {
+        this.query.page += 1;
+        service.communityQuery(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              let obj = {
+                ...list[i],
+                showMore: false,
+                showNumber: 3
+              };
+              this.communityData.push(obj);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     wxRegCallback() {
       //用于微信JS-SDK回调
 <<<<<<< HEAD
@@ -214,21 +270,28 @@ export default {
         }
       });
     },
+<<<<<<< HEAD
 >>>>>>> open-dev
     handleShare() {
       this.$toast("请点击右上角发送给好友");
     },
+=======
+>>>>>>> open-dev-190701
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
           path: "/role"
         });
       } else {
+        if (this.experience == 1) {
+          return false;
+        }
         this.$router.push({
           path: "/baby"
         });
       }
     },
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     jumpRoleSelect() {
@@ -237,6 +300,8 @@ export default {
       });
     },
 >>>>>>> open-dev
+=======
+>>>>>>> open-dev-190701
     go(url, params) {
       if (url) {
         this.$router.push({ path: `${url}` });
@@ -322,37 +387,6 @@ export default {
           .catch(() => {});
       }
     },
-    //加载更多班级圈
-    handleLoadingMore(e) {
-      let scrollTop = 0;
-      if (document.documentElement && document.documentElement.scrollTop) {
-        scrollTop = document.documentElement.scrollTop;
-      } else if (document.body) {
-        scrollTop = document.body.scrollTop;
-      }
-      let bottom =
-        document.body.offsetHeight - scrollTop - window.innerHeight <= 200;
-      if (bottom && this.isLoading === false) {
-        if (this.query.page < this.totalPage) {
-          this.isLoading = true;
-          this.query.page += 1;
-          service.communityQuery(this.query).then(res => {
-            if (res.errorCode === 0) {
-              this.popupShow = false;
-              this.totalPage = res.data.totalPage;
-              this.query.page = res.data.page;
-              this.isLoading = false;
-              let list = res.data.data;
-              if (list.length) {
-                list.forEach(element => {
-                  this.communityData.push(element);
-                });
-              }
-            }
-          });
-        }
-      }
-    },
     //班级圈信息查询
     async communityQuery(params = {}) {
       let res = await service.communityQuery(params);
@@ -378,18 +412,10 @@ export default {
       if (res.errorCode === 0) {
         //...
       }
-    },
-    //多角色列表
-    async queryRole(params = {}) {
-      let res = await service.queryRole(params);
-      if (res.errorCode === 0) {
-        this.roleList = res.data;
-      }
     }
   },
   mounted() {
     this.communityQuery(this.query);
-    this.queryRole({ openId: this.query.openId });
     if (this.experience == 1) {
       wxapi.wxRegister(this.wxRegCallback);
     }
@@ -403,7 +429,11 @@ export default {
   padding: 0 30px;
   position: relative;
   justify-content: space-between;
+  .js-user-change {
+    margin-left: 20px;
+  }
 }
+<<<<<<< HEAD
 
 .switch-role {
   color: #fff;
@@ -427,6 +457,8 @@ export default {
 =======
 >>>>>>> open-dev
 
+=======
+>>>>>>> open-dev-190701
 .experience {
   color: #84ce09;
   font-size: 32px;

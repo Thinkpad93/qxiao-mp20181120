@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <!-- 查询开放版是否有录入学生 -->
       <van-popup v-model="popupShow" position="bottom">
         <div class="popup-page">
@@ -8,7 +8,7 @@
             <div class="cells">
               <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
                 <div class="cell-bd">
-                  <p>{{ item.studentName }}</p>
+                  <p>{{ item.name }}</p>
                 </div>
                 <div class="cell-ft">
                   <van-radio-group v-model="studentId">
@@ -34,7 +34,7 @@
               <label class="label">学生姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学生姓名" maxlength="5" v-model="form.studentName">
+              <input class="input" placeholder="请输入学生姓名" maxlength="5" v-model="form.studentName" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -86,7 +86,7 @@
                 placeholder="请输入手机号"
                 v-model="link.tel"
                 @input="changeTel(link)"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -114,8 +114,10 @@
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -123,14 +125,18 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-import classList from "@/mixins/classList";
+//import classList from "@/mixins/classList";
 export default {
   name: "studentAdd",
-  mixins: [sex, relation, classList],
+  mixins: [sex, relation],
   data() {
     return {
       popupShow: false,
       studentId: null,
+      openDirection: this.$route.query.openDirection,
+      query: {
+        teacherId: this.$store.state.user.info.id
+      },
       form: {
         openId: this.$store.state.user.info.openId,
         studentName: "",
@@ -138,6 +144,7 @@ export default {
         linkMan: [{ relation: 1, tel: "" }],
         classId: null
       },
+      classList: [],
       studentList: []
     };
   },
@@ -204,6 +211,8 @@ export default {
             this.$refs.form.reset();
             this.$router.go(-1);
           });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //查询存在的学生
@@ -222,9 +231,18 @@ export default {
       } else {
         this.$toast(`${res.errorMsg}`);
       }
+    },
+    //查询老师能预录入学生的班级
+    async queryTeacherClass(params = {}) {
+      let res = await service.queryTeacherClass(params);
+      if (res.errorCode === 0) {
+        this.classList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryTeacherClass(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
         <van-tab title="已读">
           <div class="tab-warp">
@@ -88,6 +88,8 @@ export default {
         } else {
           this.readList = res.data.readers || []; //后端有可能返回null
         }
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

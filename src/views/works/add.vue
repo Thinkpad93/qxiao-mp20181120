@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <form id="form" action ref="form" method="post">
         <div class="cells">
           <div class="cell cell-select cell-select-after">
@@ -26,16 +26,6 @@
               <input class="input" placeholder="请输入作品标题" v-model="form.title" maxlength="30">
             </div>
           </div>
-          <!-- <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
-              <textarea
-                class="textarea"
-                rows="6"
-                placeholder="将您优秀作品上传到平台，将有机会在全市科普电子屏上展示，还将有机会获得神秘大奖。行动起来吧！(最多可上传10作品，格式：jpg/png)..."
-                v-model="form.textContent"
-              ></textarea>
-            </div>
-          </div>-->
           <div class="cell">
             <div class="cell-bd" style="padding-left:0">
               <ul class="uploader-files">
@@ -66,8 +56,10 @@
         </div>
       </form>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">确定</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">确定</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -83,7 +75,7 @@ export default {
       form: {
         type: 1,
         title: "",
-        studentId: this.$store.state.user.info.openStudentId,
+        studentId: this.$store.state.user.info.studentId,
         images: []
       },
       imagesList: [],
@@ -152,8 +144,12 @@ export default {
           if (res.errorCode === 0) {
             eventBus.$emit("tabMessage", 1);
             this.$router.go(-1);
+          } else {
+            this.$toast(`${res.errorMsg}`);
           }
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },
@@ -171,25 +167,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.uploader-file {
-  float: left;
-  width: 140px;
-  height: 140px;
-  position: relative;
-  background-size: cover;
-  margin: 20px 0 0 0;
-  border-radius: 4px;
-  margin-right: 20px;
-  i {
-    color: #8d8d8d;
-    font-size: 48px;
-    position: absolute;
-    top: -14%;
-    right: -10%;
-    z-index: 10;
-  }
-}
-
 .works-desc {
   line-height: 1.4;
   color: #999;
