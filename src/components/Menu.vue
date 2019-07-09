@@ -60,6 +60,13 @@ export default {
           icon: require("../assets/men-icon-10@2x.png")
         }
       ],
+      feedList: [
+        {
+          name: "反馈",
+          url: "/feed",
+          icon: require("../assets/men-icon-11@2x.png")
+        }
+      ],
       //共用的菜单
       menuList: [
         {
@@ -103,10 +110,14 @@ export default {
             .concat(this.recipeList)
             .concat(this.clockList)
             .concat(this.teacherList)
-            .concat(this.shuttleList);
+            .concat(this.shuttleList)
+            .concat(this.feedList);
           break;
         case 3:
-          return this.menuList.concat(this.recipeList).concat(this.clockList);
+          return this.menuList
+            .concat(this.recipeList)
+            .concat(this.clockList)
+            .concat(this.feedList);
           break;
         default:
           return this.menuList

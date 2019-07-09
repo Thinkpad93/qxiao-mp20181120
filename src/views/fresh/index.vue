@@ -96,7 +96,6 @@
 import service from "@/api";
 import qxRelease from "@/components/Release";
 import classList from "@/mixins/classList";
-import { mapState } from "vuex";
 export default {
   name: "fresh",
   mixins: [classList],

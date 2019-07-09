@@ -108,6 +108,7 @@
       </template>
       <div class="mt-20 text-center">
         <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button>
+        <van-button type="danger" size="small" to="/schedule">日期</van-button>
       </div>
     </div>
     <div class="page-ft">

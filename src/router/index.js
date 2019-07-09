@@ -1,85 +1,85 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import albumRouterConfig from './album';
-import babyRouterConfig from './baby';
-import classRouterConfig from './class';
-import clockRouterConfig from './clock';
-import communityRouterConfig from './community';
-import freshRouterConfig from './fresh';
-import homeRouterConfig from './home';
-import loginRouterConfig from './login';
-import homeworkRouterConfig from './home-work';
-import noticeRouterConfig from './notice';
-import recipeRouterConfig from './recipe';
-import schoolRouterConfig from './school';
-import shareRouterConfig from './share';
-import shuttleRouterConfig from './shuttle';
-import studentRouterConfig from './student';
-import teacherRouterConfig from './teacher';
-
+import album from './album';
+import baby from './baby';
+import classIn from './class';
+import clock from './clock';
+import community from './community';
+import fresh from './fresh';
+import home from './home';
+import login from './login';
+import homework from './home-work';
+import notice from './notice';
+import recipe from './recipe';
+import school from './school';
+import share from './share';
+import shuttle from './shuttle';
+import student from './student';
+import teacher from './teacher';
 //2019-04-17
-import singleRouterConfig from './single';
-import actionRouterConfig from './action';
-import prizeRouterConfig from './prize';
-import wisdomRouterConfig from './wisdom';
-import userRouterConfig from './user';
-import childRouterConfig from './child';
-import examPaperRouterConfig from './examPaper';
-import scoreRouterConfig from './score';
-import remarkRouterConfig from './remark';
-import courseRouterConfig from './course';
-import worksRounterConfig from './works';
-import roleRouterConfig from './role';
-import personalityRouterConfig from './personality-plan';
-import studyRouterConfig from './study-plan';
-import helpRouterConfig from './help-center';
-import aboutRouterConfig from './about';
-import braceletRouterConfig from './bracelet';
-import welcomeRouterConfig from './welcome';
-import focusJoinRouteConfig from './focus-join';
-
+import single from './single';
+import action from './action';
+import prize from './prize';
+import wisdom from './wisdom';
+import user from './user';
+import child from './child';
+import examPaper from './examPaper';
+import score from './score';
+import remark from './remark';
+import course from './course';
+import works from './works';
+import role from './role';
+import personality from './personality-plan';
+import study from './study-plan';
+import help from './help-center';
+import about from './about';
+import bracelet from './bracelet';
+import welcome from './welcome';
+import focusJoin from './focus-join';
+import schedule from './schedule';
+import feed from './feed';
 
 Vue.use(Router);
 
 export const constantRouterMap = [
-  ...albumRouterConfig,
-  ...babyRouterConfig,
-  ...classRouterConfig,
-  ...clockRouterConfig,
-  ...communityRouterConfig,
-  ...freshRouterConfig,
-  ...homeRouterConfig,
-  ...loginRouterConfig,
-  ...homeworkRouterConfig,
-  ...noticeRouterConfig,
-  ...recipeRouterConfig,
-  ...schoolRouterConfig,
-  ...shareRouterConfig,
-  ...shuttleRouterConfig,
-  ...studentRouterConfig,
-  ...teacherRouterConfig,
-
-  ...singleRouterConfig,
-  ...actionRouterConfig,
-  ...prizeRouterConfig,
-  ...wisdomRouterConfig,
-  ...userRouterConfig,
-  ...childRouterConfig,
-  ...examPaperRouterConfig,
-  ...scoreRouterConfig,
-  ...remarkRouterConfig,
-  ...courseRouterConfig,
-
-  ...worksRounterConfig,
-  ...roleRouterConfig,
-  ...personalityRouterConfig,
-  ...studyRouterConfig,
-  ...helpRouterConfig,
-  ...aboutRouterConfig,
-  ...braceletRouterConfig,
-  ...welcomeRouterConfig,
-  ...focusJoinRouteConfig
+  ...album,
+  ...baby,
+  ...classIn,
+  ...clock,
+  ...community,
+  ...fresh,
+  ...home,
+  ...login,
+  ...homework,
+  ...notice,
+  ...recipe,
+  ...school,
+  ...share,
+  ...shuttle,
+  ...student,
+  ...teacher,
+  ...single,
+  ...action,
+  ...prize,
+  ...wisdom,
+  ...user,
+  ...child,
+  ...examPaper,
+  ...score,
+  ...remark,
+  ...course,
+  ...works,
+  ...role,
+  ...personality,
+  ...study,
+  ...help,
+  ...about,
+  ...bracelet,
+  ...welcome,
+  ...focusJoin,
+  ...schedule,
+  ...feed
 ]
 
 

@@ -47,14 +47,16 @@
       <van-tabs v-model="tabActive" :line-height="2">
         <van-tab title="在家表现">
           <div class="container">
+            <p>行为使用人数汇总</p>
             <div class="mod">
               <div class="flex j-c-c a-i-c today" @click="popupShowDate = true">
                 <time class="mr-20" size-16>{{ query.date }}</time>
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart id="homeOption" height="300px" :option="homeOption" @on-click="handleClick" />
+              <qxChart id="homeOption" height="300px" :option="homeOption" />
             </div>
+            <p>行为详细使用分析</p>
           </div>
         </van-tab>
         <van-tab title="在校表现">
@@ -65,12 +67,7 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart
-                id="schoolOption"
-                height="300px"
-                :option="schoolOption"
-                @on-click="handleClick"
-              />
+              <!-- <qxChart id="schoolOption" height="300px" :option="schoolOption" /> -->
             </div>
           </div>
         </van-tab>
@@ -137,6 +134,7 @@ export default {
           {
             name: "在家表现",
             type: "pie",
+            hoverAnimation: false, //是否开启 hover 在扇区上的放大动画效果
             radius: "80%",
             center: ["50%", "42%"],
             data: [],
@@ -153,54 +151,54 @@ export default {
             }
           }
         ]
-      },
-      schoolOption: {
-        tooltip: {
-          trigger: "item",
-          triggerOn: "click",
-          formatter: function(a) {
-            return (
-              a["name"] +
-              "<br/>优秀: " +
-              a["data"].datas[0] +
-              "人" +
-              "<br/>良好: " +
-              a["data"].datas[1] +
-              "人" +
-              "<br/>一般: " +
-              a["data"].datas[2] +
-              "人"
-            );
-          }
-        },
-        legend: {
-          orient: "horizontal",
-          left: "center",
-          bottom: 0,
-          data: [],
-          show: true
-        },
-        series: [
-          {
-            name: "在校表现",
-            type: "pie",
-            radius: "80%",
-            center: ["50%", "40%"],
-            data: [],
-            itemStyle: {
-              normal: {
-                label: {
-                  show: true,
-                  position: "inside",
-                  formatter: function(a) {
-                    return a["name"] + ": " + a["value"] + "人";
-                  }
-                }
-              }
-            }
-          }
-        ]
       }
+      // schoolOption: {
+      //   tooltip: {
+      //     trigger: "item",
+      //     triggerOn: "click",
+      //     formatter: function(a) {
+      //       return (
+      //         a["name"] +
+      //         "<br/>优秀: " +
+      //         a["data"].datas[0] +
+      //         "人" +
+      //         "<br/>良好: " +
+      //         a["data"].datas[1] +
+      //         "人" +
+      //         "<br/>一般: " +
+      //         a["data"].datas[2] +
+      //         "人"
+      //       );
+      //     }
+      //   },
+      //   legend: {
+      //     orient: "horizontal",
+      //     left: "center",
+      //     bottom: 0,
+      //     data: [],
+      //     show: true
+      //   },
+      //   series: [
+      //     {
+      //       name: "在校表现",
+      //       type: "pie",
+      //       radius: "80%",
+      //       center: ["50%", "40%"],
+      //       data: [],
+      //       itemStyle: {
+      //         normal: {
+      //           label: {
+      //             show: true,
+      //             position: "inside",
+      //             formatter: function(a) {
+      //               return a["name"] + ": " + a["value"] + "人";
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+      //   ]
+      // }
     };
   },
   computed: {
@@ -227,18 +225,6 @@ export default {
           path: "/role"
         });
       }
-    },
-    handleClick(params) {
-      let tabIndex = this.tabActive;
-      let { datas, value, ...args } = params.data;
-      this.$router.push({
-        path: "/single/view",
-        query: {
-          tabIndex,
-          ...args,
-          ...this.query
-        }
-      });
     },
     handleDateConfirm(value, index) {
       this.query.date = dayjs(value).format("YYYY-MM-DD");
@@ -286,26 +272,26 @@ export default {
           this.homeOption.legend.data = [];
         }
       }
-    },
-    //查询在校表现
-    async queryLessonWithSchool(params = {}) {
-      let res = await service.queryLessonWithSchool(params);
-      if (res.errorCode === 0) {
-        this.popupShowDate = false;
-        this.popupShow = false;
-        if (res.data.length) {
-          this.schoolOption.series[0].data = this.analysis(res.data);
-          this.schoolOption.legend.data = res.data.map(item => item.name);
-        } else {
-          this.schoolOption.series[0].data = [];
-          this.schoolOption.legend.data = [];
-        }
-      }
     }
+    //查询在校表现
+    // async queryLessonWithSchool(params = {}) {
+    //   let res = await service.queryLessonWithSchool(params);
+    //   if (res.errorCode === 0) {
+    //     this.popupShowDate = false;
+    //     this.popupShow = false;
+    //     if (res.data.length) {
+    //       this.schoolOption.series[0].data = this.analysis(res.data);
+    //       this.schoolOption.legend.data = res.data.map(item => item.name);
+    //     } else {
+    //       this.schoolOption.series[0].data = [];
+    //       this.schoolOption.legend.data = [];
+    //     }
+    //   }
+    // }
   },
   mounted() {
     this.queryActionWithHome(this.query);
-    this.queryLessonWithSchool(this.query);
+    //this.queryLessonWithSchool(this.query);
   }
 };
 </script>

@@ -1,48 +1,45 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- <div class="teacher-head">
-        <router-link to="/teacher/add" class="btn btn-primary">录入老师信息</router-link>
-      </div>-->
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
-          <img src="@/assets/share-tip.png">
+          <img src="@/assets/share-tip.png" />
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
       <div class="cells-title">老师列表({{ list.length }})</div>
       <div class="cells">
         <div
-          class="cell min-h120"
+          class="cell teacher-item"
           v-for="(teacher, index) in list"
           :key="index"
           @click="handleEditTeacher(teacher)"
         >
           <div class="cell-hd">
             <template v-if="teacher.photo">
-              <img :src="teacher.photo" width="50" height="50" radius="50">
+              <img :src="teacher.photo" width="50" height="50" radius="50" />
             </template>
             <template v-else>
-              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" />
             </template>
           </div>
           <div class="cell-bd pl-20">
-            <p>
+            <p class="mb-10">
               {{ teacher.teacherName }}
               <span
                 size-14
                 v-if="!teacher.openId"
                 @click.stop="visibility = true"
-                style="color: rgb(64, 158, 255);margin-left:10px;"
+                style="color: rgb(64, 158, 255);"
               >微信邀请</span>
             </p>
-            <small
+            <van-tag
               class="and"
-              style="color:#bdbdbd;"
+              type="success"
               v-for="(cla, index) in teacher.classes"
               :key="index"
-            >{{ cla.className }}</small>
+            >{{ cla.className }}</van-tag>
           </div>
           <div class="cell-ft flex">
             <template>
@@ -109,36 +106,19 @@ export default {
   },
   mounted() {
     this.queryTeacher(this.schoolId);
-    //wxapi.wxRegister(this.wxRegCallback);
+    wxapi.wxRegister(this.wxRegCallback);
   }
 };
 </script>
 <style lang="less" scoped>
-// .teacher-head {
-//   padding: 30px 0;
-//   text-align: center;
-//   background-color: #fff;
-//   > a {
-//     width: 240px;
-//   }
-//   .tab {
-//     margin-top: 30px;
-//     text-align: center;
-//     display: flex;
-//     a {
-//       height: auto;
-//       flex: 1;
-//     }
-//   }
-// }
-// .teacher-box {
-//   min-height: 120px;
-// }
-// .teacher-icon {
-//   width: 100px;
-//   height: 100px;
-//   border-radius: 50%;
-// }
+.teacher-item {
+  min-height: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  p {
+    margin-bottom: 10px;
+  }
+}
 .status {
   color: #ff87b7;
 }
