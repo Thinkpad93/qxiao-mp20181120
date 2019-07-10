@@ -15,11 +15,20 @@
               <path
                 d="M671.968 912c-12.288 0-24.576-4.672-33.952-14.048L286.048 545.984c-18.752-18.72-18.752-49.12 0-67.872l351.968-352c18.752-18.752 49.12-18.752 67.872 0 18.752 18.72 18.752 49.12 0 67.872l-318.016 318.048 318.016 318.016c18.752 18.752 18.752 49.12 0 67.872C696.544 907.328 684.256 912 671.968 912z"
                 fill="#5e7a88"
-              ></path>
+              />
             </g>
           </g>
         </svg>
       </span>
+      <div class="calendar-info" @click.stop="changeYear">
+        <!-- {{monthString}} -->
+        <div class="month">
+          <div class="month-inner" :style="{'top':-(this.month*20)+'px'}">
+            <span v-for="(m, index) in months" :key="index">{{m}}</span>
+          </div>
+        </div>
+        <div class="year">{{year}}</div>
+      </div>
       <span class="calendar-next" @click="next">
         <svg
           width="20"
@@ -34,25 +43,16 @@
               <path
                 d="M761.056 532.128c0.512-0.992 1.344-1.824 1.792-2.848 8.8-18.304 5.92-40.704-9.664-55.424L399.936 139.744c-19.264-18.208-49.632-17.344-67.872 1.888-18.208 19.264-17.376 49.632 1.888 67.872l316.96 299.84-315.712 304.288c-19.072 18.4-19.648 48.768-1.248 67.872 9.408 9.792 21.984 14.688 34.56 14.688 12 0 24-4.48 33.312-13.44l350.048-337.376c0.672-0.672 0.928-1.6 1.6-2.304 0.512-0.48 1.056-0.832 1.568-1.344C757.76 538.88 759.2 535.392 761.056 532.128z"
                 fill="#5e7a88"
-              ></path>
+              />
             </g>
           </g>
         </svg>
       </span>
-      <div class="calendar-info" @click.stop="changeYear">
-        <!-- {{monthString}} -->
-        <div class="month">
-          <div class="month-inner" :style="{'top':-(this.month*20)+'px'}">
-            <span v-for="(m, index) in months" :key="index">{{m}}</span>
-          </div>
-        </div>
-        <div class="year">{{year}}</div>
-      </div>
     </div>
-    <table cellpadding="5">
+    <table cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <td v-for="(week, index) in weeks" :key="index" class="week">{{week}}</td>
+          <th v-for="(week, index) in weeks" :key="index" class="week">{{week}}</th>
         </tr>
       </thead>
       <tbody>
@@ -63,9 +63,11 @@
             :class="{'selected':child.selected,'disabled':child.disabled}"
             @click="select(k1,k2,$event)"
           >
-            <span
-              :class="{'red':k2==0||k2==6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}"
-            >{{child.day}}</span>
+            <div>
+              <span
+                :class="{'red':k2==0||k2==6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}"
+              >{{child.day}}</span>
+            </div>
             <div class="eventName" v-if="child.eventName!=undefined"></div>
             <!-- 如果是自定义的事件，则加上 eventName {{child.eventName}} -->
             <div
@@ -824,23 +826,26 @@ export default {
 }
 
 .calendar-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 100px;
-  font-size: 40px;
+  /* font-size: 40px;
   line-height: 100px;
-  color: #5e7a88;
+  color: #5e7a88; */
 }
 .calendar-tools span {
   cursor: pointer;
 }
 .calendar-prev {
   width: 14.28571429%;
-  float: left;
+  /* float: left; */
   text-align: center;
 }
 .calendar-info {
-  padding-top: 10px;
+  /* padding-top: 10px; */
   font-size: 32px;
-  line-height: 1.3;
+  /* line-height: 1.3; */
   text-align: center;
 }
 .calendar-info > div.month {
@@ -874,19 +879,22 @@ export default {
 }
 .calendar-next {
   width: 14.28571429%;
-  float: right;
+  /* float: right; */
   text-align: center;
 }
 
 .calendar table {
   clear: both;
   width: 100%;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   border-collapse: collapse;
   color: #444444;
 }
+.calendar th {
+  padding: 10px;
+}
 .calendar td {
-  margin: 2px !important;
+  /* margin: 2px !important;
   padding: 0px 0;
   width: 14.28571429%;
   height: 88px;
@@ -896,7 +904,14 @@ export default {
   line-height: 125%;
   cursor: pointer;
   position: relative;
-  vertical-align: top;
+  vertical-align: top; */
+  padding: 20px 0;
+  height: 80px;
+  width: 64px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
 }
 .calendar td.week {
   font-size: 28px;
@@ -913,12 +928,13 @@ export default {
 }
 .calendar td span {
   display: block;
-  max-width: 40px;
-  height: 26px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
   font-size: 32px;
-  line-height: 26px;
+  /* line-height: 26px; */
   margin: 0px auto;
-  border-radius: 20px;
+  border-radius: 50%;
 }
 .calendar td:not(.selected) span:not(.red):hover {
   background: #f3f8fa;
@@ -932,14 +948,14 @@ export default {
   color: #ea6151;
 }
 .calendar td.selected span {
-  background-color: #5e7a88;
+  background-color: #409eff;
   color: #fff;
 }
 .calendar td .text {
-  position: absolute;
+  /* position: absolute;
   top: 28px;
   left: 0;
-  right: 0;
+  right: 0; */
   text-align: center;
   padding: 2px;
   font-size: 20px;
@@ -1002,10 +1018,10 @@ export default {
   right: 0px;
   bottom: 0px;
   background: #fff;
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
   overflow: auto;
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   opacity: 0;
@@ -1018,18 +1034,18 @@ export default {
   transform: translateY(0px);
 }
 .calendar-years > span {
-  margin: 1px 5px;
+  /* margin: 1px 5px; */
   display: inline-block;
-  width: 60px;
-  line-height: 30px;
+  width: 25%;
+  line-height: 60px;
   border-radius: 20px;
   text-align: center;
   border: 1px solid #fbfbfb;
   color: #999;
 }
 .calendar-years > span.active {
-  border: 1px solid #5e7a88;
-  background-color: #5e7a88;
-  color: #fff;
+  /* border: 1px solid #5e7a88; */
+  /* background-color: #5e7a88; */
+  color: #409eff;
 }
 </style>

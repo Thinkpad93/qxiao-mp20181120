@@ -4,24 +4,17 @@
       <div class="schedule">
         <div class="schedule-hd"></div>
         <div class="schedule-bd">
-          <van-button type="primary" size="small" @click="popupShow = true">按钮</van-button>
-          <!-- <v-date-picker
-            mode="range"
-            v-model="selectedDate"
-            :is-inline="true"
-            is-expanded
-            show-caps
-            @input="handleInput"
-          ></v-date-picker>-->
+          <p @click="popupShow = true">{{ value[0] }}-{{ value[1] }}</p>
           <van-popup v-model="popupShow" position="bottom">
             <calendar
-              :events="calendar.events"
-              :value="calendar.value"
-              :range="calendar.range"
-              :lunar="calendar.lunar"
+              :events="events"
+              :zero="true"
+              :value="value"
+              :range="range"
+              :lunar="lunar"
               @prev="handlePrev"
               @next="handleNext"
-              @select="calendar.select"
+              @select="handleSelect"
             ></calendar>
           </van-popup>
         </div>
@@ -34,52 +27,35 @@
   </div>
 </template>
 <script>
+import dayjs from "dayjs";
 import service from "@/api";
 import calendar from "@/components/calendar";
-import "v-calendar/lib/v-calendar.min.css";
-import { setupCalendar, DatePicker } from "v-calendar";
-setupCalendar({
-  navVisibility: "focus",
-  titleTransition: "none",
-  weeksTransition: "none",
-  paneWidth: window.innerWidth, //宽度
-  datePickerShowDayPopover: false, //显示弹出窗口为拖动和选定的区域
-  maxTapDuration: 0,
-  datePickerShowCaps: true
-  //firstDayOfWeek: 2 // Monday,
-});
 export default {
   name: "schedule",
   components: {
-    calendar: calendar,
-    "v-date-picker": DatePicker
+    calendar
   },
   data() {
     return {
       popupShow: false,
-      calendar: {
-        value: [[2019, 7, 11], [2019, 7, 12]], //默认日期
-        range: true, //多选
-        lunar: true, //显示农历
-        events: {},
-        select(begin, end) {
-          console.log(begin);
-          console.log(end);
-        }
-      },
-      selectedDate: {
-        start: new Date(2019, 7, 10),
-        end: new Date(2019, 7, 11)
-      }
+      value: [["2019", "07", "11"], ["2019", "07", "12"]], //默认日期
+      range: true, //多选
+      lunar: true, //显示农历
+      events: {}
     };
   },
   methods: {
-    handleInput(value) {
-      console.log(value);
-    },
     handlePrev() {},
     handleNext() {},
-    handleSelect() {}
+    handleSelect(begin, end) {
+      console.log(begin);
+      console.log(end);
+      if (begin && end) {
+        this.value[0] = begin;
+        this.value[1] = end;
+        this.popupShow = false;
+      }
+    }
   }
 };
 </script>
