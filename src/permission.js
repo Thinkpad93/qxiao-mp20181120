@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
 
 //全局后置钩子
 router.afterEach((to, from) => {
-  // 非ios设备，切换路由时候进行重新签名
+  //非ios设备，切换路由时候进行重新签名
   //if (window.__wxjs_is_wkwebview !== true) {}
   //if (window.__wxjs_is_wkwebview === true) {}
   //在不需要分享的页面统一处理    

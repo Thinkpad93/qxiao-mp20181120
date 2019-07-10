@@ -42,16 +42,22 @@
           >
             <div class="feed-hd flex j-c-s-b">
               <div class="avatar flex a-i-c">
-                <img :src="item.photo" width="50" height="50" radius="50" />
+                <img :src="item.photo" width="50" height="50" radius="50" v-if="item.photo" />
+                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
                 <p class="ml-20">{{ item.studentName }}</p>
               </div>
-              <div style="color:#336d92" @click="handleReply(item)" v-if="!item.status">回复</div>
             </div>
             <div class="feed-bd">
               <p>{{ item.feedTextContent }}</p>
               <div class="meta flex j-c-s-b a-i-c">
                 <time>发送日期：{{ item.feedDate }}</time>
-                <div>接收老师：{{ item.teacherName }}</div>
+                <div class="flex">
+                  <div v-if="roleType == 2 && !item.status" @click="handleReply(item)">
+                    <van-icon name="comment" size="18px" color="#336d92"></van-icon>
+                    <span style="color:#336d92">回复</span>
+                  </div>
+                  <span v-else>接收老师：{{ item.teacherName }}</span>
+                </div>
               </div>
             </div>
             <div class="feed-ft" v-if="item.status">
@@ -133,10 +139,17 @@ export default {
     },
     async handleSubmit(action, done) {
       if (action === "confirm") {
-        let res = await service.teacherBack(this.form);
-        if (res.errorCode === 0) {
-          this.form.feedId = null; //重置
-          done();
+        if (this.form.textContent == "") {
+          this.$toast("请输入反馈内容");
+          done(false);
+        } else {
+          let res = await service.teacherBack(this.form);
+          if (res.errorCode === 0) {
+            this.form.textContent = "";
+            this.form.feedId = null; //重置
+            this.getListData(); //重新请求数据
+            done();
+          }
         }
       } else {
         done();

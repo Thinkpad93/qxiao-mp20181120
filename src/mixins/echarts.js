@@ -8,8 +8,9 @@ export default {
           trigger: "axis"
         },
         legend: {
-          //type: 'scroll',
-          //bottom: 10,
+          icon: "circle",
+          itemWidth: 12,
+          itemHeight: 12,
           data: []
         },
         xAxis: {
@@ -41,6 +42,9 @@ export default {
           trigger: "axis"
         },
         legend: {
+          icon: "circle",
+          itemWidth: 12,
+          itemHeight: 12,
           data: []
         },
         xAxis: {
