@@ -99,7 +99,7 @@
                       <td>
                         <van-rate v-model="count" :size="14" :count="1" color="#09e2bb" readonly></van-rate>
                       </td>
-                      <td>其它</td>
+                      <td>0星</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -121,22 +121,22 @@
             <div class="flex mt-30 mb-30" size-12>
               <div class="flex-1 text-center">
                 班级总人数：
-                <span style="color:#f36969">40人</span>
+                <span style="color:#f36969">{{ actionObj.allNumber + "人" }}</span>
               </div>
               <div class="flex-1 text-center">
                 使用行为人数：
-                <span style="color:#f36969">37人</span>
+                <span style="color:#f36969">{{ actionObj.userNumber + "人" }}</span>
               </div>
               <div class="flex-1 text-center">
                 未使用人数：
-                <span style="color:#f36969">3人</span>
+                <span style="color:#f36969">{{ actionObj.unUser + "人" }}</span>
               </div>
             </div>
           </div>
         </van-tab>
         <van-tab title="在校表现">
           <div class="container">
-            <p class="pl-20 mt-30 mb-30">行为使用人数汇总</p>
+            <p class="pl-20 mt-30 mb-30">手环使用人数汇总</p>
             <div class="mod" style="padding-bottom:0">
               <div class="flex j-c-s-b a-i-c today">
                 <div class="classId flex a-i-c j-c-s-b" style="padding:0">
@@ -157,7 +157,7 @@
                 <table class="fixedTable" style="width:160%;">
                   <thead>
                     <tr>
-                      <td>行为</td>
+                      <td>课程</td>
                       <td class="fixedColumn"></td>
                       <td>
                         <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
@@ -174,19 +174,19 @@
                       <td>
                         <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
                       </td>
-                      <td>其它</td>
+                      <td>0星</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(item,index) in 6" :key="index">
-                      <td>阅读作业</td>
+                    <tr v-for="(item,index) in lessonTable" :key="index">
+                      <td>{{ item.name }}</td>
                       <td class="fixedColumn"></td>
-                      <td>10人</td>
-                      <td>20人</td>
-                      <td>5人</td>
-                      <td>5人</td>
-                      <td>5人</td>
-                      <td>0人</td>
+                      <td>{{ item.five + '人' }}</td>
+                      <td>{{ item.four + '人' }}</td>
+                      <td>{{ item.three + '人' }}</td>
+                      <td>{{ item.two + '人' }}</td>
+                      <td>{{ item.one + '人' }}</td>
+                      <td>{{ item.zero + '人' }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -196,15 +196,15 @@
             <div class="flex mt-30 mb-30" size-12>
               <div class="flex-1 text-center">
                 班级总人数：
-                <span style="color:#f36969">40人</span>
+                <span style="color:#f36969">{{ lessonObj.allNumber + "人" }}</span>
               </div>
               <div class="flex-1 text-center">
-                使用行为人数：
-                <span style="color:#f36969">37人</span>
+                使用手环人数：
+                <span style="color:#f36969">{{ lessonObj.userNumber + "人" }}</span>
               </div>
               <div class="flex-1 text-center">
                 未使用人数：
-                <span style="color:#f36969">3人</span>
+                <span style="color:#f36969">{{ lessonObj.unUser + "人" }}</span>
               </div>
             </div>
           </div>
@@ -267,7 +267,10 @@ export default {
         startDate: dayjs().format("YYYY-MM-DD"),
         endDate: dayjs().format("YYYY-MM-DD")
       },
-      actionTable: [],
+      actionObj: {},
+      lessonObj: {},
+      actionTable: [], //在家表格数据
+      lessonTable: [], //在校表格数据
       homeOption: {
         tooltip: {
           trigger: "item",
@@ -335,6 +338,7 @@ export default {
         this.query.endDate = end.join("-");
         this.queryPieChart(this.query);
         this.queryActionList(this.query);
+        this.queryStudentDetail(this.query);
       }
     },
     //在校表现选择日期范围
@@ -342,6 +346,8 @@ export default {
       if (begin && end) {
         this.querys.startDate = begin.join("-");
         this.querys.endDate = end.join("-");
+        this.queryLessonInSchool(this.querys);
+        this.queryLessonStudentStatistics(this.querys);
       }
     },
     //角色跳转
@@ -354,7 +360,6 @@ export default {
     },
     //详情页跳转
     jumpDetails(params = {}) {
-      console.log(params);
       let tabIndex = this.tabActive;
       let { actionId, actionType, name } = params;
       let { classId, startDate, endDate } = this.query;
@@ -362,7 +367,6 @@ export default {
         path: "/single/view",
         query: {
           tabIndex,
-          //name,
           actionId,
           actionType,
           classId,
@@ -371,21 +375,18 @@ export default {
         }
       });
     },
-    // handleDateConfirm(value, index) {
-    //   this.query.date = dayjs(value).format("YYYY-MM-DD");
-    //   if (this.tabActive == 0) {
-    //     this.queryActionWithHome(this.query);
-    //   } else {
-    //     this.queryLessonWithSchool(this.query);
-    //   }
-    // },
+    //班级选择
     handleClassConfirm(value, index) {
       this.className = value.className;
-      this.query.classId = value.classId;
       if (this.tabActive == 0) {
+        this.query.classId = value.classId;
         this.queryPieChart(this.query);
         this.queryActionList(this.query);
+        this.queryStudentDetail(this.query);
       } else {
+        this.querys.classId = value.classId;
+        this.queryLessonInSchool(this.querys);
+        this.queryLessonStudentStatistics(this.querys);
       }
     },
     //查询在家表现（表格）
@@ -406,11 +407,39 @@ export default {
           this.homeOption.legend.data = res.data.map(item => item.name);
         }
       }
+    },
+    //使用情况（在家）
+    async queryStudentDetail(params = {}) {
+      let res = await service.queryStudentDetail(params);
+      if (res.errorCode === 0) {
+        this.actionObj = res.data;
+      }
+    },
+    //查询在校表现（表格）
+    async queryLessonInSchool(params = {}) {
+      let res = await service.queryLessonInSchool(params);
+      if (res.errorCode === 0) {
+        this.popupShow = false;
+        this.popupTwo = false;
+        this.lessonTable = res.data;
+      }
+    },
+    //使用情况（在校）
+    async queryLessonStudentStatistics(params = {}) {
+      let res = await service.queryLessonStudentStatistics(params);
+      if (res.errorCode === 0) {
+        this.lessonObj = res.data;
+      }
     }
   },
   mounted() {
+    //在家查询
     this.queryPieChart(this.query);
     this.queryActionList(this.query);
+    this.queryStudentDetail(this.query);
+    //在校查询
+    this.queryLessonInSchool(this.querys);
+    this.queryLessonStudentStatistics(this.querys);
   }
 };
 </script>
@@ -428,9 +457,6 @@ export default {
 }
 .today {
   padding: 30px;
-}
-.container {
-  // margin-top: 10px;
 }
 .mod {
   height: auto;
@@ -461,7 +487,6 @@ export default {
   color: #444;
   position: absolute;
   z-index: 3;
-  // background-color: #fff;
 }
 .fixedTable td:nth-child(even) {
   background-color: #fafafa;

@@ -55,6 +55,7 @@ export default {
   font-size: 28px;
   display: flex;
   background-color: #fff;
+  box-shadow: 0 -1px 30px #e5e5e5;
   &::before {
     content: "";
     position: absolute;

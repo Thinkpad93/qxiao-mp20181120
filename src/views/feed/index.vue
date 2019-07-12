@@ -52,7 +52,11 @@
               <div class="meta flex j-c-s-b a-i-c">
                 <time>发送日期：{{ item.feedDate }}</time>
                 <div class="flex">
-                  <div v-if="roleType == 2 && !item.status" @click="handleReply(item)">
+                  <div
+                    class="flex a-i-c"
+                    v-if="roleType == 2 && !item.status"
+                    @click="handleReply(item)"
+                  >
                     <van-icon name="comment" size="18px" color="#336d92"></van-icon>
                     <span style="color:#336d92">回复</span>
                   </div>
