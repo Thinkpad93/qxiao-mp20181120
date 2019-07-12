@@ -2,28 +2,25 @@
   <div class="page">
     <div class="page-bd">
       <div class="cells" v-if="list.length">
-        <div class="cell min-h100">
-          <div class="cell-hd">
-            <label class="label f-w">行为名称</label>
-          </div>
-          <div class="cell-bd">
-            <p class="text-center f-w">学生名字</p>
-          </div>
-          <div class="cell-ft">
-            <p class="f-w">Q星</p>
-          </div>
+        <div class="cell min-h100" style="padding: 0">
+          <div class="flex-1 text-center">{{ tabIndex == 0 ? '行为名称':'课程名称' }}</div>
+          <div class="flex-1 text-center">学生名字</div>
+          <div class="flex-1 text-center">Q星数量</div>
         </div>
       </div>
       <div class="cells">
-        <div class="cell min-h100" v-for="(item, index) in list" :key="index">
-          <div class="cell-hd">
-            <label class="label">{{ item.name }}</label>
-          </div>
-          <div class="cell-bd">
-            <p class="text-center">{{ item.studentName }}星</p>
-          </div>
-          <div class="cell-ft">
-            <van-rate v-model="item.starCount" :size="20" :count="5" color="#09e2bb" readonly></van-rate>
+        <div style="padding: 0" class="cell min-h100" v-for="(item, index) in list" :key="index">
+          <div class="flex-1 text-center">{{ item.name }}</div>
+          <div class="flex-1 text-center">{{ item.studentName }}</div>
+          <div class="flex-1 text-center">
+            <van-rate
+              v-model="item.starCount"
+              :size="18"
+              :count="5"
+              color="#09e2bb"
+              allow-half
+              readonly
+            ></van-rate>
           </div>
         </div>
       </div>
@@ -49,6 +46,12 @@ export default {
         actionId: this.$route.query.actionId,
         actionType: this.$route.query.actionType
       },
+      querys: {
+        classId: this.$route.query.classId,
+        lessonId: this.$route.query.lessonId,
+        startDate: this.$route.query.startDate,
+        endDate: this.$route.query.endDate
+      },
       list: []
     };
   },
@@ -62,7 +65,7 @@ export default {
     },
     //课程详情（在校）
     async queryLessonDetail(params = {}) {
-      let res = await service.queryActionDetails(params);
+      let res = await service.queryLessonDetail(params);
       if (res.errorCode === 0) {
         this.list = res.data;
       }
@@ -72,15 +75,10 @@ export default {
     if (this.tabIndex == 0) {
       this.queryActionDetails(this.query);
     } else {
+      this.queryLessonDetail(this.querys);
     }
   }
 };
 </script>
 <style lang="less" scoped>
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-}
 </style>

@@ -60,15 +60,15 @@
             <div class="mod">
               <div class="flex j-c-s-b a-i-c today">
                 <div class="classId flex a-i-c j-c-s-b" style="padding:0">
-                  <div @click="popupWeek = true">
+                  <!-- <div @click="popupWeek = true">
                     <span class="mr-10">月</span>
                     <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="flex a-i-c" @click="popupOne = true">
                   <time size-16>{{ query.startDate }}</time>
                   <span style="padding:0 4px;">至</span>
-                  <time size-16>{{ query.endDate }}</time>
+                  <time class="mr-20" size-16>{{ query.endDate }}</time>
                   <van-icon name="arrow-down" size="14px"></van-icon>
                 </div>
               </div>
@@ -140,10 +140,10 @@
             <div class="mod" style="padding-bottom:0">
               <div class="flex j-c-s-b a-i-c today">
                 <div class="classId flex a-i-c j-c-s-b" style="padding:0">
-                  <div>
+                  <!-- <div>
                     <span class="mr-10">月</span>
                     <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="flex a-i-c" @click="popupTwo = true">
                   <time size-16>{{ querys.startDate }}</time>
@@ -160,19 +160,19 @@
                       <td>课程</td>
                       <td class="fixedColumn"></td>
                       <td>
-                        <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
+                        <van-rate v-model="count" :size="14" :count="5" color="#09e2bb" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
+                        <van-rate v-model="count" :size="14" :count="4" color="#09e2bb" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
+                        <van-rate v-model="count" :size="14" :count="3" color="#09e2bb" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
+                        <van-rate v-model="count" :size="14" :count="2" color="#09e2bb" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" color="#09e2bb"></van-rate>
+                        <van-rate v-model="count" :size="14" :count="1" color="#09e2bb" readonly></van-rate>
                       </td>
                       <td>0星</td>
                     </tr>
@@ -181,12 +181,12 @@
                     <tr v-for="(item,index) in lessonTable" :key="index">
                       <td>{{ item.name }}</td>
                       <td class="fixedColumn"></td>
-                      <td>{{ item.five + '人' }}</td>
-                      <td>{{ item.four + '人' }}</td>
-                      <td>{{ item.three + '人' }}</td>
-                      <td>{{ item.two + '人' }}</td>
-                      <td>{{ item.one + '人' }}</td>
-                      <td>{{ item.zero + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.five + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.four + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.three + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.two + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.one + '人' }}</td>
+                      <td @click="jumpDetails(item)">{{ item.zero + '人' }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -360,19 +360,18 @@ export default {
     },
     //详情页跳转
     jumpDetails(params = {}) {
+      let obj = {};
       let tabIndex = this.tabActive;
-      let { actionId, actionType, name } = params;
-      let { classId, startDate, endDate } = this.query;
+      if (tabIndex == 0) {
+        let { actionId, actionType } = params;
+        obj = Object.assign({}, this.query, { tabIndex, actionId, actionType });
+      } else {
+        let { lessonId } = params;
+        obj = Object.assign({}, this.querys, { tabIndex, lessonId });
+      }
       this.$router.push({
         path: "/single/view",
-        query: {
-          tabIndex,
-          actionId,
-          actionType,
-          classId,
-          startDate,
-          endDate
-        }
+        query: obj
       });
     },
     //班级选择
