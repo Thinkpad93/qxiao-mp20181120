@@ -54,7 +54,7 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart id="homeOption" height="300px" :option="homeOption" />
+              <qxChart id="homeOption" height="300px" :option="homeOption" @on-click="handleClick" />
             </div>
             <p>行为详细使用分析</p>
           </div>
@@ -67,7 +67,12 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <qxChart id="schoolOption" height="300px" :option="schoolOption" />
+              <qxChart
+                id="schoolOption"
+                height="300px"
+                :option="schoolOption"
+                @on-click="handleClick"
+              />
             </div>
           </div>
         </van-tab>
@@ -225,6 +230,18 @@ export default {
           path: "/role"
         });
       }
+    },
+    handleClick(params) {
+      let tabIndex = this.tabActive;
+      let { datas, value, ...args } = params.data;
+      this.$router.push({
+        path: "/single/view",
+        query: {
+          tabIndex,
+          ...args,
+          ...this.query
+        }
+      });
     },
     handleDateConfirm(value, index) {
       this.query.date = dayjs(value).format("YYYY-MM-DD");
