@@ -67,7 +67,7 @@
                 <van-icon name="arrow-down" size="14px"></van-icon>
               </div>
               <!-- 数据分析 -->
-              <!-- <qxChart id="schoolOption" height="300px" :option="schoolOption" /> -->
+              <qxChart id="schoolOption" height="300px" :option="schoolOption" />
             </div>
           </div>
         </van-tab>
@@ -151,54 +151,54 @@ export default {
             }
           }
         ]
+      },
+      schoolOption: {
+        tooltip: {
+          trigger: "item",
+          triggerOn: "click",
+          formatter: function(a) {
+            return (
+              a["name"] +
+              "<br/>优秀: " +
+              a["data"].datas[0] +
+              "人" +
+              "<br/>良好: " +
+              a["data"].datas[1] +
+              "人" +
+              "<br/>一般: " +
+              a["data"].datas[2] +
+              "人"
+            );
+          }
+        },
+        legend: {
+          orient: "horizontal",
+          left: "center",
+          bottom: 0,
+          data: [],
+          show: true
+        },
+        series: [
+          {
+            name: "在校表现",
+            type: "pie",
+            radius: "80%",
+            center: ["50%", "40%"],
+            data: [],
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: "inside",
+                  formatter: function(a) {
+                    return a["name"] + ": " + a["value"] + "人";
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
-      // schoolOption: {
-      //   tooltip: {
-      //     trigger: "item",
-      //     triggerOn: "click",
-      //     formatter: function(a) {
-      //       return (
-      //         a["name"] +
-      //         "<br/>优秀: " +
-      //         a["data"].datas[0] +
-      //         "人" +
-      //         "<br/>良好: " +
-      //         a["data"].datas[1] +
-      //         "人" +
-      //         "<br/>一般: " +
-      //         a["data"].datas[2] +
-      //         "人"
-      //       );
-      //     }
-      //   },
-      //   legend: {
-      //     orient: "horizontal",
-      //     left: "center",
-      //     bottom: 0,
-      //     data: [],
-      //     show: true
-      //   },
-      //   series: [
-      //     {
-      //       name: "在校表现",
-      //       type: "pie",
-      //       radius: "80%",
-      //       center: ["50%", "40%"],
-      //       data: [],
-      //       itemStyle: {
-      //         normal: {
-      //           label: {
-      //             show: true,
-      //             position: "inside",
-      //             formatter: function(a) {
-      //               return a["name"] + ": " + a["value"] + "人";
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //   ]
-      // }
     };
   },
   computed: {
@@ -274,24 +274,24 @@ export default {
       }
     }
     //查询在校表现
-    // async queryLessonWithSchool(params = {}) {
-    //   let res = await service.queryLessonWithSchool(params);
-    //   if (res.errorCode === 0) {
-    //     this.popupShowDate = false;
-    //     this.popupShow = false;
-    //     if (res.data.length) {
-    //       this.schoolOption.series[0].data = this.analysis(res.data);
-    //       this.schoolOption.legend.data = res.data.map(item => item.name);
-    //     } else {
-    //       this.schoolOption.series[0].data = [];
-    //       this.schoolOption.legend.data = [];
-    //     }
-    //   }
-    // }
+    async queryLessonWithSchool(params = {}) {
+      let res = await service.queryLessonWithSchool(params);
+      if (res.errorCode === 0) {
+        this.popupShowDate = false;
+        this.popupShow = false;
+        if (res.data.length) {
+          this.schoolOption.series[0].data = this.analysis(res.data);
+          this.schoolOption.legend.data = res.data.map(item => item.name);
+        } else {
+          this.schoolOption.series[0].data = [];
+          this.schoolOption.legend.data = [];
+        }
+      }
+    }
   },
   mounted() {
     this.queryActionWithHome(this.query);
-    //this.queryLessonWithSchool(this.query);
+    this.queryLessonWithSchool(this.query);
   }
 };
 </script>
