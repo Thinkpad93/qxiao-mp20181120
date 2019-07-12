@@ -272,7 +272,7 @@ export default {
           this.homeOption.legend.data = [];
         }
       }
-    }
+    },
     //查询在校表现
     async queryLessonWithSchool(params = {}) {
       let res = await service.queryLessonWithSchool(params);
