@@ -58,13 +58,13 @@
           <div class="container">
             <p class="pl-20 mt-30 mb-30">行为使用人数汇总</p>
             <div class="mod">
-              <div class="flex j-c-s-b a-i-c today">
-                <div class="classId flex a-i-c j-c-s-b" style="padding:0">
-                  <!-- <div @click="popupWeek = true">
+              <div class="flex j-c-c a-i-c today">
+                <!-- <div class="classId flex a-i-c j-c-c" style="padding:0">
+                  <div @click="popupWeek = true">
                     <span class="mr-10">月</span>
                     <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>-->
-                </div>
+                  </div>
+                </div> -->
                 <div class="flex a-i-c" @click="popupOne = true">
                   <time size-16>{{ query.startDate }}</time>
                   <span style="padding:0 4px;">至</span>
@@ -106,12 +106,12 @@
                     <tr v-for="(item,index) in actionTable" :key="index">
                       <td>{{ item.name }}</td>
                       <td class="fixedColumn"></td>
-                      <td @click="jumpDetails(item)">{{ item.five + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.four + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.three + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.two + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.one + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.zero + '人' }}</td>
+                      <td @click="jumpDetails(item, 5)">{{ item.five + '人' }}</td>
+                      <td @click="jumpDetails(item, 4)">{{ item.four + '人' }}</td>
+                      <td @click="jumpDetails(item, 3)">{{ item.three + '人' }}</td>
+                      <td @click="jumpDetails(item, 2)">{{ item.two + '人' }}</td>
+                      <td @click="jumpDetails(item, 1)">{{ item.one + '人' }}</td>
+                      <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -138,13 +138,13 @@
           <div class="container">
             <p class="pl-20 mt-30 mb-30">手环使用人数汇总</p>
             <div class="mod" style="padding-bottom:0">
-              <div class="flex j-c-s-b a-i-c today">
-                <div class="classId flex a-i-c j-c-s-b" style="padding:0">
-                  <!-- <div>
+              <div class="flex j-c-c a-i-c today">
+                <!-- <div class="classId flex a-i-c j-c-s-b" style="padding:0">
+                  <div>
                     <span class="mr-10">月</span>
                     <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>-->
-                </div>
+                  </div>
+                </div> -->
                 <div class="flex a-i-c" @click="popupTwo = true">
                   <time size-16>{{ querys.startDate }}</time>
                   <span style="padding:0 4px;">至</span>
@@ -359,12 +359,12 @@ export default {
       }
     },
     //详情页跳转
-    jumpDetails(params = {}) {
+    jumpDetails(params = {}, number = 5) {
       let obj = {};
       let tabIndex = this.tabActive;
       if (tabIndex == 0) {
         let { actionId, actionType } = params;
-        obj = Object.assign({}, this.query, { tabIndex, actionId, actionType });
+        obj = Object.assign({}, this.query, { tabIndex, actionId, actionType, number });
       } else {
         let { lessonId } = params;
         obj = Object.assign({}, this.querys, { tabIndex, lessonId });

@@ -44,7 +44,8 @@ export default {
         startDate: this.$route.query.startDate,
         endDate: this.$route.query.endDate,
         actionId: this.$route.query.actionId,
-        actionType: this.$route.query.actionType
+        actionType: this.$route.query.actionType,
+        number: this.$route.query.number
       },
       querys: {
         classId: this.$route.query.classId,
