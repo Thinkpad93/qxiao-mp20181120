@@ -38,8 +38,8 @@
           <div class="flex a-i-c j-c-c mb-30">
             <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
             <strong class="ml-10">{{ todayStarTotal }}</strong>
+            <p size-12 style="align-self: flex-end;margin-bottom:8px">(可兑换Q星数量)</p>
           </div>
-          <p class="mb-30">(可兑换Q星数量)</p>
           <p>手指勾勾约定好，奖励兑现要做到！</p>
         </div>
         <div class="pichi-ft">

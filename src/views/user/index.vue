@@ -108,8 +108,12 @@
       </template>
       <!-- <div class="mt-20 text-center">
         <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button>
+<<<<<<< HEAD
         <van-button type="danger" size="small" to="/schedule">日期</van-button>
       </div>-->
+=======
+      </div>
+>>>>>>> open-dev-190710
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>

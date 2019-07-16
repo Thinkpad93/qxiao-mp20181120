@@ -948,7 +948,7 @@ export default {
   color: #ea6151;
 }
 .calendar td.selected span {
-  background-color: #409eff;
+  background-color: #9c0;
   color: #fff;
 }
 .calendar td .text {
@@ -976,11 +976,11 @@ export default {
   color: #ea6151;
 }
 .calendar td.selected span.red {
-  background-color: #ea6151;
+  background-color: #9c0;
   color: #fff;
 }
 .calendar td.selected span.red:hover {
-  background-color: #ea6151;
+  background-color: #9c0;
   color: #fff;
 }
 .calendar thead td {
