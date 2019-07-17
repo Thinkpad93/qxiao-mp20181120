@@ -12,33 +12,44 @@
             </div>-->
           </div>
           <div class="page-swiper">
-            <swiper :options="swiperOption" ref="mySwiper">
-              <swiper-slide class="slide" v-for="(item, index) in onLineList" :key="index">
-                <div
-                  class="slide-img"
-                  :style="{backgroundImage: `url(${item.imageUrl})`}"
-                  @click="handlePreviewImage(item.imageUrl, onLineList)"
-                ></div>
-                <div class="zan flex a-i-c" v-if="item.praise">
-                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
-                  <span>{{ item.praise }}</span>
-                </div>
-              </swiper-slide>
-            </swiper>
+            <template v-if="onLineList.length">
+              <swiper :options="swiperOption" ref="mySwiper">
+                <swiper-slide class="slide" v-for="(item, index) in onLineList" :key="index">
+                  <div
+                    class="slide-img"
+                    :style="{backgroundImage: `url(${item.imageUrl})`}"
+                    @click="handlePreviewImage(item.imageUrl, onLineList)"
+                  ></div>
+                  <div class="zan flex a-i-c" v-if="item.praise">
+                    <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                    <span>{{ item.praise }}</span>
+                  </div>
+                </swiper-slide>
+              </swiper>
+            </template>
+            <template v-else>
+              <p style="padding: 20px 0;color:#999" class="text-center">您还没有上榜作品请继续加油呀</p>
+            </template>
           </div>
           <div class="cells-title a-i-c">
             <p size-17>优秀作品展示</p>
           </div>
           <!-- 优秀作品 -->
           <div class="good-works">
-            <div class="item" v-for="(item, index) in worksList" :key="index">
-              <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
-                <img :src="item.imageUrl" alt />
-                <div class="zan flex a-i-c" v-if="item.praise">
-                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
-                  <span>{{ item.praise }}</span>
+            <div class="flex f-w-w" v-if="worksList.length">
+              <div class="item" v-for="(item, index) in worksList" :key="index">
+                <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
+                  <img :src="item.imageUrl" alt />
+                  <div class="zan flex a-i-c" v-if="item.praise">
+                    <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                    <span>{{ item.praise }}</span>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="empty" v-if="!worksList.length">
+              <img src="@/assets/kong.png" alt />
+              <p>目前还没有优秀作品呢</p>
             </div>
           </div>
         </van-tab>
@@ -294,8 +305,6 @@ export default {
   }
 }
 .good-works {
-  display: flex;
-  flex-wrap: wrap;
   margin-bottom: 20px;
   background-color: #fff;
   .item {

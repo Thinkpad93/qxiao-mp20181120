@@ -1,33 +1,59 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <article class="article">
-        <h1 size-24>{{ albumInfo.title }}</h1>
-        <div class="article-hd flex">
-          <div class="article-cell">
-            <time style="color:#8d8d8d;">{{ albumInfo.postTime }}</time>
-          </div>
-        </div>
-        <div class="album-content">
-          <div class="grid-content clearfix">
-            <div
-              class="album-img"
-              v-for="(pic, index) in albumInfo.items"
-              :key="index"
-              @click="handlePreviewImage(pic.imageUrl, albumInfo.items)"
-            >
-              <!-- 删除 -->
-              <div class="album-mask" v-show="mask" style="z-index: 9527">
-                <van-checkbox-group v-model="albumCheckList">
-                  <van-checkbox :key="pic.itemId" :name="pic.itemId" checked-color="#92cd36"></van-checkbox>
-                </van-checkbox-group>
-              </div>
-              <img :src="pic.imageUrl">
+      <van-dialog
+        v-model="dialogVisible"
+        title="修改相册名称"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
+      >
+        <div class="cells" style="padding:15px 0 15px 0;">
+          <div class="cell">
+            <div class="cell-bd" style="padding-left:0">
+              <input
+                class="input"
+                placeholder="请输入相册名称"
+                maxlength="10"
+                v-model="title"
+                style="text-align:left;"
+              />
             </div>
           </div>
         </div>
-        <div class="empty" v-if="!albumInfo.items.length">
-          <img src="@/assets/kong.png" alt>
+      </van-dialog>
+      <article class="article">
+        <h1 size-24 class="flex a-i-c" @click="handleEditChannel">
+          {{ title }}
+          <van-icon name="edit" />
+        </h1>
+        <div class="article-hd flex">
+          <div class="article-cell">
+            <time style="color:#8d8d8d;">{{ updateTime }}</time>
+          </div>
+        </div>
+        <div class="album-content">
+          <div class="grid-content flex f-w-w" style="margin-left: -5px; margin-right: -5px;">
+            <div
+              class="album-img mb-20"
+              v-for="(pic, index) in list"
+              :key="index"
+              @click="handlePreviewImage(pic.imageUrl, list)"
+            >
+              <div class="suni">
+                <!-- 删除 -->
+                <div class="album-mask" v-show="mask" style="z-index: 9527">
+                  <van-checkbox-group v-model="albumCheckList">
+                    <van-checkbox :key="pic.itemId" :name="pic.itemId" checked-color="#92cd36"></van-checkbox>
+                  </van-checkbox-group>
+                </div>
+                <img :src="pic.smallUrl" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="empty" v-if="!list.length">
+          <img src="@/assets/kong.png" alt />
           <p>暂无相册</p>
         </div>
       </article>
@@ -75,13 +101,18 @@ export default {
   name: "albumDetail",
   data() {
     return {
+      dialogVisible: false,
       mask: false,
       roleType: this.$store.state.user.info.roleType,
+      title: "",
+      updateTime: this.$route.query.updateTime,
       query: {
         openId: this.$store.state.user.info.openId,
-        channelId: this.$route.query.channelId
+        channelId: this.$route.query.channelId,
+        page: 1,
+        pageSize: 20
       },
-      albumInfo: {},
+      list: [],
       albumCheckList: [] //选择的图片ID
     };
   },
@@ -91,6 +122,10 @@ export default {
         path: "/album/add",
         query: { channelId: this.$route.query.channelId }
       });
+    },
+    //修改栏目名称
+    handleEditChannel() {
+      this.dialogVisible = true;
     },
     handleCancel() {
       this.mask = false;
@@ -122,6 +157,26 @@ export default {
         urls: imgArray
       });
     },
+    async handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.title == "") {
+          this.$toast("请输入相册名称");
+          done(false);
+        } else {
+          let { channelId } = this.query;
+          let name = this.title;
+          let res = await service.updateChannel({ channelId, name });
+          if (res.errorCode === 0) {
+            done();
+            this.$toast("相册名称修改成功");
+            this.dialogVisible = false;
+            this.queryTitle(this.query.channelId);
+          }
+        }
+      } else {
+        done();
+      }
+    },
     //相册照片或视频删除
     async imageDelete(params = {}) {
       let res = await service.imageDelete(params);
@@ -133,14 +188,22 @@ export default {
     async albumChannelDetail(params = {}) {
       let res = await service.albumChannelDetail(params);
       if (res.errorCode === 0) {
-        this.albumInfo = res.data;
+        this.list = res.data.data || [];
         this.albumCheckList = [];
         this.mask = false;
+      }
+    },
+    //查询栏目名称
+    async queryTitle(channelId) {
+      let res = await service.queryTitle({ channelId });
+      if (res.errorCode === 0) {
+        this.title = res.data;
       }
     }
   },
   mounted() {
     this.albumChannelDetail(this.query);
+    this.queryTitle(this.query.channelId);
   }
 };
 </script>
@@ -149,22 +212,22 @@ export default {
   overflow: hidden;
 }
 .album-img {
-  width: 160px;
-  height: 160px;
-  float: left;
-  position: relative;
-  overflow: hidden;
-  margin-left: 10px;
-  margin-bottom: 20px;
-  img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
+  width: 33.33333%;
+  padding: 0 10px;
+  .suni {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+    }
   }
 }
 .album-mask {

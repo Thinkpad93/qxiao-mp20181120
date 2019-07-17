@@ -5,6 +5,6 @@ export default [{
   meta: {
     keepAlive: false,
     isShare: false,
-    title: '登陆',
+    title: '登录',
   }
 }]

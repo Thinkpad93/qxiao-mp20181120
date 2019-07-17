@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="btn-group">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登陆</a>
+          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登录</a>
         </div>
         <div class="text-center">
           <span style="color:#84ce09" @click="handleTourist">未加入班级点击抢先体验</span>

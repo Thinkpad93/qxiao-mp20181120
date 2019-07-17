@@ -51,7 +51,8 @@ export default {
         classId: this.$route.query.classId,
         lessonId: this.$route.query.lessonId,
         startDate: this.$route.query.startDate,
-        endDate: this.$route.query.endDate
+        endDate: this.$route.query.endDate,
+        number: this.$route.query.number
       },
       list: []
     };

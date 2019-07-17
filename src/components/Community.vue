@@ -4,6 +4,7 @@
       <div class="cell flex">
         <div class="cell-hd">
           <img v-if="fuck.photo" :src="fuck.photo" />
+          <img src="@/assets/child-default@2x.png" v-else />
         </div>
         <div class="cell-bd">
           <h5 size-15>{{ fuck.name }}</h5>

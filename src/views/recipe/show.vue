@@ -7,36 +7,31 @@
       </div>
       <!-- 返回首页 -->
       <div class="back-home" @click="handleBackHome">
-        <van-icon name="home-o" size="24px"></van-icon>
+        <van-icon name="home-o" size="30px"></van-icon>
+        <div>首页</div>
       </div>
       <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
-            <time>发布时间: {{ info.postTime }}</time>
+            <time>{{ info.postTime }}</time>
           </div>
           <div class="article-cell">
             <van-icon name="eye-o" size="16px"></van-icon>
             <b>{{ info.readCount }}</b>
           </div>
         </div>
-        <div class="article-hd">
-          <div class="article-cell">
-            开始时间:
-            <time>{{ info.startDate }}</time>
-          </div>
-          <div class="article-cell">
-            结束时间:
-            <time>{{ info.endDate }}</time>
-          </div>
-        </div>
-        <div size-16 class="article-content">
+        <div size-16 class="article-bd">
           <p v-html="info.textContent"></p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">
               <img :src="img.imageUrl" />
             </p>
           </template>
+        </div>
+        <div class="article-ft">
+          <time>开始时间:{{ info.startDate }}</time>
+          <time>结束时间:{{ info.endDate }}</time>
         </div>
       </article>
     </div>

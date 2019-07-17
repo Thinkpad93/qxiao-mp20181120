@@ -62,7 +62,7 @@ export default {
       ],
       feedList: [
         {
-          name: "反馈",
+          name: "家长反馈",
           url: "/feed",
           icon: require("../assets/men-icon-11@2x.png")
         }

@@ -40,7 +40,7 @@
           :formatter="formatter"
         ></van-datetime-picker>
       </van-popup>
-      <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
+      <template v-if="roleType != 3">
         <div class="clock-table">
           <div class="cells">
             <div class="cell" size-17>
@@ -50,8 +50,6 @@
               <div class="cell-bd">出勤率</div>
             </div>
           </div>
-        </div>
-        <div class="clock-table">
           <div class="cells">
             <div
               class="cell"
@@ -81,19 +79,13 @@
             </div>
           </div>
         </div>
+        <div class="empty" v-if="!clockList.length">
+          <img src="@/assets/kong.png" alt />
+          <p>还没有打卡记录</p>
+        </div>
       </template>
       <!-- 家长端 -->
       <template v-else>
-        <!-- <div class="calendar-container">
-          <calendar
-            :events="calendar.events"
-            :range="calendar.range"
-            :lunar="calendar.lunar"
-            @prev="handlePrev"
-            @next="handleNext"
-            @select="handleSelect"
-          ></calendar>
-        </div>-->
         <div class="clock-show-table">
           <div class="cells">
             <div
@@ -102,10 +94,17 @@
               v-for="(month, index) in clockMonthList"
               :key="index"
             >
-              <div class="cell-bd" style="padding-left:0;">{{ month.day }}已打卡</div>
+              <div class="cell-bd" style="padding-left:0;">
+                <time>{{ month.day }}</time>
+                已打卡
+              </div>
               <div class="cell-ft" style="color:#92cd36;" @click="handleClockDay(month)">查看详情</div>
             </div>
           </div>
+        </div>
+        <div class="empty" v-if="!clockMonthList.length">
+          <img src="@/assets/kong.png" alt />
+          <p>本月还没有打卡过呢</p>
         </div>
       </template>
     </div>

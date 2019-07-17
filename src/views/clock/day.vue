@@ -3,9 +3,9 @@
     <div class="page-bd">
       <div class="cells-title">当天打卡详细时间</div>
       <div class="cells">
-        <div class="cell" v-for="(day, index) in dayList" :key="index">
+        <div class="cell min-h100" v-for="(day, index) in dayList" :key="index">
           <div class="cell-bd">
-            <div class="cell-p text-center">{{ day }}</div>
+            <p>{{ day }}</p>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@ export default {
       }
     }
   },
-  mounted() {
+  activated() {
     this.clockQueryDate(this.query);
   }
 };

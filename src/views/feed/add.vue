@@ -8,7 +8,7 @@
             <textarea
               class="textarea"
               placeholder="请填写您的意见和建议..."
-              rows="8"
+              rows="10"
               v-model="form.textContent"
             ></textarea>
           </div>

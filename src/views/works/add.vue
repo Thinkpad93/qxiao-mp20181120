@@ -113,6 +113,8 @@ export default {
     },
     handleDelImg(index) {
       this.imagesList.splice(index, 1);
+    },   handleDelImg(index) {
+      this.imagesList.splice(index, 1);
     },
     async handleSubmit() {
       let { title } = this.form;

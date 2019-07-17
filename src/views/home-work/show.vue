@@ -7,7 +7,8 @@
       </div>
       <!-- 返回首页 -->
       <div class="back-home" @click="handleBackHome">
-        <van-icon name="home-o" size="24px"></van-icon>
+        <van-icon name="home-o" size="30px"></van-icon>
+        <div>首页</div>
       </div>
       <!-- -->
       <article class="article" v-if="!parseInt(info.isDel)">
@@ -21,7 +22,7 @@
             <b>{{ info.classReadCount }}</b>
           </div>
         </div>
-        <section size-16 class="article-content">
+        <section size-16 class="article-bd">
           <p v-html="info.textContent"></p>
           <template v-if="info.images">
             <p v-for="(img, index) in info.images" :key="index">

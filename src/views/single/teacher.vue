@@ -26,7 +26,7 @@
       </van-popup>
       <!-- 日期选择 2 -->
       <!-- 周月选择 -->
-      <van-popup v-model="popupWeek" position="bottom">
+      <!-- <van-popup v-model="popupWeek" position="bottom">
         <van-picker
           :columns="classList"
           show-toolbar
@@ -34,7 +34,7 @@
           @cancel="popupWeek = false"
           @confirm="handleClassConfirm"
         ></van-picker>
-      </van-popup>
+      </van-popup>-->
       <!-- 班级选择菜单 -->
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -56,15 +56,9 @@
       <van-tabs v-model="tabActive" :line-height="2">
         <van-tab title="在家表现">
           <div class="container">
-            <p class="pl-20 mt-30 mb-30">行为使用人数汇总</p>
+            <p class="pl-20 mt-30 mb-30">使用人数分布</p>
             <div class="mod">
               <div class="flex j-c-c a-i-c today">
-                <!-- <div class="classId flex a-i-c j-c-c" style="padding:0">
-                  <div @click="popupWeek = true">
-                    <span class="mr-10">月</span>
-                    <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>
-                </div> -->
                 <div class="flex a-i-c" @click="popupOne = true">
                   <time size-16>{{ query.startDate }}</time>
                   <span style="padding:0 4px;">至</span>
@@ -75,14 +69,17 @@
               <!-- 数据分析 -->
               <qxChart id="homeOption" height="300px" :option="homeOption" />
             </div>
-            <p class="pl-20 mt-30 mb-30">行为详细使用分析</p>
+            <p class="pl-20 mt-30 mb-30">在家表现分析</p>
             <div class="mod" style="padding-bottom:0">
               <!-- 数据表格 -->
               <div class="el-table">
                 <table class="fixedTable" style="width:160%;">
                   <thead>
                     <tr>
-                      <td>行为</td>
+                      <td id="lineTd">
+                        <span style="float:left;margin-top:0px;">行为</span>
+                        <span style="float:right;margin-top:0px;">Q星</span>
+                      </td>
                       <td class="fixedColumn"></td>
                       <td>
                         <van-rate v-model="count" :size="14" :count="5" color="#09e2bb" readonly></van-rate>
@@ -111,7 +108,12 @@
                       <td @click="jumpDetails(item, 3)">{{ item.three + '人' }}</td>
                       <td @click="jumpDetails(item, 2)">{{ item.two + '人' }}</td>
                       <td @click="jumpDetails(item, 1)">{{ item.one + '人' }}</td>
-                      <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
+                      <template v-if="item.actionId == 0">
+                        <td>-</td>
+                      </template>
+                      <template v-else>
+                        <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
+                      </template>
                     </tr>
                   </tbody>
                 </table>
@@ -136,15 +138,9 @@
         </van-tab>
         <van-tab title="在校表现">
           <div class="container">
-            <p class="pl-20 mt-30 mb-30">手环使用人数汇总</p>
+            <p class="pl-20 mt-30 mb-30">学生上课效果分析</p>
             <div class="mod" style="padding-bottom:0">
               <div class="flex j-c-c a-i-c today">
-                <!-- <div class="classId flex a-i-c j-c-s-b" style="padding:0">
-                  <div>
-                    <span class="mr-10">月</span>
-                    <van-icon name="arrow-down" size="16px"></van-icon>
-                  </div>
-                </div> -->
                 <div class="flex a-i-c" @click="popupTwo = true">
                   <time size-16>{{ querys.startDate }}</time>
                   <span style="padding:0 4px;">至</span>
@@ -157,7 +153,10 @@
                 <table class="fixedTable" style="width:160%;">
                   <thead>
                     <tr>
-                      <td>课程</td>
+                      <td id="lineTd">
+                        <span style="float:left;margin-top:0px;">课程</span>
+                        <span style="float:right;margin-top:0px;">Q星</span>
+                      </td>
                       <td class="fixedColumn"></td>
                       <td>
                         <van-rate v-model="count" :size="14" :count="5" color="#09e2bb" readonly></van-rate>
@@ -181,12 +180,12 @@
                     <tr v-for="(item,index) in lessonTable" :key="index">
                       <td>{{ item.name }}</td>
                       <td class="fixedColumn"></td>
-                      <td @click="jumpDetails(item)">{{ item.five + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.four + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.three + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.two + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.one + '人' }}</td>
-                      <td @click="jumpDetails(item)">{{ item.zero + '人' }}</td>
+                      <td @click="jumpDetails(item, 5)">{{ item.five + '人' }}</td>
+                      <td @click="jumpDetails(item, 4)">{{ item.four + '人' }}</td>
+                      <td @click="jumpDetails(item, 3)">{{ item.three + '人' }}</td>
+                      <td @click="jumpDetails(item, 2)">{{ item.two + '人' }}</td>
+                      <td @click="jumpDetails(item, 1)">{{ item.one + '人' }}</td>
+                      <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -236,7 +235,6 @@ export default {
   data() {
     return {
       count: 5,
-      popupWeek: false,
       popupOne: false,
       popupTwo: false,
       popupShow: false, //班级选择
@@ -364,10 +362,15 @@ export default {
       let tabIndex = this.tabActive;
       if (tabIndex == 0) {
         let { actionId, actionType } = params;
-        obj = Object.assign({}, this.query, { tabIndex, actionId, actionType, number });
+        obj = Object.assign({}, this.query, {
+          tabIndex,
+          actionId,
+          actionType,
+          number
+        });
       } else {
         let { lessonId } = params;
-        obj = Object.assign({}, this.querys, { tabIndex, lessonId });
+        obj = Object.assign({}, this.querys, { tabIndex, lessonId, number });
       }
       this.$router.push({
         path: "/single/view",
@@ -469,11 +472,16 @@ export default {
   overflow-x: scroll;
   white-space: nowrap;
 }
+
+.fixedTable tr {
+  position: relative;
+}
 .fixedTable td {
   color: #96d723;
   text-align: center;
-  padding: 24px 0;
+  padding: 30px 0;
   min-width: 240px;
+  overflow: hidden;
   border-bottom: 1px solid #ebeef5;
   border-right: 1px solid #ebeef5;
   background-color: #fff;
@@ -494,6 +502,21 @@ export default {
 .fixedColumn {
   min-width: 240px;
   border: none;
+}
+
+#lineTd {
+  &:before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 260px; /*这里需要自己调整，根据td的宽度和高度*/
+    top: 0;
+    left: 0;
+    background-color: #ebeef5;
+    display: block;
+    transform: rotate(-68deg); /*这里需要自己调整，根据线的位置*/
+    transform-origin: top;
+  }
 }
 </style>
 

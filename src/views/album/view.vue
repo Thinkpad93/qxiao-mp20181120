@@ -17,34 +17,40 @@
                 maxlength="10"
                 v-model="title"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
         </div>
       </van-dialog>
       <div class="album-show mb-20">
-        <div
-          class="album-channel flex"
-          v-for="(channel, index) in albumChannel"
+        <van-swipe-cell
+          ref="swipeCell"
+          :right-width="60"
+          v-for="(channel, index) in list"
           :key="index"
-          @click="handleGo(channel.channelId)"
+          :on-close="onClose(channel, index)"
         >
-          <div class="album-thumb">
-            <img v-if="channel.image" :src="channel.image" alt>
-            <img v-else src="@/assets/kong.png" alt>
-          </div>
-          <div class="album-box">
-            <p size-16>{{ channel.title }}</p>
-            <div size-12 style="margin-top: 4px;margin-bottom: 6px;">
-              <span>共{{ channel.imagesCount }}张</span>
-              <span>阅读{{ channel.readCount }}</span>
+          <van-cell-group>
+            <div class="album-channel flex" @click="handleJump(channel)">
+              <div class="album-thumb">
+                <img v-if="channel.image" :src="channel.image" alt />
+                <img v-else src="@/assets/kong.png" alt />
+              </div>
+              <div class="album-box">
+                <p size-16>{{ channel.title }}</p>
+                <div style="margin-top: 6px;margin-bottom: 6px;">
+                  <span>共{{ channel.imagesCount }}张</span>
+                  <span>阅读{{ channel.readCount }}</span>
+                </div>
+                <time>更新于{{ channel.updateTime }}</time>
+              </div>
             </div>
-            <time size-12>更新于{{ channel.updateTime }}</time>
-          </div>
-        </div>
+          </van-cell-group>
+          <span slot="right" style="line-height: 100px;">删除</span>
+        </van-swipe-cell>
       </div>
-      <div class="empty" v-if="!albumChannel.length">
-        <img src="@/assets/kong.png" alt>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt />
         <p>暂无相册列表</p>
       </div>
     </div>
@@ -70,16 +76,44 @@ export default {
         openId: this.$store.state.user.info.openId,
         classId: this.$route.query.classId
       },
-      albumChannel: []
+      list: []
     };
   },
   methods: {
-    handleGo(channelId) {
+    onClose(channel, index) {
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "right":
+            this.$dialog
+              .confirm({
+                title: "提示",
+                message: "确定删除该相册栏目吗？"
+              })
+              .then(async () => {
+                let { channelId } = channel;
+                //删除栏目
+                let res = await service.deleteChannel({ channelId });
+                if (res.errorCode === 0) {
+                  this.$toast("栏目删除成功");
+                  instance.close();
+                  this.albumChannelQuery(this.query);
+                }
+              })
+              .catch(() => {
+                instance.close();
+              });
+            break;
+        }
+      };
+    },
+    handleJump(params) {
+      let { channelId, title, updateTime } = params;
       this.$router.push({
         path: "/album/show",
-        query: { channelId }
+        query: { channelId, updateTime }
       });
     },
+    handleDelete() {},
     handleSubmit(action, done) {
       if (action === "confirm") {
         if (this.title == "") {
@@ -98,7 +132,7 @@ export default {
     async albumChannelQuery(params = {}) {
       let res = await service.albumChannelQuery(params);
       if (res.errorCode === 0) {
-        this.albumChannel = res.data;
+        this.list = res.data;
       }
     },
     //新增相册栏目
@@ -120,7 +154,6 @@ export default {
 .album-channel {
   position: relative;
   padding: 24px 30px;
-  align-items: center;
   justify-content: flex-start;
   background-color: #fff;
   &::before {

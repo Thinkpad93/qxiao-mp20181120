@@ -39,11 +39,11 @@
             <div class="tr">
               <div class="th">
                 <i style="background-color:#92cd36;"></i>
-                <span size-14>已打卡</span>
+                <span size-14>表示已打卡</span>
               </div>
               <div class="th">
                 <i style="background-color:#e5e5e5;"></i>
-                <span size-14>未打卡</span>
+                <span size-14>表示未打卡</span>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@
                 :key="index"
               >
                 <div>
-                  <img :src="item.photo" v-if="item.photo">
+                  <img :src="item.photo" v-if="item.photo" />
                   <div class="icon-d" v-else></div>
                   <div class>
                     <span>{{ item.studentName }}</span>
@@ -309,6 +309,9 @@ export default {
     }
     &-default {
       background-color: #cccccc;
+      img {
+        filter: grayscale(70%);
+      }
     }
     .icon-d {
       margin: 0 auto;

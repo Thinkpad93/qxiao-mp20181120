@@ -14,7 +14,7 @@
             <div class="cell-bd">
               <textarea
                 class="textarea"
-                placeholder="请填写反馈意见内容..."
+                placeholder="请输入您要反馈的内容..."
                 rows="6"
                 v-model="form.textContent"
               ></textarea>
@@ -40,28 +40,29 @@
             v-for="(item, index) in list"
             :key="index"
           >
-            <div class="feed-hd flex j-c-s-b">
+            <div class="feed-hd flex a-i-c j-c-s-b">
               <div class="avatar flex a-i-c">
-                <img :src="item.photo" width="50" height="50" radius="50" v-if="item.photo" />
-                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
+                <img :src="item.photo" width="40" height="40" radius="50" v-if="item.photo" />
+                <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
                 <p class="ml-20">{{ item.studentName }}</p>
+              </div>
+              <div class>
+                <time v-if="roleType == 2">{{ item.feedDate }}</time>
+                <span style="color:#999" v-else>接收老师：{{ item.teacherName }}</span>
               </div>
             </div>
             <div class="feed-bd">
               <p>{{ item.feedTextContent }}</p>
-              <div class="meta flex j-c-s-b a-i-c">
-                <time>发送日期：{{ item.feedDate }}</time>
-                <div class="flex">
-                  <div
-                    class="flex a-i-c"
-                    v-if="roleType == 2 && !item.status"
-                    @click="handleReply(item)"
-                  >
-                    <van-icon name="comment" size="18px" color="#336d92"></van-icon>
-                    <span style="color:#336d92">回复</span>
-                  </div>
-                  <span v-else>接收老师：{{ item.teacherName }}</span>
-                </div>
+              <div class="time" v-if="roleType == 3">
+                <time>{{ item.feedDate }}</time>
+              </div>
+              <div
+                class="meta flex a-i-c j-c-f-e"
+                v-if="roleType == 2 && !item.status"
+                @click="handleReply(item)"
+              >
+                <van-icon name="comment" size="18px" color="#336d92"></van-icon>
+                <span style="color:#336d92">回复</span>
               </div>
             </div>
             <div class="feed-ft" v-if="item.status">
@@ -70,12 +71,16 @@
                 <span>{{ item.replyTextContent }}</span>
               </div>
               <div class>
-                <time>回复时间：{{ item.replyDate }}</time>
+                <time>{{ item.replyDate }}</time>
               </div>
             </div>
           </div>
         </div>
       </van-list>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt />
+        <p>{{ roleType == 2 ? "当前还没有反馈消息呢": "在这可提出您的建议哦" }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -190,18 +195,26 @@ export default {
 </script>
 <style lang="less" scoped>
 .feed {
-  margin-bottom: 20px;
+  margin-bottom: 80px;
   position: relative;
   background-color: #fff;
+  time {
+    color: #999;
+  }
   &-curr {
     //background-color: rgba(132, 206, 9, 0.1);
   }
   &-hd {
-    padding: 20px 20px 0 20px;
+    padding: 30px 30px 0 30px;
   }
   &-bd {
     p {
-      padding: 30px;
+      padding: 20px 30px;
+      line-height: 1.4;
+    }
+    .time {
+      padding: 0 30px;
+      padding-bottom: 20px;
     }
     .meta {
       height: 85px;
@@ -224,12 +237,13 @@ export default {
     }
   }
   &-ft {
-    padding: 0 20px 20px 20px;
+    padding: 0 30px 20px 30px;
     .reply {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       padding: 20px;
       border-radius: 8px;
-      background-color: rgba(51, 109, 146, 0.3);
+      line-height: 1.4;
+      background-color: rgba(51, 109, 146, 0.1);
     }
   }
 }

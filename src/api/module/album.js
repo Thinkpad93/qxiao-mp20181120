@@ -48,3 +48,27 @@ export function addChannel(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//删除栏目
+export function deleteChannel(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/deleteChannel.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//修改栏目名称
+export function updateChannel(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/updateChannel.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//修改栏目名称
+export function queryTitle(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/album/queryTitle.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

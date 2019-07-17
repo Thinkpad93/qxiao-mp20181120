@@ -8,9 +8,9 @@
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
-                  v-for="(file, index) in imagesList"
+                  v-for="(item, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${file})`}"
+                  :style="{backgroundImage: `url(${item.content})`}"
                 >
                   <van-icon
                     name="clear"
@@ -20,8 +20,10 @@
                   ></van-icon>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
-                <van-icon name="plus" size="30px"></van-icon>
+              <div class="uploader-input_box">
+                <van-uploader :after-read="handleRead" accept="image/*" multiple>
+                  <van-icon name="plus" size="30px"></van-icon>
+                </van-uploader>
               </div>
             </div>
           </div>
@@ -33,50 +35,64 @@
       <div class="fixed-bottom" style="z-index: 100;">
         <van-button type="info" size="large" class="no-radius" @click="handleSubmit">保存</van-button>
       </div>
-      <!-- <div class="mamba">
-        <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleSubmit">保存</a>
-      </div>-->
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
-import wxHandle from "@/mixins/wx";
 import wxapi from "@/config/wxapi";
 export default {
   name: "albumAdd",
-  mixins: [wxHandle],
   data() {
     return {
       form: {
-        openId: this.$store.state.user.info.openId,
         channelId: this.$route.query.channelId,
+        teacherId: this.$store.state.user.info.id,
         type: 0, // 0-图片 1-视频
-        imageUrl: [],
+        images: [],
         videoUrl: "" //视频URL
       },
-      albumChannel: []
+      imagesList: []
     };
   },
   methods: {
-    handleSubmit() {
-      if (!this.serverId.length) {
-        this.$toast("请上传图片");
+    handleRead(file, detail) {
+      if (Array.isArray(file)) {
+        file.forEach(elem => {
+          this.imagesList.push(elem);
+        });
       } else {
-        let params = {
-          openId: this.form.openId,
-          imgIds: this.serverId
-        };
-        service.imgIds(params).then(res => {
+        //如果用户是单选的图片
+        this.imagesList.push(file);
+      }
+    },
+    handleDelImg(index) {
+      this.imagesList.splice(index, 1);
+    },
+    async handleSubmit() {
+      if (!this.imagesList.length) {
+        this.$toast("请上传相册图片");
+        return;
+      }
+      //配置上传头部信息
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        showLoading: true
+      };
+      let formData = new FormData();
+      this.imagesList.forEach(elem => {
+        formData.append("files", elem.file);
+      });
+      //开始上传文件
+      let res = await service.uploadFile(formData, config);
+      if (res.errorCode === 0) {
+        this.form.images = res.data;
+        //相册图片或视频上传
+        service.albumImageAdd(this.form).then(res => {
           if (res.errorCode === 0) {
-            this.form.imageUrl = res.data.paths;
-            //相册图片或视频上传
-            service.albumImageAdd(this.form).then(res => {
-              if (res.errorCode === 0) {
-                this.$refs.form.reset();
-                this.$router.go(-1);
-              }
-            });
+            this.$router.go(-1);
           }
         });
       }
@@ -94,14 +110,4 @@ export default {
   font-size: 24px;
   padding: 0 30px 30px 30px;
 }
-// .mamba {
-//   padding: 20px 0;
-//   text-align: center;
-//   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
-//   background-color: #fff;
-
-//   > a {
-//     width: 500px;
-//   }
-// }
 </style>

@@ -172,7 +172,7 @@
               <qxChart id="stateMent" :option="stateMentOption" />
             </div>
           </van-tab>
-          <van-tab title="成长分析">
+          <!-- <van-tab title="成长分析">
             <div class="container">
               <div class="remark">
                 <div class="remark-hd flex j-c-s-b a-i-c">
@@ -186,7 +186,6 @@
                   </router-link>
                 </div>
                 <div class="remark-bd">
-                  <!-- 没有数据展示 -->
                   <template v-if="Object.keys(remark).length">
                     <div class="flex mb-20">
                       <span>老师:</span>
@@ -230,7 +229,7 @@
                 </van-tabs>
               </div>
             </div>
-          </van-tab>
+          </van-tab>-->
         </van-tabs>
       </div>
     </div>
@@ -437,7 +436,7 @@ export default {
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
-    this.newRemarkQuery();
+    //this.newRemarkQuery();
     this.lessonInfoQuery();
   },
   activated() {

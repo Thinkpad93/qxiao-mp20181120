@@ -22,7 +22,10 @@
             <img :src="photo" width="60" height="60" radius="50" v-else />
           </div>
           <div class="js-user-change">
-            <h3 class="mb-20" size-18>{{ name }}</h3>
+            <h3 class="mb-20" size-18>
+              {{ name }}
+              <small v-if="roleType == 3">Q星: {{ totalStarCount }}</small>
+            </h3>
             <p size-12>知识是智慧的火炬</p>
           </div>
         </div>
@@ -166,7 +169,8 @@ export default {
       name: state => state.info.name,
       roleType: state => state.info.roleType,
       experience: state => state.info.experience,
-      tel: state => state.info.tel
+      tel: state => state.info.tel,
+      totalStarCount: state => state.info.totalStarCount
     }),
     className: {
       get() {

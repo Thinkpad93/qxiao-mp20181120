@@ -29,7 +29,7 @@
       <template v-if="visibility">
         <div class="overlay" @click="visibility = false"></div>
         <div class="share-tip">
-          <img src="@/assets/share-tip.png">
+          <img src="@/assets/share-tip.png" />
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
@@ -43,10 +43,10 @@
         >
           <div class="cell-hd">
             <template v-if="student.photo">
-              <img class="student-icon" :src="student.photo" alt>
+              <img class="student-icon" :src="student.photo" alt />
             </template>
             <template v-else>
-              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50">
+              <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" />
             </template>
           </div>
           <div class="cell-bd pl-20">
@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="page-ft">
-      <div class="fixed-bottom">
+      <div class="fixed-bottom" style="z-index: 100;">
         <van-button
           type="info"
           size="large"
