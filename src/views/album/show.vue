@@ -38,7 +38,7 @@
               class="album-img mb-20"
               v-for="(pic, index) in list"
               :key="index"
-              @click="handlePreviewImage(pic.imageUrl, list)"
+              @click="handlePreviewImage(pic.imageUrl)"
             >
               <div class="suni">
                 <!-- 删除 -->
@@ -142,19 +142,10 @@ export default {
       }
     },
     //预览图片
-    handlePreviewImage(imgUrl, images) {
-      let imgArray = [];
-      if (images.length) {
-        images.forEach(item => {
-          imgArray.push(item.imageUrl);
-        });
-      }
-      if (!imgArray.length) {
-        imgArray.push(imgUrl);
-      }
+    handlePreviewImage(imgUrl, images = []) {
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: imgArray
+        urls: images
       });
     },
     async handleSubmit(action, done) {

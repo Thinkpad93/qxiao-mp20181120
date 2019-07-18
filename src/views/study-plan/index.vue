@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24" />
           <!-- <van-icon name="like-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>我的课程</p>
         </div>
@@ -19,7 +19,7 @@
           <!-- slides -->
           <swiper-slide class="slide" v-for="(item, index) in newsLists" :key="index">
             <div @click="jump(item.url)">
-              <img :src="item.imageUrl" width="136" height="89">
+              <img :src="item.imageUrl" width="136" height="89" />
               <p class="text-ellipsis mt-20">{{ item.title }}</p>
             </div>
           </swiper-slide>
@@ -28,7 +28,7 @@
       <!-- swiper end -->
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24" />
           <!-- <van-icon name="star-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>学习课程推荐</p>
         </div>
@@ -47,7 +47,7 @@
         >
           <div class="news-bd flex a-i-c">
             <div class="news-thumb">
-              <img :src="item.imageUrl">
+              <img :src="item.imageUrl" />
             </div>
             <div class="news-info">
               <h3 class="text-ellipsis mb-20">{{ item.title }}</h3>
@@ -84,14 +84,14 @@ export default {
         {
           title: "英文学习计划",
           author: "南华",
-          url: "/study-plan/show3",
-          imageUrl: require("../../assets/study-plan-4@2x.png")
+          url: "/study-plan/show3"
+          //imageUrl: require("../../assets/study-plan-4@2x.png")
         },
         {
           title: "培养学生音乐学习的习惯计划",
           author: "李三才",
-          url: "/study-plan/show4",
-          imageUrl: require("../../assets/study-plan-4@2x.png")
+          url: "/study-plan/show4"
+          //imageUrl: require("../../assets/study-plan-4@2x.png")
         }
         // {
         //   title: "作文分析",
@@ -103,8 +103,8 @@ export default {
         {
           title: "小学最强学习计划和作息时间表",
           author: "赵南星",
-          url: "/study-plan/show2",
-          imageUrl: require("../../assets/study-plan-4@2x.png")
+          url: "/study-plan/show2"
+          //imageUrl: require("../../assets/study-plan-4@2x.png")
         }
         // {
         //   title: "数学多边形知识点",

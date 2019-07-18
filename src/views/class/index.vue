@@ -21,7 +21,7 @@
                 maxlength="20"
                 v-model="className"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="info" size="large" class="no-radius" @click="dialogVisible = true">添加班级</van-button>
+        <van-button type="info" size="large" class="no-radius" to="/class/add">添加</van-button>
       </div>
     </div>
   </div>
@@ -164,22 +164,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-// .class-head {
-//   padding: 30px 0;
-//   margin-bottom: 20px;
-//   text-align: center;
-//   background-color: #fff;
-//   > a {
-//     width: 240px;
-//   }
-// }
-// .class-boxs {
-//   height: 120px;
-//   margin-bottom: 0;
-//   .cell-bd {
-//     padding-left: 0;
-//   }
-// }
 span.t {
   color: #409eff;
 }

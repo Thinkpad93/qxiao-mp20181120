@@ -18,4 +18,14 @@ export default [{
       title: '班级编辑',
     }
   },
+  {
+    path: '/class/add',
+    name: 'classAdd',
+    component: () => import('@/views/class/add'),
+    meta: {
+      keepAlive: true,
+      isShare: false,
+      title: '班级创建',
+    }
+  },
 ]

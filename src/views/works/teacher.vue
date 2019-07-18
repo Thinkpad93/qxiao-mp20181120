@@ -2,12 +2,11 @@
   <div class="page">
     <div class="page-hd">
       <!-- 班级选择菜单 -->
-      <div class="classId flex a-i-c j-c-s-b">
-        <p>班级</p>
-        <div @click="popupShow = true">
-          <span class="mr-10">{{ className }}</span>
+      <div class="button-sp-area flex" size-17>
+        <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
+          <span>{{ className }}</span>
           <van-icon name="arrow-down" size="16px"></van-icon>
-        </div>
+        </a>
       </div>
       <!-- 班级选择菜单 -->
     </div>
@@ -24,8 +23,12 @@
       <div class="list" v-if="list.length">
         <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
           <div class="suni" v-for="(item, i) in list" :key="i">
-            <div class="suni-thumb">
-              <img :src="item.imageUrl" alt>
+            <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
+              <img :src="item.imageUrl" alt />
+              <div class="zan flex a-i-c">
+                <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                <span>{{ item.praise }}</span>
+              </div>
             </div>
             <div class="suni-meta">
               <p>{{ item.studentName }}</p>
@@ -35,7 +38,7 @@
         </div>
       </div>
       <div class="empty" v-else>
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p class="mt-30">暂无学生作品</p>
       </div>
     </div>
@@ -69,6 +72,13 @@ export default {
     }
   },
   methods: {
+    //预览图片
+    handlePreviewImage(imgUrl, images = []) {
+      wx.previewImage({
+        current: encodeURI(imgUrl),
+        urls: images
+      });
+    },
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
@@ -89,15 +99,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.classId {
-  background-color: #fff;
+.button-sp-area {
+  color: #9cd248;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
 }
 .list {
   padding: 0 30px 30px 30px;
 }
 .suni {
-  width: 50%;
-  padding: 0 20px;
+  width: 33.3333%;
+  padding: 0 10px;
   margin-bottom: 30px;
   &-meta {
     margin-top: 10px;
@@ -108,7 +121,7 @@ export default {
     }
   }
   &-thumb {
-    height: 310px;
+    height: 160px;
     position: relative;
     padding-bottom: 100%;
     overflow: hidden;
@@ -122,6 +135,19 @@ export default {
       width: 100%;
       height: 100%;
     }
+  }
+}
+.zan {
+  position: absolute;
+  right: 8%;
+  bottom: 8%;
+  color: #fff;
+  padding: 6px 20px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  span {
+    display: inline-block;
+    margin-left: 10px;
   }
 }
 </style>

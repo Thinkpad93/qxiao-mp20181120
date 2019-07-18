@@ -23,8 +23,22 @@
                 placeholder="请输入学校全称"
                 v-model="form.schoolName"
                 @blur="handleSearch($event)"
-              >
+              />
             </div>
+          </div>
+        </div>
+        <div class="cell cell-select cell-select-after">
+          <div class="cell-hd">
+            <label for class="label">年级</label>
+          </div>
+          <div class="cell-bd">
+            <select class="select" name dir="rtl" v-model="form.gradeId">
+              <option
+                :value="option.gradeId"
+                v-for="(option,index) in grdeList"
+                :key="index"
+              >{{ option.gradeName }}</option>
+            </select>
           </div>
         </div>
         <div class="cell min-h120">
@@ -33,7 +47,7 @@
           </div>
           <div class="cell-bd">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入班级名称，如一年级（1）班" v-model="form.className">
+              <input class="input" placeholder="请输入班级名称，如一年级（1）班" v-model="form.className" />
             </div>
           </div>
         </div>
@@ -45,7 +59,7 @@
           </div>
           <div class="cell-bd">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="5" v-model="form.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="5" v-model="form.teacherName" />
             </div>
           </div>
         </div>
@@ -74,12 +88,12 @@
               pattern="[0-9]*"
               placeholder="请输入手机号"
               v-model="form.tel"
-            >
+            />
           </div>
         </div>
         <div class="cell min-h120">
           <div class="cell-bd">
-            <input class="input text-left" maxlength="6" placeholder="请输入验证码" v-model="form.code">
+            <input class="input text-left" maxlength="6" placeholder="请输入验证码" v-model="form.code" />
           </div>
           <div class="cell-ft">
             <a
@@ -116,6 +130,7 @@ export default {
       popupShow: false,
       form: {
         schoolName: "",
+        gradeId: null,
         id: 0,
         sex: 1,
         className: "",
@@ -124,7 +139,8 @@ export default {
         code: "",
         openId: this.$route.query.openId
       },
-      schoolList: []
+      schoolList: [],
+      grdeList: []
     };
   },
   methods: {
@@ -144,9 +160,20 @@ export default {
       }
     },
     handleSubmit() {
-      let { schoolName, className, teacherName, tel, code } = this.form;
+      let {
+        schoolName,
+        gradeId,
+        className,
+        teacherName,
+        tel,
+        code
+      } = this.form;
       if (schoolName == "") {
         this.$toast("请输入学校全称");
+        return false;
+      }
+      if (!gradeId) {
+        this.$toast("请选择年级");
         return false;
       }
       if (className == "") {
@@ -193,6 +220,13 @@ export default {
         this.schoolList = res.data;
       }
     },
+    //查询年级
+    async queryGrade(params = {}) {
+      let res = await service.queryGrade(params);
+      if (res.errorCode === 0) {
+        this.grdeList = res.data;
+      }
+    },
     //创建班级
     async addPlaySchoolWithTemplate(params = {}) {
       let res = await service.addPlaySchoolWithTemplate(params);
@@ -217,6 +251,9 @@ export default {
         this.$toast(`${res.errorMsg}`);
       }
     }
+  },
+  mounted() {
+    this.queryGrade();
   }
 };
 </script>

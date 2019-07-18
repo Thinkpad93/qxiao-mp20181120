@@ -70,8 +70,7 @@
         </div>
         <div class="cells-title">
           <span></span>
-          <a href="javascript:void(0);" class="btn btn-primary" @click="handleAddLinkMan">新增家长</a>
-          <!-- <van-button type="info" size="small" @click="handleAddLinkMan" url="" to="">新增家长</van-button> -->
+          <van-button type="info" size="small" native-type="button" @click="handleAddLinkMan">新增家长</van-button>
         </div>
         <div class="cells" v-for="(link,index) in form.linkMan" :key="index">
           <div class="cell">
@@ -107,8 +106,12 @@
           </div>
           <div class="cells-footer" v-if="form.linkMan.length > 1">
             <div class="cell">
-              <a href="javascript:void(0);" class="btn btn-warn" @click="handleDelLinkMan(index)">删除</a>
-              <!-- <van-button type="danger" size="small" @click="handleDelLinkMan(index)">删除</van-button> -->
+              <van-button
+                native-type="button"
+                type="danger"
+                size="small"
+                @click="handleDelLinkMan(index)"
+              >删除</van-button>
             </div>
           </div>
         </div>

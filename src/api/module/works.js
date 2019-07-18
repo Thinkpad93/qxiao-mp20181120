@@ -33,8 +33,26 @@ export function deleteImage(params, config = {
     .catch(e => console.log(e));
 }
 //上传接口
-export function uploadFile(params, config) {
+export function uploadFile(params, config = {
+  showLoading: true
+}) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/works/uploadFile.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//优秀作品
+export function excellentWorks(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/excellentWorks.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//优秀作品
+export function addPraise(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/works/addPraise.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

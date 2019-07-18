@@ -1,6 +1,9 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!-- <form action="uploadImage" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" multiple="multiple" accept="image/*" />
+      </form>-->
       <div class="schedule">
         <div class="schedule-hd"></div>
         <div class="schedule-bd">

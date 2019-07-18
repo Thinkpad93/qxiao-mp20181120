@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <article class="article">
-        <div class="article-content">
+        <div class="article-bd">
           <h3>如何使用小Q表现？</h3>
           <p>1、与孩子做好约定，每天坚持达到目标可以获得相应星星数量，当星星累积到一定数量，家长可以兑换相应奖励，在“奖励兑换”进行设置</p>
           <p>2、点击“行为管理”可为孩子添加专属的培养行为及养成标准，坚持每天记录，才能拥有意想不到的回报。</p>

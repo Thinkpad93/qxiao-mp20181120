@@ -416,3 +416,11 @@ export function switchingState(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//最后登录状态
+export function queryGrade(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryGrade.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

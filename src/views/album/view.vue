@@ -200,15 +200,4 @@ export default {
     }
   }
 }
-
-// .mamba {
-//   padding: 20px 0;
-//   text-align: center;
-//   box-shadow: 0 0 15px 2px rgba(88, 88, 88, 0.1);
-//   background-color: #fff;
-
-//   > a {
-//     width: 500px;
-//   }
-// }
 </style>

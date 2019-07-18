@@ -2,8 +2,8 @@
   <div class="page">
     <div class="page-bd">
       <template v-if="visibility">
-        <div class="overlay" @click="visibility = false"></div>
-        <div class="share-tip">
+        <div class="overlay" @click="visibility = false" style="z-index: 110;"></div>
+        <div class="share-tip" style="z-index: 120;">
           <img src="@/assets/share-tip.png" />
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>

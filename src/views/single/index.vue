@@ -141,7 +141,7 @@
                 <div class="action-cells">
                   <div
                     class="action-cell course flex a-i-c j-c-s-b"
-                    v-for="(item, index) in lessonList"
+                    v-for="(item, index) in lessonsList"
                     :key="index"
                   >
                     <div class="action-cell-hd">
@@ -266,7 +266,7 @@ export default {
       },
       actionView: {},
       myActions: [], //我的行为列表
-      lessonList: [],
+      lessonsList: [],
       remark: {}
     };
   },
@@ -276,6 +276,7 @@ export default {
       photo: state => state.info.photo,
       openId: state => state.info.openId,
       studentId: state => state.info.studentId,
+      classId: state => state.info.classId,
       totalStarCount: state => state.info.totalStarCount,
       isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
     }),
@@ -404,15 +405,27 @@ export default {
       }
     },
     //学生课程列表查询
-    async lessonQuery() {
+    // async lessonQuery() {
+    //   let obj = {
+    //     day: this.query.day,
+    //     studentId: this.studentId,
+    //     openId: this.openId
+    //   };
+    //   let res = await service.lessonQuery(obj);
+    //   if (res.errorCode === 0) {
+    //     this.lessonList = res.data;
+    //   }
+    // },
+    //在校表现课程列表查询(关联课程表)
+    async lessonList() {
       let obj = {
         day: this.query.day,
         studentId: this.studentId,
-        openId: this.openId
+        classId: this.classId
       };
-      let res = await service.lessonQuery(obj);
+      let res = await service.lessonList(obj);
       if (res.errorCode === 0) {
-        this.lessonList = res.data;
+        this.lessonsList = res.data;
       }
     },
     //最新评语
@@ -441,7 +454,8 @@ export default {
   },
   activated() {
     this.actionListQuery();
-    this.lessonQuery();
+    //this.lessonQuery();
+    this.lessonList();
   }
 };
 </script>

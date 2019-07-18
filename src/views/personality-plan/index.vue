@@ -3,7 +3,7 @@
     <div class="flex-bd">
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24" />
           <!-- <van-icon name="like-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>我的定制</p>
         </div>
@@ -17,7 +17,7 @@
         <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
             <div class @click="jump('/personality-plan/show')">
-              <img src="@/assets/swiper-slide@2x.png">
+              <!-- <img src="@/assets/swiper-slide@2x.png"> -->
               <div class="slide-info">
                 <p class="text-ellipsis" size-16>该如何培养孩子的自控力</p>
                 <div class="flex slide-meta">
@@ -32,7 +32,7 @@
       <!-- swiper end -->
       <div class="cells-title min-h100 a-i-c">
         <div class="flex a-i-c">
-          <img src="@/assets/learning-icon@2x.png" width="24" height="24">
+          <img src="@/assets/learning-icon@2x.png" width="24" height="24" />
           <!-- <van-icon name="star-o" size="22px"></van-icon> -->
           <p class="ml-20" size-17>个性计划推荐</p>
         </div>

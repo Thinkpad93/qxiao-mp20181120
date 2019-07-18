@@ -18,12 +18,12 @@
                   <div
                     class="slide-img"
                     :style="{backgroundImage: `url(${item.imageUrl})`}"
-                    @click="handlePreviewImage(item.imageUrl, onLineList)"
+                    @click="handlePreviewImage(item.imageUrl)"
                   ></div>
-                  <div class="zan flex a-i-c" v-if="item.praise">
+                  <!-- <div class="zan flex a-i-c" v-if="item.praise">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
                     <span>{{ item.praise }}</span>
-                  </div>
+                  </div>-->
                 </swiper-slide>
               </swiper>
             </template>
@@ -38,9 +38,9 @@
           <div class="good-works">
             <div class="flex f-w-w" v-if="worksList.length">
               <div class="item" v-for="(item, index) in worksList" :key="index">
-                <div class="good-image" @click="handlePreviewImage(item.imageUrl, worksList)">
+                <div class="good-image" @click="handlePreviewImage(item.imageUrl)">
                   <img :src="item.imageUrl" alt />
-                  <div class="zan flex a-i-c" v-if="item.praise">
+                  <div class="zan flex a-i-c" @click.stop="handleAddPraise(item)">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
                     <span>{{ item.praise }}</span>
                   </div>
@@ -60,7 +60,7 @@
                 <time size-16>{{ item.postTime }}</time>
                 <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
                   <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
-                    <div class="suni" @click="handlePreviewImage(work.smallUrl, item.works)">
+                    <div class="suni" @click="handlePreviewImage(work.smallUrl)">
                       <!-- 删除蒙版 -->
                       <div class="works-mask" style="z-index: 9527" v-show="mask">
                         <van-checkbox-group v-model="checkList">
@@ -72,7 +72,7 @@
                         </van-checkbox-group>
                       </div>
                       <img :src="work.smallUrl" alt />
-                      <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div>
+                      <!-- <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div> -->
                       <div
                         class="works-status"
                         size-12
@@ -158,7 +158,9 @@ export default {
         observer: true
       },
       query: {
-        studentId: this.$store.state.user.info.studentId
+        studentId: this.$store.state.user.info.studentId,
+        page: 1,
+        pageSize: 10
       },
       list: [], //我的上传
       onLineList: [], //上榜作品
@@ -185,20 +187,19 @@ export default {
         });
       }
     },
+    //作品点赞
+    async handleAddPraise(params) {
+      let { worksId } = params;
+      let res = await service.addPraise({ worksId });
+      if (res.errorCode === 0) {
+        params.praise = res.data.praise;
+      }
+    },
     //预览图片
-    handlePreviewImage(imgUrl, images) {
-      let imgArray = [];
-      if (images.length) {
-        images.forEach(item => {
-          imgArray.push(item.imageUrl);
-        });
-      }
-      if (!imgArray.length) {
-        imgArray.push(imgUrl);
-      }
+    handlePreviewImage(imgUrl, images = []) {
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: imgArray
+        urls: images
       });
     },
     handleDelImage() {
@@ -221,12 +222,18 @@ export default {
         this.queryMyUpload(this.query);
       }
     },
-    //查询优秀上传作品
+    //我的上榜作品
     async queryOnLineList(params = {}) {
       let res = await service.queryOnLineList(params);
       if (res.errorCode === 0) {
-        this.onLineList = res.data.onLineList || [];
-        this.worksList = res.data.works || [];
+        this.onLineList = res.data.data || [];
+      }
+    },
+    //优秀作品
+    async excellentWorks(params = {}) {
+      let res = await service.excellentWorks(params);
+      if (res.errorCode === 0) {
+        this.worksList = res.data.data || [];
       }
     },
     //查询我的上传作品
@@ -252,6 +259,7 @@ export default {
   created() {},
   mounted() {
     this.queryOnLineList(this.query);
+    this.excellentWorks({ page: 1, pageSize: 10 });
     this.queryMyUpload(this.query);
   },
   activated() {
@@ -296,7 +304,7 @@ export default {
   right: 8%;
   bottom: 8%;
   color: #fff;
-  padding: 4px 12px;
+  padding: 6px 20px;
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.5);
   span {

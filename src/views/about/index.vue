@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-bd">
       <article class="article">
-        <div class="article-content">
+        <div class="article-bd">
           <p size-16>
             “小Q智慧”是一款专为青少年精心打造的素质教育服务软件。
             主要的目的在于智慧管理学生的学习、生活习惯。

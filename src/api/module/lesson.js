@@ -58,9 +58,17 @@ export function lessonInfoQuery(params, config = {
 }
 //检查用户是否绑定手环
 export function checkBindBracelet(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/checkBindBracelet.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//检查用户是否绑定手环
+export function lessonList(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/lessonList.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

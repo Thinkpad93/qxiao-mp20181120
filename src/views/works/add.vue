@@ -23,7 +23,7 @@
               <label for class="label">作品标题</label>
             </div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入作品标题" v-model="form.title" maxlength="30">
+              <input class="input" placeholder="请输入作品标题" v-model="form.title" maxlength="30" />
             </div>
           </div>
           <div class="cell">
@@ -50,9 +50,10 @@
               </div>
             </div>
           </div>
-          <p
-            class="works-desc"
-          >将您优秀作品上传到平台，将有机会在全市科普电子屏上展示，还将有机会获得神秘大奖。行动起来吧！(最多可上传10作品，格式：jpg/png)...</p>
+          <p class="works-desc">
+            1.将您优秀作品上传到平台，将有机会在全市科普电子屏上展示，行动起来吧！
+            2.最多可上传10作品，格式：jpg/png 3.严禁上传违法的图片
+          </p>
         </div>
       </form>
     </div>
@@ -113,7 +114,8 @@ export default {
     },
     handleDelImg(index) {
       this.imagesList.splice(index, 1);
-    },   handleDelImg(index) {
+    },
+    handleDelImg(index) {
       this.imagesList.splice(index, 1);
     },
     async handleSubmit() {
@@ -172,6 +174,6 @@ export default {
   line-height: 1.4;
   color: #999;
   font-size: 24px;
-  padding: 0 30px 30px 30px;
+  padding: 20px 30px;
 }
 </style>

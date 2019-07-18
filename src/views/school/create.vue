@@ -25,7 +25,7 @@
               <label for class="label">学校名称</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入学校名称" v-model="form.schoolName" maxlength="30">
+              <input class="input" placeholder="请输入学校名称" v-model="form.schoolName" maxlength="30" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -47,7 +47,7 @@
               <label for class="label">详细地址</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入详细地址" maxlength="120" v-model="form.location">
+              <input class="input" placeholder="请输入详细地址" maxlength="120" v-model="form.location" />
             </div>
           </div>
           <div class="cell">
@@ -55,7 +55,7 @@
               <label for class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入姓名" v-model="form.leadName" maxlength="10">
+              <input class="input" placeholder="请输入姓名" v-model="form.leadName" maxlength="10" />
             </div>
           </div>
           <div class="cell">
@@ -63,17 +63,23 @@
               <label for class="label">手机号</label>
             </div>
             <div class="cell-bd">
-              <input type="number" class="input" placeholder="请输入手机号" readonly v-model="form.tel">
+              <input type="number" class="input" placeholder="请输入手机号" readonly v-model="form.tel" />
             </div>
           </div>
         </div>
         <div class="cells" :style="{display: views ? 'block': 'none'}">
-          <div class="cell">
+          <div class="cell cell-select cell-select-after">
+            <div class="cell-hd">
+              <label for class="label">年级</label>
+            </div>
             <div class="cell-bd">
-              <p class="p">
-                请编辑班级信息
-                <!-- <span size-14 style="color: #888;">（也可不编辑，完成后再编辑）</span> -->
-              </p>
+              <select class="select" name dir="rtl" v-model="gradeId">
+                <option
+                  :value="option.gradeId"
+                  v-for="(option,index) in grdeList"
+                  :key="index"
+                >{{ option.gradeName }}</option>
+              </select>
             </div>
           </div>
           <div class="cell">
@@ -83,30 +89,30 @@
                 placeholder="请输入班级名称,例如: 小小班"
                 v-model="className"
                 maxlength="20"
-              >
+              />
             </div>
             <div class="ft">
-              <div class="createClass" @click="handleAddClass">添加班级</div>
+              <van-button type="info" size="small" native-type="button" @click="handleAddClass">添加</van-button>
             </div>
           </div>
         </div>
-        <div class="cells-title" :style="{display: views ? 'block': 'none'}">已有班级列表</div>
+        <div class="cells-title" :style="{display: views ? 'block': 'none'}">已创建列表</div>
         <div class="cells" :style="{display: views ? 'block': 'none'}">
-          <div class="cell" v-for="(cla, index) in form.classes" :key="index">
+          <div class="cell" v-for="(item, index) in form.classes" :key="index">
             <div class="cell-hd">
-              <label for>班级名称:</label>
+              <select class="select" name dir="rtl" v-model="item.gradeId" disabled>
+                <option
+                  :value="option.gradeId"
+                  v-for="(option,index) in grdeList"
+                  :key="index"
+                >{{ option.gradeName }}</option>
+              </select>
             </div>
             <div class="cell-bd">
-              <input
-                class="input text-center"
-                readonly
-                placeholder
-                v-model="cla.className"
-                maxlength="20"
-              >
+              <p class="text-center">{{ item.className }}</p>
             </div>
             <div class="cell-ft">
-              <span style="color:#ce3c39" @click="handleDelClass(index)">删除</span>
+              <span style="color:#ce3c39" @click="handleDelClass(index)">移除</span>
             </div>
           </div>
         </div>
@@ -137,6 +143,7 @@ export default {
   data() {
     return {
       views: false,
+      gradeId: 1,
       className: "",
       form: {
         schoolName: "",
@@ -146,7 +153,8 @@ export default {
         tel: this.$route.query.tel,
         openId: this.$store.state.user.info.openId,
         classes: []
-      }
+      },
+      grdeList: []
     };
   },
   methods: {
@@ -171,8 +179,14 @@ export default {
       }
     },
     handleAddClass() {
-      if (this.className) {
-        this.form.classes.push({ className: this.className });
+      if (this.className.trim() == "") {
+        this.$toast("请至少添加一个班级，谢谢");
+      } else {
+        this.form.classes.push({
+          className: this.className,
+          gradeId: this.gradeId
+        });
+        //清空班级名称
         this.className = "";
       }
     },
@@ -197,9 +211,18 @@ export default {
           this.$toast(`${res.errorMsg}`);
         }
       }
+    },
+    //查询年级
+    async queryGrade(params = {}) {
+      let res = await service.queryGrade(params);
+      if (res.errorCode === 0) {
+        this.grdeList = res.data;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.queryGrade();
+  }
 };
 </script>
 <style lang="less" scoped>
