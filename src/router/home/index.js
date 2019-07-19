@@ -4,7 +4,7 @@ export default [{
   component: () => import('@/views/home'),
   meta: {
     keepAlive: true,
-    isShare: false,
+    isShare: true,
     title: '小Q班级',
   }
 }]

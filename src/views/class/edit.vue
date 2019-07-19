@@ -1,23 +1,17 @@
 <template>
   <div class="page">
-    <div class="page-hd">
-      <div class="class-edit-head">
-        <a href="javascript:;" class="btn btn-primary">{{ className }}</a>
-        <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
-          <van-tab title="关联的老师"></van-tab>
-          <van-tab title="关联的学生"></van-tab>
-        </van-tabs>
-      </div>
-    </div>
     <div class="page-bd">
-      <div class="people-list">
-        <div class="item" :class="[index === 0 ? 'on': '']">
+      <div class="class-edit-head">
+        <button class="btn btn-primary">{{ className }}</button>
+      </div>
+      <van-tabs v-model="index" color="#92cd36" :line-height="2" @click="handleTabClick">
+        <van-tab title="关联的老师">
           <div class="cells-title">老师列表({{ teacherList.length }})</div>
           <div class="cells">
-            <div class="cell student-box" v-for="(teacher, index) in teacherList" :key="index">
+            <div class="cell min-h120" v-for="(teacher, index) in teacherList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" v-if="teacher.photo" :src="teacher.photo" alt>
-                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
+                <img class="teacher-icon" v-if="teacher.photo" :src="teacher.photo" alt />
+                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ teacher.teacherName }}</p>
@@ -27,14 +21,14 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="item" :class="[index === 1 ? 'on': '']">
+        </van-tab>
+        <van-tab title="关联的学生">
           <div class="cells-title">学生列表({{ studentList.length }})</div>
           <div class="cells">
-            <div class="cell student-box" v-for="(student, index) in studentList" :key="index">
+            <div class="cell min-h120" v-for="(student, index) in studentList" :key="index">
               <div class="cell-hd">
-                <img class="teacher-icon" v-if="student.photo" :src="student.photo" alt>
-                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else>
+                <img class="teacher-icon" v-if="student.photo" :src="student.photo" alt />
+                <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" v-else />
               </div>
               <div class="cell-bd pl-20">
                 <p>{{ student.studentName }}</p>
@@ -44,8 +38,8 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </van-tab>
+      </van-tabs>
     </div>
   </div>
 </template>
@@ -146,24 +140,14 @@ export default {
 .class-edit-head {
   padding-top: 40px;
   text-align: center;
-  > a {
+  background-color: #fff;
+  > button {
     width: 240px;
   }
-}
-.student-box {
-  height: 120px;
 }
 .teacher-icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.people-list {
-  .item {
-    display: none;
-  }
-  .on {
-    display: block;
-  }
 }
 </style>

@@ -41,7 +41,7 @@ export default {
     return {
       form: {
         className: "",
-        gradeId: null,
+        gradeId: 1,
         schoolId: this.$store.state.user.info.id,
         openId: this.$store.state.user.info.openId
       },
@@ -52,10 +52,6 @@ export default {
     handleSubmit() {
       if (this.form.className == "") {
         this.$toast("请输入班级名称");
-        return false;
-      }
-      if (!this.form.gradeId) {
-        this.$toast("请选择年级");
         return false;
       }
       this.classAdd(this.form);

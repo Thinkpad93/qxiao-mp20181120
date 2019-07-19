@@ -217,7 +217,12 @@ export default {
     },
     wxShareAppMessage() {
       let that = this;
-      let shareUrl = API_ROOT + "#/teacher/share";
+      let shareUrl = "";
+      if (this.experience == 1) {
+        shareUrl = API_ROOT + "#/teacher/share";
+      } else {
+        shareUrl = API_ROOT + "#/share";
+      }
       let option = {
         title: "亲爱的用户您好", // 分享标题
         desc: "小Q智慧欢迎您的加入", // 分享描述
@@ -367,9 +372,7 @@ export default {
   },
   mounted() {
     this.communityQuery(this.query);
-    if (this.experience == 1) {
-      wxapi.wxRegister(this.wxRegCallback);
-    }
+    wxapi.wxRegister(this.wxRegCallback);
   }
 };
 </script>

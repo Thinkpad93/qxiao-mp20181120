@@ -58,6 +58,14 @@
           <div class="container">
             <p class="pl-20 mt-30 mb-30">在家表现分析</p>
             <div class="mod" style="padding-bottom:0">
+              <div class="flex j-c-c a-i-c today">
+                <div class="flex a-i-c" @click="popupOne = true">
+                  <time size-16>{{ query.startDate }}</time>
+                  <span style="padding:0 4px;">至</span>
+                  <time class="mr-20" size-16>{{ query.endDate }}</time>
+                  <van-icon name="arrow-down" size="14px"></van-icon>
+                </div>
+              </div>
               <!-- 数据表格 -->
               <div class="el-table">
                 <table class="fixedTable" style="width:160%;">
@@ -108,14 +116,6 @@
             </div>
             <p class="pl-20 mt-30 mb-30">使用人数分布</p>
             <div class="mod">
-              <div class="flex j-c-c a-i-c today">
-                <div class="flex a-i-c" @click="popupOne = true">
-                  <time size-16>{{ query.startDate }}</time>
-                  <span style="padding:0 4px;">至</span>
-                  <time class="mr-20" size-16>{{ query.endDate }}</time>
-                  <van-icon name="arrow-down" size="14px"></van-icon>
-                </div>
-              </div>
               <!-- 数据分析 -->
               <qxChart id="homeOption" height="300px" :option="homeOption" />
             </div>
@@ -459,6 +459,7 @@ export default {
 }
 .today {
   padding: 30px;
+  border-bottom: 1px solid #ebebeb;
 }
 .mod {
   height: auto;
