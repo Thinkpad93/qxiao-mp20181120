@@ -1,9 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- <form action="uploadImage" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" multiple="multiple" accept="image/*" />
-      </form>-->
       <div class="schedule">
         <div class="schedule-hd"></div>
         <div class="schedule-bd">
@@ -14,23 +11,23 @@
                 <div class="rate-group">
                   <div class="rate-group-item flex j-c-s-b">
                     <van-rate v-model="count1" :size="16" :count="1" color="#09e2bb" readonly></van-rate>
-                    <sapn>16人</sapn>
+                    <span>16人</span>
                   </div>
                   <div class="rate-group-item flex j-c-s-b">
                     <van-rate v-model="count2" :size="16" :count="2" color="#09e2bb" readonly></van-rate>
-                    <sapn>6人</sapn>
+                    <span>6人</span>
                   </div>
                   <div class="rate-group-item flex j-c-s-b">
                     <van-rate v-model="count3" :size="16" :count="3" color="#09e2bb" readonly></van-rate>
-                    <sapn>0人</sapn>
+                    <span>0人</span>
                   </div>
                   <div class="rate-group-item flex j-c-s-b">
                     <van-rate v-model="count4" :size="16" :count="4" color="#09e2bb" readonly></van-rate>
-                    <sapn>1人</sapn>
+                    <span>1人</span>
                   </div>
                   <div class="rate-group-item flex j-c-s-b">
                     <van-rate v-model="count5" :size="16" :count="5" color="#09e2bb" readonly></van-rate>
-                    <sapn>3人</sapn>
+                    <span>3人</span>
                   </div>
                 </div>
               </div>

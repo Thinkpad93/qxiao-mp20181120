@@ -20,10 +20,10 @@
                     :style="{backgroundImage: `url(${item.imageUrl})`}"
                     @click="handlePreviewImage(item.imageUrl)"
                   ></div>
-                  <!-- <div class="zan flex a-i-c" v-if="item.praise">
+                  <div class="zan flex a-i-c">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
                     <span>{{ item.praise }}</span>
-                  </div>-->
+                  </div>
                 </swiper-slide>
               </swiper>
             </template>
@@ -60,7 +60,7 @@
                 <time size-16>{{ item.postTime }}</time>
                 <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
                   <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
-                    <div class="suni" @click="handlePreviewImage(work.smallUrl)">
+                    <div class="suni" @click="handlePreviewImage(work.imageUrl)">
                       <!-- 删除蒙版 -->
                       <div class="works-mask" style="z-index: 9527" v-show="mask">
                         <van-checkbox-group v-model="checkList">
@@ -71,7 +71,7 @@
                           ></van-checkbox>
                         </van-checkbox-group>
                       </div>
-                      <img :src="work.smallUrl" alt />
+                      <img :src="work.imageUrl" alt />
                       <!-- <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div> -->
                       <div
                         class="works-status"
@@ -162,6 +162,10 @@ export default {
         page: 1,
         pageSize: 10
       },
+      querys: {
+        page: 1,
+        pageSize: 10
+      },
       list: [], //我的上传
       onLineList: [], //上榜作品
       worksList: [], //优秀作品展
@@ -199,7 +203,7 @@ export default {
     handlePreviewImage(imgUrl, images = []) {
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: images
+        urls: [imgUrl]
       });
     },
     handleDelImage() {
@@ -259,7 +263,7 @@ export default {
   created() {},
   mounted() {
     this.queryOnLineList(this.query);
-    this.excellentWorks({ page: 1, pageSize: 10 });
+    this.excellentWorks(this.querys);
     this.queryMyUpload(this.query);
   },
   activated() {
