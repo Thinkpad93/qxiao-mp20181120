@@ -23,7 +23,7 @@
               pattern="[0-9]*"
               placeholder="请输入兑换Q星数量"
               class="input input-border"
-              v-model="form.starCount"
+              v-model.trim="form.starCount"
             />
           </div>
         </form>
@@ -32,7 +32,7 @@
         <div class="pichi-head">
           <img :src="photo" width="40" height="40" radius="50" v-if="photo" />
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
-          <p size-16 class="ml-20">{{ name }}总Q星: {{ totalStarCount }}</p>
+          <p size-12 class="ml-20">{{ name }}总Q星: {{ totalStarCount }}</p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">

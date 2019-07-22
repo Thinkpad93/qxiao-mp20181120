@@ -145,7 +145,7 @@
                     :key="index"
                   >
                     <div class="action-cell-hd">
-                      <span @click="jumpScore(item.lessonId)">{{ item.title }}</span>
+                      <span @click="jumpExamPaper(item, index)">{{ item.title }}</span>
                     </div>
                     <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView(item)">
                       <van-rate
@@ -158,7 +158,7 @@
                       ></van-rate>
                     </div>
                     <div class="action-cell-ft pr-40">
-                      <span @click="jumpScore(item, index)">{{ item.scoreRank }}</span>
+                      <span @click="jumpExamPaper(item, index)">{{ item.scoreRank }}</span>
                     </div>
                   </div>
                 </div>
@@ -358,6 +358,18 @@ export default {
       let { title, starCount, ...args } = params;
       this.actionQuery(args);
     },
+    jumpExamPaper(params = {}, index = 0) {
+      return false;
+      // let { gradeId, lessonId } = params;
+      // this.$router.push({
+      //   path: "/examPaper",
+      //   query: {
+      //     gradeId,
+      //     lessonId,
+      //     index
+      //   }
+      // });
+    },
     jumpScore(params, index) {
       let { lessonId } = params;
       this.$router.push({
@@ -427,30 +439,30 @@ export default {
       if (res.errorCode === 0) {
         this.lessonsList = res.data;
       }
-    },
-    //最新评语
-    async newRemarkQuery() {
-      let res = await service.newRemarkQuery({
-        openId: this.openId,
-        studentId: this.studentId
-      });
-      if (res.errorCode === 0) {
-        this.remark = res.data || {};
-      }
-    },
-    //查询课程列表
-    async lessonInfoQuery(params = {}) {
-      let res = await service.lessonInfoQuery(params);
-      if (res.errorCode === 0) {
-        this.lessonDefault = res.data;
-      }
     }
+    //最新评语
+    // async newRemarkQuery() {
+    //   let res = await service.newRemarkQuery({
+    //     openId: this.openId,
+    //     studentId: this.studentId
+    //   });
+    //   if (res.errorCode === 0) {
+    //     this.remark = res.data || {};
+    //   }
+    // },
+    //查询课程列表
+    // async lessonInfoQuery(params = {}) {
+    //   let res = await service.lessonInfoQuery(params);
+    //   if (res.errorCode === 0) {
+    //     this.lessonDefault = res.data;
+    //   }
+    // }
   },
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
     //this.newRemarkQuery();
-    this.lessonInfoQuery();
+    //this.lessonInfoQuery();
   },
   activated() {
     this.actionListQuery();

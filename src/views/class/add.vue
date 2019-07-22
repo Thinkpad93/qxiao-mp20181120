@@ -7,7 +7,7 @@
             <label class="label">班级名称</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入班级名称" maxlength="10" v-model="form.className" />
+            <input class="input" placeholder="请输入班级名称" maxlength="10" v-model.trim="form.className" />
           </div>
         </div>
         <div class="cell cell-select cell-select-after">

@@ -70,6 +70,7 @@ export default {
       totalPage: 1, //总页数
       query: {
         openId: this.$store.state.user.info.openId,
+        classId: this.$store.state.user.info.classId,
         studentId: this.$store.state.user.info.studentId,
         page: 1,
         pageSize: 10

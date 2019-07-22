@@ -20,7 +20,7 @@
                     :style="{backgroundImage: `url(${item.imageUrl})`}"
                     @click="handlePreviewImage(item.imageUrl)"
                   ></div>
-                  <div class="zan flex a-i-c">
+                  <div class="zan flex a-i-c" v-if="item.praise">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
                     <span>{{ item.praise }}</span>
                   </div>

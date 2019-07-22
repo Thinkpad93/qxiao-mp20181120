@@ -72,3 +72,11 @@ export function lessonList(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//其他学校试卷列表查询
+export function queryOtherSchool(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/queryOtherSchool.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

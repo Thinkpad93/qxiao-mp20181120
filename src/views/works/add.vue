@@ -23,7 +23,7 @@
               <label for class="label">作品标题</label>
             </div>
             <div class="cell-bd" style="padding-left:0">
-              <input class="input" placeholder="请输入作品标题" v-model="form.title" maxlength="30" />
+              <input class="input" placeholder="请输入作品标题" v-model.trim="form.title" maxlength="30" />
             </div>
           </div>
           <div class="cell">

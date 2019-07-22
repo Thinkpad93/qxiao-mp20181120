@@ -5,18 +5,18 @@
         <div class="cells">
           <div class="cell">
             <div class="cell-hd"></div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <input
                 class="input"
                 placeholder="请输入作业标题"
-                v-model="form.title"
+                v-model.trim="form.title"
                 maxlength="20"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <textarea
                 class="textarea"
                 rows="6"
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="cell cell-switch">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <label for class="label">是否需要确定</label>
             </div>
             <div class="cell-ft">
@@ -92,7 +92,7 @@ export default {
   mixins: [wxHandle, classList],
   data() {
     return {
-      selected: [],
+      selected: [this.$store.state.user.info.classId],
       needSwitch: false,
       form: {
         openId: this.$store.state.user.info.openId,
@@ -116,11 +116,6 @@ export default {
         return;
       } else {
         this.form.textContent = textReplace(textContent) || "";
-      }
-
-      if (!this.selected.length) {
-        this.$toast("请选择发送班级");
-        return;
       }
       if (this.needSwitch) {
         this.form.needConfirm = 1;

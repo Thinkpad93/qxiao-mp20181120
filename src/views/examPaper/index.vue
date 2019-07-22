@@ -22,17 +22,19 @@
                   <span size-18>{{ item.title }}</span>
                 </figcaption>
                 <p size-15 class="text-ellipsis">{{ item.stageTitle}}</p>
-                <div class="metedata flex">
+                <!-- <div class="metedata flex">
                   <span class="name">下载量: {{ item.downloadCount }}</span>
                   <van-button round type="info" size="mini" style="width:80px;">点击收看</van-button>
-                </div>
+                </div>-->
               </div>
             </div>
           </figure>
         </van-cell-group>
       </van-swipe-cell>
+      <!-- 其他学校试卷列表查询 -->
+
       <div class="empty" v-if="!list.length">
-        <img src="@/assets/kong.png" alt>
+        <img src="@/assets/kong.png" alt />
         <p>暂无试卷内容</p>
       </div>
     </div>
@@ -47,11 +49,18 @@ export default {
       query: {
         openId: this.$store.state.user.info.openId,
         lessonId: this.$route.query.lessonId,
-        stageId: this.$route.query.stageId,
         page: 1,
         pageSize: 20
       },
-      list: []
+      querys: {
+        lessonId: this.$route.query.lessonId,
+        gradeId: this.$route.query.gradeId,
+        schoolName: "",
+        page: 1,
+        pageSize: 10
+      },
+      list: [],
+      lists: []
     };
   },
   methods: {
@@ -74,10 +83,18 @@ export default {
       if (res.errorCode === 0) {
         this.list = res.data.data || [];
       }
+    },
+    //其他学校试卷列表查询
+    async queryOtherSchool(params = {}) {
+      let res = await service.queryOtherSchool(params);
+      if (res.errorCode === 0) {
+        this.lists = res.data.data || [];
+      }
     }
   },
   mounted() {
     this.examPaperQuery(this.query);
+    this.queryOtherSchool(this.querys);
   }
 };
 </script>

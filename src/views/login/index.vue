@@ -49,10 +49,10 @@
             </div>
           </div>
         </div>
-        <div class="btn-group">
+        <div class="btn-groups">
           <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登录</a>
         </div>
-        <div class="text-center">
+        <div class="text-center" style="margin-top: 26px">
           <span style="color:#84ce09" @click="handleTourist">未加入班级点击抢先体验</span>
         </div>
       </form>
@@ -214,7 +214,6 @@ export default {
   background-color: #cbf4fa;
 }
 .login-form {
-  background-color: #fff;
   z-index: 10;
   width: 90%;
   min-height: 600px;
@@ -236,5 +235,9 @@ export default {
   color: #fff;
   padding: 20px 0;
   background-color: #f00;
+}
+.btn-groups {
+  padding: 50px 40px;
+  background-color: #fff;
 }
 </style>

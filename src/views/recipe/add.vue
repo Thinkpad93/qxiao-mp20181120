@@ -55,7 +55,7 @@
               <input
                 class="input"
                 placeholder="请输入食谱标题"
-                v-model="form.title"
+                v-model.trim="form.title"
                 maxlength="30"
                 style="text-align:left;"
               />
@@ -132,7 +132,7 @@ export default {
   mixins: [classList, wxHandle, formatter],
   data() {
     return {
-      selected: [],
+      selected: [this.$store.state.user.info.classId],
       startTimeShow: false,
       endTimeShow: false,
       startDate: new Date(),

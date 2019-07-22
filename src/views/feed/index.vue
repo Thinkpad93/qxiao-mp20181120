@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="feed-bd">
-              <p>{{ item.feedTextContent }}</p>
+              <p v-html="item.feedTextContent"></p>
               <div class="time" v-if="roleType == 3">
                 <time>{{ item.feedDate }}</time>
               </div>

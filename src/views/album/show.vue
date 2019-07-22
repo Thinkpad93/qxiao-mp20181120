@@ -33,24 +33,33 @@
           </div>
         </div>
         <div class="album-content">
-          <div class="grid-content flex f-w-w" style="margin-left: -5px; margin-right: -5px;">
-            <div
-              class="album-img mb-20"
-              v-for="(pic, index) in list"
-              :key="index"
-              @click="handlePreviewImage(pic.imageUrl)"
-            >
-              <div class="suni">
-                <!-- 删除 -->
-                <div class="album-mask" v-show="mask" style="z-index: 9527">
-                  <van-checkbox-group v-model="albumCheckList">
-                    <van-checkbox :key="pic.itemId" :name="pic.itemId" checked-color="#92cd36"></van-checkbox>
-                  </van-checkbox-group>
+          <!-- 分页 -->
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            :immediate-check="false"
+            :offset="100"
+            @load="onLoad"
+          >
+            <div class="grid-content flex f-w-w" style="margin-left: -5px; margin-right: -5px;">
+              <div
+                class="album-img mb-20"
+                v-for="(pic, index) in list"
+                :key="index"
+                @click="handlePreviewImage(pic.imageUrl)"
+              >
+                <div class="suni">
+                  <!-- 删除 -->
+                  <div class="album-mask" v-show="mask" style="z-index: 95">
+                    <van-checkbox-group v-model="albumCheckList">
+                      <van-checkbox :key="pic.itemId" :name="pic.itemId" checked-color="#92cd36"></van-checkbox>
+                    </van-checkbox-group>
+                  </div>
+                  <img :src="pic.smallUrl" />
                 </div>
-                <img :src="pic.smallUrl" />
               </div>
             </div>
-          </div>
+          </van-list>
         </div>
         <div class="empty" v-if="!list.length">
           <img src="@/assets/kong.png" alt />
@@ -58,9 +67,9 @@
         </div>
       </article>
     </div>
-    <div class="page-ft">
+    <div class="page-ft" v-if="roleType == 2">
       <div class="fixed-bottom" style="z-index: 100;">
-        <div class="flex" v-if="roleType == 2">
+        <div class="flex">
           <van-button
             size="large"
             type="default"
@@ -101,6 +110,9 @@ export default {
   name: "albumDetail",
   data() {
     return {
+      loading: false,
+      finished: false,
+      totalPage: 1, //总页数
       dialogVisible: false,
       mask: false,
       roleType: this.$store.state.user.info.roleType,
@@ -117,6 +129,29 @@ export default {
     };
   },
   methods: {
+    onLoad() {
+      console.log("onload");
+      if (this.query.page < this.totalPage) {
+        this.query.page += 1;
+        service.albumChannelDetail(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.list.push(list[i]);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     handleBlumAdd(e) {
       this.$router.push({
         path: "/album/add",
@@ -131,12 +166,25 @@ export default {
       this.mask = false;
       this.albumCheckList = [];
     },
-    handleConfirm() {
+    async handleConfirm() {
       if (this.albumCheckList.length) {
-        this.imageDelete({
+        let result = [];
+        let params = {
           openId: this.query.openId,
           itemIds: this.albumCheckList
-        });
+        };
+        //相册照片或视频删除
+        let res = await service.imageDelete(params);
+        if (res.errorCode === 0) {
+          for (let i = 0; i < this.list.length; i++) {
+            if (!this.albumCheckList.includes(this.list[i].itemId)) {
+              result.push(this.list[i]);
+            }
+          }
+          this.list = result || [];
+          this.mask = false; //关闭透明层
+          this.albumCheckList = []; //清空checkbox选择
+        }
       } else {
         this.$toast("没有选择图片");
       }
@@ -145,7 +193,7 @@ export default {
     handlePreviewImage(imgUrl, images = []) {
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: images
+        urls: [imgUrl]
       });
     },
     async handleSubmit(action, done) {
@@ -168,20 +216,13 @@ export default {
         done();
       }
     },
-    //相册照片或视频删除
-    async imageDelete(params = {}) {
-      let res = await service.imageDelete(params);
-      if (res.errorCode === 0) {
-        this.albumChannelDetail(this.query);
-      }
-    },
     //查询班级所属的相册栏目
     async albumChannelDetail(params = {}) {
       let res = await service.albumChannelDetail(params);
       if (res.errorCode === 0) {
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
-        this.albumCheckList = [];
-        this.mask = false;
       }
     },
     //查询栏目名称
@@ -227,6 +268,6 @@ export default {
   height: 100%;
   padding: 10px;
   text-align: right;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 </style>

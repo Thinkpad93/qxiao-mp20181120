@@ -5,11 +5,6 @@
         <div>小Q表现</div>
       </router-link>
     </div>
-    <!-- <div class="item">
-      <router-link to="/wisdom">
-        <div>小Q智慧</div>
-      </router-link>
-    </div>-->
     <div class="item">
       <router-link :to="{ path: homeUrl }">
         <div>小Q班级</div>
@@ -34,7 +29,7 @@ export default {
       roleType: state => state.info.roleType
     }),
     singleUrl() {
-      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
+      if (this.roleType != 3) {
         return `/single/teacher`;
       } else {
         return `/single`;

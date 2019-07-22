@@ -9,7 +9,7 @@
               <label class="label">姓名</label>
             </div>
             <div class="cell-bd">
-              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="form.teacherName">
+              <input class="input" placeholder="请输入老师姓名" maxlength="10" v-model="form.teacherName" />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -31,7 +31,7 @@
               <label class="label">手机号码</label>
             </div>
             <div class="cell-bd">
-              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel">
+              <input class="input" pattern="[0-9]*" placeholder="请输入手机号" v-model="form.tel" />
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default {
   mixins: [type, sex, classList],
   data() {
     return {
-      selected: [],
+      selected: [this.$store.state.user.info.classId],
       form: {
         openId: this.$store.state.user.info.openId,
         teacherName: "",
@@ -108,10 +108,10 @@ export default {
         this.$toast("请输入老师姓名");
         return false;
       }
-      if (!this.selected.length) {
-        this.$toast("请选择任教班级，支持多选");
-        return false;
-      }
+      // if (!this.selected.length) {
+      //   this.$toast("请选择任教班级，支持多选");
+      //   return false;
+      // }
       if (isPhone(tel)) {
         this.form.classes = this.selected.map(item => {
           return { classId: item };

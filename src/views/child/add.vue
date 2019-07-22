@@ -32,7 +32,7 @@
             <label class="label">姓名</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入姓名" maxlength="5" v-model="form.studentName" />
+            <input class="input" placeholder="请输入姓名" maxlength="5" v-model.trim="form.studentName" />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -67,7 +67,7 @@
             <label class="label">地址</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address" />
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model.trim="form.address" />
           </div>
         </div>
         <div class="cell min-h120">
@@ -80,7 +80,7 @@
               type="number"
               pattern="[0-9]*"
               placeholder="请输入手机号"
-              v-model="form.tel"
+              v-model.trim="form.tel"
             />
           </div>
         </div>

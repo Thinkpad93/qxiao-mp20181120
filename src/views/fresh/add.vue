@@ -9,10 +9,10 @@
               <input
                 class="input"
                 placeholder="请输入速报标题"
-                v-model="form.title"
+                v-model.trim="form.title"
                 maxlength="20"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -84,7 +84,7 @@ export default {
   mixins: [wxHandle, classList],
   data() {
     return {
-      selected: [],
+      selected: [this.$store.state.user.info.classId],
       form: {
         openId: this.$store.state.user.info.openId,
         title: "",
@@ -105,10 +105,6 @@ export default {
         return;
       } else {
         this.form.textContent = textReplace(textContent) || "";
-      }
-      if (!this.selected.length) {
-        this.$toast("请选择发送班级");
-        return;
       }
       let senders = this.selected.map(item => {
         return { classId: item };

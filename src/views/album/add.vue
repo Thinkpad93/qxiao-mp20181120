@@ -98,9 +98,7 @@ export default {
       }
     }
   },
-  mounted() {
-    wxapi.wxRegister();
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

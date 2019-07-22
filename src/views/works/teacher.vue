@@ -21,21 +21,30 @@
         ></van-picker>
       </van-popup>
       <div class="list" v-if="list.length">
-        <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
-          <div class="suni" v-for="(item, i) in list" :key="i">
-            <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
-              <img :src="item.imageUrl" alt />
-              <div class="zan flex a-i-c">
-                <van-icon name="like" size="14px" color="#e64340"></van-icon>
-                <span>{{ item.praise }}</span>
+        <!-- 分页 -->
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          :immediate-check="false"
+          :offset="100"
+          @load="onLoad"
+        >
+          <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
+            <div class="suni" v-for="(item, i) in list" :key="i">
+              <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
+                <img :src="item.imageUrl" alt />
+                <div class="zan flex a-i-c" v-if="item.praise">
+                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                  <span>{{ item.praise }}</span>
+                </div>
+              </div>
+              <div class="suni-meta">
+                <p>{{ item.studentName }}</p>
+                <time>{{ item.postTime }}</time>
               </div>
             </div>
-            <div class="suni-meta">
-              <p>{{ item.studentName }}</p>
-              <time>{{ item.postTime }}</time>
-            </div>
           </div>
-        </div>
+        </van-list>
       </div>
       <div class="empty" v-else>
         <img src="@/assets/kong.png" alt />
@@ -52,6 +61,9 @@ export default {
   mixins: [classList],
   data() {
     return {
+      loading: false,
+      finished: false,
+      totalPage: 1, //总页数
       popupShow: false,
       query: {
         classId: this.$store.state.user.info.classId,
@@ -72,16 +84,42 @@ export default {
     }
   },
   methods: {
+    onLoad() {
+      console.log("onload");
+      if (this.query.page < this.totalPage) {
+        this.query.page += 1;
+        service.queryWorkStudent(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.list.push(list[i]);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     //预览图片
     handlePreviewImage(imgUrl, images = []) {
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: images
+        urls: [imgUrl]
       });
     },
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
+      this.query.page = 1;
+      //当切换班级时，重新设置为没有全部加载完成
+      this.finished = false;
       this.queryWorkStudent(this.query);
     },
     //学生作品
@@ -89,6 +127,8 @@ export default {
       let res = await service.queryWorkStudent(params);
       if (res.errorCode === 0) {
         this.popupShow = false;
+        this.query.page = res.data.page;
+        this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
       }
     }
