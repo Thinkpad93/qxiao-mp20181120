@@ -32,6 +32,14 @@
         <van-icon name="arrow" size="16px"></van-icon>
       </div>
       <!-- 用户信息 -->
+      <div class="experience flex" v-if="experience == 1">
+        <div class="item" @click="handleCreateClass">
+          <p>我是老师点击创建班级</p>
+        </div>
+        <div class="item" @click="visibility = true">
+          <p>我是家长点击邀请老师</p>
+        </div>
+      </div>
       <!-- 菜单 -->
       <qx-menu @on-change="go"></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
@@ -46,16 +54,6 @@
       <template v-if="isOpen">
         <qxRelease url="/community" />
       </template>
-      <div class="experience flex" v-if="experience == 1">
-        <div class="item" @click="handleCreateClass">
-          <p>创建班级</p>
-          <span size-12>我是老师我要创建班级</span>
-        </div>
-        <div class="item" @click="visibility = true">
-          <p>邀请老师</p>
-          <span size-12>我是家长邀请老师创建班级</span>
-        </div>
-      </div>
       <main class="main">
         <div class="classId flex a-i-c j-c-s-b">
           <p>班级圈</p>
@@ -237,6 +235,7 @@ export default {
       wxapi.wxShareAppMessage(option);
     },
     handleCreateClass() {
+      console.log("e");
       this.$router.push({
         path: "/teacher/createClass",
         query: {
@@ -370,6 +369,43 @@ export default {
       }
     }
   },
+  beforeRouteLeave(to, from, next) {
+    console.log("beforeRouteLeave");
+    console.log(to);
+    console.log(from);
+    //如果是体验用户跳转到小Q表现或个人中心，则重新更新数据
+    if (this.experience == 1) {
+      let _cookie = Cookies.getJSON("info");
+      if (to.path === "/single" || to.path === "/user") {
+        console.log("游客模式");
+        this.$store
+          .dispatch("experience/experience", {
+            tel: _cookie.tel
+          })
+          .then(res => {
+            if (res) {
+              let params = Object.assign({}, _cookie, res);
+              this.$store.dispatch("user/setInfo", params).then(data => {
+                if (data.success === "ok") {
+                  console.log("ok");
+                  next();
+                }
+              });
+            }
+          });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log(to);
+    console.log(from);
+    console.log("beforeRouteEnter");
+    next();
+  },
   mounted() {
     this.communityQuery(this.query);
     wxapi.wxRegister(this.wxRegCallback);
@@ -388,11 +424,10 @@ export default {
   }
 }
 .experience {
-  color: #84ce09;
-  font-size: 32px;
-  padding: 36px 20px;
+  color: #f02310;
+  padding: 36px 0px;
   position: relative;
-  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: #fff;
   .item {
     flex: 1;

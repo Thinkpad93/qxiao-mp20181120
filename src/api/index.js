@@ -21,6 +21,8 @@ import * as process from './module/process';
 import * as teacher from './module/teacher';
 import * as deletes from './module/delete';
 import * as feed from './module/feed';
+import * as mail from './module/mail';
+import * as schedule from './module/schedule';
 export default {
   ...album,
   ...clock,
@@ -43,5 +45,7 @@ export default {
   ...process,
   ...teacher,
   ...deletes,
-  ...feed
+  ...feed,
+  ...mail,
+  ...schedule
 }

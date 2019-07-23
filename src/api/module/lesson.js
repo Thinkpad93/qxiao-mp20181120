@@ -18,7 +18,7 @@ export function lessonScoreQuery(params, config = {
 }
 //试卷列表查询
 export function examPaperQuery(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/exam/examPaperQuery.do', params, config)
     .then(res => res.data)
@@ -50,7 +50,7 @@ export function examPaperComment(params, config = {
 }
 //查询课程列表
 export function lessonInfoQuery(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/lessonInfoQuery.do', params, config)
     .then(res => res.data)

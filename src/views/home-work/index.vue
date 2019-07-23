@@ -187,7 +187,7 @@ export default {
       let res = await service.homeworkQuery(params);
       if (res.errorCode === 0) {
         this.popupShow = false;
-        this.query.page = res.data.page;
+        this.query.page = res.data.page || [];
         this.totalPage = res.data.totalPage;
         this.list = res.data.data;
       }

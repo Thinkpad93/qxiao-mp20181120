@@ -44,7 +44,10 @@
                 </li>
               </ul>
               <div class="uploader-input_box">
-                <div class="van-uploader">
+                <van-uploader :after-read="handleRead" accept="image/*" multiple>
+                  <van-icon name="plus" size="30px"></van-icon>
+                </van-uploader>
+                <!-- <div class="van-uploader">
                   <van-icon name="plus" size="30px"></van-icon>
                   <input
                     ref="file"
@@ -54,7 +57,7 @@
                     @change="readImg"
                     class="van-uploader__input"
                   />
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -110,19 +113,29 @@ export default {
     })
   },
   methods: {
-    readImg() {
-      let inputDom = this.$refs.file;
-      let files = inputDom.files;
-      if (files.length) {
-        for (let i = 0; i < files.length; i++) {
-          let reader = new FileReader();
-          reader.onload = e => {
-            this.imagesList.push({ content: e.target.result, file: files[i] });
-          };
-          reader.readAsDataURL(files[i]); //进行base64转码
-        }
+    handleRead(file, detail) {
+      if (Array.isArray(file)) {
+        file.forEach(elem => {
+          this.imagesList.push(elem);
+        });
+      } else {
+        //如果用户是单选的图片
+        this.imagesList.push(file);
       }
     },
+    // readImg() {
+    //   let inputDom = this.$refs.file;
+    //   let files = inputDom.files;
+    //   if (files.length) {
+    //     for (let i = 0; i < files.length; i++) {
+    //       let reader = new FileReader();
+    //       reader.onload = e => {
+    //         this.imagesList.push({ content: e.target.result, file: files[i] });
+    //       };
+    //       reader.readAsDataURL(files[i]); //进行base64转码
+    //     }
+    //   }
+    // },
     handleDelImg(index) {
       this.imagesList.splice(index, 1);
     },

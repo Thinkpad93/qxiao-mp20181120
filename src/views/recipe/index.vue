@@ -1,6 +1,25 @@
 <template>
   <div class="page">
+    <template v-if="roleType != 3">
+      <div class="page-hd">
+        <div class="button-sp-area flex" size-17>
+          <a href="javascript:void(0);" id="showDatePicker" @click="popupShow = true">
+            <span>{{ className }}</span>
+            <van-icon name="arrow-down" size="16px"></van-icon>
+          </a>
+        </div>
+      </div>
+    </template>
     <div class="page-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
+      </van-popup>
       <template v-if="roleType != 3">
         <qxRelease url="/recipe/add" />
       </template>
@@ -58,8 +77,10 @@
 <script>
 import service from "@/api";
 import qxRelease from "@/components/Release";
+import classList from "@/mixins/classList";
 export default {
   name: "recipe",
+  mixins: [classList],
   components: {
     qxRelease
   },
@@ -67,6 +88,7 @@ export default {
     return {
       loading: false,
       finished: false,
+      popupShow: false,
       totalPage: 1, //总页数
       query: {
         openId: this.$store.state.user.info.openId,
@@ -78,6 +100,16 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
+  },
+  computed: {
+    className: {
+      get() {
+        return this.$store.state.user.info.className;
+      },
+      set(newValue) {
+        return (this.$store.state.user.info.className = newValue);
+      }
+    }
   },
   methods: {
     onLoad() {
@@ -138,11 +170,21 @@ export default {
         query: { recipeId, studentId }
       });
     },
+    //选择班级
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      this.query.page = 1;
+      //当切换班级时，重新设置为没有全部加载完成
+      this.finished = false;
+      this.recipeQuery(this.query);
+    },
     //食谱列表查询
     async recipeQuery(params = {}) {
       let res = await service.recipeQuery(params);
       if (res.errorCode === 0) {
-        this.list = res.data.data;
+        this.popupShow = false;
+        this.list = res.data.data || [];
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
       }
@@ -154,4 +196,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.button-sp-area {
+  color: #9cd248;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
 </style>

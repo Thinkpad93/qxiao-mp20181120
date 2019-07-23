@@ -29,7 +29,7 @@ export default {
       roleType: state => state.info.roleType
     }),
     singleUrl() {
-      if (this.roleType != 3) {
+      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
         return `/single/teacher`;
       } else {
         return `/single`;

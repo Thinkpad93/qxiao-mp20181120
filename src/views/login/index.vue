@@ -1,9 +1,69 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd cover">
+  <div class="page">
+    <div class="page-bd">
+      <div class="mod">
+        <div class="flex a-i-c j-c-c" style="padding-top: 10px;">
+          <img class="qxlogo" src="@/assets/xq-logo.png" alt />
+          <p size-24 class="ml-20">小Q智慧</p>
+        </div>
+        <p style="padding-top: 40px;padding-bottom: 20px;">未加入班级?</p>
+        <van-button round type="info" @click="handleTourist">点击进入体验班级</van-button>
+      </div>
+      <div class="mod">
+        <form action ref="form">
+          <p style="padding-top: 20px;padding-bottom: 30px;">已加入班级</p>
+          <div class="cells">
+            <div class="cell">
+              <div class="cell-hd">
+                <img class="ignore" src="@/assets/phone-icon@2x.png" alt />
+              </div>
+              <div class="cell-bd pl-20">
+                <input
+                  type="number"
+                  class="input text-left"
+                  pattern="[0-9]*"
+                  placeholder="请输入手机号"
+                  autofocus
+                  v-model="form.tel"
+                />
+              </div>
+              <div class="cell-ft">
+                <a
+                  v-if="!hidden"
+                  href="javascript:void(0);"
+                  style="color:#92cd36"
+                  @click="handleSecond"
+                >获取验证码</a>
+                <span v-if="hidden" style="color:#8d8d8d;">{{ second }}s</span>
+              </div>
+            </div>
+            <div class="cell">
+              <div class="cell-hd"></div>
+              <div class="cell-bd">
+                <input
+                  type="number"
+                  class="input text-left"
+                  pattern="[0-9]*"
+                  placeholder="请输入验证码"
+                  v-model="form.verifyCode"
+                />
+              </div>
+              <div class="cell-ft">
+                <van-button
+                  round
+                  type="info"
+                  native-type="button"
+                  size="small"
+                  @click="handleLogin"
+                >登录</van-button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
       <!-- 提示语 -->
-      <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p>
-      <form action ref="form" class="login-form">
+      <!-- <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p> -->
+      <!-- <form action ref="form" class="login-form">
         <div class="cells">
           <div class="form-top">
             <img src="@/assets/qlogocdr12.png" alt />
@@ -55,7 +115,7 @@
         <div class="text-center" style="margin-top: 26px">
           <span style="color:#84ce09" @click="handleTourist">未加入班级点击抢先体验</span>
         </div>
-      </form>
+      </form>-->
     </div>
   </div>
 </template>
@@ -210,34 +270,49 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.cover {
-  background-color: #cbf4fa;
-}
-.login-form {
-  z-index: 10;
-  width: 90%;
-  min-height: 600px;
-  border-radius: 10px;
-  overflow: hidden;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-.form-top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-.tip {
-  color: #fff;
+.mod {
+  text-align: center;
+  min-height: 460px;
   padding: 20px 0;
-  background-color: #f00;
-}
-.btn-groups {
-  padding: 50px 40px;
+  margin: 60px 30px;
+  position: relative;
+  height: auto;
+  border-radius: 20px;
   background-color: #fff;
+  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
+  .qxlogo {
+    width: 84px;
+    height: 84px;
+  }
 }
+// .cover {
+//   background-color: #cbf4fa;
+// }
+// .login-form {
+//   z-index: 10;
+//   width: 90%;
+//   min-height: 600px;
+//   border-radius: 10px;
+//   overflow: hidden;
+//   position: absolute;
+//   left: 50%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+// }
+// .form-top {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   padding-top: 50px;
+//   padding-bottom: 50px;
+// }
+// .tip {
+//   color: #fff;
+//   padding: 20px 0;
+//   background-color: #f00;
+// }
+// .btn-groups {
+//   padding: 50px 40px;
+//   background-color: #fff;
+// }
 </style>

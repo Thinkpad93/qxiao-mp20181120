@@ -1,101 +1,134 @@
 <template>
   <div class="page">
-    <div class="page-bd">
-      <div class="schedule">
-        <div class="schedule-hd"></div>
-        <div class="schedule-bd">
-          <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
-            <div class="schedule-figure" v-for="(item, index) in actionList" :key="index">
-              <div class="ch-gradient">
-                <p>{{ item.name }}</p>
-                <div class="rate-group">
-                  <div class="rate-group-item flex j-c-s-b">
-                    <van-rate v-model="count1" :size="16" :count="1" color="#09e2bb" readonly></van-rate>
-                    <span>16人</span>
-                  </div>
-                  <div class="rate-group-item flex j-c-s-b">
-                    <van-rate v-model="count2" :size="16" :count="2" color="#09e2bb" readonly></van-rate>
-                    <span>6人</span>
-                  </div>
-                  <div class="rate-group-item flex j-c-s-b">
-                    <van-rate v-model="count3" :size="16" :count="3" color="#09e2bb" readonly></van-rate>
-                    <span>0人</span>
-                  </div>
-                  <div class="rate-group-item flex j-c-s-b">
-                    <van-rate v-model="count4" :size="16" :count="4" color="#09e2bb" readonly></van-rate>
-                    <span>1人</span>
-                  </div>
-                  <div class="rate-group-item flex j-c-s-b">
-                    <van-rate v-model="count5" :size="16" :count="5" color="#09e2bb" readonly></van-rate>
-                    <span>3人</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <template v-if="roleType == 2">
+      <div class="page-hd">
+        <!-- 班级选择菜单 -->
+        <div class="button-sp-area flex" size-17>
+          <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
+            <span>{{ className }}</span>
+            <van-icon name="arrow-down" size="16px"></van-icon>
+          </a>
         </div>
-        <div class="schedule-ft"></div>
+        <!-- 班级选择菜单 -->
+      </div>
+    </template>
+    <div class="page-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
+      </van-popup>
+      <div class="schedule">
+        <div class="schedule-bd" v-if="list.length">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <span>时间</span>
+                  <span>星期</span>
+                </th>
+                <th v-for="(week, index) in weekList" :key="index">{{ week }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(tr, index) in list" :key="index">
+                <td>
+                  <div>第{{ index + 1 }}节</div>
+                  <div>{{ tr.startTime }}-{{ tr.endTime }}</div>
+                </td>
+                <template v-if="tr.list">
+                  <td v-for="(td, indexs) in tr.list" :key="indexs">
+                    <div>{{ td.title ? td.title : "无课" }}</div>
+                  </td>
+                </template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="empty" v-else>
+          <img src="@/assets/kong.png" alt />
+          <p class="mt-30">暂无课程表</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import classList from "@/mixins/classList";
 export default {
   name: "schedule",
+  mixins: [classList],
   data() {
     return {
-      count5: 5,
-      count4: 4,
-      count3: 3,
-      count2: 2,
-      count1: 1,
-      actionList: [
-        {
-          name: "阅读"
-        },
-        {
-          name: "听妈妈的话"
-        },
-        {
-          name: "固定列"
-        },
-        {
-          name: "打扫房间"
-        },
-        {
-          name: "睡觉听故事仔"
-        },
-        {
-          name: "跑步"
-        }
-      ]
+      popupShow: false,
+      roleType: this.$store.state.user.info.roleType,
+      query: {
+        classId: this.$store.state.user.info.classId
+      },
+      weekList: ["星期一", "星期二", "星期三", "星期四", "星期五"],
+      list: []
     };
   },
-  methods: {}
+  computed: {
+    className: {
+      get() {
+        return this.$store.state.user.info.className;
+      },
+      set(newValue) {
+        return (this.$store.state.user.info.className = newValue);
+      }
+    }
+  },
+  methods: {
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      this.queryScheduleList(this.query);
+    },
+    //课表查询
+    async queryScheduleList(params = {}) {
+      let res = await service.queryScheduleList(params);
+      if (res.errorCode === 0) {
+        this.list = res.data;
+        this.popupShow = false;
+      }
+    }
+  },
+  mounted() {
+    this.queryScheduleList(this.query);
+  }
 };
 </script>
 <style lang="less" scoped>
+.button-sp-area {
+  color: #9cd248;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
 .schedule-bd {
-  padding: 20px;
-}
-.schedule-figure {
-  width: 50%;
-  padding: 0 20px;
-  margin-bottom: 20px;
-  background-color: transparent;
-}
-.ch-gradient {
-  height: 380px;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: #fff;
-  > p {
-    font-size: 36px;
-    margin-bottom: 30px;
+  table {
+    font-size: 24px;
+    color: #666;
+    width: 100%;
+    background-color: #fff;
+    th {
+      height: 88px;
+      text-align: center;
+      border-right: 1px solid #ebeef5;
+      border-bottom: 1px solid #ebeef5;
+    }
+    td {
+      height: 100px;
+      text-align: center;
+      border-right: 1px solid #ebeef5;
+      border-bottom: 1px solid #ebeef5;
+    }
   }
-}
-.rate-group-item {
-  margin-bottom: 8px;
 }
 </style>

@@ -32,7 +32,7 @@
           <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
             <div class="suni" v-for="(item, i) in list" :key="i">
               <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
-                <img :src="item.imageUrl" alt />
+                <img :src="item.smallUrl" alt />
                 <div class="zan flex a-i-c" v-if="item.praise">
                   <van-icon name="like" size="14px" color="#e64340"></van-icon>
                   <span>{{ item.praise }}</span>

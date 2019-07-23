@@ -17,7 +17,7 @@
                 <swiper-slide class="slide" v-for="(item, index) in onLineList" :key="index">
                   <div
                     class="slide-img"
-                    :style="{backgroundImage: `url(${item.imageUrl})`}"
+                    :style="{backgroundImage: `url(${item.smallUrl})`}"
                     @click="handlePreviewImage(item.imageUrl)"
                   ></div>
                   <div class="zan flex a-i-c" v-if="item.praise">
@@ -39,7 +39,7 @@
             <div class="flex f-w-w" v-if="worksList.length">
               <div class="item" v-for="(item, index) in worksList" :key="index">
                 <div class="good-image" @click="handlePreviewImage(item.imageUrl)">
-                  <img :src="item.imageUrl" alt />
+                  <img :src="item.smallUrl" alt />
                   <div class="zan flex a-i-c" @click.stop="handleAddPraise(item)">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
                     <span>{{ item.praise }}</span>

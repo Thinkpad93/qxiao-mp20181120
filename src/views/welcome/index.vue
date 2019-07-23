@@ -5,31 +5,31 @@
         <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
             <div class="slide">
-              <img src="@/assets/welcome-slide-1@2x.png">
-              <img src="@/assets/welcome-slide-4@2x.png" width="160" height="25" class="channel">
+              <img src="@/assets/welcome-slide-1@2x.png" />
+              <img src="@/assets/welcome-slide-4@2x.png" width="160" height="25" class="channel" />
               <p>
                 个性添加培养目标
-                <br>兑换奖励法培养习惯养成
+                <br />兑换奖励法培养习惯养成
               </p>
             </div>
           </swiper-slide>
           <swiper-slide>
             <div class="slide">
-              <img src="@/assets/welcome-slide-2@2x.png">
-              <img src="@/assets/welcome-slide-5@2x.png" width="160" height="25" class="channel">
+              <img src="@/assets/welcome-slide-2@2x.png" />
+              <img src="@/assets/welcome-slide-5@2x.png" width="160" height="25" class="channel" />
               <p>
                 随时关注孩子
-                <br>课堂动态
+                <br />课堂动态
               </p>
             </div>
           </swiper-slide>
           <swiper-slide>
             <div class="slide">
-              <img src="@/assets/welcome-slide-3@2x.png">
-              <img src="@/assets/welcome-slide-6@2x.png" width="98" height="24" class="channel">
+              <img src="@/assets/welcome-slide-3@2x.png" />
+              <img src="@/assets/welcome-slide-6@2x.png" width="98" height="24" class="channel" />
               <p>
                 实时掌握孩子
-                <br>学校动态
+                <br />学校动态
               </p>
               <button class="experience" @click="jump">立即体验</button>
             </div>
@@ -65,10 +65,19 @@ export default {
   },
   methods: {
     jump() {
-      this.$router.push({
+      this.$router.replace({
         path: "/single"
       });
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    window.toast = this.$toast.loading({
+      mask: true,
+      duration: 0, // 持续展示 toast
+      forbidClick: true, // 禁用背景点击
+      message: "加载中..."
+    });
+    next();
   }
 };
 </script>

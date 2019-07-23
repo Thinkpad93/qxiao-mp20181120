@@ -3,7 +3,7 @@ export default [{
   name: "schedule",
   component: () => import('@/views/schedule'),
   meta: {
-    title: "我的课表",
+    title: "课程表",
     keepAlive: true,
     isShare: false,
   }

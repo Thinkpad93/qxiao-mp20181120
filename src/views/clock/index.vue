@@ -81,7 +81,7 @@
         </div>
         <div class="empty" v-if="!clockList.length">
           <img src="@/assets/kong.png" alt />
-          <p>还没有打卡记录</p>
+          <p>数据在当天晚上21:00自动更新</p>
         </div>
       </template>
       <!-- 家长端 -->

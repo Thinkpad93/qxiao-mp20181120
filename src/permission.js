@@ -15,25 +15,10 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   let {
     roleType,
-    experience
   } = store.state.user.info;
   let _cookie = Cookies.getJSON('info') || {};
   //获取地址栏参数
   let params = urlSearch();
-  //游客模式
-  if (to.path === '/single' || to.path === '/user') {
-    if (experience == 1 || _cookie.experience == 1) {
-      console.log("游客模式");
-      store.dispatch('experience/experience', {
-        tel: _cookie.tel
-      }).then(res => {
-        if (res) {
-          let params = Object.assign({}, _cookie, res);
-          store.dispatch("user/setInfo", params);
-        }
-      });
-    }
-  }
   //刷新操作
   if (Object.keys(_cookie).length && !roleType) {
     if (params != -1) {
@@ -54,6 +39,11 @@ router.beforeEach((to, from, next) => {
         store.dispatch("user/setInfo", params);
       }
     }
+  }
+  //用户没有加入小Q班级
+  if (roleType == 9 && to.path === '/home') {
+    next(`/login?redirect`);
+    return false;
   }
   next();
 });

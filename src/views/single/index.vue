@@ -172,64 +172,6 @@
               <qxChart id="stateMent" :option="stateMentOption" />
             </div>
           </van-tab>
-          <!-- <van-tab title="成长分析">
-            <div class="container">
-              <div class="remark">
-                <div class="remark-hd flex j-c-s-b a-i-c">
-                  <div class="remark-left flex a-i-c">
-                    <img src="@/assets/remark-icon@2x.png" width="20" height="20" />
-                    <span class="ml-10">评语</span>
-                  </div>
-                  <router-link to="/remark" tag="div" class="remark-right flex a-i-c">
-                    <span>往期评语</span>
-                    <van-icon name="arrow" size="16px"></van-icon>
-                  </router-link>
-                </div>
-                <div class="remark-bd">
-                  <template v-if="Object.keys(remark).length">
-                    <div class="flex mb-20">
-                      <span>老师:</span>
-                      <p class="ml-20">{{ remark.teacherText }}</p>
-                    </div>
-                    <div class="flex mb-20">
-                      <span>系统:</span>
-                      <p class="ml-20">{{ remark.sysText }}</p>
-                    </div>
-                    <div class="remark-time">{{ remark.sysTime }}</div>
-                  </template>
-                  <template v-else>
-                    <p class="text-center mt-30 mb-30">您暂时还没有评语哦</p>
-                  </template>
-                </div>
-              </div>
-              <div class="snail flex j-c-s-b a-i-c mb-20">
-                <div class="flex a-i-c">
-                  <img src="@/assets/snail-icon@2x.png" alt width="20" height="20" />
-                  <div class="ml-10">综合竞争力排名</div>
-                </div>
-                <div class="flex a-i-c">
-                  <span class="mr-10">80</span>
-                  <img src="@/assets/arrow-up@2x.png" alt width="8" height="18" />
-                </div>
-              </div>
-              <div class="mod">
-                <van-tabs v-model="tabActive" :line-height="2">
-                  <van-tab title="个性分析">
-                    <div class="eland">
-                      <p class="mt-10">缺乏耐性急躁、好斗、说话欠考虑、三分钟热度、以自我为中心、粗枝大叶、瞻前不顾后</p>
-                    </div>
-                  </van-tab>
-                  <van-tab title="学习分析">
-                    <div class="eland">
-                      <p
-                        class="mt-10"
-                      >思想觉悟高，积极要求进步，团结同学，尊敬师长，乐于帮助他人，文明礼貌，学习刻苦认真，成绩优异，积极参加各项活动，热爱劳动，深受师生喜爱。</p>
-                    </div>
-                  </van-tab>
-                </van-tabs>
-              </div>
-            </div>
-          </van-tab>-->
         </van-tabs>
       </div>
     </div>
@@ -278,7 +220,9 @@ export default {
       studentId: state => state.info.studentId,
       classId: state => state.info.classId,
       totalStarCount: state => state.info.totalStarCount,
-      isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
+      isBindBracelet: state => state.info.isBindBracelet, // 0未绑定手环 1绑定
+      experience: state => state.info.experience,
+      tel: state => state.info.tel
     }),
     //计算已选择的星星数
     start() {
@@ -359,24 +303,12 @@ export default {
       this.actionQuery(args);
     },
     jumpExamPaper(params = {}, index = 0) {
-      return false;
-      // let { gradeId, lessonId } = params;
-      // this.$router.push({
-      //   path: "/examPaper",
-      //   query: {
-      //     gradeId,
-      //     lessonId,
-      //     index
-      //   }
-      // });
-    },
-    jumpScore(params, index) {
-      let { lessonId } = params;
+      let { gradeId, lessonId } = params;
       this.$router.push({
-        path: "/score",
+        path: "/examPaper",
         query: {
-          lessonId,
-          index
+          gradeId,
+          lessonId
         }
       });
     },
@@ -399,8 +331,8 @@ export default {
     async actionListQuery() {
       let obj = {
         day: this.query.day,
-        studentId: this.studentId,
-        openId: this.openId
+        studentId: this.$store.state.user.info.studentId,
+        openId: this.$store.state.user.info.openId
       };
       let res = await service.actionListQuery(obj);
       if (res.errorCode === 0) {
@@ -416,18 +348,6 @@ export default {
         this.actionView = res.data;
       }
     },
-    //学生课程列表查询
-    // async lessonQuery() {
-    //   let obj = {
-    //     day: this.query.day,
-    //     studentId: this.studentId,
-    //     openId: this.openId
-    //   };
-    //   let res = await service.lessonQuery(obj);
-    //   if (res.errorCode === 0) {
-    //     this.lessonList = res.data;
-    //   }
-    // },
     //在校表现课程列表查询(关联课程表)
     async lessonList() {
       let obj = {
@@ -440,34 +360,20 @@ export default {
         this.lessonsList = res.data;
       }
     }
-    //最新评语
-    // async newRemarkQuery() {
-    //   let res = await service.newRemarkQuery({
-    //     openId: this.openId,
-    //     studentId: this.studentId
-    //   });
-    //   if (res.errorCode === 0) {
-    //     this.remark = res.data || {};
-    //   }
-    // },
-    //查询课程列表
-    // async lessonInfoQuery(params = {}) {
-    //   let res = await service.lessonInfoQuery(params);
-    //   if (res.errorCode === 0) {
-    //     this.lessonDefault = res.data;
-    //   }
-    // }
   },
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
-    //this.newRemarkQuery();
-    //this.lessonInfoQuery();
   },
   activated() {
     this.actionListQuery();
-    //this.lessonQuery();
     this.lessonList();
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.path === "/welcome") {
+      window.toast.clear();
+    }
+    next();
   }
 };
 </script>
