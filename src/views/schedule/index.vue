@@ -27,9 +27,9 @@
           <table>
             <thead>
               <tr>
-                <th>
-                  <span>时间</span>
-                  <span>星期</span>
+                <th id="lineTd">
+                  <span style="float:left;margin-top:0px;">时间</span>
+                  <span style="float:right;margin-top:0px;">星期</span>
                 </th>
                 <th v-for="(week, index) in weekList" :key="index">{{ week }}</th>
               </tr>
@@ -105,11 +105,19 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
+#lineTd {
+  &:before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 180px; /*这里需要自己调整，根据td的宽度和高度*/
+    top: 0;
+    left: 0;
+    background-color: #ebeef5;
+    display: block;
+    transform: rotate(-61deg); /*这里需要自己调整，根据线的位置*/
+    transform-origin: top;
+  }
 }
 .schedule-bd {
   table {

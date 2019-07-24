@@ -108,10 +108,6 @@ export default {
         this.$toast("请输入老师姓名");
         return false;
       }
-      // if (!this.selected.length) {
-      //   this.$toast("请选择任教班级，支持多选");
-      //   return false;
-      // }
       if (isPhone(tel)) {
         this.form.classes = this.selected.map(item => {
           return { classId: item };

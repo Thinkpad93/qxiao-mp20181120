@@ -330,7 +330,7 @@ export function studentInfoQuery(params, config = {
 }
 //控制家长端发布班级圈权限
 export function updateIsOpen(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/updateIsOpen.do', params, config)
     .then(res => res.data)

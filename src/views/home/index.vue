@@ -51,8 +51,14 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <template v-if="isOpen">
+      <!-- 班级圈控制 -->
+      <template v-if="roleType != 3">
         <qxRelease url="/community" />
+      </template>
+      <template v-else>
+        <template v-if="isOpen == 'true'">
+          <qxRelease url="/community" />
+        </template>
       </template>
       <main class="main">
         <div class="classId flex a-i-c j-c-s-b">
@@ -400,12 +406,12 @@ export default {
       next();
     }
   },
-  beforeRouteEnter(to, from, next) {
-    console.log(to);
-    console.log(from);
-    console.log("beforeRouteEnter");
-    next();
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   console.log(to);
+  //   console.log(from);
+  //   console.log("beforeRouteEnter");
+  //   next();
+  // },
   mounted() {
     this.communityQuery(this.query);
     wxapi.wxRegister(this.wxRegCallback);

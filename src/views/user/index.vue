@@ -9,7 +9,6 @@
         </div>
       </template>
       <!-- 用户 -->
-      <!-- 用户 -->
       <template v-if="roleType == 1 || roleType == 2 || roleType == 4">
         <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
           <div class="switch-role" v-if="roleList.length == 2" @click.stop="jumpRoleSelect">
@@ -70,16 +69,6 @@
           </div>
           <van-icon name="arrow" size="16px"></van-icon>
         </div>
-        <!-- <div class="snail flex a-i-c j-c-s-b">
-          <div class="snail-left flex a-i-c">
-            <img src="@/assets/snail-icon@2x.png" alt width="20" height="20" />
-            <div class="ml-10">综合竞争力排名</div>
-          </div>
-          <div class="snail-right flex a-i-c">
-            <span class="mr-10">80</span>
-            <img src="@/assets/arrow-up@2x.png" alt width="8" height="18" />
-          </div>
-        </div>-->
         <van-cell
           class="mb-20"
           size="large"
@@ -106,9 +95,21 @@
           </template>
         </van-cell>
       </template>
+      <div class="cells mt-20" v-if="roleType == 4">
+        <div class="cell min-h100">
+          <div class="cell-hd">班级圈控制</div>
+          <div class="cell-bd" style="text-align: right;">
+            <van-switch
+              v-model="switched"
+              size="26px"
+              active-color="#92cd36"
+              @change="handleChange"
+            ></van-switch>
+          </div>
+        </div>
+      </div>
       <div class="mt-20 text-center">
         <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button>
-        <!-- <van-button type="danger" size="small" to="/schedule">表单测试</van-button> -->
       </div>
     </div>
     <div class="page-ft">
@@ -129,6 +130,7 @@ export default {
   },
   data() {
     return {
+      switched: false,
       visibility: false,
       roleList: [],
       teacherMenu: [
@@ -170,10 +172,18 @@ export default {
       totalStarCount: state => state.info.totalStarCount,
       id: state => state.info.id,
       studentId: state => state.info.studentId,
-      roleType: state => state.info.roleType
+      roleType: state => state.info.roleType,
+      isOpen: state => state.info.isOpen
     })
   },
   methods: {
+    handleInitSwitch() {
+      return (this.switched = this.isOpen === "true" ? true : false);
+    },
+    handleChange() {
+      let isOpen = this.switched ? true : false;
+      this.updateIsOpen({ isOpen, schoolId: this.id });
+    },
     handleRoleJump() {
       if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
         this.$router.push({
@@ -248,9 +258,16 @@ export default {
         //关闭当前网页窗口接口
         wx.closeWindow();
       }
+    },
+    //控制家长端发布班级圈权限
+    async updateIsOpen(params = {}) {
+      let res = await service.updateIsOpen(params);
+      if (res.errorCode === 0) {
+      }
     }
   },
   mounted() {
+    this.handleInitSwitch();
     wxapi.wxRegister(this.wxRegCallback);
     this.queryRole({ openId: this.openId });
   }

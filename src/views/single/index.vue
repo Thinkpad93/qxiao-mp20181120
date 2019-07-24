@@ -130,13 +130,16 @@
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <div class="action-today mb-20">
-                  <time size-16>{{ query.day }}</time>
+                <div class="flex j-c-c a-i-c action-today mb-30">
+                  <div class="flex a-i-c">
+                    <time class="mr-20" size-16>{{ query.day }}</time>
+                    <van-icon name="arrow-down" size="14px"></van-icon>
+                  </div>
                 </div>
                 <div class="action-table flex">
-                  <div class="flex-1 f-w">课程</div>
-                  <div class="flex-1 text-center f-w">课堂表现</div>
-                  <div class="flex-1 text-right f-w">近期成绩</div>
+                  <div class="flex-1">课程</div>
+                  <div class="flex-1 text-center">课堂表现</div>
+                  <div class="flex-1 text-right">近期成绩</div>
                 </div>
                 <div class="action-cells">
                   <div
@@ -145,7 +148,9 @@
                     :key="index"
                   >
                     <div class="action-cell-hd">
-                      <span @click="jumpExamPaper(item, index)">{{ item.title }}</span>
+                      <div @click="jumpExamPaper(item, index)">{{ item.title }}</div>
+                      <!-- 课堂时间 -->
+                      <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
                     </div>
                     <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView(item)">
                       <van-rate
@@ -222,7 +227,8 @@ export default {
       totalStarCount: state => state.info.totalStarCount,
       isBindBracelet: state => state.info.isBindBracelet, // 0未绑定手环 1绑定
       experience: state => state.info.experience,
-      tel: state => state.info.tel
+      tel: state => state.info.tel,
+      push: state => state.info.push
     }),
     //计算已选择的星星数
     start() {
@@ -359,11 +365,27 @@ export default {
       if (res.errorCode === 0) {
         this.lessonsList = res.data;
       }
+    },
+    //查询最新Q星数
+    async queryStar(params = {}) {
+      let res = await service.queryStar(params);
+      if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let totalStarCount = res.data; //Q星数
+        let obj = Object.assign({}, _cookie, { totalStarCount });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
+      }
     }
   },
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
+    if (this.push == "true") {
+      this.queryStar({ studentId: this.studentId });
+    }
   },
   activated() {
     this.actionListQuery();
@@ -409,7 +431,7 @@ export default {
   }
 }
 .action-cells {
-  padding: 20px 0;
+  padding-bottom: 20px;
 }
 .course {
   padding: 0 30px;

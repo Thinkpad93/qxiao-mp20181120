@@ -255,13 +255,6 @@ export default {
   background-color: #fff;
 }
 
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-}
-
 .clock-table {
   .cell {
     padding: 0 0;

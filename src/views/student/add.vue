@@ -3,28 +3,14 @@
     <div class="page-bd">
       <!-- 查询开放版是否有录入学生 -->
       <van-popup v-model="popupShow" position="bottom">
-        <div class="popup-page">
-          <div class="popup-bd">
-            <div class="cells">
-              <div class="cell student-box" v-for="(item, index) in studentList" :key="index">
-                <div class="cell-bd">
-                  <p>{{ item.name }}</p>
-                </div>
-                <div class="cell-ft">
-                  <van-radio-group v-model="studentId">
-                    <van-radio :name="item.studentId" checked-color="#92cd36"></van-radio>
-                  </van-radio-group>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="popup-ft">
-            <div class="flex">
-              <van-button type="default" class="no-radius" @click="popupShow = false">取消</van-button>
-              <van-button type="info" class="no-radius" @click="handleSaveStudent">确定</van-button>
-            </div>
-          </div>
-        </div>
+        <van-picker
+          :columns="studentList"
+          show-toolbar
+          title="选择要添加的学生"
+          value-key="name"
+          @cancel="popupShow = false"
+          @confirm="handleStudentConfirm"
+        ></van-picker>
       </van-popup>
       <form action ref="form">
         <div class="cells-title">基础信息</div>
@@ -128,14 +114,12 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-//import classList from "@/mixins/classList";
 export default {
   name: "studentAdd",
   mixins: [sex, relation],
   data() {
     return {
       popupShow: false,
-      studentId: null,
       openDirection: this.$route.query.openDirection,
       query: {
         teacherId: this.$store.state.user.info.id
@@ -152,12 +136,18 @@ export default {
     };
   },
   methods: {
+    handleStudentConfirm(value, index) {
+      //开放版添加学生
+      let { studentId } = value;
+      let { classId } = this.form;
+      this.addStudentWithStudentId({ classId, studentId });
+    },
     changeTel(item) {
       let tel = item.tel;
       if (isPhone(tel)) {
         this.queryStudentOpen({ tel });
       } else {
-        console.log("手机号格式不对");
+        this.$toast("手机号格式不对");
       }
     },
     handleAddLinkMan() {
@@ -172,10 +162,6 @@ export default {
         this.$toast("请输入学生姓名");
         return false;
       }
-      if (!classId) {
-        this.$toast("请选择学生所在班级");
-        return false;
-      }
       //for
       for (let i = 0; i < linkMan.length; i++) {
         let tel = linkMan[i].tel;
@@ -186,16 +172,6 @@ export default {
       }
       let obj = Object.assign({}, this.form);
       this.studentAdd(obj);
-    },
-    //开放版添加学生
-    handleSaveStudent() {
-      if (!this.studentId) {
-        this.$toast("请选择要添加的学生");
-        return;
-      }
-      let { classId } = this.form;
-      let studentId = this.studentId;
-      this.addStudentWithStudentId({ classId, studentId });
     },
     //学生新增
     async studentAdd(params = {}) {
@@ -240,6 +216,7 @@ export default {
       let res = await service.queryTeacherClass(params);
       if (res.errorCode === 0) {
         this.classList = res.data;
+        this.form.classId = this.classList[0].classId;
       }
     }
   },
@@ -258,23 +235,6 @@ export default {
   a {
     font-size: 28px;
     border-radius: 0;
-  }
-}
-.student-box {
-  height: 120px;
-}
-.popup-page {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.popup-bd {
-  flex-grow: 1;
-  overflow-y: scroll;
-}
-.popup-ft {
-  button {
-    flex: 1;
   }
 }
 </style>

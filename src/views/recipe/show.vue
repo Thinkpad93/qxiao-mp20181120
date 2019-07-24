@@ -79,7 +79,7 @@ export default {
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
             this.$router.push({
-              path: "/single"
+              path: "/home"
             });
           }
         });

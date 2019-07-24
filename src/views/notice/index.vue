@@ -243,10 +243,4 @@ export default {
   margin-bottom: 20px;
   background-color: #fff;
 }
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-}
 </style>

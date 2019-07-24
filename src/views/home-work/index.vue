@@ -199,10 +199,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-}
 </style>

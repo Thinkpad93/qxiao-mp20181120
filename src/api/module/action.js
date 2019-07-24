@@ -128,3 +128,11 @@ export function queryAllActionDefualt(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询最新Q星数
+export function queryStar(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/queryStar.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

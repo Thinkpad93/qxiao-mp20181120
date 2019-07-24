@@ -36,14 +36,14 @@
       <div class="cells-title">学生家长列表({{ studentCount }})</div>
       <div class="cells">
         <div
-          class="cell student-box"
+          class="cell min-h120"
           v-for="(student, index) in studentList"
           :key="index"
           @click="handleEditStudent(student)"
         >
           <div class="cell-hd">
             <template v-if="student.photo">
-              <img class="student-icon" :src="student.photo" alt />
+              <img :src="student.photo" width="50" height="50" radius="50" />
             </template>
             <template v-else>
               <img src="@/assets/child-default@2x.png" width="50" height="50" radius="50" />
@@ -211,19 +211,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.button-sp-area {
-  color: #9cd248;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-}
-.student-box {
-  height: 120px;
-}
-.student-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
 </style>

@@ -4,22 +4,17 @@
       <template v-if="list.length">
         <div class="album">
           <div class="album-figrue-box flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
-            <figure
-              class="album-figure"
-              v-for="(album, index) in list"
-              :key="index"
-              @click="jump(album)"
-            >
-              <a href="javascript:void(0);">
+            <figure class="album-figure" v-for="(album, index) in list" :key="index">
+              <router-link :to="{ path: '/album/view', query: { classId: album.classId } }">
                 <div class="album-thumb">
-                  <img v-if="album.image" :src="album.image" alt>
-                  <img v-else src="@/assets/kong.png" alt>
+                  <img v-if="album.image" :src="album.image" alt />
+                  <img v-else src="@/assets/kong.png" alt />
                 </div>
                 <figcaption>
                   <p size-16>{{ album.className }}</p>
                   <p size-14>{{ album.imagesCount }}张</p>
                 </figcaption>
-              </a>
+              </router-link>
             </figure>
           </div>
         </div>
@@ -42,14 +37,6 @@ export default {
     };
   },
   methods: {
-    jump(item) {
-      this.$router.push({
-        path: "/album/view",
-        query: {
-          classId: item.classId
-        }
-      });
-    },
     //查询相册所属班级
     async albumClassQuery(params = {}) {
       let res = await service.albumClassQuery(params);
