@@ -148,14 +148,14 @@ export default {
     },
     handlePraise(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版不能点赞");
+        this.$toast("体验班不能点赞");
         return false;
       }
       this.$emit("on-praise", fuck, index);
     },
     handleComment(fuck, index) {
       if (this.experience == 1) {
-        this.$toast("体验版不能评论");
+        this.$toast("体验班不能评论");
         return false;
       }
       this.$emit("on-comment", fuck, index);

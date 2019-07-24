@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import pageMixin from "@/mixins/page";
 export default {
@@ -99,10 +100,25 @@ export default {
           let res = await service.actionDelete(obj);
           if (res.errorCode === 0) {
             this.queryMyAction(this.query);
+            this.updateStarCount();
           }
         });
     },
-    //handleConfirm() {},
+    //更新Q星数
+    async updateStarCount() {
+      let res = await service.queryStar({
+        studentId: this.query.studentId
+      });
+      if (res.errorCode === 0) {
+        let _cookie = Cookies.getJSON("info");
+        let totalStarCount = res.data; //Q星数
+        let obj = Object.assign({}, _cookie, { totalStarCount });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
+      }
+    },
     //按行为查询已选中的规则
     async actionQuery(params = {}) {
       let res = await service.actionQuery(params);
@@ -112,12 +128,6 @@ export default {
     //行为标准关联
     async ruleConnect(params = {}) {
       let res = await service.ruleConnect(params);
-      if (res.errorCode === 0) {
-      }
-    },
-    //行为删除
-    async actionDelete(params = {}) {
-      let res = await service.actionDelete(params);
       if (res.errorCode === 0) {
       }
     },

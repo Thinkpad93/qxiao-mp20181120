@@ -128,6 +128,7 @@ export default {
     th {
       height: 88px;
       text-align: center;
+      position: relative;
       border-right: 1px solid #ebeef5;
       border-bottom: 1px solid #ebeef5;
     }

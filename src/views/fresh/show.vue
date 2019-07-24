@@ -34,7 +34,9 @@
           <span>留言({{ commentLen }})</span>
           <!-- 只有家长能够评论 -->
           <template v-if="roleType == 3">
-            <a href="javascript:void(0);" @click="dialogVisible = true">写留言</a>
+            <template v-if="experience != 1">
+              <a href="javascript:void(0);" @click="dialogVisible = true">写留言</a>
+            </template>
           </template>
         </div>
         <div class="comment-bd">

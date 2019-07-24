@@ -27,9 +27,11 @@
         <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
           <div class="flex a-i-c">
             <template v-if="name">
-              <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
-              <!-- 如果用户没有上传头像 -->
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
+              <div class="avatar-circle flex a-i-c j-c-c">
+                <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
+                <!-- 如果用户没有上传头像 -->
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
+              </div>
               <div class="js-user-change">
                 <h3 class="mb-20" size-18>
                   {{ name }}
@@ -39,7 +41,9 @@
               </div>
             </template>
             <template v-else>
-              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" />
+              <div class="avatar-circle">
+                <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" />
+              </div>
               <p class="ml-20">尚未有关注孩子，点击添加。</p>
             </template>
           </div>
@@ -77,7 +81,7 @@
                           v-model="item.starCount"
                           :count="5"
                           :size="22"
-                          color="#09e2bb"
+                          color="#febf56"
                           void-color="#e5eee0"
                           :readonly="rateReadonly"
                           @change="handleChangeRate(index)"
@@ -557,4 +561,6 @@ export default {
   padding-left: 20px;
   list-style-type: disc;
 }
+
+
 </style>

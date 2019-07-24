@@ -30,14 +30,17 @@
       </van-dialog>
       <div class="pichi gradient-two">
         <div class="pichi-head">
-          <img :src="photo" width="40" height="40" radius="50" v-if="photo" />
+          <img :src="photo" width="50" height="50" radius="50" v-if="photo" />
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
-          <p size-12 class="ml-20">{{ name }}总Q星: {{ totalStarCount }}</p>
+          <p size-16 class="ml-20">
+            {{ name }}
+            <span size-12>总Q星: {{ totalStarCount }}</span>
+          </p>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30">
             <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
-            <strong class="ml-10">{{ todayStarTotal }}</strong>
+            <strong class="ml-20">{{ todayStarTotal }}</strong>
             <p size-12 style="align-self: flex-end;margin-bottom:8px">(可兑换Q星数量)</p>
           </div>
           <p>手指勾勾约定好，奖励兑现要做到！</p>

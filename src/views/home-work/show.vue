@@ -44,13 +44,15 @@
         <template v-if="roleType == 3">
           <!-- 确认标志 0-无需确认 1-需要确认 -->
           <template v-if="needConfirm">
-            <van-button
-              type="info"
-              size="large"
-              class="no-radius"
-              :disabled="info.confirmFlag == 1"
-              @click="handleConfirmFlag"
-            >{{ info.confirmFlag ? '已确认':'确认' }}</van-button>
+            <template v-if="experience != 1">
+              <van-button
+                type="info"
+                size="large"
+                class="no-radius"
+                :disabled="info.confirmFlag == 1"
+                @click="handleConfirmFlag"
+              >{{ info.confirmFlag ? '已确认':'确认' }}</van-button>
+            </template>
           </template>
         </template>
       </div>

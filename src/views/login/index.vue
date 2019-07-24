@@ -38,8 +38,10 @@
               </div>
             </div>
             <div class="cell">
-              <div class="cell-hd"></div>
-              <div class="cell-bd">
+              <div class="cell-hd">
+                <img class="ignore" src="@/assets/phone-icon@2x.png" alt style="opacity: 0;" />
+              </div>
+              <div class="cell-bd pl-20">
                 <input
                   type="number"
                   class="input text-left"

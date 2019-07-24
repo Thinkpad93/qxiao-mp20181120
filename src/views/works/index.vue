@@ -193,6 +193,10 @@ export default {
     },
     //作品点赞
     async handleAddPraise(params) {
+      if (this.studentId == 0) {
+        this.$toast("您尚未关注小孩，请先关注");
+        return;
+      }
       let { worksId } = params;
       let res = await service.addPraise({ worksId });
       if (res.errorCode === 0) {

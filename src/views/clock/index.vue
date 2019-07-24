@@ -81,7 +81,7 @@
         </div>
         <div class="empty" v-if="!clockList.length">
           <img src="@/assets/kong.png" alt />
-          <p>数据在当天晚上21:00自动更新</p>
+          <p>还没有打卡记录</p>
         </div>
       </template>
       <!-- 家长端 -->
@@ -112,7 +112,9 @@
       <!-- 打卡按钮 -->
       <template v-if="roleType == 3">
         <div class="fixed-bottom" style="z-index: 100;">
-          <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
+          <template v-if="experience != 1">
+            <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
+          </template>
         </div>
       </template>
     </div>
@@ -141,9 +143,7 @@ export default {
       },
       query: {
         openId: this.$store.state.user.info.openId,
-        date: dayjs()
-          .subtract(1, "days")
-          .format("YYYY-MM-DD")
+        date: dayjs().format("YYYY-MM-DD")
       },
       querys: {
         studentId: this.$store.state.user.info.studentId,
@@ -151,6 +151,11 @@ export default {
         month: dayjs().format("YYYY-MM")
       }
     };
+  },
+  computed: {
+    ...mapState("user", {
+      experience: state => state.info.experience //0不是体验用户 1是
+    })
   },
   methods: {
     //一键接送
