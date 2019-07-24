@@ -23,7 +23,7 @@
         </div>
       </van-dialog>
       <!-- 新增 -->
-      <template v-if="roleType == 3">
+      <template v-if="roleType == 3 && experience == 0">
         <qxRelease url="/feed/add" />
       </template>
       <van-list
@@ -115,7 +115,8 @@ export default {
     ...mapState("user", {
       roleType: state => state.info.roleType,
       studentId: state => state.info.studentId,
-      id: state => state.info.id
+      id: state => state.info.id,
+      experience: state => state.info.experience //0不是体验用户 1是
     })
   },
   methods: {

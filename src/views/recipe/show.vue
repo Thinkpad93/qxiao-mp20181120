@@ -40,6 +40,7 @@
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "recipeShow",
   data() {
@@ -53,15 +54,27 @@ export default {
       info: {}
     };
   },
+  computed: {
+    ...mapState("user", {
+      experience: state => state.info.experience //0不是体验用户 1是
+    })
+  },
   methods: {
     handleBackHome() {
-      let obj = {
-        id: this.$store.state.user.info.id,
-        openId: this.query.openId,
-        roleType: this.roleType,
-        studentId: this.query.studentId
-      };
-      this.backPage(obj);
+      //体验用户
+      if (this.experience == 1) {
+        this.$router.push({
+          path: "/home"
+        });
+      } else {
+        let obj = {
+          id: this.$store.state.user.info.id,
+          openId: this.query.openId,
+          roleType: this.roleType,
+          studentId: this.query.studentId
+        };
+        this.backPage(obj);
+      }
     },
     //食谱详情查询
     async recipeDetail(params = {}) {

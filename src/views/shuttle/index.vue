@@ -42,7 +42,7 @@
                 <span size-14>表示已打卡</span>
               </div>
               <div class="th">
-                <i style="background-color:#e5e5e5;"></i>
+                <i style="background-color:#febf56;"></i>
                 <span size-14>表示未打卡</span>
               </div>
             </div>
@@ -308,10 +308,10 @@ export default {
       background-color: #92cd36;
     }
     &-default {
-      background-color: #cccccc;
-      img {
-        filter: grayscale(70%);
-      }
+      background-color: #febf56;
+      // img {
+      //   filter: grayscale(70%);
+      // }
     }
     .icon-d {
       margin: 0 auto;

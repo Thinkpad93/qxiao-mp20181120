@@ -28,6 +28,7 @@
           :right-width="60"
           v-for="(channel, index) in list"
           :key="index"
+          :disabled="roleType == 3"
           :on-close="onClose(channel, index)"
         >
           <van-cell-group>
