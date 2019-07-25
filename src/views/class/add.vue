@@ -61,6 +61,8 @@ export default {
       let res = await service.classAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //查询年级

@@ -147,7 +147,7 @@ export default {
       if (isPhone(tel)) {
         this.queryStudentOpen({ tel });
       } else {
-        this.$toast("手机号格式不对");
+        //this.$toast("手机号格式不对");
       }
     },
     handleAddLinkMan() {

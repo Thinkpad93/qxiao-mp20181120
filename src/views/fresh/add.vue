@@ -84,7 +84,7 @@ export default {
   mixins: [wxHandle, classList],
   data() {
     return {
-      selected: [this.$store.state.user.info.classId],
+      selected: [parseInt(this.$store.state.user.info.classId)],
       form: {
         openId: this.$store.state.user.info.openId,
         title: "",
@@ -125,6 +125,8 @@ export default {
               if (res.errorCode === 0) {
                 this.$refs.form.reset();
                 this.$router.go(-1);
+              } else {
+                this.$toast(`${res.errorMsg}`);
               }
             });
           } else {
@@ -147,7 +149,7 @@ export default {
     }
   },
   mounted() {
-    wxapi.wxRegister();
+    //wxapi.wxRegister();
   }
 };
 </script>

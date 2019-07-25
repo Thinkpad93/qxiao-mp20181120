@@ -47,7 +47,7 @@
           </div>
         </div>
       </van-dialog>
-      <div class="banner">
+      <div class="banner" @click="handleUserPay">
         <img src="@/assets/examPaper-banner@2x.png" alt />
       </div>
       <van-tabs v-model="actives" :line-height="2">
@@ -162,6 +162,7 @@ export default {
             this.sendForm.emailAddress = "";
             done();
           } else {
+            this.$toast(`${res.errorMsg}`);
             done(false);
           }
         } else {

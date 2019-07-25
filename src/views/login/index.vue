@@ -63,61 +63,6 @@
           </div>
         </form>
       </div>
-      <!-- 提示语 -->
-      <!-- <p class="tip text-center" v-if="studentId != 0">{{ name }}还没有加入班级</p> -->
-      <!-- <form action ref="form" class="login-form">
-        <div class="cells">
-          <div class="form-top">
-            <img src="@/assets/qlogocdr12.png" alt />
-            <p size-18>小Q智慧</p>
-          </div>
-        </div>
-        <div class="cells">
-          <div class="cell">
-            <div class="cell-hd">
-              <img class="ignore" src="@/assets/phone-icon@2x.png" alt />
-            </div>
-            <div class="cell-bd pl-20">
-              <input
-                type="number"
-                class="input text-left"
-                pattern="[0-9]*"
-                placeholder="请输入手机号"
-                autofocus
-                v-model="form.tel"
-              />
-            </div>
-            <div class="cell-ft">
-              <a
-                v-if="!hidden"
-                href="javascript:void(0);"
-                style="color:#92cd36"
-                @click="handleSecond"
-              >获取验证码</a>
-              <span v-if="hidden" style="color:#8d8d8d;">{{ second }}s</span>
-            </div>
-          </div>
-        </div>
-        <div class="cells">
-          <div class="cell">
-            <div class="cell-bd" style="padding-left:30px;">
-              <input
-                type="number"
-                class="input text-left"
-                pattern="[0-9]*"
-                placeholder="请输入验证码"
-                v-model="form.verifyCode"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="btn-groups">
-          <a href="javascript:void(0);" class="btn btn-large btn-primary" @click="handleLogin">登录</a>
-        </div>
-        <div class="text-center" style="margin-top: 26px">
-          <span style="color:#84ce09" @click="handleTourist">未加入班级点击抢先体验</span>
-        </div>
-      </form>-->
     </div>
   </div>
 </template>
@@ -134,7 +79,7 @@ export default {
       timer: null,
       second: 60,
       form: {
-        openId: this.$store.state.user.info.openId, //登陆openId
+        openId: this.$store.state.user.info.openId || this.$route.query.openId, //登陆openId
         tel: "",
         verifyCode: ""
       }
@@ -287,34 +232,4 @@ export default {
     height: 84px;
   }
 }
-// .cover {
-//   background-color: #cbf4fa;
-// }
-// .login-form {
-//   z-index: 10;
-//   width: 90%;
-//   min-height: 600px;
-//   border-radius: 10px;
-//   overflow: hidden;
-//   position: absolute;
-//   left: 50%;
-//   top: 50%;
-//   transform: translate(-50%, -50%);
-// }
-// .form-top {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   padding-top: 50px;
-//   padding-bottom: 50px;
-// }
-// .tip {
-//   color: #fff;
-//   padding: 20px 0;
-//   background-color: #f00;
-// }
-// .btn-groups {
-//   padding: 50px 40px;
-//   background-color: #fff;
-// }
 </style>

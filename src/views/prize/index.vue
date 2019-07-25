@@ -38,7 +38,7 @@
           </p>
         </div>
         <div class="pichi-body">
-          <div class="flex a-i-c j-c-c mb-30">
+          <div class="flex a-i-c j-c-c mb-30" @click="handleMessage">
             <img src="@/assets/rate-icon@2x.png" width="30" height="30" />
             <strong class="ml-20">{{ todayStarTotal }}</strong>
             <p size-12 style="align-self: flex-end;margin-bottom:8px">(可兑换Q星数量)</p>
@@ -135,6 +135,9 @@ export default {
     })
   },
   methods: {
+    handleMessage() {
+      this.$toast("当天获得的Q星需第二天才能兑换");
+    },
     onClose(index, itemId, prizeType) {
       return (clickPosition, instance) => {
         switch (clickPosition) {
@@ -223,7 +226,14 @@ export default {
           openId: this.query.openId,
           itemArray
         };
-        this.prizeExchange(obj);
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: `您确认用${this.total}Q星兑换奖励吗?`
+          })
+          .then(() => {
+            this.prizeExchange(obj);
+          });
       }
     },
     //奖励兑换

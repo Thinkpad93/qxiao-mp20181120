@@ -1,35 +1,48 @@
 <template>
   <div class="flex-page">
-    <div class="flex-bd">
+    <div class="flex-bd" style="background-color:#fff;">
       <div class="page-swiper">
         <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-1@2x.png" />
-              <img src="@/assets/welcome-slide-4@2x.png" width="160" height="25" class="channel" />
+              <img src="@/assets/welcome-slide-4@2x.png" width="106" height="26" class="channel" />
               <p>
-                个性添加培养目标
-                <br />兑换奖励法培养习惯养成
+                个性添加
+                <img src="@/assets/welcome-slide-7@2x.png" width="52" height="15" />
+              </p>
+              <p>
+                坚持成就
+                <img src="@/assets/welcome-slide-8@2x.png" width="52" height="15" />
               </p>
             </div>
           </swiper-slide>
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-2@2x.png" />
-              <img src="@/assets/welcome-slide-5@2x.png" width="160" height="25" class="channel" />
-              <p>
-                随时关注孩子
-                <br />课堂动态
+              <img src="@/assets/welcome-slide-5@2x.png" width="106" height="26" class="channel" />
+              <p class="text-center">
+                <img src="@/assets/shouhuan-1.png" width="15" height="15" />
+                <span>智慧</span>
+                <span>连接</span>
+                <span>课堂动态</span>
+              </p>
+              <p class="text-center">
+                <img src="@/assets/shouhuan-2.png" width="15" height="15" />
+                <span>爱好</span>
+                <span>偏科</span>
+                <span>家长先知</span>
               </p>
             </div>
           </swiper-slide>
           <swiper-slide>
             <div class="slide">
               <img src="@/assets/welcome-slide-3@2x.png" />
-              <img src="@/assets/welcome-slide-6@2x.png" width="98" height="24" class="channel" />
+              <img src="@/assets/welcome-slide-6@2x.png" width="106" height="26" class="channel" />
               <p>
-                实时掌握孩子
-                <br />学校动态
+                <span>作业</span>
+                <span>通知</span>
+                <span>家校通</span>
               </p>
               <button class="experience" @click="jump">立即体验</button>
             </div>
@@ -71,6 +84,7 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
+    //给window对象添加一个属性
     window.toast = this.$toast.loading({
       mask: true,
       duration: 0, // 持续展示 toast
@@ -87,8 +101,11 @@ export default {
   height: 100vh;
   text-align: center;
   p {
-    color: #999;
-    line-height: 1.4;
+    color: #666;
+    margin: 10px 0;
+  }
+  .color-one {
+    color: #84ce09;
   }
   .channel {
     margin-top: 80px;

@@ -51,7 +51,7 @@
           </template>
         </van-tab>
       </van-tabs>
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="!lists.length">
         <img src="@/assets/kong.png" alt />
         <p>暂无试卷内容</p>
       </div>

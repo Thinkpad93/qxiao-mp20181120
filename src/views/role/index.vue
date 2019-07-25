@@ -146,8 +146,9 @@ export default {
         let obj = Object.assign({}, { teacherName, sex, openId: this.openId });
         let res = await service.teacherInfoUpdate(obj);
         if (res.errorCode === 0) {
+          let { name } = res.data;
           let _cookie = Cookies.getJSON("info");
-          let objs = Object.assign({}, _cookie, { name: teacherName });
+          let objs = Object.assign({}, _cookie, { name });
           this.$store.dispatch("user/setInfo", objs).then(data => {
             this.$router.go(-1);
           });
@@ -171,8 +172,9 @@ export default {
       }
       let res = await service.updateSchool(this.leaderInfo);
       if (res.errorCode === 0) {
+        let { name } = res.data;
         let _cookie = Cookies.getJSON("info");
-        let obj = Object.assign({}, _cookie, { name: leaderName });
+        let obj = Object.assign({}, _cookie, { name });
         this.$store.dispatch("user/setInfo", obj).then(data => {
           if (data.success === "ok") {
             this.$router.go(-1);

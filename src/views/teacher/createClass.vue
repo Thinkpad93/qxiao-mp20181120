@@ -247,7 +247,7 @@ export default {
             });
           }
         });
-      } else if (res.errorCode === -1) {
+      } else {
         this.$toast(`${res.errorMsg}`);
       }
     }

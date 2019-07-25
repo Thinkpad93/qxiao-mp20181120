@@ -29,18 +29,20 @@
           :offset="100"
           @load="onLoad"
         >
-          <div class="flex f-w-w" style="margin-left: -10px; margin-right: -10px;">
+          <div class="flex f-w-w" style="margin-left: -5px; margin-right: -5px;">
             <div class="suni" v-for="(item, i) in list" :key="i">
-              <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
-                <img :src="item.smallUrl" alt />
-                <div class="zan flex a-i-c" v-if="item.praise">
-                  <van-icon name="like" size="14px" color="#e64340"></van-icon>
-                  <span>{{ item.praise }}</span>
+              <div class="suni-bd">
+                <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
+                  <img :src="item.smallUrl" alt />
+                  <div class="zan flex a-i-c" v-if="item.praise">
+                    <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                    <span>{{ item.praise }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="suni-meta">
-                <p>{{ item.studentName }}</p>
-                <time>{{ item.postTime }}</time>
+                <div class="suni-meta">
+                  <p>{{ item.studentName }}</p>
+                  <time>{{ item.postTime }}</time>
+                </div>
               </div>
             </div>
           </div>
@@ -140,12 +142,18 @@ export default {
 </script>
 <style lang="less" scoped>
 .list {
-  padding: 0 30px 30px 30px;
+  padding: 0 20px 20px 20px;
 }
 .suni {
-  width: 33.3333%;
+  width: 50%;
   padding: 0 10px;
   margin-bottom: 30px;
+  &-bd {
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
+  }
   &-meta {
     margin-top: 10px;
     font-size: 32px;

@@ -22,6 +22,19 @@
           </div>
         </div>
       </van-dialog>
+      <!-- dialog -->
+      <!-- popup -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-datetime-picker
+          ref="datetime"
+          @cancel="popupShow = false"
+          @confirm="handleShowDatePicker"
+          v-model="currentDate"
+          type="date"
+          :formatter="formatter"
+        ></van-datetime-picker>
+      </van-popup>
+      <!-- popup -->
       <div class="wrap">
         <!-- 用户 -->
         <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
@@ -134,7 +147,7 @@
           <van-tab title="在校表现">
             <div class="container">
               <div class="mod">
-                <div class="flex j-c-c a-i-c action-today mb-30">
+                <div class="flex j-c-c a-i-c action-today mb-30" @click="popupShow = true">
                   <div class="flex a-i-c">
                     <time class="mr-20" size-16>{{ query.day }}</time>
                     <van-icon name="arrow-down" size="14px"></van-icon>
@@ -161,7 +174,7 @@
                         v-model="item.starCount"
                         :count="5"
                         :size="22"
-                        color="#09e2bb"
+                        color="#febf56"
                         void-color="#e5eee0"
                         readonly
                       ></van-rate>
@@ -192,6 +205,7 @@
 <script>
 import Cookies from "js-cookie";
 import service from "@/api";
+import formatter from "@/mixins/date-formatter";
 import qxFooter from "@/components/Footer";
 import qxChart from "@/components/Myecharts";
 import pageMixin from "@/mixins/page";
@@ -204,9 +218,11 @@ export default {
     qxFooter,
     qxChart
   },
-  mixins: [pageMixin, echartMixin],
+  mixins: [pageMixin, echartMixin, formatter],
   data() {
     return {
+      popupShow: false,
+      currentDate: new Date(),
       rateReadonly: false,
       showNumber: 0,
       active: 0,
@@ -312,6 +328,12 @@ export default {
       let { title, starCount, ...args } = params;
       this.actionQuery(args);
     },
+    //选择年月日
+    handleShowDatePicker(value) {
+      let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
+      this.query.day = now;
+      this.lessonList();
+    },
     jumpExamPaper(params = {}, index = 0) {
       let { gradeId, lessonId } = params;
       this.$router.push({
@@ -368,6 +390,7 @@ export default {
       let res = await service.lessonList(obj);
       if (res.errorCode === 0) {
         this.lessonsList = res.data;
+        this.popupShow = false;
       }
     },
     //查询最新Q星数
@@ -561,6 +584,4 @@ export default {
   padding-left: 20px;
   list-style-type: disc;
 }
-
-
 </style>

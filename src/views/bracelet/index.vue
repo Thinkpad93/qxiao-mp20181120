@@ -2,8 +2,8 @@
   <div class="page">
     <div class="page-bd">
       <div class="empty">
-        <img src="@/assets/kong.png" alt>
-        <p class="mt-30">小Q智能手环紧锣密鼓进行中,敬请期待...</p>
+        <img src="@/assets/kong.png" alt />
+        <p class="mt-30">小Q手环智能连接课堂动态...开发中,期待~</p>
       </div>
     </div>
     <div class="page-ft">

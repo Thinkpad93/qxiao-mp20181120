@@ -176,15 +176,10 @@ export default {
       }
     },
     handleOnload() {
-      let ua = window.navigator.userAgent.toLowerCase();
-      if (
-        /android/i.test(ua) &&
-        ua.match(/MicroMessenger/i) == "micromessenger"
-      ) {
-        this.isAndroid = false;
-      } else {
-        this.isAndroid = true;
-      }
+      //非ios设备
+      return window.__wxjs_is_wkwebview !== true
+        ? (this.isAndroid = true)
+        : (this.isAndroid = false);
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {

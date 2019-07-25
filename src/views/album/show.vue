@@ -104,8 +104,8 @@
   </div>
 </template>
 <script>
-import { ImagePreview } from "vant";
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "albumDetail",
   data() {
@@ -127,6 +127,11 @@ export default {
       list: [],
       albumCheckList: [] //选择的图片ID
     };
+  },
+  computed: {
+    ...mapState("user", {
+      experience: state => state.info.experience //0不是体验用户 1是
+    })
   },
   methods: {
     onLoad() {
@@ -160,7 +165,9 @@ export default {
     },
     //修改栏目名称
     handleEditChannel() {
-      this.dialogVisible = true;
+      if (this.experience != 1) {
+        this.dialogVisible = true;
+      }
     },
     handleCancel() {
       this.mask = false;

@@ -77,19 +77,19 @@
                       </td>
                       <td class="fixedColumn"></td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="5" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="4" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="3" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="2" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="1" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
                       </td>
                       <td>0星</td>
                     </tr>
@@ -159,19 +159,19 @@
                       </td>
                       <td class="fixedColumn"></td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="5" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="4" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="3" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="2" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="1" color="#09e2bb" readonly></van-rate>
+                        <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
                       </td>
                       <td>0星</td>
                     </tr>

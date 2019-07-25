@@ -73,7 +73,7 @@
                 v-model="form.title"
                 maxlength="30"
                 style="text-align:left;"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -290,8 +290,12 @@ export default {
               if (res.errorCode === 0) {
                 this.$refs.form.reset();
                 this.$router.go(-1);
+              } else {
+                this.$toast(`${res.errorMsg}`);
               }
             });
+          } else {
+            this.$toast(`${res.errorMsg}`);
           }
         });
       } else {
@@ -326,7 +330,7 @@ export default {
   mounted() {
     this.classInfo();
     this.classTeacher();
-    wxapi.wxRegister();
+    //wxapi.wxRegister();
   }
 };
 </script>
