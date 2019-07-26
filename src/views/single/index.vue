@@ -267,7 +267,7 @@ export default {
           })
           .then(() => {
             this.$router.push({
-              path: "/child"
+              path: "/child/add"
             });
           })
           .catch(() => {});
@@ -302,9 +302,14 @@ export default {
         this.rateReadonly = true;
         let res = await service.actionStrike(obj);
         if (res.errorCode === 0) {
+          console.log(this.$route.query);
           let { totalStarCount, star } = res.data;
           this.rateReadonly = false;
           action.starCount = star;
+          //如果地址有参数
+          if (Object.keys(this.$route.query).length) {
+            this.$route.query.totalStarCount = totalStarCount;
+          }
           //更新星星数量
           let _cookie = Cookies.getJSON("info");
           let obj = Object.assign({}, _cookie, { totalStarCount });
@@ -317,11 +322,8 @@ export default {
     },
     //显示更多我的行为
     handleShowMoreActions() {
-      if (this.showNumber === this.myActions.length) {
-        this.showNumber = 5;
-      } else {
-        this.showNumber = this.myActions.length;
-      }
+      return (this.showNumber =
+        this.showNumber === this.myActions.length ? 5 : this.myActions.length);
     },
     //查看行为说明
     handleActionMore(params = {}) {

@@ -73,7 +73,7 @@
                     <tr>
                       <td id="lineTd">
                         <span style="float:left;margin-top:0px;">行为</span>
-                        <span style="float:right;margin-top:0px;">Q星</span>
+                        <span style="float:right;margin-top:-6px;">Q星</span>
                       </td>
                       <td class="fixedColumn"></td>
                       <td>
@@ -318,7 +318,7 @@ export default {
       name: state => state.info.name,
       openId: state => state.info.openId,
       roleType: state => state.info.roleType
-    }),
+    })
   },
   methods: {
     //在家表现选择日期范围

@@ -16,7 +16,7 @@
           <van-icon name="arrow-down" size="16px"></van-icon>
         </a>
         <div class="audio-box" @click="handlePlayAudio">
-          <template v-if="isAndroid">
+          <template v-if="isIOS">
             <van-icon name="play-circle-o" size="40px" v-if="playBoolean"></van-icon>
             <van-icon name="pause-circle-o" size="40px" v-else></van-icon>
           </template>
@@ -99,7 +99,7 @@ export default {
       },
       shuttleData: [],
       classClockData: [],
-      isAndroid: false,
+      isIOS: false,
       playBoolean: true,
       playIndex: 0, //播放起始位置为0
       playUrl: "", //播放url
@@ -161,6 +161,7 @@ export default {
         this.$refs.audioRef.play();
       }
     },
+    //播放按钮
     handlePlayAudio() {
       let audio = document.getElementById("audios");
       if (this.playUrl) {
@@ -176,10 +177,10 @@ export default {
       }
     },
     handleOnload() {
-      //非ios设备
-      return window.__wxjs_is_wkwebview !== true
-        ? (this.isAndroid = true)
-        : (this.isAndroid = false);
+      //如果是ios设备，则显示播放按钮
+      return window.__wxjs_is_wkwebview === true
+        ? (this.isIOS = true)
+        : (this.isIOS = false);
     },
     //实时接送接口 返回语音播报
     async realShuttle(params = {}) {
@@ -231,12 +232,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.audio-box {
-  i {
-    font-size: 80px;
-  }
-}
-
 .shuttle-sp-area {
   color: #9cd248;
   height: 120px;

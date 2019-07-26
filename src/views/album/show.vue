@@ -23,9 +23,13 @@
         </div>
       </van-dialog>
       <article class="article">
-        <h1 size-24 class="flex a-i-c" @click="handleEditChannel">
+        <h1 size-24 class="flex a-i-c">
           {{ title }}
-          <van-icon name="edit" />
+          <template v-if="roleType != 3">
+            <template v-if="experience != 1">
+              <van-icon name="edit" @click="handleEditChannel" />
+            </template>
+          </template>
         </h1>
         <div class="article-hd flex">
           <div class="article-cell">
@@ -165,7 +169,9 @@ export default {
     },
     //修改栏目名称
     handleEditChannel() {
+      //体验用户和家长角色不可修改
       if (this.experience != 1) {
+        console.log("体验用户和家长角色不可修改");
         this.dialogVisible = true;
       }
     },

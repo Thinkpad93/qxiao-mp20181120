@@ -1,21 +1,11 @@
 //获取地址栏参数
-// export function urlSearch() {
-//   let href = decodeURIComponent(location.href);
-//   let num = href.indexOf('?');
-//   if (num != -1) {
-//     let paramsArr = href.match(/\?\S+/)[0].replace('?', '').split('&');
-//     let params = {};
-//     for (let i = 0; i < paramsArr.length; i++) {
-//       let tmp = paramsArr[i].split('=');
-//       params[tmp[0]] = tmp[1];
-//     }
-//     if (Object.keys(params).length) {
-//       return params || {};
-//     }
-//   } else {
-//     return -1;
-//   }
-// }
+//替换指定传入参数的值,paramName为参数,replaceWith为新值
+export function replaceParamVal(paramName, replaceWith) {
+  let url = location.href.toString();
+  let reg = eval('/(' + paramName + '=)([^&]*)/gi');
+  let newUrl = url.replace(reg, paramName + '=' + replaceWith);
+  return newUrl;
+}
 
 //获取地址栏参数
 //这里处理一下链接地址有可能是从微信推送点击进来的

@@ -32,10 +32,10 @@
         <div class="pichi-head">
           <img :src="photo" width="50" height="50" radius="50" v-if="photo" />
           <img src="@/assets/child-default@2x.png" width="40" height="40" radius="50" v-else />
-          <p size-16 class="ml-20">
+          <h3 size-18 class="ml-20">
             {{ name }}
-            <span size-12>总Q星: {{ totalStarCount }}</span>
-          </p>
+            <small>总Q星: {{ totalStarCount }}</small>
+          </h3>
         </div>
         <div class="pichi-body">
           <div class="flex a-i-c j-c-c mb-30" @click="handleMessage">

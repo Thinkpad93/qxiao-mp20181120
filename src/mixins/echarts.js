@@ -84,7 +84,7 @@ export default {
       let res = await service.homeStatQuery(params);
       if (res.errorCode === 0) {
         let result = res.data;
-        if (result.day.length) {
+        if (Object.keys(result).length) {
           this.homeOption.xAxis.data = result.day; //一周时间数据
           this.homeOption.legend.data = result.homeStar.map(item => item.name);
           this.homeOption.series = result.homeStar.map(item => {
