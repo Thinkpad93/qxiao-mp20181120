@@ -85,9 +85,10 @@ export default {
       });
     },
     handleActionDelete(index, params) {
+      let { openId, studentId } = this.query;
       let obj = {
-        openId: this.$store.state.user.info.openId,
-        studentId: this.$store.state.user.info.studentId,
+        openId,
+        studentId,
         actionId: params.actionId,
         actionType: params.actionType
       };
@@ -104,7 +105,7 @@ export default {
           }
         });
     },
-    //更新Q星数
+    //当删除自定义的行为时，更新Q星数
     async updateStarCount() {
       let res = await service.queryStar({
         studentId: this.query.studentId
