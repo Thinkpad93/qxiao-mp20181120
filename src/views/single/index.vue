@@ -10,7 +10,7 @@
       <!-- dialog -->
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
-          <div class="flex">
+          <div>
             <strong>行为说明:</strong>
             <div class="ml-20">{{ actionView.textContent }}</div>
           </div>

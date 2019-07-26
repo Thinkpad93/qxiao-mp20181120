@@ -17,7 +17,7 @@
               v-model="item.starCount"
               :size="18"
               :count="5"
-              color="#09e2bb"
+              color="#febf56"
               allow-half
               readonly
             ></van-rate>

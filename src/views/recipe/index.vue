@@ -90,6 +90,7 @@ export default {
       finished: false,
       popupShow: false,
       totalPage: 1, //总页数
+      className: this.$store.state.user.info.className,
       query: {
         openId: this.$store.state.user.info.openId,
         classId: this.$store.state.user.info.classId,
@@ -100,16 +101,6 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
-  },
-  computed: {
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
   },
   methods: {
     onLoad() {

@@ -148,6 +148,7 @@ export default {
       loading: false,
       finished: false,
       totalPage: 1, //总页数
+      className: this.$store.state.user.info.className,
       query: {
         classId: this.$store.state.user.info.classId,
         openId: this.$store.state.user.info.openId,
@@ -175,15 +176,7 @@ export default {
       experience: state => state.info.experience,
       tel: state => state.info.tel,
       totalStarCount: state => state.info.totalStarCount
-    }),
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
+    })
   },
   methods: {
     //加载更多班级圈

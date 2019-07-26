@@ -10,7 +10,7 @@ export function prizeAdd(params, config = {
 }
 //奖励列表查询
 export function prizeListQuery(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/prize/prizeListQuery.do', params, config)
     .then(res => res.data)
@@ -34,7 +34,7 @@ export function prizeExchange(params, config = {
 }
 //兑奖记录查询
 export function prizeExchangeLog(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/prize/prizeExchangeLog.do', params, config)
     .then(res => res.data)

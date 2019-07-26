@@ -247,13 +247,8 @@ export default {
           if (data.success === "ok") {
           }
         });
-        this.$dialog
-          .alert({
-            message: "奖励兑换成功"
-          })
-          .then(() => {
-            this.prizeListQuery(this.query);
-          });
+        this.$toast("奖励兑换成功");
+        this.prizeListQuery(this.query);
       }
     },
     //奖励列表查询

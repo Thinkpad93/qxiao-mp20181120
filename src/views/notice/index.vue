@@ -114,6 +114,7 @@ export default {
       loading: false,
       finished: false,
       popupShow: false,
+      className: this.$store.state.user.info.className,
       classId: parseInt(this.$store.state.user.info.classId),
       index: 0,
       totalPage: 1, //总页数
@@ -128,16 +129,6 @@ export default {
       roleType: this.$store.state.user.info.roleType,
       list: []
     };
-  },
-  computed: {
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
   },
   methods: {
     onLoad() {

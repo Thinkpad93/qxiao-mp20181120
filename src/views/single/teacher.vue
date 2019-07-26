@@ -239,6 +239,7 @@ export default {
       popupTwo: false,
       popupShow: false, //班级选择
       tabActive: 0, //tab
+      className: this.$store.state.user.info.className,
       valueOne: [
         dayjs()
           .format("YYYY-MM-DD")
@@ -318,14 +319,6 @@ export default {
       openId: state => state.info.openId,
       roleType: state => state.info.roleType
     }),
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
   },
   methods: {
     //在家表现选择日期范围
