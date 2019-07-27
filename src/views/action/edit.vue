@@ -30,11 +30,11 @@
             <div class="cell-bd">
               <input
                 placeholder="请输入行为名称"
-                maxlength="4"
+                maxlength="6"
                 class="input"
                 v-model.trim="form.title"
                 :readonly="query.actionType == 0"
-              >
+              />
             </div>
           </div>
           <div class="cell">
@@ -46,7 +46,7 @@
                 class="input"
                 v-model.trim="form.textContent"
                 :readonly="query.actionType == 0"
-              >
+              />
             </div>
           </div>
         </div>

@@ -8,23 +8,29 @@
         show-cancel-button
         :before-close="handleSubmit"
       >
-        <form class="form">
-          <div class="form-item">
-            <textarea
-              rows="5"
-              class="textarea textarea-border"
-              placeholder="请输入与孩子约定奖项内容,例如奖励20分钟游戏时间..."
-              v-model="form.textContent"
-            ></textarea>
-          </div>
-          <div class="form-item">
-            <input
-              type="number"
-              pattern="[0-9]*"
-              placeholder="请输入兑换Q星数量"
-              class="input input-border"
-              v-model.trim="form.starCount"
-            />
+        <form ref="form" action method="post">
+          <div class="cells" style="padding:15px 0 15px 0;">
+            <div class="cell">
+              <div class="cell-bd">
+                <textarea
+                  rows="5"
+                  class="textarea"
+                  placeholder="请输入与孩子约定奖项内容,例如奖励20分钟游戏时间..."
+                  v-model="form.textContent"
+                ></textarea>
+              </div>
+            </div>
+            <div class="cell">
+              <div class="cell-bd">
+                <input
+                  type="number"
+                  pattern="[0-9]*"
+                  placeholder="请输入兑换Q星数量"
+                  class="input text-left"
+                  v-model.trim="form.starCount"
+                />
+              </div>
+            </div>
           </div>
         </form>
       </van-dialog>
@@ -286,14 +292,6 @@ export default {
     }
   }
 }
-
-.form {
-  position: relative;
-}
-.form-item {
-  margin: 30px;
-}
-
 .cells-title {
   display: flex;
   align-items: center;

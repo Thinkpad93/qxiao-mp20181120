@@ -23,9 +23,11 @@
       <div class="calendar-info" @click.stop="changeYear">
         <!-- {{monthString}} -->
         <div class="month">
-          <div class="month-inner" :style="{'top':-(this.month*20)+'px'}">
-            <span v-for="(m, index) in months" :key="index">{{m}}</span>
-          </div>
+          <span
+            v-for="(m, index) in months"
+            :key="index"
+            :class="[index + 1 == month + 1 ? 'active' : '' ]"
+          >{{ m }}</span>
         </div>
         <div class="year">{{year}}</div>
       </div>
@@ -830,22 +832,23 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  /* font-size: 40px;
-  line-height: 100px;
-  color: #5e7a88; */
 }
 .calendar-tools span {
   cursor: pointer;
+  
+}
+.calendar-tools .month span {
+display: none;
+}
+.calendar-tools .month span.active {
+  display: block;
 }
 .calendar-prev {
   width: 14.28571429%;
-  /* float: left; */
   text-align: center;
 }
 .calendar-info {
-  /* padding-top: 10px; */
   font-size: 32px;
-  /* line-height: 1.3; */
   text-align: center;
 }
 .calendar-info > div.month {
@@ -879,14 +882,12 @@ export default {
 }
 .calendar-next {
   width: 14.28571429%;
-  /* float: right; */
   text-align: center;
 }
 
 .calendar table {
   clear: both;
   width: 100%;
-  /* margin-bottom: 10px; */
   border-collapse: collapse;
   color: #444444;
 }
@@ -894,17 +895,6 @@ export default {
   padding: 10px;
 }
 .calendar td {
-  /* margin: 2px !important;
-  padding: 0px 0;
-  width: 14.28571429%;
-  height: 88px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 28px;
-  line-height: 125%;
-  cursor: pointer;
-  position: relative;
-  vertical-align: top; */
   padding: 20px 0;
   height: 80px;
   width: 64px;
@@ -932,7 +922,6 @@ export default {
   height: 48px;
   line-height: 48px;
   font-size: 32px;
-  /* line-height: 26px; */
   margin: 0px auto;
   border-radius: 50%;
 }
@@ -952,10 +941,6 @@ export default {
   color: #fff;
 }
 .calendar td .text {
-  /* position: absolute;
-  top: 28px;
-  left: 0;
-  right: 0; */
   text-align: center;
   padding: 2px;
   font-size: 20px;
@@ -1011,17 +996,13 @@ export default {
   color: #666;
 }
 .calendar-years {
-  font-size: 28px;
+  font-size: 32px;
   position: absolute;
   left: 0px;
   top: 100px;
   right: 0px;
   bottom: 0px;
   background: #fff;
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap; */
   overflow: auto;
   transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   opacity: 0;
@@ -1034,18 +1015,15 @@ export default {
   transform: translateY(0px);
 }
 .calendar-years > span {
-  /* margin: 1px 5px; */
   display: inline-block;
   width: 25%;
-  line-height: 60px;
-  border-radius: 20px;
+  padding: 20px 0;
   text-align: center;
-  border: 1px solid #fbfbfb;
+  border-top: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
   color: #999;
 }
 .calendar-years > span.active {
-  /* border: 1px solid #5e7a88; */
-  /* background-color: #5e7a88; */
   color: #409eff;
 }
 </style>

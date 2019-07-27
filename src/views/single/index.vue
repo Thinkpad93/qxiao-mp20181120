@@ -204,6 +204,7 @@
 </template>
 <script>
 import Cookies from "js-cookie";
+import { urlSearch } from "@/utils/urlSearch";
 import service from "@/api";
 import formatter from "@/mixins/date-formatter";
 import qxFooter from "@/components/Footer";
@@ -244,6 +245,7 @@ export default {
       openId: state => state.info.openId,
       studentId: state => state.info.studentId,
       classId: state => state.info.classId,
+      gradeId: state => state.info.gradeId,
       totalStarCount: state => state.info.totalStarCount,
       isBindBracelet: state => state.info.isBindBracelet, // 0未绑定手环 1绑定
       experience: state => state.info.experience,
@@ -302,14 +304,9 @@ export default {
         this.rateReadonly = true;
         let res = await service.actionStrike(obj);
         if (res.errorCode === 0) {
-          console.log(this.$route.query);
           let { totalStarCount, star } = res.data;
           this.rateReadonly = false;
           action.starCount = star;
-          //如果地址有参数
-          if (Object.keys(this.$route.query).length) {
-            this.$route.query.totalStarCount = totalStarCount;
-          }
           //更新星星数量
           let _cookie = Cookies.getJSON("info");
           let obj = Object.assign({}, _cookie, { totalStarCount });
@@ -337,7 +334,8 @@ export default {
       this.lessonList();
     },
     jumpExamPaper(params = {}, index = 0) {
-      let { gradeId, lessonId } = params;
+      let gradeId = this.gradeId;
+      let { lessonId } = params;
       this.$router.push({
         path: "/examPaper",
         query: {
@@ -397,6 +395,7 @@ export default {
     },
     //查询最新Q星数
     async queryStar(params = {}) {
+      console.log("查询最新Q星数");
       let res = await service.queryStar(params);
       if (res.errorCode === 0) {
         let _cookie = Cookies.getJSON("info");
@@ -412,7 +411,8 @@ export default {
   mounted() {
     this.homeStatQuery();
     this.stateMentList();
-    if (this.push == "true") {
+    if (Object.keys(this.$route.query).length || this.push == "true") {
+      //查询最新Q星数
       this.queryStar({ studentId: this.studentId });
     }
   },

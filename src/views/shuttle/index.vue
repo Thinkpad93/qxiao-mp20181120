@@ -5,11 +5,14 @@
         id="audios"
         ref="audioRef"
         :src="playUrl"
+        @abort="handleAbort"
+        @error="handleError"
         @play="handlePlay"
         @ended="handleEnded"
         @playing="handlePlaying"
         @pause="handlePause"
       ></audio>
+      <!-- @error="handleError" -->
       <div class="shuttle-sp-area flex a-i-c j-c-s-b" size-17>
         <a href="javascript:void(0);" id="showDatePicker" @click="popupShow = true">
           <span>{{ className }}</span>
@@ -57,7 +60,7 @@
               >
                 <div>
                   <img :src="item.photo" v-if="item.photo" />
-                  <div class="icon-d" v-else></div>
+                  <img src="@/assets/child-default@2x.png" v-else />
                   <div class>
                     <span>{{ item.studentName }}</span>
                   </div>
@@ -74,7 +77,9 @@
             <div class="cell-bd">
               <p class="cell-p">{{ item.postTime }}</p>
             </div>
-            <div class="cell-ft"></div>
+            <div class="cell-ft">
+              <!-- <span>{{ item.url ? "有": "无" }}</span> -->
+            </div>
           </div>
         </div>
       </template>
@@ -106,7 +111,8 @@ export default {
       playList: [], //音频列表
       playNumber: 1, //默认播放次数为1
       playMax: 2, //每条语音最多播放次数
-      playTimer: null //播放定时器
+      playTimer: null, //播放定时器,
+      playSuibian: 0
     };
   },
   watch: {
@@ -132,10 +138,33 @@ export default {
     handlePause(e) {
       //console.log("播放暂停");
     },
+    handleAbort() {
+      console.log("发生中止事件时运行脚本");
+    },
     //播放结束事件
     handleEnded(e) {
+      console.log("播放结束事件");
+      this.onPlay();
+    },
+    handleOnemptied(e) {
+      console.log("当媒介资源元素突然为空时（网络错误、加载错误等）运行脚本");
+    },
+    //当在元素加载期间发生错误时运行脚本
+    handleError(e) {
+      console.log("当这条语音发生播放错误时");
+
+      // if (this.playList.length <= 1) {
+      //   this.realShuttle(this.query);
+      // } else {
+      //   this.playNumber = this.playMax;
+      //   this.onPlay();
+      // }
+    },
+    onPlay() {
+      console.log("onPlay");
       const audio = this.$refs.audioRef;
       if (this.playNumber === this.playMax) {
+        console.log("单条语音播放次数达到");
         //单条语音播放次数达到
         setTimeout(() => {
           this.playNumber = 1;
@@ -147,7 +176,7 @@ export default {
               audio.play();
             }
           } else {
-            //全部语音已经播放完
+            console.log("全部语音已经播放完");
             this.playIndex = 0;
             this.playUrl = "";
             this.playBoolean = false;
@@ -157,6 +186,7 @@ export default {
           }
         }, 1000);
       } else {
+        console.log("还没有达到播放次数");
         this.playNumber++;
         this.$refs.audioRef.play();
       }
@@ -186,25 +216,37 @@ export default {
     async realShuttle(params = {}) {
       let res = await service.realShuttle(params);
       if (res.errorCode === 0) {
+        this.playUrl = "";
+        this.playIndex = 0;
+        this.playList = [];
         if (res.data.length) {
           //清除定时器
           clearInterval(this.playTimer);
           this.shuttleData = res.data;
           //保存音频url
-          this.playList = this.shuttleData.map(item => {
-            return { url: item.url };
-          });
-          //设置第一条开始播放
-          this.playUrl = this.playList[this.playIndex].url || "";
+          for (let i = 0; i < this.shuttleData.length; i++) {
+            if (this.shuttleData[i].url != "") {
+              let url = this.shuttleData[i].url;
+              this.playList.push({ url });
+            }
+          }
+          if (this.playList.length) {
+            this.playUrl = this.playList[this.playIndex].url;
+          } else {
+            this.playTimer = setInterval(() => {
+              console.log("8秒后重新请求");
+              this.realShuttle(this.query);
+            }, 8 * 1000);
+          }
         } else {
           //没有到打卡时间
           this.shuttleData = [];
           clearInterval(this.playTimer);
-          //启动定时器，15秒后重新请求
+          //启动定时器，8秒后重新请求
           this.playTimer = setInterval(() => {
-            console.log("10秒后重新请求");
+            console.log("8秒后重新请求");
             this.realShuttle(this.query);
-          }, 10 * 1000);
+          }, 8 * 1000);
         }
       }
     },
@@ -303,9 +345,9 @@ export default {
       //   filter: grayscale(70%);
       // }
     }
-    .icon-d {
-      margin: 0 auto;
-    }
+    // .icon-d {
+    //   margin: 0 auto;
+    // }
     img {
       width: 100px;
       height: 100px;

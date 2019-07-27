@@ -28,7 +28,7 @@
           <div class="cell">
             <div class="cell-hd">行为名称</div>
             <div class="cell-bd">
-              <input placeholder="请输入行为名称" maxlength="4" class="input" v-model.trim="form.title">
+              <input placeholder="请输入行为名称" maxlength="6" class="input" v-model.trim="form.title" />
             </div>
           </div>
           <div class="cell">
@@ -39,7 +39,7 @@
                 maxlength="20"
                 class="input"
                 v-model.trim="form.textContent"
-              >
+              />
             </div>
           </div>
         </div>

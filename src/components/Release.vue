@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{path: url}" class="release">
-    <van-icon name="description" size="24px"></van-icon>
+    <img src="@/assets/release-icon.png" alt width="20" height="20" />
   </router-link>
 </template>
 <script>

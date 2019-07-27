@@ -101,7 +101,7 @@
           <form ref="form" action method="post">
             <div class="cells" style="padding:15px 0 15px 0;">
               <div class="cell">
-                <div class="cell-bd" style="padding-left:0">
+                <div class="cell-bd">
                   <textarea
                     class="textarea"
                     placeholder="请输入评论内容..."
@@ -399,12 +399,6 @@ export default {
       next();
     }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   console.log(to);
-  //   console.log(from);
-  //   console.log("beforeRouteEnter");
-  //   next();
-  // },
   mounted() {
     this.communityQuery(this.query);
     wxapi.wxRegister(this.wxRegCallback);

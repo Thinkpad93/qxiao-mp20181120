@@ -82,7 +82,7 @@ export function actionStrikeList(params, config = {
 }
 //历史打星查询
 export function historyStrikeQuery(params, config = {
-  showLoading: false
+  showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/historyStrikeQuery.do', params, config)
     .then(res => res.data)

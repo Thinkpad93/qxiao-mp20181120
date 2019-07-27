@@ -1,15 +1,75 @@
 <template>
-  <div class="page">
-    <div class="page-bd">
-      <div class="mod">
+  <div class="flex-page">
+    <div class="flex-bd cover">
+      <div class="flex a-i-c j-c-c" style="padding-top: 30px;padding-bottom: 60px;">
+        <img class="qxlogo" src="@/assets/xq-logo.png" alt width="42" height="42" />
+        <p size-24 class="ml-20">小Q智慧</p>
+      </div>
+      <form action ref="form" class="login-form">
+        <div class="cells">
+          <div class="cell min-h120">
+            <div class="cell-hd">
+              <img class="ignore" src="@/assets/phone-icon@2x.png" alt />
+            </div>
+            <div class="cell-bd pl-20">
+              <input
+                type="number"
+                class="input text-left"
+                pattern="[0-9]*"
+                placeholder="请输入手机号"
+                v-model="form.tel"
+              />
+            </div>
+            <div class="cell-ft">
+              <a
+                v-if="!hidden"
+                href="javascript:void(0);"
+                style="color:#92cd36"
+                @click="handleSecond"
+              >获取验证码</a>
+              <span v-if="hidden" style="color:#8d8d8d;">{{ second }}s</span>
+            </div>
+          </div>
+          <div class="cell min-h120">
+            <div class="cell-hd">
+              <img class="ignore" src="@/assets/phone-icon@2x.png" alt style="opacity: 0;" />
+            </div>
+            <div class="cell-bd pl-20">
+              <input
+                type="number"
+                class="input text-left"
+                pattern="[0-9]*"
+                placeholder="请输入验证码"
+                v-model="form.verifyCode"
+              />
+            </div>
+          </div>
+          <div class="cell" style>
+            <div class="cell-bd text-center">
+              <van-button
+                style="width:240px;margin-top:40px;"
+                round
+                type="info"
+                native-type="button"
+                @click="handleLogin"
+              >登录</van-button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="text-center" style="margin-top:30px;">
+        <span>未加入班级?</span>
+        <span style="color:#f02310" @click="handleTourist">点击进入体验班级</span>
+      </div>
+      <!-- <div class="mod">
         <div class="flex a-i-c j-c-c" style="padding-top: 10px;">
           <img class="qxlogo" src="@/assets/xq-logo.png" alt />
           <p size-24 class="ml-20">小Q智慧</p>
         </div>
         <p style="padding-top: 40px;padding-bottom: 20px;">未加入班级?</p>
         <van-button round type="info" @click="handleTourist">点击进入体验班级</van-button>
-      </div>
-      <div class="mod">
+      </div>-->
+      <!-- <div class="mod">
         <form action ref="form">
           <p style="padding-top: 20px;padding-bottom: 30px;">已加入班级</p>
           <div class="cells">
@@ -62,7 +122,7 @@
             </div>
           </div>
         </form>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -217,19 +277,22 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.mod {
-  text-align: center;
-  min-height: 460px;
-  padding: 20px 0;
-  margin: 60px 30px;
-  position: relative;
-  height: auto;
-  border-radius: 20px;
+.cover {
   background-color: #fff;
-  box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
-  .qxlogo {
-    width: 84px;
-    height: 84px;
-  }
 }
+// .mod {
+//   text-align: center;
+//   min-height: 460px;
+//   padding: 20px 0;
+//   margin: 60px 30px;
+//   position: relative;
+//   height: auto;
+//   border-radius: 20px;
+//   background-color: #fff;
+//   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
+//   .qxlogo {
+//     width: 84px;
+//     height: 84px;
+//   }
+// }
 </style>

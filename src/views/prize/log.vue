@@ -50,6 +50,18 @@ export default {
     onLoad() {
       if (this.query.page < this.totalPage) {
         this.query.page += 1;
+        service.prizeExchangeLog(this.query).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.query.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.list.push(list[i]);
+            }
+          }
+        });
       } else {
         // 数据全部加载完成
         console.log("数据全部加载完成");

@@ -7,7 +7,8 @@
             <div class="tab-content">
               <div class="cell" v-for="(read, index) in readList" :key="index">
                 <div class="cell-hd">
-                  <img :src="read.photo" :alt="read.studentName">
+                  <img v-if="read.photo" :src="read.photo" :alt="read.studentName" />
+                  <img src="@/assets/child-default@2x.png" v-else />
                 </div>
                 <div class="cell-bd pl-20">
                   <p class>{{ read.studentName }}</p>
@@ -27,14 +28,8 @@
             <div class="tab-content">
               <div class="cell" v-for="(unread, index) in unreadList" :key="index">
                 <div class="cell-hd">
-                  <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName">
-                  <img
-                    src="@/assets/child-default@2x.png"
-                    width="50"
-                    height="50"
-                    radius="50"
-                    v-else
-                  >
+                  <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName" />
+                  <img src="@/assets/child-default@2x.png" v-else />
                 </div>
                 <div class="cell-bd pl-20">
                   <p class>{{ unread.studentName }}</p>

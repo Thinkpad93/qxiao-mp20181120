@@ -108,9 +108,9 @@
           </div>
         </div>
       </div>
-      <div class="mt-20 text-center">
+      <!-- <div class="mt-20 text-center">
         <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button>
-      </div>
+      </div>-->
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>
@@ -180,6 +180,7 @@ export default {
     handleInitSwitch() {
       return (this.switched = this.isOpen === "true" ? true : false);
     },
+    //管理员控制家长是否可以发班级圈
     handleChange() {
       let isOpen = this.switched ? true : false;
       this.updateIsOpen({ isOpen, schoolId: this.id });
@@ -190,8 +191,9 @@ export default {
           path: "/role"
         });
       } else {
+        let path = this.studentId == 0 ? "/child/add" : "/child";
         this.$router.push({
-          path: "/child",
+          path,
           query: {
             search: "user"
           }
