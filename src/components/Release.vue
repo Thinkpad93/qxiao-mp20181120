@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{path: url}" class="release">
+  <router-link :to="{path: url}" class="release" style="z-index: 100;">
     <img src="@/assets/release-icon.png" alt width="20" height="20" />
   </router-link>
 </template>

@@ -67,6 +67,7 @@ export default {
       finished: false,
       totalPage: 1, //总页数
       popupShow: false,
+      className: this.$store.state.user.info.className,
       query: {
         classId: this.$store.state.user.info.classId,
         page: 1,
@@ -74,16 +75,6 @@ export default {
       },
       list: []
     };
-  },
-  computed: {
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
   },
   methods: {
     onLoad() {
