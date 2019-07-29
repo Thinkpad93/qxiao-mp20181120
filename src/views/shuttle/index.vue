@@ -111,8 +111,7 @@ export default {
       playList: [], //音频列表
       playNumber: 1, //默认播放次数为1
       playMax: 2, //每条语音最多播放次数
-      playTimer: null, //播放定时器,
-      playSuibian: 0
+      playTimer: null //播放定时器,
     };
   },
   watch: {

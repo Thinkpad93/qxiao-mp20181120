@@ -52,12 +52,13 @@ export default {
   },
   methods: {
     jump(params) {
-      let { studentId, roleType } = params;
+      let { studentId, roleType, name } = params;
       this.$router.push({
         path: "/child/edit",
         query: {
           studentId,
-          roleType
+          roleType,
+          name
         }
       });
     },

@@ -149,6 +149,8 @@ export default {
         openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.studentId
       },
+      name: this.$route.query.name,
+      len: this.$route.query.len,
       roleType: this.$route.query.roleType
     };
   },
@@ -173,10 +175,14 @@ export default {
         studentId: this.query.studentId,
         roleType: this.roleType
       };
+      let tip =
+        this.studentId == params.studentId
+          ? `你当前正在关注${this.name}, 确定要删除吗？`
+          : "确定要删除吗？";
       this.$dialog
         .confirm({
           title: "提示",
-          message: "确定要删除吗？"
+          message: tip
         })
         .then(() => {
           this.deleteOpenStudent(params);
@@ -237,7 +243,43 @@ export default {
     async deleteOpenStudent(params = {}) {
       let res = await service.deleteOpenStudent(params);
       if (res.errorCode === 0) {
-        this.$router.go(-1);
+        let _cookie = Cookies.getJSON("info");
+        //如果删除的是当前正在关注的
+        if (this.studentId == this.query.studentId) {
+          let result = await service.queryOpenStudentList({
+            openId: this.query.openId
+          });
+          if (result.errorCode === 0) {
+            if (result.data.length) {
+              //关注另外的孩子
+              let { sex, ...args } = result.data[0];
+              let obj = Object.assign({}, _cookie, args);
+              this.$store.dispatch("user/setInfo", obj).then(data => {
+                if (data.success === "ok") {
+                  console.log("关注另外的孩子");
+                  this.$router.go(-1);
+                }
+              });
+            } else {
+              //如果删除后没有孩子了，则初始化数据
+              let init = {
+                photo: "",
+                name: "",
+                studentId: 0,
+                totalStarCount: 0
+              };
+              let obj = Object.assign({}, _cookie, init);
+              this.$store.dispatch("user/setInfo", obj).then(data => {
+                if (data.success === "ok") {
+                  console.log("删除后没有孩子了");
+                  this.$router.go(-1);
+                }
+              });
+            }
+          }
+        } else {
+          this.$router.go(-1);
+        }
       }
     },
     //学生信息查询
@@ -270,6 +312,10 @@ export default {
       } else {
         this.$toast(`${res.errorMsg}`);
       }
+    },
+    //查询学生列表--开放版
+    async queryOpenStudentList() {
+      let res = await service.queryOpenStudentList(params);
     }
   },
   mounted() {
