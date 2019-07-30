@@ -151,7 +151,7 @@ export default {
         type: 0,
         leadName: "",
         tel: this.$route.query.tel,
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.tel,
         classes: []
       },
       grdeList: []

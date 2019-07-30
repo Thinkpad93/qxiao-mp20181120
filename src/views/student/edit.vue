@@ -103,7 +103,6 @@
 import service from "@/api";
 import { sex, relation } from "@/mixins/type";
 import { isPhone } from "@/utils/validator";
-//import classList from "@/mixins/classList";
 export default {
   name: "studentEdit",
   mixins: [sex, relation],
@@ -118,6 +117,7 @@ export default {
         studentId: this.$route.query.studentId
       },
       form: {},
+      classList: [],
       studentList: []
     };
   },

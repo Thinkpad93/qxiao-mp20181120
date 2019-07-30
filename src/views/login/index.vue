@@ -1,7 +1,7 @@
 <template>
   <div class="flex-page">
     <div class="flex-bd cover">
-      <div class="flex a-i-c j-c-c" style="padding-top: 30px;padding-bottom: 60px;">
+      <div class="flex a-i-c j-c-c" style="padding-top: 50px;padding-bottom: 70px;">
         <img class="qxlogo" src="@/assets/xq-logo.png" alt width="42" height="42" />
         <p size-24 class="ml-20">小Q智慧</p>
       </div>
@@ -57,71 +57,9 @@
           </div>
         </div>
       </form>
-      <div class="text-center" style="margin-top:30px;">
+      <!-- <div class="text-center" style="margin-top:30px;">
         <span>未加入班级?</span>
         <span style="color:#f02310" @click="handleTourist">点击进入体验班级</span>
-      </div>
-      <!-- <div class="mod">
-        <div class="flex a-i-c j-c-c" style="padding-top: 10px;">
-          <img class="qxlogo" src="@/assets/xq-logo.png" alt />
-          <p size-24 class="ml-20">小Q智慧</p>
-        </div>
-        <p style="padding-top: 40px;padding-bottom: 20px;">未加入班级?</p>
-        <van-button round type="info" @click="handleTourist">点击进入体验班级</van-button>
-      </div>-->
-      <!-- <div class="mod">
-        <form action ref="form">
-          <p style="padding-top: 20px;padding-bottom: 30px;">已加入班级</p>
-          <div class="cells">
-            <div class="cell">
-              <div class="cell-hd">
-                <img class="ignore" src="@/assets/phone-icon@2x.png" alt />
-              </div>
-              <div class="cell-bd pl-20">
-                <input
-                  type="number"
-                  class="input text-left"
-                  pattern="[0-9]*"
-                  placeholder="请输入手机号"
-                  autofocus
-                  v-model="form.tel"
-                />
-              </div>
-              <div class="cell-ft">
-                <a
-                  v-if="!hidden"
-                  href="javascript:void(0);"
-                  style="color:#92cd36"
-                  @click="handleSecond"
-                >获取验证码</a>
-                <span v-if="hidden" style="color:#8d8d8d;">{{ second }}s</span>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="cell-hd">
-                <img class="ignore" src="@/assets/phone-icon@2x.png" alt style="opacity: 0;" />
-              </div>
-              <div class="cell-bd pl-20">
-                <input
-                  type="number"
-                  class="input text-left"
-                  pattern="[0-9]*"
-                  placeholder="请输入验证码"
-                  v-model="form.verifyCode"
-                />
-              </div>
-              <div class="cell-ft">
-                <van-button
-                  round
-                  type="info"
-                  native-type="button"
-                  size="small"
-                  @click="handleLogin"
-                >登录</van-button>
-              </div>
-            </div>
-          </div>
-        </form>
       </div>-->
     </div>
   </div>
@@ -139,7 +77,7 @@ export default {
       timer: null,
       second: 60,
       form: {
-        openId: this.$store.state.user.info.openId || this.$route.query.openId, //登陆openId
+        openId: this.$store.state.user.info.tel || this.$route.query.openId, //登陆openId
         tel: "",
         verifyCode: ""
       }
@@ -148,7 +86,8 @@ export default {
   computed: {
     ...mapState("user", {
       name: state => state.info.name,
-      studentId: state => state.info.studentId
+      studentId: state => state.info.studentId,
+      tel: state => state.info.tel
     })
   },
   methods: {
@@ -280,19 +219,4 @@ export default {
 .cover {
   background-color: #fff;
 }
-// .mod {
-//   text-align: center;
-//   min-height: 460px;
-//   padding: 20px 0;
-//   margin: 60px 30px;
-//   position: relative;
-//   height: auto;
-//   border-radius: 20px;
-//   background-color: #fff;
-//   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
-//   .qxlogo {
-//     width: 84px;
-//     height: 84px;
-//   }
-// }
 </style>

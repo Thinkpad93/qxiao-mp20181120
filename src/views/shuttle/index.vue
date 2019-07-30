@@ -151,13 +151,6 @@ export default {
     //当在元素加载期间发生错误时运行脚本
     handleError(e) {
       console.log("当这条语音发生播放错误时");
-
-      // if (this.playList.length <= 1) {
-      //   this.realShuttle(this.query);
-      // } else {
-      //   this.playNumber = this.playMax;
-      //   this.onPlay();
-      // }
     },
     onPlay() {
       console.log("onPlay");

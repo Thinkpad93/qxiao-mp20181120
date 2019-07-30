@@ -1,13 +1,13 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="visibility">
+      <!-- <template v-if="visibility">
         <div class="overlay" @click="visibility = false" style="z-index: 110;"></div>
         <div class="share-tip" style="z-index: 120;">
           <img src="@/assets/share-tip.png" />
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
-      </template>
+      </template>-->
       <!-- 角色选择 -->
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
@@ -33,11 +33,13 @@
       </div>
       <!-- 用户信息 -->
       <div class="experience flex" v-if="experience == 1">
-        <div class="item" @click="handleCreateClass">
-          <p>我是老师点击创建班级</p>
+        <div class="item">
+          <!-- <p>我是老师点击创建班级</p> -->
+          <router-link :to="{path: '/teacher/createClass', query: {openId: this.tel}}">我是老师点击创建班级</router-link>
         </div>
-        <div class="item" @click="visibility = true">
-          <p>我是家长点击邀请老师</p>
+        <div class="item">
+          <!-- <p>我是家长点击邀请老师</p> -->
+          <router-link to="/login">点击登录</router-link>
         </div>
       </div>
       <!-- 菜单 -->
@@ -143,7 +145,7 @@ export default {
   },
   data() {
     return {
-      visibility: false,
+      //visibility: false,
       popupShow: false,
       loading: false,
       finished: false,
@@ -233,15 +235,15 @@ export default {
       };
       wxapi.wxShareAppMessage(option);
     },
-    handleCreateClass() {
-      console.log("e");
-      this.$router.push({
-        path: "/teacher/createClass",
-        query: {
-          openId: this.tel
-        }
-      });
-    },
+    // handleCreateClass() {
+    //   console.log("e");
+    //   this.$router.push({
+    //     path: "/teacher/createClass",
+    //     query: {
+    //       openId: this.tel
+    //     }
+    //   });
+    // },
     jumpRole() {
       if (this.roleType != 3) {
         this.$router.push({
@@ -358,6 +360,8 @@ export default {
             showNumber: 3
           };
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //班级圈删除
@@ -369,16 +373,13 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    console.log("beforeRouteLeave");
-    console.log(to);
-    console.log(from);
     //如果是体验用户跳转到小Q表现或个人中心，则重新更新数据
     if (this.experience == 1) {
       let _cookie = Cookies.getJSON("info");
       if (to.path === "/single" || to.path === "/user") {
-        console.log("游客模式");
+        console.log("退出体验用户");
         this.$store
-          .dispatch("experience/experience", {
+          .dispatch("experience/myExperience", {
             tel: _cookie.tel
           })
           .then(res => {
@@ -386,7 +387,6 @@ export default {
               let params = Object.assign({}, _cookie, res);
               this.$store.dispatch("user/setInfo", params).then(data => {
                 if (data.success === "ok") {
-                  console.log("ok");
                   next();
                 }
               });

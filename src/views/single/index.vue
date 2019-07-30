@@ -85,16 +85,17 @@
                         <div class="action-cell-label" @click.stop="handleActionMore(item)">
                           <span>{{ item.title }}</span>
                         </div>
-                        <van-rate
-                          class="action-cell-rate"
-                          v-model="item.starCount"
-                          :count="5"
-                          :size="22"
-                          color="#febf56"
-                          void-color="#e5eee0"
-                          :readonly="rateReadonly"
-                          @change="handleChangeRate(index)"
-                        ></van-rate>
+                        <div class="action-cell-rate">
+                          <van-rate
+                            v-model="item.starCount"
+                            :count="5"
+                            :size="22"
+                            color="#febf56"
+                            void-color="#e5eee0"
+                            :readonly="rateReadonly"
+                            @change="handleChangeRate(index)"
+                          ></van-rate>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -151,35 +152,36 @@
                     <van-icon name="arrow-down" size="14px"></van-icon>
                   </div>
                 </div>
-                <div class="action-table flex">
-                  <div class="flex-1">课程</div>
-                  <div class="flex-1 text-right">课堂表现</div>
-                  <!-- <div class="flex-1 text-right">近期成绩</div> -->
+                <div class="flex">
+                  <div class="flex-1 action-cell-label">课程</div>
+                  <div class="flex-1 text-right action-cell-rate">课堂表现</div>
                 </div>
                 <div class="action-cells">
                   <div
-                    class="action-cell course flex a-i-c j-c-s-b"
+                    class="action-cell flex a-i-c j-c-s-b"
                     v-for="(item, index) in lessonsList"
                     :key="index"
                   >
-                    <div class="action-cell-hd">
-                      <div @click="jumpExamPaper(item, index)">{{ item.title }}</div>
-                      <!-- 课堂时间 -->
-                      <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
+                    <div class="action-cell-bd flex a-i-c j-c-s-b">
+                      <div class="action-cell-label">
+                        <div>{{ item.title }}</div>
+                        <!-- 课堂时间 -->
+                        <span
+                          size-12
+                          v-show="item.startTime"
+                        >{{ item.startTime }}-{{ item.endTime }}</span>
+                      </div>
+                      <div class="action-cell-rate" @click="jumpCourseView(item)">
+                        <van-rate
+                          v-model="item.starCount"
+                          :count="5"
+                          :size="22"
+                          color="#febf56"
+                          void-color="#e5eee0"
+                          readonly
+                        ></van-rate>
+                      </div>
                     </div>
-                    <div class="action-cell-bd flex j-c-f-e" @click="jumpCourseView(item)">
-                      <van-rate
-                        v-model="item.starCount"
-                        :count="5"
-                        :size="22"
-                        color="#febf56"
-                        void-color="#e5eee0"
-                        readonly
-                      ></van-rate>
-                    </div>
-                    <!-- <div class="action-cell-ft pr-40">
-                      <span @click="jumpExamPaper(item, index)">{{ item.scoreRank }}</span>
-                    </div>-->
                   </div>
                 </div>
               </div>
@@ -241,6 +243,7 @@ export default {
       name: state => state.info.name,
       photo: state => state.info.photo,
       openId: state => state.info.openId,
+      roleType: state => state.info.roleType,
       studentId: state => state.info.studentId,
       classId: state => state.info.classId,
       gradeId: state => state.info.gradeId,
@@ -418,7 +421,28 @@ export default {
     this.actionListQuery();
     this.lessonList();
   },
+  //导航离开该组件的对应路由时调用
+  beforeRouteLeave(to, from, next) {
+    console.log("beforeRouteLeave");
+    if (this.roleType == 9 && to.path === "/home") {
+      let _cookie = Cookies.getJSON("info");
+      console.log("进入体验用户");
+      this.$store.dispatch("experience/experience").then(res => {
+        if (Object.keys(res).length) {
+          let params = Object.assign({}, _cookie, res);
+          this.$store.dispatch("user/setInfo", params).then(data => {
+            if (data.success === "ok") {
+              next();
+            }
+          });
+        }
+      });
+    } else {
+      next();
+    }
+  },
   beforeRouteEnter(to, from, next) {
+    console.log("beforeRouteEnter");
     if (from.path === "/welcome") {
       window.toast.clear();
     }
@@ -458,9 +482,9 @@ export default {
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
-.action-table {
-  padding: 0 30px;
-}
+// .action-table {
+//   padding: 0 30px;
+// }
 .action-today {
   text-align: center;
   padding: 30px 20px 0 20px;
@@ -484,10 +508,10 @@ export default {
     flex: 1;
   }
   &-label {
-    margin-left: 75px;
+    margin-left: 50px;
   }
   &-rate {
-    margin-right: 130px;
+    margin-right: 50px;
   }
 }
 .dhole {

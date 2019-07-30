@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells-title">点击选择关联孩子</div>
       <div class="cells">
         <div
           class="cell student-box"
