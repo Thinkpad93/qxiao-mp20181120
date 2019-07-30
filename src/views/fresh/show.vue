@@ -43,7 +43,8 @@
           <div class="cells">
             <div class="cell" v-for="(comment, index) in info.commentList" :key="index">
               <div class="cell-hd">
-                <img class="icon" :src="comment.photo" alt />
+                <img class="icon" v-if="comment.photo" :src="comment.photo" alt />
+                <img src="@/assets/child-default@2x.png" v-else />
               </div>
               <div class="cell-bd pl-20">
                 <span>{{ comment.name }}</span>

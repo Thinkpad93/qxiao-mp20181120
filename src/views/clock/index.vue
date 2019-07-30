@@ -240,7 +240,9 @@ export default {
       let res = await service.addPunch(params);
       if (res.errorCode === 0) {
         this.$toast(`${res.errorMsg}`);
-        this.clockQuery(this.querys);
+        setTimeout(() => {
+          this.clockQuery(this.querys);
+        }, 1000);
       } else {
         this.$toast(`${res.errorMsg}`);
       }

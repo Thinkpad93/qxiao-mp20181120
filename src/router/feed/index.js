@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/feed'),
     meta: {
       title: "建议反馈",
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
     }
   },

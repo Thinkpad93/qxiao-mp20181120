@@ -1,12 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div
-        class="van-overlay"
-        style="z-index: 900;background-color: rgba(0, 0, 0, 0);height: calc(100% - 50px)"
-        @click="overlay"
-        v-if="studentId == 0"
-      ></div>
       <!-- dialog -->
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
@@ -66,6 +60,8 @@
         <van-tabs v-model="active" :line-height="2">
           <van-tab title="在家表现">
             <div class="container">
+              <!-- 蒙版 -->
+              <div class="overlay" v-if="studentId == 0" style="z-index: 500" @click="overlay"></div>
               <div class="mod">
                 <!-- 今天的 -->
                 <router-link :to="{path: '/actionHistory'}" tag="div" class="action-today flex">
@@ -146,6 +142,8 @@
           </van-tab>
           <van-tab title="在校表现">
             <div class="container">
+              <!-- 蒙版 -->
+              <div class="overlay" v-if="studentId == 0" style="z-index: 500" @click="overlay"></div>
               <div class="mod">
                 <div class="flex j-c-c a-i-c action-today mb-30" @click="popupShow = true">
                   <div class="flex a-i-c">
@@ -155,8 +153,8 @@
                 </div>
                 <div class="action-table flex">
                   <div class="flex-1">课程</div>
-                  <div class="flex-1 text-center">课堂表现</div>
-                  <div class="flex-1 text-right">近期成绩</div>
+                  <div class="flex-1 text-right">课堂表现</div>
+                  <!-- <div class="flex-1 text-right">近期成绩</div> -->
                 </div>
                 <div class="action-cells">
                   <div
@@ -169,7 +167,7 @@
                       <!-- 课堂时间 -->
                       <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
                     </div>
-                    <div class="action-cell-bd flex a-i-c j-c-c" @click="jumpCourseView(item)">
+                    <div class="action-cell-bd flex j-c-f-e" @click="jumpCourseView(item)">
                       <van-rate
                         v-model="item.starCount"
                         :count="5"
@@ -179,9 +177,9 @@
                         readonly
                       ></van-rate>
                     </div>
-                    <div class="action-cell-ft pr-40">
+                    <!-- <div class="action-cell-ft pr-40">
                       <span @click="jumpExamPaper(item, index)">{{ item.scoreRank }}</span>
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
@@ -442,7 +440,18 @@ export default {
 }
 .container {
   padding: 30px;
+  position: relative;
 }
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
 .mod {
   height: auto;
   border-radius: 20px;
