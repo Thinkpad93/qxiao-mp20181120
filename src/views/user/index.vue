@@ -279,16 +279,18 @@ export default {
     if (this.roleType == 9 && to.path === "/home") {
       let _cookie = Cookies.getJSON("info");
       console.log("进入体验用户");
-      this.$store.dispatch("experience/experience").then(res => {
-        if (Object.keys(res).length) {
-          let params = Object.assign({}, _cookie, res);
-          this.$store.dispatch("user/setInfo", params).then(data => {
-            if (data.success === "ok") {
-              next();
-            }
-          });
-        }
-      });
+      this.$store
+        .dispatch("experience/experience", { studentId: this.studentId })
+        .then(res => {
+          if (Object.keys(res).length) {
+            let params = Object.assign({}, _cookie, res);
+            this.$store.dispatch("user/setInfo", params).then(data => {
+              if (data.success === "ok") {
+                next();
+              }
+            });
+          }
+        });
     } else {
       next();
     }

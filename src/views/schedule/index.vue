@@ -67,22 +67,13 @@ export default {
     return {
       popupShow: false,
       roleType: this.$store.state.user.info.roleType,
+      className: this.$store.state.user.info.className,
       query: {
         classId: this.$store.state.user.info.classId
       },
       weekList: ["星期一", "星期二", "星期三", "星期四", "星期五"],
       list: []
     };
-  },
-  computed: {
-    className: {
-      get() {
-        return this.$store.state.user.info.className;
-      },
-      set(newValue) {
-        return (this.$store.state.user.info.className = newValue);
-      }
-    }
   },
   methods: {
     handleClassConfirm(value, index) {

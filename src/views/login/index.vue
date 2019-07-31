@@ -78,6 +78,7 @@ export default {
       second: 60,
       form: {
         openId: this.$store.state.user.info.tel || this.$route.query.openId, //登陆openId
+        studentId: this.$store.state.user.info.experienceStudentId, //experienceStudentId
         tel: "",
         verifyCode: ""
       }

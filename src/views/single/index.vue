@@ -5,11 +5,11 @@
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
           <div>
-            <strong>行为说明:</strong>
+            <strong>行为目标:</strong>
             <div class="ml-20">{{ actionView.textContent }}</div>
           </div>
           <div class>
-            <strong>评价标准</strong>
+            <strong>评价标准:</strong>
             <ul class="ml-20 disc">
               <li v-for="(item, index) in actionView.rules" :key="index">{{ item.ruleText }}</li>
             </ul>
@@ -152,10 +152,10 @@
                     <van-icon name="arrow-down" size="14px"></van-icon>
                   </div>
                 </div>
-                <div class="flex">
+                <!-- <div class="flex">
                   <div class="flex-1 action-cell-label">课程</div>
                   <div class="flex-1 text-right action-cell-rate">课堂表现</div>
-                </div>
+                </div>-->
                 <div class="action-cells">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
@@ -166,10 +166,7 @@
                       <div class="action-cell-label">
                         <div>{{ item.title }}</div>
                         <!-- 课堂时间 -->
-                        <span
-                          size-12
-                          v-show="item.startTime"
-                        >{{ item.startTime }}-{{ item.endTime }}</span>
+                        <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
                       </div>
                       <div class="action-cell-rate" @click="jumpCourseView(item)">
                         <van-rate
@@ -282,8 +279,9 @@ export default {
           path: "/role"
         });
       } else {
+        let path = this.studentId == 0 ? "/child/add" : "/child";
         this.$router.push({
-          path: "/child",
+          path: path,
           query: {
             search: "single"
           }
@@ -427,16 +425,18 @@ export default {
     if (this.roleType == 9 && to.path === "/home") {
       let _cookie = Cookies.getJSON("info");
       console.log("进入体验用户");
-      this.$store.dispatch("experience/experience").then(res => {
-        if (Object.keys(res).length) {
-          let params = Object.assign({}, _cookie, res);
-          this.$store.dispatch("user/setInfo", params).then(data => {
-            if (data.success === "ok") {
-              next();
-            }
-          });
-        }
-      });
+      this.$store
+        .dispatch("experience/experience", { studentId: this.studentId })
+        .then(res => {
+          if (Object.keys(res).length) {
+            let params = Object.assign({}, _cookie, res);
+            this.$store.dispatch("user/setInfo", params).then(data => {
+              if (data.success === "ok") {
+                next();
+              }
+            });
+          }
+        });
     } else {
       next();
     }
@@ -482,9 +482,6 @@ export default {
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
-// .action-table {
-//   padding: 0 30px;
-// }
 .action-today {
   text-align: center;
   padding: 30px 20px 0 20px;
