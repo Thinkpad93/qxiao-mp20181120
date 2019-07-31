@@ -40,13 +40,20 @@
           <div class="cell">
             <div class="cell-hd">行为目标</div>
             <div class="cell-bd">
-              <input
+              <textarea
+                class="textarea text-right"
+                placeholder="例如: 培养孩子坚持力"
+                rows="3"
+                v-model.trim="form.textContent"
+                :readonly="query.actionType == 0"
+              ></textarea>
+              <!-- <input
                 placeholder="例如: 培养孩子坚持力"
                 maxlength="20"
                 class="input"
                 v-model.trim="form.textContent"
                 :readonly="query.actionType == 0"
-              />
+              />-->
             </div>
           </div>
         </div>

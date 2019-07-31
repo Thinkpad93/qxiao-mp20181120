@@ -178,6 +178,8 @@ export default {
         this.list = res.data.data || [];
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

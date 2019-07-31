@@ -5,7 +5,7 @@
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
           <div>
-            <strong>行为说明:</strong>
+            <strong>行为目标:</strong>
             <div class="ml-20">{{ actionView.textContent }}</div>
           </div>
           <div class>
@@ -151,35 +151,36 @@
                     <van-icon name="arrow-down" size="14px"></van-icon>
                   </div>
                 </div>
-                <div class="action-table flex">
-                  <div class="flex-1">课程</div>
-                  <div class="flex-1 text-right">课堂表现</div>
-                  <!-- <div class="flex-1 text-right">近期成绩</div> -->
+                <div class="flex">
+                  <div class="flex-1 action-cell-label">课程</div>
+                  <div class="flex-1 text-right action-cell-rate">课堂表现</div>
                 </div>
                 <div class="action-cells">
                   <div
-                    class="action-cell course flex a-i-c j-c-s-b"
+                    class="action-cell flex a-i-c j-c-s-b"
                     v-for="(item, index) in lessonsList"
                     :key="index"
                   >
-                    <div class="action-cell-hd">
-                      <div @click="jumpExamPaper(item, index)">{{ item.title }}</div>
-                      <!-- 课堂时间 -->
-                      <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
+                    <div class="action-cell-bd flex a-i-c j-c-s-b">
+                      <div class="action-cell-label">
+                        <div>{{ item.title }}</div>
+                        <!-- 课堂时间 -->
+                        <span
+                          size-12
+                          v-show="item.startTime"
+                        >{{ item.startTime }}-{{ item.endTime }}</span>
+                      </div>
+                      <div class="action-cell-rate" @click="jumpCourseView(item)">
+                        <van-rate
+                          v-model="item.starCount"
+                          :count="5"
+                          :size="22"
+                          color="#febf56"
+                          void-color="#e5eee0"
+                          readonly
+                        ></van-rate>
+                      </div>
                     </div>
-                    <div class="action-cell-bd flex j-c-f-e" @click="jumpCourseView(item)">
-                      <van-rate
-                        v-model="item.starCount"
-                        :count="5"
-                        :size="22"
-                        color="#febf56"
-                        void-color="#e5eee0"
-                        readonly
-                      ></van-rate>
-                    </div>
-                    <!-- <div class="action-cell-ft pr-40">
-                      <span @click="jumpExamPaper(item, index)">{{ item.scoreRank }}</span>
-                    </div>-->
                   </div>
                 </div>
               </div>
@@ -279,8 +280,9 @@ export default {
           path: "/role"
         });
       } else {
+        let path = this.studentId == 0 ? "/child/add" : "/child";
         this.$router.push({
-          path: "/child",
+          path: path,
           query: {
             search: "single"
           }
@@ -458,9 +460,9 @@ export default {
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
-.action-table {
-  padding: 0 30px;
-}
+// .action-table {
+//   padding: 0 30px;
+// }
 .action-today {
   text-align: center;
   padding: 30px 20px 0 20px;
@@ -484,10 +486,10 @@ export default {
     flex: 1;
   }
   &-label {
-    margin-left: 75px;
+    margin-left: 50px;
   }
   &-rate {
-    margin-right: 130px;
+    margin-right: 50px;
   }
 }
 .dhole {
