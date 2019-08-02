@@ -3,7 +3,7 @@
     <div class="page-bd">
       <div class="cells-title">当天打卡详细时间</div>
       <div class="cells">
-        <div class="cell min-h100" v-for="(day, index) in dayList" :key="index">
+        <div class="cell min-h100" v-for="(day, index) in list" :key="index">
           <div class="cell-bd">
             <p>{{ day }}</p>
           </div>
@@ -22,7 +22,7 @@ export default {
         openId: this.$store.state.user.info.openId,
         data: this.$route.query.day
       },
-      dayList: []
+      list: []
     };
   },
   methods: {
@@ -30,7 +30,7 @@ export default {
     async clockQueryDate(params = {}) {
       let res = await service.clockQueryDate(params);
       if (res.errorCode === 0) {
-        this.dayList = res.data;
+        this.list = res.data;
       }
     }
   },

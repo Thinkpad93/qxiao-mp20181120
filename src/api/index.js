@@ -23,6 +23,7 @@ import * as deletes from './module/delete';
 import * as feed from './module/feed';
 import * as mail from './module/mail';
 import * as schedule from './module/schedule';
+import * as expression from './module/expression';
 export default {
   ...album,
   ...clock,
@@ -47,5 +48,6 @@ export default {
   ...deletes,
   ...feed,
   ...mail,
-  ...schedule
+  ...schedule,
+  ...expression
 }

@@ -78,7 +78,7 @@ export default {
       second: 60,
       form: {
         openId: this.$store.state.user.info.tel || this.$route.query.openId, //登陆openId
-        studentId: this.$store.state.user.info.experienceStudentId, //experienceStudentId
+        studentId: this.$store.state.user.info.studentId, //experienceStudentId
         tel: "",
         verifyCode: ""
       }
@@ -115,20 +115,20 @@ export default {
       }
     },
     //游客模式进入小Q班级
-    async handleTourist() {
-      let _cookie = Cookies.getJSON("info");
-      let res = await service.experience({});
-      if (res.errorCode === 0) {
-        let obj = Object.assign({}, _cookie, res.data);
-        this.$store.dispatch("user/setInfo", obj).then(data => {
-          if (data.success === "ok") {
-            this.$router.replace({ path: "/home" });
-          }
-        });
-      } else {
-        this.$toast("发生了错误，请重试");
-      }
-    },
+    // async handleTourist() {
+    //   let _cookie = Cookies.getJSON("info");
+    //   let res = await service.experience({});
+    //   if (res.errorCode === 0) {
+    //     let obj = Object.assign({}, _cookie, res.data);
+    //     this.$store.dispatch("user/setInfo", obj).then(data => {
+    //       if (data.success === "ok") {
+    //         this.$router.replace({ path: "/home" });
+    //       }
+    //     });
+    //   } else {
+    //     this.$toast("发生了错误，请重试");
+    //   }
+    // },
     //获取验证码
     async telVeriftCode(tel) {
       let res = await service.telVeriftCode({ tel, codeType: 1 });
@@ -151,7 +151,7 @@ export default {
     async userTeleLogin(params = {}) {
       let res = await service.userTeleLogin(params);
       if (res.errorCode === 0) {
-        let { roleType } = res.data;
+        let { roleType, name } = res.data;
         //定时器清除
         this.second = 60;
         this.hidden = false;
@@ -163,10 +163,18 @@ export default {
             this.$toast("此手机号码还没有录入");
             break;
           case 1:
+            this.$notify({
+              message: `你当前登录用户为: ${name}`,
+              duration: 3000
+            });
             this.$router.push({ path: "/home" });
             break;
           case 2:
           case 3:
+            this.$notify({
+              message: `你当前登录用户为: ${name}`,
+              duration: 3000
+            });
             let _cookie = Cookies.getJSON("info");
             let obj = Object.assign({}, _cookie, res.data);
             this.$store.dispatch("user/setInfo", obj).then(data => {

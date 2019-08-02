@@ -20,6 +20,8 @@ export default {
         },
         yAxis: {
           type: "value",
+          max: 5,
+          data: [],
           axisLabel: {
             formatter: "{value}星"
           }
@@ -54,6 +56,8 @@ export default {
         },
         yAxis: {
           type: "value",
+          max: 5,
+          data: [],
           axisLabel: {
             formatter: "{value}星"
           }
@@ -107,6 +111,8 @@ export default {
         let result = res.data;
         if (result.day.length) {
           this.stateMentOption.xAxis.data = result.day;
+        }
+        if (result.lessonStar.length) {
           this.stateMentOption.legend.data = result.lessonStar.map(
             item => item.name
           );
@@ -116,6 +122,12 @@ export default {
               smooth: true
             };
           });
+        } else {
+          this.stateMentOption.series[0] = {
+            name: "语文",
+            type: "line",
+            data: [0, 0, 0, 0, 0, 0, 0]
+          };
         }
       }
     }

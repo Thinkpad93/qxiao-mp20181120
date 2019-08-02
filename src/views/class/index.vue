@@ -1,10 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- <div class="class-head">
-        <a href="javascript:void(0);" class="btn btn-primary" @click="dialogVisible = true">添加班级</a>
-      </div>-->
-      <!-- -->
       <van-dialog
         v-model="dialogVisible"
         title="班级名称"

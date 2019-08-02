@@ -146,16 +146,15 @@
               <!-- 蒙版 -->
               <div class="overlay" v-if="studentId == 0" style="z-index: 500" @click="overlay"></div>
               <div class="mod">
-                <div class="flex j-c-c a-i-c action-today mb-30" @click="popupShow = true">
-                  <div class="flex a-i-c">
-                    <time class="mr-20" size-16>{{ query.day }}</time>
-                    <van-icon name="arrow-down" size="14px"></van-icon>
+                <router-link :to="{path: '/course/history'}" tag="div" class="action-today flex">
+                  <div class="cell-bd">
+                    <time size-16>{{ query.day }}</time>
+                    <span>日获得Q星{{ inSchool }}颗</span>
                   </div>
-                </div>
-                <!-- <div class="flex">
-                  <div class="flex-1 action-cell-label">课程</div>
-                  <div class="flex-1 text-right action-cell-rate">课堂表现</div>
-                </div>-->
+                  <div class="cell-ft">
+                    <van-icon name="arrow" size="16px"></van-icon>
+                  </div>
+                </router-link>
                 <div class="action-cells">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
@@ -250,10 +249,16 @@ export default {
       tel: state => state.info.tel,
       push: state => state.info.push
     }),
-    //计算已选择的星星数
+    //计算在家表现已选择的星星数
     start() {
       let n = 0;
       this.myActions.forEach(element => (n += element.starCount));
+      return n;
+    },
+    //计算在校表现已选择的星星数
+    inSchool() {
+      let n = 0;
+      this.lessonsList.forEach(element => (n += element.starCount));
       return n;
     }
   },

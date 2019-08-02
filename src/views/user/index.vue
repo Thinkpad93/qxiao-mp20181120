@@ -72,7 +72,7 @@
         <van-cell
           class="mb-20"
           size="large"
-          title="邀请亲人关注"
+          title="邀请亲友关注"
           is-link
           @click="visibility = true"
           v-if="studentId != 0"

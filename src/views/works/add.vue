@@ -47,23 +47,16 @@
                 <van-uploader :after-read="handleRead" accept="image/*" multiple>
                   <van-icon name="plus" size="30px"></van-icon>
                 </van-uploader>
-                <!-- <div class="van-uploader">
-                  <van-icon name="plus" size="30px"></van-icon>
-                  <input
-                    ref="file"
-                    type="file"
-                    multiple="multiple"
-                    accept="image/*"
-                    @change="readImg"
-                    class="van-uploader__input"
-                  />
-                </div>-->
               </div>
             </div>
           </div>
           <p class="works-desc">
-            1.将您优秀作品上传到平台，将有机会在全市科普电子屏上展示，行动起来吧！
-            2.最多可上传10作品，格式：jpg/png 3.严禁上传违法的图片
+            1.在此可上传孩子创作的作品（美术、书法、作业等），作品被平台选中，将有机会在全市科普电子屏上播放。
+            <br />2.每次最多可上传10幅作品。
+            <br />3.温馨提示：
+            <br />(1)严禁上传违法作品
+            <br />(2)严禁上传其他人作品，如作品侵权，由上传者负责。
+            <br />(3)上传格式为：jpg/png
           </p>
         </div>
       </form>
@@ -123,19 +116,6 @@ export default {
         this.imagesList.push(file);
       }
     },
-    // readImg() {
-    //   let inputDom = this.$refs.file;
-    //   let files = inputDom.files;
-    //   if (files.length) {
-    //     for (let i = 0; i < files.length; i++) {
-    //       let reader = new FileReader();
-    //       reader.onload = e => {
-    //         this.imagesList.push({ content: e.target.result, file: files[i] });
-    //       };
-    //       reader.readAsDataURL(files[i]); //进行base64转码
-    //     }
-    //   }
-    // },
     handleDelImg(index) {
       this.imagesList.splice(index, 1);
     },
@@ -176,23 +156,12 @@ export default {
         this.$toast(`${res.errorMsg}`);
       }
     }
-  },
-  mounted() {},
-  activated() {
-    //console.log("activated");
-  },
-  beforeDestory() {
-    //console.log("beforeDestory");
-  },
-  destroyed() {
-    //console.log("destroyed10");
-    //eventBus.$emit("tabMessage", 1);
   }
 };
 </script>
 <style lang="less" scoped>
 .works-desc {
-  line-height: 1.4;
+  line-height: 1.6;
   color: #999;
   font-size: 24px;
   padding: 20px 30px;

@@ -66,7 +66,7 @@ export function actionListQuery(params, config = {
 }
 //行为打星
 export function actionStrike(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/actionStrike.do', params, config)
     .then(res => res.data)

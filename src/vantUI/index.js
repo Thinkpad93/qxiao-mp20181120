@@ -24,7 +24,8 @@ import {
   CollapseItem,
   Tag,
   Uploader,
-  List
+  List,
+  Notify
 } from 'vant';
 
 Vue.use(Radio)
@@ -51,4 +52,5 @@ Vue.use(Radio)
   .use(CollapseItem)
   .use(Tag)
   .use(Uploader)
-  .use(List);
+  .use(List)
+  .use(Notify);

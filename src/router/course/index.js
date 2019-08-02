@@ -16,5 +16,14 @@ export default [{
       keepAlive: false,
       isShare: false,
     }
+  },
+  {
+    path: '/course/history',
+    name: 'courseHistory',
+    component: () => import('@/views/course/history'),
+    meta: {
+      keepAlive: false,
+      isShare: false,
+    }
   }
 ]

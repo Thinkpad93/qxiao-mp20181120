@@ -179,13 +179,16 @@ export default {
   }
 }
 .narwhal {
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
   padding: 30px 20px;
 }
 .monodon {
-  padding: 10px;
-  width: 25%;
+  // padding: 10px;
+  // width: 25%;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: top;
 }
 .monoceros {
   display: flex;
@@ -194,6 +197,7 @@ export default {
   font-size: 30px;
   height: 80px;
   border-radius: 8px;
+  padding: 0 20px;
   position: relative;
   background-color: #f6f8f9;
   .clear {

@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{path: url}" class="release" style="z-index: 100;">
-    <img src="@/assets/release-icon.png" alt width="20" height="20" />
+    <img src="@/assets/release-icon.png" alt width="50" height="50" />
   </router-link>
 </template>
 <script>
@@ -20,10 +20,10 @@ export default {
   bottom: 12%;
   z-index: 100;
   color: #fff;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #9acb4d;
+  // width: 80px;
+  // height: 80px;
+  // border-radius: 50%;
+  // background-color: #9acb4d;
 }
 </style>
 

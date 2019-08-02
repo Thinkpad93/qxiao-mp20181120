@@ -41,7 +41,7 @@
                 <p size-16>{{ channel.title }}</p>
                 <div style="margin-top: 6px;margin-bottom: 6px;">
                   <span>共{{ channel.imagesCount }}张</span>
-                  <span>阅读{{ channel.readCount }}</span>
+                  <span>查看{{ channel.readCount }}次</span>
                 </div>
                 <time>更新于{{ channel.updateTime }}</time>
               </div>

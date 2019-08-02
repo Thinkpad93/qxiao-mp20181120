@@ -25,10 +25,10 @@
       </van-dialog>
       <div class="mod mb-30">
         <div class="cells">
-          <div class="cell">
+          <div class="cell min-h100">
             <div class="cell-hd">行为名称:</div>
             <div class="cell-bd">
-              <input placeholder="请输入行为名称" maxlength="6" class="input" v-model.trim="form.title" />
+              <input placeholder="请输入行为名称" maxlength="10" class="input" v-model.trim="form.title" />
             </div>
           </div>
           <div class="cell min-h100">
@@ -37,7 +37,7 @@
           <div class="cell">
             <div class="cell-bd">
               <textarea
-                class="textarea text-right"
+                class="textarea text-left"
                 placeholder="例如: 培养孩子坚持力"
                 rows="4"
                 v-model.trim="form.textContent"

@@ -6,9 +6,9 @@
       </div>
       <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
         <van-tab title="未打卡">
-          <div class="cells-title">未打卡列表({{ classClockList.length }})</div>
+          <div class="cells-title">未打卡列表({{ list.length }})</div>
           <div class="cells">
-            <div class="cell min-h120" v-for="(item, index) in classClockList" :key="index">
+            <div class="cell min-h120" v-for="(item, index) in list" :key="index">
               <div class="cell-bd">
                 <p>{{ item.studentName }}</p>
               </div>
@@ -19,9 +19,9 @@
           </div>
         </van-tab>
         <van-tab title="已打卡">
-          <div class="cells-title">已打卡列表({{ classClockList.length }})</div>
+          <div class="cells-title">已打卡列表({{ list.length }})</div>
           <div class="cells">
-            <div class="cell min-h120" v-for="(item, index) in classClockList" :key="index">
+            <div class="cell min-h120" v-for="(item, index) in list" :key="index">
               <div class="cell-bd">
                 <p>{{ item.studentName }}</p>
               </div>
@@ -43,7 +43,7 @@ export default {
     return {
       active: 0,
       className: this.$route.query.className,
-      classClockList: [],
+      list: [],
       query: {
         type: 0, //0-缺勤 1-出勤
         date: this.$route.query.date,
@@ -60,7 +60,7 @@ export default {
     async queryAttendance(params = {}) {
       let res = await service.queryAttendance(params);
       if (res.errorCode === 0) {
-        this.classClockList = res.data.info;
+        this.list = res.data.info;
       }
     }
   },

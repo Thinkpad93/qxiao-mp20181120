@@ -32,7 +32,7 @@
           <div class="flex f-w-w" style="margin-left: -5px; margin-right: -5px;">
             <div class="suni" v-for="(item, i) in list" :key="i">
               <div class="suni-bd">
-                <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl)">
+                <div class="suni-thumb" @click="handlePreviewImage(item.imageUrl, i)">
                   <img :src="item.smallUrl" alt />
                   <div class="zan flex a-i-c" v-if="item.praise">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
@@ -101,10 +101,21 @@ export default {
       }
     },
     //预览图片
-    handlePreviewImage(imgUrl, images = []) {
+    handlePreviewImage(imgUrl, index) {
+      let result = [];
+      let min = index - 2 <= 0 ? 0 : index - 2;
+      let max = index + 2;
+      let imgArr = this.list.filter((item, i) => {
+        return i >= min && i <= max;
+      });
+      if (imgArr.length) {
+        for (let i = 0; i < imgArr.length; i++) {
+          result.push(imgArr[i].imageUrl);
+        }
+      }
       wx.previewImage({
         current: encodeURI(imgUrl),
-        urls: [imgUrl]
+        urls: result || [imgUrl]
       });
     },
     handleClassConfirm(value, index) {

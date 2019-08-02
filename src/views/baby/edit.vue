@@ -25,7 +25,7 @@
               maxlength="5"
               v-model="form.studentName"
               readonly
-            >
+            />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -47,7 +47,7 @@
             <label class="label">就读学校</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="form.schoolName" disabled>
+            <input class="input" v-model="form.schoolName" disabled />
           </div>
         </div>
         <div class="cell min-h120" v-if="form.className">
@@ -55,7 +55,7 @@
             <label class="label">所在班级</label>
           </div>
           <div class="cell-bd">
-            <input class="input" v-model="form.className" disabled>
+            <input class="input" v-model="form.className" disabled />
           </div>
         </div>
         <div class="cell min-h120">
@@ -68,7 +68,7 @@
               v-model="form.birthday"
               readonly
               maxlength="20"
-            >
+            />
           </div>
         </div>
         <div class="cell min-h120">
@@ -82,7 +82,7 @@
               maxlength="100"
               v-model="form.address"
               readonly
-            >
+            />
           </div>
         </div>
         <div class="cell min-h120">
@@ -90,7 +90,7 @@
             <label for class="label">家长手机号码</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入手机号" v-model="form.tel" disabled unselectable="on">
+            <input class="input" placeholder="请输入手机号" v-model="form.tel" disabled unselectable="on" />
           </div>
         </div>
         <div class="cell cell-select cell-select-after min-h120">
@@ -122,9 +122,10 @@
 import service from "@/api";
 import dayjs from "dayjs";
 import { sex, relation } from "@/mixins/type";
+import formatter from "@/mixins/date-formatter";
 export default {
   name: "babyEdit",
-  mixins: [sex, relation],
+  mixins: [sex, relation, formatter],
   data() {
     return {
       popupShow: false,
@@ -144,17 +145,6 @@ export default {
     }
   },
   methods: {
-    //格式化函数
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      } else if (type === "month") {
-        return `${value}月`;
-      } else if (type === "day") {
-        return `${value}日`;
-      }
-      return value;
-    },
     handleConfirm(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.form.birthday = now;

@@ -30,7 +30,7 @@
             <div class="cell-bd">
               <input
                 placeholder="请输入行为名称"
-                maxlength="6"
+                maxlength="10"
                 class="input"
                 v-model.trim="form.title"
                 :readonly="query.actionType == 0"
@@ -39,20 +39,11 @@
           </div>
           <div class="cell min-h100">
             <div class="cell-hd">行为目标:</div>
-            <div class="cell-bd">
-              <!-- <input
-                placeholder="例如: 培养孩子坚持力"
-                maxlength="20"
-                class="input"
-                v-model.trim="form.textContent"
-                :readonly="query.actionType == 0"
-              />-->
-            </div>
           </div>
           <div class="cell">
             <div class="cell-bd">
               <textarea
-                class="textarea text-right"
+                class="textarea text-left"
                 placeholder="例如: 培养孩子坚持力"
                 rows="4"
                 v-model.trim="form.textContent"

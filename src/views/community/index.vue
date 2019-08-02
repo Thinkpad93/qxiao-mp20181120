@@ -4,7 +4,7 @@
       <form action ref="form" method="post">
         <div class="cells">
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <textarea
                 class="textarea"
                 placeholder="记录下孩子的成长点滴..."
@@ -14,7 +14,7 @@
             </div>
           </div>
           <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
@@ -40,7 +40,7 @@
             <div class="cell-hd">
               <label for class="label">发送班级</label>
             </div>
-            <div class="cell-bd" style="padding-left:0">
+            <div class="cell-bd">
               <select class="select" name="select" dir="rtl" v-model="form.classId">
                 <option
                   :value="option.classId"

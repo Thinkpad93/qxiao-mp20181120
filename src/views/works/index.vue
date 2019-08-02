@@ -18,7 +18,7 @@
                   <div
                     class="slide-img"
                     :style="{backgroundImage: `url(${item.smallUrl})`}"
-                    @click="handlePreviewImage(item.imageUrl)"
+                    @click="handlePreviewImage(item.imageUrl, index)"
                   ></div>
                   <div class="zan flex a-i-c" v-if="item.praise">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
@@ -28,7 +28,10 @@
               </swiper>
             </template>
             <template v-else>
-              <p style="padding: 20px 0;color:#999" class="text-center">您还没有上榜作品请继续加油呀</p>
+              <p style="padding: 20px 0;color:#999;line-height:1.4;" class="text-center">
+                您还没有上榜作品，快去上传~
+                <br />优秀作品将被推荐至全市科普电子屏播放
+              </p>
             </template>
           </div>
           <div class="cells-title a-i-c">
@@ -37,8 +40,11 @@
           <!-- 优秀作品 -->
           <div class="good-works">
             <div class="flex f-w-w" v-if="worksList.length">
-              <div class="item" v-for="(item, index) in worksList" :key="index">
-                <div class="good-image" @click="handlePreviewImage(item.imageUrl)">
+              <div class="item" v-for="(item, index) in worksList" :key="item.worksId">
+                <div
+                  class="good-image"
+                  @click="handlePreviewImage(worksList, item.imageUrl, index)"
+                >
                   <img :src="item.smallUrl" alt />
                   <div class="zan flex a-i-c" @click.stop="handleAddPraise(item)">
                     <van-icon name="like" size="14px" color="#e64340"></van-icon>
@@ -60,7 +66,7 @@
                 <time size-16>{{ item.postTime }}</time>
                 <div class="flex f-w-w" style="margin-left:-5px;margin-right:-5px;">
                   <div class="suni-box mt-30" v-for="(work, i) in item.works" :key="i">
-                    <div class="suni" @click="handlePreviewImage(work.imageUrl)">
+                    <div class="suni" @click="handlePreviewImage(item.works, work.imageUrl, i)">
                       <!-- 删除蒙版 -->
                       <div class="works-mask" style="z-index: 9527" v-show="mask">
                         <van-checkbox-group v-model="checkList">
@@ -71,8 +77,7 @@
                           ></van-checkbox>
                         </van-checkbox-group>
                       </div>
-                      <img :src="work.imageUrl" alt />
-                      <!-- <div class="works-status" size-12 v-if="work.verifyStatus == 0">待审核</div> -->
+                      <img :src="work.smallUrl" alt />
                       <div
                         class="works-status"
                         size-12
@@ -203,12 +208,28 @@ export default {
         params.praise = res.data.praise;
       }
     },
+    commonPreviewImage(list = [], imgUrl = "", index = 0) {
+      if (list.length && imgUrl) {
+        let result = [];
+        let min = index - 2 <= 0 ? 0 : index - 2;
+        let max = index + 2;
+        let imgArr = list.filter((item, i) => {
+          return i >= min && i <= max;
+        });
+        if (imgArr.length) {
+          for (let i = 0; i < imgArr.length; i++) {
+            result.push(imgArr[i].imageUrl);
+          }
+        }
+        wx.previewImage({
+          current: encodeURI(imgUrl),
+          urls: result || [imgUrl]
+        });
+      }
+    },
     //预览图片
-    handlePreviewImage(imgUrl, images = []) {
-      wx.previewImage({
-        current: encodeURI(imgUrl),
-        urls: [imgUrl]
-      });
+    handlePreviewImage(list, imgUrl, index) {
+      this.commonPreviewImage(list, imgUrl, index);
     },
     handleDelImage() {
       if (this.checkList.length) {

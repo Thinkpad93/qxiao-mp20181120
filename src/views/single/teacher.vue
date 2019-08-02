@@ -91,7 +91,7 @@
                       <td>
                         <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
                       </td>
-                      <td>0星</td>
+                      <td>未打卡</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -173,7 +173,7 @@
                       <td>
                         <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
                       </td>
-                      <td>0星</td>
+                      <td>未打卡</td>
                     </tr>
                   </thead>
                   <tbody>
