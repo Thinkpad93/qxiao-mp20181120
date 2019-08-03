@@ -40,11 +40,6 @@ router.beforeEach((to, from, next) => {
       }
     }
   }
-  //用户没有加入小Q班级
-  if (roleType == 9 && to.path === '/home') {
-    next(`/login?redirect`);
-    return false;
-  }
   next();
 });
 

@@ -48,9 +48,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="btn-group">
-          <a href="javascript:;" class="btn btn-large btn-primary" @click="handleSubmit">申请加入</a>
-        </div>-->
       </form>
     </div>
     <div class="page-ft">
@@ -71,7 +68,7 @@ export default {
   data() {
     return {
       query: {
-        openId: this.$store.state.user.info.openId,
+        openId: this.$store.state.user.info.tel,
         tel: this.$route.query.tel
       },
       info: {}

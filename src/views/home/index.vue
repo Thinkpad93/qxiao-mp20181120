@@ -1,13 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="visibility">
-        <div class="overlay" @click="visibility = false" style="z-index: 110;"></div>
-        <div class="share-tip" style="z-index: 120;">
-          <img src="@/assets/share-tip.png" />
-          <p size-18>请点击右上角按钮邀请好友吧</p>
-        </div>
-      </template>
       <!-- 角色选择 -->
       <div class="flex a-i-c home-user gradient-two" @click="jumpRole">
         <div class="flex a-i-c">
@@ -33,11 +26,15 @@
       </div>
       <!-- 用户信息 -->
       <div class="experience flex" v-if="experience == 1">
-        <div class="item" @click="handleCreateClass">
-          <p>我是老师点击创建班级</p>
+        <div class="item text-left" v-if="part == 2">
+          <van-button
+            type="danger"
+            size="small"
+            :to="{path: '/teacher/createClass', query: {openId: this.tel}}"
+          >我是老师创建班级</van-button>
         </div>
-        <div class="item" @click="visibility = true">
-          <p>我是家长点击邀请老师</p>
+        <div class="item text-right">
+          <van-button type="danger" size="small" to="/login">登录</van-button>
         </div>
       </div>
       <!-- 菜单 -->
@@ -143,7 +140,6 @@ export default {
   },
   data() {
     return {
-      visibility: false,
       popupShow: false,
       loading: false,
       finished: false,
@@ -174,6 +170,7 @@ export default {
       name: state => state.info.name,
       roleType: state => state.info.roleType,
       experience: state => state.info.experience,
+      part: state => state.info.part, //1家长2老师
       tel: state => state.info.tel,
       totalStarCount: state => state.info.totalStarCount
     })
@@ -232,15 +229,6 @@ export default {
         }
       };
       wxapi.wxShareAppMessage(option);
-    },
-    handleCreateClass() {
-      console.log("e");
-      this.$router.push({
-        path: "/teacher/createClass",
-        query: {
-          openId: this.tel
-        }
-      });
     },
     jumpRole() {
       if (this.roleType != 3) {
@@ -358,6 +346,8 @@ export default {
             showNumber: 3
           };
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     },
     //班级圈删除
@@ -369,16 +359,13 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    console.log("beforeRouteLeave");
-    console.log(to);
-    console.log(from);
     //如果是体验用户跳转到小Q表现或个人中心，则重新更新数据
     if (this.experience == 1) {
       let _cookie = Cookies.getJSON("info");
       if (to.path === "/single" || to.path === "/user") {
-        console.log("游客模式");
+        console.log("退出体验用户");
         this.$store
-          .dispatch("experience/experience", {
+          .dispatch("experience/myExperience", {
             tel: _cookie.tel
           })
           .then(res => {
@@ -386,7 +373,6 @@ export default {
               let params = Object.assign({}, _cookie, res);
               this.$store.dispatch("user/setInfo", params).then(data => {
                 if (data.success === "ok") {
-                  console.log("ok");
                   next();
                 }
               });
@@ -418,16 +404,12 @@ export default {
 }
 .experience {
   color: #f02310;
-  padding: 36px 0px;
+  padding: 36px 30px;
   position: relative;
   margin-bottom: 20px;
   background-color: #fff;
   .item {
     flex: 1;
-    text-align: center;
-    span {
-      color: #999;
-    }
   }
 }
 </style>

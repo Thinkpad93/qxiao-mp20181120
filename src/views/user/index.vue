@@ -118,6 +118,7 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 import qxFooter from "@/components/Footer";
 import { mapState } from "vuex";
@@ -272,6 +273,27 @@ export default {
     this.handleInitSwitch();
     wxapi.wxRegister(this.wxRegCallback);
     this.queryRole({ openId: this.openId });
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("beforeRouteLeave");
+    if (this.roleType == 9 && to.path === "/home") {
+      let _cookie = Cookies.getJSON("info");
+      console.log("进入体验用户");
+      this.$store
+        .dispatch("experience/experience", { studentId: this.studentId })
+        .then(res => {
+          if (Object.keys(res).length) {
+            let params = Object.assign({}, _cookie, res);
+            this.$store.dispatch("user/setInfo", params).then(data => {
+              if (data.success === "ok") {
+                next();
+              }
+            });
+          }
+        });
+    } else {
+      next();
+    }
   }
 };
 </script>

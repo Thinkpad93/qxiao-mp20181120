@@ -9,7 +9,7 @@
             <div class="ml-20">{{ actionView.textContent }}</div>
           </div>
           <div class>
-            <strong>评价标准</strong>
+            <strong>评价标准:</strong>
             <ul class="ml-20 disc">
               <li v-for="(item, index) in actionView.rules" :key="index">{{ item.ruleText }}</li>
             </ul>
@@ -85,16 +85,17 @@
                         <div class="action-cell-label" @click.stop="handleActionMore(item)">
                           <span>{{ item.title }}</span>
                         </div>
-                        <van-rate
-                          class="action-cell-rate"
-                          v-model="item.starCount"
-                          :count="5"
-                          :size="22"
-                          color="#febf56"
-                          void-color="#e5eee0"
-                          :readonly="rateReadonly"
-                          @change="handleChangeRate(index)"
-                        ></van-rate>
+                        <div class="action-cell-rate">
+                          <van-rate
+                            v-model="item.starCount"
+                            :count="5"
+                            :size="22"
+                            color="#febf56"
+                            void-color="#e5eee0"
+                            :readonly="rateReadonly"
+                            @change="handleChangeRate(index)"
+                          ></van-rate>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -151,10 +152,10 @@
                     <van-icon name="arrow-down" size="14px"></van-icon>
                   </div>
                 </div>
-                <div class="flex">
+                <!-- <div class="flex">
                   <div class="flex-1 action-cell-label">课程</div>
                   <div class="flex-1 text-right action-cell-rate">课堂表现</div>
-                </div>
+                </div>-->
                 <div class="action-cells">
                   <div
                     class="action-cell flex a-i-c j-c-s-b"
@@ -165,10 +166,7 @@
                       <div class="action-cell-label">
                         <div>{{ item.title }}</div>
                         <!-- 课堂时间 -->
-                        <span
-                          size-12
-                          v-show="item.startTime"
-                        >{{ item.startTime }}-{{ item.endTime }}</span>
+                        <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
                       </div>
                       <div class="action-cell-rate" @click="jumpCourseView(item)">
                         <van-rate
@@ -242,6 +240,7 @@ export default {
       name: state => state.info.name,
       photo: state => state.info.photo,
       openId: state => state.info.openId,
+      roleType: state => state.info.roleType,
       studentId: state => state.info.studentId,
       classId: state => state.info.classId,
       gradeId: state => state.info.gradeId,
@@ -420,7 +419,30 @@ export default {
     this.actionListQuery();
     this.lessonList();
   },
+  //导航离开该组件的对应路由时调用
+  beforeRouteLeave(to, from, next) {
+    console.log("beforeRouteLeave");
+    if (this.roleType == 9 && to.path === "/home") {
+      let _cookie = Cookies.getJSON("info");
+      console.log("进入体验用户");
+      this.$store
+        .dispatch("experience/experience", { studentId: this.studentId })
+        .then(res => {
+          if (Object.keys(res).length) {
+            let params = Object.assign({}, _cookie, res);
+            this.$store.dispatch("user/setInfo", params).then(data => {
+              if (data.success === "ok") {
+                next();
+              }
+            });
+          }
+        });
+    } else {
+      next();
+    }
+  },
   beforeRouteEnter(to, from, next) {
+    console.log("beforeRouteEnter");
     if (from.path === "/welcome") {
       window.toast.clear();
     }
@@ -460,9 +482,6 @@ export default {
   background-color: #fff;
   box-shadow: 0 1px 20px 0 rgba(204, 204, 204, 0.4);
 }
-// .action-table {
-//   padding: 0 30px;
-// }
 .action-today {
   text-align: center;
   padding: 30px 20px 0 20px;

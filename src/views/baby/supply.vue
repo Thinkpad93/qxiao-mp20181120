@@ -15,7 +15,7 @@
                 placeholder="请输入学生姓名"
                 maxlength="4"
                 v-model="form.studentName"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -44,7 +44,7 @@
                 placeholder="请输入手机号"
                 readonly
                 v-model="form.tel"
-              >
+              />
             </div>
           </div>
           <div class="cell cell-select cell-select-after">
@@ -90,7 +90,7 @@ export default {
     return {
       classList: [],
       query: {
-        openId: this.$store.state.user.info.openId || this.$route.query.openId,
+        openId: this.$store.state.user.info.tel || this.$route.query.openId,
         tel: this.$route.query.tel
       },
       form: {}

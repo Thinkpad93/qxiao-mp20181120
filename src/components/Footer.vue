@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <div class="item">
-      <router-link :to="{ path: homeUrl }">
+      <router-link to="/home">
         <div>小Q班级</div>
       </router-link>
     </div>
@@ -34,9 +34,6 @@ export default {
       } else {
         return `/single`;
       }
-    },
-    homeUrl() {
-      return this.roleType == 9 ? "/login?redirect" : "/home";
     }
   }
 };

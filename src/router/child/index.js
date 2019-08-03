@@ -3,7 +3,7 @@ export default [{
     name: 'child',
     component: () => import('@/views/child'),
     meta: {
-      title: "已关联孩子列表",
+      title: "关联孩子列表",
       keepAlive: false,
       isShare: false,
     }
