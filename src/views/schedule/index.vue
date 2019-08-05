@@ -23,7 +23,7 @@
         ></van-picker>
       </van-popup>
       <!-- 课表 -->
-      <div class="schedule">
+      <div class="schedule" v-if="list.length">
         <div class="schedule-tr flex">
           <div class="schedule-td">
             <div class="block lineTd common-td">
@@ -50,6 +50,10 @@
             </template>
           </div>
         </div>
+      </div>
+      <div class="empty" v-if="!list.length">
+        <img src="@/assets/kong.png" alt />
+        <p>暂无课程表</p>
       </div>
     </div>
   </div>
@@ -97,6 +101,7 @@ export default {
   background-color: #fff;
 }
 .block {
+  font-size: 24px;
   height: 100px;
   display: flex;
   flex-wrap: wrap;

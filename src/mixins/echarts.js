@@ -88,8 +88,10 @@ export default {
       let res = await service.homeStatQuery(params);
       if (res.errorCode === 0) {
         let result = res.data;
-        if (Object.keys(result).length) {
+        if (result.day.length) {
           this.homeOption.xAxis.data = result.day; //一周时间数据
+        }
+        if (result.homeStar.length) {
           this.homeOption.legend.data = result.homeStar.map(item => item.name);
           this.homeOption.series = result.homeStar.map(item => {
             return {
@@ -122,12 +124,6 @@ export default {
               smooth: true
             };
           });
-        } else {
-          this.stateMentOption.series[0] = {
-            name: "语文",
-            type: "line",
-            data: [0, 0, 0, 0, 0, 0, 0]
-          };
         }
       }
     }

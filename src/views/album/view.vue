@@ -22,7 +22,7 @@
           </div>
         </div>
       </van-dialog>
-      <div class="album-show mb-20">
+      <div class="album-show">
         <van-swipe-cell
           ref="swipeCell"
           :right-width="60"

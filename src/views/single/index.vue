@@ -6,11 +6,11 @@
         <div class="actionView">
           <div>
             <strong>行为目标:</strong>
-            <div class="ml-20">{{ actionView.textContent }}</div>
+            <div class="ml-20 font-color">{{ actionView.textContent }}</div>
           </div>
           <div class>
             <strong>评价标准:</strong>
-            <ul class="ml-20 disc">
+            <ul class="ml-20 disc font-color">
               <li v-for="(item, index) in actionView.rules" :key="index">{{ item.ruleText }}</li>
             </ul>
           </div>
@@ -165,7 +165,10 @@
                       <div class="action-cell-label">
                         <div>{{ item.title }}</div>
                         <!-- 课堂时间 -->
-                        <span size-12>{{ item.startTime }}-{{ item.endTime }}</span>
+                        <span
+                          size-12
+                          v-show="item.startTime"
+                        >{{ item.startTime }}-{{ item.endTime }}</span>
                       </div>
                       <div class="action-cell-rate" @click="jumpCourseView(item)">
                         <van-rate

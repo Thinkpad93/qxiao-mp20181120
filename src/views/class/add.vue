@@ -61,6 +61,13 @@ export default {
       let res = await service.classAdd(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+        //更新store
+        let obj = {
+          id: this.$store.state.user.info.id,
+          roleType: 1,
+          studentId: this.$store.state.user.info.studentId
+        };
+        this.$store.dispatch("queryClass/queryClassId", obj);
       } else {
         this.$toast(`${res.errorMsg}`);
       }
@@ -70,6 +77,8 @@ export default {
       let res = await service.queryGrade(params);
       if (res.errorCode === 0) {
         this.grdeList = res.data;
+      }else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

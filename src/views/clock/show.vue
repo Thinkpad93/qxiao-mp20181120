@@ -74,8 +74,5 @@ export default {
   text-align: center;
   padding-top: 40px;
   background-color: #fff;
-  > button {
-    width: 240px;
-  }
 }
 </style>

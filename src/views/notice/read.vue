@@ -3,44 +3,36 @@
     <div class="page-bd">
       <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
         <van-tab title="已读">
-          <div class="tab-warp">
-            <div class="tab-content">
-              <div class="cell" v-for="(read, index) in readList" :key="index">
-                <div class="cell-hd">
-                  <img v-if="read.photo" :src="read.photo" :alt="read.studentName" />
-                  <img src="@/assets/child-default@2x.png" v-else />
-                </div>
-                <div class="cell-bd pl-20">
-                  <p class>{{ read.studentName }}</p>
-                </div>
-                <div class="cell-ft">
-                  <template v-if="needConfirm">
-                    <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
-                  </template>
-                </div>
-              </div>
+          <div class="cell min-h120 read-cell" v-for="(read, index) in readList" :key="index">
+            <div class="cell-hd">
+              <img v-if="read.photo" :src="read.photo" :alt="read.studentName" />
+              <img src="@/assets/child-default@2x.png" v-else />
+            </div>
+            <div class="cell-bd pl-20">
+              <p class>{{ read.studentName }}</p>
+            </div>
+            <div class="cell-ft">
+              <template v-if="needConfirm">
+                <span v-if="read.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                <span v-else style="color:#92cd36">已确认通知</span>
+              </template>
             </div>
           </div>
         </van-tab>
         <van-tab title="未读">
-          <div class="tab-warp">
-            <div class="tab-content">
-              <div class="cell" v-for="(unread, index) in unreadList" :key="index">
-                <div class="cell-hd">
-                  <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName" />
-                  <img src="@/assets/child-default@2x.png" v-else />
-                </div>
-                <div class="cell-bd pl-20">
-                  <p class>{{ unread.studentName }}</p>
-                </div>
-                <div class="cell-ft">
-                  <template v-if="needConfirm">
-                    <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
-                    <span v-else style="color:#92cd36">已确认通知</span>
-                  </template>
-                </div>
-              </div>
+          <div class="cell min-h120 read-cell" v-for="(unread, index) in unreadList" :key="index">
+            <div class="cell-hd">
+              <img v-if="unread.photo" :src="unread.photo" :alt="unread.studentName" />
+              <img src="@/assets/child-default@2x.png" v-else />
+            </div>
+            <div class="cell-bd pl-20">
+              <p class>{{ unread.studentName }}</p>
+            </div>
+            <div class="cell-ft">
+              <template v-if="needConfirm">
+                <span v-if="unread.confirmFlag === 0" style="color:#ff87b7">未确认通知</span>
+                <span v-else style="color:#92cd36">已确认通知</span>
+              </template>
             </div>
           </div>
         </van-tab>
@@ -100,4 +92,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.read-cell {
+  background-color: #fff;
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+}
 </style>

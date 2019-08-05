@@ -366,7 +366,8 @@ export default {
         console.log("退出体验用户");
         this.$store
           .dispatch("experience/myExperience", {
-            tel: _cookie.tel
+            tel: _cookie.tel, 
+            experienceStudentId: _cookie.experienceStudentId //学生id
           })
           .then(res => {
             if (res) {

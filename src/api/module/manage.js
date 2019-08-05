@@ -354,7 +354,7 @@ export function addStudentWithOpen(params, config = {
 }
 //查询学生列表--开放版--切换
 export function queryOpenStudentList(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryOpenStudentList.do', params, config)
     .then(res => res.data)

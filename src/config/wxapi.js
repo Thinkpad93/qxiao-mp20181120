@@ -26,6 +26,8 @@ export default {
             "showOptionMenu",
             "chooseWXPay",
             "closeWindow",
+            "startSearchBeacons",
+            "stopSearchBeacons"
           ] // 必填，需要使用的JS接口列表
         });
       }

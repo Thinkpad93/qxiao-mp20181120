@@ -24,6 +24,7 @@ export default [{
     meta: {
       keepAlive: false,
       isShare: false,
+      title: '课堂表现历史',
     }
   }
 ]

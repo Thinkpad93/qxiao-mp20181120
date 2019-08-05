@@ -196,7 +196,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .feed {
-  margin-bottom: 80px;
+  margin-bottom: 20px;
   position: relative;
   background-color: #fff;
   time {

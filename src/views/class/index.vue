@@ -1,27 +1,6 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <van-dialog
-        v-model="dialogVisible"
-        title="班级名称"
-        show-cancel-button
-        @cancel="dialogVisible = false"
-        :before-close="handleSubmit"
-      >
-        <div class="cells" style="padding:15px 0 15px 0;">
-          <div class="cell">
-            <div class="cell-bd" style="padding-left:0">
-              <input
-                class="input"
-                placeholder="请输入班级名称"
-                maxlength="20"
-                v-model="className"
-                style="text-align:left;"
-              />
-            </div>
-          </div>
-        </div>
-      </van-dialog>
       <van-swipe-cell
         ref="swipeCell"
         :right-width="60"
@@ -54,10 +33,8 @@
 </template>
 <script>
 import service from "@/api";
-import pageMixin from "@/mixins/page";
 export default {
   name: "class",
-  mixins: [pageMixin],
   data() {
     return {
       className: "",
@@ -99,27 +76,6 @@ export default {
         }
       };
     },
-    handleSubmit(action, done) {
-      if (action === "confirm") {
-        if (this.className == "") {
-          this.$toast("请输入班级名称");
-          done(false);
-        } else {
-          let obj = Object.assign(
-            {},
-            {
-              className: this.className,
-              schoolId: this.schoolId,
-              openId: this.openId
-            }
-          );
-          this.classAdd(obj);
-          done();
-        }
-      } else {
-        done();
-      }
-    },
     handleEditClass(item) {
       this.$router.push({
         path: "/class/edit",
@@ -134,23 +90,6 @@ export default {
       let res = await service.queryClass({ schoolId });
       if (res.errorCode === 0) {
         this.list = res.data;
-      }
-    },
-    //班级创建
-    async classAdd(params = {}) {
-      let res = await service.classAdd(params);
-      if (res.errorCode === 0) {
-        this.className = "";
-        this.queryClass(this.schoolId);
-        //更新store
-        let obj = {
-          id: this.$store.state.user.info.id,
-          roleType: 1,
-          studentId: this.$store.state.user.info.studentId
-        };
-        this.$store.dispatch("queryClass/queryClassId", obj);
-      } else {
-        this.$toast(`${res.errorMsg}`);
       }
     }
   },

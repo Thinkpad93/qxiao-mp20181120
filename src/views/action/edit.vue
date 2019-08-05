@@ -86,7 +86,7 @@
                   </van-checkbox-group>
                 </div>
                 <div class="cell-bd pl-20">
-                  <p>{{ item.ruleText }}</p>
+                  <p class="font-color">{{ item.ruleText }}</p>
                 </div>
               </div>
             </van-cell-group>

@@ -28,9 +28,9 @@
               </swiper>
             </template>
             <template v-else>
-              <p style="padding: 20px 0;color:#999;line-height:1.4;" class="text-center">
-                您还没有上榜作品，快去上传~
-                <br />优秀作品将被推荐至全市科普电子屏播放
+              <p style="padding: 30px 0;color:#999;line-height:1.4;" class="text-center">
+                优秀作品将被推荐到全市科普电子屏上播放
+                <br />快去上传吧~
               </p>
             </template>
           </div>
@@ -304,6 +304,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .cells-title {
+  color: #252525;
   margin: 20px 0 0 0;
   padding: 30px;
   background-color: #fff;

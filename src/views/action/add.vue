@@ -62,7 +62,7 @@
             <van-cell-group>
               <div class="cell min-h100">
                 <div class="cell-bd">
-                  <p>{{ item.ruleText }}</p>
+                  <p class="font-color">{{ item.ruleText }}</p>
                 </div>
               </div>
             </van-cell-group>

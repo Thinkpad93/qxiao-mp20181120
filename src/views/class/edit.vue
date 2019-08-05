@@ -141,9 +141,6 @@ export default {
   padding-top: 40px;
   text-align: center;
   background-color: #fff;
-  > button {
-    width: 240px;
-  }
 }
 .teacher-icon {
   width: 100px;
