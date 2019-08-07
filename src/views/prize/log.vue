@@ -16,7 +16,7 @@
               <time size-12 style="color:#7d7e80">{{ item.postTime }}</time>
             </div>
             <div class="cell-ft">
-              <span>{{ item.starCount * item.times }}颗</span>
+              <span style="color:#ff4d67">{{ item.starCount * item.times }}颗</span>
             </div>
           </div>
         </div>

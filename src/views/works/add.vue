@@ -162,7 +162,7 @@ export default {
 <style lang="less" scoped>
 .works-desc {
   line-height: 1.6;
-  color: #999;
+  color: #555;
   font-size: 24px;
   padding: 20px 30px;
 }

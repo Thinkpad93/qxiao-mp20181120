@@ -71,43 +71,77 @@
                 <table class="fixedTable" style="width:160%;">
                   <thead>
                     <tr>
-                      <td id="lineTd">
-                        <span style="float:left;margin-top:0px;">行为</span>
-                        <span style="float:right;margin-top:-6px;">Q星</span>
-                      </td>
-                      <td class="fixedColumn"></td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
+                        <div id="lineTd" class="block">
+                          <span class="span2">行为</span>
+                          <span class="span1">Q星</span>
+                        </div>
                       </td>
-                      <td>
-                        <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
+                      <td class="fixedColumn">
+                        <div class="block"></div>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
+                        <div class="block">
+                          <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
+                        <div class="block">
+                          <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
-                        <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
+                        <div class="block">
+                          <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
-                      <td>未打卡</td>
+                      <td>
+                        <div class="block">
+                          <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="block">
+                          <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="block">未打卡</div>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item,index) in actionTable" :key="index">
-                      <td>{{ item.name }}</td>
-                      <td class="fixedColumn"></td>
-                      <td @click="jumpDetails(item, 5)">{{ item.five + '人' }}</td>
-                      <td @click="jumpDetails(item, 4)">{{ item.four + '人' }}</td>
-                      <td @click="jumpDetails(item, 3)">{{ item.three + '人' }}</td>
-                      <td @click="jumpDetails(item, 2)">{{ item.two + '人' }}</td>
-                      <td @click="jumpDetails(item, 1)">{{ item.one + '人' }}</td>
+                      <td>
+                        <div class="block">{{ item.name }}</div>
+                      </td>
+                      <td class="fixedColumn">
+                        <div class="block"></div>
+                      </td>
+                      <td @click="jumpDetails(item, 5)">
+                        <div class="block">{{ item.five + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 4)">
+                        <div class="block">{{ item.four + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 3)">
+                        <div class="block">{{ item.three + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 2)">
+                        <div class="block">{{ item.two + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 1)">
+                        <div class="block">{{ item.one + '人' }}</div>
+                      </td>
                       <template v-if="item.actionId == 0">
-                        <td>-</td>
+                        <td>
+                          <div class="block">-</div>
+                        </td>
                       </template>
                       <template v-else>
-                        <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
+                        <td @click="jumpDetails(item, 0)">
+                          <div class="block">{{ item.zero + '人' }}</div>
+                        </td>
                       </template>
                     </tr>
                   </tbody>
@@ -153,39 +187,59 @@
                 <table class="fixedTable" style="width:160%;">
                   <thead>
                     <tr>
-                      <td id="lineTd">
-                        <span style="float:left;margin-top:0px;">课程</span>
-                        <span style="float:right;margin-top:0px;">Q星</span>
-                      </td>
-                      <td class="fixedColumn"></td>
                       <td>
+                        <div id="lineTd" class="block">
+                        <span class="span2">课程</span>
+                        <span class="span1">Q星</span>
+                        </div>
+                      </td>
+                      <td class="fixedColumn">
+                        <div class="block"></div>
+                      </td>
+                      <td>
+                        <div class="block">
                         <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
+                        <div class="block">
                         <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
+                        <div class="block">
                         <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
+                        <div class="block">
                         <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
                       <td>
+                        <div class="block">
                         <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
+                        </div>
                       </td>
-                      <td>未打卡</td>
+                      <td>
+                        <div class="block">
+                        未打卡
+                        </div>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item,index) in lessonTable" :key="index">
-                      <td>{{ item.name }}</td>
-                      <td class="fixedColumn"></td>
-                      <td @click="jumpDetails(item, 5)">{{ item.five + '人' }}</td>
-                      <td @click="jumpDetails(item, 4)">{{ item.four + '人' }}</td>
-                      <td @click="jumpDetails(item, 3)">{{ item.three + '人' }}</td>
-                      <td @click="jumpDetails(item, 2)">{{ item.two + '人' }}</td>
-                      <td @click="jumpDetails(item, 1)">{{ item.one + '人' }}</td>
-                      <td @click="jumpDetails(item, 0)">{{ item.zero + '人' }}</td>
+                      <td><div class="block">{{ item.name }}</div></td>
+                      <td class="fixedColumn">
+                        <div class="block"></div>
+                      </td>
+                      <td @click="jumpDetails(item, 5)"><div class="block">{{ item.five + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 4)"><div class="block">{{ item.four + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 3)"><div class="block">{{ item.three + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 2)"><div class="block">{{ item.two + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 1)"><div class="block">{{ item.one + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 0)"><div class="block">{{ item.zero + '人' }}</div></td>
                     </tr>
                   </tbody>
                 </table>
@@ -470,27 +524,56 @@ export default {
 .fixedTable tr {
   position: relative;
 }
-.fixedTable td {
+.block {
   color: #96d723;
-  text-align: center;
-  padding: 30px 0;
   min-width: 240px;
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  position: relative;
   border-bottom: 1px solid #ebeef5;
   border-right: 1px solid #ebeef5;
-  background-color: #fff;
 }
+.span1 {
+  position: absolute;
+  top: 20%;
+  right: 8%;
+}
+.span2 {
+  position: absolute;
+  top: 60%;
+  left: 10%;
+}
+
+// .fixedTable td {
+//   color: #96d723;
+//   text-align: center;
+//   padding: 30px 0;
+//   min-width: 240px;
+//   overflow: hidden;
+//   border-bottom: 1px solid #ebeef5;
+//   border-right: 1px solid #ebeef5;
+//   background-color: #fff;
+// }
 .fixedTable th {
   text-align: center;
   padding: 20px 0;
 }
 .fixedTable td:first-child {
-  color: #444;
   position: absolute;
   z-index: 3;
+  .block {
+    color: #444;
+  }
 }
 .fixedTable td:nth-child(even) {
   background-color: #fafafa;
+}
+.fixedTable td:nth-child(odd) {
+  background-color: #fff;
 }
 
 .fixedColumn {

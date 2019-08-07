@@ -9,6 +9,7 @@ export default {
     }).then(res => {
       if (res.appid && res.nonceStr) {
         wx.config({
+          beta: true,
           debug: false, // 开启调试模式,开发时可以开启
           appId: res.appid, // 必填，公众号的唯一标识
           timestamp: res.timestamp, // 必填，生成签名的时间戳
@@ -26,8 +27,15 @@ export default {
             "showOptionMenu",
             "chooseWXPay",
             "closeWindow",
-            "startSearchBeacons",
-            "stopSearchBeacons"
+            "openWXDeviceLib",
+            "closeWXDeviceLib",
+            "getWXDeviceInfos",
+            "sendDataToWXDevice",
+            "startScanWXDevice",
+            "stopScanWXDevice",
+            "connectWXDevice",
+            "disconnectWXDevice",
+            "getWXDeviceTicket"
           ] // 必填，需要使用的JS接口列表
         });
       }

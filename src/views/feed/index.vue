@@ -68,7 +68,7 @@
             <div class="feed-ft" v-if="item.status">
               <div class="reply">
                 <span style="color:#336d92">老师回复:</span>
-                <span>{{ item.replyTextContent }}</span>
+                <span class="font-color">{{ item.replyTextContent }}</span>
               </div>
               <div class>
                 <time>{{ item.replyDate }}</time>

@@ -94,7 +94,6 @@
   </div>
 </template>
 <script>
-import service from "@/api";
 import { mapState } from "vuex";
 export default {
   name: "community",

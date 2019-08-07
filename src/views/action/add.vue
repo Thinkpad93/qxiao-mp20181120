@@ -26,13 +26,17 @@
       <div class="mod mb-30">
         <div class="cells">
           <div class="cell min-h100">
-            <div class="cell-hd">行为名称:</div>
+            <div class="cell-hd">
+              <h4>行为名称:</h4>
+            </div>
             <div class="cell-bd">
               <input placeholder="请输入行为名称" maxlength="10" class="input" v-model.trim="form.title" />
             </div>
           </div>
           <div class="cell min-h100">
-            <div class="cell-bd">行为目标:</div>
+            <div class="cell-bd">
+              <h4>行为目标:</h4>
+            </div>
           </div>
           <div class="cell">
             <div class="cell-bd">
@@ -47,7 +51,7 @@
         </div>
       </div>
       <div class="cells-title" size-16>
-        <p>评价标准</p>
+        <h4>评价标准</h4>
         <van-button type="info" size="small" @click="dialogVisible = true">添加</van-button>
       </div>
       <div class="rule-list">

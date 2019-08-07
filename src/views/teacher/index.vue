@@ -59,8 +59,6 @@
 </template>
 <script>
 import service from "@/api";
-import { API_ROOT } from "@/config/isdev";
-import wxapi from "@/config/wxapi";
 export default {
   name: "teacher",
   data() {
@@ -71,26 +69,6 @@ export default {
     };
   },
   methods: {
-    wxRegCallback() {
-      //用于微信JS-SDK回调
-      this.wxShareAppMessage();
-    },
-    wxShareAppMessage() {
-      let that = this;
-      let shareUrl = API_ROOT + "#/share";
-      let option = {
-        title: "亲爱的用户您好", // 分享标题
-        desc: "小Q智慧欢迎您的加入", // 分享描述
-        link: shareUrl, // 分享链接，根据自身项目决定是否需要split
-        success: () => {
-          that.$toast("分享成功");
-        },
-        error: () => {
-          that.$toast("已取消分享");
-        }
-      };
-      wxapi.wxShareAppMessage(option);
-    },
     handleEditTeacher(teacher) {
       this.$router.push({
         path: "/teacher/edit",
@@ -106,7 +84,6 @@ export default {
   },
   mounted() {
     this.queryTeacher(this.schoolId);
-    wxapi.wxRegister(this.wxRegCallback);
   }
 };
 </script>
