@@ -40,7 +40,6 @@
 </template>
 <script>
 import service from "@/api";
-import wxapi from "@/config/wxapi";
 export default {
   name: "albumAdd",
   data() {

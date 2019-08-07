@@ -82,7 +82,7 @@
                       :key="index"
                     >
                       <div class="action-cell-bd flex a-i-c j-c-s-b">
-                        <div class="action-cell-label" @click.stop="handleActionMore(item)">
+                        <div class="action-cell-label text-ellipsis" @click.stop="handleActionMore(item)">
                           <span>{{ item.title }}</span>
                         </div>
                         <div class="action-cell-rate">
@@ -95,6 +95,9 @@
                             :readonly="rateReadonly"
                             @change="handleChangeRate(index)"
                           ></van-rate>
+                        </div>
+                        <div class="action-cell-edit">
+                          <van-icon name="edit" size="16px"></van-icon>
                         </div>
                       </div>
                     </div>
@@ -506,17 +509,22 @@ export default {
 .action-cell {
   position: relative;
   margin: 30px 0;
+  padding: 0 30px;
   i {
     vertical-align: top;
   }
   &-bd {
     flex: 1;
   }
-  &-label {
-    margin-left: 50px;
-  }
   &-rate {
-    margin-right: 50px;
+    flex: 1;
+  }
+  &-label {
+    width: 280px;
+    overflow: hidden;
+  }
+  &-edit {
+    color: #999;
   }
 }
 .dhole {

@@ -60,13 +60,13 @@ export default {
           icon: require("../assets/men-icon-10@2x.png")
         }
       ],
-      scheduleList: [
-        {
-          name: "课程表",
-          url: "/schedule",
-          icon: require("../assets/men-icon-12@2x.png")
-        }
-      ],
+      // scheduleList: [
+      //   {
+      //     name: "课程表",
+      //     url: "/schedule",
+      //     icon: require("../assets/men-icon-12@2x.png")
+      //   }
+      // ],
       feedList: [
         {
           name: "家长反馈",
@@ -118,15 +118,13 @@ export default {
             .concat(this.clockList)
             .concat(this.teacherList)
             .concat(this.shuttleList)
-            .concat(this.feedList)
-            .concat(this.scheduleList);
+            .concat(this.feedList);
           break;
         case 3:
           return this.menuList
             .concat(this.recipeList)
             .concat(this.clockList)
-            .concat(this.feedList)
-            .concat(this.scheduleList);
+            .concat(this.feedList);
           break;
         default:
           return this.menuList

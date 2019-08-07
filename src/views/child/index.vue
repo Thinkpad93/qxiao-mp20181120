@@ -4,7 +4,7 @@
       <div class="cells">
         <div
           class="cell student-box"
-          v-for="(item, index) in studentList"
+          v-for="(item, index) in list"
           :key="index"
           :class="[item.studentId == studentId ? 'curr-student': '']"
           @click="handleStudentChange(item)"
@@ -38,7 +38,7 @@ export default {
   name: "childList",
   data() {
     return {
-      studentList: []
+      list: []
     };
   },
   computed: {
@@ -93,7 +93,7 @@ export default {
     async queryOpenStudentList(params = {}) {
       let res = await service.queryOpenStudentList(params);
       if (res.errorCode === 0) {
-        this.studentList = res.data;
+        this.list = res.data;
       }
     },
     //最后登录状态记录

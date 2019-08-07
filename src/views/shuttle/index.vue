@@ -333,13 +333,7 @@ export default {
     }
     &-default {
       background-color: #febf56;
-      // img {
-      //   filter: grayscale(70%);
-      // }
     }
-    // .icon-d {
-    //   margin: 0 auto;
-    // }
     img {
       width: 100px;
       height: 100px;

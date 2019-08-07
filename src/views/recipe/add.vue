@@ -126,7 +126,6 @@ import classList from "@/mixins/classList";
 import formatter from "@/mixins/date-formatter";
 import { textReplace } from "@/utils/string";
 import wxHandle from "@/mixins/wx";
-import wxapi from "@/config/wxapi";
 export default {
   name: "recipeAdd",
   mixins: [classList, wxHandle, formatter],
@@ -219,9 +218,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //wxapi.wxRegister();
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

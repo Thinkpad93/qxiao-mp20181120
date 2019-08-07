@@ -2,10 +2,10 @@
   <div class="flex-page">
     <div class="flex-bd">
       <p class="tip">您的亲人邀请您一起关注孩子成长</p>
-      <div class="container" v-if="studentList.length">
+      <div class="container" v-if="list.length">
         <p>孩子列表</p>
         <div class="cells">
-          <div class="cell min-h100" v-for="(item, index) in studentList" :key="index">
+          <div class="cell min-h100" v-for="(item, index) in list" :key="index">
             <div class="cell-hd">
               <label class="label">{{ item.name }}</label>
             </div>
@@ -66,7 +66,7 @@ export default {
         tel: "",
         relation: 1
       },
-      studentList: []
+      list: []
     };
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
     async queryStudentByParId(params = {}) {
       let res = await service.queryStudentByParId(params);
       if (res.errorCode === 0) {
-        this.studentList = res.data;
+        this.list = res.data;
       }
     },
     //家长关注孩子

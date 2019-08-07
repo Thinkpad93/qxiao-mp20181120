@@ -136,11 +136,6 @@ export default {
       clockList: [],
       clockMonthList: [],
       roleType: this.$store.state.user.info.roleType,
-      calendar: {
-        range: false,
-        lunar: true,
-        events: {}
-      },
       query: {
         openId: this.$store.state.user.info.openId,
         date: dayjs().format("YYYY-MM-DD")
@@ -170,6 +165,7 @@ export default {
           this.addPunch({ openId, studentId });
         });
     },
+    //家长端
     handleClockDay(month) {
       this.$router.push({
         path: "/clock/day",
@@ -188,6 +184,7 @@ export default {
       this.querys.month = month;
       this.clockQuery(this.querys);
     },
+    //老师端
     handleQueryClock(clock) {
       this.$router.push({
         path: "/clock/show",
@@ -197,27 +194,6 @@ export default {
           date: `${clock.statDate}`
         }
       });
-    },
-    handleSelect(value) {
-      console.log(value);
-    },
-    //选择上一个月
-    handlePrev(calendarMonth, year) {
-      if (calendarMonth > 0 && calendarMonth < 9) {
-        calendarMonth = "0" + calendarMonth;
-      }
-      let { month, ...args } = this.querys;
-      let obj = Object.assign({}, args, { month: `${year}-${calendarMonth}` });
-      this.clockQuery(obj);
-    },
-    //选择下一个月
-    handleNext(calendarMonth, year) {
-      if (calendarMonth > 0 && calendarMonth < 9) {
-        calendarMonth = "0" + calendarMonth;
-      }
-      let { month, ...args } = this.querys;
-      let obj = Object.assign({}, args, { month: `${year}-${calendarMonth}` });
-      this.clockQuery(obj);
     },
     //考勤统计查询
     async clockStat(params = {}) {
