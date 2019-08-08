@@ -64,3 +64,27 @@ export function addPunch(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//改变学生出勤状态
+export function changeStatus(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/changeStatus.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//改变学生出勤状态
+export function queryStudentPunchList(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/queryStudentPunchList.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//改变学生出勤状态
+export function clockStatWithSchool(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/clockStatWithSchool.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

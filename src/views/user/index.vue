@@ -154,6 +154,11 @@ export default {
           icon: require("../../assets/user-icon-5@2x.png")
         },
         {
+          title: "课表",
+          to: "/schedule",
+          icon: require("../../assets/user-icon-5@2x.png")
+        },
+        {
           title: "我的手环",
           to: "/bracelet",
           icon: require("../../assets/user-icon-7@2x.png")

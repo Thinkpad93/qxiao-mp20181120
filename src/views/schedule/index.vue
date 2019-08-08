@@ -22,7 +22,7 @@
           @confirm="handleClassConfirm"
         ></van-picker>
       </van-popup>
-      <!-- 课表 -->
+      <!-- 学校课表 -->
       <div class="schedule" v-if="list.length">
         <div class="schedule-tr flex">
           <div class="schedule-td">
@@ -51,10 +51,18 @@
           </div>
         </div>
       </div>
+      <!-- 自制课表 -->
       <div class="empty" v-if="!list.length">
         <img src="@/assets/kong.png" alt />
         <p>暂无课程表</p>
       </div>
+    </div>
+    <div class="page-ft">
+      <template v-if="roleType == 9 || roleType == 3">
+        <div class="fixed-bottom" style="z-index: 100;">
+          <van-button type="info" size="large" class="no-radius" to="/schedule/add">自制课表</van-button>
+        </div>
+      </template>
     </div>
   </div>
 </template>

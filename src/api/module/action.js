@@ -136,3 +136,11 @@ export function queryStar(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//添加行为备注
+export function remarks(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/remarks.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

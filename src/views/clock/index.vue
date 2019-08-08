@@ -44,9 +44,11 @@
         <div class="clock-table">
           <div class="cells">
             <div class="cell" size-17>
-              <div class="cell-bd">班级</div>
-              <div class="cell-bd">应到人数</div>
-              <div class="cell-bd">实到人数</div>
+              <div class="cell-bd">{{ roleType == 2 ? '班级':'年级' }}</div>
+              <div class="cell-bd">应到</div>
+              <div class="cell-bd">实到</div>
+              <div class="cell-bd">请假</div>
+              <div class="cell-bd">缺勤</div>
               <div class="cell-bd">出勤率</div>
             </div>
           </div>
@@ -58,13 +60,19 @@
               @click="handleQueryClock(clock)"
             >
               <div class="cell-bd">
-                <p class>{{ clock.className }}</p>
+                <p class>{{ roleType == 2 ? clock.className : clock.gradeName }}</p>
               </div>
               <div class="cell-bd">
                 <p class>{{ clock.classCount }}</p>
               </div>
               <div class="cell-bd">
                 <p class>{{ clock.clockCount }}</p>
+              </div>
+              <div class="cell-bd">
+                <p class>{{ clock.vacate }}</p>
+              </div>
+              <div class="cell-bd">
+                <p class>{{ clock.absenteeism }}</p>
               </div>
               <div class="cell-bd">
                 <van-circle
@@ -137,7 +145,6 @@ export default {
       clockMonthList: [],
       roleType: this.$store.state.user.info.roleType,
       query: {
-        openId: this.$store.state.user.info.openId,
         date: dayjs().format("YYYY-MM-DD")
       },
       querys: {
@@ -176,7 +183,11 @@ export default {
     handleShowDatePicker(value) {
       let now = dayjs(new Date(value).getTime()).format("YYYY-MM-DD");
       this.query.date = now;
-      this.clockStat(this.query);
+      if (this.roleType == 2) {
+        this.clockStat(this.query);
+      } else {
+        this.clockStatWithSchool(this.query);
+      }
     },
     //选择年月
     handleChangeMonth(value) {
@@ -186,18 +197,32 @@ export default {
     },
     //老师端
     handleQueryClock(clock) {
-      this.$router.push({
-        path: "/clock/show",
-        query: {
-          className: `${clock.className}`,
-          classId: `${clock.classId}`,
-          date: `${clock.statDate}`
-        }
-      });
+      if (this.roleType == 2) {
+        this.$router.push({
+          path: "/clock/show",
+          query: {
+            className: `${clock.className}`,
+            classId: `${clock.classId}`,
+            date: `${clock.statDate}`
+          }
+        });
+      }
+    },
+    //园长端考勤统计查询
+    async clockStatWithSchool(params = {}) {
+      let schoolId = this.$store.state.user.info.id;
+      let obj = Object.assign({}, params, { schoolId });
+      let res = await service.clockStatWithSchool(obj);
+      if (res.errorCode === 0) {
+        this.clockList = res.data;
+        this.popupOne = false;
+      }
     },
     //考勤统计查询
     async clockStat(params = {}) {
-      let res = await service.clockStat(params);
+      let openId = this.$store.state.user.info.openId;
+      let obj = Object.assign({}, params, { openId });
+      let res = await service.clockStat(obj);
       if (res.errorCode === 0) {
         this.clockList = res.data;
         this.popupOne = false;
@@ -225,10 +250,12 @@ export default {
     }
   },
   activated() {
-    if (this.roleType == 3) {
-      this.clockQuery(this.querys);
-    } else {
+    if (this.roleType == 1 || this.roleType == 4) {
+      this.clockStatWithSchool(this.query);
+    } else if (this.roleType == 2) {
       this.clockStat(this.query);
+    } else {
+      this.clockQuery(this.querys);
     }
   }
 };

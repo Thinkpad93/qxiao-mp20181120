@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- dialog -->
+      <!-- dialog 1 -->
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
           <div>
@@ -16,7 +16,21 @@
           </div>
         </div>
       </van-dialog>
-      <!-- dialog -->
+      <!-- dialog 1 -->
+      <van-dialog v-model="dialogNote" title="添加备注" show-cancel-button :before-close="handleSubmit">
+        <div class="cells" style="padding:15px 0 15px 0;">
+          <div class="cell">
+            <div class="cell-bd">
+              <textarea
+                rows="5"
+                class="textarea"
+                placeholder="您可以添加对孩子的表现的认可....."
+                v-model="form.remarks"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </van-dialog>
       <!-- popup -->
       <van-popup v-model="popupShow" position="bottom">
         <van-datetime-picker
@@ -82,7 +96,10 @@
                       :key="index"
                     >
                       <div class="action-cell-bd flex a-i-c j-c-s-b">
-                        <div class="action-cell-label text-ellipsis" @click.stop="handleActionMore(item)">
+                        <div
+                          class="action-cell-label text-ellipsis"
+                          @click.stop="handleActionMore(item)"
+                        >
                           <span>{{ item.title }}</span>
                         </div>
                         <div class="action-cell-rate">
@@ -96,7 +113,7 @@
                             @change="handleChangeRate(index)"
                           ></van-rate>
                         </div>
-                        <div class="action-cell-edit">
+                        <div class="action-cell-edit" @click="handleNote(item)">
                           <van-icon name="edit" size="16px"></van-icon>
                         </div>
                       </div>
@@ -224,6 +241,7 @@ export default {
   mixins: [pageMixin, echartMixin, formatter],
   data() {
     return {
+      dialogNote: false,
       popupShow: false,
       currentDate: new Date(),
       rateReadonly: false,
@@ -233,6 +251,12 @@ export default {
       query: {
         openId: this.$store.state.user.info.openId,
         day: dayjs().format("YYYY-MM-DD")
+      },
+      form: {
+        remarks: "",
+        actionId: null,
+        actionType: null,
+        studentId: null
       },
       actionView: {},
       myActions: [], //我的行为列表
@@ -297,6 +321,29 @@ export default {
             search: "single"
           }
         });
+      }
+    },
+    //备注打星
+    handleNote(params) {
+      let day = dayjs().format("YYYY-MM-DD");
+      let { openId, title, starCount, ...args } = params;
+      this.dialogNote = true;
+      this.form = Object.assign({}, args, { day });
+    },
+    //备注提交
+    async handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.form.remarks == "") {
+          this.$toast("请输入备注说明");
+          done(false);
+        }
+        let res = await service.remarks(this.form);
+        if (res.errorCode === 0) {
+          done();
+          this.actionListQuery();
+        }
+      } else {
+        done();
       }
     },
     //rate事件

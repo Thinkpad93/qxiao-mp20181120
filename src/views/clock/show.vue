@@ -2,43 +2,25 @@
   <div class="page">
     <div class="page-hd">
       <div class="class-mod">
-        <van-button
-          type="info"
-          round
-          size="small"
-          style="min-width:100px;"
-          @click="dialogVisible = true"
-        >{{ className }}</van-button>
+        <van-button type="info" round size="small" style="min-width:100px;">{{ className }}</van-button>
       </div>
     </div>
     <div class="pae-bd">
       <!-- 修改学生考勤状态 -->
       <van-dialog
-        title="考勤状态修改"
+        title="学生考勤状态修改"
         v-model="dialogVisible"
         show-cancel-button
         @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
       >
-        <div class="cells" style="padding:15px 0 15px 0;">
-          <div class="cell min-h100">
-            <div class="cell-hd">
-              <label class="label">请假</label>
-            </div>
-            <div class="cell-bd"></div>
-          </div>
-          <div class="cell min-h100">
-            <div class="cell-hd">
-              <label class="label">缺勤</label>
-            </div>
-            <div class="cell-bd"></div>
-          </div>
-          <div class="cell min-h100">
-            <div class="cell-hd">
-              <label class="label">漏打卡</label>
-            </div>
-            <div class="cell-bd"></div>
-          </div>
-        </div>
+        <van-radio-group v-model="form.studentStatus">
+          <van-cell-group>
+            <van-cell :title="item.title" v-for="(item, index) in statusList" :key="index">
+              <van-radio :name="item.studentStatus" checked-color="#92cd36"></van-radio>
+            </van-cell>
+          </van-cell-group>
+        </van-radio-group>
       </van-dialog>
       <!-- 修改学生考勤状态 -->
       <div class="table">
@@ -52,17 +34,30 @@
               <i style="background-color:#febf56;"></i>
               <span size-14>表示未打卡</span>
             </div>
-            <div class="th">
-              <i style="background-color:#f46557;"></i>
-              <span size-14>表示其它</span>
-            </div>
           </div>
         </div>
         <div class="table-body">
           <div class="tr">
-            <div class="td">
+            <div
+              class="td"
+              :class="[item.punchStatus == 1 ? 'td-success': 'td-default']"
+              v-for="item in list"
+              :key="item.studentId"
+              @click="handleChangeStatus(item)"
+            >
               <div>
-                <div class></div>
+                <img :src="item.photo" v-if="item.photo" />
+                <img src="@/assets/child-default@2x.png" v-else />
+                <div class>
+                  <span>{{ item.studentName }}</span>
+                </div>
+                <div size-12>
+                  <span v-if="item.studentStatus == 0"></span>
+                  <span v-else-if="item.studentStatus == 1">请假</span>
+                  <span v-else-if="item.studentStatus == 2">缺勤</span>
+                  <span v-else-if="item.studentStatus == 3">漏打卡</span>
+                  <span v-else>出勤</span>
+                </div>
               </div>
             </div>
           </div>
@@ -70,79 +65,96 @@
       </div>
       <!-- 打卡记录列表 -->
       <div class="cells" style="margin-top:15px;">
-        <div class="cell">
-          <div class="cell-hd"></div>
-          <div class="cell-bd"></div>
-          <div class="cell-ft"></div>
+        <div class="cell" v-for="item in punchList" :key="item.studentId">
+          <div class="cell-hd">
+            <label for class="label">{{ item.studentName }}</label>
+          </div>
+          <div class="cell-bd">
+            <p class="cell-p">{{ item.postTime }}</p>
+          </div>
         </div>
       </div>
       <!-- 打卡记录列表 -->
-      <!-- <div class="class-edit-head">
-        <button class="btn btn-primary">{{ className }}</button>
-      </div>-->
-      <!-- <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
-        <van-tab title="未打卡">
-          <div class="cells-title">未打卡列表({{ list.length }})</div>
-          <div class="cells">
-            <div class="cell min-h120" v-for="(item, index) in list" :key="index">
-              <div class="cell-bd">
-                <p>{{ item.studentName }}</p>
-              </div>
-              <div class="cell-ft">
-                <span>{{ item.postTime }}</span>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="已打卡">
-          <div class="cells-title">已打卡列表({{ list.length }})</div>
-          <div class="cells">
-            <div class="cell min-h120" v-for="(item, index) in list" :key="index">
-              <div class="cell-bd">
-                <p>{{ item.studentName }}</p>
-              </div>
-              <div class="cell-ft">
-                <span>{{ item.postTime }}</span>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-      </van-tabs>-->
     </div>
   </div>
 </template>
 <script>
+import dayjs from "dayjs";
 import service from "@/api";
 export default {
   name: "clockShow",
   data() {
     return {
+      studentStatus: 1,
       dialogVisible: false,
-      active: 0,
       className: this.$route.query.className,
-      list: [],
       query: {
-        type: 0, //0-缺勤 1-出勤
         date: this.$route.query.date,
         classId: this.$route.query.classId
-      }
+      },
+      form: {
+        studentId: null,
+        studentStatus: null
+      },
+      statusList: [
+        { title: "请假", studentStatus: 1 },
+        { title: "缺勤", studentStatus: 2 },
+        { title: "漏打卡", studentStatus: 3 },
+        { title: "出勤", studentStatus: 4 }
+      ],
+      list: [],
+      punchList: []
     };
   },
   methods: {
-    handleTabClick(index) {
-      this.query.type = index;
-      this.queryAttendance(this.query);
+    async handleSubmit(action, done) {
+      if (action === "confirm") {
+        let res = await service.changeStatus(this.form);
+        if (res.errorCode === 0) {
+          done();
+          this.$toast(`修改成功`);
+          this.dialogVisible = false;
+          this.queryAttendance(this.query);
+        }
+      } else {
+        done();
+      }
+    },
+    handleChangeStatus(params) {
+      if (dayjs().format("YYYY-MM-DD") == this.query.date) {
+        let { studentStatus, studentId } = params;
+        this.dialogVisible = true;
+        this.form.studentStatus = studentStatus;
+        this.form.studentId = studentId;
+      } else {
+        this.$toast(`学生考勤状态只能修改当天的`);
+      }
     },
     //考勤统计详情
     async queryAttendance(params = {}) {
       let res = await service.queryAttendance(params);
       if (res.errorCode === 0) {
-        this.list = res.data.info;
+        this.list = res.data;
+      }
+    },
+    //改变学生出勤状态
+    async changeStatus(params = {}) {
+      let res = await service.changeStatus(params);
+      if (res.errorCode === 0) {
+        this.$toast(`${res.errorMsg}`);
+      }
+    },
+    //出勤管理-查询学生打卡时间
+    async queryStudentPunchList(params = {}) {
+      let res = await service.queryStudentPunchList(params);
+      if (res.errorCode === 0) {
+        this.punchList = res.data;
       }
     }
   },
   activated() {
     this.queryAttendance(this.query);
+    this.queryStudentPunchList(this.query);
   }
 };
 </script>
@@ -210,10 +222,10 @@ export default {
       transform: scaleY(0.5);
     }
     &-success {
-      background-color: #92cd36;
+      background-color: #9cd248;
     }
     &-default {
-      background-color: #febf56;
+      background-color: #fda322;
     }
     img {
       width: 100px;
@@ -222,7 +234,7 @@ export default {
     }
     span {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 10px;
     }
   }
 }
