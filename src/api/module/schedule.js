@@ -16,6 +16,22 @@ export function addMySchedule(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//编辑我的课表
+export function updateMySchedule(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/updateMySchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//课程列表
+export function queryMySchedule(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryMySchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //课程列表
 export function queryLessonList(params, config = {
   showLoading: false
