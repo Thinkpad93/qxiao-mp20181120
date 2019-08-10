@@ -14,6 +14,16 @@ export default [{
     component: () => import('@/views/schedule/add'),
     meta: {
       title: "自制课程表",
+      keepAlive: false,
+      isShare: false,
+    }
+  },
+  {
+    path: '/schedule/edit',
+    name: "scheduleEdit",
+    component: () => import('@/views/schedule/edit'),
+    meta: {
+      title: "编辑自制课程表",
       keepAlive: true,
       isShare: false,
     }

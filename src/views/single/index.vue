@@ -369,6 +369,7 @@ export default {
           let obj = Object.assign({}, _cookie, { totalStarCount });
           this.$store.dispatch("user/setInfo", obj).then(data => {
             if (data.success === "ok") {
+              this.actionListQuery();
             }
           });
         }

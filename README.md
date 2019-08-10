@@ -132,6 +132,19 @@ jsApiList = [
   "onScanWXDeviceResult", //扫描到某个设备时触发
   "onWXDeviceBluetoothStateChange" //手机蓝牙打开或关闭时触发
 ];
+
+schdule.map(elem => {
+  return {
+    startTime: "",
+    endTime: "",
+    s: elem.schdule.map(item => {
+      let { title, ...args } = item;
+      return {
+        ...args
+      };
+    })
+  };
+});
 ```
 
 ## git 分支命名

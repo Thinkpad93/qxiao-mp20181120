@@ -65,8 +65,8 @@
                 </div>
               </div>
             </div>
-            <template v-if="tr.schedule">
-              <div class="schedule-td flex-1" v-for="(td, tdIndex) in tr.schedule" :key="tdIndex">
+            <template v-if="tr.list">
+              <div class="schedule-td flex-1" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
                 <div class="block" @click="handleChangeLesson(td, index, tdIndex)">
                   <span v-if="td.title">{{ td.title ? td.title : "无课" }}</span>
                   <van-icon name="plus" size="16px" color="#999" v-else></van-icon>
@@ -97,42 +97,18 @@ export default {
       popupStartTime: false,
       startDate: "07:00",
       popupEndTime: false,
-      endDate: "18:00",
+      endDate: "08:00",
       startIndex: 0, //开始时间索引
       endIndex: 0, //结束时间索引
       popupShow: false,
       defaultIndex: 0,
       rowIndex: 0, //行索引值
       tdIndex: 0, //td块索引值
-      query: {
-        studentId: this.$store.state.user.info.studentId
-      },
+      studentId: this.$store.state.user.info.studentId,
+      model: this.$route.query.model,
       weekList: ["星期一", "星期二", "星期三", "星期四", "星期五"],
       lessonList: [],
-      scheduleList: [
-        {
-          startTime: "",
-          endTime: "",
-          schedule: [
-            { lessonId: 0, title: "", day: 1 },
-            { lessonId: 0, title: "", day: 2 },
-            { lessonId: 0, title: "", day: 3 },
-            { lessonId: 0, title: "", day: 4 },
-            { lessonId: 0, title: "", day: 5 }
-          ]
-        },
-        {
-          startTime: "",
-          endTime: "",
-          schedule: [
-            { lessonId: 0, title: "", day: 1 },
-            { lessonId: 0, title: "", day: 2 },
-            { lessonId: 0, title: "", day: 3 },
-            { lessonId: 0, title: "", day: 4 },
-            { lessonId: 0, title: "", day: 5 }
-          ]
-        }
-      ]
+      scheduleList: [] //
     };
   },
   methods: {
@@ -160,16 +136,16 @@ export default {
     handleLessonConfirm(value, index) {
       let { title, lessonId } = value;
       //设置选择的课程
-      let obj = this.scheduleList[this.rowIndex].schedule[this.tdIndex];
+      let obj = this.scheduleList[this.rowIndex].list[this.tdIndex];
       if (obj) {
-        obj.title = title;
+        obj.title = title || "";
         obj.lessonId = lessonId;
       }
       this.popupShow = false;
     },
     //单击选择课程
     handleChangeLesson(params, index, tdIndex) {
-      let { lessonId } = params;
+      let { lessonId, title } = params;
       let elementIndex = this.lessonList.findIndex(item => {
         return item.lessonId == lessonId;
       });
@@ -181,10 +157,15 @@ export default {
     //新增课节
     handleAdd() {
       //声明一个对象
-      let obj = { startTime: "", endTime: "", schedule: [] };
+      let obj = { startTime: "", endTime: "", list: [] };
       //生成周一到周五的课程
       for (let i = 1; i <= 5; i++) {
-        obj.schedule.push({ lessonId: 0, title: "", day: i });
+        obj.list.push({
+          lessonId: 0,
+          title: "",
+          day: i,
+          studentId: this.studentId
+        });
       }
       this.scheduleList.push(obj);
     },
@@ -213,14 +194,9 @@ export default {
         let startTime = scheduleList[i].startTime;
         let endTime = scheduleList[i].endTime;
         let result = this.handleCompareTime(startTime, endTime);
-        if (startTime == "") {
+        if (startTime == "" || endTime == "") {
           isString = false;
-          this.$toast(`请选择第${i + 1}节的开始时间`);
-          break;
-        }
-        if (endTime == "") {
-          isString = false;
-          this.$toast(`请选择第${i + 1}节的结束时间`);
+          this.$toast(`请选择第${i + 1}节的课表时间`);
           break;
         }
         if (!result) {
@@ -229,8 +205,41 @@ export default {
           break;
         }
       }
+      //当开始时间和结束时间不为空且开始时间大于结束时间
       if (isString && flag) {
-        console.log(this.scheduleList);
+        //新增提交还是编辑更新
+        if (this.model === "add") {
+          this.addMySchedule({ scheduleVOs: this.scheduleList });
+        } else {
+          this.updateMySchedule({ scheduleVOs: this.scheduleList });
+        }
+      }
+    },
+    //初始化课表
+    handleInitSchedule() {
+      let result = [];
+      for (let i = 0; i < 5; i++) {
+        let startTime = "";
+        let endTime = "";
+        let list = [];
+        for (let s = 1; s <= 5; s++) {
+          let obj = {
+            lessonId: 0, //课程ID，默认为无课
+            title: "",
+            day: s, //星期，递增
+            studentId: this.studentId
+          };
+          list.push(obj);
+        }
+        result.push({ startTime, endTime, list });
+      }
+      this.scheduleList = result;
+    },
+    //查询我的课表
+    async queryMySchedule(params = {}) {
+      let res = await service.queryMySchedule(params);
+      if (res.errorCode === 0) {
+        this.scheduleList = res.data;
       }
     },
     //课程列表查询
@@ -250,15 +259,27 @@ export default {
         }
       }
     },
-    //查询我的课表
-    async queryMySchedule(params = {}) {
-      let res = await service.queryMySchedule(params);
+    //自制我的课表
+    async addMySchedule(params = {}) {
+      let res = await service.addMySchedule(params);
       if (res.errorCode === 0) {
+        this.$router.go(-1);
+      }
+    },
+    //编辑我的课表
+    async updateMySchedule(params = {}) {
+      let res = await service.updateMySchedule(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
       }
     }
   },
   mounted() {
-    this.queryMySchedule(this.query);
+    if (this.model === "add") {
+      this.handleInitSchedule();
+    } else {
+      this.queryMySchedule({ studentId: this.studentId });
+    }
     this.queryLessonList();
   }
 };
