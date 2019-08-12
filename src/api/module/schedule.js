@@ -40,3 +40,19 @@ export function queryLessonList(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//选中默认课表
+export function checkedSchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/checkedSchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询课表状态
+export function queryScheduleCheckedState(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryScheduleCheckedState.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

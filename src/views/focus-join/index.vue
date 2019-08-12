@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-page">
-    <div class="flex-bd">
+  <div class="page">
+    <div class="page-bd">
       <p class="tip">您的亲人邀请您一起关注孩子成长</p>
       <div class="container" v-if="list.length">
         <p>孩子列表</p>
@@ -45,8 +45,10 @@
         </div>
       </div>
     </div>
-    <div class="flex-ft">
-      <van-button type="info" size="large" class="no-radius" @click="handleSubmit">提交</van-button>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" @click="handleSubmit">提交</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +110,8 @@ export default {
           .catch(() => {
             this.form.tel = "";
           });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

@@ -1,29 +1,30 @@
-import * as album from './module/album';
-import * as clock from './module/clock';
-import * as community from './module/community';
-import * as fresh from './module/fresh';
-import * as homework from './module/homework';
-import * as manage from './module/manage';
-import * as notice from './module/notice';
-import * as recipe from './module/recipe';
-import * as user from './module/user';
-import * as classes from './module/classes';
-import * as wx from './module/wx';
+import * as album from './module/album'; //班级相册
+import * as clock from './module/clock'; //考勤管理
+import * as community from './module/community'; //班级圈
+import * as fresh from './module/fresh'; //新鲜报
+import * as homework from './module/homework'; //作业
+import * as manage from './module/manage'; //
+import * as notice from './module/notice'; //通知公告
+import * as recipe from './module/recipe'; //营养食谱
+import * as user from './module/user'; //用户
+import * as classes from './module/classes'; //班级
+import * as wx from './module/wx'; //微信相关
 
-import * as action from './module/action';
-import * as prize from './module/prize';
-import * as homeStat from './module/homeStat';
-import * as lesson from './module/lesson';
-import * as remark from './module/remark';
-import * as role from './module/role';
-import * as works from './module/works';
-import * as process from './module/process';
-import * as teacher from './module/teacher';
-import * as deletes from './module/delete';
-import * as feed from './module/feed';
-import * as mail from './module/mail';
-import * as schedule from './module/schedule';
+import * as action from './module/action'; //行为
+import * as prize from './module/prize'; //奖励
+import * as homeStat from './module/homeStat'; //在家表现统计
+import * as lesson from './module/lesson'; //课程
+import * as remark from './module/remark'; //评语
+import * as role from './module/role'; //角色相关
+import * as works from './module/works'; //作品展
+import * as process from './module/process'; //
+import * as teacher from './module/teacher'; //老师管理
+import * as deletes from './module/delete'; //删除用户功能
+import * as feed from './module/feed'; //留言
+import * as mail from './module/mail'; //邮件发送
+import * as schedule from './module/schedule'; //课表
 import * as expression from './module/expression';
+import * as bracelet from './module/bracelet';
 export default {
   ...album,
   ...clock,
@@ -49,5 +50,6 @@ export default {
   ...feed,
   ...mail,
   ...schedule,
-  ...expression
+  ...expression,
+  ...bracelet
 }

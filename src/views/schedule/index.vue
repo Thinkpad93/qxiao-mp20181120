@@ -23,7 +23,21 @@
         ></van-picker>
       </van-popup>
       <!-- 学校课表 -->
-      <div class="cells-title">学校课表</div>
+      <template v-if="list.length">
+        <template v-if="roleType == 9 || roleType == 3">
+          <div class="schedule-top flex a-i-c j-c-s-b">
+            <div>学校课表</div>
+            <div class>
+              <van-radio
+                name="0"
+                v-model="picked"
+                checked-color="#92cd36"
+                @click="handleRadio($event)"
+              >默认</van-radio>
+            </div>
+          </div>
+        </template>
+      </template>
       <div class="schedule" v-if="list.length">
         <div class="schedule-tr flex">
           <div class="schedule-td">
@@ -60,7 +74,19 @@
         </div>
       </div>
       <!-- 自制课表 -->
-      <div class="cells-title">自制课表</div>
+      <template v-if="myScheduleList.length">
+        <div class="schedule-top flex a-i-c j-c-s-b">
+          <div>自制课表</div>
+          <div class>
+            <van-radio
+              name="1"
+              v-model="picked"
+              checked-color="#92cd36"
+              @click="handleRadio($event)"
+            >默认</van-radio>
+          </div>
+        </div>
+      </template>
       <div class="schedule" v-if="myScheduleList.length">
         <div class="schedule-tr flex">
           <div class="schedule-td">
@@ -96,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="!list.length && !myScheduleList.length">
         <img src="@/assets/kong.png" alt />
         <p>暂无课程表</p>
       </div>
@@ -123,6 +149,7 @@ export default {
   mixins: [classList],
   data() {
     return {
+      picked: "0",
       popupShow: false,
       roleType: this.$store.state.user.info.roleType,
       className: this.$store.state.user.info.className,
@@ -147,6 +174,15 @@ export default {
         }
       });
     },
+    //radio事件
+    handleRadio(e) {
+      let obj = {
+        classId: this.query.classId,
+        studentId: this.querys.studentId,
+        checked: parseInt(this.picked)
+      };
+      this.checkedSchedule(obj);
+    },
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;
@@ -166,6 +202,23 @@ export default {
       if (res.errorCode === 0) {
         this.myScheduleList = res.data;
       }
+    },
+    //选中默认课表
+    async checkedSchedule(params = {}) {
+      let res = await service.checkedSchedule(params);
+      if (res.errorCode === 0) {
+        this.$toast(`${res.data}`);
+      }
+    },
+    //查询课表状态
+    async queryScheduleCheckedState(params = {}) {
+      let res = await service.queryScheduleCheckedState(params);
+      if (res.errorCode === 0) {
+        let { schedule } = res.data || {};
+        if (schedule != null) {
+          this.picked = schedule.toString();
+        }
+      }
     }
   },
   mounted() {
@@ -174,11 +227,19 @@ export default {
   activated() {
     if (this.roleType == 9 || this.roleType == 3) {
       this.queryMySchedule(this.querys);
+      this.queryScheduleCheckedState({
+        classId: this.query.classId,
+        studentId: this.querys.studentId
+      });
     }
   }
 };
 </script>
 <style lang="less" scoped>
+.schedule-top {
+  height: 100px;
+  padding: 0 30px;
+}
 .schedule {
   background-color: #fff;
 }

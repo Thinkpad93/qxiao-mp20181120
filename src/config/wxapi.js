@@ -16,26 +16,32 @@ export default {
           nonceStr: res.nonceStr, // 必填，生成签名的随机串
           signature: res.signature, // 必填，签名
           jsApiList: [
-            "chooseImage",
-            "previewImage",
-            "uploadImage",
-            "downloadImage",
-            "getLocalImgData",
+            "chooseImage", //拍照或从手机相册中选图接口
+            "previewImage", //预览图片
+            "uploadImage", //上传图片
+            "downloadImage", //下载图片
+            "getLocalImgData", //获取本地图片
             "onMenuShareAppMessage",
-            "hideMenuItems",
+            "hideMenuItems", //批量隐藏功能按钮
             "hideOptionMenu",
             "showOptionMenu",
-            "chooseWXPay",
-            "closeWindow",
-            "openWXDeviceLib",
-            "closeWXDeviceLib",
-            "getWXDeviceInfos",
-            "sendDataToWXDevice",
-            "startScanWXDevice",
-            "stopScanWXDevice",
-            "connectWXDevice",
-            "disconnectWXDevice",
-            "getWXDeviceTicket"
+            "chooseWXPay", //发起一个微信支付
+            "closeWindow", //关闭当前网页窗口
+            "openWXDeviceLib", //初始化设备库（只支持蓝牙设备）
+            "closeWXDeviceLib", //关闭设备库（只支持蓝牙设备）
+            "getWXDeviceInfos", //获取设备信息（获取当前用户已绑定的蓝牙设备列表）
+            "sendDataToWXDevice", //发送数据给设备
+            "startScanWXDevice", //扫描设备（获取周围所有的设备列表，无论绑定还是未被绑定的设备都会扫描到）
+            "stopScanWXDevice", //停止扫描设备
+            "connectWXDevice", //连接设备
+            "disconnectWXDevice", //断开设备连接
+            "getWXDeviceTicket", //获取操作凭证
+            //下面是监听事件：
+            "onWXDeviceBindStateChange", //微信客户端设备绑定状态被改变时触发此事件
+            "onWXDeviceStateChange", //监听连接状态，可以监听连接中、连接上、连接断开
+            "onReceiveDataFromWXDevice", //接收到来自设备的数据时触发
+            "onScanWXDeviceResult", //扫描到某个设备时触发
+            "onWXDeviceBluetoothStateChange" //手机蓝牙打开或关闭时触发
           ] // 必填，需要使用的JS接口列表
         });
       }

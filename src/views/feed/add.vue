@@ -19,6 +19,8 @@
           </div>
           <div class="cell-bd">
             <select class="select" name="select" dir="rtl" v-model="form.teacherId">
+              <!-- 兼容性问题修改 -->
+              <optgroup disabled hidden></optgroup>
               <option
                 :value="option.teacherId"
                 v-for="(option,index) in teacherList"
