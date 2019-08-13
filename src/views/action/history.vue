@@ -29,20 +29,25 @@
               :key="index"
             >
               <div class="action-cell-bd flex a-i-c j-c-s-b">
-                <div class="mr-40">
+                <div class="action-cell-label text-ellipsis">
                   <span>{{ action.title }}</span>
                 </div>
-                <van-rate
-                  v-model="action.starCount"
-                  :count="5"
-                  :size="22"
-                  color="#febf56"
-                  void-color="#e5eee0"
-                  disabled-color="#febf56"
-                  :readonly="rateReadonly"
-                  :disabled="action.comment === 1"
-                  @change="handleChangeRate(action)"
-                ></van-rate>
+                <div class="action-cell-rate">
+                  <van-rate
+                    v-model="action.starCount"
+                    :count="5"
+                    :size="22"
+                    color="#febf56"
+                    void-color="#e5eee0"
+                    disabled-color="#febf56"
+                    :readonly="rateReadonly"
+                    :disabled="action.comment === 1"
+                    @change="handleChangeRate(action)"
+                  ></van-rate>
+                </div>
+                <div class="action-cell-edit" @click="handleNote(action)">
+                  <van-icon name="eye-o" size="18px"></van-icon>
+                </div>
               </div>
             </div>
           </div>
@@ -59,6 +64,7 @@ export default {
   name: "actionHistory",
   data() {
     return {
+      dialogNote: false,
       rateReadonly: false,
       query: {
         openId: this.$store.state.user.info.openId,
@@ -81,10 +87,24 @@ export default {
     }
   },
   methods: {
+    //备注打星
+    handleNote(params) {
+      let { remarks } = params;
+      if (remarks != null) {
+        this.$dialog
+          .alert({
+            title: "查看备注",
+            message: remarks
+          })
+          .then(() => {});
+      } else {
+        this.$toast(`暂无备注信息`);
+      }
+    },
     //rate事件
     handleChangeRate(params = {}) {
       if (params) {
-        let { comment, title, ...args } = params;
+        let { comment, title, remarks, ...args } = params;
         let obj = Object.assign({}, args, {
           openId: this.query.openId
         });
@@ -134,7 +154,18 @@ export default {
   &-bd {
     flex: 1;
   }
+  &-rate {
+    flex: 1;
+  }
+  &-label {
+    width: 280px;
+    overflow: hidden;
+  }
+  &-edit {
+    color: #999;
+  }
 }
+
 .van-collapse-item {
   margin-bottom: 10px;
 }

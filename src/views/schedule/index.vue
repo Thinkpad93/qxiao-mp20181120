@@ -207,7 +207,7 @@ export default {
     async checkedSchedule(params = {}) {
       let res = await service.checkedSchedule(params);
       if (res.errorCode === 0) {
-        this.$toast(`${res.data}`);
+        //this.$toast(`${res.data}`);
       }
     },
     //查询课表状态

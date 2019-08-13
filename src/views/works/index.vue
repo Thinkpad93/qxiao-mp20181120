@@ -38,25 +38,33 @@
             <p size-17>优秀作品展示</p>
           </div>
           <!-- 优秀作品 -->
-          <div class="good-works">
-            <div class="flex f-w-w" v-if="worksList.length">
-              <div class="item" v-for="(item, index) in worksList" :key="item.worksId">
-                <div
-                  class="good-image"
-                  @click="handlePreviewImage(worksList, item.imageUrl, index)"
-                >
-                  <img :src="item.smallUrl" alt />
-                  <div class="zan flex a-i-c" @click.stop="handleAddPraise(item)">
-                    <van-icon name="like" size="14px" color="#e64340"></van-icon>
-                    <span>{{ item.praise }}</span>
+          <div class="good-works" v-if="worksList.length">
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              :immediate-check="false"
+              :offset="100"
+              @load="onLoad"
+            >
+              <div class="flex f-w-w">
+                <div class="item" v-for="(item, index) in worksList" :key="item.worksId">
+                  <div
+                    class="good-image"
+                    @click="handlePreviewImage(worksList, item.imageUrl, index)"
+                  >
+                    <img :src="item.smallUrl" alt />
+                    <div class="zan flex a-i-c" @click.stop="handleAddPraise(item)">
+                      <van-icon name="like" size="14px" color="#e64340"></van-icon>
+                      <span>{{ item.praise }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="empty" v-if="!worksList.length">
-              <img src="@/assets/kong.png" alt />
-              <p>目前还没有优秀作品呢</p>
-            </div>
+            </van-list>
+          </div>
+          <div class="empty" v-if="!worksList.length">
+            <img src="@/assets/kong.png" alt />
+            <p>目前还没有优秀作品呢</p>
           </div>
         </van-tab>
         <van-tab title="我的上传" :disabled="studentId == 0">
@@ -154,6 +162,9 @@ export default {
   },
   data() {
     return {
+      loading: false,
+      finished: false,
+      totalPage: 1, //总页数
       active: 0,
       mask: false,
       swiperOption: {
@@ -187,6 +198,29 @@ export default {
     }
   },
   methods: {
+    onLoad() {
+      console.log("onload");
+      if (this.querys.page < this.totalPage) {
+        this.querys.page += 1;
+        service.excellentWorks(this.querys).then(res => {
+          if (res.errorCode === 0) {
+            let list = res.data.data;
+            this.totalPage = res.data.totalPage;
+            this.querys.page = res.data.page;
+            // 加载状态结束
+            this.loading = false;
+            for (let i = 0; i < list.length; i++) {
+              this.worksList.push(list[i]);
+            }
+          }
+        });
+      } else {
+        // 数据全部加载完成
+        console.log("数据全部加载完成");
+        this.loading = false;
+        this.finished = true;
+      }
+    },
     handleWorkAdd() {
       if (this.studentId == 0) {
         this.$toast("您尚未关注小孩，请先关注");
@@ -262,6 +296,8 @@ export default {
     async excellentWorks(params = {}) {
       let res = await service.excellentWorks(params);
       if (res.errorCode === 0) {
+        this.querys.page = res.data.page;
+        this.totalPage = res.data.totalPage;
         this.worksList = res.data.data || [];
       }
     },

@@ -42,7 +42,7 @@ export function queryLessonList(params, config = {
 }
 //选中默认课表
 export function checkedSchedule(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/checkedSchedule.do', params, config)
     .then(res => res.data)
