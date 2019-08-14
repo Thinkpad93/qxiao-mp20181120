@@ -1,6 +1,40 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <div class="cells mb-30">
+        <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for class="label">上午开始时间</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入上午开始时间" v-model="form.amStart" />
+          </div>
+        </div>
+        <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for class="label">课间时间</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入课间时间" v-model="form.recess" />
+          </div>
+        </div>
+        <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for class="label">大课间时间</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入大课间时间" v-model="form.bigRecess" />
+          </div>
+        </div>
+        <div class="cell min-h100">
+          <div class="cell-hd">
+            <label for class="label">下午开始时间</label>
+          </div>
+          <div class="cell-bd">
+            <input class="input" placeholder="请输入下午开始时间" v-model="form.pmStart" />
+          </div>
+        </div>
+      </div>
       <!-- 课程选择 -->
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -94,6 +128,12 @@ export default {
   name: "scheduleAdd",
   data() {
     return {
+      form: {
+        amStart: "",
+        bigRecess: "",
+        recess: "",
+        pmStart: ""
+      },
       popupStartTime: false,
       startDate: "07:00",
       popupEndTime: false,
@@ -276,7 +316,7 @@ export default {
   },
   mounted() {
     if (this.model === "add") {
-      this.handleInitSchedule();
+      //this.handleInitSchedule();
     } else {
       this.queryMySchedule({ studentId: this.studentId });
     }
