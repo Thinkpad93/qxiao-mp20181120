@@ -369,9 +369,19 @@ export default {
           let obj = Object.assign({}, _cookie, { totalStarCount });
           this.$store.dispatch("user/setInfo", obj).then(data => {
             if (data.success === "ok") {
-              //this.actionListQuery();
             }
           });
+        } else if (res.errorCode === -1) {
+          this.$dialog
+            .alert({
+              title: "提示",
+              message: "打星失败了~"
+            })
+            .then(() => {
+              this.rateReadonly = false;
+              this.actionListQuery();
+              //window.location.reload();
+            });
         }
       }
     },

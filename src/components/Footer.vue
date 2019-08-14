@@ -29,7 +29,9 @@ export default {
       roleType: state => state.info.roleType
     }),
     singleUrl() {
-      if (this.roleType == 1 || this.roleType == 2 || this.roleType == 4) {
+      if (this.roleType == 1 || this.roleType == 4) {
+        return `/single/admin`;
+      } else if (this.roleType == 2) {
         return `/single/teacher`;
       } else {
         return `/single`;

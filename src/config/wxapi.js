@@ -9,7 +9,7 @@ export default {
     }).then(res => {
       if (res.appid && res.nonceStr) {
         wx.config({
-          beta: true,
+          beta: true, // 注入wx.invoke方法来调用还未开放的jsapi方法
           debug: false, // 开启调试模式,开发时可以开启
           appId: res.appid, // 必填，公众号的唯一标识
           timestamp: res.timestamp, // 必填，生成签名的时间戳

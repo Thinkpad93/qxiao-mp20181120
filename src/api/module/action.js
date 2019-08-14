@@ -10,7 +10,7 @@ export function actionAdd(params, config = {
 }
 //按行为查询规则
 export function actionQuery(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/expression/actionQuery.do', params, config)
     .then(res => res.data)

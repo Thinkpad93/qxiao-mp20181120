@@ -25,6 +25,7 @@ import * as mail from './module/mail'; //邮件发送
 import * as schedule from './module/schedule'; //课表
 import * as expression from './module/expression';
 import * as bracelet from './module/bracelet';
+import * as director from './module/director';
 export default {
   ...album,
   ...clock,
@@ -51,5 +52,6 @@ export default {
   ...mail,
   ...schedule,
   ...expression,
-  ...bracelet
+  ...bracelet,
+  ...director
 }

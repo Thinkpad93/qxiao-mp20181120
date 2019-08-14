@@ -22,6 +22,16 @@ export default [{
     }
   },
   {
+    path: '/single/admin',
+    name: 'singleAdmin',
+    component: () => import('@/views/single/admin'),
+    meta: {
+      keepAlive: true,
+      title: '小Q表现',
+      isShare: false,
+    }
+  },
+  {
     path: '/single/view',
     name: 'singleView',
     component: () => import('@/views/single/view'),

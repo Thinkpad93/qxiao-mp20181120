@@ -25,16 +25,6 @@
         <calendar :zero="true" :value="valueTwo" :range="true" :lunar="true" @select="selectTwo"></calendar>
       </van-popup>
       <!-- 日期选择 2 -->
-      <!-- 周月选择 -->
-      <!-- <van-popup v-model="popupWeek" position="bottom">
-        <van-picker
-          :columns="classList"
-          show-toolbar
-          value-key="className"
-          @cancel="popupWeek = false"
-          @confirm="handleClassConfirm"
-        ></van-picker>
-      </van-popup>-->
       <!-- 班级选择菜单 -->
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -189,8 +179,8 @@
                     <tr>
                       <td>
                         <div id="lineTd" class="block">
-                        <span class="span2">课程</span>
-                        <span class="span1">Q星</span>
+                          <span class="span2">课程</span>
+                          <span class="span1">Q星</span>
                         </div>
                       </td>
                       <td class="fixedColumn">
@@ -198,48 +188,60 @@
                       </td>
                       <td>
                         <div class="block">
-                        <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
+                          <van-rate v-model="count" :size="14" :count="5" color="#febf56" readonly></van-rate>
                         </div>
                       </td>
                       <td>
                         <div class="block">
-                        <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
+                          <van-rate v-model="count" :size="14" :count="4" color="#febf56" readonly></van-rate>
                         </div>
                       </td>
                       <td>
                         <div class="block">
-                        <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
+                          <van-rate v-model="count" :size="14" :count="3" color="#febf56" readonly></van-rate>
                         </div>
                       </td>
                       <td>
                         <div class="block">
-                        <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
+                          <van-rate v-model="count" :size="14" :count="2" color="#febf56" readonly></van-rate>
                         </div>
                       </td>
                       <td>
                         <div class="block">
-                        <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
+                          <van-rate v-model="count" :size="14" :count="1" color="#febf56" readonly></van-rate>
                         </div>
                       </td>
                       <td>
-                        <div class="block">
-                        未打卡
-                        </div>
+                        <div class="block">未打卡</div>
                       </td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item,index) in lessonTable" :key="index">
-                      <td><div class="block">{{ item.name }}</div></td>
+                      <td>
+                        <div class="block">{{ item.name }}</div>
+                      </td>
                       <td class="fixedColumn">
                         <div class="block"></div>
                       </td>
-                      <td @click="jumpDetails(item, 5)"><div class="block">{{ item.five + '人' }}</div></td>
-                      <td @click="jumpDetails(item, 4)"><div class="block">{{ item.four + '人' }}</div></td>
-                      <td @click="jumpDetails(item, 3)"><div class="block">{{ item.three + '人' }}</div></td>
-                      <td @click="jumpDetails(item, 2)"><div class="block">{{ item.two + '人' }}</div></td>
-                      <td @click="jumpDetails(item, 1)"><div class="block">{{ item.one + '人' }}</div></td>
-                      <td @click="jumpDetails(item, 0)"><div class="block">{{ item.zero + '人' }}</div></td>
+                      <td @click="jumpDetails(item, 5)">
+                        <div class="block">{{ item.five + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 4)">
+                        <div class="block">{{ item.four + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 3)">
+                        <div class="block">{{ item.three + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 2)">
+                        <div class="block">{{ item.two + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 1)">
+                        <div class="block">{{ item.one + '人' }}</div>
+                      </td>
+                      <td @click="jumpDetails(item, 0)">
+                        <div class="block">{{ item.zero + '人' }}</div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -548,16 +550,6 @@ export default {
   left: 10%;
 }
 
-// .fixedTable td {
-//   color: #96d723;
-//   text-align: center;
-//   padding: 30px 0;
-//   min-width: 240px;
-//   overflow: hidden;
-//   border-bottom: 1px solid #ebeef5;
-//   border-right: 1px solid #ebeef5;
-//   background-color: #fff;
-// }
 .fixedTable th {
   text-align: center;
   padding: 20px 0;
