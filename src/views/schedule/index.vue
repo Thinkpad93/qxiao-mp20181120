@@ -135,7 +135,7 @@
             size="large"
             class="no-radius"
             @click="handleJump"
-          >{{ myScheduleList.length ? '编辑自制课表':'自制课表' }}</van-button>
+          >{{ myScheduleList.length ? '编辑自制课程表':'自制课程表' }}</van-button>
         </div>
       </template>
     </div>

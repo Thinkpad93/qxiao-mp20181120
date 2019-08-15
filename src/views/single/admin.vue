@@ -36,7 +36,7 @@
       </van-popup>
       <!-- 年级选择菜单 -->
       <div class="classId flex a-i-c j-c-s-b">
-        <p>年级0</p>
+        <p>年级</p>
         <div @click="popupShow = true">
           <span class="mr-10">{{ gradeName }}</span>
           <van-icon name="arrow-down" size="16px"></van-icon>
