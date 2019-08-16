@@ -49,7 +49,7 @@ export default {
         }
       );
     },
-    ///扫描到某个设备时触发
+    ///扫描到某个设备时触发，事件监听是不需要传参的
     onScanWXDeviceResult() {
       wx.on("onScanWXDeviceResult", res => {
         console.log(res);

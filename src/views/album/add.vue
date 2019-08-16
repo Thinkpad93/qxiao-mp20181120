@@ -87,7 +87,7 @@ export default {
       //开始上传文件
       let res = await service.uploadFile(formData, config);
       if (res.errorCode === 0) {
-        this.form.images = res.data;
+        this.form.images = res.data; //设置返回的图片地址
         //相册图片或视频上传
         service.albumImageAdd(this.form).then(res => {
           if (res.errorCode === 0) {

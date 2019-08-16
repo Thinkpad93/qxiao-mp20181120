@@ -154,7 +154,7 @@ export default {
           icon: require("../../assets/user-icon-5@2x.png")
         },
         {
-          title: "课表",
+          title: "自定义课表",
           to: "/schedule",
           icon: require("../../assets/user-icon-5@2x.png")
         },

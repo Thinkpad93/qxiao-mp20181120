@@ -34,7 +34,7 @@ export default {
       ],
       clockList: [
         {
-          name: "考勤记录",
+          name: "考勤管理",
           url: "/clock",
           icon: require("../assets/men-icon-3@2x.png")
         }

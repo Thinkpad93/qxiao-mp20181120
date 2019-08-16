@@ -24,7 +24,7 @@
               <textarea
                 rows="5"
                 class="textarea"
-                placeholder="您可以添加对孩子的表现的认可....."
+                placeholder="您可以输入备注信息....."
                 v-model="form.remarks"
               ></textarea>
             </div>

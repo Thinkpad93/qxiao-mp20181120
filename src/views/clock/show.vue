@@ -22,6 +22,7 @@
           </van-cell-group>
         </van-radio-group>
       </van-dialog>
+      <div class="cells-title">点击学生头像可进行考勤状态修改</div>
       <!-- 修改学生考勤状态 -->
       <div class="table">
         <div class="table-head">
@@ -40,7 +41,12 @@
           <div class="tr">
             <div
               class="td"
-              :class="[item.punchStatus == 1 ? 'td-success': 'td-default']"
+              :class="[
+                status,
+                { 'qingjia': item.studentStatus == 1 },
+                { 'queqing': item.studentStatus == 2 },
+                { 'loudaka': item.studentStatus == 3 },
+              ]"
               v-for="item in list"
               :key="item.studentId"
               @click="handleChangeStatus(item)"
@@ -55,8 +61,8 @@
                   <span v-if="item.studentStatus == 0"></span>
                   <span v-else-if="item.studentStatus == 1">请假</span>
                   <span v-else-if="item.studentStatus == 2">缺勤</span>
-                  <span v-else-if="item.studentStatus == 3">漏打卡</span>
-                  <span v-else>出勤</span>
+                  <span v-else>漏打卡</span>
+                  <!-- <span v-else>出勤</span> -->
                 </div>
               </div>
             </div>
@@ -105,6 +111,18 @@ export default {
       list: [],
       punchList: []
     };
+  },
+  computed: {
+    status(n) {
+      let isActive;
+      this.punchList.forEach(item => {
+        let { punchStatus, studentStatus } = item;
+        if (studentStatus == 0) {
+          punchStatus == 1 ? (isActive = true) : (isActive = false);
+        }
+      });
+      return { "td-success": isActive };
+    }
   },
   methods: {
     async handleSubmit(action, done) {
@@ -237,5 +255,10 @@ export default {
       margin-top: 10px;
     }
   }
+}
+.clock-down {
+  position: absolute;
+  right: 5%;
+  top: 10%;
 }
 </style>

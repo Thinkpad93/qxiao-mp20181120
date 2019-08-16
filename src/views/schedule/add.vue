@@ -7,7 +7,12 @@
             <label for class="label">上午上课时间</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入上午开始时间" v-model="form.am" />
+            <input
+              class="input"
+              placeholder="请输入上午开始时间"
+              v-model="form.am"
+              @click="selectAmandPm('am')"
+            />
           </div>
         </div>
         <div class="cell min-h100">
@@ -15,7 +20,12 @@
             <label for class="label">下午上课时间</label>
           </div>
           <div class="cell-bd">
-            <input class="input" placeholder="请输入下午开始时间" v-model="form.pm" />
+            <input
+              class="input"
+              placeholder="请输入下午开始时间"
+              v-model="form.pm"
+              @click="selectAmandPm('pm')"
+            />
           </div>
         </div>
         <div class="cell min-h100">
@@ -39,6 +49,15 @@
           </div>
         </div>
       </div>
+      <!-- am pm -->
+      <van-popup v-model="popupAmPm" position="bottom">
+        <van-datetime-picker
+          v-model="ampmDate"
+          type="time"
+          @cancel="popupAmPm = false"
+          @confirm="handleAmPmTimeConfirm"
+        ></van-datetime-picker>
+      </van-popup>
       <!-- 课程选择 -->
       <van-popup v-model="popupShow" position="bottom">
         <van-picker
@@ -88,7 +107,7 @@
             <div class="schedule-td common-td">
               <div class="block">
                 <div size-12 class="section">第{{ index + 1 }}节</div>
-                <div size-12 class="time">
+                <div size-12 class="schedule-time">
                   <div>
                     <span
                       style="color:#1989fa;"
@@ -147,6 +166,9 @@ export default {
         recess: 15,
         lessonTime: 40
       },
+      openType: "am",
+      ampmDate: "",
+      popupAmPm: false,
       popupStartTime: false,
       startDate: "07:00",
       popupEndTime: false,
@@ -165,6 +187,20 @@ export default {
     };
   },
   methods: {
+    //选择上午或者下午上课时间
+    selectAmandPm(type) {
+      this.popupAmPm = true;
+      this.openType = type;
+      if (type === "am") {
+        this.ampmDate = this.form.am;
+      } else {
+        this.ampmDate = this.form.pm;
+      }
+    },
+    handleAmPmTimeConfirm(value, index) {
+      this.openType == "am" ? (this.form.am = value) : (this.form.pm = value);
+      this.popupAmPm = false;
+    },
     //选择开始时间
     handleChangeStartTime(startTime, index) {
       this.popupStartTime = true;
@@ -382,60 +418,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.schedule {
-  background-color: #fff;
-}
-.block {
-  font-size: 24px;
-  height: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid #ebeef5;
-  border-left: 1px solid #ebeef5;
-}
-
-.common-td {
-  width: 200px;
-  min-width: 200px;
-  position: relative;
-  overflow: hidden;
-}
-
-.schedule-td:nth-child(even) {
-  background-color: #fafafa;
-}
-
-.span1 {
-  position: absolute;
-  top: 20%;
-  right: 8%;
-}
-.span2 {
-  position: absolute;
-  top: 60%;
-  left: 10%;
-}
-
-.lineTd {
-  &:before {
-    content: "";
-    position: absolute;
-    width: 1px;
-    height: 300px; /*这里需要自己调整，根据td的宽度和高度*/
-    top: 0;
-    left: 0;
-    background-color: #ebeef5;
-    display: block;
-    transform: rotate(-64deg); /*这里需要自己调整，根据线的位置*/
-    transform-origin: top;
-  }
-}
-
-.time {
-  width: 100%;
-  align-self: flex-start;
-  text-align: center;
-}
 </style>

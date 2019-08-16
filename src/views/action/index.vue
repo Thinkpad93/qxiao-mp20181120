@@ -120,24 +120,6 @@ export default {
         });
       }
     },
-    //按行为查询已选中的规则
-    async actionQuery(params = {}) {
-      let res = await service.actionQuery(params);
-      if (res.errorCode === 0) {
-      }
-    },
-    //行为标准关联
-    async ruleConnect(params = {}) {
-      let res = await service.ruleConnect(params);
-      if (res.errorCode === 0) {
-      }
-    },
-    //行为编辑
-    async actionUpdate(params = {}) {
-      let res = await service.actionUpdate(params);
-      if (res.errorCode === 0) {
-      }
-    },
     //行为列表查询
     async queryMyAction(params = {}) {
       let res = await service.queryMyAction(params);
