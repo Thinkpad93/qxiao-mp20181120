@@ -28,12 +28,24 @@
         <div class="table-head">
           <div class="tr">
             <div class="th">
-              <i style="background-color:#92cd36;"></i>
-              <span size-14>表示已打卡</span>
+              <i style="background-color:#9cd248;"></i>
+              <span size-14>打卡</span>
             </div>
             <div class="th">
-              <i style="background-color:#febf56;"></i>
-              <span size-14>表示未打卡</span>
+              <i style="background-color:#fda322;"></i>
+              <span size-14>未打卡</span>
+            </div>
+            <div class="th">
+              <i style="background-color:#07c160;"></i>
+              <span size-14>请假</span>
+            </div>
+            <div class="th">
+              <i style="background-color:#1989fa;"></i>
+              <span size-14>缺勤</span>
+            </div>
+            <div class="th">
+              <i style="background-color:#909399;"></i>
+              <span size-14>漏打卡</span>
             </div>
           </div>
         </div>
@@ -42,10 +54,11 @@
             <div
               class="td"
               :class="[
-                status,
-                { 'qingjia': item.studentStatus == 1 },
-                { 'queqing': item.studentStatus == 2 },
-                { 'loudaka': item.studentStatus == 3 },
+                { 'td-success': item.status == 'success' },
+                { 'td-default': item.status == 'default' },
+                { 'td-qingjia': item.status == 'qingjia' },
+                { 'td-queqing': item.status == 'queqing' },
+                { 'td-loudaka': item.status == 'loudaka' },
               ]"
               v-for="item in list"
               :key="item.studentId"
@@ -56,13 +69,6 @@
                 <img src="@/assets/child-default@2x.png" v-else />
                 <div class>
                   <span>{{ item.studentName }}</span>
-                </div>
-                <div size-12>
-                  <span v-if="item.studentStatus == 0"></span>
-                  <span v-else-if="item.studentStatus == 1">请假</span>
-                  <span v-else-if="item.studentStatus == 2">缺勤</span>
-                  <span v-else>漏打卡</span>
-                  <!-- <span v-else>出勤</span> -->
                 </div>
               </div>
             </div>
@@ -105,24 +111,11 @@ export default {
       statusList: [
         { title: "请假", studentStatus: 1 },
         { title: "缺勤", studentStatus: 2 },
-        { title: "漏打卡", studentStatus: 3 },
-        { title: "出勤", studentStatus: 4 }
+        { title: "漏打卡", studentStatus: 3 }
       ],
       list: [],
       punchList: []
     };
-  },
-  computed: {
-    status(n) {
-      let isActive;
-      this.punchList.forEach(item => {
-        let { punchStatus, studentStatus } = item;
-        if (studentStatus == 0) {
-          punchStatus == 1 ? (isActive = true) : (isActive = false);
-        }
-      });
-      return { "td-success": isActive };
-    }
   },
   methods: {
     async handleSubmit(action, done) {
@@ -152,7 +145,29 @@ export default {
     async queryAttendance(params = {}) {
       let res = await service.queryAttendance(params);
       if (res.errorCode === 0) {
-        this.list = res.data;
+        if (res.data.length) {
+          this.list = res.data.map(item => {
+            let { punchStatus, studentStatus, ...args } = item;
+            var status;
+            if (studentStatus == 0 && punchStatus == 1) {
+              status = "success";
+            } else if (studentStatus == 0 && punchStatus == 2) {
+              status = "default";
+            } else if (studentStatus == 1) {
+              status = "qingjia";
+            } else if (studentStatus == 2) {
+              status = "queqing";
+            } else {
+              status = "loudaka";
+            }
+            return {
+              ...args,
+              punchStatus,
+              studentStatus,
+              status
+            };
+          });
+        }
       }
     },
     //改变学生出勤状态
@@ -245,6 +260,15 @@ export default {
     &-default {
       background-color: #fda322;
     }
+    &-qingjia {
+      background-color: #07c160;
+    }
+    &-queqing {
+      background-color: #1989fa;
+    }
+    &-loudaka {
+      background-color: #909399;
+    }
     img {
       width: 100px;
       height: 100px;
@@ -252,7 +276,7 @@ export default {
     }
     span {
       display: inline-block;
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
 }
