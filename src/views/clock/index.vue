@@ -57,22 +57,22 @@
               class="cell"
               v-for="(clock, index) in clockList"
               :key="index"
-              @click="handleQueryClock(clock)"
+              @click="handleQueryClock(clock, $event)"
             >
               <div class="cell-bd">
-                <p class>{{ roleType == 2 ? clock.className : clock.gradeName }}</p>
+                <div>{{ roleType == 2 ? clock.className : clock.gradeName }}</div>
               </div>
               <div class="cell-bd">
-                <p class>{{ clock.classCount }}</p>
+                <p data-status="0">{{ clock.classCount }}</p>
               </div>
               <div class="cell-bd">
-                <p class>{{ clock.clockCount }}</p>
+                <p data-status="1">{{ clock.clockCount }}</p>
               </div>
               <div class="cell-bd">
-                <p class>{{ clock.vacate }}</p>
+                <p data-status="2">{{ clock.vacate }}</p>
               </div>
               <div class="cell-bd">
-                <p class>{{ clock.absenteeism }}</p>
+                <p data-status="3">{{ clock.absenteeism }}</p>
               </div>
               <div class="cell-bd">
                 <van-circle
@@ -193,8 +193,9 @@ export default {
       this.querys.month = month;
       this.clockQuery(this.querys);
     },
-    //老师端
-    handleQueryClock(clock) {
+    //园长端和老师端跳转
+    handleQueryClock(clock, e) {
+      let status = e.target.dataset.status;
       if (this.roleType == 2) {
         this.$router.push({
           path: "/clock/show",
@@ -204,6 +205,17 @@ export default {
             date: `${clock.statDate}`
           }
         });
+      } else {
+        if (status) {
+          this.$router.push({
+            path: "/clock/view",
+            query: {
+              status,
+              gradeId: `${clock.gradeId}`,
+              date: `${clock.statDate}`
+            }
+          });
+        }
       }
     },
     //园长端考勤统计查询
@@ -272,6 +284,9 @@ export default {
   .cell-bd {
     text-align: center;
     padding-left: 0;
+    p {
+      color: #9cd248;
+    }
   }
 }
 .van-circle {

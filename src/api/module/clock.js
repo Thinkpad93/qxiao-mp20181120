@@ -80,11 +80,18 @@ export function queryStudentPunchList(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
-//改变学生出勤状态
+//园长端考勤统计查询
 export function clockStatWithSchool(params, config = {
   showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/clockStatWithSchool.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+export function gradeDefual(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/clock/gradeDefual.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

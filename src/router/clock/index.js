@@ -19,6 +19,16 @@ export default [{
     }
   },
   {
+    path: '/clock/view',
+    name: 'clockView',
+    component: () => import('@/views/clock/view'),
+    meta: {
+      keepAlive: true,
+      isShare: false,
+      title: '考勤统计详情',
+    }
+  },
+  {
     path: '/clock/day',
     name: 'clockDay',
     component: () => import('@/views/clock/day'),
