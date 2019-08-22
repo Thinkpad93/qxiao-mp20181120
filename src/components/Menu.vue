@@ -1,14 +1,14 @@
 <template>
   <nav class="nav">
-    <div
+    <router-link
+      :to="{path: menu.url}"
       class="langur"
       v-for="(menu, index) in computedMenu"
       :key="index"
-      @click="chanage(menu.url)"
     >
       <img :src="menu.icon" width="57" height="57" />
       <div class="text-ellipsis">{{ menu.name }}</div>
-    </div>
+    </router-link>
   </nav>
 </template>
 <script>
@@ -63,7 +63,7 @@ export default {
       scheduleList: [
         {
           name: "课程表",
-          url: "/schedule",
+          url: "/schedule/teacher",
           icon: require("../assets/men-icon-12@2x.png")
         }
       ],
@@ -78,7 +78,10 @@ export default {
       menuList: [
         {
           name: "通知",
-          url: "/notice",
+          url:
+            this.$store.state.user.info.roleType == 1
+              ? "/notice/admin"
+              : "/notice",
           icon: require("../assets/men-icon-7@2x.png")
         },
         {
@@ -136,11 +139,7 @@ export default {
       }
     }
   },
-  methods: {
-    chanage(url) {
-      this.$emit("on-change", url);
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>

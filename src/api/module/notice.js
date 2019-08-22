@@ -48,3 +48,35 @@ export function deleteNotice(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//园长端--公告通知列表查询
+export function querySchoolNotice(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/querySchoolNotice.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//园长端--公告通知详情
+export function querySchoolNoticeDefaul(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/querySchoolNoticeDefaul.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//园长端--公告通知年级统计
+export function queryleader(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/queryleader.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//园长端--公告通知年级统计
+export function queryClassNotice(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/notice/queryClassNotice.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

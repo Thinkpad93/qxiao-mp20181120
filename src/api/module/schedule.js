@@ -26,7 +26,7 @@ export function updateMySchedule(params, config = {
 }
 //课程列表
 export function queryMySchedule(params, config = {
-  showLoading: true
+  showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryMySchedule.do', params, config)
     .then(res => res.data)

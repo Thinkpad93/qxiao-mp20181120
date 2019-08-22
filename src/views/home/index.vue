@@ -37,14 +37,16 @@
           <van-button type="danger" size="small" to="/login">登录</van-button>
         </div>
       </div>
-      <!-- 菜单
-                @cancel="popupShow = false"
-          @confirm="handleClassConfirm"
-          show-toolbar
-      -->
-      <qx-menu @on-change="go"></qx-menu>
+      <!-- 菜单 -->
+      <qx-menu></qx-menu>
       <van-popup v-model="popupShow" position="bottom">
-        <van-picker :columns="classList" @change="onChange" value-key="className"></van-picker>
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
       </van-popup>
       <!-- 班级圈控制 -->
       <template v-if="roleType != 3">
@@ -174,9 +176,6 @@ export default {
     })
   },
   methods: {
-    onChange(picker, value, index) {
-      console.log(`当前值：${value}, 当前索引：${index}`);
-    },
     //加载更多班级圈
     onLoad() {
       //当组件滚动到底部时，会触发load事件
@@ -245,11 +244,11 @@ export default {
         });
       }
     },
-    go(url, params) {
-      if (url) {
-        this.$router.push({ path: `${url}` });
-      }
-    },
+    // go(url, params) {
+    //   if (url) {
+    //     this.$router.push({ path: `${url}` });
+    //   }
+    // },
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;

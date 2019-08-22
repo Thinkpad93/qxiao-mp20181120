@@ -1,54 +1,148 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="cells mb-30" v-if="model === 'add'">
-        <div class="cell min-h100">
-          <div class="cell-hd">
-            <label for class="label">上午上课时间</label>
+      <van-tabs v-model="tabActive" :line-height="2">
+        <van-tab title="配置选项">
+          <div class="cells mt-20 mb-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label for class="label">上午上课时间</label>
+              </div>
+              <div class="cell-bd">
+                <input
+                  class="input"
+                  placeholder="请输入上午开始时间"
+                  v-model="form.am"
+                  @click="selectAmandPm('am')"
+                />
+              </div>
+            </div>
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label for class="label">下午上课时间</label>
+              </div>
+              <div class="cell-bd">
+                <input
+                  class="input"
+                  placeholder="请输入下午开始时间"
+                  v-model="form.pm"
+                  @click="selectAmandPm('pm')"
+                />
+              </div>
+            </div>
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label for class="label">每节课时间(分)</label>
+              </div>
+              <div class="cell-bd">
+                <p class="text-right">
+                  <van-stepper v-model="form.lessonTime" :min="30" :max="60"></van-stepper>
+                </p>
+              </div>
+            </div>
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label for class="label">课间休息时间(分)</label>
+              </div>
+              <div class="cell-bd">
+                <p class="text-right">
+                  <van-stepper v-model="form.recess" :min="10" :max="40"></van-stepper>
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="cell-bd">
-            <input
-              class="input"
-              placeholder="请输入上午开始时间"
-              v-model="form.am"
-              @click="selectAmandPm('am')"
-            />
+          <!-- 是否有大课间 -->
+          <div class="cells mb-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label class="label">是否有大课间</label>
+              </div>
+              <div class="cell-bd" style="text-align: right;">
+                <van-switch v-model="switched" size="26px" active-color="#92cd36"></van-switch>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="cell min-h100">
-          <div class="cell-hd">
-            <label for class="label">下午上课时间</label>
+          <!-- 是否有大课间 -->
+          <template v-if="switched">
+            <div class="cells mb-20" v-for="(item,index) in big" :key="index">
+              <div class="cell cell-select cell-select-after">
+                <div class="cell-bd">
+                  <select class="select" name dir="rtl" v-model="item.selected" multiple size="1">
+                    <!-- 兼容性问题修改 -->
+                    <optgroup disabled hidden></optgroup>
+                    <option
+                      :value="option.day"
+                      v-for="(option,index) in weekList"
+                      :key="index"
+                    >{{ option.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">大课间时间(分)</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="item.recess" :min="10" :max="60"></van-stepper>
+                  </p>
+                </div>
+              </div>
+              <van-checkbox-group v-model="item.result">
+                <van-cell-group>
+                  <van-cell v-for="node in item.node" :key="node.nodeId" :title="node.title">
+                    <van-checkbox :name="node.nodeId" :key="item.nodeId" checked-color="#92cd36"></van-checkbox>
+                  </van-cell>
+                </van-cell-group>
+              </van-checkbox-group>
+            </div>
+            <!-- <div class="text-center">
+              <van-button type="info" size="small" @click="handleBigRecess">新增大课间</van-button>
+            </div>-->
+          </template>
+        </van-tab>
+        <van-tab title="课表查看">
+          <!-- 自制课表 -->
+          <div class="schedule mt-20" v-if="scheduleList.length">
+            <div class="schedule-tr flex">
+              <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
+                <div class="block-head">{{ week.name }}</div>
+              </div>
+            </div>
+            <div class="schedule-body flex">
+              <div class="schedule-tr flex-1" v-for="(tr, index) in scheduleList" :key="index">
+                <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
+                  <div class="block">
+                    <div @click="handleChangeLesson(td, index, tdIndex)">
+                      <span v-if="td.title">{{ td.title ? td.title : "无课" }}</span>
+                      <van-icon name="plus" size="16px" color="#999" v-else></van-icon>
+                    </div>
+                    <div class="schedule-time">
+                      <div
+                        style="color:#1989fa;margin-top:10px;"
+                        @click="handleChangeStartTime(td.startTime, index, tdIndex)"
+                      >{{ !td.startTime ? "开始": td.startTime}}</div>
+                      <div
+                        style="color:#1989fa;margin-top:5px;"
+                        @click="handleChangeEndTime( td.endTime, index, tdIndex)"
+                      >{{ !td.endTime ? "结束": td.endTime}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="cell-bd">
-            <input
-              class="input"
-              placeholder="请输入下午开始时间"
-              v-model="form.pm"
-              @click="selectAmandPm('pm')"
-            />
+          <!-- 自制课表 -->
+          <div class="empty" v-if="!scheduleList.length">
+            <img src="@/assets/kong.png" alt />
+            <p>你还没有生成课表</p>
           </div>
-        </div>
-        <div class="cell min-h100">
-          <div class="cell-hd">
-            <label for class="label">每节课时间(分)</label>
-          </div>
-          <div class="cell-bd">
-            <p class="text-right">
-              <van-stepper v-model="form.lessonTime" :min="30" :max="60"></van-stepper>
-            </p>
-          </div>
-        </div>
-        <div class="cell min-h100">
-          <div class="cell-hd">
-            <label for class="label">课间休息时间(分)</label>
-          </div>
-          <div class="cell-bd">
-            <p class="text-right">
-              <van-stepper v-model="form.recess" :min="10" :max="40"></van-stepper>
-            </p>
-          </div>
-        </div>
-      </div>
+          <!-- 新增按钮 -->
+          <!-- <div class="mt-20 text-center" v-if="scheduleList.length">
+        <van-button type="info" size="small" @click="handleAdd">新增课节</van-button>
+          </div>-->
+        </van-tab>
+      </van-tabs>
       <!-- am pm -->
       <van-popup v-model="popupAmPm" position="bottom">
         <van-datetime-picker
@@ -89,65 +183,11 @@
         ></van-datetime-picker>
       </van-popup>
       <!-- 结束时间 -->
-      <!-- 自制课表 -->
-      <div class="schedule" v-if="scheduleList.length">
-        <div class="schedule-tr flex">
-          <div class="schedule-td">
-            <div class="block lineTd common-td">
-              <span size-12 class="span2">时间</span>
-              <span size-12 class="span1">星期</span>
-            </div>
-          </div>
-          <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-            <div class="block">{{ week }}</div>
-          </div>
-        </div>
-        <div class="schedule-body">
-          <div class="schedule-tr flex" v-for="(tr, index) in scheduleList" :key="index">
-            <div class="schedule-td common-td">
-              <div class="block">
-                <div size-12 class="section">第{{ index + 1 }}节</div>
-                <div size-12 class="schedule-time">
-                  <div>
-                    <span
-                      style="color:#1989fa;"
-                      @click="handleChangeStartTime(tr.startTime, index)"
-                    >{{ !tr.startTime ? "开始": tr.startTime}}</span>
-                    -
-                    <span
-                      style="color:#1989fa;"
-                      @click="handleChangeEndTime( tr.endTime, index)"
-                    >{{ !tr.endTime ? "结束": tr.endTime}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <template v-if="tr.list">
-              <div class="schedule-td flex-1" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                <div class="block" @click="handleChangeLesson(td, index, tdIndex)">
-                  <span v-if="td.title">{{ td.title ? td.title : "无课" }}</span>
-                  <van-icon name="plus" size="16px" color="#999" v-else></van-icon>
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
-      </div>
-      <!-- 新增按钮 -->
-      <!-- <div class="mt-20 text-center" v-if="scheduleList.length">
-        <van-button type="info" size="small" @click="handleAdd">新增课节</van-button>
-      </div>-->
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <div class="flex">
-          <van-button
-            type="default"
-            size="large"
-            class="no-radius"
-            @click="handleCreate"
-            v-if="model === 'add'"
-          >生成课表</van-button>
+          <van-button type="default" size="large" class="no-radius" @click="newCreate">生成课表</van-button>
           <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
         </div>
       </div>
@@ -160,12 +200,43 @@ export default {
   name: "scheduleAdd",
   data() {
     return {
+      tabActive: 0,
+      switched: false, //是否有大课间
+      result: [],
       form: {
         am: "08:00",
         pm: "14:00",
         recess: 15,
         lessonTime: 40
       },
+      big: [
+        {
+          recess: 30, //大课间时间
+          selected: [1], //课间分布星期几
+          result: [], //第几节到几节有大课间时间
+          node: [
+            { nodeId: 1, title: "第1节跟第2节之间" },
+            { nodeId: 2, title: "第2节跟第3节之间" },
+            { nodeId: 3, title: "第3节跟第4节之间" },
+            { nodeId: 4, title: "第4节跟第5节之间" },
+            { nodeId: 5, title: "第5节跟第6节之间" },
+            { nodeId: 6, title: "第6节跟第7节之间" }
+          ]
+        },
+        {
+          recess: 30, //大课间时间
+          selected: [1, 2], //课间分布星期几
+          result: [], //第几节到几节有大课间时间
+          node: [
+            { nodeId: 1, title: "第1节跟第2节之间" },
+            { nodeId: 2, title: "第2节跟第3节之间" },
+            { nodeId: 3, title: "第3节跟第4节之间" },
+            { nodeId: 4, title: "第4节跟第5节之间" },
+            { nodeId: 5, title: "第5节跟第6节之间" },
+            { nodeId: 6, title: "第6节跟第7节之间" }
+          ]
+        }
+      ],
       openType: "am",
       ampmDate: "",
       popupAmPm: false,
@@ -173,15 +244,27 @@ export default {
       startDate: "07:00",
       popupEndTime: false,
       endDate: "08:00",
-      startIndex: 0, //开始时间索引
-      endIndex: 0, //结束时间索引
+      startRowIndex: 0,
+      startColIndex: 0,
+
+      endRowIndex: 0,
+      endColIndex: 0,
+
+      //startIndex: 0, //开始时间索引
+      //endIndex: 0, //结束时间索引
       popupShow: false,
       defaultIndex: 0,
       rowIndex: 0, //行索引值
       tdIndex: 0, //td块索引值
       studentId: this.$store.state.user.info.studentId,
       model: this.$route.query.model,
-      weekList: ["星期一", "星期二", "星期三", "星期四", "星期五"],
+      weekList: [
+        { name: "星期一", day: 1 },
+        { name: "星期二", day: 2 },
+        { name: "星期三", day: 3 },
+        { name: "星期四", day: 4 },
+        { name: "星期五", day: 5 }
+      ],
       lessonList: [],
       scheduleList: [] //
     };
@@ -202,25 +285,31 @@ export default {
       this.popupAmPm = false;
     },
     //选择开始时间
-    handleChangeStartTime(startTime, index) {
+    handleChangeStartTime(startTime, rowIndex, colIndex) {
       this.popupStartTime = true;
-      this.startIndex = index;
+      this.startRowIndex = rowIndex;
+      this.startColIndex = colIndex;
       this.startDate = startTime;
     },
     //选择结束时间
-    handleChangeEndTime(endTime, index) {
+    handleChangeEndTime(endTime, rowIndex, colIndex) {
       this.popupEndTime = true;
-      this.endIndex = index;
+      this.endRowIndex = rowIndex;
+      this.endColIndex = colIndex;
       this.endDate = endTime;
     },
     //确认开始时间
     handleStartTimeConfirm(value, index) {
-      this.scheduleList[this.startIndex].startTime = value;
+      this.scheduleList[this.startRowIndex].list[
+        this.startColIndex
+      ].startTime = value;
       this.popupStartTime = false;
     },
     //确认结束时间
     handleEndTimeConfirm(value, index) {
-      this.scheduleList[this.endIndex].endTime = value;
+      this.scheduleList[this.endRowIndex].list[
+        this.endColIndex
+      ].endTime = value;
       this.popupEndTime = false;
     },
     //确认选择课程
@@ -244,6 +333,23 @@ export default {
       this.tdIndex = tdIndex; //设置点击的td块索引值
       this.defaultIndex = elementIndex; //设置回选
       this.popupShow = true;
+    },
+    //新增大课间
+    handleBigRecess() {
+      if (this.big.length <= 4) {
+        let obj = {
+          day: this.big.length + 1,
+          recess: 30,
+          result: [],
+          node: [
+            { nodeId: 1, title: "第1节跟第2节之间" },
+            { nodeId: 2, title: "第3节跟第4节之间" },
+            { nodeId: 3, title: "第5节跟第6节之间" },
+            { nodeId: 4, title: "第7节跟第8节之间" }
+          ]
+        };
+        this.big.push(obj);
+      }
     },
     //新增课节
     // handleAdd() {
@@ -285,23 +391,21 @@ export default {
         let flag = true; //控制时间选择是否不对
         let scheduleList = this.scheduleList;
         for (let i = 0; i < scheduleList.length; i++) {
-          let startTime = scheduleList[i].startTime;
-          let endTime = scheduleList[i].endTime;
-          let result = this.handleCompareTime(startTime, endTime);
-          if (!result) {
-            flag = false;
-            this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
-            break;
+          let list = scheduleList[i].list;
+          for (let j = 0; j < list.length; j++) {
+            let startTime = list[j].startTime;
+            let endTime = list[j].endTime;
+            let result = this.handleCompareTime(startTime, endTime);
+            if (!result) {
+              flag = false;
+              this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
+              break;
+            }
           }
         }
         //当开始时间和结束时间不为空且开始时间大于结束时间
         if (flag) {
-          //新增提交还是编辑更新
-          if (this.model === "add") {
-            this.addMySchedule({ scheduleVOs: this.scheduleList });
-          } else {
-            this.updateMySchedule({ scheduleVOs: this.scheduleList });
-          }
+          this.addMySchedule({ scheduleVOs: this.scheduleList });
         }
       }
     },
@@ -320,61 +424,202 @@ export default {
         .replace(/\b(\d)\b/g, "0$1");
     },
     //根据时间生成课表
-    handleCreate() {
-      let amCount = 4; //上午上课节数
-      let pmCount = 3; //下午上课节数
+    newCreate() {
+      //课表生成根据是否有大课间生成
+      let amNode = 4; //上午上课节数
+      let pmNode = 3; //下午上课节数
       let lessonTime = this.form.lessonTime * 60; //每节课时间
-      let recessTime = this.form.recess * 60; //课间时间
+      let smallRecessTime = this.form.recess * 60; //课间时间
       let amArray = [];
       let pmArray = [];
-      //上午
-      let am = this.timeToSec(this.form.am); //上课时间
-      let amEndTime = am + lessonTime; //下课时间
-      for (let i = 1; i <= amCount; i++) {
-        let obj = {
-          startTime: this.formatTime(am),
-          endTime: this.formatTime(amEndTime)
-        };
-        amArray.push(obj);
-        am = am + lessonTime + recessTime;
-        amEndTime = amEndTime + lessonTime + recessTime;
-      }
-      //下午
-      let pm = this.timeToSec(this.form.pm); //上课时间
-      let pmEndTime = pm + lessonTime;
-      for (let j = 1; j <= pmCount; j++) {
-        let obj = {
-          startTime: this.formatTime(pm),
-          endTime: this.formatTime(pmEndTime)
-        };
-        pmArray.push(obj);
-        pm = pm + lessonTime + recessTime;
-        pmEndTime = pmEndTime + lessonTime + recessTime;
-      }
-      let result = amArray.concat(pmArray) || [];
-      let len = result.length;
-      let data = [];
-      for (let k = 0; k < len; k++) {
-        let { startTime, endTime } = result[k];
-        let list = [];
+      //如果没有大课间时间
+      if (!this.switched) {
+        //上午
+        // let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+        // let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
         for (let s = 1; s <= 5; s++) {
-          let obj = {
-            lessonId: 0, //课程ID，默认为无课
-            title: "",
-            day: s, //星期，递增
-            studentId: this.studentId
-          };
-          list.push(obj);
+          let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+          let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
+          // for (let i = 1; i <= amNode; i++) {
+          let list = [];
+          for (let i = 1; i <= 4; i++) {
+            let obj = {
+              startTime: this.formatTime(amStartTime),
+              endTime: this.formatTime(amEndTime)
+            };
+            amStartTime = amStartTime + lessonTime + smallRecessTime;
+            amEndTime = amEndTime + lessonTime + smallRecessTime;
+            // for (let s = 1; s <= 5; s++) {
+            let objs = {
+              pitchId: i,
+              lessonId: 0, //课程ID，默认为无课
+              title: "",
+              day: s, //星期，递增
+              studentId: this.studentId
+            };
+            let assign = Object.assign({}, objs, obj);
+            list.push(assign);
+          }
+          //amArray.push({ list });
+          //}
+          //下午
+          // for (let s = 1; s <= 5; s++) {
+          let pmStartTime = this.timeToSec(this.form.pm); //下午上课开始时间
+          let pmEndTime = pmStartTime + lessonTime;
+          // for (let j = 5; j <= 7; j++) {
+          let list2 = [];
+          for (let j = 5; j <= 7; j++) {
+            let obj2 = {
+              startTime: this.formatTime(pmStartTime),
+              endTime: this.formatTime(pmEndTime)
+            };
+            pmStartTime = pmStartTime + lessonTime + smallRecessTime;
+            pmEndTime = pmEndTime + lessonTime + smallRecessTime;
+            // for (let s = 1; s <= 5; s++) {
+            let objs2 = {
+              pitchId: j,
+              lessonId: 0, //课程ID，默认为无课
+              title: "",
+              day: s, //星期，递增
+              studentId: this.studentId
+            };
+            let assign = Object.assign({}, objs2, obj2);
+            list2.push(assign);
+          }
+          let aaa = list.concat(list2) || [];
+          //console.log(aaa);
+          pmArray.push({ list: aaa });
+          // this.scheduleList = amArray.concat(pmArray) || [];
         }
-        data.push({ startTime, endTime, list });
-      }
-      this.scheduleList = data;
-    },
-    //查询我的课表
-    async queryMySchedule(params = {}) {
-      let res = await service.queryMySchedule(params);
-      if (res.errorCode === 0) {
-        this.scheduleList = res.data;
+        console.log(pmArray);
+        //用于渲染表格的所有数据
+        this.scheduleList = pmArray || [];
+      } else {
+        //大课间列表
+        //上午
+        let selectedArray = [];
+        let resultArray = [];
+        for (let b = 0; b < this.big.length; b++) {
+          let recess = this.big[b].recess;
+          let selected = this.big[b].selected;
+          let result = this.big[b].result;
+          selectedArray.push(selected);
+          resultArray.push(result);
+        }
+        let s = selectedArray.reduce((a, b) => a.concat(b)); //将二维数组转成一维数组
+        let r = resultArray.reduce((a, b) => a.concat(b));
+        let newSelectedArray = Array.from(new Set(s)); //大课间的星期数组
+        let newResultArray = Array.from(new Set(r)); //大课间的节数数组
+        let newRecess = this.big[0].recess * 60; //大课间时间
+        let assign;
+        let pmAssIgn;
+
+        let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+        let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
+        //如果没有选择节数，则不生成课表
+        if (!newResultArray.length) {
+          this.$toast(`请选择大课间在第几节~`);
+          return;
+        }
+        // let amEndTime = "";
+        //上午节数
+        // for (let i = 1; i <= amNode; i++) {
+        for (let s = 1; s <= 5; s++) {
+          let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+          let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
+          // let obj = {
+          //   startTime: this.formatTime(amStartTime),
+          //   endTime: this.formatTime(amEndTime)
+          // };
+          let list = [];
+          //周一到周五
+          // for (let s = 1; s <= 5; s++) {
+          for (let i = 1; i <= 4; i++) {
+            let objs = {
+              pitchId: i,
+              lessonId: 0, //课程ID，默认为无课
+              title: "",
+              day: s, //星期，递增
+              studentId: this.studentId
+            };
+            //判断周几有大课间
+            if (newSelectedArray.includes(s)) {
+              //判断哪一节有大课间
+              if (newResultArray.includes(i)) {
+                assign = Object.assign({}, objs, {
+                  startTime: this.formatTime(amStartTime),
+                  endTime: this.formatTime(amEndTime)
+                });
+                amStartTime = amEndTime + newRecess;
+                amEndTime = amStartTime + lessonTime;
+              } else {
+                assign = Object.assign({}, objs, {
+                  startTime: this.formatTime(amStartTime),
+                  endTime: this.formatTime(amEndTime)
+                });
+                amStartTime = amStartTime + lessonTime + smallRecessTime;
+                amEndTime = amEndTime + lessonTime + smallRecessTime;
+              }
+            } else {
+              assign = Object.assign({}, objs, {
+                startTime: this.formatTime(amStartTime),
+                endTime: this.formatTime(amEndTime)
+              });
+              amStartTime = amStartTime + lessonTime + smallRecessTime;
+              amEndTime = amEndTime + lessonTime + smallRecessTime;
+            }
+            list.push(assign);
+          }
+
+          //amArray.push({ list });
+          // }
+          //下午节数
+          //let pmStartTime = this.timeToSec(this.form.pm);
+          //  let pmEndTime = pmStartTime + lessonTime;
+          // for (let s = 1; s <= 5; s++) {
+          let pmStartTime = this.timeToSec(this.form.pm);
+          let pmEndTime = pmStartTime + lessonTime;
+          let list2 = [];
+          for (let i = 5; i <= 7; i++) {
+            let objs2 = {
+              pitchId: i,
+              lessonId: 0, //课程ID，默认为无课
+              title: "",
+              day: s, //星期，递增
+              studentId: this.studentId
+            };
+            if (newSelectedArray.includes(s)) {
+              if (newResultArray.includes(i)) {
+                pmAssIgn = Object.assign({}, objs2, {
+                  startTime: this.formatTime(pmStartTime),
+                  endTime: this.formatTime(pmEndTime)
+                });
+                pmStartTime = pmEndTime + newRecess;
+                pmEndTime = pmStartTime + lessonTime;
+              } else {
+                pmAssIgn = Object.assign({}, objs2, {
+                  startTime: this.formatTime(pmStartTime),
+                  endTime: this.formatTime(pmEndTime)
+                });
+                pmStartTime = pmStartTime + lessonTime + smallRecessTime;
+                pmEndTime = pmEndTime + lessonTime + smallRecessTime;
+              }
+            } else {
+              pmAssIgn = Object.assign({}, objs2, {
+                startTime: this.formatTime(pmStartTime),
+                endTime: this.formatTime(pmEndTime)
+              });
+              pmStartTime = pmStartTime + lessonTime + smallRecessTime;
+              pmEndTime = pmEndTime + lessonTime + smallRecessTime;
+            }
+            list2.push(pmAssIgn);
+          }
+          let aaa = list.concat(list2) || [];
+          pmArray.push({ list: aaa });
+        }
+        console.log(pmArray);
+        //用于渲染表格的所有数据
+        this.scheduleList = pmArray || [];
       }
     },
     //课程列表查询
@@ -400,19 +645,9 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
-    },
-    //编辑我的课表
-    async updateMySchedule(params = {}) {
-      let res = await service.updateMySchedule(params);
-      if (res.errorCode === 0) {
-        this.$router.go(-1);
-      }
     }
   },
   mounted() {
-    if (this.model === "edit") {
-      this.queryMySchedule({ studentId: this.studentId });
-    }
     this.queryLessonList();
   }
 };
