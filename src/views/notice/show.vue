@@ -33,7 +33,12 @@
     </div>
     <div class="page-ft" v-show="!parseInt(info.isDel)">
       <div class="fixed-bottom" style="z-index: 100;">
-        <template v-if="roleType != 3">
+        <template v-if="roleType == 1 || roleType == 4">
+          <section class="mamba">
+            <p @click="handleReaders(info)">查看年级阅读详情</p>
+          </section>
+        </template>
+        <template v-if="roleType == 2">
           <section class="mamba">
             <p
               @click="handleReaders(info)"
@@ -118,6 +123,13 @@ export default {
         query: obj
       });
     },
+    //园长端--公告通知详情
+    async querySchoolNoticeDefaul(params = {}) {
+      let res = await service.querySchoolNoticeDefaul(params);
+      if (res.errorCode === 0) {
+        this.info = res.data;
+      }
+    },
     //公告通知详情
     async noticeDetail(params = {}) {
       let res = await service.noticeDetail(params);
@@ -154,7 +166,11 @@ export default {
     }
   },
   activated() {
-    this.noticeDetail(this.query);
+    if (this.roleType == 1 || this.roleType == 4) {
+      this.querySchoolNoticeDefaul(this.query);
+    } else {
+      this.noticeDetail(this.query);
+    }
   }
 };
 </script>

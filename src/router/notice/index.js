@@ -6,6 +6,18 @@ export default [{
       keepAlive: true,
       isShare: false,
       title: '通知公告',
+      roles: [2, 3]
+    }
+  },
+  {
+    path: '/notice/admin',
+    name: 'noticeAdmin',
+    component: () => import('@/views/notice/admin'),
+    meta: {
+      keepAlive: true,
+      isShare: false,
+      title: '通知公告',
+      roles: [1, 4]
     }
   },
   {
@@ -36,6 +48,16 @@ export default [{
       keepAlive: false,
       isShare: false,
       title: '班级阅读情况',
+    }
+  },
+  {
+    path: '/notice/view-class',
+    name: 'noticeViewClass',
+    component: () => import('@/views/notice/view-class'),
+    meta: {
+      keepAlive: false,
+      isShare: false,
+      title: '班级阅读详情',
     }
   },
 ]

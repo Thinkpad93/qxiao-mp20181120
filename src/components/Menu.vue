@@ -79,7 +79,8 @@ export default {
         {
           name: "通知",
           url:
-            this.$store.state.user.info.roleType == 1
+            this.$store.state.user.info.roleType == 1 ||
+            this.$store.state.user.info.roleType == 4
               ? "/notice/admin"
               : "/notice",
           icon: require("../assets/men-icon-7@2x.png")

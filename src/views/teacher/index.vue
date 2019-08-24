@@ -8,7 +8,7 @@
           <p size-18>请点击右上角按钮邀请好友吧</p>
         </div>
       </template>
-      <div class="cells-title">老师列表({{ list.length }})</div>
+      <!-- <div class="cells-title">老师列表({{ list.length }})</div> -->
       <div class="cells">
         <div
           class="cell teacher-item"

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-hd">
-      <template v-if="roleType != 3">
+      <template v-if="roleType == 2">
         <div class="button-sp-area flex" size-17>
           <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
             <span>{{ className }}</span>
@@ -9,12 +9,12 @@
           </a>
         </div>
       </template>
-      <template v-if="roleType == 1 || roleType == 4">
+      <!-- <template v-if="roleType == 1 || roleType == 4">
         <van-tabs v-model="index" :line-height="2" @click="handleTabClick">
           <van-tab title="通知消息"></van-tab>
           <van-tab title="发送记录"></van-tab>
         </van-tabs>
-      </template>
+      </template>-->
     </div>
     <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">
@@ -40,7 +40,7 @@
           </div>
         </div>
       </van-popup>
-      <template v-if="roleType != 3">
+      <template v-if="roleType == 2">
         <qxRelease url="/notice/add" />
       </template>
       <!-- list -->
@@ -197,12 +197,12 @@ export default {
         }
       });
     },
-    handleTabClick(index, title) {
-      this.index = index;
-      this.query.page = 1; //切换时从第一页查起
-      this.query.type = index;
-      this.noticeQuery(this.query);
-    },
+    // handleTabClick(index, title) {
+    //   this.index = index;
+    //   this.query.page = 1; //切换时从第一页查起
+    //   this.query.type = index;
+    //   this.noticeQuery(this.query);
+    // },
     //选择班级
     handleClassConfirm(obj) {
       this.popupShow = false;

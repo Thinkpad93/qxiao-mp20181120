@@ -27,30 +27,27 @@
 <script>
 import service from "@/api";
 export default {
-  name: "clockView",
+  name: "noticeViewClass",
   data() {
     return {
       query: {
-        schoolId: this.$store.state.user.info.id,
-        date: this.$route.query.date,
-        status: this.$route.query.status,
-        gradeId: this.$route.query.gradeId
+        noticeId: this.$route.query.noticeId,
+        status: this.$route.query.status
       },
       list: []
     };
   },
   methods: {
-    //园长考勤统计详情
-    async gradeDefual(params = {}) {
-      let res = await service.gradeDefual(params);
+    //园长端--公告通知班级详情
+    async queryClassNotice(params = {}) {
+      let res = await service.queryClassNotice(params);
       if (res.errorCode === 0) {
-        this.popupShow = false;
         this.list = res.data;
       }
     }
   },
   mounted() {
-    this.gradeDefual(this.query);
+    this.queryClassNotice(this.query);
   }
 };
 </script>
