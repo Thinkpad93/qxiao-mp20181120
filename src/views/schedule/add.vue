@@ -135,11 +135,71 @@
               </div>
             </div>
           </div>
-          <!-- 是否有大课间 -->
-          <div class="cells mb-20">
+          <!-- 晚自习 -->
+          <div class="cells mt-20">
             <div class="cell min-h100">
               <div class="cell-hd">
-                <label class="label">是否有大课间</label>
+                <label class="label" style="color:#f44">晚自习</label>
+              </div>
+              <div class="cell-bd" style="text-align: right;">
+                <van-switch v-model="night" size="26px" active-color="#92cd36"></van-switch>
+              </div>
+            </div>
+          </div>
+          <template v-if="night">
+            <div class="cells mb-20">
+              <div class="cell cell-select cell-select-after">
+                <div class="cell-hd">
+                  <label class="label">日期</label>
+                </div>
+                <div class="cell-bd">
+                  <select class="select" name dir="rtl" v-model="nightList" multiple size="1">
+                    <!-- 兼容性问题修改 -->
+                    <optgroup disabled hidden></optgroup>
+                    <option
+                      :value="option.day"
+                      v-for="(option,index) in weekList"
+                      :key="index"
+                    >{{ option.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">晚自习开始时间</label>
+                </div>
+                <div class="cell-bd">
+                  <input class="input" placeholder="请输入上午开始时间" v-model="nightStart" />
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">晚自习课间时间(分)</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="nightTime" :min="30" :max="60"></van-stepper>
+                  </p>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">晚自习节数</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="nightNode" :min="1" :max="2"></van-stepper>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 晚自习 -->
+          <!-- 是否有大课间 -->
+          <div class="cells mt-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label class="label" style="color:#f44">大课间</label>
               </div>
               <div class="cell-bd" style="text-align: right;">
                 <van-switch v-model="switched" size="26px" active-color="#92cd36"></van-switch>
@@ -180,52 +240,7 @@
                 </van-cell-group>
               </van-checkbox-group>
             </div>
-            <!-- <div class="text-center">
-              <van-button type="info" size="small" @click="handleBigRecess">新增大课间</van-button>
-            </div>-->
           </template>
-          <!-- 晚自习 -->
-          <div class="cells mt-20">
-            <div class="cell min-h100">
-              <div class="cell-hd">
-                <label class="label">晚自习</label>
-              </div>
-              <div class="cell-bd" style="text-align: right;">
-                <van-switch v-model="night" size="26px" active-color="#92cd36"></van-switch>
-              </div>
-            </div>
-          </div>
-          <template v-if="night">
-            <div class="cells">
-              <div class="cell cell-select cell-select-after">
-                <div class="cell-hd">
-                  <label class="label">日期</label>
-                </div>
-                <div class="cell-bd">
-                  <select class="select" name dir="rtl" v-model="nightList" multiple size="1">
-                    <!-- 兼容性问题修改 -->
-                    <optgroup disabled hidden></optgroup>
-                    <option
-                      :value="option.day"
-                      v-for="(option,index) in weekList"
-                      :key="index"
-                    >{{ option.name }}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="cell min-h100">
-                <div class="cell-hd">
-                  <label for class="label">晚自习时间(分)</label>
-                </div>
-                <div class="cell-bd">
-                  <p class="text-right">
-                    <van-stepper v-model="nightTime" :min="10" :max="60"></van-stepper>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </template>
-          <!-- 晚自习 -->
         </van-tab>
         <van-tab title="课表查看">
           <!-- 自制课表 -->
@@ -238,7 +253,7 @@
             <div class="schedule-body flex">
               <div class="schedule-tr flex-1" v-for="(tr, index) in scheduleList" :key="index">
                 <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                  <div class="block">
+                  <div class="block" v-if="tdIndex < 7">
                     <div @click="handleChangeLesson(td, index, tdIndex)">
                       <span v-if="td.title">{{ td.title ? td.title : "无课" }}</span>
                       <van-icon name="plus" size="16px" color="#999" v-else></van-icon>
@@ -252,6 +267,15 @@
                         style="color:#1989fa;margin-top:5px;"
                         @click="handleChangeEndTime( td.endTime, index, tdIndex)"
                       >{{ !td.endTime ? "结束": td.endTime}}</div>
+                    </div>
+                  </div>
+                  <div class="block block-night" v-if="tdIndex >= 7">
+                    <div>
+                      <span>晚自习</span>
+                    </div>
+                    <div class="schedule-time">
+                      <div style="margin-top:10px;">{{ td.startTime }}</div>
+                      <div style="margin-top:5px;">{{ td.endTime }}</div>
                     </div>
                   </div>
                 </div>
@@ -333,8 +357,10 @@ export default {
       exerciseTime: 15, //早操时间
       exerciseList: [1, 2, 3, 4, 5], //早操选中时间
       night: false, //是否有晚自习
-      nightTime: 60, //晚自习时间
-      nightList: [1, 2, 3, 4, 5], //晚自习选中时间
+      nightStart: "19:30", //晚自习开始时间
+      nightTime: 40, //晚自习时间
+      nightList: [1], //晚自习选中时间
+      nightNode: 1, //晚自习节数
       tabActive: 0,
       switched: false, //是否有大课间
       result: [],
@@ -470,21 +496,6 @@ export default {
         this.big.push(obj);
       }
     },
-    //新增课节
-    // handleAdd() {
-    //   //声明一个对象
-    //   let obj = { startTime: "", endTime: "", list: [] };
-    //   //生成周一到周五的课程
-    //   for (let i = 1; i <= 5; i++) {
-    //     obj.list.push({
-    //       lessonId: 0,
-    //       title: "",
-    //       day: i,
-    //       studentId: this.studentId
-    //     });
-    //   }
-    //   this.scheduleList.push(obj);
-    // },
     //对比时分大小
     handleCompareTime(start, end) {
       if (typeof start === "string" && typeof end === "string") {
@@ -544,23 +555,48 @@ export default {
     },
     //根据时间生成课表
     newCreate() {
+      let chinaTime = this.chinaTime * 60; //升国旗时间
+      let chineseNational = this.chineseNational; //升国旗选中时间
+      //早操
+      let exerciseTime = this.exerciseTime * 60; //早操时间
+      let exerciseList = this.exerciseList; //早操选中时间
+      //晚自习
+      let nightTime = this.nightTime * 60; //晚自习每节课时间
+      let nightList = this.nightList; //晚自习选中时间
       //课表生成根据是否有大课间生成
-      let amNode = 4; //上午上课节数
-      let pmNode = 3; //下午上课节数
       let lessonTime = this.form.lessonTime * 60; //每节课时间
       let smallRecessTime = this.form.recess * 60; //课间时间
       let amArray = [];
       let pmArray = [];
       //如果没有大课间时间
       if (!this.switched) {
+        let amStartTime;
+        let amEndTime;
+        let pmStartTime;
+        let pmEndTime;
+        let nightStartTime;
+        let nightEndTime;
         //上午
-        // let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
-        // let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
         for (let s = 1; s <= 5; s++) {
-          let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
-          let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
-          // for (let i = 1; i <= amNode; i++) {
+          amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+          amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
           let list = [];
+          //如果有升国旗时间，则每天的第一节课上课时间延迟
+          if (this.china) {
+            if (chineseNational.includes(s)) {
+              console.log("如果有升国旗时间，则每天的第一节课上课时间延迟");
+              amStartTime = amStartTime + chinaTime;
+              amEndTime = amEndTime + chinaTime;
+            }
+          }
+          //如果有早操时间，则每天的第一节课上课时间延迟
+          if (this.exercise) {
+            if (exerciseList.includes(s)) {
+              console.log("如果有早操时间，则每天的第一节课上课时间延迟");
+              amStartTime = amStartTime + exerciseTime;
+              amEndTime = amEndTime + exerciseTime;
+            }
+          }
           for (let i = 1; i <= 4; i++) {
             let obj = {
               startTime: this.formatTime(amStartTime),
@@ -568,7 +604,6 @@ export default {
             };
             amStartTime = amStartTime + lessonTime + smallRecessTime;
             amEndTime = amEndTime + lessonTime + smallRecessTime;
-            // for (let s = 1; s <= 5; s++) {
             let objs = {
               pitchId: i,
               lessonId: 0, //课程ID，默认为无课
@@ -579,13 +614,9 @@ export default {
             let assign = Object.assign({}, objs, obj);
             list.push(assign);
           }
-          //amArray.push({ list });
-          //}
           //下午
-          // for (let s = 1; s <= 5; s++) {
-          let pmStartTime = this.timeToSec(this.form.pm); //下午上课开始时间
-          let pmEndTime = pmStartTime + lessonTime;
-          // for (let j = 5; j <= 7; j++) {
+          pmStartTime = this.timeToSec(this.form.pm); //下午上课开始时间
+          pmEndTime = pmStartTime + lessonTime;
           let list2 = [];
           for (let j = 5; j <= 7; j++) {
             let obj2 = {
@@ -594,7 +625,6 @@ export default {
             };
             pmStartTime = pmStartTime + lessonTime + smallRecessTime;
             pmEndTime = pmEndTime + lessonTime + smallRecessTime;
-            // for (let s = 1; s <= 5; s++) {
             let objs2 = {
               pitchId: j,
               lessonId: 0, //课程ID，默认为无课
@@ -605,10 +635,36 @@ export default {
             let assign = Object.assign({}, objs2, obj2);
             list2.push(assign);
           }
-          let aaa = list.concat(list2) || [];
-          //console.log(aaa);
+          //晚自习
+          nightStartTime = this.timeToSec(this.nightStart);
+          nightEndTime = nightStartTime + nightTime;
+          let list3 = [];
+          //如果有晚自习时间
+          if (this.night) {
+            if (nightList.includes(s)) {
+              for (let n = 8; n <= this.nightNode + 7; n++) {
+                let objs3 = {
+                  pitchId: n,
+                  lessonId: 0, //课程ID，默认为无课
+                  title: "",
+                  day: s, //星期，递增
+                  studentId: this.studentId
+                };
+                let assign = Object.assign({}, objs3, {
+                  startTime: this.formatTime(nightStartTime),
+                  endTime: this.formatTime(nightEndTime)
+                });
+
+                nightStartTime = nightEndTime + smallRecessTime;
+                nightEndTime = nightStartTime + nightTime;
+
+                list3.push(assign);
+              }
+            }
+          }
+          //数组相加
+          let aaa = list.concat(list2).concat(list3) || [];
           pmArray.push({ list: aaa });
-          // this.scheduleList = amArray.concat(pmArray) || [];
         }
         console.log(pmArray);
         //用于渲染表格的所有数据
@@ -640,19 +696,12 @@ export default {
           this.$toast(`请选择大课间在第几节~`);
           return;
         }
-        // let amEndTime = "";
         //上午节数
-        // for (let i = 1; i <= amNode; i++) {
         for (let s = 1; s <= 5; s++) {
           let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
           let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
-          // let obj = {
-          //   startTime: this.formatTime(amStartTime),
-          //   endTime: this.formatTime(amEndTime)
-          // };
           let list = [];
           //周一到周五
-          // for (let s = 1; s <= 5; s++) {
           for (let i = 1; i <= 4; i++) {
             let objs = {
               pitchId: i,
@@ -689,13 +738,7 @@ export default {
             }
             list.push(assign);
           }
-
-          //amArray.push({ list });
-          // }
           //下午节数
-          //let pmStartTime = this.timeToSec(this.form.pm);
-          //  let pmEndTime = pmStartTime + lessonTime;
-          // for (let s = 1; s <= 5; s++) {
           let pmStartTime = this.timeToSec(this.form.pm);
           let pmEndTime = pmStartTime + lessonTime;
           let list2 = [];
@@ -733,7 +776,34 @@ export default {
             }
             list2.push(pmAssIgn);
           }
-          let aaa = list.concat(list2) || [];
+          //晚自习
+          let nightStartTime = this.timeToSec(this.nightStart);
+          let nightEndTime = nightStartTime + nightTime;
+          let list3 = [];
+          //如果有晚自习时间
+          if (this.night) {
+            if (nightList.includes(s)) {
+              for (let n = 8; n <= this.nightNode + 7; n++) {
+                let objs3 = {
+                  pitchId: n,
+                  lessonId: 0, //课程ID，默认为无课
+                  title: "",
+                  day: s, //星期，递增
+                  studentId: this.studentId
+                };
+                let assign = Object.assign({}, objs3, {
+                  startTime: this.formatTime(nightStartTime),
+                  endTime: this.formatTime(nightEndTime)
+                });
+
+                nightStartTime = nightEndTime + smallRecessTime;
+                nightEndTime = nightStartTime + nightTime;
+
+                list3.push(assign);
+              }
+            }
+          }
+          let aaa = list.concat(list2).concat(list3) || [];
           pmArray.push({ list: aaa });
         }
         console.log(pmArray);

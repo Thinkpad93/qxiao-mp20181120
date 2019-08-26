@@ -49,7 +49,9 @@
           <!-- 自制课表 -->
           <template v-if="myScheduleList.length">
             <div class="schedule-top flex a-i-c j-c-s-b">
-              <div>自制课表</div>
+              <div>
+                <van-button type="danger" size="small" @click="handleDelMySchedule">删除课表</van-button>
+              </div>
               <div class>
                 <van-radio
                   name="1"
@@ -69,7 +71,7 @@
             <div class="schedule-body flex">
               <div class="schedule-tr flex-1" v-for="(tr, index) in myScheduleList" :key="index">
                 <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                  <div class="block">
+                  <div class="block" v-if="tdIndex < 7">
                     <div>
                       <span class="have" v-if="td.title">{{ td.title }}</span>
                       <span class="null" v-else>无课</span>
@@ -77,6 +79,15 @@
                     <div class="schedule-time">
                       <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
                       <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
+                    </div>
+                  </div>
+                  <div class="block block-night" v-if="tdIndex >= 7">
+                    <div>
+                      <span>晚自习</span>
+                    </div>
+                    <div class="schedule-time">
+                      <div style="margin-top:10px;">{{ td.startTime }}</div>
+                      <div style="margin-top:5px;">{{ td.endTime }}</div>
                     </div>
                   </div>
                 </div>
@@ -143,6 +154,17 @@ export default {
       };
       this.checkedSchedule(obj);
     },
+    handleDelMySchedule() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除课表吗？"
+        })
+        .then(() => {
+          this.deteleMySchedule();
+        })
+        .catch(() => {});
+    },
     //课表查询-学校
     async queryScheduleList(params = {}) {
       let res = await service.queryScheduleList(params);
@@ -171,6 +193,14 @@ export default {
         if (schedule != null) {
           this.picked = schedule.toString();
         }
+      }
+    },
+    //删除我的课表
+    async deteleMySchedule() {
+      let { studentId } = this.querys;
+      let res = await service.deteleMySchedule({ studentId });
+      if (res.errorCode === 0) {
+        this.myScheduleList = [];
       }
     }
   },
