@@ -13,6 +13,7 @@
       </article>
       <van-button type="default" @click="startScanWXDevice">扫描设备</van-button>
       <van-button type="default" @click="stopScanWXDevice">停止扫描设备</van-button>
+      <van-button type="default" @click="getWXDeviceInfos">取得微信设备信息</van-button>
     </div>
     <!-- <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
@@ -28,26 +29,60 @@ export default {
   name: "braceletSearch",
   data() {
     return {
-      deviceId: null //已连接的设备ID
+      openWxDevice: false, //用户是否打开蓝牙设备
+      deviceId: null, //已连接的设备ID
+      deviceList: [] //设备列表
     };
   },
   methods: {
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
+      let obj = {};
       WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, res => {
         console.log("openWXDeviceLib");
         console.log(res);
+        if (res.err_msg === "openWXDeviceLib:ok") {
+          //使用前请先打开手机蓝牙
+          if (res.bluetoothState === "off") {
+            obj.isOpen = false;
+            obj.message = "使用前请先打开手机蓝牙";
+          }
+          //用户没有授权微信使用蓝牙功能
+          if (res.bluetoothState === "unauthorized") {
+            obj.isOpen = false;
+            obj.message = "请授权微信蓝牙功能并打开蓝牙";
+          }
+          //蓝牙已打开
+          if (res.bluetoothState === "on") {
+            obj.isOpen = true;
+          }
+        } else {
+          obj.isOpen = false; //微信蓝牙打开失败
+          obj.message = "微信蓝牙打开失败";
+        }
       });
+      return obj;
     },
     //扫描设备（获取周围所有的设备列表，无论绑定还是未被绑定的设备都会扫描到）
     startScanWXDevice() {
-      WeixinJSBridge.invoke(
-        "startScanWXDevice",
-        { connType: "blue", btVersion: "ble" },
-        res => {
-          console.log(res);
-        }
-      );
+      let result = this.openWXDeviceLib();
+      if (result.isOpen) {
+        let toast = this.$toast.loading({
+          mask: true,
+          duration: 0, // 持续展示 toast
+          forbidClick: true, // 禁用背景点击
+          message: "正在扫描设备..."
+        });
+        WeixinJSBridge.invoke(
+          "startScanWXDevice",
+          { connType: "blue", btVersion: "ble" },
+          res => {
+            console.log(res);
+          }
+        );
+      } else {
+        this.$toast(`${result.message}`);
+      }
     },
     //停止扫描设备
     stopScanWXDevice() {
@@ -87,11 +122,23 @@ export default {
         console.log("getWXDeviceInfos");
         console.log(this.deviceId);
       });
+    },
+    //获取操作凭证 type: 1.绑定设备 2.:解绑设备
+    getWXDeviceTicket(type) {
+      let obj = {
+        deviceId: this.deviceId,
+        type,
+        connType: "blue"
+      };
+      WeixinJSBridge.invoke("getWXDeviceTicket", obj, res => {
+        if (res.err_msg === "getWXDeviceTicket:ok") {
+        }
+      });
     }
   },
   mounted() {
-    console.log(WeixinJSBridge);
-    console.log("WeixinJSBridge");
+    //console.log(WeixinJSBridge);
+    //console.log("WeixinJSBridge");
     //this.openWXDeviceLib();
     //this.getWXDeviceInfos();
     //this.onScanWXDeviceResult();

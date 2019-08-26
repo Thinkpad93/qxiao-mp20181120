@@ -1,6 +1,17 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!-- dialog 图片生成分享 -->
+      <van-dialog
+        title="长按可保存图片到本地"
+        v-model="dialogImage"
+        close-on-click-overlay
+        :show-confirm-button="false"
+      >
+        <div class="cells" style="padding-top:15px;">
+          <img :src="shareImgUrl" />
+        </div>
+      </van-dialog>
       <!-- dialog 1 -->
       <van-dialog v-model="dialogVisible">
         <div class="actionView">
@@ -152,6 +163,16 @@
                   </router-link>
                 </div>
               </div>
+              <!-- 分享 -->
+              <div class="mod">
+                <div class="share-image flex a-i-c j-c-s-b min-h100 mt-30">
+                  <p>在家表现记录</p>
+                  <div class="text-center" @click="shareActionImage(1)">
+                    <van-icon name="share" size="16px"></van-icon>
+                    <div size-12>晒一晒</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="mod no-radius" ref="mod">
               <div class="echarts-head flex a-i-c j-c-c mb-30">
@@ -204,6 +225,16 @@
                   </div>
                 </div>
               </div>
+              <!-- 分享 -->
+              <div class="mod">
+                <div class="share-image flex a-i-c j-c-s-b min-h100 mt-30">
+                  <p>课堂表现记录</p>
+                  <div class="text-center" @click="shareActionImage(2)">
+                    <van-icon name="share" size="16px"></van-icon>
+                    <div size-12>晒一晒</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="mod no-radius">
               <div class="echarts-head flex a-i-c j-c-c mb-30">
@@ -241,6 +272,8 @@ export default {
   mixins: [pageMixin, echartMixin, formatter],
   data() {
     return {
+      dialogImage: false,
+      shareImgUrl: "", //生成的分享图片地址
       dialogNote: false,
       popupShow: false,
       currentDate: new Date(),
@@ -474,6 +507,20 @@ export default {
           }
         });
       }
+    },
+    //生成行为图片分享
+    async shareActionImage(type) {
+      let star = type == 1 ? this.start : this.inSchool;
+      let params = {
+        type,
+        star,
+        studentId: this.studentId
+      };
+      let res = await service.actionImage(params);
+      if (res.errorCode === 0) {
+        this.shareImgUrl = res.data;
+        this.dialogImage = true;
+      }
     }
   },
   mounted() {
@@ -689,5 +736,10 @@ export default {
 .disc {
   padding-left: 20px;
   list-style-type: disc;
+}
+
+.share-image {
+  padding: 0 30px;
+  color: #ff9933;
 }
 </style>

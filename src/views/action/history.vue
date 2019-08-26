@@ -1,7 +1,30 @@
 <template>
   <div class="page">
+    <div class="page-hd">
+      <div class="share-image flex a-i-c j-c-s-b min-h100">
+        <p>
+          {{ name }}已经坚持习惯培养
+          <time style="color:#f44;">{{ days }}</time>天
+        </p>
+        <div class="text-center" style="color:#ff9933" @click="shareHistoryImage(1)">
+          <van-icon name="share" size="16px"></van-icon>
+          <div size-12>晒一晒</div>
+        </div>
+      </div>
+    </div>
     <div class="page-bd">
-      <div class="cells mb-20">
+      <!-- dialog 图片生成分享 -->
+      <van-dialog
+        title="长按可保存图片到本地"
+        v-model="dialogImage"
+        close-on-click-overlay
+        :show-confirm-button="false"
+      >
+        <div class="cells" style="padding-top:15px;">
+          <img :src="shareImgUrl" />
+        </div>
+      </van-dialog>
+      <!-- <div class="cells mb-20">
         <div class="cell min-h120">
           <div class="cell-bd">
             <p>
@@ -10,7 +33,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </div>-->
       <!-- -->
       <van-collapse v-model="activeNames">
         <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
@@ -64,6 +87,8 @@ export default {
   name: "actionHistory",
   data() {
     return {
+      dialogImage: false,
+      shareImgUrl: "", //生成的分享图片地址
       dialogNote: false,
       rateReadonly: false,
       query: {
@@ -134,6 +159,19 @@ export default {
           }
         });
       }
+    },
+    //生成历史图片分享
+    async shareHistoryImage(type) {
+      let params = {
+        type,
+        days: this.days,
+        studentId: this.query.studentId
+      };
+      let res = await service.historyImage(params);
+      if (res.errorCode === 0) {
+        this.shareImgUrl = res.data;
+        this.dialogImage = true;
+      }
     }
   },
   mounted() {
@@ -168,5 +206,9 @@ export default {
 
 .van-collapse-item {
   margin-bottom: 10px;
+}
+
+.share-image {
+  padding: 0 30px;
 }
 </style>

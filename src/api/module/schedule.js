@@ -56,3 +56,11 @@ export function queryScheduleCheckedState(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//删除我的课表
+export function deteleMySchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/deteleMySchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

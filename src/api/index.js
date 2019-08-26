@@ -26,6 +26,7 @@ import * as schedule from './module/schedule'; //课表
 import * as expression from './module/expression';
 import * as bracelet from './module/bracelet';
 import * as director from './module/director';
+import * as image from './module/image';
 export default {
   ...album,
   ...clock,
@@ -53,5 +54,6 @@ export default {
   ...schedule,
   ...expression,
   ...bracelet,
-  ...director
+  ...director,
+  ...image
 }

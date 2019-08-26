@@ -7,7 +7,7 @@
             <label class="label f-w">班级</label>
           </div>
           <div class="cell-bd">
-            <p class="text-right f-w">人数</p>
+            <p class="text-right f-w">{{ statusText }}</p>
           </div>
         </div>
       </div>
@@ -38,6 +38,20 @@ export default {
       },
       list: []
     };
+  },
+  computed: {
+    statusText() {
+      let text = "";
+      if (this.query.status == 0) {
+        return (text = "应到人数");
+      } else if (this.query.status == 1) {
+        return (text = "实到人数");
+      } else if (this.query.status == 2) {
+        return (text = "请假人数");
+      } else {
+        return (text = "缺勤人数");
+      }
+    }
   },
   methods: {
     //园长考勤统计详情

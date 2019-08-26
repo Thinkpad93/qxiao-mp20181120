@@ -3,6 +3,90 @@
     <div class="page-bd">
       <van-tabs v-model="tabActive" :line-height="2">
         <van-tab title="配置选项">
+          <!-- 升国旗 -->
+          <div class="cells mt-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label class="label">升国旗</label>
+              </div>
+              <div class="cell-bd" style="text-align: right;">
+                <van-switch v-model="china" size="26px" active-color="#92cd36"></van-switch>
+              </div>
+            </div>
+          </div>
+          <template v-if="china">
+            <div class="cells">
+              <div class="cell cell-select cell-select-after">
+                <div class="cell-hd">
+                  <label class="label">日期</label>
+                </div>
+                <div class="cell-bd">
+                  <select class="select" name dir="rtl" v-model="chineseNational" multiple size="1">
+                    <!-- 兼容性问题修改 -->
+                    <optgroup disabled hidden></optgroup>
+                    <option
+                      :value="option.day"
+                      v-for="(option,index) in weekList"
+                      :key="index"
+                    >{{ option.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">升国旗时间(分)</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="chinaTime" :min="10" :max="60"></van-stepper>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 升国旗 -->
+          <!-- 早操 -->
+          <div class="cells mt-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label class="label">早操</label>
+              </div>
+              <div class="cell-bd" style="text-align: right;">
+                <van-switch v-model="exercise" size="26px" active-color="#92cd36"></van-switch>
+              </div>
+            </div>
+          </div>
+          <template v-if="exercise">
+            <div class="cells">
+              <div class="cell cell-select cell-select-after">
+                <div class="cell-hd">
+                  <label class="label">日期</label>
+                </div>
+                <div class="cell-bd">
+                  <select class="select" name dir="rtl" v-model="exerciseList" multiple size="1">
+                    <!-- 兼容性问题修改 -->
+                    <optgroup disabled hidden></optgroup>
+                    <option
+                      :value="option.day"
+                      v-for="(option,index) in weekList"
+                      :key="index"
+                    >{{ option.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">早操时间(分)</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="exerciseTime" :min="10" :max="60"></van-stepper>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 早操 -->
           <div class="cells mt-20 mb-20">
             <div class="cell min-h100">
               <div class="cell-hd">
@@ -100,6 +184,48 @@
               <van-button type="info" size="small" @click="handleBigRecess">新增大课间</van-button>
             </div>-->
           </template>
+          <!-- 晚自习 -->
+          <div class="cells mt-20">
+            <div class="cell min-h100">
+              <div class="cell-hd">
+                <label class="label">晚自习</label>
+              </div>
+              <div class="cell-bd" style="text-align: right;">
+                <van-switch v-model="night" size="26px" active-color="#92cd36"></van-switch>
+              </div>
+            </div>
+          </div>
+          <template v-if="night">
+            <div class="cells">
+              <div class="cell cell-select cell-select-after">
+                <div class="cell-hd">
+                  <label class="label">日期</label>
+                </div>
+                <div class="cell-bd">
+                  <select class="select" name dir="rtl" v-model="nightList" multiple size="1">
+                    <!-- 兼容性问题修改 -->
+                    <optgroup disabled hidden></optgroup>
+                    <option
+                      :value="option.day"
+                      v-for="(option,index) in weekList"
+                      :key="index"
+                    >{{ option.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cell min-h100">
+                <div class="cell-hd">
+                  <label for class="label">晚自习时间(分)</label>
+                </div>
+                <div class="cell-bd">
+                  <p class="text-right">
+                    <van-stepper v-model="nightTime" :min="10" :max="60"></van-stepper>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 晚自习 -->
         </van-tab>
         <van-tab title="课表查看">
           <!-- 自制课表 -->
@@ -200,6 +326,15 @@ export default {
   name: "scheduleAdd",
   data() {
     return {
+      china: false, //是否有升国旗
+      chinaTime: 15, //升国旗时间
+      chineseNational: [1], //升国旗选中时间
+      exercise: false, //是否有早操
+      exerciseTime: 15, //早操时间
+      exerciseList: [1, 2, 3, 4, 5], //早操选中时间
+      night: false, //是否有晚自习
+      nightTime: 60, //晚自习时间
+      nightList: [1, 2, 3, 4, 5], //晚自习选中时间
       tabActive: 0,
       switched: false, //是否有大课间
       result: [],
@@ -213,19 +348,6 @@ export default {
         {
           recess: 30, //大课间时间
           selected: [1], //课间分布星期几
-          result: [], //第几节到几节有大课间时间
-          node: [
-            { nodeId: 1, title: "第1节跟第2节之间" },
-            { nodeId: 2, title: "第2节跟第3节之间" },
-            { nodeId: 3, title: "第3节跟第4节之间" },
-            { nodeId: 4, title: "第4节跟第5节之间" },
-            { nodeId: 5, title: "第5节跟第6节之间" },
-            { nodeId: 6, title: "第6节跟第7节之间" }
-          ]
-        },
-        {
-          recess: 30, //大课间时间
-          selected: [1, 2], //课间分布星期几
           result: [], //第几节到几节有大课间时间
           node: [
             { nodeId: 1, title: "第1节跟第2节之间" },
@@ -249,9 +371,6 @@ export default {
 
       endRowIndex: 0,
       endColIndex: 0,
-
-      //startIndex: 0, //开始时间索引
-      //endIndex: 0, //结束时间索引
       popupShow: false,
       defaultIndex: 0,
       rowIndex: 0, //行索引值

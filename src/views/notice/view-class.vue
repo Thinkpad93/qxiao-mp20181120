@@ -7,7 +7,7 @@
             <label class="label f-w">班级</label>
           </div>
           <div class="cell-bd">
-            <p class="text-right f-w">人数</p>
+            <p class="text-right f-w">{{ statusText }}</p>
           </div>
         </div>
       </div>
@@ -36,6 +36,18 @@ export default {
       },
       list: []
     };
+  },
+  computed: {
+    statusText() {
+      let text = "";
+      if (this.query.status == 1) {
+        return (text = "已阅读");
+      } else if (this.query.status == 2) {
+        return (text = "未阅读");
+      } else {
+        return (text = "未确认");
+      }
+    }
   },
   methods: {
     //园长端--公告通知班级详情
