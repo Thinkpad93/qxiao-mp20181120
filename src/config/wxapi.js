@@ -61,6 +61,10 @@ export default {
         callback()
       }
     });
+    wx.error(error => {
+      console.log("error");
+      console.log(error);
+    });
   },
   //隐藏右上角菜单接口
   wxHideOptionMenu() {

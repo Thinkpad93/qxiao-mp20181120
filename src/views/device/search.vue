@@ -1,7 +1,17 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <article class="article">
+      <div class="cells mb-20">
+        <div class="cell min-h120" v-for="item in deviceList" :key="item.state">
+          <div class="cell-hd">
+            <label class="label">当前设备</label>
+          </div>
+          <div class="cell-bd">
+            <p class="text-right">{{ item.deviceId }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- <article class="article">
         <div class="article-bd">
           <h3>步骤1：</h3>
           <p>确认手环处于工作状态</p>
@@ -10,10 +20,11 @@
           <h3>步骤3：</h3>
           <p>请将手环贴近手机，手机会自动 查找查找，找到手环设备，点击 绑定，稍后会提示绑定成功。</p>
         </div>
-      </article>
-      <van-button type="default" @click="startScanWXDevice">扫描设备</van-button>
+      </article>-->
+      <!-- <van-button type="default" @click="startScanWXDevice">扫描设备</van-button>
       <van-button type="default" @click="stopScanWXDevice">停止扫描设备</van-button>
-      <van-button type="default" @click="getWXDeviceInfos">取得微信设备信息</van-button>
+      <van-button type="default" @click="getWXDeviceInfos">取得微信设备信息</van-button>-->
+      <van-button type="danger" @click="sendDataToWXDevice">发送数据给设备</van-button>
     </div>
     <!-- <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
@@ -35,6 +46,40 @@ export default {
     };
   },
   methods: {
+    base64encode(str) {
+      var base64EncodeChars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      var out, i, len;
+      var c1, c2, c3;
+      len = str.length;
+      i = 0;
+      out = "";
+      while (i < len) {
+        c1 = str.charCodeAt(i++) & 0xff;
+        if (i == len) {
+          out += base64EncodeChars.charAt(c1 >> 2);
+          out += base64EncodeChars.charAt((c1 & 0x3) << 4);
+          out += "==";
+          break;
+        }
+        c2 = str.charCodeAt(i++);
+        if (i == len) {
+          out += base64EncodeChars.charAt(c1 >> 2);
+          out += base64EncodeChars.charAt(
+            ((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
+          );
+          out += base64EncodeChars.charAt((c2 & 0xf) << 2);
+          out += "=";
+          break;
+        }
+        c3 = str.charCodeAt(i++);
+        out += base64EncodeChars.charAt(c1 >> 2);
+        out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
+        out += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
+        out += base64EncodeChars.charAt(c3 & 0x3f);
+      }
+      return out;
+    },
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
       let obj = {};
@@ -113,6 +158,7 @@ export default {
       WeixinJSBridge.invoke("getWXDeviceInfos", {}, res => {
         //绑定设备总数量
         let deviceArray = res.deviceInfos;
+        this.deviceList = deviceArray;
         for (let i = 0; i < deviceArray.length; i++) {
           if (deviceArray[i].state === "connected") {
             this.deviceId = deviceArray[i].deviceId;
@@ -120,7 +166,8 @@ export default {
           }
         }
         console.log("getWXDeviceInfos");
-        console.log(this.deviceId);
+        console.log(res);
+        console.log(this.deviceList);
       });
     },
     //获取操作凭证 type: 1.绑定设备 2.:解绑设备
@@ -134,13 +181,47 @@ export default {
         if (res.err_msg === "getWXDeviceTicket:ok") {
         }
       });
+    },
+    //发送数据给设备 发送的数据需要经过base64编码
+    sendDataToWXDevice() {
+      console.log(this.deviceId);
+      WeixinJSBridge.invoke(
+        "sendDataToWXDevice",
+        {
+          deviceId: this.deviceId,
+          connType: "blue",
+          base64Data: this.base64encode("中华人民共和国")
+        },
+        res => {
+          if (res.err_msg === "sendDataToWXDevice:ok") {
+            this.$toast(`数据已发送`);
+          } else {
+            this.$toast(`数据发送失败`);
+          }
+          console.log(res);
+        }
+      );
+    },
+    //接收到设备数据
+    onReceiveDataFromWXDevice() {
+      WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
+        console.log("onReceiveDataFromWXDevice");
+        console.log(res);
+      });
+    },
+    click() {
+      document.addEventListener("click", e => {
+        console.log(e);
+      });
     }
   },
   mounted() {
     //console.log(WeixinJSBridge);
     //console.log("WeixinJSBridge");
-    //this.openWXDeviceLib();
-    //this.getWXDeviceInfos();
+    this.openWXDeviceLib();
+    this.getWXDeviceInfos();
+    this.onReceiveDataFromWXDevice();
+    //this.click();
     //this.onScanWXDeviceResult();
   }
 };

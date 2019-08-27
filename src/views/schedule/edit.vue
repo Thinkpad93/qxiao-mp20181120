@@ -42,22 +42,25 @@
         <div class="schedule-body flex">
           <div class="schedule-tr flex-1" v-for="(tr, index) in scheduleList" :key="index">
             <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <div class="block">
+              <div class="block" v-if="tdIndex < 7">
                 <div @click="handleChangeLesson(td, index, tdIndex)">
                   <span class="have" v-if="td.title">{{ td.title }}</span>
                   <span class="null" v-else>无课</span>
                 </div>
                 <div class="schedule-time">
-                  <div
-                    style="color:#1989fa;margin-top:10px;"
-                    size-12
-                    @click="handleChangeStartTime(td.startTime, index, tdIndex)"
-                  >{{ td.startTime }}</div>
-                  <div
-                    style="color:#1989fa;margin-top:5px;"
-                    size-12
-                    @click="handleChangeEndTime( td.endTime, index, tdIndex)"
-                  >{{ td.endTime }}</div>
+                  <!-- @click="handleChangeStartTime(td.startTime, index, tdIndex)" -->
+                  <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
+                  <!-- @click="handleChangeEndTime( td.endTime, index, tdIndex)" -->
+                  <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
+                </div>
+              </div>
+              <div class="block block-night" v-if="tdIndex >= 7">
+                <div>
+                  <span>晚自习</span>
+                </div>
+                <div class="schedule-time">
+                  <div style="margin-top:10px;">{{ td.startTime }}</div>
+                  <div style="margin-top:5px;">{{ td.endTime }}</div>
                 </div>
               </div>
             </div>
@@ -67,13 +70,17 @@
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+        <div class="flex">
+          <van-button type="danger" size="large" class="no-radius" @click="handleDelSchedule">删除</van-button>
+          <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "scheduleEdit",
   data() {
@@ -103,6 +110,12 @@ export default {
       lessonList: [],
       scheduleList: []
     };
+  },
+  computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType,
+      classId: state => state.info.classId
+    })
   },
   methods: {
     //选择开始时间
@@ -171,25 +184,56 @@ export default {
         }
       }
     },
-    handleSave() {
-      let flag = true; //控制时间选择是否不对
-      let scheduleList = this.scheduleList;
-      for (let i = 0; i < scheduleList.length; i++) {
-        let list = scheduleList[i].list;
-        for (let j = 0; j < list.length; j++) {
-          let startTime = list[j].startTime;
-          let endTime = list[j].endTime;
-          let result = this.handleCompareTime(startTime, endTime);
-          if (!result) {
-            flag = false;
-            this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
-            break;
+    handleDelSchedule() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除课表吗？"
+        })
+        .then(() => {
+          if (this.roleType == 2) {
+            this.deteleSchedule({ classId: this.classId });
+          } else {
+            this.deteleMySchedule();
           }
-        }
-      }
-      if (flag) {
-        this.updateMySchedule({ scheduleVOs: this.scheduleList });
-      }
+        })
+        .catch(() => {});
+    },
+    handleSave() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要保存课表吗？"
+        })
+        .then(() => {
+          if (this.roleType == 2) {
+            this.updateSchedule({
+              classId: this.classId,
+              scheduleVOs: this.scheduleList
+            });
+          } else {
+            this.updateMySchedule({ scheduleVOs: this.scheduleList });
+          }
+        })
+        .catch(() => {});
+      // let flag = true; //控制时间选择是否不对
+      // let scheduleList = this.scheduleList;
+      // for (let i = 0; i < scheduleList.length; i++) {
+      //   let list = scheduleList[i].list;
+      //   for (let j = 0; j < list.length; j++) {
+      //     let startTime = list[j].startTime;
+      //     let endTime = list[j].endTime;
+      //     let result = this.handleCompareTime(startTime, endTime);
+      //     if (!result) {
+      //       flag = false;
+      //       this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
+      //       break;
+      //     }
+      //   }
+      // }
+      // if (flag) {
+      //   this.updateMySchedule({ scheduleVOs: this.scheduleList });
+      // }
     },
     //课程列表查询
     async queryLessonList(params = {}) {
@@ -203,7 +247,7 @@ export default {
               title
             };
           });
-          result.unshift({ lessonId: 0, title: "无课" });
+          result.push({ lessonId: 0, title: "无课" });
           this.lessonList = result;
         }
       }
@@ -215,16 +259,49 @@ export default {
         this.scheduleList = res.data || [];
       }
     },
+    //查询班级课表（老师）
+    async queryClassSchedule(params = {}) {
+      let res = await service.queryClassSchedule(params);
+      if (res.errorCode === 0) {
+        this.scheduleList = res.data || [];
+      }
+    },
     //编辑我的课表
     async updateMySchedule(params = {}) {
       let res = await service.updateMySchedule(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
+    },
+    //编辑班级课表（老师）
+    async updateSchedule(params = {}) {
+      let res = await service.updateSchedule(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      }
+    },
+    //删除我的课表
+    async deteleMySchedule() {
+      let { studentId } = this.query;
+      let res = await service.deteleMySchedule({ studentId });
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      }
+    },
+    //删除班级课表（老师）
+    async deteleSchedule(params = {}) {
+      let res = await service.deteleSchedule(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      }
     }
   },
   mounted() {
-    this.queryMySchedule(this.query);
+    if (this.roleType == 2) {
+      this.queryClassSchedule({ classId: this.classId });
+    } else {
+      this.queryMySchedule(this.query);
+    }
     this.queryLessonList();
   }
 };

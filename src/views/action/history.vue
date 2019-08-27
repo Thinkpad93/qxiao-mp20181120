@@ -14,27 +14,12 @@
     </div>
     <div class="page-bd">
       <!-- dialog 图片生成分享 -->
-      <van-dialog
-        title="长按可保存图片到本地"
-        v-model="dialogImage"
-        close-on-click-overlay
-        :show-confirm-button="false"
-      >
-        <div class="cells" style="padding-top:15px;">
+      <van-dialog v-model="dialogImage" close-on-click-overlay :show-confirm-button="false">
+        <div class="cells">
           <img :src="shareImgUrl" />
+          <p class="text-center pt-30 pb-30">长按图片保存或发给朋友</p>
         </div>
       </van-dialog>
-      <!-- <div class="cells mb-20">
-        <div class="cell min-h120">
-          <div class="cell-bd">
-            <p>
-              {{ name }}已经坚持习惯培养
-              <time style="color:#f44;">{{ days }}</time>天
-            </p>
-          </div>
-        </div>
-      </div>-->
-      <!-- -->
       <van-collapse v-model="activeNames">
         <van-collapse-item :name="item.id" v-for="(item,indexs) in list" :key="indexs">
           <div class="flex" size-16 slot="title">

@@ -3,6 +3,25 @@
     <div class="page-bd">
       <van-tabs v-model="tabActive" :line-height="2">
         <van-tab title="配置选项">
+          <!-- 班级选择 -->
+          <div class="cells mt-20" v-if="roleType == 2">
+            <div class="cell cell-select cell-select-after">
+              <div class="cell-hd">
+                <label for class="label">学生所在班级</label>
+              </div>
+              <div class="cell-bd">
+                <select class="select" name dir="rtl" v-model="classId">
+                  <!-- 兼容性问题修改 -->
+                  <optgroup disabled hidden></optgroup>
+                  <option
+                    :value="option.classId"
+                    v-for="(option,index) in classList"
+                    :key="index"
+                  >{{ option.className }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <!-- 升国旗 -->
           <div class="cells mt-20">
             <div class="cell min-h100">
@@ -169,7 +188,12 @@
                   <label for class="label">晚自习开始时间</label>
                 </div>
                 <div class="cell-bd">
-                  <input class="input" placeholder="请输入上午开始时间" v-model="nightStart" />
+                  <input
+                    class="input"
+                    placeholder="请输入上午开始时间"
+                    v-model="nightStart"
+                    @click="nightPopup = true"
+                  />
                 </div>
               </div>
               <div class="cell min-h100">
@@ -241,6 +265,9 @@
               </van-checkbox-group>
             </div>
           </template>
+          <!-- <div class="mt-20 text-center">
+            <van-button type="info" class="no-radius" @click="newCreate">生成课表</van-button>
+          </div>-->
         </van-tab>
         <van-tab title="课表查看">
           <!-- 自制课表 -->
@@ -259,14 +286,12 @@
                       <van-icon name="plus" size="16px" color="#999" v-else></van-icon>
                     </div>
                     <div class="schedule-time">
+                      <!-- @click="handleChangeStartTime(td.startTime, index, tdIndex)" -->
                       <div
                         style="color:#1989fa;margin-top:10px;"
-                        @click="handleChangeStartTime(td.startTime, index, tdIndex)"
                       >{{ !td.startTime ? "开始": td.startTime}}</div>
-                      <div
-                        style="color:#1989fa;margin-top:5px;"
-                        @click="handleChangeEndTime( td.endTime, index, tdIndex)"
-                      >{{ !td.endTime ? "结束": td.endTime}}</div>
+                      <!-- @click="handleChangeEndTime( td.endTime, index, tdIndex)" -->
+                      <div style="color:#1989fa;margin-top:5px;">{{ !td.endTime ? "结束": td.endTime}}</div>
                     </div>
                   </div>
                   <div class="block block-night" v-if="tdIndex >= 7">
@@ -283,6 +308,9 @@
             </div>
           </div>
           <!-- 自制课表 -->
+          <!-- <div class="mt-20 text-center" v-if="scheduleList.length">
+            <van-button type="info" class="no-radius" @click="handleSave">保存</van-button>
+          </div>-->
           <div class="empty" v-if="!scheduleList.length">
             <img src="@/assets/kong.png" alt />
             <p>你还没有生成课表</p>
@@ -333,12 +361,33 @@
         ></van-datetime-picker>
       </van-popup>
       <!-- 结束时间 -->
+      <!-- 晚自习 -->
+      <van-popup v-model="nightPopup" position="bottom">
+        <van-datetime-picker
+          v-model="nightStart"
+          type="time"
+          @cancel="nightPopup = false"
+          @confirm="handleNightTimeConfirm"
+        ></van-datetime-picker>
+      </van-popup>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <div class="flex">
-          <van-button type="default" size="large" class="no-radius" @click="newCreate">生成课表</van-button>
-          <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="newCreate"
+            v-show="tabActive == 0"
+          >生成课表</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="handleSave"
+            v-show="tabActive == 1 && scheduleList.length"
+          >保存</van-button>
         </div>
       </div>
     </div>
@@ -346,16 +395,21 @@
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
+import classList from "@/mixins/classList";
 export default {
   name: "scheduleAdd",
+  mixins: [classList],
   data() {
     return {
+      classId: this.$store.state.user.info.classId, //班级ID
       china: false, //是否有升国旗
       chinaTime: 15, //升国旗时间
       chineseNational: [1], //升国旗选中时间
       exercise: false, //是否有早操
       exerciseTime: 15, //早操时间
       exerciseList: [1, 2, 3, 4, 5], //早操选中时间
+      nightPopup: false,
       night: false, //是否有晚自习
       nightStart: "19:30", //晚自习开始时间
       nightTime: 40, //晚自习时间
@@ -414,6 +468,11 @@ export default {
       scheduleList: [] //
     };
   },
+  computed: {
+    ...mapState("user", {
+      roleType: state => state.info.roleType
+    })
+  },
   methods: {
     //选择上午或者下午上课时间
     selectAmandPm(type) {
@@ -468,6 +527,11 @@ export default {
       }
       this.popupShow = false;
     },
+    //选择晚自习时间
+    handleNightTimeConfirm(value, index) {
+      this.nightStart = value;
+      this.nightPopup = false;
+    },
     //单击选择课程
     handleChangeLesson(params, index, tdIndex) {
       let { lessonId, title } = params;
@@ -518,25 +582,41 @@ export default {
         this.$toast(`请先生成课表，再保存哦~`);
         return;
       } else {
-        let flag = true; //控制时间选择是否不对
-        let scheduleList = this.scheduleList;
-        for (let i = 0; i < scheduleList.length; i++) {
-          let list = scheduleList[i].list;
-          for (let j = 0; j < list.length; j++) {
-            let startTime = list[j].startTime;
-            let endTime = list[j].endTime;
-            let result = this.handleCompareTime(startTime, endTime);
-            if (!result) {
-              flag = false;
-              this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
-              break;
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要保存课表吗？"
+          })
+          .then(() => {
+            if (this.roleType == 2) {
+              this.addSchedule({
+                classId: this.classId,
+                scheduleVOs: this.scheduleList
+              });
+            } else {
+              this.addMySchedule({ scheduleVOs: this.scheduleList });
             }
-          }
-        }
+          })
+          .catch(() => {});
+        // let flag = true; //控制时间选择是否不对
+        // let scheduleList = this.scheduleList;
+        // for (let i = 0; i < scheduleList.length; i++) {
+        //   let list = scheduleList[i].list;
+        //   for (let j = 0; j < list.length; j++) {
+        //     let startTime = list[j].startTime;
+        //     let endTime = list[j].endTime;
+        //     let result = this.handleCompareTime(startTime, endTime);
+        //     if (!result) {
+        //       flag = false;
+        //       this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
+        //       break;
+        //     }
+        //   }
+        // }
         //当开始时间和结束时间不为空且开始时间大于结束时间
-        if (flag) {
-          this.addMySchedule({ scheduleVOs: this.scheduleList });
-        }
+        // if (flag) {
+        //   this.addMySchedule({ scheduleVOs: this.scheduleList });
+        // }
       }
     },
     //将时间转成秒数
@@ -669,6 +749,7 @@ export default {
         console.log(pmArray);
         //用于渲染表格的所有数据
         this.scheduleList = pmArray || [];
+        this.tabActive = 1;
       } else {
         //大课间列表
         //上午
@@ -809,6 +890,7 @@ export default {
         console.log(pmArray);
         //用于渲染表格的所有数据
         this.scheduleList = pmArray || [];
+        this.tabActive = 1;
       }
     },
     //课程列表查询
@@ -823,7 +905,7 @@ export default {
               title
             };
           });
-          result.unshift({ lessonId: 0, title: "无课" });
+          result.push({ lessonId: 0, title: "无课" });
           this.lessonList = result;
         }
       }
@@ -833,6 +915,17 @@ export default {
       let res = await service.addMySchedule(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
+      }
+    },
+    //新增班级课表(老师)
+    async addSchedule(params = {}) {
+      let res = await service.addSchedule(params);
+      if (res.errorCode === 0) {
+        this.$router.go(-1);
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

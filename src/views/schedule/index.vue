@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <van-tabs v-model="tabActive" :line-height="2">
-        <van-tab title="班级课表">
-          <!-- 学校课表 -->
-          <template v-if="list.length">
+      <!-- <van-tabs v-model="tabActive" :line-height="2"> -->
+      <!-- <van-tab title="班级课表"> -->
+      <!-- 学校课表 -->
+      <!-- <template v-if="list.length">
             <div class="schedule-top flex a-i-c j-c-s-b">
               <div>学校课表</div>
               <div class>
@@ -16,8 +16,8 @@
                 >默认</van-radio>
               </div>
             </div>
-          </template>
-          <div class="schedule" v-if="list.length">
+      </template>-->
+      <!-- <div class="schedule" v-if="list.length">
             <div class="schedule-tr flex">
               <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
                 <div class="block-head">{{ week.name }}</div>
@@ -26,7 +26,7 @@
             <div class="schedule-body flex">
               <div class="schedule-tr flex-1" v-for="(tr, index) in list" :key="index">
                 <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                  <div class="block">
+                  <div class="block block-main" v-if="tdIndex < 7">
                     <div>
                       <span class="have" v-if="td.title">{{ td.title }}</span>
                       <span class="null" v-else>无课</span>
@@ -36,70 +36,76 @@
                       <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="empty" v-else>
-            <img src="@/assets/kong.png" alt />
-            <p>暂无班级课表</p>
-          </div>
-        </van-tab>
-        <van-tab title="自制课表">
-          <!-- 自制课表 -->
-          <template v-if="myScheduleList.length">
-            <div class="schedule-top flex a-i-c j-c-s-b">
-              <div>
-                <van-button type="danger" size="small" @click="handleDelMySchedule">删除课表</van-button>
-              </div>
-              <div class>
-                <van-radio
-                  name="1"
-                  v-model="picked"
-                  checked-color="#92cd36"
-                  @click="handleRadio($event)"
-                >默认</van-radio>
-              </div>
-            </div>
-          </template>
-          <div class="schedule" v-if="myScheduleList.length">
-            <div class="schedule-tr flex">
-              <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-                <div class="block-head">{{ week.name }}</div>
-              </div>
-            </div>
-            <div class="schedule-body flex">
-              <div class="schedule-tr flex-1" v-for="(tr, index) in myScheduleList" :key="index">
-                <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                  <div class="block" v-if="tdIndex < 7">
-                    <div>
-                      <span class="have" v-if="td.title">{{ td.title }}</span>
-                      <span class="null" v-else>无课</span>
-                    </div>
-                    <div class="schedule-time">
-                      <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
-                      <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
-                    </div>
-                  </div>
-                  <div class="block block-night" v-if="tdIndex >= 7">
+                  <div class="block block-night block-main" v-if="tdIndex >= 7">
                     <div>
                       <span>晚自习</span>
                     </div>
-                    <div class="schedule-time">
-                      <div style="margin-top:10px;">{{ td.startTime }}</div>
-                      <div style="margin-top:5px;">{{ td.endTime }}</div>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="empty" v-else>
+      </div>-->
+      <!-- <div class="empty" v-else>
             <img src="@/assets/kong.png" alt />
-            <p>暂无自制课程表</p>
+            <p>暂无班级课表</p>
+      </div>-->
+      <!-- </van-tab> -->
+      <!-- <van-tab title="自制课表"> -->
+      <!-- 自制课表 -->
+      <template v-if="myScheduleList.length">
+        <div class="schedule-top flex a-i-c j-c-s-b">
+          <div>
+            <!-- <van-button type="danger" size="small" @click="handleDelMySchedule">删除课表</van-button> -->
+            <van-button type="info" size="small" @click="handleEdit">编辑课表</van-button>
           </div>
-        </van-tab>
-      </van-tabs>
+          <div class>
+            <van-radio
+              name="1"
+              v-model="picked"
+              checked-color="#92cd36"
+              @click="handleRadio($event)"
+            >默认</van-radio>
+          </div>
+        </div>
+      </template>
+      <div class="schedule" v-if="myScheduleList.length">
+        <div class="schedule-tr flex">
+          <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
+            <div class="block-head">{{ week.name }}</div>
+          </div>
+        </div>
+        <div class="schedule-body flex">
+          <div class="schedule-tr flex-1" v-for="(tr, index) in myScheduleList" :key="index">
+            <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
+              <div class="block block-main" v-if="tdIndex < 7">
+                <div>
+                  <span class="have" v-if="td.title">{{ td.title }}</span>
+                  <span class="null" v-else>无课</span>
+                </div>
+                <!-- <div class="schedule-time">
+                      <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
+                      <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
+                </div>-->
+              </div>
+              <div class="block block-night block-main" v-if="tdIndex >= 7">
+                <div>
+                  <span>晚自习</span>
+                </div>
+                <!-- <div class="schedule-time">
+                      <div style="margin-top:10px;">{{ td.startTime }}</div>
+                      <div style="margin-top:5px;">{{ td.endTime }}</div>
+                </div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="empty" v-else>
+        <img src="@/assets/kong.png" alt />
+        <p>暂无自制课程表</p>
+      </div>
+      <!-- </van-tab> -->
+      <!-- </van-tabs> -->
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
@@ -108,7 +114,8 @@
           size="large"
           class="no-radius"
           @click="handleJump"
-        >{{ myScheduleList.length ? '编辑自制课程表':'自制课程表' }}</van-button>
+          v-if="!myScheduleList.length"
+        >自制课程表</van-button>
       </div>
     </div>
   </div>
@@ -134,15 +141,23 @@ export default {
         { name: "星期四", day: 4 },
         { name: "星期五", day: 5 }
       ],
-      list: [],
+      //list: [],
       myScheduleList: []
     };
   },
   methods: {
     handleJump() {
-      let model = this.myScheduleList.length ? "edit" : "add";
+      //let model = this.myScheduleList.length ? "edit" : "add";
       this.$router.push({
-        path: `/schedule/${model}`
+        path: `/schedule/add`
+      });
+    },
+    handleEdit() {
+      this.$router.push({
+        path: `/schedule/edit`,
+        query: {
+          classId: this.query.classId
+        }
       });
     },
     //radio事件
@@ -154,24 +169,13 @@ export default {
       };
       this.checkedSchedule(obj);
     },
-    handleDelMySchedule() {
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要删除课表吗？"
-        })
-        .then(() => {
-          this.deteleMySchedule();
-        })
-        .catch(() => {});
-    },
     //课表查询-学校
-    async queryScheduleList(params = {}) {
-      let res = await service.queryScheduleList(params);
-      if (res.errorCode === 0) {
-        this.list = res.data || [];
-      }
-    },
+    // async queryScheduleList(params = {}) {
+    //   let res = await service.queryScheduleList(params);
+    //   if (res.errorCode === 0) {
+    //     this.list = res.data || [];
+    //   }
+    // },
     //查询我的课表-自制
     async queryMySchedule(params = {}) {
       let res = await service.queryMySchedule(params);
@@ -194,18 +198,10 @@ export default {
           this.picked = schedule.toString();
         }
       }
-    },
-    //删除我的课表
-    async deteleMySchedule() {
-      let { studentId } = this.querys;
-      let res = await service.deteleMySchedule({ studentId });
-      if (res.errorCode === 0) {
-        this.myScheduleList = [];
-      }
     }
   },
   mounted() {
-    this.queryScheduleList(this.query);
+    //this.queryScheduleList(this.query);
   },
   activated() {
     this.queryMySchedule(this.querys);

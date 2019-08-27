@@ -64,3 +64,35 @@ export function deteleMySchedule(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//新增班级课表(老师)
+export function addSchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/addSchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//查询班级课表（老师）
+export function queryClassSchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryClassSchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//删除班级课表（老师）
+export function deteleSchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/deteleSchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//编辑班级课表（老师）
+export function updateSchedule(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/updateSchedule.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

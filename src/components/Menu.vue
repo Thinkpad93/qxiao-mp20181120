@@ -129,6 +129,7 @@ export default {
           return this.menuList
             .concat(this.recipeList)
             .concat(this.clockList)
+            .concat(this.scheduleList)
             .concat(this.feedList);
           break;
         default:

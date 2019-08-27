@@ -2,14 +2,10 @@
   <div class="page">
     <div class="page-bd">
       <!-- dialog 图片生成分享 -->
-      <van-dialog
-        title="长按可保存图片到本地"
-        v-model="dialogImage"
-        close-on-click-overlay
-        :show-confirm-button="false"
-      >
-        <div class="cells" style="padding-top:15px;">
+      <van-dialog v-model="dialogImage" close-on-click-overlay :show-confirm-button="false">
+        <div class="cells">
           <img :src="shareImgUrl" />
+          <p class="text-center pt-30 pb-30">长按图片保存或发给朋友</p>
         </div>
       </van-dialog>
       <!-- dialog 1 -->
@@ -166,11 +162,8 @@
               <!-- 分享 -->
               <div class="mod">
                 <div class="share-image flex a-i-c j-c-s-b min-h100 mt-30">
-                  <p>在家表现记录</p>
-                  <div class="text-center" @click="shareActionImage(1)">
-                    <van-icon name="share" size="16px"></van-icon>
-                    <div size-12>晒一晒</div>
-                  </div>
+                  <p>晒一晒我的表现</p>
+                  <van-icon name="share" size="20px" @click="shareActionImage(1)"></van-icon>
                 </div>
               </div>
             </div>
@@ -228,11 +221,8 @@
               <!-- 分享 -->
               <div class="mod">
                 <div class="share-image flex a-i-c j-c-s-b min-h100 mt-30">
-                  <p>课堂表现记录</p>
-                  <div class="text-center" @click="shareActionImage(2)">
-                    <van-icon name="share" size="16px"></van-icon>
-                    <div size-12>晒一晒</div>
-                  </div>
+                  <p>晒一晒我的表现</p>
+                  <van-icon name="share" size="20px" @click="shareActionImage(2)"></van-icon>
                 </div>
               </div>
             </div>
