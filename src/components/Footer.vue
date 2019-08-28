@@ -15,6 +15,11 @@
         <div>个人中心</div>
       </router-link>
     </div>
+    <div class="item">
+      <router-link to="/device/search">
+        <div>设备</div>
+      </router-link>
+    </div>
   </div>
 </template>
 <script>

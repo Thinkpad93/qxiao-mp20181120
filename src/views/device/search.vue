@@ -24,6 +24,7 @@
       <!-- <van-button type="default" @click="startScanWXDevice">扫描设备</van-button>
       <van-button type="default" @click="stopScanWXDevice">停止扫描设备</van-button>
       <van-button type="default" @click="getWXDeviceInfos">取得微信设备信息</van-button>-->
+      <!-- <van-button type="danger" @click="startScanWXDevice">扫描设备</van-button> -->
       <van-button type="danger" @click="sendDataToWXDevice">发送数据给设备</van-button>
     </div>
     <!-- <div class="page-ft">
@@ -40,9 +41,10 @@ export default {
   name: "braceletSearch",
   data() {
     return {
-      openWxDevice: false, //用户是否打开蓝牙设备
-      deviceId: null, //已连接的设备ID
-      deviceList: [] //设备列表
+      bluetooth: false, //是否打开蓝牙
+      deviceId: null, //设备ID
+      deviceList: [], //设备列表
+      openId: this.$store.state.user.info.openId
     };
   },
   methods: {
@@ -80,60 +82,119 @@ export default {
       }
       return out;
     },
+    /**
+     *  Byte数组转Base64字符,原理同上
+     * @Param [0x00,0x00] [0x23,0x02,0x02,0x03,0x14]
+     * @return Base64字符串
+     **/
+    bytes_array_to_base64(array) {
+      if (array.length == 0) {
+        return "";
+      }
+      var b64Chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      var result = ""; // 给末尾添加的字符,先计算出后面的字符
+      var d3 = array.length % 3;
+      var endChar = "";
+      if (d3 == 1) {
+        var value = array[array.length - 1];
+        endChar = b64Chars.charAt(value >> 2);
+        endChar += b64Chars.charAt((value << 4) & 0x3f);
+        endChar += "==";
+      } else if (d3 == 2) {
+        var value1 = array[array.length - 2];
+        var value2 = array[array.length - 1];
+        endChar = b64Chars.charAt(value1 >> 2);
+        endChar += b64Chars.charAt(((value1 << 4) & 0x3f) + (value2 >> 4));
+        endChar += b64Chars.charAt((value2 << 2) & 0x3f);
+        endChar += "=";
+      }
+      var times = array.length / 3;
+      var startIndex = 0; // 开始计算
+      for (var i = 0; i < times - (d3 == 0 ? 0 : 1); i++) {
+        startIndex = i * 3;
+        var S1 = array[startIndex + 0];
+        var S2 = array[startIndex + 1];
+        var S3 = array[startIndex + 2];
+        var s1 = b64Chars.charAt(S1 >> 2);
+        var s2 = b64Chars.charAt(((S1 << 4) & 0x3f) + (S2 >> 4));
+        var s3 = b64Chars.charAt(((S2 & 0xf) << 2) + (S3 >> 6));
+        var s4 = b64Chars.charAt(S3 & 0x3f); // 添加到结果字符串中
+        result += s1 + s2 + s3 + s4;
+      }
+      return result + endChar;
+    },
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
-      let obj = {};
       WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, res => {
         console.log("openWXDeviceLib");
         console.log(res);
         if (res.err_msg === "openWXDeviceLib:ok") {
           //使用前请先打开手机蓝牙
           if (res.bluetoothState === "off") {
-            obj.isOpen = false;
-            obj.message = "使用前请先打开手机蓝牙";
+            this.bluetooth = false;
+            console.log("使用前请先打开手机蓝牙");
           }
           //用户没有授权微信使用蓝牙功能
           if (res.bluetoothState === "unauthorized") {
-            obj.isOpen = false;
-            obj.message = "请授权微信蓝牙功能并打开蓝牙";
+            this.bluetooth = false;
+            console.log("请授权微信蓝牙功能并打开蓝牙");
           }
           //蓝牙已打开
           if (res.bluetoothState === "on") {
-            obj.isOpen = true;
+            this.bluetooth = true;
           }
         } else {
-          obj.isOpen = false; //微信蓝牙打开失败
-          obj.message = "微信蓝牙打开失败";
+          this.bluetooth = false; //微信蓝牙打开失败
+          console.log("微信蓝牙打开失败");
         }
       });
-      return obj;
+    },
+    //关闭设备库
+    closeWXDeviceLib() {
+      WeixinJSBridge.invoke("closeWXDeviceLib", { connType: "blue" }, res => {
+        if (res.err_msg === "closeWXDeviceLib:ok") {
+          console.log("关闭设备库成功");
+        } else {
+          console.log("关闭设备库失败");
+        }
+      });
     },
     //扫描设备（获取周围所有的设备列表，无论绑定还是未被绑定的设备都会扫描到）
     startScanWXDevice() {
-      let result = this.openWXDeviceLib();
-      if (result.isOpen) {
-        let toast = this.$toast.loading({
-          mask: true,
-          duration: 0, // 持续展示 toast
-          forbidClick: true, // 禁用背景点击
-          message: "正在扫描设备..."
-        });
-        WeixinJSBridge.invoke(
-          "startScanWXDevice",
-          { connType: "blue", btVersion: "ble" },
-          res => {
-            console.log(res);
-          }
-        );
-      } else {
-        this.$toast(`${result.message}`);
-      }
+      WeixinJSBridge.invoke(
+        "startScanWXDevice",
+        { connType: "blue", btVersion: "ble" },
+        res => {
+          console.log(res);
+        }
+      );
+      // let result = this.openWXDeviceLib();
+      // if (result.isOpen) {
+      //   let toast = this.$toast.loading({
+      //     mask: true,
+      //     duration: 0, // 持续展示 toast
+      //     forbidClick: true, // 禁用背景点击
+      //     message: "正在扫描设备..."
+      //   });
+      //   WeixinJSBridge.invoke(
+      //     "startScanWXDevice",
+      //     { connType: "blue", btVersion: "ble" },
+      //     res => {
+      //       console.log(res);
+      //     }
+      //   );
+      // } else {
+      //   this.$toast(`${result.message}`);
+      // }
     },
     //停止扫描设备
     stopScanWXDevice() {
       WeixinJSBridge.invoke("stopScanWXDevice", { connType: "blue" }, res => {
-        console.log("停止扫描设备");
-        console.log(res);
+        if (res.err_msg === "stopScanWXDevice:ok") {
+          console.log("停止扫描设备");
+          console.log(res);
+        }
       });
     },
     //连接设备
@@ -146,12 +207,6 @@ export default {
           console.log(res);
         }
       );
-    },
-    onScanWXDeviceResult() {
-      WeixinJSBridge.on("onScanWXDeviceResult", res => {
-        console.log("onScanWXDeviceResult");
-        console.log(res);
-      });
     },
     //取得微信设备信息
     getWXDeviceInfos() {
@@ -183,24 +238,50 @@ export default {
       });
     },
     //发送数据给设备 发送的数据需要经过base64编码
-    sendDataToWXDevice() {
+    // IwICAyQ=  电量
+    // IwICBCc= 得Q星值
+    // IwQBBAAQMQ== 设置Q星值16
+    async sendDataToWXDevice() {
+      //let str = this.bytes_array_to_base64([0x23, 0x02, 0x02, 0x03, 0x24]);
+      let str = "IwQBBAAQMQ==";
       console.log(this.deviceId);
+      //console.log(str);
       WeixinJSBridge.invoke(
         "sendDataToWXDevice",
         {
           deviceId: this.deviceId,
           connType: "blue",
-          base64Data: this.base64encode("中华人民共和国")
+          base64Data: str
         },
         res => {
           if (res.err_msg === "sendDataToWXDevice:ok") {
             this.$toast(`数据已发送`);
+            console.log(str);
+            let obj = {
+              openId: this.openId,
+              deviceId: this.deviceId
+            };
+            //this.queryData(obj);
           } else {
             this.$toast(`数据发送失败`);
           }
           console.log(res);
         }
       );
+    },
+    //微信客户端设备绑定状态改变事件
+    onWXDeviceBindStateChange() {
+      WeixinJSBridge.on("onWXDeviceBindStateChange", res => {
+        console.log(res);
+        console.log("微信客户端设备绑定状态改变事件");
+      });
+    },
+    //设备连接状态变化
+    onWXDeviceStateChange() {
+      WeixinJSBridge.on("onWXDeviceStateChange", res => {
+        console.log(res);
+        console.log("设备连接状态变化...");
+      });
     },
     //接收到设备数据
     onReceiveDataFromWXDevice() {
@@ -209,19 +290,39 @@ export default {
         console.log(res);
       });
     },
-    click() {
-      document.addEventListener("click", e => {
-        console.log(e);
+    //扫描到某个设备
+    onScanWXDeviceResult() {
+      WeixinJSBridge.on("onScanWXDeviceResult", res => {
+        console.log("扫描到某个设备");
+        console.log(res);
       });
+    },
+    //手机蓝牙状态改变事件
+    onWXDeviceBluetoothStateChange() {
+      WeixinJSBridge.on("onWXDeviceBluetoothStateChange", res => {
+        let { state } = res;
+        if (state === "on") {
+          this.$toast(`蓝牙打开`);
+        } else {
+          this.$toast(`蓝牙已关闭`);
+        }
+      });
+    },
+    //设备查询接口
+    async queryData(params = {}) {
+      let res = await service.queryData(params);
+      if (res.errorCode === 0) {
+        console.log(res);
+        console.log("设备查询接口");
+      }
     }
   },
   mounted() {
-    //console.log(WeixinJSBridge);
-    //console.log("WeixinJSBridge");
     this.openWXDeviceLib();
     this.getWXDeviceInfos();
     this.onReceiveDataFromWXDevice();
-    //this.click();
+    this.onWXDeviceBluetoothStateChange();
+    this.onWXDeviceStateChange();
     //this.onScanWXDeviceResult();
   }
 };

@@ -751,6 +751,12 @@ export default {
         this.scheduleList = pmArray || [];
         this.tabActive = 1;
       } else {
+        let amStartTime;
+        let amEndTime;
+        let pmStartTime;
+        let pmEndTime;
+        let nightStartTime;
+        let nightEndTime;
         //大课间列表
         //上午
         let selectedArray = [];
@@ -770,8 +776,8 @@ export default {
         let assign;
         let pmAssIgn;
 
-        let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
-        let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
+        //amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+        //amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
         //如果没有选择节数，则不生成课表
         if (!newResultArray.length) {
           this.$toast(`请选择大课间在第几节~`);
@@ -779,9 +785,25 @@ export default {
         }
         //上午节数
         for (let s = 1; s <= 5; s++) {
-          let amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
-          let amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
+          amStartTime = this.timeToSec(this.form.am); //上午上课开始时间
+          amEndTime = amStartTime + lessonTime; //开始时间 + 每节课时间 = 结束时间
           let list = [];
+          //如果有升国旗时间，则每天的第一节课上课时间延迟
+          if (this.china) {
+            if (chineseNational.includes(s)) {
+              console.log("如果有升国旗时间，则每天的第一节课上课时间延迟");
+              amStartTime = amStartTime + chinaTime;
+              amEndTime = amEndTime + chinaTime;
+            }
+          }
+          //如果有早操时间，则每天的第一节课上课时间延迟
+          if (this.exercise) {
+            if (exerciseList.includes(s)) {
+              console.log("如果有早操时间，则每天的第一节课上课时间延迟");
+              amStartTime = amStartTime + exerciseTime;
+              amEndTime = amEndTime + exerciseTime;
+            }
+          }
           //周一到周五
           for (let i = 1; i <= 4; i++) {
             let objs = {
@@ -820,8 +842,8 @@ export default {
             list.push(assign);
           }
           //下午节数
-          let pmStartTime = this.timeToSec(this.form.pm);
-          let pmEndTime = pmStartTime + lessonTime;
+          pmStartTime = this.timeToSec(this.form.pm);
+          pmEndTime = pmStartTime + lessonTime;
           let list2 = [];
           for (let i = 5; i <= 7; i++) {
             let objs2 = {
@@ -858,8 +880,8 @@ export default {
             list2.push(pmAssIgn);
           }
           //晚自习
-          let nightStartTime = this.timeToSec(this.nightStart);
-          let nightEndTime = nightStartTime + nightTime;
+          nightStartTime = this.timeToSec(this.nightStart);
+          nightEndTime = nightStartTime + nightTime;
           let list3 = [];
           //如果有晚自习时间
           if (this.night) {

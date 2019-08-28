@@ -27,6 +27,7 @@ import * as expression from './module/expression';
 import * as bracelet from './module/bracelet';
 import * as director from './module/director';
 import * as image from './module/image';
+import * as data from './module/data';
 export default {
   ...album,
   ...clock,
@@ -55,5 +56,6 @@ export default {
   ...expression,
   ...bracelet,
   ...director,
-  ...image
+  ...image,
+  ...data
 }
