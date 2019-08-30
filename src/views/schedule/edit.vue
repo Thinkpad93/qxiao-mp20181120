@@ -1,72 +1,173 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <!-- 课程选择 -->
-      <van-popup v-model="popupShow" position="bottom">
-        <van-picker
-          :columns="lessonList"
-          :default-index="defaultIndex"
-          show-toolbar
-          value-key="title"
-          @cancel="popupShow = false"
-          @confirm="handleLessonConfirm"
-        ></van-picker>
-      </van-popup>
-      <!-- 课程选择 -->
-      <!-- 开始时间 -->
-      <van-popup v-model="popupStartTime" position="bottom">
-        <van-datetime-picker
-          v-model="startDate"
-          type="time"
-          @cancel="popupStartTime = false"
-          @confirm="handleStartTimeConfirm"
-        ></van-datetime-picker>
-      </van-popup>
-      <!-- 开始时间 -->
-      <!-- 结束时间 -->
-      <van-popup v-model="popupEndTime" position="bottom">
-        <van-datetime-picker
-          v-model="endDate"
-          type="time"
-          @cancel="popupEndTime = false"
-          @confirm="handleEndTimeConfirm"
-        ></van-datetime-picker>
-      </van-popup>
-      <!-- 结束时间 -->
-      <div class="schedule" v-if="scheduleList.length">
-        <div class="schedule-tr flex">
-          <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-            <div class="block-head">{{ week.name }}</div>
+      <!-- dialog -->
+      <van-dialog
+        :title="isDialogState == 1 ? '新增':'编辑'"
+        v-model="dialogVisible"
+        show-cancel-button
+        @cancel="dialogVisible = false"
+        :before-close="handleSubmit"
+      >
+        <div class="cells" style="padding:15px 0 15px 0;">
+          <div class="cell min-h120">
+            <div class="cell-hd">
+              <label class="label">选项名称</label>
+            </div>
+            <div class="cell-bd">
+              <input class="input" placeholder="如早操，升国旗" v-model.trim="form.lessonName" />
+            </div>
           </div>
-        </div>
-        <div class="schedule-body flex">
-          <div class="schedule-tr flex-1" v-for="(tr, index) in scheduleList" :key="index">
-            <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <div class="block" v-if="tdIndex < 7">
-                <div @click="handleChangeLesson(td, index, tdIndex)">
-                  <span class="have" v-if="td.title">{{ td.title }}</span>
-                  <span class="null" v-else>无课</span>
-                </div>
-                <div class="schedule-time">
-                  <!-- @click="handleChangeStartTime(td.startTime, index, tdIndex)" -->
-                  <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
-                  <!-- @click="handleChangeEndTime( td.endTime, index, tdIndex)" -->
-                  <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
-                </div>
-              </div>
-              <div class="block block-night" v-if="tdIndex >= 7">
-                <div>
-                  <span>晚自习</span>
-                </div>
-                <div class="schedule-time">
-                  <div style="margin-top:10px;">{{ td.startTime }}</div>
-                  <div style="margin-top:5px;">{{ td.endTime }}</div>
-                </div>
-              </div>
+          <div class="cell min-h120">
+            <div class="cell-hd">
+              <label class="label">时长</label>
+            </div>
+            <div class="cell-bd">
+              <p class="text-right">
+                <van-stepper v-model="form.timeLong" :min="10" :max="60"></van-stepper>
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </van-dialog>
+      <!-- dialog -->
+      <!-- 选择课程 -->
+      <van-popup class="lesson-popup" v-model="popupRight" position="right">
+        <div class="cells">
+          <div class="lesson">
+            <div class="lesson-group">
+              <van-button
+                class="lesson-btn"
+                type="primary"
+                size="normal"
+                v-for="(item, index) in lessonList.filter(item => item.type == 1)"
+                :key="index"
+                @click="handleLessonConfirm(item)"
+              >{{ item.lessonName }}</van-button>
+            </div>
+            <div class="lesson-group">
+              <van-button
+                class="lesson-btn"
+                type="warning"
+                size="normal"
+                v-for="(item, index) in lessonList.filter(item => item.type == 2)"
+                :key="index"
+                @click="handleLessonConfirm(item)"
+              >{{ item.lessonName }}</van-button>
+            </div>
+          </div>
+        </div>
+      </van-popup>
+      <!-- am pm 晚自习 -->
+      <van-popup v-model="popupTime" position="bottom">
+        <van-datetime-picker
+          v-model="data"
+          type="time"
+          @cancel="popupTime = false"
+          @confirm="handleTimeConfirm"
+        ></van-datetime-picker>
+      </van-popup>
+      <van-tabs v-model="tabActive" :line-height="2">
+        <van-tab title="配置选项">
+          <!-- 班级选择 -->
+          <div class="cells mt-20" v-if="roleType == 2">
+            <div class="cell cell-select cell-select-after">
+              <div class="cell-hd">
+                <label for class="label">学生所在班级</label>
+              </div>
+              <div class="cell-bd">
+                <select class="select" name dir="rtl" v-model="classId">
+                  <!-- 兼容性问题修改 -->
+                  <optgroup disabled hidden></optgroup>
+                  <option
+                    :value="option.classId"
+                    v-for="(option,index) in classList"
+                    :key="index"
+                  >{{ option.className }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- am pm 晚自习 -->
+          <div class="cells mt-20 mb-20">
+            <div class="cell min-h120">
+              <div class="cell-hd">
+                <label class="label">上午开始时间</label>
+              </div>
+              <div class="cell-bd">
+                <input
+                  class="input"
+                  placeholder="请输入上午开始时间"
+                  v-model="config.am"
+                  @click="handleSelectTime('am')"
+                />
+              </div>
+            </div>
+            <div class="cell min-h120">
+              <div class="cell-hd">
+                <label class="label">下午开始时间</label>
+              </div>
+              <div class="cell-bd">
+                <input
+                  class="input"
+                  placeholder="请输入下午开始时间"
+                  v-model="config.pm"
+                  @click="handleSelectTime('pm')"
+                />
+              </div>
+            </div>
+            <div class="cell min-h120">
+              <div class="cell-hd">
+                <label class="label">晚自习开始时间</label>
+              </div>
+              <div class="cell-bd">
+                <input
+                  class="input"
+                  placeholder="请输入晚自习开始时间"
+                  v-model="config.night"
+                  @click="handleSelectTime('night')"
+                />
+              </div>
+            </div>
+            <div class="cell min-h120">
+              <div class="cell-hd">
+                <label class="label">课程时间</label>
+              </div>
+              <div class="cell-bd">
+                <p class="text-right">
+                  <van-stepper v-model="config.lessonTime" :min="20" :max="60"></van-stepper>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="cells-title" v-if="optionList.length">
+            <span>选项名称</span>
+            <span>时长(分)</span>
+          </div>
+          <div class="cells mb-20">
+            <van-swipe-cell
+              ref="swipeCell"
+              :right-width="60"
+              v-for="(item, index) in optionList"
+              :key="item.id"
+              :on-close="onClose(item, index)"
+            >
+              <van-cell-group>
+                <div class="cell min-h120" @click="onSwiptCellCick(item)">
+                  <div class="cell-hd">
+                    <label for class="label">{{ item.lessonName }}</label>
+                  </div>
+                  <div class="cell-bd">
+                    <p class="text-right">{{ item.timeLong }}</p>
+                  </div>
+                </div>
+              </van-cell-group>
+              <span slot="right">删除</span>
+            </van-swipe-cell>
+          </div>
+        </van-tab>
+        <van-tab title="课表排版"></van-tab>
+      </van-tabs>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
@@ -81,109 +182,72 @@
 <script>
 import service from "@/api";
 import { mapState } from "vuex";
+import classList from "@/mixins/classList";
 export default {
   name: "scheduleEdit",
+  mixins: [classList],
   data() {
     return {
-      popupStartTime: false,
-      startDate: "07:00",
-      popupEndTime: false,
-      endDate: "08:00",
-      startRowIndex: 0,
-      startColIndex: 0,
-      endRowIndex: 0,
-      endColIndex: 0,
-      popupShow: false,
-      defaultIndex: 0,
-      rowIndex: 0, //行索引值
-      tdIndex: 0, //td块索引值
-      query: {
-        studentId: this.$store.state.user.info.studentId
+      dialogVisible: false,
+      isDialogState: 1, //1是新增状态 2是编辑状态
+      popupRight: false,
+      popupTime: false,
+      openType: "am",
+      data: "",
+      config: {
+        am: "08:00", //上午开始时间
+        pm: "14:00", //下午开始时间
+        night: "19:30", //晚自习开始时间
+        lessonTime: 40
       },
-      weekList: [
-        { name: "星期一", day: 1 },
-        { name: "星期二", day: 2 },
-        { name: "星期三", day: 3 },
-        { name: "星期四", day: 4 },
-        { name: "星期五", day: 5 }
-      ],
+      optionList: [], //选项
       lessonList: [],
-      scheduleList: []
+      weekList: [
+        { name: "周一", day: 1 },
+        { name: "周二", day: 2 },
+        { name: "周三", day: 3 },
+        { name: "周四", day: 4 },
+        { name: "周五", day: 5 }
+      ],
+      tabActive: 0,
+      form: {
+        lessonName: "",
+        studentId: this.$store.state.user.info.studentId,
+        timeLong: 10
+      }
     };
   },
   computed: {
     ...mapState("user", {
       roleType: state => state.info.roleType,
-      classId: state => state.info.classId
+      classId: state => state.info.classId,
+      studentId: state => state.info.studentId
     })
   },
   methods: {
-    //选择开始时间
-    handleChangeStartTime(startTime, rowIndex, colIndex) {
-      this.popupStartTime = true;
-      this.startRowIndex = rowIndex;
-      this.startColIndex = colIndex;
-      this.startDate = startTime;
-    },
-    //选择结束时间
-    handleChangeEndTime(endTime, rowIndex, colIndex) {
-      this.popupEndTime = true;
-      this.endRowIndex = rowIndex;
-      this.endColIndex = colIndex;
-      this.endDate = endTime;
-    },
-    //确认开始时间
-    handleStartTimeConfirm(value, index) {
-      this.scheduleList[this.startRowIndex].list[
-        this.startColIndex
-      ].startTime = value;
-      this.popupStartTime = false;
-    },
-    //确认结束时间
-    handleEndTimeConfirm(value, index) {
-      this.scheduleList[this.endRowIndex].list[
-        this.endColIndex
-      ].endTime = value;
-      this.popupEndTime = false;
-    },
-    //确认选择课程
-    handleLessonConfirm(value, index) {
-      let { title, lessonId } = value;
-      //设置选择的课程
-      let obj = this.scheduleList[this.rowIndex].list[this.tdIndex];
-      if (obj) {
-        obj.title = title || "";
-        obj.lessonId = lessonId;
-      }
-      this.popupShow = false;
-    },
-    //单击选择课程
-    handleChangeLesson(params, index, tdIndex) {
-      let { lessonId, title } = params;
-      let elementIndex = this.lessonList.findIndex(item => {
-        return item.lessonId == lessonId;
-      });
-      this.rowIndex = index; //设置点击的行数
-      this.tdIndex = tdIndex; //设置点击的td块索引值
-      this.defaultIndex = elementIndex; //设置回选
-      this.popupShow = true;
-    },
-    //对比时分大小
-    handleCompareTime(start, end) {
-      if (typeof start === "string" && typeof end === "string") {
-        let startArray = start.split(":");
-        let endArray = end.split(":");
-        let startTime = startArray[0] * 3600 + startArray[1] * 60;
-        let endTime = endArray[0] * 3600 + endArray[1] * 60;
-        if (startTime > endTime) {
-          console.log("开始时间大于开始时间");
-          return false;
-        } else {
-          return true;
-          console.log("开始时间小于结束时间");
-        }
+    handleSelectTime(type) {
+      this.popupTime = true;
+      this.openType = type;
+      if (type === "am") {
+        this.data = this.am;
+      } else if (type === "pm") {
+        this.data = this.pm;
+      } else {
+        this.data = this.night;
       }
     },
+    //确认选择时间
+    handleTimeConfirm(value, index) {
+      if (this.openType === "am") {
+        this.am = value;
+      } else if (this.openType === "pm") {
+        this.pm = value;
+      } else {
+        this.night = value;
+      }
+      this.popupTime = false;
+    },
+    handleSubmit() {},
     handleDelSchedule() {
       this.$dialog
         .confirm({
@@ -194,64 +258,12 @@ export default {
           if (this.roleType == 2) {
             this.deteleSchedule({ classId: this.classId });
           } else {
-            this.deteleMySchedule();
+            this.deteleMySchedule({ studentId: this.studentId });
           }
         })
         .catch(() => {});
     },
-    handleSave() {
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要保存课表吗？"
-        })
-        .then(() => {
-          if (this.roleType == 2) {
-            this.updateSchedule({
-              classId: this.classId,
-              scheduleVOs: this.scheduleList
-            });
-          } else {
-            this.updateMySchedule({ scheduleVOs: this.scheduleList });
-          }
-        })
-        .catch(() => {});
-      // let flag = true; //控制时间选择是否不对
-      // let scheduleList = this.scheduleList;
-      // for (let i = 0; i < scheduleList.length; i++) {
-      //   let list = scheduleList[i].list;
-      //   for (let j = 0; j < list.length; j++) {
-      //     let startTime = list[j].startTime;
-      //     let endTime = list[j].endTime;
-      //     let result = this.handleCompareTime(startTime, endTime);
-      //     if (!result) {
-      //       flag = false;
-      //       this.$toast(`第${i + 1}节的时间选择不对，请重新选择`);
-      //       break;
-      //     }
-      //   }
-      // }
-      // if (flag) {
-      //   this.updateMySchedule({ scheduleVOs: this.scheduleList });
-      // }
-    },
-    //课程列表查询
-    async queryLessonList(params = {}) {
-      let res = await service.queryLessonList(params);
-      if (res.errorCode === 0) {
-        if (res.data.length) {
-          let result = res.data.map(item => {
-            let { lessonId, title } = item;
-            return {
-              lessonId,
-              title
-            };
-          });
-          result.push({ lessonId: 0, title: "无课" });
-          this.lessonList = result;
-        }
-      }
-    },
+    handleSave() {},
     //查询我的课表
     async queryMySchedule(params = {}) {
       let res = await service.queryMySchedule(params);
@@ -281,9 +293,8 @@ export default {
       }
     },
     //删除我的课表
-    async deteleMySchedule() {
-      let { studentId } = this.query;
-      let res = await service.deteleMySchedule({ studentId });
+    async deteleMySchedule(params = {}) {
+      let res = await service.deteleMySchedule(params);
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
@@ -294,19 +305,55 @@ export default {
       if (res.errorCode === 0) {
         this.$router.go(-1);
       }
+    },
+    //查询家长自制课表可选课程
+    async queryLessonWithStudentId(params = {}) {
+      let res = await service.queryLessonWithStudentId(params);
+      if (res.errorCode === 0) {
+        this.lessonList = res.data || [];
+      }
+    },
+    //查询老师自制课表可选课程
+    async queryLessonWithClassId(params = {}) {
+      let res = await service.queryLessonWithClassId(params);
+      if (res.errorCode === 0) {
+        this.lessonList = res.data || [];
+      }
+    },
+    //查询班级自增课程
+    async queryMyLessonByClassId(params = {}) {
+      let res = await service.queryMyLessonByClassId(params);
+      if (res.errorCode === 0) {
+        this.optionList = res.data || [];
+      }
+    },
+    //查询班级自增课程
+    async queryMyLessonByStudentId(params = {}) {
+      let res = await service.queryMyLessonByStudentId(params);
+      if (res.errorCode === 0) {
+        this.optionList = res.data || [];
+      }
+    },
+    //开始时间、课程时间
+    async queryDefaulTime(params = {}) {
+      let res = await service.queryDefaulTime(params);
+      if (res.errorCode === 0) {
+      }
     }
   },
   mounted() {
     if (this.roleType == 2) {
       this.queryClassSchedule({ classId: this.classId });
+      this.queryLessonWithClassId({ classId: this.classId });
+      this.queryMyLessonByStudentId({ classId: this.classId });
     } else {
-      this.queryMySchedule(this.query);
+      this.queryMySchedule({ studentId: this.studentId });
+      this.queryLessonWithStudentId({ studentId: this.studentId });
+      this.queryMyLessonByClassId({ studentId: this.studentId });
     }
-    this.queryLessonList();
+    this.queryDefaulTime({ studentId: this.studentId });
   }
 };
 </script>
 <style lang="less" scoped>
-.box {
-}
 </style>
