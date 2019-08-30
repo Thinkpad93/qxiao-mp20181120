@@ -26,7 +26,7 @@ export function updateMySchedule(params, config = {
 }
 //课程列表
 export function queryMySchedule(params, config = {
-  showLoading: false
+  showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryMySchedule.do', params, config)
     .then(res => res.data)
@@ -166,6 +166,14 @@ export function queryDefaulTime(params, config = {
   showLoading: false
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryDefaulTime.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//班级开始时间、课程时间
+export function queryClassDefaul(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/schedule/queryClassDefaul.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }

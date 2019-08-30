@@ -23,44 +23,65 @@
         ></van-picker>
       </van-popup>
       <!-- 学校课表 -->
-      <div class="schedule-top flex a-i-c j-c-s-b" v-if="roleType == 2 && list.length">
-        <!-- <van-button type="danger" size="small" @click="handleDelSchedule">删除课表</van-button> -->
-        <div></div>
+      <div class="schedule-top flex a-i-c" v-if="roleType == 2 && tableData.length">
+        <div>
+          <van-button type="info" size="small" @click="handleEdit">编辑课表</van-button>
+          <van-button type="danger" size="small" @click="handleDelSchedule">删除课表</van-button>
+        </div>
+        <!-- <div></div>
         <div class="flex a-i-c" style="color:#f00" @click="handleEdit">
           <van-icon name="edit" size="20px"></van-icon>
           <span class="ml-10">编辑</span>
-          <!-- <van-button type="info" size="small" @click="handleEdit">编辑课表</van-button> -->
-        </div>
+        </div>-->
       </div>
-      <div class="schedule" v-if="list.length">
+      <table class="schedule" align="center" style="width:100%;" v-if="tableData.length">
+        <thead>
+          <tr>
+            <th>
+              <span>星期</span>
+              <span></span>
+            </th>
+            <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="schedule-tr" v-for="(tr, index) in tableData" :key="index">
+            <template>
+              <td v-if="index == 0" :rowspan="amCount">上午</td>
+              <td v-if="index == amCount" :rowspan="pmCount">下午</td>
+              <td v-if="index == pmCount + amCount" :rowspan="nightCount">晚自习</td>
+            </template>
+            <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
+              <span v-if="td.lessonName">{{ td.lessonName }}</span>
+              <span class="have" v-else>-</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="schedule" v-if="tableData.length">
         <div class="schedule-tr flex">
+          <div class="schedule-td flex-1">
+            <div class="block-head">时间</div>
+          </div>
           <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
             <div class="block-head">{{ week.name }}</div>
           </div>
         </div>
         <div class="schedule-body flex">
-          <div class="schedule-tr flex-1" v-for="(tr, index) in list" :key="index">
+          <div class="schedule-tr flex-1"></div>
+          <div class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
             <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <div class="block block-main" v-if="tdIndex < 7">
+              <div class="block block-main">
                 <div>
-                  <span class="have" v-if="td.title">{{ td.title }}</span>
-                  <span class="null" v-else>无课</span>
-                </div>
-                <!-- <div class="schedule-time">
-                  <div style="color:#1989fa;margin-top:10px;" size-12>{{ td.startTime }}</div>
-                  <div style="color:#1989fa;margin-top:5px;" size-12>{{ td.endTime }}</div>
-                </div>-->
-              </div>
-              <div class="block block-main" v-if="tdIndex >= 7">
-                <div>
-                  <span>晚自习</span>
+                  <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
+                  <span class="null" v-else>-</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="empty" v-if="!list.length">
+      </div>-->
+      <div class="empty" v-if="!tableData.length">
         <img src="@/assets/kong.png" alt />
         <p>暂无课表</p>
       </div>
@@ -81,19 +102,22 @@ export default {
   mixins: [classList],
   data() {
     return {
+      amCount: 0,
+      pmCount: 0,
+      nightCount: 0,
       popupShow: false,
       className: this.$store.state.user.info.className,
       query: {
         classId: this.$store.state.user.info.classId
       },
       weekList: [
-        { name: "星期一", day: 1 },
-        { name: "星期二", day: 2 },
-        { name: "星期三", day: 3 },
-        { name: "星期四", day: 4 },
-        { name: "星期五", day: 5 }
+        { name: "周一", day: 1 },
+        { name: "周二", day: 2 },
+        { name: "周三", day: 3 },
+        { name: "周四", day: 4 },
+        { name: "周五", day: 5 }
       ],
-      list: []
+      tableData: []
     };
   },
   computed: {
@@ -120,12 +144,55 @@ export default {
         }
       });
     },
+    handleDelSchedule() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除课表吗？"
+        })
+        .then(() => {
+          this.deteleSchedule({ classId: this.query.classId });
+        })
+        .catch(() => {});
+    },
+    async deteleSchedule(params = {}) {
+      let res = await service.deteleSchedule(params);
+      if (res.errorCode === 0) {
+        this.tableData = [];
+      }
+    },
     //查询班级课表（老师）
     async queryClassSchedule(params = {}) {
       let res = await service.queryClassSchedule(params);
       if (res.errorCode === 0) {
-        this.list = res.data;
         this.popupShow = false;
+        if (res.data.length) {
+          let result = res.data || [];
+          let amCount = 0;
+          let pmCount = 0;
+          let nightCount = 0;
+          for (let i = 0; i < result.length; i++) {
+            let list = result[i].list;
+            for (let l = 0; l < list.length; l++) {
+              let timePeriod = list[l].timePeriod;
+              if (timePeriod == 1) {
+                amCount++;
+              }
+              if (timePeriod == 2) {
+                pmCount++;
+              }
+              if (timePeriod == 3) {
+                nightCount++;
+              }
+            }
+          }
+          this.amCount = amCount / 5;
+          this.pmCount = pmCount / 5;
+          this.nightCount = nightCount / 5;
+          this.tableData = res.data;
+        } else {
+          this.tableData = [];
+        }
       }
     }
   },
@@ -137,5 +204,23 @@ export default {
 <style lang="less" scoped>
 .page-hd {
   margin-bottom: 0;
+}
+table {
+  color: #606266;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed;
+}
+th {
+  white-space: nowrap;
+  background-color: #f5f7fa;
+}
+tr,
+th,
+td {
+  font-size: 24px;
+  height: 100px;
+  border: 1px solid #ebeef5;
+  text-align: center;
 }
 </style>

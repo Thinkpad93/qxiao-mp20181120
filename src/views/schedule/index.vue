@@ -6,6 +6,7 @@
         <div class="schedule-top flex a-i-c j-c-s-b">
           <div>
             <van-button type="info" size="small" @click="handleEdit">编辑课表</van-button>
+            <van-button type="danger" size="small" @click="handleDelSchedule">删除课表</van-button>
           </div>
           <div class>
             <van-radio
@@ -18,7 +19,7 @@
         </div>
       </template>
 
-      <!-- <table class="schedule" align="center" style="width:100%;">
+      <table class="schedule" align="center" style="width:100%;" v-if="tableData.length">
         <thead>
           <tr>
             <th>
@@ -28,18 +29,22 @@
             <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
           </tr>
         </thead>
-        <tbody class="flex">
-          <tr class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
+        <tbody>
+          <tr class="schedule-tr" v-for="(tr, index) in tableData" :key="index">
+            <template>
+              <td v-if="index == 0" :rowspan="amCount">上午</td>
+              <td v-if="index == amCount" :rowspan="pmCount">下午</td>
+              <td v-if="index == pmCount + amCount" :rowspan="nightCount">晚自习</td>
+            </template>
             <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <template v-if="td.timePeriod == 1">
-                <span v-if="td.lessonName">{{ td.lessonName ? td.lessonName : "-" }}</span>
-              </template>
+              <span v-if="td.lessonName">{{ td.lessonName }}</span>
+              <span class="have" v-else>-</span>
             </td>
           </tr>
         </tbody>
-      </table>-->
+      </table>
 
-      <div class="schedule" v-if="tableData.length">
+      <!-- <div class="schedule" v-if="tableData.length">
         <div class="schedule-tr flex">
           <div class="schedule-td flex-1">
             <div class="block-head">时间</div>
@@ -55,12 +60,13 @@
               <div class="block block-main">
                 <div>
                   <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
+                  <span class="have" v-else>-</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <div class="empty" v-else>
         <img src="@/assets/kong.png" alt />
         <p>暂无自制课程表</p>
@@ -85,6 +91,9 @@ export default {
   name: "schedule",
   data() {
     return {
+      amCount: 0,
+      pmCount: 0,
+      nightCount: 0,
       tabActive: 0,
       picked: "0",
       query: {
@@ -117,6 +126,18 @@ export default {
         }
       });
     },
+    //删除课表
+    handleDelSchedule() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要删除课表吗？"
+        })
+        .then(() => {
+          this.deteleMySchedule({ studentId: this.querys.studentId });
+        })
+        .catch(() => {});
+    },
     //radio事件
     handleRadio(e) {
       let obj = {
@@ -126,18 +147,42 @@ export default {
       };
       this.checkedSchedule(obj);
     },
-    //课表查询-学校
-    // async queryScheduleList(params = {}) {
-    //   let res = await service.queryScheduleList(params);
-    //   if (res.errorCode === 0) {
-    //     this.list = res.data || [];
-    //   }
-    // },
+    //删除我的课表
+    async deteleMySchedule(params = {}) {
+      let res = await service.deteleMySchedule(params);
+      if (res.errorCode === 0) {
+        this.tableData = [];
+      }
+    },
     //查询我的课表-自制
     async queryMySchedule(params = {}) {
       let res = await service.queryMySchedule(params);
       if (res.errorCode === 0) {
-        this.tableData = res.data || [];
+        if (res.data.length) {
+          let result = res.data || [];
+          let amCount = 0;
+          let pmCount = 0;
+          let nightCount = 0;
+          for (let i = 0; i < result.length; i++) {
+            let list = result[i].list;
+            for (let l = 0; l < list.length; l++) {
+              let timePeriod = list[l].timePeriod;
+              if (timePeriod == 1) {
+                amCount++;
+              }
+              if (timePeriod == 2) {
+                pmCount++;
+              }
+              if (timePeriod == 3) {
+                nightCount++;
+              }
+            }
+          }
+          this.amCount = amCount / 5;
+          this.pmCount = pmCount / 5;
+          this.nightCount = nightCount / 5;
+          this.tableData = res.data || [];
+        }
       }
     },
     //选中默认课表
@@ -157,9 +202,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //this.queryScheduleList(this.query);
-  },
+  mounted() {},
   activated() {
     this.queryMySchedule(this.querys);
     this.queryScheduleCheckedState({

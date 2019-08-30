@@ -145,35 +145,86 @@
             <span>时长(分)</span>
           </div>
           <div class="cells mb-20">
-            <van-swipe-cell
-              ref="swipeCell"
-              :right-width="60"
-              v-for="(item, index) in optionList"
-              :key="item.id"
-              :on-close="onClose(item, index)"
-            >
-              <van-cell-group>
-                <div class="cell min-h120" @click="onSwiptCellCick(item)">
-                  <div class="cell-hd">
-                    <label for class="label">{{ item.lessonName }}</label>
-                  </div>
-                  <div class="cell-bd">
-                    <p class="text-right">{{ item.timeLong }}</p>
-                  </div>
-                </div>
-              </van-cell-group>
-              <span slot="right">删除</span>
-            </van-swipe-cell>
+            <div class="cell min-h120" v-for="item in optionList" :key="item.id">
+              <div class="cell-hd">
+                <label for class="label">{{ item.lessonName }}</label>
+              </div>
+              <div class="cell-bd">
+                <p class="text-right">{{ item.timeLong }}</p>
+              </div>
+            </div>
           </div>
         </van-tab>
-        <van-tab title="课表排版"></van-tab>
+        <van-tab title="课表排版">
+          <table class="schedule mt-20" align="center" style="width:100%;" v-if="tableData.length">
+            <thead>
+              <tr>
+                <th>
+                  <span>星期</span>
+                  <span></span>
+                </th>
+                <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="schedule-tr" v-for="(tr, index) in tableData" :key="index">
+                <template>
+                  <td v-if="index == 0" :rowspan="amCount">上午</td>
+                  <td v-if="index == amCount" :rowspan="pmCount">下午</td>
+                  <td v-if="index == pmCount + amCount" :rowspan="nightCount">晚自习</td>
+                </template>
+                <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
+                  <div @click="handleChangeLesson(td, index, tdIndex)">
+                    <span v-if="td.lessonName">{{ td.lessonName }}</span>
+                    <span class="have" v-else>-</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <div class="schedule mt-20" v-if="tableData.length">
+            <div class="schedule-tr flex">
+              <div class="schedule-td flex-1">
+                <div class="block-head">时间</div>
+              </div>
+              <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
+                <div class="block-head">{{ week.name }}</div>
+              </div>
+            </div>
+            <div class="schedule-body flex">
+              <div class="schedule-tr flex-1"></div>
+              <div class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
+                <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
+                  <div class="block block-main">
+                    <div @click="handleChangeLesson(td, index, tdIndex)">
+                      <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
+                      <span class="have" v-else>-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+        </van-tab>
       </van-tabs>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <div class="flex">
-          <van-button type="danger" size="large" class="no-radius" @click="handleDelSchedule">删除</van-button>
-          <van-button type="info" size="large" class="no-radius" @click="handleSave">保存</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="handleAddLesson"
+            v-show="tabActive == 0"
+          >新增选项</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="saveSchedule"
+            v-show="tabActive == 1"
+          >保存</van-button>
         </div>
       </div>
     </div>
@@ -188,10 +239,15 @@ export default {
   mixins: [classList],
   data() {
     return {
+      amCount: 0,
+      pmCount: 0,
+      nightCount: 0,
       dialogVisible: false,
       isDialogState: 1, //1是新增状态 2是编辑状态
       popupRight: false,
       popupTime: false,
+      rowIndex: 0, //tr行索引值
+      tdIndex: 0, //td块索引值
       openType: "am",
       data: "",
       config: {
@@ -202,6 +258,7 @@ export default {
       },
       optionList: [], //选项
       lessonList: [],
+      tableData: [],
       weekList: [
         { name: "周一", day: 1 },
         { name: "周二", day: 2 },
@@ -212,7 +269,6 @@ export default {
       tabActive: 0,
       form: {
         lessonName: "",
-        studentId: this.$store.state.user.info.studentId,
         timeLong: 10
       }
     };
@@ -229,53 +285,234 @@ export default {
       this.popupTime = true;
       this.openType = type;
       if (type === "am") {
-        this.data = this.am;
+        this.data = this.config.am;
       } else if (type === "pm") {
-        this.data = this.pm;
+        this.data = this.config.pm;
       } else {
-        this.data = this.night;
+        this.data = this.config.night;
       }
     },
     //确认选择时间
     handleTimeConfirm(value, index) {
       if (this.openType === "am") {
-        this.am = value;
+        this.config.am = value;
       } else if (this.openType === "pm") {
-        this.pm = value;
+        this.config.pm = value;
       } else {
-        this.night = value;
+        this.config.night = value;
       }
       this.popupTime = false;
     },
-    handleSubmit() {},
-    handleDelSchedule() {
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要删除课表吗？"
-        })
-        .then(() => {
-          if (this.roleType == 2) {
-            this.deteleSchedule({ classId: this.classId });
-          } else {
-            this.deteleMySchedule({ studentId: this.studentId });
-          }
-        })
-        .catch(() => {});
+    //新增选项
+    handleAddLesson() {
+      this.dialogVisible = true;
+      this.form.lessonName = "";
     },
-    handleSave() {},
+    async handleSubmit(action, done) {
+      if (action === "confirm") {
+        if (this.form.lessonName == "") {
+          this.$toast("请输入选项名称");
+          done(false);
+        } else {
+          let res;
+          if (this.roleType == 2) {
+            //添加老师自制课表可选课程
+            let params = Object.assign({}, this.form, {
+              classId: this.classId
+            });
+            res = await service.addMyLessonWithClass(params);
+          } else {
+            //添加家长自制课表可选课程
+            let params = Object.assign({}, this.form, {
+              studentId: this.studentId
+            });
+            res = await service.addMyLessonWithStudent(params);
+          }
+          if (res.errorCode === 0) {
+            this.dialogVisible = false;
+            if (this.roleType == 2) {
+              this.queryLessonWithClassId({ classId: this.classId });
+              this.queryMyLessonByClassId({ classId: this.classId });
+            } else {
+              this.queryMyLessonByStudentId({ studentId: this.studentId });
+              this.queryLessonWithStudentId({ studentId: this.studentId });
+            }
+            done();
+          } else {
+            this.$toast(`${res.errorMsg}`);
+          }
+        }
+      } else {
+        done();
+      }
+    },
+    // handleDelSchedule() {
+    //   this.$dialog
+    //     .confirm({
+    //       title: "提示",
+    //       message: "确定要删除课表吗？"
+    //     })
+    //     .then(() => {
+    //       if (this.roleType == 2) {
+    //         this.deteleSchedule({ classId: this.classId });
+    //       } else {
+    //         this.deteleMySchedule({ studentId: this.studentId });
+    //       }
+    //     })
+    //     .catch(() => {});
+    // },
+    //选择课程
+    handleChangeLesson(params, index, tdIndex) {
+      this.popupRight = true;
+      this.rowIndex = index; //设置点击的行数
+      this.tdIndex = tdIndex; //设置点击的td块索引值
+    },
+    //确认课程
+    handleLessonConfirm(params) {
+      let obj = this.tableData[this.rowIndex].list[this.tdIndex];
+      if (Object.keys(obj).length) {
+        for (let i in params) {
+          this.$set(obj, i, params[i]);
+        }
+        this.popupRight = false;
+      }
+    },
+    //将时间转成秒数
+    timeToSec(time) {
+      if (typeof time === "string") {
+        let hour = time.split(":")[0] * 3600; //时
+        let min = time.split(":")[1] * 60; //分
+        return hour + min;
+      }
+    },
+    //生成时分
+    formatTime(seconds) {
+      return [parseInt(seconds / 60 / 60), parseInt((seconds / 60) % 60)]
+        .join(":")
+        .replace(/\b(\d)\b/g, "0$1");
+    },
+    //保存课表
+    saveSchedule() {
+      let len = this.tableData.length;
+      let tableData = this.tableData;
+      let amList = [];
+      let amFileter = [];
+      //表格循环
+      for (let i = 0; i < tableData.length; i++) {
+        let list = tableData[i].list;
+        for (let l = 0; l < list.length; l++) {
+          let obj = list[l];
+          obj.studentId = this.studentId;
+          amList.push(obj);
+        }
+      }
+      for (let s = 1; s <= 5; s++) {
+        amFileter.push(amList.filter(item => item.day === s));
+      }
+      let list4 = [];
+      let amStartTime;
+      let amEndTime;
+      for (let s = 0; s <= 4; s++) {
+        amStartTime = this.timeToSec(this.config.am); //上午上课开始时间
+        let li = amFileter[s];
+        let result2 = [];
+        for (let u = 0; u < li.length; u++) {
+          if (li[u].timeLong === 0 && li[u].lessonName) {
+            amEndTime = amStartTime + this.config.lessonTime * 60;
+            li[u].startTime = this.formatTime(amStartTime);
+            li[u].endTime = this.formatTime(amEndTime);
+            amStartTime = amEndTime;
+          }
+          if (li[u].timeLong != 0 && li[u].lessonName) {
+            amEndTime = amStartTime + li[u].timeLong * 60;
+            li[u].startTime = this.formatTime(amStartTime);
+            li[u].endTime = this.formatTime(amEndTime);
+            amStartTime = amEndTime;
+          }
+          result2.push(li[u]);
+        }
+        list4.push({ list: result2 });
+      }
+      console.log(list4);
+      if (list4.length) {
+        this.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要保存课表吗？"
+          })
+          .then(() => {
+            // 根据角色不同提交方法
+            if (this.roleType == 2) {
+              this.updateSchedule({
+                classId: this.classId,
+                scheduleVOs: list4
+              });
+            } else {
+              this.updateMySchedule({ scheduleVOs: list4 });
+            }
+          });
+      }
+    },
     //查询我的课表
     async queryMySchedule(params = {}) {
       let res = await service.queryMySchedule(params);
       if (res.errorCode === 0) {
-        this.scheduleList = res.data || [];
+        if (res.data.length) {
+          let result = res.data || [];
+          let amCount = 0;
+          let pmCount = 0;
+          let nightCount = 0;
+          for (let i = 0; i < result.length; i++) {
+            let list = result[i].list;
+            for (let l = 0; l < list.length; l++) {
+              let timePeriod = list[l].timePeriod;
+              if (timePeriod == 1) {
+                amCount++;
+              }
+              if (timePeriod == 2) {
+                pmCount++;
+              }
+              if (timePeriod == 3) {
+                nightCount++;
+              }
+            }
+          }
+          this.amCount = amCount / 5;
+          this.pmCount = pmCount / 5;
+          this.nightCount = nightCount / 5;
+          this.tableData = res.data || [];
+        }
       }
     },
     //查询班级课表（老师）
     async queryClassSchedule(params = {}) {
       let res = await service.queryClassSchedule(params);
       if (res.errorCode === 0) {
-        this.scheduleList = res.data || [];
+        if (res.data.length) {
+          let result = res.data || [];
+          let amCount = 0;
+          let pmCount = 0;
+          let nightCount = 0;
+          for (let i = 0; i < result.length; i++) {
+            let list = result[i].list;
+            for (let l = 0; l < list.length; l++) {
+              let timePeriod = list[l].timePeriod;
+              if (timePeriod == 1) {
+                amCount++;
+              }
+              if (timePeriod == 2) {
+                pmCount++;
+              }
+              if (timePeriod == 3) {
+                nightCount++;
+              }
+            }
+          }
+          this.amCount = amCount / 5;
+          this.pmCount = pmCount / 5;
+          this.nightCount = nightCount / 5;
+          this.tableData = res.data || [];
+        }
       }
     },
     //编辑我的课表
@@ -293,19 +530,19 @@ export default {
       }
     },
     //删除我的课表
-    async deteleMySchedule(params = {}) {
-      let res = await service.deteleMySchedule(params);
-      if (res.errorCode === 0) {
-        this.$router.go(-1);
-      }
-    },
+    // async deteleMySchedule(params = {}) {
+    //   let res = await service.deteleMySchedule(params);
+    //   if (res.errorCode === 0) {
+    //     this.$router.go(-1);
+    //   }
+    // },
     //删除班级课表（老师）
-    async deteleSchedule(params = {}) {
-      let res = await service.deteleSchedule(params);
-      if (res.errorCode === 0) {
-        this.$router.go(-1);
-      }
-    },
+    // async deteleSchedule(params = {}) {
+    //   let res = await service.deteleSchedule(params);
+    //   if (res.errorCode === 0) {
+    //     this.$router.go(-1);
+    //   }
+    // },
     //查询家长自制课表可选课程
     async queryLessonWithStudentId(params = {}) {
       let res = await service.queryLessonWithStudentId(params);
@@ -338,6 +575,14 @@ export default {
     async queryDefaulTime(params = {}) {
       let res = await service.queryDefaulTime(params);
       if (res.errorCode === 0) {
+        this.config = Object.assign({}, res.data);
+      }
+    },
+    //班级开始时间、课程时间
+    async queryClassDefaul(params = {}) {
+      let res = await service.queryClassDefaul(params);
+      if (res.errorCode === 0) {
+        this.config = Object.assign({}, res.data);
       }
     }
   },
@@ -345,15 +590,48 @@ export default {
     if (this.roleType == 2) {
       this.queryClassSchedule({ classId: this.classId });
       this.queryLessonWithClassId({ classId: this.classId });
-      this.queryMyLessonByStudentId({ classId: this.classId });
+      this.queryMyLessonByClassId({ classId: this.classId });
     } else {
       this.queryMySchedule({ studentId: this.studentId });
       this.queryLessonWithStudentId({ studentId: this.studentId });
-      this.queryMyLessonByClassId({ studentId: this.studentId });
+      this.queryMyLessonByStudentId({ studentId: this.studentId });
     }
     this.queryDefaulTime({ studentId: this.studentId });
   }
 };
 </script>
 <style lang="less" scoped>
+#lineTd {
+  min-width: 180px;
+  position: relative;
+}
+table {
+  color: #606266;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed;
+}
+th {
+  white-space: nowrap;
+  background-color: #f5f7fa;
+}
+tr,
+th,
+td {
+  font-size: 24px;
+  height: 100px;
+  border: 1px solid #ebeef5;
+  text-align: center;
+}
+.lesson-popup {
+  width: 70%;
+  height: 100%;
+}
+.lesson {
+  padding: 20px;
+  &-btn {
+    margin-bottom: 20px;
+    margin-right: 20px;
+  }
+}
 </style>

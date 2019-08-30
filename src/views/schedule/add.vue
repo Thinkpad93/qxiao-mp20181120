@@ -97,7 +97,7 @@
                 <input
                   class="input"
                   placeholder="请输入上午开始时间"
-                  v-model="am"
+                  v-model="config.am"
                   @click="handleSelectTime('am')"
                 />
               </div>
@@ -110,7 +110,7 @@
                 <input
                   class="input"
                   placeholder="请输入下午开始时间"
-                  v-model="pm"
+                  v-model="config.pm"
                   @click="handleSelectTime('pm')"
                 />
               </div>
@@ -123,7 +123,7 @@
                 <input
                   class="input"
                   placeholder="请输入晚自习开始时间"
-                  v-model="night"
+                  v-model="config.night"
                   @click="handleSelectTime('night')"
                 />
               </div>
@@ -134,7 +134,7 @@
               </div>
               <div class="cell-bd">
                 <p class="text-right">
-                  <van-stepper v-model="lessonTime" :min="20" :max="60"></van-stepper>
+                  <van-stepper v-model="config.lessonTime" :min="20" :max="60"></van-stepper>
                 </p>
               </div>
             </div>
@@ -226,9 +226,9 @@
           </table>
           <!-- 新增 -->
           <div class="mt-20 mb-20 text-center">
-            <van-button type="info" size="small" @click="handleAddRow(1)">上午</van-button>
-            <van-button type="info" size="small" @click="handleAddRow(2)">下午</van-button>
-            <van-button type="info" size="small" @click="handleAddRow(3)">晚自习</van-button>
+            <van-button type="info" size="small" @click="handleAddRow(1)">新增上午节数</van-button>
+            <van-button type="info" size="small" @click="handleAddRow(2)">新增下午节数</van-button>
+            <van-button type="info" size="small" @click="handleAddRow(3)">新增晚自习节数</van-button>
           </div>
         </van-tab>
       </van-tabs>
@@ -271,10 +271,12 @@ export default {
       num: 0,
       openType: "am",
       data: "",
-      am: "08:00", //上午开始时间
-      pm: "14:00", //下午开始时间
-      night: "19:30", //晚自习开始时间
-      lessonTime: 40,
+      config: {
+        am: "08:00", //上午开始时间
+        pm: "14:00", //下午开始时间
+        night: "19:30", //晚自习开始时间
+        lessonTime: 40
+      },
       optionList: [], //选项
       lessonList: [],
       tableData: [
@@ -472,7 +474,6 @@ export default {
       tabActive: 0,
       form: {
         lessonName: "",
-        //studentId: this.$store.state.user.info.studentId,
         timeLong: 10
       },
       updateForm: {}
@@ -488,21 +489,21 @@ export default {
       this.popupTime = true;
       this.openType = type;
       if (type === "am") {
-        this.data = this.am;
+        this.data = this.config.am;
       } else if (type === "pm") {
-        this.data = this.pm;
+        this.data = this.config.pm;
       } else {
-        this.data = this.night;
+        this.data = this.config.night;
       }
     },
     //确认选择时间
     handleTimeConfirm(value, index) {
       if (this.openType === "am") {
-        this.am = value;
+        this.config.am = value;
       } else if (this.openType === "pm") {
-        this.pm = value;
+        this.config.pm = value;
       } else {
-        this.night = value;
+        this.config.night = value;
       }
       this.popupTime = false;
     },
@@ -578,9 +579,11 @@ export default {
             }
           } else {
             let { lessonName, timeLong } = this.form;
+            let type = this.roleType == 2 ? 2 : 1;
             let obj = Object.assign({}, this.updateForm, {
               lessonName,
-              timeLong
+              timeLong,
+              type
             });
             res = await service.updateMyLesson(obj);
           }
@@ -605,8 +608,6 @@ export default {
     //表格新增行数
     handleAddRow(type) {
       let len = this.tableData.length; //数据长度
-      //let len2 = this.tableDatapm.length;
-      //let len3 = this.tableDataNight.length;
       let list = [];
       for (let s = 1; s <= 5; s++) {
         let obj = {
@@ -718,7 +719,6 @@ export default {
         amFileter.push(amList.filter(item => item.day === s));
         pmFileter.push(pmList.filter(item => item.day === s));
         nightFileter.push(nigList.filter(item => item.day === s));
-        //result.push(two);
       }
       let list4 = [];
       let amStartTime;
@@ -729,7 +729,7 @@ export default {
       let pmEndTime;
       //上午
       for (let s = 0; s <= 4; s++) {
-        amStartTime = this.timeToSec(this.am); //上午上课开始时间
+        amStartTime = this.timeToSec(this.config.am); //上午上课开始时间
         let li = amFileter[s];
         let li2 = pmFileter[s];
         let li3 = nightFileter[s];
@@ -738,7 +738,7 @@ export default {
         let result4 = [];
         for (let u = 0; u < li.length; u++) {
           if (li[u].timeLong === 0 && li[u].lessonName) {
-            amEndTime = amStartTime + this.lessonTime * 60;
+            amEndTime = amStartTime + this.config.lessonTime * 60;
             li[u].startTime = this.formatTime(amStartTime);
             li[u].endTime = this.formatTime(amEndTime);
             amStartTime = amEndTime;
@@ -751,10 +751,10 @@ export default {
           }
           result2.push(li[u]);
         }
-        pmStartTime = this.timeToSec(this.pm);
+        pmStartTime = this.timeToSec(this.config.pm);
         for (let o = 0; o < li2.length; o++) {
           if (li2[o].timeLong === 0 && li2[o].lessonName) {
-            pmEndTime = pmStartTime + this.lessonTime * 60;
+            pmEndTime = pmStartTime + this.config.lessonTime * 60;
             li2[o].startTime = this.formatTime(pmStartTime);
             li2[o].endTime = this.formatTime(pmEndTime);
             pmStartTime = pmEndTime;
@@ -767,10 +767,10 @@ export default {
           }
           result3.push(li2[o]);
         }
-        nigStartTime = this.timeToSec(this.night);
+        nigStartTime = this.timeToSec(this.config.night);
         for (let y = 0; y < li3.length; y++) {
           if (li3[y].timeLong === 0 && li3[y].lessonName) {
-            nigEndTime = nigStartTime + this.lessonTime * 60;
+            nigEndTime = nigStartTime + this.config.lessonTime * 60;
             li3[y].startTime = this.formatTime(nigStartTime);
             li3[y].endTime = this.formatTime(nigEndTime);
             nigStartTime = nigEndTime;
@@ -857,6 +857,14 @@ export default {
     async queryDefaulTime(params = {}) {
       let res = await service.queryDefaulTime(params);
       if (res.errorCode === 0) {
+        this.config = Object.assign({}, res.data);
+      }
+    },
+    //班级开始时间、课程时间
+    async queryClassDefaul(params = {}) {
+      let res = await service.queryClassDefaul(params);
+      if (res.errorCode === 0) {
+        this.config = Object.assign({}, res.data);
       }
     }
   },
@@ -864,11 +872,12 @@ export default {
     if (this.roleType == 2) {
       this.queryLessonWithClassId({ classId: this.classId });
       this.queryMyLessonByClassId({ classId: this.classId });
+      this.queryClassDefaul({ classId: this.classId });
     } else {
       this.queryMyLessonByStudentId({ studentId: this.studentId });
       this.queryLessonWithStudentId({ studentId: this.studentId });
+      this.queryDefaulTime({ studentId: this.studentId });
     }
-    this.queryDefaulTime({ studentId: this.studentId });
   }
 };
 </script>
