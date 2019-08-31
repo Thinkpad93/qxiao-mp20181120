@@ -109,8 +109,7 @@
         </div>
       </div>
       <div class="mt-20 text-center">
-        <!-- <van-button type="danger" size="small" @click="handleDeleteUser">删除用户</van-button> -->
-        <van-button type="danger" size="small" to="/device/search">设备</van-button>
+        <!-- <van-button type="danger" size="small" to="/device/search">设备</van-button> -->
       </div>
     </div>
     <div class="page-ft">
@@ -154,7 +153,7 @@ export default {
           icon: require("../../assets/user-icon-5@2x.png")
         },
         {
-          title: "自定义课表",
+          title: "我的课表",
           to: "/schedule",
           icon: require("../../assets/user-icon-5@2x.png")
         },
@@ -213,18 +212,6 @@ export default {
         path: "/role/select"
       });
     },
-    //删除用户
-    handleDeleteUser() {
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要删除用户数据吗？"
-        })
-        .then(() => {
-          this.deleteUser({ openId: this.openId });
-        })
-        .catch(() => {});
-    },
     wxRegCallback() {
       //用于微信JS-SDK回调
       this.wxShareAppMessage();
@@ -258,14 +245,6 @@ export default {
       let res = await service.queryRole(params);
       if (res.errorCode === 0) {
         this.roleList = res.data;
-      }
-    },
-    //删除用户
-    async deleteUser(params = {}) {
-      let res = await service.deleteUser(params);
-      if (res.errorCode === 0) {
-        //关闭当前网页窗口接口
-        wx.closeWindow();
       }
     },
     //控制家长端发布班级圈权限

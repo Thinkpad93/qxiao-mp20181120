@@ -244,7 +244,7 @@ export default {
     // IwQQBhdwxw== 上传当前运动目标
     async sendDataToWXDevice() {
       //let str = this.bytes_array_to_base64([0x23, 0x02, 0x02, 0x03, 0x24]);
-      let str = "IwICAyQAAA=="; //获取设备剩余电量
+      let str = "IwQBBAAQMQ=="; //设置Q星值16
       console.log(this.deviceId);
       //console.log(str);
       WeixinJSBridge.invoke(

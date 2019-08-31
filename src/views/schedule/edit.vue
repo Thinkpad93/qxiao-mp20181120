@@ -94,39 +94,24 @@
               <div class="cell-hd">
                 <label class="label">上午开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入上午开始时间"
-                  v-model="config.am"
-                  @click="handleSelectTime('am')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('am')">{{ config.am }}</span>
               </div>
             </div>
             <div class="cell min-h120">
               <div class="cell-hd">
                 <label class="label">下午开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入下午开始时间"
-                  v-model="config.pm"
-                  @click="handleSelectTime('pm')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('pm')">{{ config.pm }}</span>
               </div>
             </div>
             <div class="cell min-h120">
               <div class="cell-hd">
                 <label class="label">晚自习开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入晚自习开始时间"
-                  v-model="config.night"
-                  @click="handleSelectTime('night')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('night')">{{ config.night }}</span>
               </div>
             </div>
             <div class="cell min-h120">
@@ -212,12 +197,19 @@
       <div class="fixed-bottom" style="z-index: 100;">
         <div class="flex">
           <van-button
-            type="info"
+            type="default"
             size="large"
             class="no-radius"
             @click="handleAddLesson"
             v-show="tabActive == 0"
           >新增选项</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="tabActive = 1"
+            v-show="tabActive == 0"
+          >课表排版</van-button>
           <van-button
             type="info"
             size="large"
@@ -239,6 +231,8 @@ export default {
   mixins: [classList],
   data() {
     return {
+      isDay: null,
+      isPitchId: null,
       amCount: 0,
       pmCount: 0,
       nightCount: 0,
@@ -346,21 +340,6 @@ export default {
         done();
       }
     },
-    // handleDelSchedule() {
-    //   this.$dialog
-    //     .confirm({
-    //       title: "提示",
-    //       message: "确定要删除课表吗？"
-    //     })
-    //     .then(() => {
-    //       if (this.roleType == 2) {
-    //         this.deteleSchedule({ classId: this.classId });
-    //       } else {
-    //         this.deteleMySchedule({ studentId: this.studentId });
-    //       }
-    //     })
-    //     .catch(() => {});
-    // },
     //选择课程
     handleChangeLesson(params, index, tdIndex) {
       this.popupRight = true;
@@ -391,31 +370,82 @@ export default {
         .join(":")
         .replace(/\b(\d)\b/g, "0$1");
     },
+    //判断上午 下午 晚自习中间是否有选择课程
+    isSelectLesson(arr = []) {
+      let isTrue = 0;
+      for (let e = 0; e < arr.length; e++) {
+        let elem = arr[e];
+        for (let len = elem.length - 1; len >= 0; len--) {
+          if (elem[len].lessonId != 0) {
+            let i = len - 1;
+            for (i; i >= 0; i--) {
+              if (elem[i].lessonId === 0) {
+                this.isDay = elem[i].day;
+                this.isPitchId = elem[i].pitchId;
+                isTrue++;
+              }
+            }
+          }
+        }
+      }
+      return isTrue;
+    },
     //保存课表
     saveSchedule() {
       let len = this.tableData.length;
       let tableData = this.tableData;
       let amList = [];
+      let pmList = [];
+      let nigList = [];
       let amFileter = [];
+      let pmFileter = [];
+      let nightFileter = [];
       //表格循环
       for (let i = 0; i < tableData.length; i++) {
         let list = tableData[i].list;
         for (let l = 0; l < list.length; l++) {
           let obj = list[l];
           obj.studentId = this.studentId;
-          amList.push(obj);
+          if (obj.timePeriod == 1) {
+            amList.push(obj);
+          }
+          if (obj.timePeriod == 2) {
+            pmList.push(obj);
+          }
+          if (obj.timePeriod == 3) {
+            nigList.push(obj);
+          }
         }
       }
+
       for (let s = 1; s <= 5; s++) {
         amFileter.push(amList.filter(item => item.day === s));
+        pmFileter.push(pmList.filter(item => item.day === s));
+        nightFileter.push(nigList.filter(item => item.day === s));
+      }
+      let f = this.isSelectLesson(amFileter);
+      let c = this.isSelectLesson(pmFileter);
+      let k = this.isSelectLesson(nightFileter);
+      if (f != 0 || c != 0 || k != 0) {
+        let obj = this.weekList.filter(item => item.day == this.isDay);
+        this.$toast(`${obj[0].name}第${this.isPitchId}节不能为空, 请完善课表`);
+        return false;
       }
       let list4 = [];
       let amStartTime;
       let amEndTime;
+      let nigStartTime;
+      let nigEndTime;
+      let pmStartTime;
+      let pmEndTime;
       for (let s = 0; s <= 4; s++) {
         amStartTime = this.timeToSec(this.config.am); //上午上课开始时间
         let li = amFileter[s];
+        let li2 = pmFileter[s];
+        let li3 = nightFileter[s];
         let result2 = [];
+        let result3 = [];
+        let result4 = [];
         for (let u = 0; u < li.length; u++) {
           if (li[u].timeLong === 0 && li[u].lessonName) {
             amEndTime = amStartTime + this.config.lessonTime * 60;
@@ -431,7 +461,40 @@ export default {
           }
           result2.push(li[u]);
         }
-        list4.push({ list: result2 });
+        pmStartTime = this.timeToSec(this.config.pm);
+        for (let o = 0; o < li2.length; o++) {
+          if (li2[o].timeLong === 0 && li2[o].lessonName) {
+            pmEndTime = pmStartTime + this.config.lessonTime * 60;
+            li2[o].startTime = this.formatTime(pmStartTime);
+            li2[o].endTime = this.formatTime(pmEndTime);
+            pmStartTime = pmEndTime;
+          }
+          if (li2[o].timeLong != 0 && li2[o].lessonName) {
+            pmEndTime = pmStartTime + li2[o].timeLong * 60;
+            li2[o].startTime = this.formatTime(pmStartTime);
+            li2[o].endTime = this.formatTime(pmEndTime);
+            pmStartTime = pmEndTime;
+          }
+          result3.push(li2[o]);
+        }
+        nigStartTime = this.timeToSec(this.config.night);
+        for (let y = 0; y < li3.length; y++) {
+          if (li3[y].timeLong === 0 && li3[y].lessonName) {
+            nigEndTime = nigStartTime + this.config.lessonTime * 60;
+            li3[y].startTime = this.formatTime(nigStartTime);
+            li3[y].endTime = this.formatTime(nigEndTime);
+            nigStartTime = nigEndTime;
+          }
+          if (li3[y].timeLong != 0 && li3[y].lessonName) {
+            nigEndTime = nigStartTime + li3[y].timeLong * 60;
+            li3[y].startTime = this.formatTime(nigStartTime);
+            li3[y].endTime = this.formatTime(nigEndTime);
+            nigStartTime = nigEndTime;
+          }
+          result4.push(li3[y]);
+        }
+        let lii = result2.concat(result3).concat(result4) || [];
+        list4.push({ list: lii });
       }
       console.log(list4);
       if (list4.length) {
@@ -529,20 +592,6 @@ export default {
         this.$router.go(-1);
       }
     },
-    //删除我的课表
-    // async deteleMySchedule(params = {}) {
-    //   let res = await service.deteleMySchedule(params);
-    //   if (res.errorCode === 0) {
-    //     this.$router.go(-1);
-    //   }
-    // },
-    //删除班级课表（老师）
-    // async deteleSchedule(params = {}) {
-    //   let res = await service.deteleSchedule(params);
-    //   if (res.errorCode === 0) {
-    //     this.$router.go(-1);
-    //   }
-    // },
     //查询家长自制课表可选课程
     async queryLessonWithStudentId(params = {}) {
       let res = await service.queryLessonWithStudentId(params);
@@ -611,17 +660,17 @@ table {
   text-align: center;
   table-layout: fixed;
 }
-th {
-  white-space: nowrap;
-  background-color: #f5f7fa;
-}
-tr,
 th,
 td {
   font-size: 24px;
   height: 100px;
   border: 1px solid #ebeef5;
   text-align: center;
+}
+th {
+  height: 80px;
+  white-space: nowrap;
+  background-color: #f5f7fa;
 }
 .lesson-popup {
   width: 70%;

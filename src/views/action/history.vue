@@ -17,7 +17,7 @@
       <van-dialog v-model="dialogImage" close-on-click-overlay :show-confirm-button="false">
         <div class="cells">
           <img :src="shareImgUrl" />
-          <p class="text-center pt-30 pb-30">长按图片保存或发给朋友</p>
+          <p class="text-center pt-30 pb-30 share-desctext">长按图片保存或发给朋友</p>
         </div>
       </van-dialog>
       <van-collapse v-model="activeNames">
@@ -195,5 +195,9 @@ export default {
 
 .share-image {
   padding: 0 30px;
+}
+.share-desctext {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 </style>

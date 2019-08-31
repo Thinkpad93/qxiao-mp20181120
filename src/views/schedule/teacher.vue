@@ -211,16 +211,16 @@ table {
   text-align: center;
   table-layout: fixed;
 }
-th {
-  white-space: nowrap;
-  background-color: #f5f7fa;
-}
-tr,
 th,
 td {
   font-size: 24px;
   height: 100px;
   border: 1px solid #ebeef5;
   text-align: center;
+}
+th {
+  height: 80px;
+  white-space: nowrap;
+  background-color: #f5f7fa;
 }
 </style>

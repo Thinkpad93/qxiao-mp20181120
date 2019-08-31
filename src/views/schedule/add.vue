@@ -93,39 +93,24 @@
               <div class="cell-hd">
                 <label class="label">上午开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入上午开始时间"
-                  v-model="config.am"
-                  @click="handleSelectTime('am')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('am')">{{ config.am }}</span>
               </div>
             </div>
             <div class="cell min-h120">
               <div class="cell-hd">
                 <label class="label">下午开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入下午开始时间"
-                  v-model="config.pm"
-                  @click="handleSelectTime('pm')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('pm')">{{ config.pm }}</span>
               </div>
             </div>
             <div class="cell min-h120">
               <div class="cell-hd">
                 <label class="label">晚自习开始时间</label>
               </div>
-              <div class="cell-bd">
-                <input
-                  class="input"
-                  placeholder="请输入晚自习开始时间"
-                  v-model="config.night"
-                  @click="handleSelectTime('night')"
-                />
+              <div class="cell-bd text-right">
+                <span @click="handleSelectTime('night')">{{ config.night }}</span>
               </div>
             </div>
             <div class="cell min-h120">
@@ -152,7 +137,7 @@
               :on-close="onClose(item, index)"
             >
               <van-cell-group>
-                <div class="cell min-h120" @click="onSwiptCellCick(item)">
+                <div class="cell min-h100" @click="onSwiptCellCick(item)">
                   <div class="cell-hd">
                     <label for class="label">{{ item.lessonName }}</label>
                   </div>
@@ -167,7 +152,7 @@
         </van-tab>
         <van-tab title="课表排版">
           <!-- 上午 -->
-          <table class="schedule" align="center" style="width:100%;">
+          <table class="schedule mt-20" align="center" style="width:100%;">
             <thead>
               <tr>
                 <th>
@@ -225,30 +210,33 @@
             </tbody>
           </table>
           <!-- 新增 -->
-          <div class="mt-20 mb-20 text-center">
+          <!-- <div class="mt-20 mb-20 text-center">
             <van-button type="info" size="small" @click="handleAddRow(1)">新增上午节数</van-button>
             <van-button type="info" size="small" @click="handleAddRow(2)">新增下午节数</van-button>
             <van-button type="info" size="small" @click="handleAddRow(3)">新增晚自习节数</van-button>
-          </div>
+          </div>-->
         </van-tab>
       </van-tabs>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button
-          type="info"
-          size="large"
-          class="no-radius"
-          @click="handleAddLesson"
-          v-show="tabActive == 0"
-        >新增选项</van-button>
-        <van-button
-          type="info"
-          size="large"
-          class="no-radius"
-          v-show="tabActive == 1"
-          @click="createSchedule"
-        >保存课表</van-button>
+        <div class="flex">
+          <van-button
+            type="default"
+            size="large"
+            class="no-radius"
+            @click="handleAddLesson"
+            v-show="tabActive == 0"
+          >新增选项</van-button>
+          <van-button type="info" size="large" class="no-radius" @click="tabActive = 1" v-show="tabActive == 0">课表排版</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            v-show="tabActive == 1"
+            @click="createSchedule"
+          >保存课表</van-button>
+        </div>
       </div>
     </div>
   </div>
@@ -262,6 +250,8 @@ export default {
   mixins: [classList],
   data() {
     return {
+      isDay: null,
+      isPitchId: null,
       dialogVisible: false,
       isDialogState: 1, //1是新增状态 2是编辑状态
       popupRight: false,
@@ -637,23 +627,42 @@ export default {
       this.popupRight = true;
       this.rowIndex = index; //设置点击的行数
       this.tdIndex = tdIndex; //设置点击的td块索引值
-      this.num = num; //设置点击的td块索引值
+      this.num = num; //设置点击的
     },
     //确认课程
     handleLessonConfirm(params) {
+      let tableData = this.tableData;
+      let tableDatapm = this.tableDatapm;
+      let tableDataNight = this.tableDataNight;
       let obj;
+      let flag = false;
+      let data;
       if (this.num === 1) {
         obj = this.tableData[this.rowIndex].list[this.tdIndex];
+        data = tableData;
       } else if (this.num === 2) {
         obj = this.tableDatapm[this.rowIndex].list[this.tdIndex];
+        data = tableDatapm;
       } else {
         obj = this.tableDataNight[this.rowIndex].list[this.tdIndex];
+        data = tableDataNight;
       }
       if (Object.keys(obj).length) {
         for (let i in params) {
           this.$set(obj, i, params[i]);
         }
         this.popupRight = false;
+      }
+      let trObj = data[data.length - 1]; //获取数组最后一个元素
+      for (let i = 0; i < trObj.list.length; i++) {
+        if (obj.lessonName === trObj.list[i].lessonName) {
+          flag = true;
+          break;
+        }
+      }
+      if (flag) {
+        //开始自增一行
+        this.handleAddRow(this.num);
       }
     },
     //将时间转成秒数
@@ -669,6 +678,27 @@ export default {
       return [parseInt(seconds / 60 / 60), parseInt((seconds / 60) % 60)]
         .join(":")
         .replace(/\b(\d)\b/g, "0$1");
+    },
+    //判断上午 下午 晚自习中间是否有选择课程
+    isSelectLesson(arr = []) {
+      let isTrue = 0;
+      for (let e = 0; e < arr.length; e++) {
+        let elem = arr[e];
+        for (let len = elem.length - 1; len >= 0; len--) {
+          if (elem[len].lessonId != 0) {
+            let i = len - 1;
+            for (i; i >= 0; i--) {
+              if (elem[i].lessonId === 0) {
+                this.isDay = elem[i].day;
+                this.isPitchId = elem[i].pitchId;
+                isTrue++;
+              }
+            }
+          }
+        }
+      }
+      //console.log(isTrue);
+      return isTrue;
     },
     //生成课表
     createSchedule() {
@@ -719,6 +749,17 @@ export default {
         amFileter.push(amList.filter(item => item.day === s));
         pmFileter.push(pmList.filter(item => item.day === s));
         nightFileter.push(nigList.filter(item => item.day === s));
+      }
+
+      console.log(amFileter);
+
+      let f = this.isSelectLesson(amFileter);
+      let c = this.isSelectLesson(pmFileter);
+      let k = this.isSelectLesson(nightFileter);
+      if (f != 0 || c != 0 || k != 0) {
+        let obj = this.weekList.filter(item => item.day == this.isDay);
+        this.$toast(`${obj[0].name}第${this.isPitchId}节不能为空, 请完善课表`);
+        return false;
       }
       let list4 = [];
       let amStartTime;
@@ -892,17 +933,17 @@ table {
   text-align: center;
   table-layout: fixed;
 }
-th {
-  white-space: nowrap;
-  background-color: #f5f7fa;
-}
-tr,
 th,
 td {
   font-size: 24px;
   height: 100px;
   border: 1px solid #ebeef5;
   text-align: center;
+}
+th {
+  height: 80px;
+  white-space: nowrap;
+  background-color: #f5f7fa;
 }
 .lesson-popup {
   width: 70%;
