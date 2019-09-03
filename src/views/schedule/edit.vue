@@ -640,12 +640,13 @@ export default {
       this.queryClassSchedule({ classId: this.classId });
       this.queryLessonWithClassId({ classId: this.classId });
       this.queryMyLessonByClassId({ classId: this.classId });
+      this.queryClassDefaul({ classId: this.classId });
     } else {
       this.queryMySchedule({ studentId: this.studentId });
       this.queryLessonWithStudentId({ studentId: this.studentId });
       this.queryMyLessonByStudentId({ studentId: this.studentId });
+      this.queryDefaulTime({ studentId: this.studentId });
     }
-    this.queryDefaulTime({ studentId: this.studentId });
   }
 };
 </script>

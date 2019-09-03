@@ -39,34 +39,11 @@
             <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
               <span v-if="td.lessonName">{{ td.lessonName }}</span>
               <span class="have" v-else>-</span>
+              <div>{{ td.startTime }}-{{ td.endTime }}</div>
             </td>
           </tr>
         </tbody>
       </table>
-
-      <!-- <div class="schedule" v-if="tableData.length">
-        <div class="schedule-tr flex">
-          <div class="schedule-td flex-1">
-            <div class="block-head">时间</div>
-          </div>
-          <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-            <div class="block-head">{{ week.name }}</div>
-          </div>
-        </div>
-        <div class="schedule-body flex">
-          <div class="schedule-tr flex-1"></div>
-          <div class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
-            <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <div class="block block-main">
-                <div>
-                  <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
-                  <span class="have" v-else>-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
       <div class="empty" v-else>
         <img src="@/assets/kong.png" alt />
         <p>暂无自制课程表</p>

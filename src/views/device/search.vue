@@ -24,8 +24,8 @@
       <!-- <van-button type="default" @click="startScanWXDevice">扫描设备</van-button>
       <van-button type="default" @click="stopScanWXDevice">停止扫描设备</van-button>
       <van-button type="default" @click="getWXDeviceInfos">取得微信设备信息</van-button>-->
-      <!-- <van-button type="danger" @click="startScanWXDevice">扫描设备</van-button> -->
-      <van-button type="danger" @click="sendDataToWXDevice">发送数据给设备</van-button>
+      <van-button type="danger" @click="startScanWXDevice">扫描设备</van-button>
+      <!-- <van-button type="danger" @click="sendDataToWXDevice">发送数据给设备</van-button> -->
     </div>
     <!-- <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
@@ -48,82 +48,6 @@ export default {
     };
   },
   methods: {
-    base64encode(str) {
-      var base64EncodeChars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-      var out, i, len;
-      var c1, c2, c3;
-      len = str.length;
-      i = 0;
-      out = "";
-      while (i < len) {
-        c1 = str.charCodeAt(i++) & 0xff;
-        if (i == len) {
-          out += base64EncodeChars.charAt(c1 >> 2);
-          out += base64EncodeChars.charAt((c1 & 0x3) << 4);
-          out += "==";
-          break;
-        }
-        c2 = str.charCodeAt(i++);
-        if (i == len) {
-          out += base64EncodeChars.charAt(c1 >> 2);
-          out += base64EncodeChars.charAt(
-            ((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
-          );
-          out += base64EncodeChars.charAt((c2 & 0xf) << 2);
-          out += "=";
-          break;
-        }
-        c3 = str.charCodeAt(i++);
-        out += base64EncodeChars.charAt(c1 >> 2);
-        out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
-        out += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
-        out += base64EncodeChars.charAt(c3 & 0x3f);
-      }
-      return out;
-    },
-    /**
-     *  Byte数组转Base64字符,原理同上
-     * @Param [0x00,0x00] [0x23,0x02,0x02,0x03,0x14]
-     * @return Base64字符串
-     **/
-    bytes_array_to_base64(array) {
-      if (array.length == 0) {
-        return "";
-      }
-      var b64Chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-      var result = ""; // 给末尾添加的字符,先计算出后面的字符
-      var d3 = array.length % 3;
-      var endChar = "";
-      if (d3 == 1) {
-        var value = array[array.length - 1];
-        endChar = b64Chars.charAt(value >> 2);
-        endChar += b64Chars.charAt((value << 4) & 0x3f);
-        endChar += "==";
-      } else if (d3 == 2) {
-        var value1 = array[array.length - 2];
-        var value2 = array[array.length - 1];
-        endChar = b64Chars.charAt(value1 >> 2);
-        endChar += b64Chars.charAt(((value1 << 4) & 0x3f) + (value2 >> 4));
-        endChar += b64Chars.charAt((value2 << 2) & 0x3f);
-        endChar += "=";
-      }
-      var times = array.length / 3;
-      var startIndex = 0; // 开始计算
-      for (var i = 0; i < times - (d3 == 0 ? 0 : 1); i++) {
-        startIndex = i * 3;
-        var S1 = array[startIndex + 0];
-        var S2 = array[startIndex + 1];
-        var S3 = array[startIndex + 2];
-        var s1 = b64Chars.charAt(S1 >> 2);
-        var s2 = b64Chars.charAt(((S1 << 4) & 0x3f) + (S2 >> 4));
-        var s3 = b64Chars.charAt(((S2 & 0xf) << 2) + (S3 >> 6));
-        var s4 = b64Chars.charAt(S3 & 0x3f); // 添加到结果字符串中
-        result += s1 + s2 + s3 + s4;
-      }
-      return result + endChar;
-    },
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
       WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, res => {
@@ -209,6 +133,7 @@ export default {
       );
     },
     //取得微信设备信息
+    //只有绑定成功后才有list列表数据返回
     getWXDeviceInfos() {
       WeixinJSBridge.invoke("getWXDeviceInfos", {}, res => {
         //绑定设备总数量
@@ -238,13 +163,8 @@ export default {
       });
     },
     //发送数据给设备 发送的数据需要经过base64编码
-    // IwICAyQ=  电量
-    // IwICBCc= 得Q星值
-    // IwQBBAAQMQ== 设置Q星值16
-    // IwQQBhdwxw== 上传当前运动目标
     async sendDataToWXDevice() {
-      //let str = this.bytes_array_to_base64([0x23, 0x02, 0x02, 0x03, 0x24]);
-      let str = "IwQBBAAQMQ=="; //设置Q星值16
+      let str = "IwsC8QMAA1wqU0UAAJk="; //获取本地时间日期
       console.log(this.deviceId);
       //console.log(str);
       WeixinJSBridge.invoke(
@@ -258,11 +178,6 @@ export default {
           if (res.err_msg === "sendDataToWXDevice:ok") {
             this.$toast(`数据已发送`);
             console.log(str);
-            let obj = {
-              openId: this.openId,
-              deviceId: this.deviceId
-            };
-            //this.queryData(obj);
           } else {
             this.$toast(`数据发送失败`);
           }
@@ -324,7 +239,7 @@ export default {
     this.onReceiveDataFromWXDevice();
     this.onWXDeviceBluetoothStateChange();
     this.onWXDeviceStateChange();
-    //this.onScanWXDeviceResult();
+    this.onScanWXDeviceResult();
   }
 };
 </script>

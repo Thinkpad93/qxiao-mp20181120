@@ -108,9 +108,6 @@
           </div>
         </div>
       </div>
-      <div class="mt-20 text-center">
-        <!-- <van-button type="danger" size="small" to="/device/search">设备</van-button> -->
-      </div>
     </div>
     <div class="page-ft">
       <qxFooter></qxFooter>

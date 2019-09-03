@@ -34,21 +34,27 @@
       <van-popup class="lesson-popup" v-model="popupRight" position="right">
         <div class="cells">
           <div class="lesson">
+            <div class="cells">
+              <p class="mb-30">1.每天的课表从学生的第一个整体活动开始，如早操、早读等</p>
+              <p class="mb-30">2.每节课程之后请根据实际情况安排学生的课间休息，如课间、课间操、大课间等。</p>
+            </div>
+            <h4 class="mb-20">课程:</h4>
             <div class="lesson-group">
               <van-button
                 class="lesson-btn"
                 type="primary"
-                size="normal"
+                size="small"
                 v-for="(item, index) in lessonList.filter(item => item.type == 1)"
                 :key="index"
                 @click="handleLessonConfirm(item)"
               >{{ item.lessonName }}</van-button>
             </div>
+            <h4 class="mb-20">其他:</h4>
             <div class="lesson-group">
               <van-button
                 class="lesson-btn"
                 type="warning"
-                size="normal"
+                size="small"
                 v-for="(item, index) in lessonList.filter(item => item.type == 2)"
                 :key="index"
                 @click="handleLessonConfirm(item)"
@@ -228,7 +234,13 @@
             @click="handleAddLesson"
             v-show="tabActive == 0"
           >新增选项</van-button>
-          <van-button type="info" size="large" class="no-radius" @click="tabActive = 1" v-show="tabActive == 0">课表排版</van-button>
+          <van-button
+            type="info"
+            size="large"
+            class="no-radius"
+            @click="tabActive = 1"
+            v-show="tabActive == 0"
+          >课表排版</van-button>
           <van-button
             type="info"
             size="large"
