@@ -18,7 +18,9 @@ vue2.x + vuex + vueRoute + axios + vantUI
   - assets 资源目录
   - components 组件目录
   - config 配置
-  - router 路由文件
+    - bracelet.js 手环相关变量
+    - isdev.js 根据是开始环境还是生产环境配置不同的微信公众号签名地址
+    - wxapi.js 微信公众号 jsapi 相关接口
   - directive 全局指令
   - filters 全局过滤
   - mixins 混入
@@ -31,7 +33,7 @@ vue2.x + vuex + vueRoute + axios + vantUI
     - about 关于我们
     - acion 行为管理页面
     - album 班级相册
-    - baby 学生 
+    - baby 学生
     - bracelet 学生手环页面
     - child 添加孩子页面
     - class 班级管理
@@ -138,4 +140,3 @@ schdule.map(elem => {
 ## natapp -authtoken=a6260d5585826691
 
 > 用户绑定设备有两种方式：扫码绑定，厂商服务器绑定，这两种方式都需要先向微信公众平台注册授权设备
-> 0x23^0+0x02^1+0x02^2+0x03^3;

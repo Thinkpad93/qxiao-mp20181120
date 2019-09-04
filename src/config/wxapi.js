@@ -62,7 +62,7 @@ export default {
       }
     });
     wx.error(error => {
-      console.log("error");
+      console.log("wx.error错误");
       console.log(error);
     });
   },
