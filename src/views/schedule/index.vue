@@ -37,9 +37,10 @@
               <td v-if="index == pmCount + amCount" :rowspan="nightCount">晚自习</td>
             </template>
             <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <span v-if="td.lessonName">{{ td.lessonName }}</span>
-              <span class="have" v-else>-</span>
-              <div>{{ td.startTime }}-{{ td.endTime }}</div>
+              <template v-if="td.status != 1">
+                <span v-if="td.lessonName">{{ td.lessonName }}</span>
+                <span class="have" v-else>-</span>
+              </template>
             </td>
           </tr>
         </tbody>

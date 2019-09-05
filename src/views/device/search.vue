@@ -1,26 +1,23 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!--  扫描的设备列表 -->
       <template v-if="devices.length">
         <div class="cells-title">设备列表</div>
         <div class="cells mb-20">
-          <div
-            class="cell min-h120"
-            v-for="item in devices"
-            :key="item.deviceId"
-            @click="deviceClick(item)"
-          >
+          <div class="cell min-h120" v-for="item in devices" :key="item.deviceId">
             <div class="cell-hd">
               <img src="@/assets/avatar-bg@2x.png" width="40" height="40" />
             </div>
             <div class="cell-bd">
-              <p class="text-right">{{ item.deviceId }}</p>
+              <p class="text-right">
+                <van-button type="danger" size="small" @click="deviceClick(item, 1)">绑定设备</van-button>
+              </p>
             </div>
           </div>
         </div>
       </template>
       <van-button type="danger" @click="startScanWXDevice">扫描设备</van-button>
-      <!-- <van-button type="danger" @click="sendDataToWXDevice('IwcC8QIAAwAB2w==')">发送数据给设备</van-button> -->
     </div>
   </div>
 </template>
@@ -34,13 +31,12 @@ export default {
       devices: [], //发现的设备列表数组
       bluetooth: false, //是否打开蓝牙
       deviceId: null, //设备ID
-      list: [], //设备列表
       openId: this.$store.state.user.info.openId,
       studentId: this.$store.state.user.info.studentId
     };
   },
   methods: {
-    deviceClick(params) {
+    deviceClick(params, type) {
       let { deviceId } = params; //设备ID
       this.$dialog
         .confirm({
@@ -48,7 +44,7 @@ export default {
           message: "确定要绑定设备吗？"
         })
         .then(() => {
-          this.getWXDeviceTicket(1, deviceId);
+          this.getWXDeviceTicket(type, deviceId);
         });
     },
     //初始化设备库（只支持蓝牙设备）
@@ -98,7 +94,7 @@ export default {
         this.toast = this.$toast.loading({
           mask: true,
           duration: 0, // 持续展示 toast
-          forbidClick: true, // 禁用背景点击
+          forbidClick: false, // 禁用背景点击
           message: "扫描设备..."
         });
         WeixinJSBridge.invoke(
@@ -142,24 +138,6 @@ export default {
         }
       );
     },
-    //取得微信设备信息
-    //只有绑定成功后才有list列表数据返回
-    getWXDeviceInfos() {
-      WeixinJSBridge.invoke("getWXDeviceInfos", {}, res => {
-        //绑定设备总数量
-        let deviceArray = res.deviceInfos;
-        this.list = deviceArray;
-        for (let i = 0; i < deviceArray.length; i++) {
-          if (deviceArray[i].state === "connected") {
-            this.deviceId = deviceArray[i].deviceId;
-            break;
-          }
-        }
-        console.log("getWXDeviceInfos");
-        console.log(res);
-        console.log(this.list);
-      });
-    },
     //用户绑定设备
     //先获取操作凭证（type为1表示绑定，2表示解除绑定）
     async getWXDeviceTicket(type, deviceId) {
@@ -181,7 +159,9 @@ export default {
                 console.log(res);
                 console.log("绑定之前先进行设备状态查询");
                 let status = res.data.status;
-                if (status === 1) {
+                if (status === 0) {
+                  this.$toast("该设备还未授权");
+                } else if (status === 1) {
                   //绑定设备
                   let params = {
                     studentId: this.studentId,
@@ -191,11 +171,22 @@ export default {
                   };
                   service.bindDevice(params).then(res => {
                     if (res.errorCode === 0) {
-                      this.$toast(`设备绑定成功`);
+                      this.$dialog
+                        .alert({
+                          title: "提示",
+                          message: "手环设备绑定成功"
+                        })
+                        .then(() => {
+                          this.$router.push({
+                            path: "/device"
+                          });
+                        });
                     } else {
                       this.$toast(`设备绑定失败`);
                     }
                   });
+                } else if (status === 2) {
+                  this.$toast("设备已经被用户绑定了");
                 }
               }
             });
@@ -222,33 +213,6 @@ export default {
       WeixinJSBridge.on("onWXDeviceBindStateChange", res => {
         console.log(res);
         console.log("微信客户端设备绑定状态改变事件");
-      });
-    },
-    //发送数据给设备 发送的数据需要经过base64编码
-    sendDataToWXDevice(base64 = "") {
-      WeixinJSBridge.invoke(
-        "sendDataToWXDevice",
-        {
-          deviceId: this.deviceId,
-          connType: "blue",
-          base64Data: base64
-        },
-        res => {
-          if (res.err_msg === "sendDataToWXDevice:ok") {
-            this.$toast(`数据已发送`);
-            console.log(base64);
-          } else {
-            this.$toast(`数据发送失败`);
-          }
-          console.log(res);
-        }
-      );
-    },
-    //接收到设备数据
-    onReceiveDataFromWXDevice() {
-      WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
-        console.log("onReceiveDataFromWXDevice");
-        console.log(res);
       });
     },
     //设备连接状态变化
@@ -278,8 +242,6 @@ export default {
     //初始化事件
     init() {
       this.openWXDeviceLib();
-      this.getWXDeviceInfos();
-      this.onReceiveDataFromWXDevice();
       this.onWXDeviceBluetoothStateChange();
       this.onWXDeviceStateChange();
       this.onScanWXDeviceResult();

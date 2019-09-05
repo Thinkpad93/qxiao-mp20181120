@@ -35,6 +35,11 @@
       <van-popup class="lesson-popup" v-model="popupRight" position="right">
         <div class="cells">
           <div class="lesson">
+            <div class="cells">
+              <p class="mb-30">1.每天的课表从学生的第一个整体活动开始，如早操、早读等</p>
+              <p class="mb-30">2.每节课程之后请根据实际情况安排学生的课间休息，如课间、课间操、大课间等。</p>
+            </div>
+            <h4 class="mb-20">课程:</h4>
             <div class="lesson-group">
               <van-button
                 class="lesson-btn"
@@ -45,6 +50,7 @@
                 @click="handleLessonConfirm(item)"
               >{{ item.lessonName }}</van-button>
             </div>
+            <h4 class="mb-20">其他:</h4>
             <div class="lesson-group">
               <van-button
                 class="lesson-btn"
@@ -167,29 +173,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- <div class="schedule mt-20" v-if="tableData.length">
-            <div class="schedule-tr flex">
-              <div class="schedule-td flex-1">
-                <div class="block-head">时间</div>
-              </div>
-              <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-                <div class="block-head">{{ week.name }}</div>
-              </div>
-            </div>
-            <div class="schedule-body flex">
-              <div class="schedule-tr flex-1"></div>
-              <div class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
-                <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-                  <div class="block block-main">
-                    <div @click="handleChangeLesson(td, index, tdIndex)">
-                      <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
-                      <span class="have" v-else>-</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>-->
         </van-tab>
       </van-tabs>
     </div>

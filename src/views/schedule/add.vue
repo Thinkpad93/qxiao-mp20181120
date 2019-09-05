@@ -43,7 +43,7 @@
               <van-button
                 class="lesson-btn"
                 type="primary"
-                size="small"
+                size="normal"
                 v-for="(item, index) in lessonList.filter(item => item.type == 1)"
                 :key="index"
                 @click="handleLessonConfirm(item)"
@@ -54,7 +54,7 @@
               <van-button
                 class="lesson-btn"
                 type="warning"
-                size="small"
+                size="normal"
                 v-for="(item, index) in lessonList.filter(item => item.type == 2)"
                 :key="index"
                 @click="handleLessonConfirm(item)"

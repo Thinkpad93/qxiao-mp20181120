@@ -1,16 +1,35 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="mt-20">
-        <van-button type="info" size="large" @click="openWXDeviceLib">初始化设备库</van-button>
+      <template v-if="list.length">
+        <div class="cells mb-20">
+          <div class="cell min-h120" v-for="item in list" :key="item.deviceId">
+            <div class="cell-hd">
+              <img src="@/assets/avatar-bg@2x.png" width="40" height="40" />
+            </div>
+            <div class="cell-bd text-right">
+              <span style="color:#07c160;" v-if="item.state == 'connected'">已连接</span>
+              <span style="color:#f44;" v-else-if="item.state == 'disconnected'">未连接</span>
+              <!-- <span v-else>无</span> -->
+            </div>
+          </div>
+        </div>
+      </template>
+      <div class="empty" v-else>
+        <img src="@/assets/kong.png" alt />
+        <p class="mt-30">暂无手环列表</p>
       </div>
-      <div class="mt-20">
-        <van-button type="info" size="large" @click="startScanWXDevice">扫描设备</van-button>
-      </div>
+      <!-- <van-button type="danger" @click="sendDataToWXDevice('IwMC8AHR')">获取最近睡眠记录条目</van-button> -->
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="info" size="large" class="no-radius">添加</van-button>
+        <van-button
+          type="info"
+          size="large"
+          class="no-radius"
+          to="/device/search"
+          v-if="!list.length"
+        >添加设备</van-button>
       </div>
     </div>
   </div>
@@ -20,45 +39,90 @@ export default {
   name: "",
   data() {
     return {
-      studentName: "",
-      classId: 1,
-      classList: [
-        { classId: 1, className: "清风" },
-        { classId: 2, className: "大风" }
-      ]
+      bluetooth: false,
+      deviceId: null,
+      list: [] //设备列表
     };
   },
   methods: {
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
-      //connType为blue时，表示蓝牙库
-      WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, function(
-        res
-      ) {
+      WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, res => {
+        console.log("openWXDeviceLib");
         console.log(res);
-        console.log("res");
+        if (res.err_msg === "openWXDeviceLib:ok") {
+          //使用前请先打开手机蓝牙
+          if (res.bluetoothState === "off") {
+            this.bluetooth = false;
+            console.log("使用前请先打开手机蓝牙");
+          }
+          //用户没有授权微信使用蓝牙功能
+          if (res.bluetoothState === "unauthorized") {
+            this.bluetooth = false;
+            console.log("请授权微信蓝牙功能并打开蓝牙");
+          }
+          //蓝牙已打开
+          if (res.bluetoothState === "on") {
+            this.bluetooth = true;
+          }
+        } else {
+          this.bluetooth = false; //微信蓝牙打开失败
+          console.log("微信蓝牙打开失败");
+        }
       });
     },
-    //扫描设备（获取周围所有的设备列表，无论绑定还是未被绑定的设备都会扫描到）
-    startScanWXDevice() {
+    //取得微信设备信息
+    //只有绑定成功后才有list列表数据返回
+    getWXDeviceInfos() {
+      WeixinJSBridge.invoke("getWXDeviceInfos", {}, res => {
+        console.log(res);
+        console.log("res");
+        if (res.err_msg === "getWXDeviceInfos:ok") {
+          //绑定设备总数量
+          if (res.deviceInfos.length) {
+            this.list = res.deviceInfos;
+            for (let i = 0; i < res.deviceInfos.length; i++) {
+              if (res.deviceInfos[i].state === "connected") {
+                this.deviceId = res.deviceInfos[i].deviceId;
+                break;
+              }
+            }
+          }
+        }
+      });
+    },
+    //发送数据给设备 发送的数据需要经过base64编码
+    sendDataToWXDevice(base64 = "") {
+      console.log(this.deviceId);
       WeixinJSBridge.invoke(
-        "startScanWXDevice",
-        { connType: "blue", btVersion: "ble" },
+        "sendDataToWXDevice",
+        {
+          deviceId: this.deviceId,
+          connType: "blue",
+          base64Data: base64
+        },
         res => {
+          if (res.err_msg === "sendDataToWXDevice:ok") {
+            this.$toast(`数据已发送`);
+            console.log(base64);
+          } else {
+            this.$toast(`数据发送失败`);
+          }
           console.log(res);
         }
       );
     },
-    ///扫描到某个设备时触发，事件监听是不需要传参的
-    onScanWXDeviceResult() {
-      wx.on("onScanWXDeviceResult", res => {
+    //接收到设备数据
+    onReceiveDataFromWXDevice() {
+      WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
+        console.log("onReceiveDataFromWXDevice");
         console.log(res);
-        console.log("扫描到某个设备时触发");
       });
     }
   },
   mounted() {
-    this.onScanWXDeviceResult();
+    this.openWXDeviceLib();
+    this.getWXDeviceInfos();
   }
 };
 </script>

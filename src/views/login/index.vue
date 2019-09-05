@@ -114,21 +114,6 @@ export default {
         this.$toast("请正确填写手机号");
       }
     },
-    //游客模式进入小Q班级
-    // async handleTourist() {
-    //   let _cookie = Cookies.getJSON("info");
-    //   let res = await service.experience({});
-    //   if (res.errorCode === 0) {
-    //     let obj = Object.assign({}, _cookie, res.data);
-    //     this.$store.dispatch("user/setInfo", obj).then(data => {
-    //       if (data.success === "ok") {
-    //         this.$router.replace({ path: "/home" });
-    //       }
-    //     });
-    //   } else {
-    //     this.$toast("发生了错误，请重试");
-    //   }
-    // },
     //获取验证码
     async telVeriftCode(tel) {
       let res = await service.telVeriftCode({ tel, codeType: 1 });
