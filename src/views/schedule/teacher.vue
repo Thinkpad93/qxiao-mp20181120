@@ -28,11 +28,6 @@
           <van-button type="info" size="small" @click="handleEdit">编辑课表</van-button>
           <van-button type="danger" size="small" @click="handleDelSchedule">删除课表</van-button>
         </div>
-        <!-- <div></div>
-        <div class="flex a-i-c" style="color:#f00" @click="handleEdit">
-          <van-icon name="edit" size="20px"></van-icon>
-          <span class="ml-10">编辑</span>
-        </div>-->
       </div>
       <table class="schedule" align="center" style="width:100%;" v-if="tableData.length">
         <thead>
@@ -52,35 +47,14 @@
               <td v-if="index == pmCount + amCount" :rowspan="nightCount">晚自习</td>
             </template>
             <td class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <span v-if="td.lessonName">{{ td.lessonName }}</span>
-              <span class="have" v-else>-</span>
+              <template v-if="td.status != 1">
+                <span v-if="td.lessonName">{{ td.lessonName }}</span>
+                <span class="have" v-else>-</span>
+              </template>
             </td>
           </tr>
         </tbody>
       </table>
-      <!-- <div class="schedule" v-if="tableData.length">
-        <div class="schedule-tr flex">
-          <div class="schedule-td flex-1">
-            <div class="block-head">时间</div>
-          </div>
-          <div class="schedule-td flex-1" v-for="(week, index) in weekList" :key="index">
-            <div class="block-head">{{ week.name }}</div>
-          </div>
-        </div>
-        <div class="schedule-body flex">
-          <div class="schedule-tr flex-1"></div>
-          <div class="schedule-tr flex-1" v-for="(tr, index) in tableData" :key="index">
-            <div class="schedule-td" v-for="(td, tdIndex) in tr.list" :key="tdIndex">
-              <div class="block block-main">
-                <div>
-                  <span class="have" v-if="td.lessonName">{{ td.lessonName }}</span>
-                  <span class="null" v-else>-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
       <div class="empty" v-if="!tableData.length">
         <img src="@/assets/kong.png" alt />
         <p>暂无课表</p>

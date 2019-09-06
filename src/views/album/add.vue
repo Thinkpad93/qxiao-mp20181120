@@ -92,8 +92,12 @@ export default {
         service.albumImageAdd(this.form).then(res => {
           if (res.errorCode === 0) {
             this.$router.go(-1);
+          } else {
+            this.$toast(`${res.errorMsg}`);
           }
         });
+      } else {
+        this.$toast(`${res.errorMsg}`);
       }
     }
   },

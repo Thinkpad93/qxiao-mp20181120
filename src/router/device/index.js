@@ -4,7 +4,7 @@ export default [{
     component: () => import('@/views/device'),
     meta: {
       title: "蓝牙设备",
-      keepAlive: false,
+      keepAlive: true,
       isShare: false,
     }
   },

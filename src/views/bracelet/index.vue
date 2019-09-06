@@ -3,27 +3,27 @@
     <div class="page-bd">
       <div class="empty">
         <img src="@/assets/kong.png" alt />
-        <p class="mt-30">小Q手环智能连接课堂动态...开发中,期待~</p>
+        <p class="mt-30">您还没有绑定小Q手环呢~</p>
       </div>
     </div>
     <div class="page-ft">
-      <!-- <van-button type="info" size="large" class="no-radius">去绑定</van-button> -->
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="info" size="large" class="no-radius" to="/device">去绑定</van-button>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
-import { mapState } from "vuex";
 export default {
   name: "bracelet",
   data() {
-    return {};
-  },
-  computed: {
-    ...mapState("user", {
-      openId: state => state.info.openId,
-      studentId: state => state.info.studentId
-    })
+    return {
+      query: {
+        studentId: this.$store.state.user.info.studentId,
+        openId: this.$store.state.user.info.openId
+      }
+    };
   },
   methods: {
     //检查用户是否绑定手环
@@ -36,7 +36,7 @@ export default {
     }
   },
   mounted() {
-    //this.checkBindBracelet({ openId: this.openId, studentId: this.studentId });
+    this.checkBindBracelet(this.query);
   }
 };
 </script>

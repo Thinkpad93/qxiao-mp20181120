@@ -234,8 +234,10 @@ export default {
         let { state } = res;
         if (state === "on") {
           this.$toast(`蓝牙打开`);
+          this.bluetooth = true;
         } else {
           this.$toast(`蓝牙已关闭`);
+          this.bluetooth = false;
         }
       });
     },

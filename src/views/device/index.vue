@@ -9,27 +9,25 @@
             </div>
             <div class="cell-bd text-right">
               <span style="color:#07c160;" v-if="item.state == 'connected'">已连接</span>
-              <span style="color:#f44;" v-else-if="item.state == 'disconnected'">未连接</span>
-              <!-- <span v-else>无</span> -->
+              <span style="color:#f44;" v-else-if="item.state == 'disconnected'">连接断开</span>
+              <span style="color:#1989fa;" v-else-if="item.state == 'connecting'">连接中...</span>
             </div>
           </div>
         </div>
       </template>
-      <div class="empty" v-else>
-        <img src="@/assets/kong.png" alt />
-        <p class="mt-30">暂无手环列表</p>
+      <div class="steps" v-else>
+        <p>1.确认手环处于工作状态</p>
+        <p>2.进入手机设置界面，打开蓝牙。</p>
+        <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>
       </div>
-      <!-- <van-button type="danger" @click="sendDataToWXDevice('IwMC8AHR')">获取最近睡眠记录条目</van-button> -->
+      <!-- <van-button type="danger" @click="disconnectWXDevice">断开设备连接</van-button> -->
+      <!-- <van-button type="info" @click="connectWXDevice">连接设备</van-button> -->
+      <!-- <van-button type="danger" @click="sendDataToWXDevice('IwQBBAAQMQ==')">设置Q星值</van-button>
+      <van-button type="danger" @click="sendDataToWXDevice('IwICBCc=')">获取Q星值</van-button>-->
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button
-          type="info"
-          size="large"
-          class="no-radius"
-          to="/device/search"
-          v-if="!list.length"
-        >添加设备</van-button>
+        <van-button type="info" size="large" class="no-radius" to="/device/search">添加设备</van-button>
       </div>
     </div>
   </div>
@@ -45,6 +43,43 @@ export default {
     };
   },
   methods: {
+    connectWXDevice(params) {
+      let { state, deviceId } = params;
+      //如果连接设备断开，则重新连接
+      if (state === "disconnected") {
+        if (!this.bluetooth) {
+          this.$toast(`请先打开手机蓝牙再进行连接`);
+        } else {
+          //连接设备
+          WeixinJSBridge.invoke(
+            "connectWXDevice",
+            { deviceId, connType: "blue" },
+            res => {
+              if (res.err_msg === "connectWXDevice:ok") {
+                console.log("connectWXDevice");
+                console.log(deviceId);
+                this.getWXDeviceInfos();
+              }
+            }
+          );
+        }
+      }
+    },
+    //断开设备连接
+    disconnectWXDevice() {
+      WeixinJSBridge.invoke(
+        "disconnectWXDevice",
+        { deviceId: this.deviceId, connType: "blue" },
+        res => {
+          console.log(res);
+          console.log("断开设备连接1");
+          if (res.err_msg === "disConnectWXDevice:ok") {
+            console.log(this.deviceId);
+            console.log("断开设备连接2");
+          }
+        }
+      );
+    },
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
       WeixinJSBridge.invoke("openWXDeviceLib", { connType: "blue" }, res => {
@@ -71,6 +106,16 @@ export default {
         }
       });
     },
+    //关闭设备库
+    closeWXDeviceLib() {
+      WeixinJSBridge.invoke("closeWXDeviceLib", { connType: "blue" }, res => {
+        if (res.err_msg === "closeWXDeviceLib:ok") {
+          console.log("关闭设备库成功");
+        } else {
+          console.log("关闭设备库失败");
+        }
+      });
+    },
     //取得微信设备信息
     //只有绑定成功后才有list列表数据返回
     getWXDeviceInfos() {
@@ -81,12 +126,13 @@ export default {
           //绑定设备总数量
           if (res.deviceInfos.length) {
             this.list = res.deviceInfos;
-            for (let i = 0; i < res.deviceInfos.length; i++) {
-              if (res.deviceInfos[i].state === "connected") {
-                this.deviceId = res.deviceInfos[i].deviceId;
-                break;
-              }
-            }
+            this.deviceId = res.deviceInfos[0].deviceId;
+            // for (let i = 0; i < res.deviceInfos.length; i++) {
+            //   if (res.deviceInfos[i].state === "connected") {
+            //     this.deviceId = res.deviceInfos[i].deviceId;
+            //     break;
+            //   }
+            // }
           }
         }
       });
@@ -118,14 +164,59 @@ export default {
         console.log("onReceiveDataFromWXDevice");
         console.log(res);
       });
+    },
+    //手机蓝牙状态改变事件
+    onWXDeviceBluetoothStateChange() {
+      WeixinJSBridge.on("onWXDeviceBluetoothStateChange", res => {
+        console.log(res);
+        console.log("手机蓝牙状态改变事件");
+        let { state } = res;
+        if (state === "on") {
+          this.$toast(`蓝牙打开`);
+          this.bluetooth = true;
+        } else {
+          this.$toast(`蓝牙已关闭`);
+          this.bluetooth = false;
+          this.disconnectWXDevice();
+          //this.closeWXDeviceLib();
+          //this.openWXDeviceLib();
+        }
+      });
+    },
+    //设备连接状态变化
+    onWXDeviceStateChange() {
+      WeixinJSBridge.on("onWXDeviceStateChange", res => {
+        console.log(res);
+        console.log("设备连接状态变化");
+        let { state } = res;
+        if (state === "connecting") {
+          console.log("已连接");
+        } else if (state === "connected") {
+          console.log("连接断开");
+        } else {
+          console.log("连接断开");
+        }
+        this.getWXDeviceInfos();
+      });
+    },
+    init() {
+      this.onWXDeviceBluetoothStateChange();
+      this.onWXDeviceStateChange();
     }
   },
-  mounted() {
+  activated() {
     this.openWXDeviceLib();
     this.getWXDeviceInfos();
+    this.init();
   }
 };
 </script>
 <style lang="less" scoped>
+.steps {
+  padding: 30px;
+  p {
+    margin-bottom: 20px;
+  }
+}
 </style>
 
