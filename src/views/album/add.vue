@@ -8,9 +8,9 @@
               <ul class="uploader-files">
                 <li
                   class="uploader-file"
-                  v-for="(item, index) in imagesList"
+                  v-for="(file, index) in imagesList"
                   :key="index"
-                  :style="{backgroundImage: `url(${item.content})`}"
+                  :style="{backgroundImage: `url(${file})`}"
                 >
                   <van-icon
                     name="clear"
@@ -20,10 +20,8 @@
                   ></van-icon>
                 </li>
               </ul>
-              <div class="uploader-input_box">
-                <van-uploader :after-read="handleRead" accept="image/*" multiple>
-                  <van-icon name="plus" size="30px"></van-icon>
-                </van-uploader>
+              <div class="uploader-input_box" @click="handleChooseImage">
+                <van-icon name="plus" size="30px"></van-icon>
               </div>
             </div>
           </div>
@@ -40,8 +38,10 @@
 </template>
 <script>
 import service from "@/api";
+import wxHandle from "@/mixins/wx";
 export default {
   name: "albumAdd",
+  mixins: [wxHandle],
   data() {
     return {
       form: {
@@ -51,53 +51,33 @@ export default {
         images: [],
         videoUrl: "" //视频URL
       },
+      openId: this.$store.state.user.info.openId,
       imagesList: []
     };
   },
   methods: {
-    handleRead(file, detail) {
-      if (Array.isArray(file)) {
-        file.forEach(elem => {
-          this.imagesList.push(elem);
-        });
+    handleSubmit() {
+      if (!this.serverId.length) {
+        this.$toast("请上传图片");
       } else {
-        //如果用户是单选的图片
-        this.imagesList.push(file);
-      }
-    },
-    handleDelImg(index) {
-      this.imagesList.splice(index, 1);
-    },
-    async handleSubmit() {
-      if (!this.imagesList.length) {
-        this.$toast("请上传相册图片");
-        return;
-      }
-      //配置上传头部信息
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        showLoading: true
-      };
-      let formData = new FormData();
-      this.imagesList.forEach(elem => {
-        formData.append("files", elem.file);
-      });
-      //开始上传文件
-      let res = await service.uploadFile(formData, config);
-      if (res.errorCode === 0) {
-        this.form.images = res.data; //设置返回的图片地址
-        //相册图片或视频上传
-        service.albumImageAdd(this.form).then(res => {
+        let params = {
+          openId: this.openId,
+          imgIds: this.serverId
+        };
+        service.imgIds(params).then(res => {
           if (res.errorCode === 0) {
-            this.$router.go(-1);
+            this.form.images = res.data.paths;
+            //相册图片或视频上传
+            service.albumImageAdd(this.form).then(res => {
+              if (res.errorCode === 0) {
+                this.$refs.form.reset();
+                this.$router.go(-1);
+              }
+            });
           } else {
-            this.$toast(`${res.errorMsg}`);
+            this.$toast(`上传出错了~`);
           }
         });
-      } else {
-        this.$toast(`${res.errorMsg}`);
       }
     }
   },

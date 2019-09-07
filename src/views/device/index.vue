@@ -20,29 +20,85 @@
         <p>2.进入手机设置界面，打开蓝牙。</p>
         <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>
       </div>
-      <!-- <van-button type="danger" @click="disconnectWXDevice">断开设备连接</van-button> -->
-      <!-- <van-button type="info" @click="connectWXDevice">连接设备</van-button> -->
-      <!-- <van-button type="danger" @click="sendDataToWXDevice('IwQBBAAQMQ==')">设置Q星值</van-button>
-      <van-button type="danger" @click="sendDataToWXDevice('IwICBCc=')">获取Q星值</van-button>-->
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="info" size="large" class="no-radius" to="/device/search">添加设备</van-button>
+        <van-button type="danger" size="large" class="no-radius" @click="unBindDevice">手环设备解绑</van-button>
+        <van-button type="info" size="large" class="no-radius" @click="handleAddDevice">添加设备</van-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+import service from "@/api";
 export default {
-  name: "",
+  name: "device",
   data() {
     return {
-      bluetooth: false,
-      deviceId: null,
+      bluetooth: false, //是否打开蓝牙
+      deviceId: null, //设备ID
       list: [] //设备列表
     };
   },
+  computed: {
+    ...mapState("user", {
+      openId: state => state.info.openId,
+      studentId: state => state.info.studentId,
+      isBindBracelet: state => state.info.isBindBracelet // 0未绑定手环 1绑定
+    })
+  },
   methods: {
+    handleAddDevice() {
+      if (this.studentId == 0) {
+        this.$toast("您尚未关注小孩，请先关注");
+      } else {
+        this.$router.push({
+          path: "/device/search"
+        });
+      }
+    },
+    //手环设备解绑
+    unBindDevice() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "确定要解绑设备吗？"
+        })
+        .then(() => {
+          let obj = {
+            deviceId: this.deviceId,
+            type: 2, //2表示解除绑定
+            connType: "blue"
+          };
+          WeixinJSBridge.invoke("getWXDeviceTicket", obj, res => {
+            //操作凭证
+            let { ticket } = res;
+            if (res.err_msg === "getWXDeviceTicket:ok") {
+              //开始解绑
+              let params = {
+                deviceId: this.deviceId,
+                openId: this.openId,
+                ticket
+              };
+              service.unBindDevice(params).then(res => {
+                if (res.errorCode === 0) {
+                  this.$dialog
+                    .alert({
+                      title: "提示",
+                      message: "解除绑定成功"
+                    })
+                    .then(() => {
+                      this.getWXDeviceInfos();
+                    });
+                } else {
+                  console.log("解除绑定失败");
+                }
+              });
+            }
+          });
+        });
+    },
     connectWXDevice(params) {
       let { state, deviceId } = params;
       //如果连接设备断开，则重新连接
@@ -127,12 +183,8 @@ export default {
           if (res.deviceInfos.length) {
             this.list = res.deviceInfos;
             this.deviceId = res.deviceInfos[0].deviceId;
-            // for (let i = 0; i < res.deviceInfos.length; i++) {
-            //   if (res.deviceInfos[i].state === "connected") {
-            //     this.deviceId = res.deviceInfos[i].deviceId;
-            //     break;
-            //   }
-            // }
+          } else {
+            this.list = [];
           }
         }
       });
@@ -178,8 +230,6 @@ export default {
           this.$toast(`蓝牙已关闭`);
           this.bluetooth = false;
           this.disconnectWXDevice();
-          //this.closeWXDeviceLib();
-          //this.openWXDeviceLib();
         }
       });
     },

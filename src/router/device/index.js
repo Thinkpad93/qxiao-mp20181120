@@ -3,7 +3,7 @@ export default [{
     name: "device",
     component: () => import('@/views/device'),
     meta: {
-      title: "蓝牙设备",
+      title: "手环设备列表",
       keepAlive: true,
       isShare: false,
     }
@@ -13,7 +13,7 @@ export default [{
     name: "deviceSearch",
     component: () => import('@/views/device/search'),
     meta: {
-      title: "蓝牙设备搜索",
+      title: "设备搜索",
       keepAlive: true,
       isShare: false,
     }

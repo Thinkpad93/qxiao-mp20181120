@@ -22,9 +22,10 @@
   </div>
 </template>
 <script>
+import Cookies from "js-cookie";
 import service from "@/api";
 export default {
-  name: "braceletSearch",
+  name: "deviceSearch",
   data() {
     return {
       toast: null,
@@ -127,17 +128,6 @@ export default {
         }
       });
     },
-    //连接设备
-    connectWXDevice() {
-      WeixinJSBridge.invoke(
-        "connectWXDevice",
-        { deviceId: this.deviceId, connType: "blue" },
-        res => {
-          console.log("connectWXDevice");
-          console.log(res);
-        }
-      );
-    },
     //用户绑定设备
     //先获取操作凭证（type为1表示绑定，2表示解除绑定）
     async getWXDeviceTicket(type, deviceId) {
@@ -171,6 +161,8 @@ export default {
                   };
                   service.bindDevice(params).then(res => {
                     if (res.errorCode === 0) {
+                      let { isBindBracelet } = res.data;
+                      let _cookie = Cookies.getJSON("info");
                       this.$dialog
                         .alert({
                           title: "提示",
@@ -181,6 +173,12 @@ export default {
                             path: "/device"
                           });
                         });
+                      //当绑定成功后更新更新cookie值
+                      let obj = Object.assign({}, _cookie, { isBindBracelet });
+                      this.$store.dispatch("user/setInfo", obj).then(data => {
+                        if (data.success === "ok") {
+                        }
+                      });
                     } else {
                       this.$toast(`设备绑定失败`);
                     }
@@ -188,20 +186,6 @@ export default {
                 } else if (status === 2) {
                   this.$toast("设备已经被用户绑定了");
                 }
-              }
-            });
-          } else {
-            //解除绑定
-            let params = {
-              deviceId,
-              openId: this.openId,
-              ticket
-            };
-            service.unBindDevice(params).then(res => {
-              if (res.errorCode === 0) {
-                console.log("解除绑定");
-              } else {
-                this.$toast(`解除绑定失败`);
               }
             });
           }
@@ -213,19 +197,6 @@ export default {
       WeixinJSBridge.on("onWXDeviceBindStateChange", res => {
         console.log(res);
         console.log("微信客户端设备绑定状态改变事件");
-      });
-    },
-    //设备连接状态变化
-    onWXDeviceStateChange() {
-      WeixinJSBridge.on("onWXDeviceStateChange", res => {
-        let { state } = res;
-        if (state === "connecting") {
-          console.log("连接中");
-        } else if (state === "connected") {
-          console.log("连接中");
-        } else {
-          console.log("连接断开");
-        }
       });
     },
     //手机蓝牙状态改变事件
@@ -245,7 +216,6 @@ export default {
     init() {
       this.openWXDeviceLib();
       this.onWXDeviceBluetoothStateChange();
-      this.onWXDeviceStateChange();
       this.onScanWXDeviceResult();
     }
   },

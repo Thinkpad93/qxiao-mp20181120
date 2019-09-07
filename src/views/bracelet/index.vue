@@ -8,7 +8,7 @@
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="info" size="large" class="no-radius" to="/device">去绑定</van-button>
+        <!-- <van-button type="info" size="large" class="no-radius" to="/device">去绑定</van-button> -->
       </div>
     </div>
   </div>
