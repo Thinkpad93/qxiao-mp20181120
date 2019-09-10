@@ -64,3 +64,17 @@ router.afterEach((to, from) => {
     wxapi.wxRegister(wxShareAppMessage);
   }
 });
+
+//error 
+router.onError((error) => {
+  console.log("异步组件时发生错误");
+  const pattern = /Loading chunk (\d)+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  const targetPath = router.history.pending.fullPath;
+  console.log(isChunkLoadFailed);
+  console.log(targetPath);
+  if (isChunkLoadFailed) {
+    console.log("重新渲染目标页面");
+    router.replace(targetPath);
+  }
+});

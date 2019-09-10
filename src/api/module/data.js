@@ -40,3 +40,11 @@ export function unBindDevice(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//获取设备电量
+export function getElectric(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/getElectric.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

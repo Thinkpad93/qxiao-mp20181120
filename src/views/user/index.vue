@@ -248,6 +248,14 @@ export default {
     async updateIsOpen(params = {}) {
       let res = await service.updateIsOpen(params);
       if (res.errorCode === 0) {
+        //更新本地cookie值
+        let { isOpen } = res.data;
+        let _cookie = Cookies.getJSON("info");
+        let obj = Object.assign({}, _cookie, { isOpen });
+        this.$store.dispatch("user/setInfo", obj).then(data => {
+          if (data.success === "ok") {
+          }
+        });
       }
     }
   },

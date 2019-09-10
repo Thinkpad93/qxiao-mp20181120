@@ -205,8 +205,8 @@ export default {
     //预览图片
     handlePreviewImage(imgUrl, index) {
       let result = [];
-      let min = index - 2 <= 0 ? 0 : index - 2;
-      let max = index + 2;
+      let min = index - 5 <= 0 ? 0 : index - 5;
+      let max = index + 5;
       let imgArr = this.list.filter((item, i) => {
         return i >= min && i <= max;
       });

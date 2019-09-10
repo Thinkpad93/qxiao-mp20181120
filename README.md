@@ -18,7 +18,7 @@ vue2.x + vuex + vueRoute + axios + vantUI
   - assets 资源目录
   - components 组件目录
   - config 配置
-    - bracelet.js 手环相关变量
+    - bracelet.js 小 Q 手环相关变量(手环协议)
     - isdev.js 根据是开始环境还是生产环境配置不同的微信公众号签名地址
     - wxapi.js 微信公众号 jsapi 相关接口
   - directive 全局指令
@@ -147,3 +147,7 @@ schdule.map(elem => {
 - 解绑设备 --.显示设备 ---> 扫描设备 -> 显示设备 -->连接 -->不成功 不走 onWXDeviceStateChange;
 - 手环已经连接后，其它手机(或本机)进行扫描会出来扫描不到的情况
 - 小 Q 表现需先关联孩子才可绑定手环
+
+
+> 浅谈微信页面入口文件被缓存解决方案
+- https://www.jb51.net/article/148249.htm

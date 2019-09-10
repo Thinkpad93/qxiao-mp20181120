@@ -20,10 +20,13 @@
         <p>2.进入手机设置界面，打开蓝牙。</p>
         <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>
       </div>
+      <p>
+        <van-button type="warning" size="small" @click="run">获取接口</van-button>
+      </p>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <van-button type="danger" size="large" class="no-radius" @click="unBindDevice">手环设备解绑</van-button>
+        <!-- <van-button type="danger" size="large" class="no-radius" @click="unBindDevice">手环设备解绑</van-button> -->
         <van-button type="info" size="large" class="no-radius" @click="handleAddDevice">添加设备</van-button>
       </div>
     </div>
@@ -49,6 +52,16 @@ export default {
     })
   },
   methods: {
+    //获取接口测试
+    run() {
+      let deviceId = this.deviceId;
+      let map = [{ key: "IwICAiU=" }, { key: "IwICAyQ=" }, { key: "IwICBCc=" }];
+      for (let i in map) {
+        let base64Data = map[i].key; //key
+        console.log(base64Data);
+        this.sendDataToWXDevice(deviceId, base64Data);
+      }
+    },
     handleAddDevice() {
       if (this.studentId == 0) {
         this.$toast("您尚未关注小孩，请先关注");
@@ -67,7 +80,7 @@ export default {
         })
         .then(() => {
           let obj = {
-            deviceId: this.deviceId,
+            deviceId: "gh_f14e0c50a441_4399499bc2f1f427",
             type: 2, //2表示解除绑定
             connType: "blue"
           };
@@ -77,8 +90,8 @@ export default {
             if (res.err_msg === "getWXDeviceTicket:ok") {
               //开始解绑
               let params = {
-                deviceId: this.deviceId,
-                openId: this.openId,
+                deviceId: "gh_f14e0c50a441_4399499bc2f1f427",
+                openId: "okftNs7DescuAxRwaZx-gYMzeyn0",
                 ticket
               };
               service.unBindDevice(params).then(res => {
@@ -190,19 +203,18 @@ export default {
       });
     },
     //发送数据给设备 发送的数据需要经过base64编码
-    sendDataToWXDevice(base64 = "") {
+    sendDataToWXDevice(deviceId, base64Data = "") {
       console.log(this.deviceId);
       WeixinJSBridge.invoke(
         "sendDataToWXDevice",
         {
-          deviceId: this.deviceId,
+          deviceId,
           connType: "blue",
-          base64Data: base64
+          base64Data
         },
         res => {
           if (res.err_msg === "sendDataToWXDevice:ok") {
             this.$toast(`数据已发送`);
-            console.log(base64);
           } else {
             this.$toast(`数据发送失败`);
           }
