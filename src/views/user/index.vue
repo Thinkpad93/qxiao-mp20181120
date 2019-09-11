@@ -141,6 +141,21 @@ export default {
           title: "帮助中心",
           to: "/help-center",
           icon: require("../../assets/user-icon-2@2x.png")
+        },
+        {
+          title: "教育推荐",
+          to: "/edu-recommend",
+          icon: require("../../assets/user-icon-8@2x.png")
+        },
+        {
+          title: "阅读推荐",
+          to: "/read-recommend",
+          icon: require("../../assets/user-icon-9@2x.png")
+        },
+        {
+          title: "活动推荐",
+          to: "/activity-recommend",
+          icon: require("../../assets/user-icon-10@2x.png")
         }
       ],
       userMenu: [
@@ -163,7 +178,22 @@ export default {
           title: "帮助中心",
           to: "/help-center",
           icon: require("../../assets/user-icon-2@2x.png")
-        }
+        },
+        {
+          title: "教育推荐",
+          to: "/edu-recommend",
+          icon: require("../../assets/user-icon-8@2x.png")
+        },
+        {
+          title: "阅读推荐",
+          to: "/read-recommend",
+          icon: require("../../assets/user-icon-9@2x.png")
+        },
+        {
+          title: "活动推荐",
+          to: "/activity-recommend",
+          icon: require("../../assets/user-icon-10@2x.png")
+        }        
       ]
     };
   },

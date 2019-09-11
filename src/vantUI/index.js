@@ -25,7 +25,8 @@ import {
   Tag,
   Uploader,
   List,
-  Notify
+  Notify,
+  Loading
 } from 'vant';
 
 Vue.use(Radio)
@@ -53,4 +54,5 @@ Vue.use(Radio)
   .use(Tag)
   .use(Uploader)
   .use(List)
-  .use(Notify);
+  .use(Notify)
+  .use(Loading);

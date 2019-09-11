@@ -1,9 +1,24 @@
 <template>
   <div class="page">
     <div class="page-bd">
+      <!-- popup -->
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="studentList"
+          show-toolbar
+          title="选择要绑定的学生"
+          value-key="studentName"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
+      </van-popup>
+      <!-- popup -->
       <!--  扫描的设备列表 -->
+      <div class="cells-title a-i-c">
+        <span>设备列表</span>
+        <van-loading type="spinner" size="20px" v-if="loading"></van-loading>
+      </div>
       <template v-if="devices.length">
-        <div class="cells-title">设备列表</div>
         <div class="cells mb-20">
           <div class="cell min-h120" v-for="item in devices" :key="item.deviceId">
             <div class="cell-hd">
@@ -11,13 +26,17 @@
             </div>
             <div class="cell-bd">
               <p class="text-right">
-                <van-button type="danger" size="small" @click="deviceClick(item, 1)">绑定设备</van-button>
+                <van-button type="info" size="small" @click="handleBindDevice(item)">绑定设备</van-button>
               </p>
             </div>
           </div>
         </div>
       </template>
-      <van-button type="danger" @click="startScanWXDevice">扫描设备</van-button>
+    </div>
+    <div class="page-ft">
+      <div class="fixed-bottom" style="z-index: 100;">
+        <van-button type="danger" size="large" class="no-radius" @click="startScanWXDevice">扫描设备</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -28,25 +47,30 @@ export default {
   name: "deviceSearch",
   data() {
     return {
+      popupShow: false,
       toast: null,
+      loading: false,
       devices: [], //发现的设备列表数组
       bluetooth: false, //是否打开蓝牙
       deviceId: null, //设备ID
       openId: this.$store.state.user.info.openId,
-      studentId: this.$store.state.user.info.studentId
+      studentId: this.$store.state.user.info.studentId,
+      studentList: []
     };
   },
   methods: {
-    deviceClick(params, type) {
-      let { deviceId } = params; //设备ID
-      this.$dialog
-        .confirm({
-          title: "提示",
-          message: "确定要绑定设备吗？"
-        })
-        .then(() => {
-          this.getWXDeviceTicket(type, deviceId);
-        });
+    handleBindDevice(params) {
+      //设备ID
+      this.deviceId = params.deviceId;
+      this.popupShow = true;
+    },
+    handleClassConfirm(value, index) {
+      let { isBindBracelet } = value;
+      if (isBindBracelet == 0) {
+        this.getWXDeviceTicket(1, this.deviceId);
+      } else {
+        this.$toast(`该学生已经绑定了设备`);
+      }
     },
     //初始化设备库（只支持蓝牙设备）
     openWXDeviceLib() {
@@ -92,17 +116,14 @@ export default {
       this.openWXDeviceLib();
       //检查用户是否打开了手机蓝牙
       if (this.bluetooth) {
-        this.toast = this.$toast.loading({
-          mask: true,
-          duration: 0, // 持续展示 toast
-          forbidClick: false, // 禁用背景点击
-          message: "扫描设备..."
-        });
+        this.loading = true;
         WeixinJSBridge.invoke(
           "startScanWXDevice",
           { connType: "blue", btVersion: "ble" },
           res => {
             if (res.err_msg === "startScanWXDevice:ok") {
+              console.log(res);
+              console.log("扫描设备");
             }
           }
         );
@@ -115,16 +136,11 @@ export default {
       WeixinJSBridge.on("onScanWXDeviceResult", res => {
         console.log("扫描到某个设备");
         console.log(res);
-        //是否扫描结束。
-        if (res.devices.length && res.isCompleted == 0) {
-          this.devices = res.devices;
-          this.toast.clear();
-          this.$dialog
-            .alert({
-              title: "提示",
-              message: `扫描完成，成功扫描到${res.devices.length}个设备`
-            })
-            .then(() => {});
+        if (res.isCompleted == 0) {
+          for (let i = 0; i < res.devices.length; i++) {
+            let deviceId = res.devices[i].deviceId;
+            this.devices.push({ deviceId });
+          }
         }
       });
     },
@@ -161,6 +177,7 @@ export default {
                   };
                   service.bindDevice(params).then(res => {
                     if (res.errorCode === 0) {
+                      this.popupShow = false;
                       let { isBindBracelet } = res.data;
                       let _cookie = Cookies.getJSON("info");
                       this.$dialog
@@ -217,10 +234,24 @@ export default {
       this.openWXDeviceLib();
       this.onWXDeviceBluetoothStateChange();
       this.onScanWXDeviceResult();
+    },
+    //获取关联的学生
+    async getOpenIdRelationStudent(params = {}) {
+      let res = await service.getOpenIdRelationStudent(params);
+      if (res.errorCode === 0) {
+        this.studentList = res.data;
+      }
     }
   },
   mounted() {
     this.init();
+    this.getOpenIdRelationStudent({ openId: this.openId });
+  },
+  deactivated() {
+    this.loading = false;
+    this.devices = [];
+    this.closeWXDeviceLib();
+    console.log("deactivated");
   }
 };
 </script>

@@ -40,6 +40,9 @@ import focusJoin from './focus-join';
 import schedule from './schedule';
 import feed from './feed';
 import device from './device';
+import edu from './edu-recommend';
+import activity from './activity-recommend';
+import read from './read-recommend';
 
 Vue.use(Router);
 
@@ -81,7 +84,10 @@ export const constantRouterMap = [
   ...focusJoin,
   ...schedule,
   ...feed,
-  ...device
+  ...device,
+  ...edu,
+  ...activity,
+  ...read
 ]
 
 

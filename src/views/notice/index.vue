@@ -9,12 +9,6 @@
           </a>
         </div>
       </template>
-      <!-- <template v-if="roleType == 1 || roleType == 4">
-        <van-tabs v-model="index" :line-height="2" @click="handleTabClick">
-          <van-tab title="通知消息"></van-tab>
-          <van-tab title="发送记录"></van-tab>
-        </van-tabs>
-      </template>-->
     </div>
     <div class="page-bd">
       <van-popup v-model="popupShow" position="bottom">

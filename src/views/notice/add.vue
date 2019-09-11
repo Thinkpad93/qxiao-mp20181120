@@ -11,7 +11,7 @@
       <div class="panel-bd">
         <!-- 班级列表 -->
         <div class="panel-bd_cell" :style="{display: tabIndex === 0 ? 'block':'none'}">
-          <div class="cells weui-cells_checkbox">
+          <div class="cells weui-cells_checkbox mt-20">
             <label class="cell class-box weui-check__label" v-for="(c,i) in classList" :key="i">
               <div class="cell-hd"></div>
               <div class="cell-bd" style="padding-left:0">
@@ -27,7 +27,7 @@
         </div>
         <!-- 老师列表 -->
         <div class="panel-bd_cell" :style="{display: tabIndex === 1 ? 'block':'none'}">
-          <div class="cells weui-cells_checkbox">
+          <div class="cells weui-cells_checkbox mt-20">
             <label class="cell item weui-check__label" v-for="(t,i) in teacherList" :key="i">
               <div class="cell-bd" style="padding-left:0">
                 <p>{{ t.teacherName }}</p>

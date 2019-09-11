@@ -48,3 +48,11 @@ export function getElectric(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//获取openId关联学生
+export function getOpenIdRelationStudent(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/getOpenIdRelationStudent.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

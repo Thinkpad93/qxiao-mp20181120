@@ -22,6 +22,7 @@
       </div>
       <p>
         <van-button type="warning" size="small" @click="run">获取接口</van-button>
+        <van-button type="warning" size="small" @click="run">获取接口</van-button>
       </p>
     </div>
     <div class="page-ft">
@@ -55,7 +56,13 @@ export default {
     //获取接口测试
     run() {
       let deviceId = this.deviceId;
-      let map = [{ key: "IwICAiU=" }, { key: "IwICAyQ=" }, { key: "IwICBCc=" }];
+      let map = [
+        { key: "IwICAiU=" }
+        // { key: "IwICAiU=" },
+        // { key: "IwICAyQ=" },
+        // { key: "IwICBCc=" },
+        // { key: "IwkBAhkJERgjAAMR" }
+      ];
       for (let i in map) {
         let base64Data = map[i].key; //key
         console.log(base64Data);
@@ -80,7 +87,7 @@ export default {
         })
         .then(() => {
           let obj = {
-            deviceId: "gh_f14e0c50a441_4399499bc2f1f427",
+            deviceId: this.deviceId,
             type: 2, //2表示解除绑定
             connType: "blue"
           };
@@ -90,8 +97,8 @@ export default {
             if (res.err_msg === "getWXDeviceTicket:ok") {
               //开始解绑
               let params = {
-                deviceId: "gh_f14e0c50a441_4399499bc2f1f427",
-                openId: "okftNs7DescuAxRwaZx-gYMzeyn0",
+                deviceId: this.deviceId,
+                openId: this.openId,
                 ticket
               };
               service.unBindDevice(params).then(res => {

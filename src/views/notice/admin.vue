@@ -26,7 +26,6 @@
                 ></div>
                 <div class="figure-info">
                   <figcaption class="text-ellipsis">
-                    <i v-if="!notice.status" style="width:6px;height:6px;"></i>
                     <span size-18>{{ notice.title }}</span>
                   </figcaption>
                   <p size-15 class="text-ellipsis">{{ notice.textContent | brReplace }}</p>
