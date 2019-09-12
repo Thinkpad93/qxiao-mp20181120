@@ -70,7 +70,7 @@
           <van-icon name="arrow" size="16px"></van-icon>
         </div>
         <van-cell
-          class="mb-20"
+          class="mb-20 a-i-c"
           size="large"
           title="邀请亲友关注"
           is-link
@@ -138,11 +138,6 @@ export default {
           icon: require("../../assets/user-icon-5@2x.png")
         },
         {
-          title: "帮助中心",
-          to: "/help-center",
-          icon: require("../../assets/user-icon-2@2x.png")
-        },
-        {
           title: "教育推荐",
           to: "/edu-recommend",
           icon: require("../../assets/user-icon-8@2x.png")
@@ -156,6 +151,11 @@ export default {
           title: "活动推荐",
           to: "/activity-recommend",
           icon: require("../../assets/user-icon-10@2x.png")
+        },
+        {
+          title: "帮助中心",
+          to: "/help-center",
+          icon: require("../../assets/user-icon-2@2x.png")
         }
       ],
       userMenu: [
@@ -167,17 +167,12 @@ export default {
         {
           title: "我的课表",
           to: "/schedule",
-          icon: require("../../assets/user-icon-5@2x.png")
+          icon: require("../../assets/user-icon-11@2x.png")
         },
         {
           title: "我的手环",
           to: "/bracelet",
           icon: require("../../assets/user-icon-7@2x.png")
-        },
-        {
-          title: "帮助中心",
-          to: "/help-center",
-          icon: require("../../assets/user-icon-2@2x.png")
         },
         {
           title: "教育推荐",
@@ -193,7 +188,12 @@ export default {
           title: "活动推荐",
           to: "/activity-recommend",
           icon: require("../../assets/user-icon-10@2x.png")
-        }        
+        },
+        {
+          title: "帮助中心",
+          to: "/help-center",
+          icon: require("../../assets/user-icon-2@2x.png")
+        }
       ]
     };
   },

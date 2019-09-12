@@ -56,3 +56,11 @@ export function getOpenIdRelationStudent(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//返回活跃度目录数
+export function getNumberActiveDirectory(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/getNumberActiveDirectory.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

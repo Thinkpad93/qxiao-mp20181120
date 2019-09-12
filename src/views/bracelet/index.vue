@@ -1,20 +1,44 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <div class="empty">
+      <!-- 用户 -->
+      <div class="flex a-i-c home-user gradient-two">
+        <div class="flex a-i-c">
+          <template v-if="name">
+            <div class="avatar-circle flex a-i-c j-c-c">
+              <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
+              <!-- 如果用户没有上传头像 -->
+              <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
+            </div>
+            <div class="js-user-change">
+              <h3 class="mb-20" size-18>{{ name }}</h3>
+              <p size-12>运动需要坚持才能长存</p>
+            </div>
+          </template>
+        </div>
+      </div>
+      <!-- 用户 -->
+      <div class="empty" v-if="isBindBracelet == 0">
         <img src="@/assets/kong.png" alt />
         <p class="mt-30">您还没有绑定小Q手环呢~</p>
       </div>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
-        <!-- <van-button type="info" size="large" class="no-radius" to="/device">去绑定</van-button> -->
+        <van-button
+          type="info"
+          size="large"
+          class="no-radius"
+          to="/device"
+          v-if="isBindBracelet == 0"
+        >去绑定</van-button>
       </div>
     </div>
   </div>
 </template>
 <script>
 import service from "@/api";
+import { mapState } from "vuex";
 export default {
   name: "bracelet",
   data() {
@@ -25,34 +49,27 @@ export default {
       }
     };
   },
-  methods: {
-    //检查用户是否绑定手环
-    async checkBindBracelet(params = {}) {
-      let res = await service.checkBindBracelet(params);
-      if (res.errorCode === 0) {
-      } else if (res.errorCode === -1) {
-        //用户没有绑定手环
-      }
-    }
+  computed: {
+    ...mapState("user", {
+      name: state => state.info.name,
+      photo: state => state.info.photo,
+      isBindBracelet: state => state.info.isBindBracelet //0表示没有绑定手环 1表示有
+    })
   },
-  mounted() {
-    this.checkBindBracelet(this.query);
-  }
+  methods: {},
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>
-.bracelets {
-  width: 100%;
-  color: #999;
-  font-size: 30px;
-  text-align: center;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(0, -50%);
-  img {
-    width: 482px;
-    height: 278px;
+.home-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 180px;
+  padding: 0 30px;
+  color: #fff;
+  .js-user-change {
+    margin-left: 20px;
   }
 }
 </style>

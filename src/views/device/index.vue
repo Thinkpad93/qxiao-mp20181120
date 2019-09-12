@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="list.length">
+      <template v-if="isBindBracelet == 1">
         <div class="cells mb-20">
           <div class="cell min-h120" v-for="item in list" :key="item.deviceId">
             <div class="cell-hd">
@@ -21,8 +21,7 @@
         <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>
       </div>
       <p>
-        <van-button type="warning" size="small" @click="run">获取接口</van-button>
-        <van-button type="warning" size="small" @click="run">获取接口</van-button>
+        <van-button type="warning" size="small" @click="run">请求数据包</van-button>
       </p>
     </div>
     <div class="page-ft">
@@ -56,17 +55,18 @@ export default {
     //获取接口测试
     run() {
       let deviceId = this.deviceId;
-      let map = [
-        { key: "IwICAiU=" }
-        // { key: "IwICAiU=" },
-        // { key: "IwICAyQ=" },
-        // { key: "IwICBCc=" },
-        // { key: "IwkBAhkJERgjAAMR" }
-      ];
+      let map = [{ key: "IwQBBAAgAA==" }];
       for (let i in map) {
         let base64Data = map[i].key; //key
         console.log(base64Data);
         this.sendDataToWXDevice(deviceId, base64Data);
+      }
+    },
+    //数字转十六进制字符串
+    numberToByt(num) {
+      for (let i = 0; i < num; i++) {
+        let n = `0x` + i.toString(16);
+        console.log(n);
       }
     },
     handleAddDevice() {
