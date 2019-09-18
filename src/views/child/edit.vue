@@ -120,7 +120,7 @@
             type="danger"
             class="no-radius"
             @click="handleDel"
-            v-if="!form.schoolName || !form.className"
+            v-if="isShowDelBtn"
           >删除</van-button>
           <van-button size="large" type="info" class="no-radius" @click="handleSubmit">保存</van-button>
         </div>
@@ -145,6 +145,7 @@ export default {
       minDate: new Date(1966, 10, 1),
       filesObj: null,
       form: {},
+      isShowDelBtn: false,
       query: {
         openId: this.$store.state.user.info.openId,
         studentId: this.$route.query.studentId
@@ -153,6 +154,18 @@ export default {
       len: this.$route.query.len,
       roleType: this.$route.query.roleType
     };
+  },
+  watch: {
+    "form.className": {
+      handler(n, o) {
+        if (o == undefined || o == null) {
+          this.isShowDelBtn = false;
+        } else {
+          this.isShowDelBtn = true;
+        }
+      },
+      deep: true //深度监听
+    }
   },
   computed: {
     ...mapState("user", {

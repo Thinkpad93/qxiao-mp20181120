@@ -116,6 +116,7 @@ export default {
       this.openWXDeviceLib();
       //检查用户是否打开了手机蓝牙
       if (this.bluetooth) {
+        this.list = []; //清空列表
         this.loading = true;
         WeixinJSBridge.invoke(
           "startScanWXDevice",

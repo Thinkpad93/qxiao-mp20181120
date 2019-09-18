@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="isBindBracelet == 1">
+      <template v-if="deviceId">
         <div class="cells mb-20">
           <div class="cell min-h120" v-for="item in list" :key="item.deviceId">
             <div class="cell-hd">
@@ -14,20 +14,30 @@
             </div>
           </div>
         </div>
+        <div class="cells">
+          <div class="cell min-h120">
+            <div class="cell-hd">
+              <label class="label">转码</label>
+            </div>
+            <div class="cell-bd">
+              <input class="input" placeholder="请输入base64转码后的字符串" v-model.trim="base64" />
+            </div>
+          </div>
+        </div>
+        <p class="text-right">
+          <van-button type="warning" size="normal" @click="run">发送</van-button>
+        </p>
       </template>
       <div class="steps" v-else>
-        <p>1.确认手环处于工作状态</p>
+        <!-- <p>1.确认手环处于工作状态</p>
         <p>2.进入手机设置界面，打开蓝牙。</p>
-        <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>
+        <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>-->
       </div>
-      <p>
-        <van-button type="warning" size="small" @click="run">请求数据包</van-button>
-      </p>
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <!-- <van-button type="danger" size="large" class="no-radius" @click="unBindDevice">手环设备解绑</van-button> -->
-        <van-button type="info" size="large" class="no-radius" @click="handleAddDevice">添加设备</van-button>
+        <!-- <van-button type="info" size="large" class="no-radius" @click="handleAddDevice">添加设备</van-button> -->
       </div>
     </div>
   </div>
@@ -39,6 +49,7 @@ export default {
   name: "device",
   data() {
     return {
+      base64: "",
       bluetooth: false, //是否打开蓝牙
       deviceId: null, //设备ID
       list: [] //设备列表
@@ -52,15 +63,26 @@ export default {
     })
   },
   methods: {
-    //获取接口测试
+    //循环调用
     run() {
       let deviceId = this.deviceId;
-      let map = [{ key: "IwQBBAAgAA==" }];
-      for (let i in map) {
-        let base64Data = map[i].key; //key
-        console.log(base64Data);
+      let base64Data = this.base64;
+      if (base64Data == "") {
+        this.$toast(`请输入base64转码后的字符串`);
+      } else {
         this.sendDataToWXDevice(deviceId, base64Data);
       }
+      // let map = [{ key: "IwQBBABQcQ==" }];
+      // for (let i in map) {
+      //   let base64Data = map[i].key; //key
+      //   console.log(base64Data);
+      //   this.sendDataToWXDevice(deviceId, base64Data);
+      // }
+    },
+    //单个调用
+    single(base64Data = "") {
+      let deviceId = this.deviceId;
+      this.sendDataToWXDevice(deviceId, base64Data);
     },
     //数字转十六进制字符串
     numberToByt(num) {
@@ -70,13 +92,13 @@ export default {
       }
     },
     handleAddDevice() {
-      if (this.studentId == 0) {
-        this.$toast("您尚未关注小孩，请先关注");
-      } else {
-        this.$router.push({
-          path: "/device/search"
-        });
-      }
+      //if (this.studentId == 0) {
+      //this.$toast("您尚未关注小孩，请先关注");
+      //} else {
+      this.$router.push({
+        path: "/device/search"
+      });
+      //}
     },
     //手环设备解绑
     unBindDevice() {
@@ -271,6 +293,7 @@ export default {
     init() {
       this.onWXDeviceBluetoothStateChange();
       this.onWXDeviceStateChange();
+      this.onReceiveDataFromWXDevice();
     }
   },
   activated() {
