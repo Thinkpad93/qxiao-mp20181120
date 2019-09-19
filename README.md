@@ -150,4 +150,14 @@ schdule.map(elem => {
 - 已经绑定过的手环不会在出现扫描列表里
 
 > 浅谈微信页面入口文件被缓存解决方案
+
 - https://www.jb51.net/article/148249.htm
+
+> 微信开发分享相关
+
+- https://www.cnblogs.com/mingxinice/p/mingxin.html
+- https://blog.csdn.net/weixin_41690905/article/details/80745821
+- http://www.hehaibao.com/vue-wechat-share/
+- https://segmentfault.com/a/1190000012339148
+- https://segmentfault.com/a/1190000010753247
+- https://www.cnblogs.com/zhoudawei/p/9802521.html

@@ -3,9 +3,9 @@ import ax from '../axios';
 //用户注册
 //首页1 公告2 速报3
 export function registerUser() {
-  //http://ax.qxiao.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1
-  //http://qxiaonmq.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1
-  //http://qxiao.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1
+  //http://ax.qxiao.net/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1 测试服务器
+  //http://qxiaonmq.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1 雷珍
+  //http://qxiao.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1  雪俊
   return ax.get('http://qxiao.natapp1.cc/qxiao-mp/action/mod-xiaojiao/manage/registerUser.do?type=1')
     .then(res => res.data)
     .catch(e => console.log(e));

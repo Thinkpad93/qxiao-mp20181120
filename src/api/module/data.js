@@ -64,3 +64,11 @@ export function getNumberActiveDirectory(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//解析数据包
+export function parsePackets(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/parsePackets.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

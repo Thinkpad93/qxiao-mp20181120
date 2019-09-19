@@ -122,15 +122,15 @@ export default {
             .concat(this.clockList)
             .concat(this.teacherList)
             .concat(this.shuttleList)
-            .concat(this.feedList)
+
             .concat(this.scheduleList);
           break;
         case 3:
           return this.menuList
             .concat(this.recipeList)
             .concat(this.clockList)
-            .concat(this.scheduleList)
-            .concat(this.feedList);
+            .concat(this.scheduleList);
+
           break;
         default:
           return this.menuList

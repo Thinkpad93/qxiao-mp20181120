@@ -118,11 +118,11 @@
     </div>
     <div class="page-ft" v-if="roleType == 3">
       <!-- 打卡按钮 -->
-      <div class="fixed-bottom" style="z-index: 100;">
+      <!-- <div class="fixed-bottom" style="z-index: 100;">
         <template v-if="experience != 1">
           <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
         </template>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>

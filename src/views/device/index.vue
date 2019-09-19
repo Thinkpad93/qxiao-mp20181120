@@ -66,16 +66,15 @@ export default {
     //循环调用
     run() {
       let deviceId = this.deviceId;
-      let base64Data = this.base64;
-      if (base64Data == "") {
-        this.$toast(`请输入base64转码后的字符串`);
-      } else {
+      let map = [{ key: "IwICBSY=" }];
+      for (let i in map) {
+        let base64Data = map[i].key; //key
         this.sendDataToWXDevice(deviceId, base64Data);
       }
-      // let map = [{ key: "IwQBBABQcQ==" }];
-      // for (let i in map) {
-      //   let base64Data = map[i].key; //key
-      //   console.log(base64Data);
+      // let base64Data = this.base64;
+      // if (base64Data == "") {
+      //   this.$toast(`请输入base64转码后的字符串`);
+      // } else {
       //   this.sendDataToWXDevice(deviceId, base64Data);
       // }
     },
@@ -117,6 +116,8 @@ export default {
             //操作凭证
             let { ticket } = res;
             if (res.err_msg === "getWXDeviceTicket:ok") {
+              console.log(res);
+              console.log("开始解绑");
               //开始解绑
               let params = {
                 deviceId: this.deviceId,
@@ -256,6 +257,10 @@ export default {
       WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
         console.log("onReceiveDataFromWXDevice");
         console.log(res);
+        //设备id
+        //base64编码过的设备发到H5的数据
+        let { deviceId, base64Data } = res;
+        this.parsePackets({ deviceId, content: base64Data });
       });
     },
     //手机蓝牙状态改变事件
@@ -290,6 +295,14 @@ export default {
         this.getWXDeviceInfos();
       });
     },
+    //解析数据包
+    async parsePackets(params = {}) {
+      let res = await service.parsePackets(params);
+      if (res.errorCode === 0) {
+        console.log("解析数据包");
+      }
+    },
+    //事件监听
     init() {
       this.onWXDeviceBluetoothStateChange();
       this.onWXDeviceStateChange();
