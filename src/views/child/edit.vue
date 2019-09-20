@@ -155,18 +155,6 @@ export default {
       roleType: this.$route.query.roleType
     };
   },
-  watch: {
-    "form.className": {
-      handler(n, o) {
-        if (o == undefined || o == null) {
-          this.isShowDelBtn = false;
-        } else {
-          this.isShowDelBtn = true;
-        }
-      },
-      deep: true //深度监听
-    }
-  },
   computed: {
     ...mapState("user", {
       studentId: state => state.info.studentId
@@ -300,6 +288,11 @@ export default {
       let res = await service.studentQueryMe(params);
       if (res.errorCode === 0) {
         this.form = res.data;
+        if (this.form.className || this.form.schoolName) {
+          this.isShowDelBtn = false;
+        } else {
+          this.isShowDelBtn = true;
+        }
       }
     },
     //学生修改

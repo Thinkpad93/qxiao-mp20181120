@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-bd">
-      <template v-if="deviceId">
+      <template>
         <div class="cells mb-20">
           <div class="cell min-h120" v-for="item in list" :key="item.deviceId">
             <div class="cell-hd">
@@ -15,20 +15,20 @@
           </div>
         </div>
         <div class="cells">
-          <div class="cell min-h120">
-            <div class="cell-hd">
-              <label class="label">转码</label>
-            </div>
+          <div class="cell min-h120" v-for="(item,index) in map" :key="item.index">
             <div class="cell-bd">
-              <input class="input" placeholder="请输入base64转码后的字符串" v-model.trim="base64" />
+              <input class="input text-left" placeholder="请输入base64转码后的字符串" v-model.trim="item.key" />
+            </div>
+            <div class="cell-ft">
+              <van-button type="danger" size="small" @click="del(index)" v-if="map.length > 1">删除</van-button>
             </div>
           </div>
         </div>
-        <p class="text-right">
+        <!-- <p class="text-right">
           <van-button type="warning" size="normal" @click="run">发送</van-button>
-        </p>
+        </p>-->
       </template>
-      <div class="steps" v-else>
+      <div class="steps">
         <!-- <p>1.确认手环处于工作状态</p>
         <p>2.进入手机设置界面，打开蓝牙。</p>
         <p>3.点击添加设备，开始扫描找到手环设备，点击绑定，稍后会提示绑定成功。</p>-->
@@ -36,6 +36,10 @@
     </div>
     <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
+        <div class="flex">
+          <van-button type="danger" size="large" class="no-radius" @click="run">发送数据</van-button>
+          <van-button size="large" class="no-radius" @click="add">添加</van-button>
+        </div>
         <!-- <van-button type="danger" size="large" class="no-radius" @click="unBindDevice">手环设备解绑</van-button> -->
         <!-- <van-button type="info" size="large" class="no-radius" @click="handleAddDevice">添加设备</van-button> -->
       </div>
@@ -52,7 +56,12 @@ export default {
       base64: "",
       bluetooth: false, //是否打开蓝牙
       deviceId: null, //设备ID
-      list: [] //设备列表
+      list: [], //设备列表
+      map: [
+        {
+          key: ""
+        }
+      ]
     };
   },
   computed: {
@@ -66,22 +75,23 @@ export default {
     //循环调用
     run() {
       let deviceId = this.deviceId;
-      let map = [{ key: "IwICBSY=" }];
+      let map = this.map;
       for (let i in map) {
         let base64Data = map[i].key; //key
-        this.sendDataToWXDevice(deviceId, base64Data);
+        if (base64Data != "") {
+          this.sendDataToWXDevice(deviceId, base64Data);
+        } else {
+          this.$toast(`请输入base64转码后的字符串`);
+        }
       }
-      // let base64Data = this.base64;
-      // if (base64Data == "") {
-      //   this.$toast(`请输入base64转码后的字符串`);
-      // } else {
-      //   this.sendDataToWXDevice(deviceId, base64Data);
-      // }
     },
-    //单个调用
-    single(base64Data = "") {
-      let deviceId = this.deviceId;
-      this.sendDataToWXDevice(deviceId, base64Data);
+    //添加
+    add() {
+      this.map.push({ key: "" });
+    },
+    //删除
+    del(index) {
+      return this.map.splice(index, 1);
     },
     //数字转十六进制字符串
     numberToByt(num) {

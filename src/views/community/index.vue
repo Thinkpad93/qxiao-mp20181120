@@ -70,6 +70,7 @@ export default {
   mixins: [wxHandle, classList],
   data() {
     return {
+      count: 9, //只能选择9张
       form: {
         openId: this.$store.state.user.info.openId,
         classId: this.$store.state.user.info.classId,
@@ -80,6 +81,12 @@ export default {
         video: ""
       }
     };
+  },
+  watch: {
+    imagesList(news, old) {
+      console.log(news);
+      console.log(old);
+    }
   },
   methods: {
     handleSubmit() {
@@ -121,9 +128,7 @@ export default {
       }
     }
   },
-  mounted() {
-    //wxapi.wxRegister();
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

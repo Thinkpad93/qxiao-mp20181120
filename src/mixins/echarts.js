@@ -11,6 +11,7 @@ export default {
           icon: "circle",
           itemWidth: 12,
           itemHeight: 12,
+          //selectedMode: 'single',
           data: []
         },
         xAxis: {

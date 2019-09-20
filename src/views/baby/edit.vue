@@ -42,7 +42,7 @@
             </select>
           </div>
         </div>
-        <div class="cell min-h120" v-if="form.schoolName">
+        <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">就读学校</label>
           </div>
@@ -50,7 +50,7 @@
             <input class="input" v-model="form.schoolName" disabled />
           </div>
         </div>
-        <div class="cell min-h120" v-if="form.className">
+        <div class="cell min-h120">
           <div class="cell-hd">
             <label class="label">所在班级</label>
           </div>
@@ -76,13 +76,7 @@
             <label class="label">地址</label>
           </div>
           <div class="cell-bd">
-            <input
-              class="input"
-              placeholder="请输入地址"
-              maxlength="100"
-              v-model="form.address"
-              readonly
-            />
+            <input class="input" placeholder="请输入地址" maxlength="100" v-model="form.address" />
           </div>
         </div>
         <div class="cell min-h120">
