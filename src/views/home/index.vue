@@ -244,11 +244,6 @@ export default {
         });
       }
     },
-    // go(url, params) {
-    //   if (url) {
-    //     this.$router.push({ path: `${url}` });
-    //   }
-    // },
     handleClassConfirm(value, index) {
       this.className = value.className;
       this.query.classId = value.classId;

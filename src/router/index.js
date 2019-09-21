@@ -43,6 +43,7 @@ import device from './device';
 import edu from './edu-recommend';
 import activity from './activity-recommend';
 import read from './read-recommend';
+import punch from './punch';
 
 Vue.use(Router);
 
@@ -87,7 +88,8 @@ export const constantRouterMap = [
   ...device,
   ...edu,
   ...activity,
-  ...read
+  ...read,
+  ...punch
 ]
 
 

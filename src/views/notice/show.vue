@@ -14,7 +14,12 @@
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
           <div class="article-cell">
-            <time>{{ info.postTime }}</time>
+            <van-icon name="user-o" size="16px"></van-icon>
+            <span style="margin-left:5px;">{{ info.name }}</span>
+          </div>
+          <div class="article-cell">
+            <van-icon name="clock-o" size="16px"></van-icon>
+            <time style="margin-left:5px;">{{ info.postTime }}</time>
           </div>
           <div class="article-cell">
             <van-icon name="eye-o" size="16px"></van-icon>

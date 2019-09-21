@@ -69,8 +69,11 @@ export default {
       ],
       feedList: [
         {
-          name: "家长反馈",
-          url: "/feed",
+          name: "师生互动",
+          url:
+            this.$store.state.user.info.roleType == 2
+              ? "/feed/teacher"
+              : "/feed",
           icon: require("../assets/men-icon-11@2x.png")
         }
       ],
@@ -122,15 +125,15 @@ export default {
             .concat(this.clockList)
             .concat(this.teacherList)
             .concat(this.shuttleList)
-
+            .concat(this.feedList)
             .concat(this.scheduleList);
           break;
         case 3:
           return this.menuList
             .concat(this.recipeList)
             .concat(this.clockList)
-            .concat(this.scheduleList);
-
+            .concat(this.scheduleList)
+            .concat(this.feedList);
           break;
         default:
           return this.menuList

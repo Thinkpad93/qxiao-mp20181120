@@ -216,6 +216,14 @@ export function queryStudentByClassId(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+//查询班级学生(新)
+export function queryStudentName(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/manage/queryStudentName.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
 //查询老师管理的班级
 export function queryClassNameList(params, config = {
   showLoading: true

@@ -31,7 +31,7 @@
                   ></van-icon>
                 </li>
               </ul>
-              <div class="uploader-input_box" @click="handleChooseImage">
+              <div class="uploader-input_box" @click="handleChooseImage(count)" v-if="count != 0">
                 <van-icon name="plus" size="30px"></van-icon>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default {
   mixins: [wxHandle, classList],
   data() {
     return {
-      count: 9, //只能选择9张
+      size: 9, //只能选择9张
       form: {
         openId: this.$store.state.user.info.openId,
         classId: this.$store.state.user.info.classId,
@@ -82,10 +82,9 @@ export default {
       }
     };
   },
-  watch: {
-    imagesList(news, old) {
-      console.log(news);
-      console.log(old);
+  computed: {
+    count() {
+      return this.size - this.imagesList.length;
     }
   },
   methods: {

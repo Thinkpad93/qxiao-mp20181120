@@ -1,13 +1,30 @@
 <template>
   <div class="page">
+    <div class="page-hd">
+      <div class="button-sp-area flex" size-17>
+        <a href="javascript:;" id="showDatePicker" @click="popupShow = true">
+          <span>{{ className }}</span>
+          <van-icon name="arrow-down" size="16px"></van-icon>
+        </a>
+      </div>
+    </div>
     <div class="page-bd">
+      <van-popup v-model="popupShow" position="bottom">
+        <van-picker
+          :columns="classList"
+          show-toolbar
+          value-key="className"
+          @cancel="popupShow = false"
+          @confirm="handleClassConfirm"
+        ></van-picker>
+      </van-popup>
       <!-- 新增 -->
       <template>
         <qxRelease url="/feed/add" />
       </template>
       <van-tabs v-model="active" :line-height="2" @click="handleTabClick">
-        <van-tab title="我的发起"></van-tab>
         <van-tab title="我的接收"></van-tab>
+        <van-tab title="我的发起"></van-tab>
       </van-tabs>
       <!-- list -->
       <van-list
@@ -43,8 +60,8 @@
                 </template>
               </div>
               <div class>
-                <template v-if="active == 0">
-                  <span style="color:#999">接收老师：{{ item.teacherName }}</span>
+                <template v-if="active == 1">
+                  <span style="color:#999">接收学生：{{ item.studentName }}</span>
                 </template>
               </div>
             </div>
@@ -65,14 +82,17 @@
 <script>
 import service from "@/api";
 import qxRelease from "@/components/Release";
+import classList from "@/mixins/classList";
 import { mapState } from "vuex";
 export default {
-  name: "feed",
+  name: "feedTeacher",
+  mixins: [classList],
   components: {
     qxRelease
   },
   data() {
     return {
+      popupShow: false,
       loading: false,
       finished: false,
       totalPage: 1, //总页数
@@ -80,34 +100,36 @@ export default {
       query: {
         page: 1,
         pageSize: 10,
-        studentId: this.$store.state.user.info.studentId
+        teacherId: this.$store.state.user.info.id,
+        classId: this.$store.state.user.info.classId
       },
-      list: [] //列表
+      className: this.$store.state.user.info.className,
+      list: []
     };
   },
   methods: {
+    //tab切换
     handleTabClick(index) {
       this.query.page = 1;
       //当切换班级时，重新设置为没有全部加载完成
       this.finished = false;
-      this.queryStudentFeedList();
+      this.queryTeacherFeedList();
     },
+    //选择班级确认
+    handleClassConfirm(value, index) {
+      this.className = value.className;
+      this.query.classId = value.classId;
+      this.queryTeacherFeedList();
+    },
+    //加载更多
     onLoad() {
       console.log("onload");
       if (this.query.page < this.totalPage) {
         this.query.page += 1;
         let type = this.active == 0 ? 1 : 2;
         let obj = Object.assign({}, this.query, { type });
-        service.queryStudentFeedList(obj).then(res => {
+        service.queryTeacherFeedList(obj).then(res => {
           if (res.errorCode === 0) {
-            let list = res.data.data;
-            this.totalPage = res.data.totalPage;
-            this.query.page = res.data.page;
-            // 加载状态结束
-            this.loading = false;
-            for (let i = 0; i < list.length; i++) {
-              this.list.push(list[i]);
-            }
           }
         });
       } else {
@@ -117,6 +139,7 @@ export default {
         this.finished = true;
       }
     },
+    //页面跳转
     jump(params = {}) {
       let type = this.active == 0 ? 1 : 2;
       this.$router.push({
@@ -127,12 +150,13 @@ export default {
         }
       });
     },
-    //查询家长端互动
-    async queryStudentFeedList() {
+    //查询老师端互动
+    async queryTeacherFeedList() {
       let type = this.active == 0 ? 1 : 2;
       let obj = Object.assign({}, this.query, { type });
-      let res = await service.queryStudentFeedList(obj);
+      let res = await service.queryTeacherFeedList(obj);
       if (res.errorCode === 0) {
+        this.popupShow = false;
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
@@ -140,7 +164,7 @@ export default {
     }
   },
   mounted() {
-    this.queryStudentFeedList();
+    this.queryTeacherFeedList();
   }
 };
 </script>

@@ -79,7 +79,7 @@ export default {
   methods: {
     jump() {
       this.$router.replace({
-        path: "/single"
+        path: "/home"
       });
     }
   },

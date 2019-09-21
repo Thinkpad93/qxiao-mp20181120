@@ -32,11 +32,46 @@ export function addFeedWithStudent(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+
+//新增师生互动
+export function addFeed(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/feed/addFeed.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+
 //老师回复意见反馈
 export function teacherBack(params, config = {
   showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/feed/teacherBack.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//师生互动详情
+export function queryFeedDetail(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/feed/queryFeedDetail.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+
+//家长互动
+export function studentAddFeed(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/feed/studentAddFeed.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+//家长互动
+export function teacherAddFeed(params, config = {
+  showLoading: true
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/feed/teacherAddFeed.do', params, config)
     .then(res => res.data)
     .catch(e => console.log(e));
 }
