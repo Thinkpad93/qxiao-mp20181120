@@ -85,7 +85,7 @@
         </van-swipe-cell>
       </van-list>
       <!-- list -->
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="empty">
         <img src="@/assets/kong.png" alt />
         <p>暂无通知公告</p>
       </div>
@@ -105,6 +105,7 @@ export default {
   },
   data() {
     return {
+      empty: false,
       loading: false,
       finished: false,
       popupShow: false,
@@ -191,12 +192,6 @@ export default {
         }
       });
     },
-    // handleTabClick(index, title) {
-    //   this.index = index;
-    //   this.query.page = 1; //切换时从第一页查起
-    //   this.query.type = index;
-    //   this.noticeQuery(this.query);
-    // },
     //选择班级
     handleClassConfirm(obj) {
       this.popupShow = false;
@@ -215,6 +210,11 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
+        if (this.list.length) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       }
     }
   },

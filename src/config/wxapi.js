@@ -16,6 +16,7 @@ export default {
           nonceStr: res.nonceStr, // 必填，生成签名的随机串
           signature: res.signature, // 必填，签名
           jsApiList: [
+            "scanQRCode", //微信扫一扫
             "chooseImage", //拍照或从手机相册中选图接口
             "previewImage", //预览图片
             "uploadImage", //上传图片

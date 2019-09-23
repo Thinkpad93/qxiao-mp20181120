@@ -85,7 +85,7 @@
           <span slot="right" style="line-height: 80px;">删除</span>
         </van-swipe-cell>
       </van-list>
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="empty">
         <img src="@/assets/kong.png" alt />
         <p>暂无新鲜速报</p>
       </div>
@@ -104,6 +104,7 @@ export default {
   },
   data() {
     return {
+      empty: false,
       loading: false,
       finished: false,
       popupShow: false,
@@ -208,6 +209,11 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
+        if (this.list.length) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       } else {
         this.$toast(`${res.errorMsg}`);
       }

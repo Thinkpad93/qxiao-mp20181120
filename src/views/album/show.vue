@@ -65,7 +65,7 @@
             </div>
           </van-list>
         </div>
-        <div class="empty" v-if="!list.length">
+        <div class="empty" v-if="empty">
           <img src="@/assets/kong.png" alt />
           <p>暂无相册</p>
         </div>
@@ -114,6 +114,7 @@ export default {
   name: "albumDetail",
   data() {
     return {
+      empty: false,
       loading: false,
       finished: false,
       totalPage: 1, //总页数
@@ -247,6 +248,11 @@ export default {
         this.query.page = res.data.page;
         this.totalPage = res.data.totalPage;
         this.list = res.data.data || [];
+        if (this.list.length) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       }
     },
     //查询栏目名称

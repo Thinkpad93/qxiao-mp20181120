@@ -158,6 +158,16 @@ export default {
     })
   },
   methods: {
+    //调起微信扫一扫接口
+    handleScanQRCode() {
+      wx.scanQRCode({
+        needResult: 0, // 默认为0，
+        scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+        success: res => {
+          let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+        }
+      });
+    },
     //一键接送
     handleAddPunch() {
       let { openId, studentId } = this.querys;

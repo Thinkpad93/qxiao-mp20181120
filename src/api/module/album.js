@@ -10,7 +10,7 @@ export function albumClassQuery(params, config = {
 }
 //查询班级所属的相册栏目
 export function albumChannelQuery(params, config = {
-  showLoading: false
+  showLoading: true
 }) {
   return ax.post('/qxiao-mp/action/mod-xiaojiao/album/albumChannelQuery.do', params, config)
     .then(res => res.data)

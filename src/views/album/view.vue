@@ -50,7 +50,7 @@
           <span slot="right" style="line-height: 100px;">删除</span>
         </van-swipe-cell>
       </div>
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="empty">
         <img src="@/assets/kong.png" alt />
         <p>暂无相册列表</p>
       </div>
@@ -70,6 +70,7 @@ export default {
   name: "albumChannel",
   data() {
     return {
+      empty: false,
       title: "",
       dialogVisible: false,
       roleType: this.$store.state.user.info.roleType,
@@ -134,6 +135,11 @@ export default {
       let res = await service.albumChannelQuery(params);
       if (res.errorCode === 0) {
         this.list = res.data;
+        if (this.list.length) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       }
     },
     //新增相册栏目

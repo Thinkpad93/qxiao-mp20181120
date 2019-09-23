@@ -46,7 +46,7 @@
               <div class="figure-bd">
                 <div class="figure-info">
                   <figcaption size-18 class="text-ellipsis">
-                    <i v-if="!homework.status"></i>
+                    <i v-if="!homework.status" style="width:6px;height:6px;"></i>
                     <span>{{ homework.title }}</span>
                   </figcaption>
                   <div class="metedata flex">
@@ -72,7 +72,7 @@
         </van-swipe-cell>
       </van-list>
       <!-- list -->
-      <div class="empty" v-if="!list.length">
+      <div class="empty" v-if="empty">
         <img src="@/assets/kong.png" alt />
         <p>暂无亲子作业</p>
       </div>
@@ -91,6 +91,7 @@ export default {
   },
   data() {
     return {
+      empty: false,
       loading: false,
       finished: false,
       popupShow: false,
@@ -189,7 +190,12 @@ export default {
         this.popupShow = false;
         this.query.page = res.data.page || [];
         this.totalPage = res.data.totalPage;
-        this.list = res.data.data;
+        this.list = res.data.data || [];
+        if (this.list.length) {
+          this.empty = false;
+        } else {
+          this.empty = true;
+        }
       } else {
         this.$toast(`${res.errorMsg}`);
       }
