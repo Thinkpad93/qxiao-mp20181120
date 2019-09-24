@@ -28,16 +28,16 @@ export default [{
       isShare: false,
     }
   },
-  {
-    path: '/schedule/adds',
-    name: "scheduleAdds",
-    component: () => import('@/views/schedule/adds'),
-    meta: {
-      title: "新增课程表",
-      keepAlive: false,
-      isShare: false,
-    }
-  },
+  // {
+  //   path: '/schedule/adds',
+  //   name: "scheduleAdds",
+  //   component: () => import('@/views/schedule/adds'),
+  //   meta: {
+  //     title: "新增课程表",
+  //     keepAlive: false,
+  //     isShare: false,
+  //   }
+  // },
   {
     path: '/schedule/edit',
     name: "scheduleEdit",

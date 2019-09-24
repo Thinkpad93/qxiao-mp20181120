@@ -29,23 +29,27 @@
           <div class="tr">
             <div class="th">
               <i style="background-color:#9cd248;"></i>
-              <span size-14>打卡</span>
+              <span size-12>打卡</span>
             </div>
             <div class="th">
               <i style="background-color:#fda322;"></i>
-              <span size-14>未打卡</span>
+              <span size-12>未打卡</span>
             </div>
             <div class="th">
               <i style="background-color:#07c160;"></i>
-              <span size-14>请假</span>
+              <span size-12>请假</span>
+            </div>
+            <div class="th">
+              <i style="background-color:#ea7e53;"></i>
+              <span size-12>出勤</span>
             </div>
             <div class="th">
               <i style="background-color:#1989fa;"></i>
-              <span size-14>缺勤</span>
+              <span size-12>缺勤</span>
             </div>
             <div class="th">
               <i style="background-color:#909399;"></i>
-              <span size-14>漏打卡</span>
+              <span size-12>漏打卡</span>
             </div>
           </div>
         </div>
@@ -57,6 +61,7 @@
                 { 'td-success': item.status == 'success' },
                 { 'td-default': item.status == 'default' },
                 { 'td-qingjia': item.status == 'qingjia' },
+                { 'td-chuqing': item.status == 'chuqing' },
                 { 'td-queqing': item.status == 'queqing' },
                 { 'td-loudaka': item.status == 'loudaka' },
               ]"
@@ -111,7 +116,8 @@ export default {
       statusList: [
         { title: "请假", studentStatus: 1 },
         { title: "缺勤", studentStatus: 2 },
-        { title: "漏打卡", studentStatus: 3 }
+        { title: "漏打卡", studentStatus: 3 },
+        { title: "出勤", studentStatus: 4 }
       ],
       list: [],
       punchList: []
@@ -154,11 +160,13 @@ export default {
             } else if (studentStatus == 0 && punchStatus == 2) {
               status = "default";
             } else if (studentStatus == 1) {
-              status = "qingjia";
+              status = "qingjia"; //请假
             } else if (studentStatus == 2) {
-              status = "queqing";
+              status = "queqing"; //缺勤
+            } else if (studentStatus == 3) {
+              status = "loudaka"; //漏打卡
             } else {
-              status = "loudaka";
+              status = "chuqing"; //出勤
             }
             return {
               ...args,
@@ -212,8 +220,8 @@ export default {
     font-size: 0;
     i {
       display: inline-block;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       margin-right: 10px;
       vertical-align: top;
     }
@@ -262,6 +270,9 @@ export default {
     }
     &-qingjia {
       background-color: #07c160;
+    }
+    &-chuqing {
+      background-color: #ea7e53;
     }
     &-queqing {
       background-color: #1989fa;

@@ -161,10 +161,7 @@
           <table class="schedule mt-20" align="center" style="width:100%;">
             <thead>
               <tr>
-                <th>
-                  <span>星期</span>
-                  <span></span>
-                </th>
+                <th></th>
                 <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
               </tr>
             </thead>
@@ -215,12 +212,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- 新增 -->
-          <!-- <div class="mt-20 mb-20 text-center">
-            <van-button type="info" size="small" @click="handleAddRow(1)">新增上午节数</van-button>
-            <van-button type="info" size="small" @click="handleAddRow(2)">新增下午节数</van-button>
-            <van-button type="info" size="small" @click="handleAddRow(3)">新增晚自习节数</van-button>
-          </div>-->
         </van-tab>
       </van-tabs>
     </div>
@@ -257,9 +248,10 @@
 import service from "@/api";
 import { mapState } from "vuex";
 import classList from "@/mixins/classList";
+import weekList from "@/mixins/weekList";
 export default {
   name: "scheduleAdd",
-  mixins: [classList],
+  mixins: [classList, weekList],
   data() {
     return {
       isDay: null,
@@ -463,13 +455,6 @@ export default {
             }
           ]
         }
-      ],
-      weekList: [
-        { name: "周一", day: 1 },
-        { name: "周二", day: 2 },
-        { name: "周三", day: 3 },
-        { name: "周四", day: 4 },
-        { name: "周五", day: 5 }
       ],
       classId: this.$store.state.user.info.classId,
       studentId: this.$store.state.user.info.studentId,

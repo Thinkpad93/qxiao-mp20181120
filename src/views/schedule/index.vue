@@ -9,12 +9,13 @@
             <van-button type="danger" size="small" @click="handleDelSchedule">删除课表</van-button>
           </div>
           <div class>
-            <van-radio
+            <van-checkbox v-model="picked" checked-color="#92cd36" @change="toggle">默认</van-checkbox>
+            <!-- <van-radio
               name="1"
               v-model="picked"
               checked-color="#92cd36"
               @click="handleRadio($event)"
-            >默认</van-radio>
+            >默认</van-radio>-->
           </div>
         </div>
       </template>
@@ -22,10 +23,7 @@
       <table class="schedule" align="center" style="width:100%;" v-if="tableData.length">
         <thead>
           <tr>
-            <th>
-              <span>星期</span>
-              <span></span>
-            </th>
+            <th></th>
             <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
           </tr>
         </thead>
@@ -41,13 +39,17 @@
                 <span v-if="td.lessonName">{{ td.lessonName }}</span>
                 <span class="have" v-else>-</span>
               </template>
+              <!-- 课间 -->
+              <template v-else>
+                <div class="kejian">课间</div>
+              </template>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="empty" v-else>
         <img src="@/assets/kong.png" alt />
-        <p>暂无自制课程表</p>
+        <p>暂无课程表</p>
       </div>
     </div>
     <div class="page-ft">
@@ -65,8 +67,10 @@
 </template>
 <script>
 import service from "@/api";
+import weekList from "@/mixins/weekList";
 export default {
   name: "schedule",
+  mixins: [weekList],
   data() {
     return {
       amCount: 0,
@@ -80,13 +84,6 @@ export default {
       querys: {
         studentId: this.$store.state.user.info.studentId
       },
-      weekList: [
-        { name: "周一", day: 1 },
-        { name: "周二", day: 2 },
-        { name: "周三", day: 3 },
-        { name: "周四", day: 4 },
-        { name: "周五", day: 5 }
-      ],
       tableData: []
     };
   },
@@ -116,15 +113,25 @@ export default {
         })
         .catch(() => {});
     },
-    //radio事件
-    handleRadio(e) {
+    //checkbox事件
+    toggle(value) {
+      let checked = value ? 1 : 0; //0班级课表 1自制课表
       let obj = {
         classId: this.query.classId,
         studentId: this.querys.studentId,
-        checked: parseInt(this.picked)
+        checked
       };
       this.checkedSchedule(obj);
     },
+    //radio事件
+    // handleRadio(e) {
+    //   let obj = {
+    //     classId: this.query.classId,
+    //     studentId: this.querys.studentId,
+    //     checked: parseInt(this.picked) ? 1 : 0
+    //   };
+    //   this.checkedSchedule(obj);
+    // },
     //删除我的课表
     async deteleMySchedule(params = {}) {
       let res = await service.deteleMySchedule(params);
@@ -175,7 +182,8 @@ export default {
       if (res.errorCode === 0) {
         let { schedule } = res.data || {};
         if (schedule != null) {
-          this.picked = schedule.toString();
+          //this.picked = schedule.toString();
+          this.picked = schedule == 1 ? true : false;
         }
       }
     }
@@ -203,10 +211,22 @@ td {
   height: 100px;
   border: 1px solid #ebeef5;
   text-align: center;
+  position: relative;
 }
 th {
   height: 80px;
   white-space: nowrap;
   background-color: #f5f7fa;
+}
+.kejian {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebeef5;
 }
 </style>

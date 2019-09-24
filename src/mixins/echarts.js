@@ -8,10 +8,10 @@ export default {
           trigger: "axis"
         },
         legend: {
+          show: false,
           icon: "circle",
           itemWidth: 12,
           itemHeight: 12,
-          selectedMode: 'single',
           data: []
         },
         xAxis: {
@@ -33,6 +33,7 @@ export default {
           }
         },
         grid: {
+          top: '6%',
           left: "3%",
           right: "4%",
           bottom: "3%",
@@ -45,6 +46,7 @@ export default {
           trigger: "axis"
         },
         legend: {
+          show: false,
           icon: "circle",
           itemWidth: 12,
           itemHeight: 12,
@@ -69,6 +71,7 @@ export default {
           }
         },
         grid: {
+          top: '6%',
           left: "3%",
           right: "4%",
           bottom: "3%",
@@ -80,12 +83,7 @@ export default {
   },
   methods: {
     //在家表现一周查询
-    async homeStatQuery() {
-      let params = {
-        studentId: this.studentId,
-        openId: this.openId,
-        date: this.query.day
-      };
+    async homeStatQuery(params = {}) {
       let res = await service.homeStatQuery(params);
       if (res.errorCode === 0) {
         let result = res.data;
@@ -104,11 +102,7 @@ export default {
       }
     },
     //课堂表现一周查询
-    async stateMentList() {
-      let params = {
-        openId: this.openId,
-        studentId: this.studentId
-      };
+    async stateMentList(params = {}) {
       let res = await service.stateMentList(params);
       if (res.errorCode === 0) {
         let result = res.data;

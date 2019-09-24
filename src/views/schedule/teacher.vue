@@ -32,10 +32,7 @@
       <table class="schedule" align="center" style="width:100%;" v-if="tableData.length">
         <thead>
           <tr>
-            <th>
-              <span>星期</span>
-              <span></span>
-            </th>
+            <th></th>
             <th v-for="(week, index) in weekList" :key="index">{{ week.name }}</th>
           </tr>
         </thead>

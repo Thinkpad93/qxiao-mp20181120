@@ -209,9 +209,10 @@
 import service from "@/api";
 import { mapState } from "vuex";
 import classList from "@/mixins/classList";
+import weekList from "@/mixins/weekList";
 export default {
   name: "scheduleEdit",
-  mixins: [classList],
+  mixins: [classList, weekList],
   data() {
     return {
       isDay: null,
@@ -236,13 +237,6 @@ export default {
       optionList: [], //选项
       lessonList: [],
       tableData: [],
-      weekList: [
-        { name: "周一", day: 1 },
-        { name: "周二", day: 2 },
-        { name: "周三", day: 3 },
-        { name: "周四", day: 4 },
-        { name: "周五", day: 5 }
-      ],
       tabActive: 0,
       form: {
         lessonName: "",
@@ -322,6 +316,10 @@ export default {
       } else {
         done();
       }
+    },
+    //表格新增行数
+    handleAddRow(type) {
+
     },
     //选择课程
     handleChangeLesson(params, index, tdIndex) {

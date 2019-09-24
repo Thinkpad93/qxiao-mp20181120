@@ -38,18 +38,6 @@
           </div>
         </div>
       </van-dialog>
-      <!-- popup -->
-      <van-popup v-model="popupShow" position="bottom">
-        <van-datetime-picker
-          ref="datetime"
-          @cancel="popupShow = false"
-          @confirm="handleShowDatePicker"
-          v-model="currentDate"
-          type="date"
-          :formatter="formatter"
-        ></van-datetime-picker>
-      </van-popup>
-      <!-- popup -->
       <div class="wrap">
         <!-- 用户 -->
         <div class="flex a-i-c home-user gradient-two" @click="handleRoleJump">
@@ -171,6 +159,19 @@
               <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在家表现</span>
               </div>
+              <!-- 筛选 -->
+              <div class="screen">
+                <div
+                  class="screen-item"
+                  :class="[screenIndex == index ? 'curr': '']"
+                  v-for="(item,index) in myActions"
+                  :key="item.title"
+                  @click="handleScreen(item,index)"
+                >
+                  <i style="width:12px;height:12px;margin-right:4px;"></i>
+                  <span>{{ item.title }}</span>
+                </div>
+              </div>
               <!-- 一周数据分析 -->
               <qxChart id="homeStat" :option="homeOption" />
             </div>
@@ -221,7 +222,7 @@
               <!-- 分享 -->
               <div class="mod">
                 <div class="share-image flex a-i-c j-c-s-b min-h100 mt-30">
-                  <p>晒一晒我的表现</p>
+                  <p @click="popupShow = true">晒一晒我的表现</p>
                   <van-icon name="share" size="20px" @click="shareActionImage(2)"></van-icon>
                 </div>
               </div>
@@ -229,6 +230,19 @@
             <div class="mod no-radius">
               <div class="echarts-head flex a-i-c j-c-c mb-30">
                 <span>近一周在校表现</span>
+              </div>
+              <!-- 筛选 -->
+              <div class="screen">
+                <div
+                  class="screen-item"
+                  :class="[lessonIndex == index ? 'curr': '']"
+                  v-for="(item, index) in lessonsList"
+                  :key="item.title"
+                  @click="handleScreen(item,index)"
+                >
+                  <i style="width:12px;height:12px;margin-right:4px;"></i>
+                  <span>{{ item.title }}</span>
+                </div>
               </div>
               <!-- 一周数据分析 -->
               <qxChart id="stateMent" :option="stateMentOption" />
@@ -265,15 +279,27 @@ export default {
       dialogImage: false,
       shareImgUrl: "", //生成的分享图片地址
       dialogNote: false,
-      popupShow: false,
-      currentDate: new Date(),
       rateReadonly: false,
       showNumber: 0,
       active: 0,
-      tabActive: 0,
+      //tabActive: 0,
+      screenIndex: 0, //在家表现图表默认起始位置
+      lessonIndex: 0, //在校表现图表默认起始位置
       query: {
         openId: this.$store.state.user.info.openId,
         day: dayjs().format("YYYY-MM-DD")
+      },
+      //家长数据图表查询
+      homeQuery: {
+        studentId: this.$store.state.user.info.studentId,
+        actionType: null,
+        actionId: null
+      },
+      //在校数据图表查询
+      schoolQuery: {
+        studentId: this.$store.state.user.info.studentId,
+        openId: this.$store.state.user.info.openId,
+        lessonId: null
       },
       form: {
         remarks: "",
@@ -450,6 +476,21 @@ export default {
         });
       }
     },
+    //筛选在家表现行为图表
+    handleScreen(params = {}, index) {
+      if (this.active == 0) {
+        let { actionType, actionId } = params;
+        this.screenIndex = index;
+        this.homeQuery.actionType = actionType;
+        this.homeQuery.actionId = actionId;
+        this.homeStatQuery(this.homeQuery);
+      } else {
+        let { lessonId } = params;
+        this.lessonIndex = index;
+        this.schoolQuery.lessonId = lessonId;
+        this.stateMentList(this.schoolQuery);
+      }
+    },
     //行为列表查询
     async actionListQuery() {
       let obj = {
@@ -461,6 +502,10 @@ export default {
       if (res.errorCode === 0) {
         this.myActions = res.data.myActions;
         this.showNumber = this.myActions.length;
+        this.homeQuery.actionType = this.myActions[0].actionType;
+        this.homeQuery.actionId = this.myActions[0].actionId;
+        //数据图表
+        this.homeStatQuery(this.homeQuery);
       }
     },
     //按行为查询已选中的规则
@@ -481,7 +526,9 @@ export default {
       let res = await service.lessonList(obj);
       if (res.errorCode === 0) {
         this.lessonsList = res.data;
-        this.popupShow = false;
+        this.schoolQuery.lessonId = this.lessonsList[0].lessonId;
+        //数据图表
+        this.stateMentList(this.schoolQuery);
       }
     },
     //查询最新Q星数
@@ -514,7 +561,6 @@ export default {
     }
   },
   mounted() {
-    this.homeStatQuery();
     this.stateMentList();
     if (Object.keys(this.$route.query).length || this.push == "true") {
       //查询最新Q星数
@@ -735,5 +781,30 @@ export default {
 .share-desctext {
   color: #fff;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.screen {
+  padding: 0 30px;
+  display: flex;
+  flex-wrap: wrap;
+  &-item {
+    color: #999;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    i {
+      display: inline-block;
+      border-radius: 50%;
+      background-color: #999;
+    }
+  }
+  .curr {
+    color: #252525;
+    i {
+      background-color: #f00;
+    }
+  }
 }
 </style>

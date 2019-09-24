@@ -14,7 +14,7 @@
       <article class="article" v-if="!parseInt(info.isDel)">
         <h1 size-24>{{ info.title }}</h1>
         <div class="article-hd">
-          <div class="article-cell">
+          <div class="article-cell" v-if="info.name">
             <van-icon name="user-o" size="16px"></van-icon>
             <span style="margin-left:5px;">{{ info.name }}</span>
           </div>

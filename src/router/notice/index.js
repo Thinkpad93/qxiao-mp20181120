@@ -3,7 +3,7 @@ export default [{
     name: 'notice',
     component: () => import('@/views/notice'),
     meta: {
-      keepAlive: true,
+      keepAlive: false,
       isShare: false,
       title: '通知公告',
       roles: [2, 3]

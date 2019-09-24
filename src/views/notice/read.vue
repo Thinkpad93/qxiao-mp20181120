@@ -149,9 +149,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.cell {
-  padding: 0;
-}
+// .cell {
+//   padding: 0;
+// }
 .read-cell {
   background-color: #fff;
   img {
