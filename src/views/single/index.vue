@@ -786,6 +786,7 @@ export default {
 .screen {
   padding: 0 30px;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   &-item {
     color: #999;

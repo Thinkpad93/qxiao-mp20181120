@@ -118,11 +118,11 @@
     </div>
     <div class="page-ft" v-if="roleType == 3">
       <!-- 打卡按钮 -->
-      <!-- <div class="fixed-bottom" style="z-index: 100;">
+      <div class="fixed-bottom" style="z-index: 100;">
         <template v-if="experience != 1">
-          <van-button type="info" size="large" class="no-radius" @click="handleAddPunch">打卡接送</van-button>
+          <van-button type="info" size="large" class="no-radius" @click="handleScanQRCode">扫码接送</van-button>
         </template>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>
@@ -160,11 +160,16 @@ export default {
   methods: {
     //调起微信扫一扫接口
     handleScanQRCode() {
+      let { openId } = this.querys; //用户openId
       wx.scanQRCode({
-        needResult: 0, // 默认为0，
+        needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
         scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
         success: res => {
-          let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+          if (res.errMsg === "scanQRCode:ok") {
+            let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            console.log(res);
+            //window.location.href = result;
+          }
         }
       });
     },
