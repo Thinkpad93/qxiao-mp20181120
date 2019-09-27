@@ -60,6 +60,9 @@ export default {
       list: [], //设备列表
       map: [
         // {
+        //   key:''
+        // }
+        // {
         //   // 电量
         //   key: "IwICAyQ="
         // },
@@ -71,10 +74,10 @@ export default {
           // 活跃度条数
           key: "IwUC8QEAA9g="
         },
-        {
-          // 睡眠条数
-          key: "IwMC8AHR"
-        }
+        // {
+        //   // 睡眠条数
+        //   key: "IwMC8AHR"
+        // }
       ],
       deviceArr:[],
       deviceIndex:0,
@@ -413,6 +416,7 @@ export default {
               this.sleepList = sleepArr
               this.sendActiveDataToWXDevice(this.deviceId,this.sleepList[this.sleepIndex])
               this.parsePackets(data)
+            // }
             }else if(obj[2] === "04" && obj[3] === "F0" && obj[1] === "0E"){
               console.log('睡眠总体记录')
               this.parsePackets(data)
@@ -421,8 +425,9 @@ export default {
                 this.sendActiveDataToWXDevice(this.deviceId,this.sleepList[this.sleepIndex])
               }
             }else if(obj[2] === "10" && obj[3] === "F0" && obj[1] === "07") {
+              console.log('睡眠片段')
                //睡眠片段 
-               this.parsePackets(data)
+              //  this.parsePackets(data)
             }
             
           }
