@@ -86,3 +86,8 @@ export function bytes2HexString(arrBytes) {
   }
   return str;
 }
+
+//生成校验值
+function XX(len = 8) {
+  
+}

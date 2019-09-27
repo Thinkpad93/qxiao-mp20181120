@@ -49,6 +49,7 @@
 <script>
 import { mapState } from "vuex";
 import service from "@/api";
+import {bytesArrayToBase64} from '@/utils/arrayToBase64'
 export default {
   name: "device",
   data() {
@@ -58,10 +59,28 @@ export default {
       deviceId: null, //设备ID
       list: [], //设备列表
       map: [
+        // {
+        //   // 电量
+        //   key: "IwICAyQ="
+        // },
+        // {
+        //   // 步数
+        //   key: "IwICBSY="
+        // },
         {
-          key: ""
+          // 活跃度条数
+          key: "IwUC8QEAA9g="
+        },
+        {
+          // 睡眠条数
+          key: "IwMC8AHR"
         }
-      ]
+      ],
+      deviceArr:[],
+      deviceIndex:0,
+      utc:null,
+      sleepList:[],
+      sleepIndex:0
     };
   },
   computed: {
@@ -79,7 +98,9 @@ export default {
       console.log(map);
       for (let i in map) {
         let base64Data = map[i].key; //key
+        
         if (base64Data != "") {
+          console.log(base64Data);
           this.sendDataToWXDevice(deviceId, base64Data);
         } else {
           this.$toast(`请输入base64转码后的字符串`);
@@ -264,6 +285,53 @@ export default {
         }
       );
     },
+
+    //发送活跃数据给设备 发送的数据需要经过base64编码
+    sendActiveDataToWXDevice(deviceId, base64Data = "") {
+      console.log("send active data");
+      
+      WeixinJSBridge.invoke(
+        "sendDataToWXDevice",
+        {
+          deviceId,
+          connType: "blue",
+          base64Data
+        },
+        res => {
+          if (res.err_msg === "sendDataToWXDevice:ok") {
+            this.$toast(`数据已发送`);
+          } else {
+            this.$toast(`数据发送失败`);
+          }
+          console.log(res);
+          console.log('活跃数据')
+        }
+      );
+    },
+
+    //发送活跃包数据给设备 发送的数据需要经过base64编码
+    sendActiveBagDataToWXDevice(deviceId, base64Data = "") {
+      console.log("send active bag data");
+      
+      WeixinJSBridge.invoke(
+        "sendDataToWXDevice",
+        {
+          deviceId,
+          connType: "blue",
+          base64Data
+        },
+        res => {
+          if (res.err_msg === "sendDataToWXDevice:ok") {
+            this.$toast(`数据已发送`);
+          } else {
+            this.$toast(`数据发送失败`);
+          }
+          console.log(res);
+          console.log('活跃数据')
+        }
+      );
+    },
+
     //接收到设备数据
     onReceiveDataFromWXDevice() {
       WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
@@ -272,8 +340,93 @@ export default {
         //设备id
         //base64编码过的设备发到H5的数据
         let { deviceId, base64Data } = res;
-        this.decoder({ content: base64Data });
+        //this.decoder({ content: base64Data });
         // this.parsePackets({ deviceId, content: base64Data });
+
+        //调用后台接口进行base64解码
+        service.decoder({ content: base64Data }).then(res =>{
+          if (res.errorCode === 0) {
+            let arr = []
+            let obj = res.data[0];
+            console.log(obj)
+            var objArr = Object.keys(obj);
+            let data = {
+                deviceId:this.deviceId,                                            
+                content:base64Data,
+                // utc:'11111111'
+            }     
+            if (obj[2] === "04" && obj[3] === "F1" && obj[1] === "0B") {
+              //ret接口活跃度分包目录数
+              // console.log('ret接口活跃度分包目录数')
+              let len = parseInt(obj[7] + obj[8]); //数据的数据总长度
+              let xiao
+              let lenXiao
+              for (let i = 0; i < len; i++) {
+                  var n = parseInt(`0x0${i}`)
+                  xiao = 0x23^0+0x07^1+0x02^2+0xF1^3+0x02^4+0x00^5+0x03^6+0x00^7+n^8
+                  lenXiao = [0x23, 0x07, 0x02, 0xF1, 0x02, 0x00, 0x03, 0x00, n, xiao]
+                  arr.push(bytesArrayToBase64(lenXiao))
+              }
+              this.deviceArr = arr
+              this.sendActiveDataToWXDevice(this.deviceId,this.deviceArr[this.deviceIndex])
+              // data.utc =null
+              this.parsePackets(data)
+            }else if(obj[2] === "04" && obj[3] === "F1" && obj[1] === "0C"){
+              console.log(`${obj[5]}${obj[6]}${obj[7]}${obj[6]}`)
+                //ret接口活跃度分包目录内容
+              console.log('ret接口活跃度分包目录内容')
+              let n5 = parseInt(`0x${obj[5]}`)
+              let n6 = parseInt(`0x${obj[6]}`)
+              let n7 = parseInt(`0x${obj[7]}`)
+              let n8 = parseInt(`0x${obj[8]}`)
+              // data.utc =null
+              this.utc = `${obj[5]}${obj[6]}${obj[7]}${obj[6]}`
+              let xiao = 0x23^0+0x0B^1+0x02^2+0xF1^3+0x03^4+0x00^5+0x03^6 +n5^7+n6^8+n7^9+n8^10+0x00^11+0x00^12
+              let lenXiao = [0x23, 0x0B, 0x02, 0xF1, 0x03, 0x00, 0x03,n5,n6,n7,n8, 0x00, 0x00,xiao]
+              console.log(bytesArrayToBase64(lenXiao))
+              this.sendActiveBagDataToWXDevice(this.deviceId,bytesArrayToBase64(lenXiao))
+              this.parsePackets(data)
+            }else if(objArr.length===20){                    
+              this.parsePackets(data)
+              if(obj[0] === 'FF' && obj[1] === 'FF'){
+                this.deviceIndex++
+                // 多次发送数据，知道目录包数等于当前索引
+                if(this.deviceArr.length > this.deviceIndex ){
+                  this.sendActiveDataToWXDevice(this.deviceId,this.deviceArr[this.deviceIndex])
+                }
+              }
+            }else if(obj[2] === "04" && obj[3] === "F0" && obj[1] === "04"){
+              
+               //ret接口睡眠条数
+              console.log('ret接口睡眠条数')
+              var sleepArr = []
+              let len = parseInt(obj[5]); //数据的数据总长度
+              console.log(len)
+              let xiao
+              let lenXiao
+              for (let i = 0; i < len; i++) {
+                  var n = parseInt(`0x0${i}`)
+                  xiao = 0x23^0+0x04^1+0x02^2+0xF0^3+0x02^4+n^5
+                  lenXiao = [0x23, 0x04, 0x02, 0xF0, 0x02, n, xiao]
+                  sleepArr.push(bytesArrayToBase64(lenXiao))
+              }
+              this.sleepList = sleepArr
+              this.sendActiveDataToWXDevice(this.deviceId,this.sleepList[this.sleepIndex])
+              this.parsePackets(data)
+            }else if(obj[2] === "04" && obj[3] === "F0" && obj[1] === "0E"){
+              console.log('睡眠总体记录')
+              this.parsePackets(data)
+              this.sleepIndex++
+              if( this.sleepList.length>this.sleepIndex){
+                this.sendActiveDataToWXDevice(this.deviceId,this.sleepList[this.sleepIndex])
+              }
+            }else if(obj[2] === "10" && obj[3] === "F0" && obj[1] === "07") {
+               //睡眠片段 
+               this.parsePackets(data)
+            }
+            
+          }
+        });
       });
     },
     //手机蓝牙状态改变事件
