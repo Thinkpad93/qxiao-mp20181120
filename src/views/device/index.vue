@@ -76,6 +76,7 @@ export default {
     run() {
       let deviceId = this.deviceId;
       let map = this.map;
+      console.log(map);
       for (let i in map) {
         let base64Data = map[i].key; //key
         if (base64Data != "") {
@@ -230,7 +231,7 @@ export default {
     getWXDeviceInfos() {
       WeixinJSBridge.invoke("getWXDeviceInfos", {}, res => {
         console.log(res);
-        console.log("res");
+        console.log("res设备deviceId");
         if (res.err_msg === "getWXDeviceInfos:ok") {
           //绑定设备总数量
           if (res.deviceInfos.length) {
@@ -244,6 +245,7 @@ export default {
     },
     //发送数据给设备 发送的数据需要经过base64编码
     sendDataToWXDevice(deviceId, base64Data = "") {
+      console.log("send data");
       console.log(this.deviceId);
       WeixinJSBridge.invoke(
         "sendDataToWXDevice",
@@ -265,12 +267,13 @@ export default {
     //接收到设备数据
     onReceiveDataFromWXDevice() {
       WeixinJSBridge.on("onReceiveDataFromWXDevice", res => {
-        console.log("onReceiveDataFromWXDevice");
+        console.log("接收数据onReceiveDataFromWXDevice");
         console.log(res);
         //设备id
         //base64编码过的设备发到H5的数据
         let { deviceId, base64Data } = res;
-        this.parsePackets({ deviceId, content: base64Data });
+        this.decoder({ content: base64Data });
+        // this.parsePackets({ deviceId, content: base64Data });
       });
     },
     //手机蓝牙状态改变事件
@@ -312,15 +315,33 @@ export default {
         console.log("解析数据包");
       }
     },
+
+    async decoder(params = {}) {
+      console.log(params);
+      console.log(11111);
+      let res = await service.decoder(params);
+      console.log(res);
+      if (res.errorCode === 0) {
+        console.log(res);
+        console.log("解码成功");
+      }
+    },
     //事件监听
     init() {
+      // 手机蓝牙监听开启事件
       this.onWXDeviceBluetoothStateChange();
+
+      // 设备连接状态
       this.onWXDeviceStateChange();
+
+      // 接收到设备数据
       this.onReceiveDataFromWXDevice();
     }
   },
   activated() {
+    // 初始化蓝牙状态
     this.openWXDeviceLib();
+    // 获取微信设备deviceId
     this.getWXDeviceInfos();
     this.init();
   }

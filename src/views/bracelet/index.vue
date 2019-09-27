@@ -2,12 +2,11 @@
   <div class="page">
     <div class="page-bd">
       <!-- 用户 -->
-      <div class="flex a-i-c home-user gradient-two">
+      <!-- <div class="flex a-i-c home-user gradient-two">
         <div class="flex a-i-c">
           <template v-if="name">
             <div class="avatar-circle flex a-i-c j-c-c">
               <img :src="photo" width="60" height="60" radius="50" v-if="photo" />
-              <!-- 如果用户没有上传头像 -->
               <img src="@/assets/child-default@2x.png" width="60" height="60" radius="50" v-else />
             </div>
             <div class="js-user-change">
@@ -16,14 +15,14 @@
             </div>
           </template>
         </div>
-      </div>
+      </div>-->
       <!-- 用户 -->
       <div class="empty" v-if="isBindBracelet == 0">
         <img src="@/assets/kong.png" alt />
-        <p class="mt-30">您还没有绑定小Q手环呢~</p>
+        <p class="mt-30">小Q手环智能连接课堂动态...开发中,期待~~</p>
       </div>
     </div>
-    <div class="page-ft">
+    <!-- <div class="page-ft">
       <div class="fixed-bottom" style="z-index: 100;">
         <van-button
           type="info"
@@ -33,7 +32,7 @@
           v-if="isBindBracelet == 0"
         >去绑定</van-button>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>

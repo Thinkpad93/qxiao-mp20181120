@@ -49,6 +49,12 @@
                 :key="index"
                 @click="handleLessonConfirm(item)"
               >{{ item.lessonName }}</van-button>
+              <van-button
+                class="lesson-btn"
+                type="warning"
+                size="normal"
+                @click="handleLessonConfirm(noClass)"
+              >无课</van-button>
             </div>
             <h4 class="mb-20">其他:</h4>
             <div class="lesson-group">
@@ -241,6 +247,13 @@ export default {
       form: {
         lessonName: "",
         timeLong: 10
+      },
+      //无课
+      noClass: {
+        lessonId: 0,
+        lessonName: "",
+        timeLong: 0,
+        type: 1
       }
     };
   },
@@ -318,9 +331,7 @@ export default {
       }
     },
     //表格新增行数
-    handleAddRow(type) {
-
-    },
+    handleAddRow(type) {},
     //选择课程
     handleChangeLesson(params, index, tdIndex) {
       this.popupRight = true;

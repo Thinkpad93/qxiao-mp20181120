@@ -54,7 +54,7 @@
           :on-close="onClose(notice, index)"
         >
           <van-cell-group>
-            <figure class="figure figure-skin-one" @click="go(notice)">
+            <figure class="figure figure-skin-one" @click="jump(notice)">
               <div class="figure-bd">
                 <div
                   class="figure-thumb-small"
@@ -125,6 +125,11 @@ export default {
       list: []
     };
   },
+  computed: {
+    ...mapState("user", {
+      name: state => state.info.name
+    })
+  },
   methods: {
     onLoad() {
       if (this.query.page < this.totalPage) {
@@ -178,7 +183,7 @@ export default {
         }
       };
     },
-    go(notice) {
+    jump(notice) {
       let { noticeId, needConfirm, classId, studentId } = notice;
       let openId = this.query.openId;
       let roleType = this.roleType;
@@ -202,6 +207,13 @@ export default {
       this.finished = false;
       this.noticeQuery(this.query);
     },
+    //设置标题
+    setDocumentTitle() {
+      if (this.roleType == 3) {
+        let { title } = this.$route.meta;
+        document.title = `${title}-${this.name}`;
+      }
+    },
     //公告通知列表查询
     async noticeQuery(params = {}) {
       let res = await service.noticeQuery(params);
@@ -220,6 +232,7 @@ export default {
   },
   mounted() {
     this.noticeQuery(this.query);
+    //this.setDocumentTitle();
   }
 };
 </script>

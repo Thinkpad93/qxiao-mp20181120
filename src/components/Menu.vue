@@ -62,7 +62,7 @@ export default {
       ],
       scheduleList: [
         {
-          name: "课程表",
+          name: "班级课表",
           url: "/schedule/teacher",
           icon: require("../assets/men-icon-12@2x.png")
         }

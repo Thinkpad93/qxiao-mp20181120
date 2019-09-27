@@ -44,6 +44,8 @@ import edu from './edu-recommend';
 import activity from './activity-recommend';
 import read from './read-recommend';
 import punch from './punch';
+import notFound from './not-found';
+
 
 Vue.use(Router);
 
@@ -89,7 +91,8 @@ export const constantRouterMap = [
   ...edu,
   ...activity,
   ...read,
-  ...punch
+  ...punch,
+  ...notFound
 ]
 
 

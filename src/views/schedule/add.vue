@@ -48,12 +48,18 @@
                 :key="index"
                 @click="handleLessonConfirm(item)"
               >{{ item.lessonName }}</van-button>
+              <van-button
+                class="lesson-btn"
+                type="warning"
+                size="normal"
+                @click="handleLessonConfirm(noClass)"
+              >无课</van-button>
             </div>
             <h4 class="mb-20">其他:</h4>
             <div class="lesson-group">
               <van-button
                 class="lesson-btn"
-                type="warning"
+                type="info"
                 size="normal"
                 v-for="(item, index) in lessonList.filter(item => item.type == 2)"
                 :key="index"
@@ -463,7 +469,14 @@ export default {
         lessonName: "",
         timeLong: 10
       },
-      updateForm: {}
+      updateForm: {},
+      //无课
+      noClass: {
+        lessonId: 0,
+        lessonName: "",
+        timeLong: 0,
+        type: 1
+      }
     };
   },
   computed: {
@@ -652,7 +665,10 @@ export default {
       }
       let trObj = data[data.length - 1]; //获取数组最后一个元素
       for (let i = 0; i < trObj.list.length; i++) {
-        if (obj.lessonName === trObj.list[i].lessonName) {
+        if (
+          obj.lessonName === trObj.list[i].lessonName &&
+          obj.lessonName != ""
+        ) {
           flag = true;
           break;
         }

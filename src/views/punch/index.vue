@@ -54,7 +54,15 @@ export default {
       let res = await service.addPunch(params);
       if (res.errorCode === 0) {
         //成功后的操作
-        this.$toast(`${res.errorMsg}`);
+        this.$dialog
+          .alert({
+            title: "提示",
+            message: `${res.errorMsg}`
+          })
+          .then(() => {
+            //关闭当前网页窗口接口
+            wx.closeWindow();
+          });
       } else {
         this.$toast(`${res.errorMsg}`);
       }

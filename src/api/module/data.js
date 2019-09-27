@@ -72,3 +72,22 @@ export function parsePackets(params, config = {
     .then(res => res.data)
     .catch(e => console.log(e));
 }
+
+
+// 接收活跃度数据包
+export function getReceptionActivityData(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/getReceptionActivityData.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}
+
+// base64解码
+export function decoder(params, config = {
+  showLoading: false
+}) {
+  return ax.post('/qxiao-mp/action/mod-xiaojiao/device/decoder.do', params, config)
+    .then(res => res.data)
+    .catch(e => console.log(e));
+}

@@ -2,6 +2,13 @@
 
 vue2.x + vuex + vueRoute + axios + vantUI
 
+### 项目公众号
+
+小Q智慧
+爱心100
+魔力课堂
+
+
 ## 项目目录介绍
 
 - bulid webpack 编辑打包配置目录
