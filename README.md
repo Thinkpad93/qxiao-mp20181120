@@ -4,10 +4,9 @@ vue2.x + vuex + vueRoute + axios + vantUI
 
 ### 项目公众号
 
-小Q智慧
-爱心100
+小 Q 智慧
+爱心 100
 魔力课堂
-
 
 ## 项目目录介绍
 
@@ -39,6 +38,8 @@ vue2.x + vuex + vueRoute + axios + vantUI
   - views 页面
     - about 关于我们
     - acion 行为管理页面
+    - activity-recommend 活动推荐
+    - alarm-clock 闹钟页面
     - album 班级相册
     - baby 学生
     - bracelet 学生手环页面
@@ -47,6 +48,9 @@ vue2.x + vuex + vueRoute + axios + vantUI
     - clock 考勤管理
     - collention 我的收藏
     - community 班级圈发布
+    - course 课堂表现
+    - device 手环设备
+    - edu-recommend 教育推荐
     - exampaper 试卷列表
     - fresh 新鲜速报
     - home 小 Q 班级页面
@@ -55,6 +59,8 @@ vue2.x + vuex + vueRoute + axios + vantUI
     - my 我的
     - notice 公告通知
     - prize 奖励兑换页面
+    - punch 扫码打卡接送页面
+    - read-recommend 阅读推荐页面
     - recipe 营养食谱
     - remark 评语页面
     - school 创建学校和老师加入学校
@@ -65,6 +71,7 @@ vue2.x + vuex + vueRoute + axios + vantUI
     - student 学生管理
     - teacher 老师管理
     - user 个人中心
+    - welcome 启动页
     - wisdom 小 Q 智慧
     - works 作品管理
   - App.vue 根组件
